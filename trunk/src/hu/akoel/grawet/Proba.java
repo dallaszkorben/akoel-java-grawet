@@ -1,16 +1,22 @@
 package hu.akoel.grawet;
 
+import hu.akoel.grawet.CommonOperations.Browser;
 import hu.akoel.grawet.element.ParameterizedElement;
 import hu.akoel.grawet.element.PureElement;
+import hu.akoel.grawet.exceptions.PageException;
 import hu.akoel.grawet.operation.ButtonOperation;
 import hu.akoel.grawet.operation.FieldOperation;
+import hu.akoel.grawet.page.ClosePage;
+import hu.akoel.grawet.page.OpenPage;
+import hu.akoel.grawet.page.PageProgressInterface;
 import hu.akoel.grawet.page.ParameterizedPage;
 import hu.akoel.grawet.page.PurePage;
+import hu.akoel.grawet.page.TestCasedPage;
 import hu.akoel.grawet.parameter.StringParameter;
+import hu.akoel.grawet.testcase.TestCase;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class Proba {
 
@@ -22,27 +28,12 @@ public class Proba {
 	
 	public Proba(){
 		
-		FirefoxProfile profile = new FirefoxProfile();
-		profile.setPreference("pdfjs.disabled", true);		
-		profile.setPreference("media.navigator.permission.disabled", true);
-		driver =  new FirefoxDriver(profile);
-		
-		
 		//String url = "http://appltest01.statlogics.local:8090/RFBANK_TEST_Logic/";
 		//String url = "http://www.cib.hu/";		
 		String url = "http://www.google.com/";
+		WebDriver driver = CommonOperations.getDriver(Browser.FIREFOX);
 		
-		try{		
-			
-
-			//Megnyitja az oldalt
-			driver.get(url);			
-			
-		//Ha valamilyen problema tortent az oldal kezelese soran
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-
+		PageProgress pageProgress = new PageProgress();
 		
  		//
  		// RFBANK
@@ -137,7 +128,12 @@ public class Proba {
 
 		//
 		// GOOGLE
-		//	
+		//
+		
+		OpenPage openPage = new OpenPage("Open page", url, driver );
+		openPage.setPageProgressInterface( pageProgress );
+		
+		
 		PurePage elsoOldal = new PurePage( "Google kereso");
 		
 		PureElement searchField = new PureElement(driver, "SearchField", By.id("gbqfq"), VariableSample.POST );
@@ -148,32 +144,38 @@ public class Proba {
 		
 		
 		
-		ParameterizedPage pElsoOldal = new ParameterizedPage( "Google kereso", elsoOldal );
-		ParameterizedElement pe = pElsoOldal.addElement(searchField, new FieldOperation( new StringParameter( "search", "kölcsön") ) );
-		pElsoOldal.addElement(searchButton, new ButtonOperation(  ) );
+		ParameterizedPage firstPage = new ParameterizedPage( "Google kereso", elsoOldal );
+		firstPage.setPageProgressInterface( pageProgress );
+		ParameterizedElement pe = firstPage.addElement(searchField, new FieldOperation( new StringParameter( "search", "kölcsön") ) );
+		firstPage.addElement(searchButton, new ButtonOperation(  ) );
 		
-		pElsoOldal.execute();
+		ClosePage closePage = new ClosePage("close page", driver );
+		closePage.setPageProgressInterface( pageProgress );
 		
+		TestCase testCase = new TestCase( "My test case" );
+		TestCasedPage tcOpenPage = testCase.addPage( openPage );
+		TestCasedPage tcFirstPage = testCase.addPage( firstPage );	
+		TestCasedPage tcClosePage = testCase.addPage( closePage );
 		
-
-
+		testCase.connect( tcOpenPage, tcFirstPage );
+		testCase.connect(tcFirstPage, tcClosePage);
+		
+		testCase.doAction();
 		
 		
 	}
 	
-	public void closeWindow(){
 
-		driver.close();
-		
-		//Az osszes nyitott ablakot bezarja
-		driver.quit();
-		
-		//Csak az aktualis ablakot zarja be
-		//driver.close();
-		
-		driver = null;
-
-	}
 }
 
-
+class PageProgress implements PageProgressInterface{
+	@Override
+	public void pageStarted(String name) {
+		System.err.println( name + " page started");
+	}
+	
+	@Override
+	public void pageEnded(String name) {
+		System.err.println( name + " page ended");
+	}
+}

@@ -2,6 +2,7 @@ package hu.akoel.grawet.element;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import hu.akoel.grawet.exceptions.ElementException;
 import hu.akoel.grawet.operation.ElementOperation;
 
 
@@ -26,9 +27,10 @@ public class ParameterizedElement{
 	/**
 	 * 
 	 * Executes the defined Operation with the defined Parameter
+	 * @throws ElementException 
 	 * 
 	 */
-	public void doAction(){
+	public void doAction() throws ElementException{
 		this.getOperation().doAction( this );
 	}
 	

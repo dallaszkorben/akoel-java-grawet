@@ -6,7 +6,23 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+
+import com.opera.core.systems.OperaDriver;
+
 public class CommonOperations {
+	
+	public static enum Browser{
+		FIREFOX,
+		EXPLORER,
+		CHROME,
+		OPERA		
+	}
+	
 	private static Random rnd = new Random();
 	
 	private static final String NUMLIST = "1234567890";
@@ -89,5 +105,22 @@ public class CommonOperations {
 		return calendar;
 	}
 	
+	public static WebDriver getDriver( Browser browser ){
+		WebDriver driver = null;
+		
+		if( browser.equals(Browser.FIREFOX ) ){
+			FirefoxProfile profile = new FirefoxProfile();
+			profile.setPreference("pdfjs.disabled", true);		
+			profile.setPreference("media.navigator.permission.disabled", true);
+			driver =  new FirefoxDriver(profile);
+		}else if( browser.equals( Browser.CHROME )){
+			driver = new ChromeDriver();
+		}else if( browser.equals( Browser.EXPLORER)){
+			driver = new InternetExplorerDriver();
+		}else if( browser.equals( Browser.OPERA )){
+			driver = new OperaDriver();
+		}
+		return driver;
+	}
 
 }
