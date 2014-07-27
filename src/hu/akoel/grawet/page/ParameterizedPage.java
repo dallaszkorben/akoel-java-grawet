@@ -1,12 +1,17 @@
 package hu.akoel.grawet.page;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import javax.tools.JavaCompiler;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
 
 import hu.akoel.grawet.element.ParameterizedElement;
 import hu.akoel.grawet.element.PureElement;
+import hu.akoel.grawet.exceptions.ElementException;
+import hu.akoel.grawet.exceptions.PageException;
 import hu.akoel.grawet.operation.ElementOperation;
 
 /**
@@ -14,10 +19,11 @@ import hu.akoel.grawet.operation.ElementOperation;
  * @author akoel
  *
  */
-public class ParameterizedPage implements PurePageChangeListener{
+public class ParameterizedPage implements ExecutablePageInterface, PurePageChangeListener{
 	private PurePage purePage;
 	private String name;
 	private ArrayList<ParameterizedElement> elementSet = new ArrayList<>(); 
+	private PageProgressInterface pageProgressInterface = null;
 
 	/**
 	 * 
@@ -26,11 +32,21 @@ public class ParameterizedPage implements PurePageChangeListener{
 	public ParameterizedPage( String name, PurePage purePage ) {
 		this.name = name;
 		this.purePage = purePage;
-		this.purePage.addChangeListener(this);
+		if( null != this.purePage ){
+			this.purePage.addChangeListener(this);
+		}
 	}
 
 	public String getName(){
 		return name;
+	}
+	
+	public PurePage getPurePage(){
+		return purePage;
+	}
+	
+	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ){
+		this.pageProgressInterface = pageProgressInterface;
 	}
 	
 	/**
@@ -133,24 +149,61 @@ public class ParameterizedPage implements PurePageChangeListener{
 	 * 
 	 * 
 	 */
-	public void execute(){
-				
-System.out.println(getName() + "is started...");
+	public final void doAction() throws PageException{
+	
+		//Jelzi, hogy elindult az oldal feldolgozasa
+		if( null != pageProgressInterface ){
+			pageProgressInterface.pageStarted( getName() );
+		}
 
-		for( ParameterizedElement eop: elementSet ){
+		//Ha implementalta a Custom Page Interface-t, akkor a forraskodot kell vegrehajtania
+		if( this instanceof CustomPageInterface ){
 			
-			//Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
-			String frame = eop.getElement().getFrame();
-			if( null != frame ){
-				eop.getElement().getDriver().switchTo().defaultContent();
-				eop.getElement().getDriver().switchTo().frame("menuFrame");		
+			//Megszerzi a forraskodot
+			String script = ((CustomPageInterface)this).getSurceCode();
+			
+			//TODO megcsinalni a futasidoben a forditast es futtatast			
+			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+			StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
+			
+			//File javaFile = new File("c:/src/com/juixe/Entity.java");
+			// getJavaFileObjects’ param is a vararg
+			Iterable fileObjects = fileManager.getJavaFileObjects(script);
+			compiler.getTask(null, fileManager, null, null, null, fileObjects).call();
+			// Add more compilation tasks
+			try {
+				fileManager.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
-			eop.doAction();
+			
+			
+		//Kulonben normal ParameterizedPage-kent az ParameterizedElement-eken hajtja vegre sorban az ElementOperation-okat
+		}else{
+
+			for( ParameterizedElement eop: elementSet ){
+			
+				// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
+				String frame = eop.getElement().getFrame();
+				if( null != frame ){
+					eop.getElement().getDriver().switchTo().defaultContent();
+					eop.getElement().getDriver().switchTo().frame("menuFrame");		
+				}
+				try{			
+					eop.doAction();
+				}catch (ElementException e){
+					throw new PageException( this.getName(), e.getElementName(), e.getElementId(), e);
+				}
+			}
 		}
 		
-System.err.println( getName() + " is DONE");		
-		
+		//Jelzi, hogy befejezodott az oldal feldolgozasa
+		if( null != pageProgressInterface ){
+			pageProgressInterface.pageEnded( getName() );
+		}
+
 	}
 
 	/**
