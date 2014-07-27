@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="hu.akoel.grawet.testcase.TestCase" x="-84" y="-7">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.page.TestCasedPage"
+            endpointName="pageSet" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawet.page.TestCasedPage"/>
+    </Class>
+    <Class name="hu.akoel.grawet.page.CustomPageInterface" x="-120" y="409">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawet.page.ExecutablePageInterface"/>
+    </Class>
+    <Class name="hu.akoel.grawet.page.PurePage" x="644" y="43">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.page.PurePageChangeListener"
+            endpointName="changeListenerList" kind="Simple"/>
+    </Class>
+    <Class name="hu.akoel.grawet.page.TestCasedPage" x="11" y="166">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.page.TestCasedPage"
+            endpointName="after" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.page.TestCasedPage"
+            endpointName="before" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.page.ExecutablePageInterface"
+            endpointName="executablePageInterface" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawet.page.ExecutablePageInterface"/>
+    </Class>
+    <Class name="hu.akoel.grawet.page.ParameterizedPage" x="682" y="406">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawet.page.ExecutablePageInterface"/>
+        <Extension destinationClassName="hu.akoel.grawet.page.PurePageChangeListener"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.page.PurePage"
+            endpointName="purePage" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.page.PageProgressInterface"
+            endpointName="pageProgressInterface" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawet.page.CustomPageInterface"/>
+        <Communication destinationClassName="hu.akoel.grawet.page.PurePage"/>
+        <Communication destinationClassName="hu.akoel.grawet.page.PageProgressInterface"/>
+    </Class>
+    <Class name="hu.akoel.grawet.page.ExecutablePageInterface" x="344" y="158">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawet.page.OpenPage" x="28" y="403">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawet.page.ExecutablePageInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.page.PageProgressInterface"
+            endpointName="pageProgressInterface" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawet.page.PageProgressInterface"/>
+    </Class>
+    <Class name="hu.akoel.grawet.page.PageProgressInterface" x="351" y="632">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawet.page.ClosePage" x="354" y="404">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawet.page.ExecutablePageInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.page.PageProgressInterface"
+            endpointName="pageProgressInterface" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawet.page.PageProgressInterface"/>
+    </Class>
+    <Class name="hu.akoel.grawet.page.PurePageChangeListener" x="1015" y="72">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+</ClassDiagram>
