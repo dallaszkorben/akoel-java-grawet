@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="hu.akoel.saw.operation.ButtonOperation" x="494" y="350">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.operation.ElementOperation"/>
+        <Communication destinationClassName="hu.akoel.saw.element.PureElement"/>
+        <Communication destinationClassName="hu.akoel.saw.element.ParameterizedElement"/>
+    </Class>
+    <Class name="hu.akoel.saw.parameter.RandomYearMonthParameter"
+        x="351" y="893">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.parameter.ElementParameter"/>
+    </Class>
+    <Class name="hu.akoel.saw.element.PureElement" x="127" y="76">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.saw.element.ParameterizedElement" x="1106" y="87">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.saw.operation.ElementOperation"
+            endpointName="operation" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.saw.element.PureElement"
+            endpointName="element" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.saw.operation.ElementOperation"/>
+    </Class>
+    <Class name="hu.akoel.saw.operation.LinkOperation" x="544" y="422">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.operation.ElementOperation"/>
+        <Communication destinationClassName="hu.akoel.saw.element.PureElement"/>
+        <Communication destinationClassName="hu.akoel.saw.element.ParameterizedElement"/>
+    </Class>
+    <Class name="hu.akoel.saw.operation.FieldOperation" x="204" y="349">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.operation.ElementOperation"/>
+        <Association
+            destinationClassName="hu.akoel.saw.parameter.ElementParameter"
+            endpointName="parameter" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.saw.element.PureElement"/>
+        <Communication destinationClassName="hu.akoel.saw.element.ParameterizedElement"/>
+    </Class>
+    <Class name="hu.akoel.saw.operation.RadioButtonOperation" x="731" y="349">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.operation.ElementOperation"/>
+        <Communication destinationClassName="hu.akoel.saw.element.PureElement"/>
+        <Communication destinationClassName="hu.akoel.saw.element.ParameterizedElement"/>
+    </Class>
+    <Class name="hu.akoel.saw.parameter.RandomYearParameter" x="180" y="890">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.parameter.ElementParameter"/>
+    </Class>
+    <Class name="hu.akoel.saw.parameter.RandomDateParameter" x="605" y="896">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.parameter.ElementParameter"/>
+    </Class>
+    <Class name="hu.akoel.saw.parameter.ElementParameter" x="318" y="604">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.saw.parameter.RandomDecimalParameter" x="4" y="780">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.parameter.ElementParameter"/>
+    </Class>
+    <Class name="hu.akoel.saw.parameter.VariableParameter" x="692" y="792">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.parameter.ElementParameter"/>
+        <Association
+            destinationClassName="hu.akoel.saw.element.ParameterizedElement"
+            endpointName="element" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.saw.element.ParameterizedElement"/>
+    </Class>
+    <Class name="hu.akoel.saw.operation.CheckboxOperation" x="352" y="422">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.operation.ElementOperation"/>
+        <Communication destinationClassName="hu.akoel.saw.element.PureElement"/>
+        <Communication destinationClassName="hu.akoel.saw.element.ParameterizedElement"/>
+    </Class>
+    <Class name="hu.akoel.saw.parameter.RandomStringParameter" x="401" y="787">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.parameter.ElementParameter"/>
+    </Class>
+    <Class name="hu.akoel.saw.parameter.RandomIntegerRangeParameter"
+        x="188" y="784">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.parameter.ElementParameter"/>
+    </Class>
+    <Class name="hu.akoel.saw.operation.ElementOperation" x="469" y="172">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.saw.parameter.StringParameter" x="571" y="790">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.saw.parameter.ElementParameter"/>
+    </Class>
+</ClassDiagram>
