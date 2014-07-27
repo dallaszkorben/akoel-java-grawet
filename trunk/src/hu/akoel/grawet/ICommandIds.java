@@ -9,7 +9,7 @@ package hu.akoel.grawet;
  */
 public interface ICommandIds {
 
-    public static final String CMD_OPEN = "hu.akoel.saw.open";
-    public static final String CMD_OPEN_MESSAGE = "hu.akoel.saw.openMessage";
+    public static final String CMD_OPEN = "hu.akoel.grawet.open";
+    public static final String CMD_OPEN_MESSAGE = "hu.akoel.grawet.openMessage";
     
 }

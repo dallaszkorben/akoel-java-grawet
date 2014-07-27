@@ -1,27 +1,16 @@
 package hu.akoel.grawet;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-
 import hu.akoel.grawet.element.ParameterizedElement;
 import hu.akoel.grawet.element.PureElement;
 import hu.akoel.grawet.operation.ButtonOperation;
-import hu.akoel.grawet.operation.ElementOperation;
 import hu.akoel.grawet.operation.FieldOperation;
-import hu.akoel.grawet.operation.LinkOperation;
 import hu.akoel.grawet.page.ParameterizedPage;
 import hu.akoel.grawet.page.PurePage;
 import hu.akoel.grawet.parameter.StringParameter;
-import hu.akoel.grawet.parameter.VariableParameter;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
-
-import com.opera.core.systems.scope.protos.ExecProtos.ActionList.Action;
 
 public class Proba {
 
