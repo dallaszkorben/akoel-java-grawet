@@ -7,7 +7,7 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="hu.akoel.saw.Application">
+               class="hu.akoel.grawet.Application">
          </run>
       </application>
    </extension>
@@ -15,8 +15,8 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             name="RCP Perspective"
-            class="hu.akoel.saw.Perspective"
-            id="hu.akoel.saw.perspective">
+            class="hu.akoel.grawet.Perspective"
+            id="hu.akoel.grawet.perspective">
       </perspective>
    </extension>
    <extension
@@ -25,45 +25,45 @@
             name="Message"
             allowMultiple="true"
             icon="icons/sample2.gif"
-            class="hu.akoel.saw.View"
-            id="hu.akoel.saw.view">
+            class="hu.akoel.grawet.View"
+            id="hu.akoel.grawet.view">
       </view>
       <view
             name="Mailboxes"
             allowMultiple="true"
             icon="icons/sample3.gif"
-            class="hu.akoel.saw.NavigationView"
-            id="hu.akoel.saw.navigationView">
+            class="hu.akoel.grawet.NavigationView"
+            id="hu.akoel.grawet.navigationView">
       </view>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <category
             name="Mail"
-            id="hu.akoel.saw.category">
+            id="hu.akoel.grawet.category">
       </category>
       <command
             name="Open Mailbox"
             description="Opens a mailbox"
-            categoryId="hu.akoel.saw.category"
-            id="hu.akoel.saw.open">
+            categoryId="hu.akoel.grawet.category"
+            id="hu.akoel.grawet.open">
       </command>
       <command
             name="Open Message Dialog"
             description="Open a message dialog"
-            categoryId="hu.akoel.saw.category"
-            id="hu.akoel.saw.openMessage">
+            categoryId="hu.akoel.grawet.category"
+            id="hu.akoel.grawet.openMessage">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
       <key
-            commandId="hu.akoel.saw.open"
+            commandId="hu.akoel.grawet.open"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+SHIFT+O">
       </key>
       <key
-            commandId="hu.akoel.saw.openMessage"
+            commandId="hu.akoel.grawet.openMessage"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+SHIFT+M">
       </key>
@@ -77,7 +77,7 @@
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="hu.akoel.saw.application"
+            application="hu.akoel.grawet.application"
             name="RCP Product">
          <property
                name="aboutText"
