@@ -37,7 +37,18 @@ public class TestCasedPage{
 	}
 
 	public void doAction() throws PageException {
-		executablePageInterface.doAction();		
+		
+		//Jelzi, hogy elindult az oldal feldolgozasa
+		if( null != executablePageInterface.getPageProgressInterface() ){
+			executablePageInterface.getPageProgressInterface().pageStarted( getName() );
+		}	
+		
+		executablePageInterface.doAction();
+		
+		//Jelzi, hogy befejezodott az oldal feldolgozasa
+		if( null != executablePageInterface.getPageProgressInterface() ){
+			executablePageInterface.getPageProgressInterface().pageEnded( getName() );
+		}
 	}
 	
 

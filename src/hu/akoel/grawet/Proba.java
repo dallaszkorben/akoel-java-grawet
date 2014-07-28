@@ -1,12 +1,20 @@
 package hu.akoel.grawet;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.List;
+
+import javax.tools.Diagnostic;
+import javax.tools.JavaFileObject;
 import hu.akoel.grawet.CommonOperations.Browser;
+import hu.akoel.grawet.compile.CompileSourceInMemory;
 import hu.akoel.grawet.element.ParameterizedElement;
 import hu.akoel.grawet.element.PureElement;
 import hu.akoel.grawet.exceptions.PageException;
 import hu.akoel.grawet.operation.ButtonOperation;
 import hu.akoel.grawet.operation.FieldOperation;
 import hu.akoel.grawet.page.ClosePage;
+import hu.akoel.grawet.page.CustomPageInterface;
 import hu.akoel.grawet.page.OpenPage;
 import hu.akoel.grawet.page.PageProgressInterface;
 import hu.akoel.grawet.page.ParameterizedPage;
@@ -17,21 +25,62 @@ import hu.akoel.grawet.testcase.TestCase;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class Proba {
 
 	WebDriver driver;
-	
-	public static void main( String args[]){
+
+	public static void main(String args[]) {
 		new Proba();
 	}
-	
+
 	public Proba(){
+		
+
+/*    
+		CompileSourceInMemory compileSourceInMemory = new CompileSourceInMemory( writer.toString() );
+		boolean success = compileSourceInMemory.doAction();		
+    
+		List<Diagnostic<? extends JavaFileObject>> diagList = compileSourceInMemory.getDiagnostic();
+		for (Diagnostic<? extends JavaFileObject> diagnostic : diagList ) {
+			System.out.println("Error code: " + diagnostic.getCode());
+			System.out.println("Type: " + diagnostic.getKind());
+			System.out.println("Position: " + diagnostic.getPosition());
+			System.out.println("Start position: " + diagnostic.getStartPosition());
+			System.out.println("End position: " + diagnostic.getEndPosition());
+			System.out.println("Source: " + diagnostic.getSource());
+			System.out.println("Message: " + diagnostic.getMessage(null));
+		}
+		
+		if( success ){
+			compileSourceInMemory.run();
+		}
+*/
+
+
+		
+		
+		
+		
+		
+			
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		//String url = "http://appltest01.statlogics.local:8090/RFBANK_TEST_Logic/";
 		//String url = "http://www.cib.hu/";		
 		String url = "http://www.google.com/";
-		WebDriver driver = CommonOperations.getDriver(Browser.FIREFOX);
+		driver = CommonOperations.getDriver(Browser.FIREFOX);
 		
 		PageProgress pageProgress = new PageProgress();
 		
@@ -101,32 +150,6 @@ public class Proba {
 		
 		
 		//
-		// CIB
-		//	
-/*		PurePage elsoOldal = new PurePage( "Elso oldal");
-		
-		PureElement searchField = new PureElement(driver, "SearchField", By.cssSelector(".search-field"), VariableSample.NO );
-		elsoOldal.addElement(searchField);
-		PureElement searchButton = new PureElement(driver, "SearchButton", By.cssSelector(".btn"), VariableSample.NO );
-		elsoOldal.addElement( searchButton );
-		PureElement newSearchLink = new PureElement(driver, "NewSearchLink", By.cssSelector(".SearchMain > a:nth-child(3) > b:nth-child(1)"), VariableSample.NO );
-		elsoOldal.addElement( newSearchLink );
-		PureElement newSearchField = new PureElement(driver, "NewSearchField", By.cssSelector("#searchForm > input:nth-child(1)"), VariableSample.POST);
-		elsoOldal.addElement( newSearchField );
-		
-		
-		
-		ParameterizedPage pElsoOldal = new ParameterizedPage( elsoOldal );
-		
-		ParameterizedElement pe = pElsoOldal.addElement(searchField, new FieldOperation( new StringParameter( "search", "kölcsön") ) );
-		pElsoOldal.addElement(searchButton, new ButtonOperation() );
-		pElsoOldal.addElement(newSearchLink, new LinkOperation() );
-		pElsoOldal.addElement(newSearchField, new FieldOperation( new StringParameter( "ujkolcson", "hitel") ) );
-		
-		pElsoOldal.execute();
-*/		
-
-		//
 		// GOOGLE
 		//
 		
@@ -146,8 +169,18 @@ public class Proba {
 		
 		ParameterizedPage firstPage = new ParameterizedPage( "Google kereso", elsoOldal );
 		firstPage.setPageProgressInterface( pageProgress );
-		ParameterizedElement pe = firstPage.addElement(searchField, new FieldOperation( new StringParameter( "search", "kölcsön") ) );
+		ParameterizedElement pe = firstPage.addElement(searchField, new FieldOperation( new StringParameter( "search", "hitel") ) );
 		firstPage.addElement(searchButton, new ButtonOperation(  ) );
+		
+		
+		StringWriter writer = new StringWriter();
+		PrintWriter out = new PrintWriter(writer);
+		//out.println("org.openqa.selenium.WebElement webElement = pureElement.getDriver().findElement(pureElement.getBy());");    
+		out.println("org.openqa.selenium.WebElement webElement = driver.findElement( org.openqa.selenium.By.id(\"gb_70\") );");
+		out.close();
+		CompileSourceInMemory customPage = new CompileSourceInMemory("Custom page", writer.toString() );
+		customPage.setPageProgressInterface( pageProgress );
+		
 		
 		ClosePage closePage = new ClosePage("close page", driver );
 		closePage.setPageProgressInterface( pageProgress );
@@ -155,27 +188,28 @@ public class Proba {
 		TestCase testCase = new TestCase( "My test case" );
 		TestCasedPage tcOpenPage = testCase.addPage( openPage );
 		TestCasedPage tcFirstPage = testCase.addPage( firstPage );	
-		TestCasedPage tcClosePage = testCase.addPage( closePage );
+		TestCasedPage tcCustomPage = testCase.addPage( customPage );
+		
+//		TestCasedPage tcClosePage = testCase.addPage( closePage );
 		
 		testCase.connect( tcOpenPage, tcFirstPage );
-		testCase.connect(tcFirstPage, tcClosePage);
+		testCase.connect(tcFirstPage, tcCustomPage);
+//		testCase.connect(tcFirstPage, tcClosePage);
 		
 		testCase.doAction();
 		
 		
 	}
-	
-
 }
 
-class PageProgress implements PageProgressInterface{
+class PageProgress implements PageProgressInterface {
 	@Override
 	public void pageStarted(String name) {
-		System.err.println( name + " page started");
+		System.err.println(name + " page started");
 	}
-	
+
 	@Override
 	public void pageEnded(String name) {
-		System.err.println( name + " page ended");
+		System.err.println(name + " page ended");
 	}
 }

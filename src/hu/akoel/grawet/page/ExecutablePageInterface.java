@@ -8,6 +8,7 @@ public interface ExecutablePageInterface {
 	
 	public void doAction() throws PageException;
 	
-	public void setPageProgressInterface( PageProgressInterface pageProgressInterface );
+	public PageProgressInterface getPageProgressInterface();
+	//public void setPageProgressInterface( PageProgressInterface pageProgressInterface );
 	
 }
