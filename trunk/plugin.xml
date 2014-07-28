@@ -60,17 +60,17 @@
       <key
             commandId="hu.akoel.grawet.open"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="CTRL+SHIFT+O">
+            sequence="CTRL+2">
       </key>
       <key
             commandId="hu.akoel.grawet.openMessage"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="CTRL+SHIFT+M">
+            sequence="CTRL+3">
       </key>
       <key
             commandId="org.eclipse.ui.file.exit"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="CTRL+SHIFT+Q">
+            sequence="CTRL+X">
       </key>
    </extension>
    <extension

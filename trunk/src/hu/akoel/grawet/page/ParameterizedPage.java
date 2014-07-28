@@ -49,6 +49,11 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 		this.pageProgressInterface = pageProgressInterface;
 	}
 	
+	@Override
+	public PageProgressInterface getPageProgressInterface() {		
+		return this.pageProgressInterface;
+	}
+	
 	/**
 	 * 
 	 * A new PureElement-ElementOperation pair added to this ParemeterizedPage
@@ -151,16 +156,16 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 	 */
 	public final void doAction() throws PageException{
 	
-		//Jelzi, hogy elindult az oldal feldolgozasa
-		if( null != pageProgressInterface ){
-			pageProgressInterface.pageStarted( getName() );
-		}
+//		//Jelzi, hogy elindult az oldal feldolgozasa
+//		if( null != pageProgressInterface ){
+//			pageProgressInterface.pageStarted( getName() );
+//		}
 
 		//Ha implementalta a Custom Page Interface-t, akkor a forraskodot kell vegrehajtania
 		if( this instanceof CustomPageInterface ){
 			
 			//Megszerzi a forraskodot
-			String script = ((CustomPageInterface)this).getSurceCode();
+			String script = ((CustomPageInterface)this).getSurce();
 			
 			//TODO megcsinalni a futasidoben a forditast es futtatast			
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -191,18 +196,20 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 					eop.getElement().getDriver().switchTo().defaultContent();
 					eop.getElement().getDriver().switchTo().frame("menuFrame");		
 				}
+				
 				try{			
 					eop.doAction();
 				}catch (ElementException e){
 					throw new PageException( this.getName(), e.getElementName(), e.getElementId(), e);
 				}
+				
 			}
 		}
 		
-		//Jelzi, hogy befejezodott az oldal feldolgozasa
-		if( null != pageProgressInterface ){
-			pageProgressInterface.pageEnded( getName() );
-		}
+//		//Jelzi, hogy befejezodott az oldal feldolgozasa
+//		if( null != pageProgressInterface ){
+//			pageProgressInterface.pageEnded( getName() );
+//		}
 
 	}
 
@@ -228,7 +235,4 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 		removeElement(element);		
 	}
 
-	
-	
-	
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClassDiagram>
-    <Class name="hu.akoel.grawet.operation.ButtonOperation" x="130" y="529">
+    <Class name="hu.akoel.grawet.operation.ButtonOperation" x="118" y="315">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -12,7 +12,7 @@
         <Communication destinationClassName="hu.akoel.grawet.element.ParameterizedElement"/>
         <Communication destinationClassName="hu.akoel.grawet.element.PureElement"/>
     </Class>
-    <Class name="hu.akoel.grawet.operation.CheckboxOperation" x="397" y="524">
+    <Class name="hu.akoel.grawet.operation.CheckboxOperation" x="385" y="310">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -24,7 +24,7 @@
         <Communication destinationClassName="hu.akoel.grawet.element.ParameterizedElement"/>
         <Communication destinationClassName="hu.akoel.grawet.element.PureElement"/>
     </Class>
-    <Class name="hu.akoel.grawet.parameter.StringParameter" x="821" y="733">
+    <Class name="hu.akoel.grawet.parameter.StringParameter" x="809" y="519">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -34,7 +34,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="hu.akoel.grawet.parameter.ElementParameter"/>
     </Class>
-    <Class name="hu.akoel.grawet.operation.LinkOperation" x="-114" y="529">
+    <Class name="hu.akoel.grawet.operation.LinkOperation" x="-126" y="315">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -46,7 +46,7 @@
         <Communication destinationClassName="hu.akoel.grawet.element.ParameterizedElement"/>
         <Communication destinationClassName="hu.akoel.grawet.element.PureElement"/>
     </Class>
-    <Class name="hu.akoel.grawet.parameter.VariableParameter" x="948" y="736">
+    <Class name="hu.akoel.grawet.parameter.VariableParameter" x="936" y="522">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -58,11 +58,11 @@
         <Association
             destinationClassName="hu.akoel.grawet.element.ParameterizedElement"
             endpointName="element" kind="Simple">
-            <Point x="989" y="469"/>
+            <Point x="984" y="274"/>
         </Association>
         <Communication destinationClassName="hu.akoel.grawet.element.ParameterizedElement"/>
     </Class>
-    <Class name="hu.akoel.grawet.operation.ElementOperation" x="185" y="391">
+    <Class name="hu.akoel.grawet.operation.ElementOperation" x="173" y="177">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -71,7 +71,7 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
-    <Class name="hu.akoel.grawet.parameter.RandomStringParameter" x="23" y="693">
+    <Class name="hu.akoel.grawet.parameter.RandomStringParameter" x="11" y="479">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -81,7 +81,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="hu.akoel.grawet.parameter.ElementParameter"/>
     </Class>
-    <Class name="hu.akoel.grawet.operation.FieldOperation" x="714" y="535">
+    <Class name="hu.akoel.grawet.operation.FieldOperation" x="702" y="321">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -96,7 +96,7 @@
         <Communication destinationClassName="hu.akoel.grawet.element.ParameterizedElement"/>
         <Communication destinationClassName="hu.akoel.grawet.element.PureElement"/>
     </Class>
-    <Class name="hu.akoel.grawet.parameter.RandomDateParameter" x="181" y="725">
+    <Class name="hu.akoel.grawet.parameter.RandomDateParameter" x="169" y="511">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -106,7 +106,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="hu.akoel.grawet.parameter.ElementParameter"/>
     </Class>
-    <Class name="hu.akoel.grawet.element.ParameterizedElement" x="217" y="240">
+    <Class name="hu.akoel.grawet.element.ParameterizedElement" x="205" y="26">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -115,14 +115,14 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
         <Association
-            destinationClassName="hu.akoel.grawet.operation.ElementOperation"
-            endpointName="operation" kind="Simple"/>
-        <Association
             destinationClassName="hu.akoel.grawet.element.PureElement"
             endpointName="element" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawet.operation.ElementOperation"
+            endpointName="operation" kind="Simple"/>
         <Communication destinationClassName="hu.akoel.grawet.operation.ElementOperation"/>
     </Class>
-    <Class name="hu.akoel.grawet.parameter.ElementParameter" x="771" y="620">
+    <Class name="hu.akoel.grawet.parameter.ElementParameter" x="759" y="406">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -132,7 +132,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class name="hu.akoel.grawet.parameter.RandomIntegerRangeParameter"
-        x="-186" y="647">
+        x="-198" y="433">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -142,7 +142,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="hu.akoel.grawet.parameter.ElementParameter"/>
     </Class>
-    <Class name="hu.akoel.grawet.parameter.RandomYearParameter" x="665" y="731">
+    <Class name="hu.akoel.grawet.parameter.RandomYearParameter" x="653" y="517">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -152,7 +152,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="hu.akoel.grawet.parameter.ElementParameter"/>
     </Class>
-    <Class name="hu.akoel.grawet.element.PureElement" x="637" y="236">
+    <Class name="hu.akoel.grawet.element.PureElement" x="625" y="22">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -162,7 +162,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class name="hu.akoel.grawet.operation.RadioButtonOperation"
-        x="-362" y="532">
+        x="-374" y="318">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -175,7 +175,7 @@
         <Communication destinationClassName="hu.akoel.grawet.element.PureElement"/>
     </Class>
     <Class name="hu.akoel.grawet.parameter.RandomDecimalParameter"
-        x="-356" y="601">
+        x="-368" y="387">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -186,7 +186,7 @@
         <Extension destinationClassName="hu.akoel.grawet.parameter.ElementParameter"/>
     </Class>
     <Class name="hu.akoel.grawet.parameter.RandomYearMonthParameter"
-        x="405" y="733">
+        x="393" y="519">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>

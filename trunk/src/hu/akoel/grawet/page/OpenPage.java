@@ -5,10 +5,10 @@ import hu.akoel.grawet.exceptions.PageException;
 import org.openqa.selenium.WebDriver;
 
 public class OpenPage implements ExecutablePageInterface{
-	WebDriver driver;
-	String name;
-	String url;
-	PageProgressInterface pageProgressInterface = null;
+	private WebDriver driver;
+	private String name;
+	private String url;
+	private PageProgressInterface pageProgressInterface = null;
 	
 	public OpenPage( String name, String url, WebDriver driver ){
 		this.name = name;
@@ -21,18 +21,22 @@ public class OpenPage implements ExecutablePageInterface{
 		return name;
 	}
 
-	@Override
 	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ) {
 		this.pageProgressInterface = pageProgressInterface;		
 	}
 	
 	@Override
+	public PageProgressInterface getPageProgressInterface() {
+		return this.pageProgressInterface;
+	}
+	
+	@Override
 	public void doAction() throws PageException {
 
-		//Jelzi, hogy elindult az oldal feldolgozasa
-		if( null != pageProgressInterface ){
-			pageProgressInterface.pageStarted( getName() );
-		}	
+//		//Jelzi, hogy elindult az oldal feldolgozasa
+//		if( null != getPageProgressInterface() ){
+//			getPageProgressInterface().pageStarted( getName() );
+//		}	
 		
 //		try{		
 
@@ -46,10 +50,11 @@ public class OpenPage implements ExecutablePageInterface{
 //		}
 			
 		//Jelzi, hogy befejezodott az oldal feldolgozasa
-		if( null != pageProgressInterface ){
-			pageProgressInterface.pageEnded( getName() );
-		}
+//		if( null != getPageProgressInterface() ){
+//			getPageProgressInterface().pageEnded( getName() );
+//		}
 	}
+
 
 
 }
