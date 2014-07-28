@@ -1,5 +1,6 @@
 package hu.akoel.grawet.testcase;
 
+import hu.akoel.grawet.exceptions.CompilationException;
 import hu.akoel.grawet.exceptions.PageException;
 import hu.akoel.grawet.page.ExecutablePageInterface;
 import hu.akoel.grawet.page.OpenPage;
@@ -44,7 +45,11 @@ public class TestCase {
 		
 			try {
 				actualTestCasedPage.doAction();
+				
+//TODO ha hiba volt akkor nem szabad tovabb mennie. Jelzest kell adni es leallitani a teszteset futasat				
 			} catch (PageException e) {				
+				e.printStackTrace();
+			} catch (CompilationException e) {				
 				e.printStackTrace();
 			}
 			
