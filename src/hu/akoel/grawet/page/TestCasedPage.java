@@ -1,5 +1,6 @@
 package hu.akoel.grawet.page;
 
+import hu.akoel.grawet.exceptions.CompilationException;
 import hu.akoel.grawet.exceptions.PageException;
 
 public class TestCasedPage{
@@ -36,7 +37,7 @@ public class TestCasedPage{
 		return executablePageInterface.getName();
 	}
 
-	public void doAction() throws PageException {
+	public void doAction() throws PageException, CompilationException {
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != executablePageInterface.getPageProgressInterface() ){

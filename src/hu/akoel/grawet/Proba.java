@@ -2,19 +2,15 @@ package hu.akoel.grawet;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
 
-import javax.tools.Diagnostic;
-import javax.tools.JavaFileObject;
 import hu.akoel.grawet.CommonOperations.Browser;
-import hu.akoel.grawet.compile.CompileSourceInMemory;
 import hu.akoel.grawet.element.ParameterizedElement;
 import hu.akoel.grawet.element.PureElement;
-import hu.akoel.grawet.exceptions.PageException;
+import hu.akoel.grawet.exceptions.ElementException;
 import hu.akoel.grawet.operation.ButtonOperation;
 import hu.akoel.grawet.operation.FieldOperation;
 import hu.akoel.grawet.page.ClosePage;
-import hu.akoel.grawet.page.CustomPageInterface;
+import hu.akoel.grawet.page.CustomPage;
 import hu.akoel.grawet.page.OpenPage;
 import hu.akoel.grawet.page.PageProgressInterface;
 import hu.akoel.grawet.page.ParameterizedPage;
@@ -24,8 +20,11 @@ import hu.akoel.grawet.parameter.StringParameter;
 import hu.akoel.grawet.testcase.TestCase;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Proba {
 
@@ -36,46 +35,6 @@ public class Proba {
 	}
 
 	public Proba(){
-		
-
-/*    
-		CompileSourceInMemory compileSourceInMemory = new CompileSourceInMemory( writer.toString() );
-		boolean success = compileSourceInMemory.doAction();		
-    
-		List<Diagnostic<? extends JavaFileObject>> diagList = compileSourceInMemory.getDiagnostic();
-		for (Diagnostic<? extends JavaFileObject> diagnostic : diagList ) {
-			System.out.println("Error code: " + diagnostic.getCode());
-			System.out.println("Type: " + diagnostic.getKind());
-			System.out.println("Position: " + diagnostic.getPosition());
-			System.out.println("Start position: " + diagnostic.getStartPosition());
-			System.out.println("End position: " + diagnostic.getEndPosition());
-			System.out.println("Source: " + diagnostic.getSource());
-			System.out.println("Message: " + diagnostic.getMessage(null));
-		}
-		
-		if( success ){
-			compileSourceInMemory.run();
-		}
-*/
-
-
-		
-		
-		
-		
-		
-			
-			
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		//String url = "http://appltest01.statlogics.local:8090/RFBANK_TEST_Logic/";
 		//String url = "http://www.cib.hu/";		
@@ -176,9 +135,20 @@ public class Proba {
 		StringWriter writer = new StringWriter();
 		PrintWriter out = new PrintWriter(writer);
 		//out.println("org.openqa.selenium.WebElement webElement = pureElement.getDriver().findElement(pureElement.getBy());");    
-		out.println("org.openqa.selenium.WebElement webElement = driver.findElement( org.openqa.selenium.By.id(\"gb_70\") );");
+		//out.println("org.openqa.selenium.WebElement webElement = driver.findElement( org.openqa.selenium.By.id(\"gb_70\") );");
+		
+		out.println("		String id = \"gb_701\";");
+		out.println("		org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, 5);");
+		out.println("		try{");
+		out.println("			wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable( org.openqa.selenium.By.id( id ) ) );");
+		out.println("		}catch (org.openqa.selenium.TimeoutException e) {");
+		out.println("			throw new hu.akoel.grawet.exceptions.PageException( \"CustomPage\" , \"Bejelentkezes gomb\", org.openqa.selenium.By.id( id ).toString(), e );");
+		out.println("		}");
+		out.println("		org.openqa.selenium.WebElement webElement = driver.findElement( org.openqa.selenium.By.id( id ) );");		
+		out.println("		webElement.click();");
 		out.close();
-		CompileSourceInMemory customPage = new CompileSourceInMemory("Custom page", writer.toString() );
+		
+		CustomPage customPage = new CustomPage("Custom page", writer.toString(), driver );
 		customPage.setPageProgressInterface( pageProgress );
 		
 		
@@ -189,12 +159,11 @@ public class Proba {
 		TestCasedPage tcOpenPage = testCase.addPage( openPage );
 		TestCasedPage tcFirstPage = testCase.addPage( firstPage );	
 		TestCasedPage tcCustomPage = testCase.addPage( customPage );
-		
-//		TestCasedPage tcClosePage = testCase.addPage( closePage );
+		TestCasedPage tcClosePage = testCase.addPage( closePage );
 		
 		testCase.connect( tcOpenPage, tcFirstPage );
 		testCase.connect(tcFirstPage, tcCustomPage);
-//		testCase.connect(tcFirstPage, tcClosePage);
+		testCase.connect(tcCustomPage, tcClosePage);
 		
 		testCase.doAction();
 		
