@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,13 +17,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import com.opera.core.systems.OperaDriver;
 
 public class CommonOperations {
-	
-	public static enum Browser{
-		FIREFOX,
-		EXPLORER,
-		CHROME,
-		OPERA		
-	}
+	private static String language = new String("en");
+	private static String country = new String( "US");
+	private static Locale locale = new Locale( language, country );
 	
 	private static Random rnd = new Random();
 	
@@ -33,6 +31,23 @@ public class CommonOperations {
 	private static Calendar calendarBegin = new GregorianCalendar(1970, 01, 01 );
 	private static Calendar calendarEnd = new GregorianCalendar(1994, 01, 01 );
 
+	public static enum Browser{
+		FIREFOX,
+		EXPLORER,
+		CHROME,
+		OPERA		
+	}
+	
+	public static void setLocal( Locale l ){
+		locale = l;
+	}
+	public static void setLocal( String language, String country ){
+		locale = new Locale( language, country );
+	}
+	public static String getTranslation( String code ){
+		return ResourceBundle.getBundle("hu.akoel.grawet.resourcebundle.Grawet", locale ).getString( code );
+	}
+	
 	public static SimpleDateFormat getDateFormat(){
 		return dateFormat;
 	}
