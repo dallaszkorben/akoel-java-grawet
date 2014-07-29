@@ -2,11 +2,9 @@ package hu.akoel.grawet;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import hu.akoel.grawet.CommonOperations.Browser;
 import hu.akoel.grawet.element.ParameterizedElement;
 import hu.akoel.grawet.element.PureElement;
-import hu.akoel.grawet.exceptions.ElementException;
 import hu.akoel.grawet.operation.ButtonOperation;
 import hu.akoel.grawet.operation.FieldOperation;
 import hu.akoel.grawet.page.ClosePage;
@@ -20,22 +18,24 @@ import hu.akoel.grawet.parameter.StringParameter;
 import hu.akoel.grawet.testcase.TestCase;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Proba {
+public class Grawet {
 
+
+	
 	WebDriver driver;
 
 	public static void main(String args[]) {
-		new Proba();
+		new Grawet();
 	}
 
-	public Proba(){
+	public Grawet(){
 		
+		//Hasznalando nyelv beallitasa
+		CommonOperations.setLocal( "en", "US" );
+		//CommonOperations.setLocal( new Locale.Builder().setLanguage("hu").setRegion("HU").build());
+		 
 		//String url = "http://appltest01.statlogics.local:8090/RFBANK_TEST_Logic/";
 		//String url = "http://www.cib.hu/";		
 		String url = "http://www.google.com/";
@@ -137,7 +137,7 @@ public class Proba {
 		//out.println("org.openqa.selenium.WebElement webElement = pureElement.getDriver().findElement(pureElement.getBy());");    
 		//out.println("org.openqa.selenium.WebElement webElement = driver.findElement( org.openqa.selenium.By.id(\"gb_70\") );");
 		
-		out.println("		String id = \"gb_701\";");
+		out.println("		String id = \"gb_70\";");
 		out.println("		org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, 5);");
 		out.println("		try{");
 		out.println("			wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable( org.openqa.selenium.By.id( id ) ) );");
