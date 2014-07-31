@@ -3,23 +3,24 @@ package hu.akoel.grawet;
 import java.awt.EventQueue;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import hu.akoel.grawet.CommonOperations.Browser;
-import hu.akoel.grawet.element.ParameterizedElement;
-import hu.akoel.grawet.element.PureElement;
-import hu.akoel.grawet.operation.ButtonOperation;
-import hu.akoel.grawet.operation.FieldOperation;
-import hu.akoel.grawet.page.ClosePage;
-import hu.akoel.grawet.page.CustomPage;
-import hu.akoel.grawet.page.OpenPage;
-import hu.akoel.grawet.page.PageProgressInterface;
-import hu.akoel.grawet.page.ParameterizedPage;
-import hu.akoel.grawet.page.PurePage;
-import hu.akoel.grawet.page.TestCasedPage;
+import hu.akoel.grawet.elements.ElementBase;
+import hu.akoel.grawet.elements.ParameterizedElement;
+import hu.akoel.grawet.operations.ButtonOperation;
+import hu.akoel.grawet.operations.FieldOperation;
+import hu.akoel.grawet.pages.ClosePage;
+import hu.akoel.grawet.pages.CustomPage;
+import hu.akoel.grawet.pages.OpenPage;
+import hu.akoel.grawet.pages.PageBase;
+import hu.akoel.grawet.pages.PageProgressInterface;
+import hu.akoel.grawet.pages.ParameterizedPage;
+import hu.akoel.grawet.pages.TestCasedPage;
 import hu.akoel.grawet.parameter.StringParameter;
 import hu.akoel.grawet.testcase.TestCase;
 
@@ -47,13 +48,12 @@ public class Grawet {
 		//
 		// Hasznalando nyelv beallitasa
 		//
-		CommonOperations.setLocal( "en", "US" );
-		//CommonOperations.setLocal( new Locale.Builder().setLanguage("hu").setRegion("HU").build());
+		//CommonOperations.setLocal( "en", "US" );
+		CommonOperations.setLocal( new Locale.Builder().setLanguage("hu").setRegion("HU").build());
 		 
 		//
 		// Window
-		//
-		
+		//		
 		GUIFrame frame = new GUIFrame( title + " " + version );
 		
 
@@ -78,12 +78,12 @@ public class Grawet {
 		openPage.setPageProgressInterface( pageProgress );
 		
 		
-		PurePage elsoOldal = new PurePage( "Google kereso");
+		PageBase elsoOldal = new PageBase( "Google kereso");
 		
-		PureElement searchField = new PureElement(driver, "SearchField", By.id("gbqfq"), VariableSample.POST );
+		ElementBase searchField = new ElementBase(driver, "SearchField", By.id("gbqfq"), VariableSample.POST );
 		elsoOldal.addElement(searchField);
 
-		PureElement searchButton = new PureElement(driver, "SearchButton", By.id("gbqfb"), VariableSample.NO );
+		ElementBase searchButton = new ElementBase(driver, "SearchButton", By.id("gbqfb"), VariableSample.NO );
 		elsoOldal.addElement(searchButton);
 		
 		

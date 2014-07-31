@@ -1,4 +1,4 @@
-package hu.akoel.grawet.page;
+package hu.akoel.grawet.pages;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,32 +8,32 @@ import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
-import hu.akoel.grawet.element.ParameterizedElement;
-import hu.akoel.grawet.element.PureElement;
+import hu.akoel.grawet.elements.ElementBase;
+import hu.akoel.grawet.elements.ParameterizedElement;
 import hu.akoel.grawet.exceptions.ElementException;
 import hu.akoel.grawet.exceptions.PageException;
-import hu.akoel.grawet.operation.ElementOperation;
+import hu.akoel.grawet.operations.ElementOperation;
 
 /**
  * 
  * @author akoel
  *
  */
-public class ParameterizedPage implements ExecutablePageInterface, PurePageChangeListener{
-	private PurePage purePage;
+public class ParameterizedPage implements ExecutablePageInterface, BasePageChangeListener{
+	private PageBase pageBase;
 	private String name;
 	private ArrayList<ParameterizedElement> elementSet = new ArrayList<>(); 
 	private PageProgressInterface pageProgressInterface = null;
 
 	/**
 	 * 
-	 * @param purePage
+	 * @param pageBase
 	 */
-	public ParameterizedPage( String name, PurePage purePage ) {
+	public ParameterizedPage( String name, PageBase pageBase ) {
 		this.name = name;
-		this.purePage = purePage;
-		if( null != this.purePage ){
-			this.purePage.addChangeListener(this);
+		this.pageBase = pageBase;
+		if( null != this.pageBase ){
+			this.pageBase.addChangeListener(this);
 		}
 	}
 
@@ -41,8 +41,8 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 		return name;
 	}
 	
-	public PurePage getPurePage(){
-		return purePage;
+	public PageBase getPurePage(){
+		return pageBase;
 	}
 	
 	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ){
@@ -56,15 +56,15 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 	
 	/**
 	 * 
-	 * A new PureElement-ElementOperation pair added to this ParemeterizedPage
+	 * A new ElementBase-ElementOperation pair added to this ParemeterizedPage
 	 * 
 	 * @param element
 	 * @param operation
 	 */
-	public ParameterizedElement addElement( PureElement element, ElementOperation operation ){
+	public ParameterizedElement addElement( ElementBase element, ElementOperation operation ){
 		
-		//Ha letezik egyaltalan a PurePage listajaban
-		if( purePage.getIndex( element ) >= 0 ){
+		//Ha letezik egyaltalan a PageBase listajaban
+		if( pageBase.getIndex( element ) >= 0 ){
 			
 			ParameterizedElement eop = new ParameterizedElement(element, operation);
 			
@@ -78,7 +78,7 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 			}
 			
 		}else{
-			System.err.println("hiba - Nincs a PurePage listaban az elem: " + this.getClass().getName() );
+			System.err.println("hiba - Nincs a PageBase listaban az elem: " + this.getClass().getName() );
 			//TODO hibageneralas
 		}
 		
@@ -87,11 +87,11 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 	
 	/**
 	 * 
-	 * Remove the PureElement from the ParameterizedPage list
+	 * Remove the ElementBase from the ParameterizedPage list
 	 * 
 	 * @param element
 	 */
-	public void removeElement( PureElement element ){
+	public void removeElement( ElementBase element ){
 		
 		//Az adott elem sorszama
 		int index = elementSet.indexOf( new ParameterizedElement( element, null ) );
@@ -105,7 +105,7 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 	 * 
 	 * @param element
 	 */
-	public void upElement( PureElement element ){
+	public void upElement( ElementBase element ){
 		
 		//Az adott elem sorszama
 		int index = elementSet.indexOf( new ParameterizedElement( element, null ) );
@@ -124,7 +124,7 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 	 * 
 	 * @param element 
 	 */
-	public void downElement( PureElement element ){
+	public void downElement( ElementBase element ){
 
 		//Az adott elem sorszama
 		int index = elementSet.indexOf( new ParameterizedElement( element, null ) );
@@ -140,12 +140,12 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 	
 	/**
 	 * 
-	 * Get the position of the given PureElement in the ParameterizedPage
+	 * Get the position of the given ElementBase in the ParameterizedPage
 	 * 
 	 * @param element
 	 * @return
 	 */
-	public int getPosition( PureElement element ){
+	public int getPosition( ElementBase element ){
 		return elementSet.indexOf( new ParameterizedElement(element, null));
 	}
 	
@@ -216,22 +216,22 @@ public class ParameterizedPage implements ExecutablePageInterface, PurePageChang
 	/**
 	 * 
 	 * If this object is not needed anymore, you have to call this method
-	 * in order to remove the changeListener from the PurePage (was set in the constructor)
+	 * in order to remove the changeListener from the PageBase (was set in the constructor)
 	 * 
 	 */
 	public void destroy(){
-		this.purePage.removeChangeListener(this);
+		this.pageBase.removeChangeListener(this);
 	}
 
 	/**
 	 * 
-	 * The PurePage calls this method when an PureElement is removed there.
-	 * In this case the same PureElement, connected to an ElementOperation,
+	 * The PageBase calls this method when an ElementBase is removed there.
+	 * In this case the same ElementBase, connected to an ElementOperation,
 	 * in this the ParameterizedPage must be removed as well.
 	 * 
 	 */
 	@Override
-	public void removePureElement(PureElement element) {
+	public void removePureElement(ElementBase element) {
 		removeElement(element);		
 	}
 

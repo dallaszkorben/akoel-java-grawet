@@ -1,41 +1,42 @@
-package hu.akoel.grawet.page;
+package hu.akoel.grawet.pages;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import hu.akoel.grawet.element.PureElement;
+import hu.akoel.grawet.elements.ElementBase;
 
-public class PurePage {
+public class PageBase {
 	private String name ;	
-	private String url;
+//	private String url;
 //	private String frame;
-	private ArrayList<PureElement> elementList = new ArrayList<>();
-	private ArrayList<PurePageChangeListener> changeListenerList = new ArrayList<>();
+	private ArrayList<ElementBase> elementList = new ArrayList<>();
+	private ArrayList<BasePageChangeListener> changeListenerList = new ArrayList<>();
 		
-	public PurePage( String name ){
-		common( name, null );
+	public PageBase( String name ){
+		this.name = name;
+		//common( name, null );
 	}
 	
-	public PurePage( String name, String url ){
+/*	public PageBase( String name, String url ){
 		common( name, url );
 	}
-	
-/*	public PurePage( String name, String url, String frame ){
+*/	
+/*	public PageBase( String name, String url, String frame ){
 		common( name, url, frame );
 	}
 */	
-	private void common( String name, String url ){
+/*	private void common( String name, String url ){
 		this.name = name;
 		this.url = url;
 	}
-	
+*/	
 	public String getName(){
 		return name;
 	}
 	
-	public String getURL(){
-		return url;		
-	}
+//	public String getURL(){
+//		return url;		
+//	}
 	
 /*	public String getFrame(){
 		return frame;
@@ -43,29 +44,29 @@ public class PurePage {
 */	
 	/**
 	 * 
-	 * Add a new PureElement into the end of this PurePage
+	 * Add a new ElementBase into the end of this PageBase
 	 * 
 	 * @param element
 	 */
-	public void addElement( PureElement element ){
+	public void addElement( ElementBase element ){
 		elementList.add( element );
 	}
 	
 	/**
 	 * 
-	 * Remove the PureElement on this PurePage
+	 * Remove the ElementBase on this PageBase
 	 * @param element
 	 */
-	public void removeElement( PureElement element ){
+	public void removeElement( ElementBase element ){
 		elementList.remove( element );
 	}
 	
 	/**
 	 * 
-	 * Move the PureElement up (forward to the beginning) one position 
+	 * Move the ElementBase up (forward to the beginning) one position 
 	 * @param element
 	 */
-	public void upElement( PureElement element ){
+	public void upElement( ElementBase element ){
 		
 		//Az adott elem sorszama
 		int index = elementList.indexOf( element );
@@ -80,10 +81,10 @@ public class PurePage {
 	
 	/**
 	 * 
-	 * Move the PureElement down (forward to the end) one position
+	 * Move the ElementBase down (forward to the end) one position
 	 * @param element
 	 */
-	public void downElement( PureElement element ){
+	public void downElement( ElementBase element ){
 
 		//Az adott elem sorszama
 		int index = elementList.indexOf( element );
@@ -99,7 +100,7 @@ public class PurePage {
 	
 	/**
 	 * 
-	 * Remove the indexth PureElement on this PurePage
+	 * Remove the indexth ElementBase on this PageBase
 	 * @param index
 	 */
 /*	public void deleteElement( int index ){
@@ -108,7 +109,7 @@ public class PurePage {
 */	
 	/**
 	 * 
-	 * The number of the PureElements on this PurePage
+	 * The number of the PureElements on this PageBase
 	 * 
 	 * @return
 	 */
@@ -118,24 +119,24 @@ public class PurePage {
 	
 	/**
 	 * 
-	 * Gives back the PureElement on this PurePage in the given index
+	 * Gives back the ElementBase on this PageBase in the given index
 	 * 
 	 * @param index
 	 * @return
 	 */
-	public PureElement getElement( int index ){
+	public ElementBase getElement( int index ){
 		return elementList.get(index);
 	}
 	
-	public int getIndex( PureElement element ){
+	public int getIndex( ElementBase element ){
 		return elementList.indexOf( element );
 	}
 	
-	public void addChangeListener( PurePageChangeListener changeListener ){
+	public void addChangeListener( BasePageChangeListener changeListener ){
 		this.changeListenerList.add( changeListener );
 	}
 	
-	public void removeChangeListener( PurePageChangeListener changeListener ){
+	public void removeChangeListener( BasePageChangeListener changeListener ){
 		this.changeListenerList.remove( changeListener );
 	}
 }

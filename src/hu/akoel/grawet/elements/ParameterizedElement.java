@@ -1,19 +1,19 @@
-package hu.akoel.grawet.element;
+package hu.akoel.grawet.elements;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import hu.akoel.grawet.exceptions.ElementException;
-import hu.akoel.grawet.operation.ElementOperation;
+import hu.akoel.grawet.operations.ElementOperation;
 
 
 public class ParameterizedElement{
 	private ElementOperation operation;
-	private PureElement element;
+	private ElementBase element;
 	
 	private String variableValue = "";
 	
 
-	public ParameterizedElement( PureElement element, ElementOperation operation){
+	public ParameterizedElement( ElementBase element, ElementOperation operation){
 		this.element = element;
 		this.operation = operation;
 	}
@@ -34,7 +34,7 @@ public class ParameterizedElement{
 		this.getOperation().doAction( this );
 	}
 	
-	public PureElement getElement(){
+	public ElementBase getElement(){
 		return element;
 	}	
 	
