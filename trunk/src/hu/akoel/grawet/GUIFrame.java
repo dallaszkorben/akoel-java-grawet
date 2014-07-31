@@ -7,11 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import hu.akoel.grawet.views.PurePageNode;
-import hu.akoel.grawet.views.PurePageTree;
-import hu.akoel.grawet.views.TreeInterface;
+import hu.akoel.grawet.elements.ElementBase;
+import hu.akoel.grawet.pages.PageBase;
+import hu.akoel.grawet.tree.nodes.PageBaseLeaf;
+import hu.akoel.grawet.tree.nodes.PageBaseRoot;
+import hu.akoel.grawet.tree.nodes.PageBaseNode;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -19,9 +23,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+
+import org.openqa.selenium.By;
 
 public class GUIFrame extends JFrame{
 
@@ -35,7 +45,7 @@ public class GUIFrame extends JFrame{
 	EditorPanel editorPanel;
 	AssistantPanel assistantPanel;
 	
-	PurePageTree purePageTree = new PurePageTree();
+	PageBaseRoot pageBaseRoot = new PageBaseRoot();
 	
 	//Esemenyfigyelok a menupontokhoz
 	private EditPurePageActionListener editPurePageActionListener;
@@ -168,14 +178,78 @@ public class GUIFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			
-purePageTree.addNode( new PurePageNode("POS", "POS applikaciok tesztelese" ) );
-purePageTree.addNode( new PurePageNode("DS", "DS applikaciok tesztelese" ) );
-purePageTree.addNode( new PurePageNode("REV", "REV applikaciok tesztelese" ) );
-			
-			treePanel.show( purePageTree );
 
+// Ez valamikor fel lett toltve. //			
+pageBaseRoot = new PageBaseRoot();
+
+DefaultTreeModel treeModel = new DefaultTreeModel(pageBaseRoot);
+
+PageBaseNode pos = new PageBaseNode("POS", "POS applikaciok tesztelese");
+pageBaseRoot.add( pos );
+
+PageBaseNode pos_with = new PageBaseNode("WITH", "POS with something else");
+pos.add( pos_with );
+
+
+PageBase elsoOldal = new PageBase( "Google kereso oldal");
+ElementBase searchField = new ElementBase("SearchField", By.id("gbqfq"), VariableSample.POST );
+elsoOldal.addElement(searchField);
+
+PageBaseLeaf firstPage = new PageBaseLeaf(elsoOldal);
+pos_with.add( firstPage );
+
+
+
+
+
+
+
+pageBaseRoot.add( new PageBaseNode("REV", "REV applikaciok tesztelese" ) );
+pageBaseRoot.add( new PageBaseNode("DS", "DS applikaciok tesztelese" ) );
+//
+	
+			//Legyartja a JTREE-t a modell alapjan
+			JTree tree = new JTree( treeModel );
+			tree.setShowsRootHandles(true);
+			
+			
+			
+			
+			
+			
+			
+ImageIcon leafIcon = CommonOperations.createImageIcon("page-html-icon.png");
+
+tree.setCellRenderer(new DefaultTreeCellRenderer() {
+    private Icon loadIcon = UIManager.getIcon("OptionPane.errorIcon");
+    private Icon saveIcon = UIManager.getIcon("OptionPane.informationIcon");
+   
+    @Override
+    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
+    	Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
+    	
+    	if( value instanceof PageBaseLeaf)
+            setIcon(this.loadIcon);
+//        else
+//            setIcon(saveIcon);
+        return c;
+    }
+});
+
+
+
+/*if (leafIcon != null) {
+	DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+	//renderer.setLeafIcon(leafIcon);
+	renderer.setIcon(leafIcon);
+	tree.setCellRenderer(renderer);
+} else {
+	System.err.println("Leaf icon missing; using default.");
+}
+*/			
+			
+			//Es megjeleniti
+			treePanel.show( tree );
 			
 		}		
 	}
@@ -208,7 +282,7 @@ purePageTree.addNode( new PurePageNode("REV", "REV applikaciok tesztelese" ) );
 			this.setBackground( Color.gray );			
 		}
 		
-		public void show( TreeInterface tree ){
+		public void show( JTree tree ){
 
 			//Ha volt valamilyen mas Tree az ablakban akkor azt eltavolitom
 			if( null != panelToView ){

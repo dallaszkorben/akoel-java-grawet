@@ -8,6 +8,8 @@ import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
+import org.openqa.selenium.WebDriver;
+
 import hu.akoel.grawet.elements.ElementBase;
 import hu.akoel.grawet.elements.ParameterizedElement;
 import hu.akoel.grawet.exceptions.ElementException;
@@ -154,7 +156,7 @@ public class ParameterizedPage implements ExecutablePageInterface, BasePageChang
 	 * 
 	 * 
 	 */
-	public final void doAction() throws PageException{
+	public final void doAction(WebDriver driver) throws PageException{
 	
 //		//Jelzi, hogy elindult az oldal feldolgozasa
 //		if( null != pageProgressInterface ){
@@ -193,12 +195,12 @@ public class ParameterizedPage implements ExecutablePageInterface, BasePageChang
 				// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
 				String frame = eop.getElement().getFrame();
 				if( null != frame ){
-					eop.getElement().getDriver().switchTo().defaultContent();
-					eop.getElement().getDriver().switchTo().frame("menuFrame");		
+					driver.switchTo().defaultContent();
+					driver.switchTo().frame("menuFrame");		
 				}
 				
 				try{			
-					eop.doAction();
+					eop.doAction( driver );
 				}catch (ElementException e){
 					throw new PageException( this.getName(), e.getElementName(), e.getElementId(), e);
 				}

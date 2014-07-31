@@ -1,6 +1,7 @@
 package hu.akoel.grawet.operations;
 
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,18 +25,18 @@ public class FieldOperation implements ElementOperation{
 	 * 
 	 */
 	@Override
-	public void doAction( ParameterizedElement element ) throws ElementException{
+	public void doAction( WebDriver driver, ParameterizedElement element ) throws ElementException{
 		ElementBase elementBase = element.getElement();
 		
 		//Searching for the element - waiting for it
-		WebDriverWait wait = new WebDriverWait(elementBase.getDriver(), 10);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		try{
 			wait.until(ExpectedConditions.elementToBeClickable( elementBase.getBy() ) );
 		}catch (TimeoutException e) {
 			throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		}
 
-		WebElement webElement = elementBase.getDriver().findElement(elementBase.getBy());
+		WebElement webElement = driver.findElement(elementBase.getBy());
 		
 		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
 		if( elementBase.getVariableSample().equals( VariableSample.PRE ) ){

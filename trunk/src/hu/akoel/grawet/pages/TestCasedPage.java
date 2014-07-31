@@ -1,5 +1,7 @@
 package hu.akoel.grawet.pages;
 
+import org.openqa.selenium.WebDriver;
+
 import hu.akoel.grawet.exceptions.CompilationException;
 import hu.akoel.grawet.exceptions.PageException;
 
@@ -37,14 +39,14 @@ public class TestCasedPage{
 		return executablePageInterface.getName();
 	}
 
-	public void doAction() throws PageException, CompilationException {
+	public void doAction( WebDriver driver ) throws PageException, CompilationException {
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != executablePageInterface.getPageProgressInterface() ){
 			executablePageInterface.getPageProgressInterface().pageStarted( getName() );
 		}	
 		
-		executablePageInterface.doAction();
+		executablePageInterface.doAction( driver );
 		
 		//Jelzi, hogy befejezodott az oldal feldolgozasa
 		if( null != executablePageInterface.getPageProgressInterface() ){

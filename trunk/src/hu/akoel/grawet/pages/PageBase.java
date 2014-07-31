@@ -139,4 +139,8 @@ public class PageBase {
 	public void removeChangeListener( BasePageChangeListener changeListener ){
 		this.changeListenerList.remove( changeListener );
 	}
+	
+	public String toString(){
+		return name;
+	}
 }

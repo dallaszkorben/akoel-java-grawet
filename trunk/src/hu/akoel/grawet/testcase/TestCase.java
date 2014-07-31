@@ -8,6 +8,8 @@ import hu.akoel.grawet.pages.TestCasedPage;
 
 import java.util.HashSet;
 
+import org.openqa.selenium.WebDriver;
+
 public class TestCase {
 	private String name;
 
@@ -32,7 +34,7 @@ public class TestCase {
 		return testCasedPage;
 	}
 	
-	public void doAction(){
+	public void doAction( WebDriver driver ){
 		TestCasedPage actualTestCasedPage = null;
 		for( TestCasedPage testCasedPage: pageSet ){
 			if( testCasedPage.getExecutablePageInterface() instanceof OpenPage ){
@@ -44,7 +46,7 @@ public class TestCase {
 		while( null != actualTestCasedPage ){
 		
 			try {
-				actualTestCasedPage.doAction();
+				actualTestCasedPage.doAction( driver );
 				
 //TODO ha hiba volt akkor nem szabad tovabb mennie. Jelzest kell adni es leallitani a teszteset futasat				
 			} catch (PageException e) {				
