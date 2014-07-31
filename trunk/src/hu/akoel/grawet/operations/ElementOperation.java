@@ -1,6 +1,6 @@
-package hu.akoel.grawet.operation;
+package hu.akoel.grawet.operations;
 
-import hu.akoel.grawet.element.ParameterizedElement;
+import hu.akoel.grawet.elements.ParameterizedElement;
 import hu.akoel.grawet.exceptions.ElementException;
 
 public interface ElementOperation {

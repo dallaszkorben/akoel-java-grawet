@@ -1,4 +1,4 @@
-package hu.akoel.grawet.operation;
+package hu.akoel.grawet.operations;
 
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -6,8 +6,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawet.VariableSample;
-import hu.akoel.grawet.element.ParameterizedElement;
-import hu.akoel.grawet.element.PureElement;
+import hu.akoel.grawet.elements.ElementBase;
+import hu.akoel.grawet.elements.ParameterizedElement;
 import hu.akoel.grawet.exceptions.ElementException;
 import hu.akoel.grawet.parameter.ElementParameter;
 
@@ -25,20 +25,20 @@ public class FieldOperation implements ElementOperation{
 	 */
 	@Override
 	public void doAction( ParameterizedElement element ) throws ElementException{
-		PureElement pureElement = element.getElement();
+		ElementBase elementBase = element.getElement();
 		
 		//Searching for the element - waiting for it
-		WebDriverWait wait = new WebDriverWait(pureElement.getDriver(), 10);
+		WebDriverWait wait = new WebDriverWait(elementBase.getDriver(), 10);
 		try{
-			wait.until(ExpectedConditions.elementToBeClickable( pureElement.getBy() ) );
+			wait.until(ExpectedConditions.elementToBeClickable( elementBase.getBy() ) );
 		}catch (TimeoutException e) {
-			throw new ElementException( pureElement.getName(), pureElement.getBy().toString(), e );
+			throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		}
 
-		WebElement webElement = pureElement.getDriver().findElement(pureElement.getBy());
+		WebElement webElement = elementBase.getDriver().findElement(elementBase.getBy());
 		
 		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-		if( pureElement.getVariableSample().equals( VariableSample.PRE ) ){
+		if( elementBase.getVariableSample().equals( VariableSample.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			element.setVariableValue( webElement.getText() );
@@ -49,7 +49,7 @@ public class FieldOperation implements ElementOperation{
 		webElement.sendKeys( parameter.getValue() );
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-		if( pureElement.getVariableSample().equals( VariableSample.POST ) ){
+		if( elementBase.getVariableSample().equals( VariableSample.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			//webElement.sendKeys(Keys.TAB);

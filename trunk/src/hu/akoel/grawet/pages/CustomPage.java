@@ -1,4 +1,4 @@
-package hu.akoel.grawet.page;
+package hu.akoel.grawet.pages;
 
 import hu.akoel.grawet.exceptions.CompilationException;
 import hu.akoel.grawet.exceptions.PageException;

@@ -2,9 +2,9 @@ package hu.akoel.grawet.testcase;
 
 import hu.akoel.grawet.exceptions.CompilationException;
 import hu.akoel.grawet.exceptions.PageException;
-import hu.akoel.grawet.page.ExecutablePageInterface;
-import hu.akoel.grawet.page.OpenPage;
-import hu.akoel.grawet.page.TestCasedPage;
+import hu.akoel.grawet.pages.ExecutablePageInterface;
+import hu.akoel.grawet.pages.OpenPage;
+import hu.akoel.grawet.pages.TestCasedPage;
 
 import java.util.HashSet;
 

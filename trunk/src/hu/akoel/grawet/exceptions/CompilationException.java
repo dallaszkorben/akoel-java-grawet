@@ -3,7 +3,7 @@ package hu.akoel.grawet.exceptions;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
-import hu.akoel.grawet.page.JavaSourceFromString;
+import hu.akoel.grawet.pages.JavaSourceFromString;
 
 public class CompilationException extends Exception{
 	private static final long serialVersionUID = 9044143626429149660L;

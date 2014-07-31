@@ -1,11 +1,11 @@
-package hu.akoel.grawet.element;
+package hu.akoel.grawet.elements;
 
 import hu.akoel.grawet.VariableSample;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class PureElement {
+public class ElementBase {
 	private WebDriver driver;
 	private String name;
 	private By by;
@@ -13,11 +13,11 @@ public class PureElement {
 	private String frame;
 
 
-	public PureElement( WebDriver driver, String name, By by, VariableSample variableSample, String frame){
+	public ElementBase( WebDriver driver, String name, By by, VariableSample variableSample, String frame){
 		common( driver, name, by, variableSample, frame );		
 	}
 
-	public PureElement( WebDriver driver, String name, By by, VariableSample variableSample ){
+	public ElementBase( WebDriver driver, String name, By by, VariableSample variableSample ){
 		common( driver, name, by, variableSample, null );		
 	}
 
@@ -29,7 +29,7 @@ public class PureElement {
 		this.frame = frame;
 	}
 
-	public PureElement( PureElement element ){
+	public ElementBase( ElementBase element ){
 		this.driver = element.getDriver();
 		this.name = element.getName();
 		this.by = element.getBy();
