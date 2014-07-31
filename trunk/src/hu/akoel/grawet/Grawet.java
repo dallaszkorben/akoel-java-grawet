@@ -1,7 +1,13 @@
 package hu.akoel.grawet;
 
+import java.awt.EventQueue;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import hu.akoel.grawet.CommonOperations.Browser;
 import hu.akoel.grawet.element.ParameterizedElement;
 import hu.akoel.grawet.element.PureElement;
@@ -21,94 +27,50 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class Grawet {
-
-
+	private static final String title = "Grawet";
+	private static final String version = "1.0.0";
 	
 	WebDriver driver;
 
 	public static void main(String args[]) {
-		new Grawet();
+		EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+            	new Grawet();
+            }
+        });
+		
 	}
 
 	public Grawet(){
 		
-		//Hasznalando nyelv beallitasa
+		//
+		// Hasznalando nyelv beallitasa
+		//
 		CommonOperations.setLocal( "en", "US" );
 		//CommonOperations.setLocal( new Locale.Builder().setLanguage("hu").setRegion("HU").build());
 		 
+		//
+		// Window
+		//
+		
+		GUIFrame frame = new GUIFrame( title + " " + version );
+		
+
+		
+        
+        
+        
+       
+		
 		//String url = "http://appltest01.statlogics.local:8090/RFBANK_TEST_Logic/";
 		//String url = "http://www.cib.hu/";		
-		String url = "http://www.google.com/";
+/*		String url = "http://www.google.com/";
 		driver = CommonOperations.getDriver(Browser.FIREFOX);
-		
+        
 		PageProgress pageProgress = new PageProgress();
 		
  		//
- 		// RFBANK
- 		//
-		
-		// LOGIN PAGE
-/*		
-		PurePage loginPage = new PurePage( "Login page");
-		
-		PureElement englishLink = new PureElement(driver, "EnglishLanguage", By.cssSelector("#languageSwitch > a:nth-child(2)"), VariableSample.NO );
-		loginPage.addElement(englishLink);
-		PureElement username = new PureElement(driver, "Username", By.id("username"), VariableSample.POST );
-		loginPage.addElement(username);
-		PureElement password = new PureElement(driver, "Password", By.id("password"), VariableSample.NO );
-		loginPage.addElement(password);
-		PureElement nextButton = new PureElement(driver, "NextButton", By.id("loginButton"), VariableSample.NO );
-		loginPage.addElement(nextButton);
-		
-		ParameterizedPage pLoginPage = new ParameterizedPage( "Login page", loginPage );
-
-		pLoginPage.addElement( englishLink, new LinkOperation());
-		pLoginPage.addElement( username,  new FieldOperation( new StringParameter( "username", "myuser1") ) );
-		pLoginPage.addElement( password,  new FieldOperation( new StringParameter( "password", "a") ) );
-		pLoginPage.addElement( nextButton,  new ButtonOperation() );
-	
-
-
-		//MAIN MENU
-		
-		PurePage mainMenuPage = new PurePage( "Main Menu Page" );
-
-		PureElement posLink = new PureElement(driver, "POS menu", By.id("pos_menu"), VariableSample.NO, "menuFrame" );
-		mainMenuPage.addElement(posLink);
-
-		PureElement posApplicationLink = new PureElement(driver, "POS application", By.cssSelector("#pos_application > a:nth-child(1)"), VariableSample.NO, "menuFrame" );
-		mainMenuPage.addElement(posApplicationLink);
-
-		PureElement logoutButton = new PureElement(driver, "LOGOUT button", By.id("logout"), VariableSample.NO, "menuFrame" );
-		mainMenuPage.addElement(logoutButton);		
-		
-		ParameterizedPage pMainMenuPage = new ParameterizedPage( "Menu page", mainMenuPage );		
-		pMainMenuPage.addElement( posLink, new LinkOperation());
-		pMainMenuPage.addElement( posApplicationLink, new LinkOperation());
-	
-		
-		//LOGOUT
-		ParameterizedPage pLogoutPage = new ParameterizedPage( "Logout page", mainMenuPage );		
-		pLogoutPage.addElement( logoutButton, new ButtonOperation());
-		
-		
-		
-		
-		//Execution
-		pLoginPage.execute();
-		pMainMenuPage.execute();
-		pLogoutPage.execute();
-		
-		
-		//CLOSE
-		driver.close();
-		driver.quit();
-		driver = null;
-*/		
-		
-		
-		
-		//
 		// GOOGLE
 		//
 		
@@ -166,7 +128,7 @@ public class Grawet {
 		testCase.connect(tcCustomPage, tcClosePage);
 		
 		testCase.doAction();
-		
+*/		
 		
 	}
 }
