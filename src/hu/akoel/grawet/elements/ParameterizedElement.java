@@ -1,6 +1,7 @@
 package hu.akoel.grawet.elements;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawet.exceptions.ElementException;
 import hu.akoel.grawet.operations.ElementOperation;
@@ -30,8 +31,8 @@ public class ParameterizedElement{
 	 * @throws ElementException 
 	 * 
 	 */
-	public void doAction() throws ElementException{
-		this.getOperation().doAction( this );
+	public void doAction( WebDriver driver ) throws ElementException{
+		this.getOperation().doAction( driver, this );
 	}
 	
 	public ElementBase getElement(){

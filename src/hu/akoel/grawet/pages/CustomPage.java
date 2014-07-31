@@ -26,7 +26,6 @@ import org.openqa.selenium.WebDriver;
 public class CustomPage implements CustomPageInterface {
 	private String name;
 	private String source;
-	private WebDriver driver;
 	
 	private PageProgressInterface pageProgressInterface = null;
 		
@@ -38,10 +37,9 @@ public class CustomPage implements CustomPageInterface {
 	private String customClassName = "CustomClass";
 	private String customMethodName = "doAction";
 	
-	public CustomPage( String name, String source, WebDriver driver ){
+	public CustomPage( String name, String source ){
 		this.name = name;
 		this.source = source;
-		this.driver = driver;
 	}
 
 	@Override
@@ -64,7 +62,7 @@ public class CustomPage implements CustomPageInterface {
 	}
 	
 	@Override
-	public void doAction() throws PageException, CompilationException {
+	public void doAction( WebDriver driver ) throws PageException, CompilationException {
 		
 		//Kod legyartasa
 		generateTheCode( getSurce() );
@@ -76,7 +74,7 @@ public class CustomPage implements CustomPageInterface {
 		if( success ){
 			
 			//Akkor futtatja a kodit
-			runTheCode();
+			runTheCode( driver );
 
 		//Forditas alatt hiba tortent
 		}else{
@@ -119,7 +117,7 @@ public class CustomPage implements CustomPageInterface {
 		return success;
 	}
 	
-	private void runTheCode() throws PageException{
+	private void runTheCode( WebDriver driver ) throws PageException{
 		try {	    	  
 			
 			File f = new File(classOutputFolder);

@@ -1,5 +1,6 @@
 package hu.akoel.grawet;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,6 +8,9 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -41,9 +45,11 @@ public class CommonOperations {
 	public static void setLocal( Locale l ){
 		locale = l;
 	}
+	
 	public static void setLocal( String language, String country ){
 		locale = new Locale( language, country );
 	}
+	
 	public static String getTranslation( String code ){
 		return ResourceBundle.getBundle("hu.akoel.grawet.resourcebundle.Grawet", locale ).getString( code );
 	}
@@ -138,4 +144,15 @@ public class CommonOperations {
 		return driver;
 	}
 
+	 protected static ImageIcon createImageIcon(String file) {
+		 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+		 java.net.URL imgURL = classLoader.getResource( file );		 
+		 //java.net.URL imgURL = TreeIconDemo.class.getResource(path);
+		 if (imgURL != null) {
+			 return new ImageIcon(imgURL);
+		 } else {	           
+			 return null;
+		 }
+	 }
 }

@@ -62,10 +62,10 @@ public class Grawet {
         
         
        
-		
+/*		
 		//String url = "http://appltest01.statlogics.local:8090/RFBANK_TEST_Logic/";
 		//String url = "http://www.cib.hu/";		
-/*		String url = "http://www.google.com/";
+		String url = "http://www.google.com/";
 		driver = CommonOperations.getDriver(Browser.FIREFOX);
         
 		PageProgress pageProgress = new PageProgress();
@@ -74,16 +74,15 @@ public class Grawet {
 		// GOOGLE
 		//
 		
-		OpenPage openPage = new OpenPage("Open page", url, driver );
+		OpenPage openPage = new OpenPage("Open page", url );
 		openPage.setPageProgressInterface( pageProgress );
-		
 		
 		PageBase elsoOldal = new PageBase( "Google kereso");
 		
-		ElementBase searchField = new ElementBase(driver, "SearchField", By.id("gbqfq"), VariableSample.POST );
+		ElementBase searchField = new ElementBase("SearchField", By.id("gbqfq"), VariableSample.POST );
 		elsoOldal.addElement(searchField);
 
-		ElementBase searchButton = new ElementBase(driver, "SearchButton", By.id("gbqfb"), VariableSample.NO );
+		ElementBase searchButton = new ElementBase("SearchButton", By.id("gbqfb"), VariableSample.NO );
 		elsoOldal.addElement(searchButton);
 		
 		
@@ -110,11 +109,11 @@ public class Grawet {
 		out.println("		webElement.click();");
 		out.close();
 		
-		CustomPage customPage = new CustomPage("Custom page", writer.toString(), driver );
+		CustomPage customPage = new CustomPage("Custom page", writer.toString() );
 		customPage.setPageProgressInterface( pageProgress );
 		
 		
-		ClosePage closePage = new ClosePage("close page", driver );
+		ClosePage closePage = new ClosePage("close page" );
 		closePage.setPageProgressInterface( pageProgress );
 		
 		TestCase testCase = new TestCase( "My test case" );
@@ -127,7 +126,7 @@ public class Grawet {
 		testCase.connect(tcFirstPage, tcCustomPage);
 		testCase.connect(tcCustomPage, tcClosePage);
 		
-		testCase.doAction();
+		testCase.doAction(driver);
 */		
 		
 	}
