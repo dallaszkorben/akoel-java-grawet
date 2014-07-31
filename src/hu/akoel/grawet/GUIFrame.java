@@ -2,6 +2,7 @@ package hu.akoel.grawet;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -129,13 +130,18 @@ public class GUIFrame extends JFrame{
         AssistantPanel assistantPanel = new AssistantPanel();
         
         JSplitPane splitPaneLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treePanel, editorPanel);
-        splitPaneLeft.setOneTouchExpandable(true);
+        splitPaneLeft.setOneTouchExpandable(false);
         splitPaneLeft.setDividerLocation(120);
         
-        JSplitPane splitPaneRight = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, assistantPanel);
-        splitPaneRight.setDividerLocation(300);
+        this.add( splitPaneLeft, BorderLayout.CENTER);
         
-        this.add( splitPaneRight, BorderLayout.CENTER);
+        
+        //JSplitPane splitPaneRight = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, editorPanel, assistantPanel);
+        //splitPaneRight.setOneTouchExpandable(false);
+        //splitPaneRight.setDividerLocation(300);
+        
+        //this.add( splitPaneRight, BorderLayout.CENTER);
+        this.add( assistantPanel, BorderLayout.EAST );
         
         
         
@@ -175,4 +181,5 @@ class AssistantPanel extends JPanel{
 	public AssistantPanel(){
 		this.setBackground(Color.blue);
 	}
+	
 }
