@@ -6,22 +6,25 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import hu.akoel.grawit.elements.ElementBase;
 import hu.akoel.grawit.pages.PageBase;
 import hu.akoel.grawit.tree.PageBaseTree;
-import hu.akoel.grawit.tree.tags.PageBaseTreeElement;
-import hu.akoel.grawit.tree.tags.PageBaseTreeNode;
-import hu.akoel.grawit.tree.tags.PageBaseTreePage;
-import hu.akoel.grawit.tree.tags.PageBaseTreeRoot;
+import hu.akoel.grawit.tree.node.PageBaseDataModelElement;
+import hu.akoel.grawit.tree.node.PageBaseDataModelNode;
+import hu.akoel.grawit.tree.node.PageBaseDataModelPage;
+import hu.akoel.grawit.tree.node.PageBaseDataModelRoot;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -30,11 +33,23 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.openqa.selenium.By;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class GUIFrame extends JFrame{
 	private static final long serialVersionUID = 5462215116385991087L;
@@ -44,19 +59,24 @@ public class GUIFrame extends JFrame{
 	private static int treePanelStartWidth = 200;
 	
 	//Ki/be kapcsolhato menuelemeek
-	JMenuItem editPurePageMenuItem;
-	JMenuItem editPageMenuItem;
-	JMenuItem editTestCaseMenuItem;
+	private JMenuItem editPurePageMenuItem;
+	private JMenuItem editPageMenuItem;
+	private JMenuItem editTestCaseMenuItem;
+	private JMenuItem fileSaveMenuItem;
 	
-	TreePanel treePanel;
-	EditorPanel editorPanel;
-	AssistantPanel assistantPanel;
+	private TreePanel treePanel;
+	private EditorPanel editorPanel;
+	private AssistantPanel assistantPanel;
 	
-	PageBaseTreeRoot pageBaseTreeRoot = null;
-	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseTreeRoot);
+	private PageBaseDataModelRoot pageBaseDataModelRoot = null;
+	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseDataModelRoot);
+	
+	private File usedDirectory = null;
 	
 	//Esemenyfigyelok a menupontokhoz
 	private OpenActionListener openActionListener;
+	private SaveAsActionListener saveAsActionListener;
+	private SaveActionListener saveActionListener;
 	private EditPurePageActionListener editPurePageActionListener;
 	private EditParameterizedPageActionListener editParameterizedPageActionListener;
     
@@ -108,7 +128,7 @@ public class GUIFrame extends JFrame{
         menu.setMnemonic(KeyEvent.VK_F); 
         menuBar.add(menu);
 
-        //File menu almenui
+        //File menu almenui      
         //Open Test Suits     
         JMenuItem menuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.opentestsuits") );
         menuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.opentestsuits")).getKeyCode()); //KeyEvent.VK_O
@@ -118,13 +138,25 @@ public class GUIFrame extends JFrame{
         menuItem.addActionListener( openActionListener );
         menu.add(menuItem); //Open menu
 
-        //Save Test Suits        
-        menuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.savetestsuits") );
-        menuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.savetestsuits")).getKeyCode()); //KeyEvent.VK_S );
+        //Save
+        fileSaveMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.savetestsuits") );
+        fileSaveMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.savetestsuits")).getKeyCode()); //KeyEvent.VK_S );
         //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_S, ActionEvent.ALT_MASK));
         //menuItem.setMnemonic(KeyEvent.VK_S);
-        menu.add(menuItem); //Save menu
-
+        saveActionListener = new SaveActionListener();
+        fileSaveMenuItem.addActionListener( saveActionListener );
+        fileSaveMenuItem.setEnabled( false );
+        menu.add(fileSaveMenuItem);        
+        
+        //Save AS
+        menuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.savetestsuitsas") );
+        menuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.savetestsuitsas")).getKeyCode()); //KeyEvent.VK_S );
+        //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_S, ActionEvent.ALT_MASK));
+        //menuItem.setMnemonic(KeyEvent.VK_S);
+        saveAsActionListener = new SaveAsActionListener();
+        menuItem.addActionListener( saveAsActionListener );
+        menu.add(menuItem);
+        
         //a group of check box menu items
         menu.addSeparator();
       
@@ -204,6 +236,108 @@ public class GUIFrame extends JFrame{
         this.setVisible(true);
 	}
 	
+	class SaveActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	/**
+	 * Save As..
+	 * 
+	 * @author akoel
+	 *
+	 */
+	class SaveAsActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			if( null == pageBaseDataModelRoot ){
+				return;
+			}
+			
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			try{
+
+				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+				Document doc = docBuilder.newDocument();
+
+				Element rootElement = doc.createElement("grawit");
+				doc.appendChild(rootElement);
+
+				Element pageBaseElement = pageBaseDataModelRoot.getXMLElement(doc);	
+				rootElement.appendChild( pageBaseElement );
+				
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				DOMSource source = new DOMSource(doc);
+				
+				//StreamResult result = new StreamResult("hello.xml");
+
+				// Iras
+				//transformer.transform(source, result);
+
+				
+				JFileChooser fc;
+				if (null == usedDirectory) {
+					fc = new JFileChooser(System.getProperty("user.dir"));
+				} else {
+					fc = new JFileChooser(usedDirectory);
+				}
+
+				// Filechooser inicializalasa a felhasznalo munkakonyvtaraba
+
+				// A dialogus ablak cime
+				fc.setDialogTitle("Save the plan");
+
+				// Csak az XML kiterjesztesu fajlokat lathatom
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("xml", "xml");
+				fc.setFileFilter(filter);
+
+				// Nem engedi meg az "All" filter hasznalatat
+				fc.setAcceptAllFileFilterUsed(false);
+
+				// Dialogus ablak inditasa
+				int returnVal = fc.showSaveDialog(GUIFrame.this);
+
+				// Ha kivalasztottam a nevet
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+					File file = fc.getSelectedFile();
+					String filePath = file.getPath();
+
+					// Mindenkeppen XML lesz a kiterjesztese
+					if (!filePath.toLowerCase().endsWith(".xml")) {
+						file = new File(filePath + ".xml");
+					}
+
+					// Stream letrehozasa
+					StreamResult result = new StreamResult(file);
+
+					// Iras
+					transformer.transform(source, result);
+
+					setTitle(" :: " + file.getName());
+
+					usedDirectory = file;
+					fileSaveMenuItem.setEnabled(true);
+
+				}
+						
+				
+			} catch (ParserConfigurationException | TransformerException e1) {
+				JOptionPane.showMessageDialog(GUIFrame.this, "Nem sikerült a file mentése: \n" + e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
+		
+	}
+	
 	/**
 	 * 
 	 * Open menu selection listener
@@ -221,45 +355,44 @@ public class GUIFrame extends JFrame{
 			editPurePageMenuItem.setEnabled( false );
 			editTestCaseMenuItem.setEnabled( false );
 
-			
+//tree toltes			
 			// TODO Be kell majd toltenem fajlbol az adatokat
 			// Most csak direktben beirok valamit
-			// Tulajdonkeppen a pageBaseTreeRoot-ot toltom fel
+			// Tulajdonkeppen a pageBaseDataModelRoot-ot toltom fel
 			// Ez tartalmazza az adatmodellt
-			pageBaseTreeRoot = new PageBaseTreeRoot(); //Torli
-			//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseTreeRoot);
+			pageBaseDataModelRoot = new PageBaseDataModelRoot(); //Torli
+			//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseDataModelRoot);
 
-			PageBaseTreeNode posNode = new PageBaseTreeNode("POS", "POS applikaciok tesztelese");
-			pageBaseTreeRoot.add( posNode );
+			PageBaseDataModelNode posNode = new PageBaseDataModelNode("POS", "POS applikaciok tesztelese");
+			pageBaseDataModelRoot.add( posNode );
 
 
 			PageBase firstPageBase = new PageBase( "Google kereso oldal");
-			ElementBase searchField = new ElementBase("SearchField", By.id("gbqfq"), VariableSample.POST );
+			ElementBase searchField = new ElementBase("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
 			firstPageBase.addElement(searchField);
-			ElementBase searchButton = new ElementBase("SearchButton", By.id("gbqfb"), VariableSample.NO );
+			ElementBase searchButton = new ElementBase("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
 			firstPageBase.addElement(searchButton);
 
-			PageBaseTreePage firstPageNode = new PageBaseTreePage(firstPageBase);
+			PageBaseDataModelPage firstPageNode = new PageBaseDataModelPage(firstPageBase);
 			posNode.add( firstPageNode );
 
-			PageBaseTreeElement searchFieldNode = new PageBaseTreeElement( searchField );
+			PageBaseDataModelElement searchFieldNode = new PageBaseDataModelElement( searchField );
 			firstPageNode.add( searchFieldNode );
 
-			PageBaseTreeElement searchButtonNode = new PageBaseTreeElement( searchButton );
+			PageBaseDataModelElement searchButtonNode = new PageBaseDataModelElement( searchButton );
 			firstPageNode.add(searchButtonNode);
 
 
-			pageBaseTreeRoot.add( new PageBaseTreeNode("REV", "REV applikaciok tesztelese" ) );
-			pageBaseTreeRoot.add( new PageBaseTreeNode("DS", "DS applikaciok tesztelese" ) );
+			pageBaseDataModelRoot.add( new PageBaseDataModelNode("REV", "REV applikaciok tesztelese" ) );
+			pageBaseDataModelRoot.add( new PageBaseDataModelNode("DS", "DS applikaciok tesztelese" ) );
 			//
 			
 			//Bakapcsolom a PAGEBASE szerkesztesi menut
 			editPurePageMenuItem.setEnabled( true );
-			
-		}
-		
-	}
+
 	
+		}
+	}
 	/**
 	 * 
 	 * Edit PurePage menu selection listener
@@ -275,7 +408,7 @@ public class GUIFrame extends JFrame{
 
 	
 			//Legyartja a JTREE-t a modell alapjan
-			PageBaseTree tree = new PageBaseTree( pageBaseTreeRoot );
+			PageBaseTree tree = new PageBaseTree( pageBaseDataModelRoot );
 			
 			//Es megjeleniti
 			treePanel.show( tree );
