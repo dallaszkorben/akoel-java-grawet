@@ -1,11 +1,13 @@
 package hu.akoel.grawit.operations;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.elements.ElementBase;
 import hu.akoel.grawit.elements.ParameterizedElement;
 
@@ -21,11 +23,22 @@ public class LinkOperation implements ElementOperation{
 		ElementBase elementBase = element.getElement();
 		
 		//Searching for the element - waiting for it
-		WebDriverWait wait = new WebDriverWait(driver, 10);		
-		wait.until(ExpectedConditions.elementToBeClickable( elementBase.getBy() ) );		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		
+		By by = null;
+		
+		//ID
+		if( elementBase.getIdentificationType().equals(IdentificationType.ID)){
+			by = By.id( elementBase.getIdentifier() );
+		//CSS	
+		}else if( elementBase.getIdentificationType().equals(IdentificationType.CSS)){
+			by = By.cssSelector( elementBase.getIdentifier() );
+		}
+		
+		wait.until(ExpectedConditions.elementToBeClickable( by ) );		
 
-		WebElement webElement = driver.findElement(elementBase.getBy());
-	
+		WebElement webElement = driver.findElement( by );
+
 		//Execute the operation
 		//element.getDriver().findElement(element.getBy()).click();
 		
