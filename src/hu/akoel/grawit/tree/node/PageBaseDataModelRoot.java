@@ -17,13 +17,14 @@ public class PageBaseDataModelRoot extends DefaultMutableTreeNode implements Dat
 	
 	@Override
 	public Element getXMLElement(Document document) {
-System.err.println("Root");
+//System.err.println("Root");
+		
 		//PageBaseElement
 		Element pageBaseElement = document.createElement("pagebase");
 			
-		//RootElement
-		Element rootElement = document.createElement("root");
-		pageBaseElement.appendChild(rootElement);
+//		//RootElement
+//		Element rootElement = document.createElement("root");
+//		pageBaseElement.appendChild(rootElement);
 			
 		
 		int childrens = this.getChildCount();
@@ -34,7 +35,7 @@ System.err.println("Root");
 			if( !object.equals(this) && object instanceof DataModelInterface ){
 				
 				Element element = ((DataModelInterface)object).getXMLElement( document );
-				rootElement.appendChild( element );		    		
+				pageBaseElement.appendChild( element );		    		
 		    	
 			}
 		}

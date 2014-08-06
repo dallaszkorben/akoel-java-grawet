@@ -8,6 +8,8 @@ import java.awt.event.MouseListener;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.GUIFrame;
+import hu.akoel.grawit.gui.EditPurePagePanel;
 import hu.akoel.grawit.tree.node.PageBaseDataModelElement;
 import hu.akoel.grawit.tree.node.PageBaseDataModelNode;
 import hu.akoel.grawit.tree.node.PageBaseDataModelPage;
@@ -31,11 +33,14 @@ import javax.swing.tree.TreeSelectionModel;
 public class PageBaseTree extends JTree{
 
 	private static final long serialVersionUID = -3929758449314068678L;
+	
+	private GUIFrame guiFrame;
 
-	public PageBaseTree( PageBaseDataModelRoot pageBaseDataModelRoot ){
+	public PageBaseTree( GUIFrame guiFrame, PageBaseDataModelRoot pageBaseDataModelRoot ){
 	
 		super( new DefaultTreeModel(pageBaseDataModelRoot) );
 		
+		this.guiFrame = guiFrame;
 		this.setShowsRootHandles(false);
 		
 		/**
@@ -241,16 +246,20 @@ public class PageBaseTree extends JTree{
 				}
 				
 				//Szerkesztes
-				JMenuItem upMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.edit") );
-				upMenu.setActionCommand( ActionCommand.EDIT.name());
-				upMenu.addActionListener( new ActionListener() {
+				JMenuItem editMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.edit") );
+				editMenu.setActionCommand( ActionCommand.EDIT.name());
+				editMenu.addActionListener( new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
-						if( selectedIndexInTheNode >= 1 ) {
+//						if( selectedIndexInTheNode >= 1 ) {
 							
 							if( selectedNode instanceof PageBaseDataModelNode ){
+							
+								EditPurePagePanel editPurePagePanel = new EditPurePagePanel( (PageBaseDataModelNode)selectedNode );
+								guiFrame.showEditorPanel( editPurePagePanel);
+								
 								
 							}else if( selectedNode instanceof PageBaseDataModelPage ){
 								
@@ -265,10 +274,10 @@ public class PageBaseTree extends JTree{
 							
 							//Ujra ki kell szinezni az eredetileg kivalasztott sort
 //							PageBaseTree.this.setSelectionRow(selectedRow - 1);
-						}							
+//						}							
 					}
 				});
-				this.add ( upMenu );
+				this.add ( editMenu );
 				
 			}
 			
