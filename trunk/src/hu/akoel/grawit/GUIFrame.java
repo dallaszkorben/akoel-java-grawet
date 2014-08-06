@@ -54,6 +54,8 @@ import org.w3c.dom.Element;
 public class GUIFrame extends JFrame{
 	private static final long serialVersionUID = 5462215116385991087L;
 	
+	private String appNameAndVersion;
+	
 	private static int frameWidth = 600;
 	private static int frameHeight = 300;
 	private static int treePanelStartWidth = 200;
@@ -80,8 +82,10 @@ public class GUIFrame extends JFrame{
 	private EditPurePageActionListener editPurePageActionListener;
 	private EditParameterizedPageActionListener editParameterizedPageActionListener;
     
-	public GUIFrame( String title ){
-		super( title );
+	public GUIFrame( String appNameAndVersion ){
+		super( appNameAndVersion );
+		
+		this.appNameAndVersion = appNameAndVersion;
 		
 		//make sure the program exits when the frame closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -236,6 +240,22 @@ public class GUIFrame extends JFrame{
         this.setVisible(true);
 	}
 	
+	public void showTreePanel( JTree tree ){
+		treePanel.show(tree);
+	}
+	
+	public void hideTreePanel(){
+		treePanel.hide();
+	}
+	
+	public void showEditorPanel( JPanel panel ){
+		editorPanel.show( panel );
+	}
+	
+	public void hideEditorPanel(){
+		editorPanel.hide();
+	}
+
 	class SaveActionListener implements ActionListener{
 
 		@Override
@@ -322,7 +342,7 @@ public class GUIFrame extends JFrame{
 					// Iras
 					transformer.transform(source, result);
 
-					setTitle(" :: " + file.getName());
+					setTitle( appNameAndVersion + " :: " + file.getName());
 
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
@@ -404,11 +424,9 @@ public class GUIFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-
 	
 			//Legyartja a JTREE-t a modell alapjan
-			PageBaseTree tree = new PageBaseTree( pageBaseDataModelRoot );
+			PageBaseTree tree = new PageBaseTree( GUIFrame.this, pageBaseDataModelRoot );
 			
 			//Es megjeleniti
 			treePanel.show( tree );
@@ -485,10 +503,43 @@ public class GUIFrame extends JFrame{
 		
 		private static final long serialVersionUID = 6460964071977967820L;
 
+		private JScrollPane panelToView = null;
+		
 		public EditorPanel(){
-			this.setBackground(Color.white);
+			this.setLayout( new BorderLayout());
+			this.setBackground( Color.white);		
 		}
 
+		public void show( JPanel panel ){
+
+			//Ha volt valamilyen mas Tree az ablakban akkor azt eltavolitom
+			if( null != panelToView ){
+				this.remove( panelToView );
+			}
+			
+			//Becsomagolom a Tree-t hogy scroll-ozhato legyen
+			panelToView = new JScrollPane( (Component)panel );		
+				
+			//Kiteszem a Treet az ablakba
+			this.add( panelToView, BorderLayout.CENTER );
+			
+			//Ujrarajzoltatom
+			this.revalidate();
+
+		}
+		
+		public void hide(){
+			
+			//Ha volt valamilyen Tree az ablakban, azt eltavolitom
+			if( null != panelToView ){
+				this.remove( panelToView );
+			}
+			
+			//Ujrarajzoltatom
+			this.repaint();
+			this.revalidate();
+		}
+		
 	}
 	
 	/**
