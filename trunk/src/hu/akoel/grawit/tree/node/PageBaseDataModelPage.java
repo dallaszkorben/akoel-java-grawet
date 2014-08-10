@@ -1,7 +1,5 @@
 package hu.akoel.grawit.tree.node;
 
-import java.util.Enumeration;
-
 import hu.akoel.grawit.pages.PageBase;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -34,9 +32,17 @@ public class PageBaseDataModelPage  extends DefaultMutableTreeNode implements Da
 //System.err.println("  Page");		
 		//Node element
 		Element pageElement = document.createElement("page");
+		
+		//NAME attributum
 		attr = document.createAttribute("name");
 		attr.setValue( pageBase.getName() );
 		pageElement.setAttributeNode(attr);	
+		
+		//DETAILS attributum
+		attr = document.createAttribute("details");
+		attr.setValue( pageBase.getDetails() );
+		pageElement.setAttributeNode(attr);
+		
 
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){

@@ -8,8 +8,11 @@ import java.awt.event.MouseListener;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.GUIFrame;
-import hu.akoel.grawit.gui.EditPurePagePanel;
+import hu.akoel.grawit.gui.DataPanel;
+import hu.akoel.grawit.gui.PageBaseElementPanel;
+import hu.akoel.grawit.gui.PageBaseNodePanel;
+import hu.akoel.grawit.gui.GUIFrame;
+import hu.akoel.grawit.gui.PageBasePagePanel;
 import hu.akoel.grawit.tree.node.PageBaseDataModelElement;
 import hu.akoel.grawit.tree.node.PageBaseDataModelNode;
 import hu.akoel.grawit.tree.node.PageBaseDataModelPage;
@@ -35,10 +38,22 @@ public class PageBaseTree extends JTree{
 	private static final long serialVersionUID = -3929758449314068678L;
 	
 	private GUIFrame guiFrame;
+	
+	private DefaultMutableTreeNode selectedNode;
 
+	private DefaultTreeModel treeModel;
+	private PageBaseDataModelRoot pageBaseDataModelRoot;
+	
+	public void refresh(){
+		treeModel.nodeChanged( pageBaseDataModelRoot );
+	}
+	
 	public PageBaseTree( GUIFrame guiFrame, PageBaseDataModelRoot pageBaseDataModelRoot ){
 	
 		super( new DefaultTreeModel(pageBaseDataModelRoot) );
+		
+		this.pageBaseDataModelRoot = pageBaseDataModelRoot;		
+		treeModel = (DefaultTreeModel)this.getModel();
 		
 		this.guiFrame = guiFrame;
 		this.setShowsRootHandles(false);
@@ -78,9 +93,9 @@ public class PageBaseTree extends JTree{
 		});
 		
 		/**
-		 * A jobb-eger gomb benyomasara reagalok
+		 * A eger benyomasara reagalok
 		 */
-		this.addMouseListener( new RightMouseListener() );		
+		this.addMouseListener( new TreeMouseListener() );		
 	
 	}
 	
@@ -91,12 +106,35 @@ public class PageBaseTree extends JTree{
 	 * @author akoel
 	 *
 	 */
-	class RightMouseListener implements MouseListener {
+	class TreeMouseListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			
-			//Ha jobb-eger gombot nyomtam
+//TODO jobb egergobbal kivalasztva a selectedNode=null !			
+			//A kivalasztott NODE			
+			selectedNode = (DefaultMutableTreeNode)PageBaseTree.this.getLastSelectedPathComponent();
+			
+			//Ha egyaltalan valamilyen egergombot benyomtam
+			if( selectedNode instanceof PageBaseDataModelNode ){
+				
+				PageBaseNodePanel pageBaseNodePanel = new PageBaseNodePanel( PageBaseTree.this, (PageBaseDataModelNode)selectedNode, DataPanel.Mode.SHOW );								
+				guiFrame.showEditorPanel( pageBaseNodePanel);								
+				
+			}else if( selectedNode instanceof PageBaseDataModelPage ){
+				
+				PageBasePagePanel pageBasePagePanel = new PageBasePagePanel( PageBaseTree.this, (PageBaseDataModelPage)selectedNode, DataPanel.Mode.SHOW );								
+				guiFrame.showEditorPanel( pageBasePagePanel);				
+								
+			}else if( selectedNode instanceof PageBaseDataModelElement ){
+				PageBaseElementPanel pageBaseElementPanel = new PageBaseElementPanel( PageBaseTree.this, (PageBaseDataModelElement)selectedNode, DataPanel.Mode.SHOW );								
+				guiFrame.showEditorPanel( pageBaseElementPanel);		
+			
+			}
+			
+			
+			
+			//Ha jobb-eger gombot nyomtam - Akkor popup menu jelenik meg
 			if (SwingUtilities.isRightMouseButton(e)) {
 
 				//A kivalasztott elem sora - kell a sor kiszinezesehez es a PopUp menu poziciojahoz
@@ -150,7 +188,7 @@ public class PageBaseTree extends JTree{
 		private static final long serialVersionUID = -2476473336416059356L;
 
 		private DefaultMutableTreeNode parentNode;
-		private DefaultMutableTreeNode selectedNode;
+//		private DefaultMutableTreeNode selectedNode;
 		private TreePath selectedPath;
 		private DefaultTreeModel totalTreeModel;
 		private int selectedIndexInTheNode;
@@ -163,8 +201,8 @@ public class PageBaseTree extends JTree{
 			//A teljes fastruktura modell-je			
 			totalTreeModel = (DefaultTreeModel)PageBaseTree.this.getModel();
 
-			//A kivalasztott NODE			
-			selectedNode = (DefaultMutableTreeNode)PageBaseTree.this.getLastSelectedPathComponent();
+//			//A kivalasztott NODE			
+//			selectedNode = (DefaultMutableTreeNode)PageBaseTree.this.getLastSelectedPathComponent();
 
 			//A kivalasztott node-ig vezeto PATH
 			selectedPath = PageBaseTree.this.getSelectionPath();	
@@ -257,13 +295,18 @@ public class PageBaseTree extends JTree{
 							
 							if( selectedNode instanceof PageBaseDataModelNode ){
 							
-								EditPurePagePanel editPurePagePanel = new EditPurePagePanel( (PageBaseDataModelNode)selectedNode );
-								guiFrame.showEditorPanel( editPurePagePanel);
-								
+								PageBaseNodePanel pageBaseNodePanel = new PageBaseNodePanel( PageBaseTree.this, (PageBaseDataModelNode)selectedNode, DataPanel.Mode.MODIFY );								
+								guiFrame.showEditorPanel( pageBaseNodePanel);								
 								
 							}else if( selectedNode instanceof PageBaseDataModelPage ){
 								
+								PageBasePagePanel pageBasePagePanel = new PageBasePagePanel( PageBaseTree.this, (PageBaseDataModelPage)selectedNode, DataPanel.Mode.MODIFY );								
+								guiFrame.showEditorPanel( pageBasePagePanel);		
+								
 							}else if( selectedNode instanceof PageBaseDataModelElement ){
+
+								PageBaseElementPanel pageBaseElementPanel = new PageBaseElementPanel( PageBaseTree.this, (PageBaseDataModelElement)selectedNode, DataPanel.Mode.MODIFY );								
+								guiFrame.showEditorPanel( pageBaseElementPanel);		
 								
 							}
 							//Torolni kell a fastrukturabol az eredeti sort

@@ -1,7 +1,5 @@
 package hu.akoel.grawit.tree.node;
 
-import java.util.Enumeration;
-
 import hu.akoel.grawit.elements.ElementBase;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -24,7 +22,7 @@ public class PageBaseDataModelElement  extends DefaultMutableTreeNode implements
 		return elementBase.getName();
 	}
 	
-	public ElementBase getPageBase(){
+	public ElementBase getElementBase(){
 		return elementBase;
 	}
 
