@@ -11,7 +11,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -20,8 +21,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.xml.transform.ErrorListener;
 
 public abstract class DataPanel extends JPanel{
 
@@ -29,7 +30,8 @@ public abstract class DataPanel extends JPanel{
 
 	public static enum Mode{
 		SHOW,
-		MODIFY
+		MODIFY,
+		CAPTURE
 	}
 	
 	private final static int POS_NULL = 0;
@@ -96,7 +98,7 @@ public abstract class DataPanel extends JPanel{
 				Iterator<Entry<Component, Component>> itr = statusIconList.entrySet().iterator();
 				while (itr.hasNext()) {
 				    Entry<Component, Component> entry = itr.next();
-				    Component key = entry.getKey();
+				    //Component key = entry.getKey();
 				    JLabel statusLabel = (JLabel)entry.getValue();
 				    
 				    //dataSection.remove( errorIcon );
@@ -121,6 +123,12 @@ public abstract class DataPanel extends JPanel{
 		
 	}
 	
+	/**
+	 * Hozza ad egy cim-adat parost az oldalhoz
+	 * 
+	 * @param titleComponent
+	 * @param valueComponent
+	 */
 	public void add( Component titleComponent, Component valueComponent ){
 		
 		//Ha csak megjelenitesrol van szo, akkor
@@ -155,18 +163,17 @@ public abstract class DataPanel extends JPanel{
 		c.weightx = 1;
 		dataSection.add( valueComponent, c );
 
-		//Error icon	
+		//Status icon	
 		c.gridx = POS_STATISICON;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.NONE;
 		c.weightx = 0;
 		
-		//ImageIcon okIcon = CommonOperations.createImageIcon("status-ok.png");		
-		JLabel okIconLabel = new JLabel();		
-		//okIconLabel.setIcon( okIcon );
-		dataSection.add( okIconLabel, c );
-
-		statusIconList.put( valueComponent, okIconLabel );
+		//Nem adok hozza ikont, tehat alapesetben nincs hibajelzes
+		JLabel statusIconLabel = new JLabel();		
+		dataSection.add( statusIconLabel, c );
+		statusIconLabel.addMouseListener( new StatusClickListener(statusIconLabel));
+		statusIconList.put( valueComponent, statusIconLabel );
 		
 		gridY++;
 		
@@ -237,4 +244,36 @@ public abstract class DataPanel extends JPanel{
 	
 	abstract public void save();
 
+	class StatusClickListener implements MouseListener{
+		private JLabel statusLabel;
+		
+		public StatusClickListener( JLabel statusLabel ){
+			this.statusLabel = statusLabel;
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			String tooltipText = statusLabel.getToolTipText();
+			
+			//Ha van tooltip
+			if( null != tooltipText && tooltipText.length() != 0 ){
+				
+				//Akkor megjeleniti a hibauzenetet egy ablakban
+				JOptionPane.showMessageDialog(null, tooltipText, CommonOperations.getTranslation( "section.errormessage.windowtitle.error" ), JOptionPane.ERROR_MESSAGE);
+
+			}
+		}
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+	}
 }

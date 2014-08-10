@@ -59,12 +59,7 @@ public class Grawet {
 		// Window
 		//		
 		GUIFrame frame = new GUIFrame( title + " " + version, frameWidth, frameHeight );
-		
-
-		
-        
-        
-        
+       
        
 /*		
 		//String url = "http://appltest01.statlogics.local:8090/RFBANK_TEST_Logic/";

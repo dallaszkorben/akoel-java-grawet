@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui;
 
 import java.awt.Component;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -56,22 +57,29 @@ public class PageBaseNodePanel extends DataPanel{
 		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
-		//
+		//		
 		
-		//
 		if( fieldName.getText().length() == 0 ){
 			
 			errorList.put( fieldName, "Üres a név mező" );
 		
 		}else{
 
+			//Megnezi, hogy a szulo node-jaban van-e masik azonos nevu elem
 			TreeNode parentNode = selectedNode.getParent();
 			int childrenCount = parentNode.getChildCount();
 			for( int i = 0; i < childrenCount; i++ ){
 				TreeNode childrenNode = parentNode.getChildAt( i );
 				if( childrenNode instanceof PageBaseDataModelNode ){
 					if( ((PageBaseDataModelNode) childrenNode).getName().equals( fieldName.getText() ) ){
-						errorList.put( fieldName, "Van már ilyen nevü elem" );
+						errorList.put( 
+								fieldName, 
+								MessageFormat.format( 
+										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
+										fieldName.getText(), 
+										CommonOperations.getTranslation("tree.node") 
+								) 
+						);
 						break;
 					}
 				}
