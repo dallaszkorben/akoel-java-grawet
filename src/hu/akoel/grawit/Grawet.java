@@ -12,6 +12,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import hu.akoel.grawit.CommonOperations.Browser;
 import hu.akoel.grawit.elements.ElementBase;
 import hu.akoel.grawit.elements.ParameterizedElement;
+import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.operations.ButtonOperation;
 import hu.akoel.grawit.operations.FieldOperation;
 import hu.akoel.grawit.pages.ClosePage;
@@ -30,6 +31,9 @@ import org.openqa.selenium.WebDriver;
 public class Grawet {
 	private static final String title = "Grawit";
 	private static final String version = "1.0.0";
+	
+	private static int frameWidth = 650;
+	private static int frameHeight = 350;
 	
 	WebDriver driver;
 
@@ -54,7 +58,7 @@ public class Grawet {
 		//
 		// Window
 		//		
-		GUIFrame frame = new GUIFrame( title + " " + version );
+		GUIFrame frame = new GUIFrame( title + " " + version, frameWidth, frameHeight );
 		
 
 		

@@ -1,9 +1,5 @@
 package hu.akoel.grawit.tree.node;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Enumeration;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.w3c.dom.Attr;
@@ -28,6 +24,14 @@ public class PageBaseDataModelNode extends DefaultMutableTreeNode implements Dat
 	
 	public String getDetails(){
 		return details;
+	}
+	
+	public void setDetails( String details ){
+		this.details = details;
+	}
+	
+	public void setName( String name ){
+		this.name = name;
 	}
 	
 	public String toString(){

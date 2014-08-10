@@ -1,4 +1,4 @@
-package hu.akoel.grawit;
+package hu.akoel.grawit.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
+import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.IdentificationType;
+import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.elements.ElementBase;
 import hu.akoel.grawit.pages.PageBase;
 import hu.akoel.grawit.tree.PageBaseTree;
@@ -56,8 +59,6 @@ public class GUIFrame extends JFrame{
 	
 	private String appNameAndVersion;
 	
-	private static int frameWidth = 600;
-	private static int frameHeight = 300;
 	private static int treePanelStartWidth = 200;
 	
 	//Ki/be kapcsolhato menuelemeek
@@ -82,7 +83,7 @@ public class GUIFrame extends JFrame{
 	private EditPurePageActionListener editPurePageActionListener;
 	private EditParameterizedPageActionListener editParameterizedPageActionListener;
     
-	public GUIFrame( String appNameAndVersion ){
+	public GUIFrame( String appNameAndVersion, int frameWidth, int frameHeight ){
 		super( appNameAndVersion );
 		
 		this.appNameAndVersion = appNameAndVersion;
@@ -214,7 +215,8 @@ public class GUIFrame extends JFrame{
         //
         //--------
         
-        this.setLayout( new BorderLayout() );
+        
+        this.setLayout( new BorderLayout(0,0) );
 
         //Panelek elhelyezese
         this.add( new StatusPanel(), BorderLayout.SOUTH);        
@@ -248,14 +250,15 @@ public class GUIFrame extends JFrame{
 		treePanel.hide();
 	}
 	
-	public void showEditorPanel( JPanel panel ){
+	public void showEditorPanel( DataPanel panel ){
+		editorPanel.hide();
 		editorPanel.show( panel );
 	}
 	
-	public void hideEditorPanel(){
+/*	public void hideEditorPanel(){
 		editorPanel.hide();
 	}
-
+*/
 	class SaveActionListener implements ActionListener{
 
 		@Override
@@ -375,7 +378,7 @@ public class GUIFrame extends JFrame{
 			editPurePageMenuItem.setEnabled( false );
 			editTestCaseMenuItem.setEnabled( false );
 
-//tree toltes			
+//TODO tree toltes			
 			// TODO Be kell majd toltenem fajlbol az adatokat
 			// Most csak direktben beirok valamit
 			// Tulajdonkeppen a pageBaseDataModelRoot-ot toltom fel
@@ -387,7 +390,7 @@ public class GUIFrame extends JFrame{
 			pageBaseDataModelRoot.add( posNode );
 
 
-			PageBase firstPageBase = new PageBase( "Google kereso oldal");
+			PageBase firstPageBase = new PageBase( "Google kereso oldal", "Ez az elso oldal");
 			ElementBase searchField = new ElementBase("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
 			firstPageBase.addElement(searchField);
 			ElementBase searchButton = new ElementBase("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
@@ -506,21 +509,24 @@ public class GUIFrame extends JFrame{
 		private JScrollPane panelToView = null;
 		
 		public EditorPanel(){
-			this.setLayout( new BorderLayout());
-			this.setBackground( Color.white);		
+			this.setLayout( new BorderLayout(0,0));
+			this.setBackground( Color.red);		
 		}
 
-		public void show( JPanel panel ){
+		public void show( DataPanel panel ){
 
-			//Ha volt valamilyen mas Tree az ablakban akkor azt eltavolitom
+			//Ha volt valamilyen mas EditorPanel az ablakban akkor azt eltavolitom
 			if( null != panelToView ){
 				this.remove( panelToView );
 			}
 			
-			//Becsomagolom a Tree-t hogy scroll-ozhato legyen
+			//Becsomagolom az EditorPanel-t hogy scroll-ozhato legyen
 			panelToView = new JScrollPane( (Component)panel );		
 				
-			//Kiteszem a Treet az ablakba
+			//Valamiert generalodik egy boder, amit most el kell tuntetnem
+			panelToView.setBorder(BorderFactory.createEmptyBorder());
+			
+			//Kiteszem az ablakba
 			this.add( panelToView, BorderLayout.CENTER );
 			
 			//Ujrarajzoltatom

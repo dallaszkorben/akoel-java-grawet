@@ -6,14 +6,16 @@ import java.util.Collections;
 import hu.akoel.grawit.elements.ElementBase;
 
 public class PageBase {
-	private String name ;	
+	private String name ;
+	private String details;
 //	private String url;
 //	private String frame;
 	private ArrayList<ElementBase> elementList = new ArrayList<>();
 	private ArrayList<BasePageChangeListener> changeListenerList = new ArrayList<>();
 		
-	public PageBase( String name ){
+	public PageBase( String name, String details ){
 		this.name = name;
+		this.details = details;
 		//common( name, null );
 	}
 	
@@ -34,11 +36,23 @@ public class PageBase {
 		return name;
 	}
 	
+	public String getDetails(){
+		return details;
+	}
+	
 //	public String getURL(){
 //		return url;		
 //	}
 	
-/*	public String getFrame(){
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	/*	public String getFrame(){
 		return frame;
 	}
 */	
