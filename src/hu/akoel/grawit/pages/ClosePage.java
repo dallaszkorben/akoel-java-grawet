@@ -1,8 +1,8 @@
 package hu.akoel.grawit.pages;
 
-import hu.akoel.grawit.exceptions.PageException;
-
 import org.openqa.selenium.WebDriver;
+
+import hu.akoel.grawit.exceptions.PageException;
 
 public class ClosePage implements ExecutablePageInterface{
 	private String name;

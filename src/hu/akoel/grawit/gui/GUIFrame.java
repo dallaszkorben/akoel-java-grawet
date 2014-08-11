@@ -14,14 +14,12 @@ import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.elements.ElementBase;
 import hu.akoel.grawit.pages.PageBase;
 import hu.akoel.grawit.tree.PageBaseTree;
-import hu.akoel.grawit.tree.node.PageBaseDataModelElement;
-import hu.akoel.grawit.tree.node.PageBaseDataModelNode;
-import hu.akoel.grawit.tree.node.PageBaseDataModelPage;
-import hu.akoel.grawit.tree.node.PageBaseDataModelRoot;
+import hu.akoel.grawit.tree.datamodel.PageBaseDataModelElement;
+import hu.akoel.grawit.tree.datamodel.PageBaseDataModelNode;
+import hu.akoel.grawit.tree.datamodel.PageBaseDataModelPage;
+import hu.akoel.grawit.tree.datamodel.PageBaseDataModelRoot;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -37,20 +35,15 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultTreeModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.openqa.selenium.By;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -100,7 +93,7 @@ public class GUIFrame extends JFrame{
         	
         	// Ha esetleg Nimbus nincs implementalva az adott verzion
         	//UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-        	UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+        	//UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
         	//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         	//UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         	
@@ -450,6 +443,8 @@ public class GUIFrame extends JFrame{
 	
 	/**
 	 * 
+	 * A TREE megjelenitesenek helye
+	 * 
 	 * @author afoldvarszky
 	 *
 	 */
@@ -480,7 +475,10 @@ public class GUIFrame extends JFrame{
 			
 			//Ujrarajzoltatom
 			this.revalidate();
-
+			
+			//Ures szerkesztoi ablak
+			EmptyPanel emptyPanel = new EmptyPanel();								
+			showEditorPanel( emptyPanel);		
 		}
 		
 		public void hide(){

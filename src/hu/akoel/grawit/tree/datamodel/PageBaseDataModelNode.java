@@ -1,4 +1,4 @@
-package hu.akoel.grawit.tree.node;
+package hu.akoel.grawit.tree.datamodel;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

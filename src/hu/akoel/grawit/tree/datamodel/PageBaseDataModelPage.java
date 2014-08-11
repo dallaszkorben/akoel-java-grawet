@@ -1,4 +1,4 @@
-package hu.akoel.grawit.tree.node;
+package hu.akoel.grawit.tree.datamodel;
 
 import hu.akoel.grawit.pages.PageBase;
 
