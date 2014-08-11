@@ -6,8 +6,8 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.tree.PageBaseTree;
-import hu.akoel.grawit.tree.datamodel.PageBaseDataModelNode;
-import hu.akoel.grawit.tree.datamodel.PageBaseDataModelRoot;
+import hu.akoel.grawit.tree.datamodel.PageBaseNodeDataModel;
+import hu.akoel.grawit.tree.datamodel.PageBaseRootDataModel;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -21,7 +21,7 @@ public class PageBaseNodePanel extends DataPanel{
 	private static final long serialVersionUID = 165396704460481021L;
 	
 	private PageBaseTree tree;
-	private PageBaseDataModelNode selectedNode;
+	private PageBaseNodeDataModel selectedNode;
 	private  Mode mode;
 	
 	private JLabel labelName;
@@ -32,12 +32,12 @@ public class PageBaseNodePanel extends DataPanel{
 		
 	}
 	
-	public PageBaseNodePanel( PageBaseTree tree, PageBaseDataModelRoot selectedNode, Mode mode ){
+	public PageBaseNodePanel( PageBaseTree tree, PageBaseRootDataModel selectedNode, Mode mode ){
 		super( mode, CommonOperations.getTranslation("tree.node") );
 		
 	}
 	
-	public PageBaseNodePanel( PageBaseTree tree, PageBaseDataModelNode selectedNode, Mode mode ){
+	public PageBaseNodePanel( PageBaseTree tree, PageBaseNodeDataModel selectedNode, Mode mode ){
 		//super( mode, selectedNode.getName() + " :: " + CommonOperations.getTranslation("tree.node"));
 		super( mode, CommonOperations.getTranslation("tree.node") );
 
@@ -92,20 +92,20 @@ public class PageBaseNodePanel extends DataPanel{
 			);
 		}else{
 
-			//Megnezi, hogy a szulo node-jaban van-e masik azonos nevu elem
-			TreeNode parentNode = selectedNode.getParent();
-			int childrenCount = parentNode.getChildCount();
-			for( int i = 0; i < childrenCount; i++ ){
-				TreeNode childrenNode = parentNode.getChildAt( i );
+			//Megnezi, hogy a node-ban van-e masik azonos nevu elem
+			//TreeNode parentNode = selectedNode.getParent();
+			int nodeCount = selectedNode.getChildCount();
+			for( int i = 0; i < nodeCount; i++ ){
+				TreeNode node = selectedNode.getChildAt( i );
 				
 				//Ha Node-rol van szo (nyilvan az, nem lehet mas)
-				if( childrenNode instanceof PageBaseDataModelNode ){
+				if( node instanceof PageBaseNodeDataModel ){
 					
 					//Ha azonos a nev
-					if( ((PageBaseDataModelNode) childrenNode).getName().equals( fieldName.getText() ) ){
+					if( ((PageBaseNodeDataModel) node).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
-						if( mode.equals( Mode.CAPTURE ) || ( mode.equals( Mode.MODIFY ) && !childrenNode.equals(selectedNode) ) ){
+						if( mode.equals( Mode.CAPTURE ) || ( mode.equals( Mode.MODIFY ) && !node.equals(selectedNode) ) ){
 
 							//Akkor hiba van
 							errorList.put( 
@@ -142,12 +142,11 @@ public class PageBaseNodePanel extends DataPanel{
 			//Uj rogzites eseten
 			}else if( mode.equals( Mode.CAPTURE ) ){
 				
-				DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
-				int selectedNodeIndex = parentNode.getIndex( selectedNode );
-				PageBaseDataModelNode newPageBaseNode = new PageBaseDataModelNode( fieldName.getText(), fieldDetails.getText() );
-				//parentNode.add( newPageBaseNode );
-				parentNode.insert( newPageBaseNode, selectedNodeIndex);
-				
+				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
+				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
+				PageBaseNodeDataModel newPageBaseNode = new PageBaseNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				//parentNode.insert( newPageBaseNode, selectedNodeIndex);
+				selectedNode.add( newPageBaseNode );
 			}
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)

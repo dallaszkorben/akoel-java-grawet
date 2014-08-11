@@ -6,13 +6,13 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBaseDataModelNode extends DefaultMutableTreeNode implements DataModelInterface{
+public class PageBaseNodeDataModel extends DefaultMutableTreeNode implements DataModelInterface{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	private String name;
 	private String details;
 	
-	public PageBaseDataModelNode( String name, String details ){
+	public PageBaseNodeDataModel( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;
