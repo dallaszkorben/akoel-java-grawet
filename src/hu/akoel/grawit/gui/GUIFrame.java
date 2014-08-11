@@ -14,10 +14,10 @@ import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.elements.ElementBase;
 import hu.akoel.grawit.pages.PageBase;
 import hu.akoel.grawit.tree.PageBaseTree;
-import hu.akoel.grawit.tree.datamodel.PageBaseDataModelElement;
-import hu.akoel.grawit.tree.datamodel.PageBaseDataModelNode;
-import hu.akoel.grawit.tree.datamodel.PageBaseDataModelPage;
-import hu.akoel.grawit.tree.datamodel.PageBaseDataModelRoot;
+import hu.akoel.grawit.tree.datamodel.PageBaseElementDataModel;
+import hu.akoel.grawit.tree.datamodel.PageBaseNodeDataModel;
+import hu.akoel.grawit.tree.datamodel.PageBasePageDataModel;
+import hu.akoel.grawit.tree.datamodel.PageBaseRootDataModel;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -64,8 +64,8 @@ public class GUIFrame extends JFrame{
 	private EditorPanel editorPanel;
 	private AssistantPanel assistantPanel;
 	
-	private PageBaseDataModelRoot pageBaseDataModelRoot = null;
-	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseDataModelRoot);
+	private PageBaseRootDataModel pageBaseRootDataModel = null;
+	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseRootDataModel);
 	
 	private File usedDirectory = null;
 	
@@ -273,7 +273,7 @@ public class GUIFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if( null == pageBaseDataModelRoot ){
+			if( null == pageBaseRootDataModel ){
 				return;
 			}
 			
@@ -286,7 +286,7 @@ public class GUIFrame extends JFrame{
 				Element rootElement = doc.createElement("grawit");
 				doc.appendChild(rootElement);
 
-				Element pageBaseElement = pageBaseDataModelRoot.getXMLElement(doc);	
+				Element pageBaseElement = pageBaseRootDataModel.getXMLElement(doc);	
 				rootElement.appendChild( pageBaseElement );
 				
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -374,13 +374,13 @@ public class GUIFrame extends JFrame{
 //TODO tree toltes			
 			// TODO Be kell majd toltenem fajlbol az adatokat
 			// Most csak direktben beirok valamit
-			// Tulajdonkeppen a pageBaseDataModelRoot-ot toltom fel
+			// Tulajdonkeppen a pageBaseRootDataModel-ot toltom fel
 			// Ez tartalmazza az adatmodellt
-			pageBaseDataModelRoot = new PageBaseDataModelRoot(); //Torli
-			//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseDataModelRoot);
+			pageBaseRootDataModel = new PageBaseRootDataModel(); //Torli
+			//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseRootDataModel);
 
-			PageBaseDataModelNode posNode = new PageBaseDataModelNode("POS", "POS applikaciok tesztelese");
-			pageBaseDataModelRoot.add( posNode );
+			PageBaseNodeDataModel posNode = new PageBaseNodeDataModel("POS", "POS applikaciok tesztelese");
+			pageBaseRootDataModel.add( posNode );
 
 
 			PageBase firstPageBase = new PageBase( "Google kereso oldal", "Ez az elso oldal");
@@ -389,18 +389,18 @@ public class GUIFrame extends JFrame{
 			ElementBase searchButton = new ElementBase("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
 			firstPageBase.addElement(searchButton);
 
-			PageBaseDataModelPage firstPageNode = new PageBaseDataModelPage(firstPageBase);
+			PageBasePageDataModel firstPageNode = new PageBasePageDataModel(firstPageBase);
 			posNode.add( firstPageNode );
 
-			PageBaseDataModelElement searchFieldNode = new PageBaseDataModelElement( searchField );
+			PageBaseElementDataModel searchFieldNode = new PageBaseElementDataModel( searchField );
 			firstPageNode.add( searchFieldNode );
 
-			PageBaseDataModelElement searchButtonNode = new PageBaseDataModelElement( searchButton );
+			PageBaseElementDataModel searchButtonNode = new PageBaseElementDataModel( searchButton );
 			firstPageNode.add(searchButtonNode);
 
 
-			pageBaseDataModelRoot.add( new PageBaseDataModelNode("REV", "REV applikaciok tesztelese" ) );
-			pageBaseDataModelRoot.add( new PageBaseDataModelNode("DS", "DS applikaciok tesztelese" ) );
+			pageBaseRootDataModel.add( new PageBaseNodeDataModel("REV", "REV applikaciok tesztelese" ) );
+			pageBaseRootDataModel.add( new PageBaseNodeDataModel("DS", "DS applikaciok tesztelese" ) );
 			//
 			
 			//Bakapcsolom a PAGEBASE szerkesztesi menut
@@ -422,7 +422,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			PageBaseTree tree = new PageBaseTree( GUIFrame.this, pageBaseDataModelRoot );
+			PageBaseTree tree = new PageBaseTree( GUIFrame.this, pageBaseRootDataModel );
 			
 			//Es megjeleniti
 			treePanel.show( tree );

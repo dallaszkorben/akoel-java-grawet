@@ -8,12 +8,12 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBaseDataModelPage  extends DefaultMutableTreeNode implements DataModelInterface{
+public class PageBasePageDataModel  extends DefaultMutableTreeNode implements DataModelInterface{
 	private PageBase pageBase;
 
 	private static final long serialVersionUID = 8871077064641984017L;
 	
-	public PageBaseDataModelPage( PageBase pageBase ){
+	public PageBasePageDataModel( PageBase pageBase ){
 		super();
 		this.pageBase = pageBase;
 	}

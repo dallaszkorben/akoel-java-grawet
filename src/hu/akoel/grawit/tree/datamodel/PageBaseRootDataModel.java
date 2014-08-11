@@ -7,11 +7,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBaseDataModelRoot extends DefaultMutableTreeNode implements DataModelInterface{
+public class PageBaseRootDataModel extends DefaultMutableTreeNode implements DataModelInterface{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	public PageBaseDataModelRoot(){
+	public PageBaseRootDataModel(){
 		super( "BasePage" );
 	}
 	
