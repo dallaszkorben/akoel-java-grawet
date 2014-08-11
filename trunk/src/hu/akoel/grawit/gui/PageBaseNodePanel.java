@@ -2,17 +2,18 @@ package hu.akoel.grawit.gui;
 
 import java.awt.Component;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.tree.PageBaseTree;
-import hu.akoel.grawit.tree.node.PageBaseDataModelNode;
+import hu.akoel.grawit.tree.datamodel.PageBaseDataModelNode;
+import hu.akoel.grawit.tree.datamodel.PageBaseDataModelRoot;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 public class PageBaseNodePanel extends DataPanel{
@@ -21,24 +22,46 @@ public class PageBaseNodePanel extends DataPanel{
 	
 	private PageBaseTree tree;
 	private PageBaseDataModelNode selectedNode;
+	private  Mode mode;
 	
+	private JLabel labelName;
 	private JTextField fieldName;
 	private JTextArea fieldDetails;
 
+	private void common(){
+		
+	}
+	
+	public PageBaseNodePanel( PageBaseTree tree, PageBaseDataModelRoot selectedNode, Mode mode ){
+		super( mode, CommonOperations.getTranslation("tree.node") );
+		
+	}
+	
 	public PageBaseNodePanel( PageBaseTree tree, PageBaseDataModelNode selectedNode, Mode mode ){
 		//super( mode, selectedNode.getName() + " :: " + CommonOperations.getTranslation("tree.node"));
 		super( mode, CommonOperations.getTranslation("tree.node") );
 
 		this.tree = tree;
 		this.selectedNode = selectedNode;
-				
+		this.mode = mode;
+		
+//TODO lehetne ezt az egeszet automatizalni valahogy. meg az ellenorzest is				
+		
 		//Name
-		JLabel labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
-		fieldName = new JTextField( selectedNode.getName());
+		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
+		if( mode.equals( Mode.CAPTURE ) ){
+			fieldName = new JTextField( "" );
+		}else{
+			fieldName = new JTextField( selectedNode.getName());
+		}
 		
 		//Details
 		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("section.title.details") + ": ");
-		fieldDetails = new JTextArea( selectedNode.getDetails(), 5, 15);
+		if( mode.equals( Mode.CAPTURE ) ){
+			fieldDetails = new JTextArea( "", 5, 15);
+		}else{
+			fieldDetails = new JTextArea( selectedNode.getDetails(), 5, 15);
+		}
 		JScrollPane scrollDetails = new JScrollPane(fieldDetails);
 
 		this.add( labelName, fieldName );
@@ -60,9 +83,13 @@ public class PageBaseNodePanel extends DataPanel{
 		//		
 		
 		if( fieldName.getText().length() == 0 ){
-			
-			errorList.put( fieldName, "Üres a név mező" );
-		
+			errorList.put( 
+					fieldName,
+					MessageFormat.format(
+							CommonOperations.getTranslation("section.errormessage.emptyfield"), 
+							"'"+labelName.getText()+"'"
+					)
+			);
 		}else{
 
 			//Megnezi, hogy a szulo node-jaban van-e masik azonos nevu elem
@@ -70,17 +97,27 @@ public class PageBaseNodePanel extends DataPanel{
 			int childrenCount = parentNode.getChildCount();
 			for( int i = 0; i < childrenCount; i++ ){
 				TreeNode childrenNode = parentNode.getChildAt( i );
+				
+				//Ha Node-rol van szo (nyilvan az, nem lehet mas)
 				if( childrenNode instanceof PageBaseDataModelNode ){
+					
+					//Ha azonos a nev
 					if( ((PageBaseDataModelNode) childrenNode).getName().equals( fieldName.getText() ) ){
-						errorList.put( 
+						
+						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
+						if( mode.equals( Mode.CAPTURE ) || ( mode.equals( Mode.MODIFY ) && !childrenNode.equals(selectedNode) ) ){
+
+							//Akkor hiba van
+							errorList.put( 
 								fieldName, 
 								MessageFormat.format( 
 										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
 										fieldName.getText(), 
 										CommonOperations.getTranslation("tree.node") 
 								) 
-						);
-						break;
+							);	
+							break;
+						}
 					}
 				}
 			}
@@ -94,15 +131,27 @@ public class PageBaseNodePanel extends DataPanel{
 		
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
-		
-			//Modositja a valtozok erteket
-			selectedNode.setName( fieldName.getText() );
-			selectedNode.setDetails( fieldDetails.getText() );
+
+			//Modositas eseten
+			if( mode.equals(Mode.MODIFY ) ){
+
+				//Modositja a valtozok erteket
+				selectedNode.setName( fieldName.getText() );
+				selectedNode.setDetails( fieldDetails.getText() );
+				
+			//Uj rogzites eseten
+			}else if( mode.equals( Mode.CAPTURE ) ){
+				
+				DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
+				int selectedNodeIndex = parentNode.getIndex( selectedNode );
+				PageBaseDataModelNode newPageBaseNode = new PageBaseDataModelNode( fieldName.getText(), fieldDetails.getText() );
+				//parentNode.add( newPageBaseNode );
+				parentNode.insert( newPageBaseNode, selectedNodeIndex);
+				
+			}
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.refresh();
-		}
-
-		
+			tree.changed();
+		}		
 	}
 }

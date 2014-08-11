@@ -5,7 +5,7 @@ public class EmptyPanel extends DataPanel{
 	private static final long serialVersionUID = 165396704460481021L;
 
 	public EmptyPanel( ){
-		super( Mode.SHOW, "EMPTY" );
+		super( Mode.SHOW, "" );
 		
 		//TODO a feher fejlecet el kell torolni
 	}

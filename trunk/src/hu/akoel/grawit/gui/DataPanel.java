@@ -47,7 +47,8 @@ public abstract class DataPanel extends JPanel{
 	private JLabel filler = new JLabel();
 	private Mode mode;
 	private JButton saveButton;
-//	private JLabel buttonFiller;
+	private JButton captureButton;
+
 	
 	private LinkedHashMap<Component, Component> statusIconList = new LinkedHashMap<>();
 	
@@ -69,6 +70,8 @@ public abstract class DataPanel extends JPanel{
 			title = new JLabel( element );
 		}else if( mode.equals( Mode.SHOW )){
 			//title = new JLabel( CommonOperations.getTranslation( "section.title.modify" ) + " - " + element );
+			title = new JLabel( element );
+		}else if( mode.equals( Mode.CAPTURE )){
 			title = new JLabel( element );
 		}
 		titleSection.add( title );
@@ -143,7 +146,6 @@ public abstract class DataPanel extends JPanel{
 		
 		//Eltavolitom az elozo ADD funkcio utan az elhelyezett SAVE gombot (ha volt)
 		dataSection.remove( saveButton );
-//		dataSection.remove( buttonFiller );
 		
 		//Title elem
 		c.insets = new Insets(0,0,0,0);
@@ -178,7 +180,7 @@ public abstract class DataPanel extends JPanel{
 		gridY++;
 		
 		//Ha modositasra van nyitva az ablak
-		if( mode.equals( Mode.MODIFY ) ){
+		if( mode.equals( Mode.MODIFY ) || mode.equals( Mode.CAPTURE )){
 			//Save gomb 
 			c.insets = new Insets(20,0,0,0);
 			c.gridy = gridY;

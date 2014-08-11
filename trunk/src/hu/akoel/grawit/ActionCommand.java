@@ -4,5 +4,6 @@ public enum ActionCommand {
 	UP,
 	DOWN,
 	EDIT,
+	CAPTURE,
 	DELETE
 }

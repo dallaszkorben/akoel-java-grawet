@@ -28,7 +28,7 @@ import hu.akoel.grawit.testcase.TestCase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class Grawet {
+public class Grawit {
 	private static final String title = "Grawit";
 	private static final String version = "1.0.0";
 	
@@ -41,13 +41,13 @@ public class Grawet {
 		EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-            	new Grawet();
+            	new Grawit();
             }
         });
 		
 	}
 
-	public Grawet(){
+	public Grawit(){
 		
 		//
 		// Hasznalando nyelv beallitasa
