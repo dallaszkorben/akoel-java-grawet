@@ -5,17 +5,16 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.pages.PageBase;
-import hu.akoel.grawit.tree.PageBaseTree;
-import hu.akoel.grawit.tree.datamodel.PageBaseNodeDataModel;
-import hu.akoel.grawit.tree.datamodel.PageBasePageDataModel;
+import hu.akoel.grawit.gui.tree.PageBaseTree;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
+import hu.akoel.grawit.i.pages.PageBase;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 public class PageBasePagePanel extends DataPanel{
 	
@@ -152,7 +151,7 @@ public class PageBasePagePanel extends DataPanel{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 			
-			TreePath pathToOpen = null;
+			//TreePath pathToOpen = null;
 			
 			//Uj rogzites eseten
 			if( null == mode ){
@@ -165,7 +164,7 @@ public class PageBasePagePanel extends DataPanel{
 				nodeForCapture.add( newPageBasePage );
 
 				//Ebbe a nodba kell majd visszaallni
-				pathToOpen = new TreePath(newPageBasePage.getPath());
+				//pathToOpen = new TreePath(newPageBasePage.getPath());
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -176,11 +175,11 @@ public class PageBasePagePanel extends DataPanel{
 				pageBase.setDetails( fieldDetails.getText() );
 			
 				//Ebbe a nodba kell majd visszaallni
-				pathToOpen = new TreePath(nodeForModify.getPath());
+				//pathToOpen = new TreePath(nodeForModify.getPath());
 			}			
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.changed( pathToOpen );
+			tree.changed();
 		}
 	}
 }

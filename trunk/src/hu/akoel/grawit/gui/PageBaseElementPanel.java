@@ -8,21 +8,16 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.elements.ElementBase;
-import hu.akoel.grawit.gui.DataPanel.EditMode;
-import hu.akoel.grawit.pages.PageBase;
-import hu.akoel.grawit.tree.PageBaseTree;
-import hu.akoel.grawit.tree.datamodel.PageBaseElementDataModel;
-import hu.akoel.grawit.tree.datamodel.PageBaseNodeDataModel;
-import hu.akoel.grawit.tree.datamodel.PageBasePageDataModel;
+import hu.akoel.grawit.gui.tree.PageBaseTree;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 public class PageBaseElementPanel extends DataPanel{
 	
@@ -242,7 +237,7 @@ public class PageBaseElementPanel extends DataPanel{
 				identificationType = IdentificationType.CSS;
 			}
 			
-			TreePath pathToOpen = null;
+			//TreePath pathToOpen = null;
 			
 			//Uj rogzites eseten
 			if( null == mode ){
@@ -256,7 +251,7 @@ public class PageBaseElementPanel extends DataPanel{
 				nodeForCapture.add( newPageBaseElement );
 				
 				//Ebbe a nodba kell majd visszaallni
-				pathToOpen = new TreePath(newPageBaseElement.getPath());
+				//pathToOpen = new TreePath(newPageBaseElement.getPath());
 			
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -269,12 +264,12 @@ public class PageBaseElementPanel extends DataPanel{
 				elementBase.setIdentificationType( identificationType );
 				
 				//Ebbe a nodba kell majd visszaallni
-				pathToOpen = new TreePath(nodeForModify.getPath());
+				//pathToOpen = new TreePath(nodeForModify.getPath());
 					
 			}
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.changed( pathToOpen );
+			tree.changed();
 		}
 		
 	}
