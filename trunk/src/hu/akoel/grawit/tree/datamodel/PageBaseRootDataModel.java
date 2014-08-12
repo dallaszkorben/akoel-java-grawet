@@ -1,32 +1,22 @@
 package hu.akoel.grawit.tree.datamodel;
 
-import java.util.Enumeration;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBaseRootDataModel extends DefaultMutableTreeNode implements DataModelInterface{
+public class PageBaseRootDataModel extends PageBaseNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
 	public PageBaseRootDataModel(){
-		super( "BasePage" );
+		super( "BasePage", "" );
 	}
 	
 	@Override
 	public Element getXMLElement(Document document) {
-//System.err.println("Root");
 		
 		//PageBaseElement
 		Element pageBaseElement = document.createElement("pagebase");
-			
-//		//RootElement
-//		Element rootElement = document.createElement("root");
-//		pageBaseElement.appendChild(rootElement);
-			
-		
+
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
 			

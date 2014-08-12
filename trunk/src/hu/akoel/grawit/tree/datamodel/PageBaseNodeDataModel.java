@@ -41,7 +41,7 @@ public class PageBaseNodeDataModel extends DefaultMutableTreeNode implements Dat
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
-//System.err.println(" Node");		
+		
 		//Node element
 		Element nodeElement = document.createElement("node");
 		attr = document.createAttribute("name");

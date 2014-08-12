@@ -8,7 +8,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.elements.ElementBase;
-import hu.akoel.grawit.gui.DataPanel.Mode;
+import hu.akoel.grawit.gui.DataPanel.EditMode;
 import hu.akoel.grawit.pages.PageBase;
 import hu.akoel.grawit.tree.PageBaseTree;
 import hu.akoel.grawit.tree.datamodel.PageBaseElementDataModel;
@@ -22,6 +22,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 public class PageBaseElementPanel extends DataPanel{
 	
@@ -30,7 +31,7 @@ public class PageBaseElementPanel extends DataPanel{
 	private PageBaseTree tree;
 	private PageBaseElementDataModel nodeForModify;
 	private PageBasePageDataModel nodeForCapture;
-	private Mode mode;
+	private EditMode mode;
 	
 	private JLabel labelName;
 	private JTextField fieldName;
@@ -42,11 +43,11 @@ public class PageBaseElementPanel extends DataPanel{
 	
 	//Insert
 	public PageBaseElementPanel( PageBaseTree tree, PageBasePageDataModel selectedNode ){
-		super( Mode.CAPTURE, CommonOperations.getTranslation("tree.elementbase") );
+		super( CommonOperations.getTranslation("tree.elementbase") );
 
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
-		this.mode = Mode.CAPTURE;
+		this.mode = null;
 
 		commonPre();
 		
@@ -68,7 +69,7 @@ public class PageBaseElementPanel extends DataPanel{
 	
 	
 	//Modositas vagy View
-	public PageBaseElementPanel( PageBaseTree tree, PageBaseElementDataModel selectedNode, Mode mode ){		
+	public PageBaseElementPanel( PageBaseTree tree, PageBaseElementDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.elementbase") );
 
 		this.tree = tree;
@@ -165,11 +166,11 @@ public class PageBaseElementPanel extends DataPanel{
 
 			TreeNode nodeForSearch = null;
 			
-			if( mode.equals(Mode.CAPTURE)){
+			if( null == mode ){
 				
 				nodeForSearch = nodeForCapture;
 				
-			}else if( mode.equals( Mode.MODIFY )){
+			}else if( mode.equals( EditMode.MODIFY )){
 				
 				nodeForSearch = nodeForModify.getParent();
 				
@@ -187,7 +188,7 @@ public class PageBaseElementPanel extends DataPanel{
 					if( ((PageBaseElementDataModel) levelNode).getElementBase().getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
-						if( mode.equals( Mode.CAPTURE ) || ( mode.equals( Mode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
+						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
 							
 							errorList.put( 
 								fieldName, 
@@ -241,8 +242,24 @@ public class PageBaseElementPanel extends DataPanel{
 				identificationType = IdentificationType.CSS;
 			}
 			
+			TreePath pathToOpen = null;
+			
+			//Uj rogzites eseten
+			if( null == mode ){
+				
+				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
+				//int selectedNodeIndex = parentNode.getIndex( selectedNode );				
+				ElementBase elementBase = new ElementBase( fieldName.getText(), fieldIdentifier.getText(), identificationType, variableSample  );				
+				PageBaseElementDataModel newPageBaseElement = new PageBaseElementDataModel( elementBase );
+				//parentNode.insert( newPageBaseElement, selectedNodeIndex);
+			
+				nodeForCapture.add( newPageBaseElement );
+				
+				//Ebbe a nodba kell majd visszaallni
+				pathToOpen = new TreePath(newPageBaseElement.getPath());
+			
 			//Modositas eseten
-			if( mode.equals(Mode.MODIFY ) ){
+			}else if( mode.equals(EditMode.MODIFY ) ){
 		
 				ElementBase elementBase = nodeForModify.getElementBase(); 
 				
@@ -250,21 +267,14 @@ public class PageBaseElementPanel extends DataPanel{
 				elementBase.setIdentifier( fieldIdentifier.getText() );				
 				elementBase.setVariableSample( variableSample );
 				elementBase.setIdentificationType( identificationType );
-			
-			//Uj rogzites eseten
-			}else if( mode.equals( Mode.CAPTURE ) ){
-					
-				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
-				//int selectedNodeIndex = parentNode.getIndex( selectedNode );				
-				ElementBase elementBase = new ElementBase( fieldName.getText(), fieldIdentifier.getText(), identificationType, variableSample  );				
-				PageBaseElementDataModel newBasePageElement = new PageBaseElementDataModel( elementBase );
-				//parentNode.insert( newPageBaseElement, selectedNodeIndex);
 				
-				nodeForCapture.add( newBasePageElement );
+				//Ebbe a nodba kell majd visszaallni
+				pathToOpen = new TreePath(nodeForModify.getPath());
 					
 			}
+			
 			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.changed();
+			tree.changed( pathToOpen );
 		}
 		
 	}

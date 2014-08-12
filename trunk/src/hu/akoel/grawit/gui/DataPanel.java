@@ -28,10 +28,9 @@ public abstract class DataPanel extends JPanel{
 
 	private static final long serialVersionUID = -6084357053425935174L;
 
-	public static enum Mode{
+	public static enum EditMode{
 		SHOW,
-		MODIFY,
-		CAPTURE
+		MODIFY
 	}
 	
 	private final static int POS_NULL = 0;
@@ -45,15 +44,26 @@ public abstract class DataPanel extends JPanel{
 	private GridBagConstraints c;
 	private int gridY = 0;
 	private JLabel filler = new JLabel();
-	private Mode mode;
+	private EditMode mode = null;
 	private JButton saveButton;
-	private JButton captureButton;
-
 	
 	private LinkedHashMap<Component, Component> statusIconList = new LinkedHashMap<>();
 	
-	public DataPanel( Mode mode, String element ){
+	public DataPanel( String element ){
+		this.mode = null;
+		
+		common( element );
+	}
+	
+	public DataPanel( EditMode mode, String element ){
 		this.mode = mode;
+		
+		common( element );
+		
+	}
+	
+	private void common(  String element ){
+		
 		this.setLayout( new BorderLayout() );
 		//this.setBackground(Color.cyan);
 		this.setBorder( BorderFactory.createLoweredBevelBorder());
@@ -65,14 +75,18 @@ public abstract class DataPanel extends JPanel{
 		titleSection.setBackground( Color.white );
 		this.add( titleSection, BorderLayout.NORTH );
 		JLabel title = null;
-		if( mode.equals( Mode.MODIFY)){
+		
+		//CAPTURE
+		if( null == mode ) {
+			title = new JLabel( element );
+		//MODIFY
+		}else if( mode.equals( EditMode.MODIFY)){
 			//title = new JLabel( CommonOperations.getTranslation( "section.title.modify" ) + " - " + element );
 			title = new JLabel( element );
-		}else if( mode.equals( Mode.SHOW )){
+		//SHOW
+		}else if( mode.equals( EditMode.SHOW )){
 			//title = new JLabel( CommonOperations.getTranslation( "section.title.modify" ) + " - " + element );
-			title = new JLabel( element );
-		}else if( mode.equals( Mode.CAPTURE )){
-			title = new JLabel( element );
+			title = new JLabel( element );		
 		}
 		titleSection.add( title );
 
@@ -135,7 +149,7 @@ public abstract class DataPanel extends JPanel{
 	public void add( Component titleComponent, Component valueComponent ){
 		
 		//Ha csak megjelenitesrol van szo, akkor
-		if( mode.equals( Mode.SHOW ) ){
+		if( null != mode && mode.equals( EditMode.SHOW ) ){
 			
 			//a megjeleno VALUE-k nem modosithatoak
 			valueComponent.setEnabled( false );
@@ -180,7 +194,7 @@ public abstract class DataPanel extends JPanel{
 		gridY++;
 		
 		//Ha modositasra van nyitva az ablak
-		if( mode.equals( Mode.MODIFY ) || mode.equals( Mode.CAPTURE )){
+		if( null == mode || mode.equals( EditMode.MODIFY )){
 			//Save gomb 
 			c.insets = new Insets(20,0,0,0);
 			c.gridy = gridY;
@@ -202,7 +216,7 @@ public abstract class DataPanel extends JPanel{
 		c.weighty = 1;		//Ezzel tol fel minden felette levot
 		dataSection.add( filler, c );
 		
-		if( mode.equals( Mode.MODIFY ) ){
+		if( null != mode && mode.equals( EditMode.MODIFY ) ){
 			
 			//Torolni kell a gomb miatt megnovelt pozicio mutatot
 			gridY--;
