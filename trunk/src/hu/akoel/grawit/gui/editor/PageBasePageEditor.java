@@ -1,53 +1,38 @@
-package hu.akoel.grawit.gui;
+package hu.akoel.grawit.gui.editor;
 
 import java.awt.Component;
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.gui.DataPanel.EditMode;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
+import hu.akoel.grawit.pages.PageBase;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
-public class PageBaseNodePanel extends DataPanel{
+public class PageBasePageEditor extends DataEditor{
 	
-	private static final long serialVersionUID = 165396704460481021L;
-	
-	private PageBaseTree tree;
-	private PageBaseNodeDataModel nodeForModify;
+	private static final long serialVersionUID = -9038879802467565947L;
+
+	private PageBaseTree tree; 
+	private PageBasePageDataModel nodeForModify;
 	private PageBaseNodeDataModel nodeForCapture;
-	private  EditMode mode;
+	private EditMode mode;
 	
 	private JLabel labelName;
 	private JTextField fieldName;
+	private JLabel labelDetails;
 	private JTextArea fieldDetails;
-
-	private void common(){
-		
-		//Name
-		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
-
-		//Details
-		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("section.title.details") + ": ");
-		JScrollPane scrollDetails = new JScrollPane(fieldDetails);
-
-		this.add( labelName, fieldName );
-		this.add( labelDetails, scrollDetails );
-
-		
-	}
 	
 	//Itt biztos beszuras van
-	public PageBaseNodePanel( PageBaseTree tree, PageBaseNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.node") );
+	public PageBasePageEditor( PageBaseTree tree, PageBaseNodeDataModel selectedNode ){
+		super( CommonOperations.getTranslation("tree.pagebase") );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -58,39 +43,51 @@ public class PageBaseNodePanel extends DataPanel{
 		
 		//Details
 		fieldDetails = new JTextArea( "", 5, 15);
-		
+
 		common();
 		
 	}
 	
-	//Itt modisitas van
-	public PageBaseNodePanel( PageBaseTree pageBaseTree, PageBaseNodeDataModel selectedNode, EditMode mode ){		
-		super( mode, CommonOperations.getTranslation("tree.node") );
+	//Itt lehet hogy modositas vagy megtekintes van
+	public PageBasePageEditor( PageBaseTree tree, PageBasePageDataModel selectedNode, EditMode mode ){
+		super( mode, CommonOperations.getTranslation("tree.pagebase") );
 
-		this.tree = pageBaseTree;
+		this.tree = tree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
+		PageBase pageBase = selectedNode.getPageBase();
 		
-		//Name
-		fieldName = new JTextField( selectedNode.getName());
-		
+		//Name		
+		fieldName = new JTextField( pageBase.getName());
+			
 		//Details
-		fieldDetails = new JTextArea( selectedNode.getDetails(), 5, 15);
+		fieldDetails = new JTextArea( pageBase.getDetails(), 5, 15);
 		
 		common();
+		
 	}
+	
+	private void common(){
+		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
+		labelDetails = new JLabel( CommonOperations.getTranslation("section.title.details") + ": ");
+		JScrollPane scrollDetails = new JScrollPane(fieldDetails);
+		
+		this.add( labelName, fieldName );
+		this.add( labelDetails, scrollDetails );
+	}
+	
 	
 	@Override
 	public void save() {
-
+		
 		//Ertekek trimmelese
 		fieldName.setText( fieldName.getText().trim() );
 		fieldDetails.setText( fieldDetails.getText().trim() );
 		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
-		//		
+		//
 		LinkedHashMap<Component, String> errorList = new LinkedHashMap<Component, String>();		
 		if( fieldName.getText().length() == 0 ){
 			errorList.put( 
@@ -103,40 +100,41 @@ public class PageBaseNodePanel extends DataPanel{
 		}else{
 
 			TreeNode nodeForSearch = null;
-			
-			if( null == mode ){
+
+			//CAPTURE
+			if( null == mode){
 				
 				nodeForSearch = nodeForCapture;
 				
+			//MODIFY
 			}else if( mode.equals( EditMode.MODIFY )){
 				
 				nodeForSearch = nodeForModify.getParent();
 				
 			}
 			
-			//Megnezi, hogy a node-ban van-e masik azonos nevu elem
+			//Megnezi, hogy van-e masik azonos nevu elem
 			int childrenCount = nodeForSearch.getChildCount();
 			for( int i = 0; i < childrenCount; i++ ){
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
-				//Ha Node-rol van szo
-				if( levelNode instanceof PageBaseNodeDataModel ){
+				//Ha Page-rol van szo (Lehetne meg NODE is)
+				if( levelNode instanceof PageBasePageDataModel ){
 					
 					//Ha azonos a nev
-					if( ((PageBaseNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
-						
+					if( ((PageBasePageDataModel) levelNode).getPageBase().getName().equals( fieldName.getText() ) ){
+					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
-							
-							//Akkor hiba van
+										
 							errorList.put( 
 								fieldName, 
 								MessageFormat.format( 
 										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.node") 
+										CommonOperations.getTranslation("tree.pagebase") 
 								) 
-							);	
+							);
 							break;
 						}
 					}
@@ -144,7 +142,7 @@ public class PageBaseNodePanel extends DataPanel{
 			}
 		}
 		
-		//Ha volt hiba
+		//Volt hiba
 		if( errorList.size() != 0 ){
 			
 			//Hibajelzes
@@ -152,7 +150,7 @@ public class PageBaseNodePanel extends DataPanel{
 		
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
-
+			
 			//TreePath pathToOpen = null;
 			
 			//Uj rogzites eseten
@@ -160,19 +158,21 @@ public class PageBaseNodePanel extends DataPanel{
 			
 				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
 				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
-				PageBaseNodeDataModel newPageBaseNode = new PageBaseNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
-				//parentNode.insert( newPageBaseNode, selectedNodeIndex);
-				nodeForCapture.add( newPageBaseNode );
-			
+				PageBase pageBase = new PageBase( fieldName.getText(), fieldDetails.getText() );				
+				PageBasePageDataModel newPageBasePage = new PageBasePageDataModel( pageBase );
+				//parentNode.insert( newPageBasePage, selectedNodeIndex);
+				nodeForCapture.add( newPageBasePage );
+
 				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(newPageBaseNode.getPath());
+				//pathToOpen = new TreePath(newPageBasePage.getPath());
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
-
-				//Modositja a valtozok erteket
-				nodeForModify.setName( fieldName.getText() );
-				nodeForModify.setDetails( fieldDetails.getText() );
+				
+				PageBase pageBase = nodeForModify.getPageBase(); 
+				
+				pageBase.setName( fieldName.getText() );
+				pageBase.setDetails( fieldDetails.getText() );
 			
 				//Ebbe a nodba kell majd visszaallni
 				//pathToOpen = new TreePath(nodeForModify.getPath());
@@ -180,6 +180,6 @@ public class PageBaseNodePanel extends DataPanel{
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
 			tree.changed();
-		}		
+		}
 	}
 }

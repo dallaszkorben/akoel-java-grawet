@@ -1,11 +1,12 @@
-package hu.akoel.grawit.gui;
+package hu.akoel.grawit.gui.editor;
 
-public class EmptyPanel extends DataPanel{
+
+public class EmptyEditor extends DataEditor{
 	
 	private static final long serialVersionUID = 165396704460481021L;
 
-	public EmptyPanel( ){
-		super( EditMode.SHOW, "" );
+	public EmptyEditor( ){
+		super( EditMode.NO, null );
 		
 		//TODO a feher fejlecet el kell torolni
 	}

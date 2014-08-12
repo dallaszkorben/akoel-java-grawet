@@ -1,6 +1,6 @@
 package hu.akoel.grawit.exceptions;
 
-import hu.akoel.grawit.i.pages.JavaSourceFromString;
+import hu.akoel.grawit.pages.JavaSourceFromString;
 
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
