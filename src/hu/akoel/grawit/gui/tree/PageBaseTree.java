@@ -14,6 +14,7 @@ import hu.akoel.grawit.gui.PageBaseElementPanel;
 import hu.akoel.grawit.gui.PageBaseNodePanel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.PageBasePagePanel;
+import hu.akoel.grawit.gui.DataPanel.EditMode;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
@@ -32,6 +33,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
+import com.opera.core.systems.scope.protos.PrefsProtos.GetPrefArg.Mode;
 
 public class PageBaseTree extends JTree{
 
@@ -157,15 +160,15 @@ public class PageBaseTree extends JTree{
 				guiFrame.showEditorPanel( emptyPanel);
 				
 			}else if( selectedNode instanceof PageBaseNodeDataModel ){
-				PageBaseNodePanel pageBaseNodePanel = new PageBaseNodePanel( PageBaseTree.this, (PageBaseNodeDataModel)selectedNode, DataPanel.EditMode.SHOW );								
+				PageBaseNodePanel pageBaseNodePanel = new PageBaseNodePanel(PageBaseTree.this, (PageBaseNodeDataModel)selectedNode, EditMode.SHOW);
 				guiFrame.showEditorPanel( pageBaseNodePanel);								
 				
 			}else if( selectedNode instanceof PageBasePageDataModel ){
-				PageBasePagePanel pageBasePagePanel = new PageBasePagePanel( PageBaseTree.this, (PageBasePageDataModel)selectedNode, DataPanel.EditMode.SHOW );								
+				PageBasePagePanel pageBasePagePanel = new PageBasePagePanel( PageBaseTree.this, (PageBasePageDataModel)selectedNode, EditMode.SHOW );								
 				guiFrame.showEditorPanel( pageBasePagePanel);				
 								
 			}else if( selectedNode instanceof PageBaseElementDataModel ){
-				PageBaseElementPanel pageBaseElementPanel = new PageBaseElementPanel( PageBaseTree.this, (PageBaseElementDataModel)selectedNode, DataPanel.EditMode.SHOW );								
+				PageBaseElementPanel pageBaseElementPanel = new PageBaseElementPanel( PageBaseTree.this, (PageBaseElementDataModel)selectedNode, EditMode.SHOW );								
 				guiFrame.showEditorPanel( pageBaseElementPanel);		
 										
 			}

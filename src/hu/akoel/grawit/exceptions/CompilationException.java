@@ -1,9 +1,9 @@
 package hu.akoel.grawit.exceptions;
 
+import hu.akoel.grawit.i.pages.JavaSourceFromString;
+
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
-
-import hu.akoel.grawit.pages.JavaSourceFromString;
 
 public class CompilationException extends Exception{
 	private static final long serialVersionUID = 9044143626429149660L;

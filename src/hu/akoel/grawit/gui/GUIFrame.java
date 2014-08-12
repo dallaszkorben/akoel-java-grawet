@@ -12,12 +12,12 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.elements.ElementBase;
-import hu.akoel.grawit.pages.PageBase;
-import hu.akoel.grawit.tree.PageBaseTree;
-import hu.akoel.grawit.tree.datamodel.PageBaseElementDataModel;
-import hu.akoel.grawit.tree.datamodel.PageBaseNodeDataModel;
-import hu.akoel.grawit.tree.datamodel.PageBasePageDataModel;
-import hu.akoel.grawit.tree.datamodel.PageBaseRootDataModel;
+import hu.akoel.grawit.gui.tree.PageBaseTree;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
+import hu.akoel.grawit.i.pages.PageBase;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;

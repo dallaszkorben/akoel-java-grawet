@@ -1,31 +1,10 @@
 package hu.akoel.grawit;
 
 import java.awt.EventQueue;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Locale;
 
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import hu.akoel.grawit.CommonOperations.Browser;
-import hu.akoel.grawit.elements.ElementBase;
-import hu.akoel.grawit.elements.ParameterizedElement;
 import hu.akoel.grawit.gui.GUIFrame;
-import hu.akoel.grawit.operations.ButtonOperation;
-import hu.akoel.grawit.operations.FieldOperation;
-import hu.akoel.grawit.pages.ClosePage;
-import hu.akoel.grawit.pages.CustomPage;
-import hu.akoel.grawit.pages.OpenPage;
-import hu.akoel.grawit.pages.PageBase;
-import hu.akoel.grawit.pages.PageProgressInterface;
-import hu.akoel.grawit.pages.ParameterizedPage;
-import hu.akoel.grawit.pages.TestCasedPage;
-import hu.akoel.grawit.parameter.StringParameter;
-import hu.akoel.grawit.testcase.TestCase;
-
-import org.openqa.selenium.By;
+import hu.akoel.grawit.i.pages.PageProgressInterface;
 import org.openqa.selenium.WebDriver;
 
 public class Grawit {

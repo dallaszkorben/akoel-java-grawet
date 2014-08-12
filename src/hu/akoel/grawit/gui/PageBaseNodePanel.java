@@ -6,11 +6,8 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.gui.DataPanel.EditMode;
-import hu.akoel.grawit.pages.PageBase;
-import hu.akoel.grawit.tree.PageBaseTree;
-import hu.akoel.grawit.tree.datamodel.PageBaseNodeDataModel;
-import hu.akoel.grawit.tree.datamodel.PageBasePageDataModel;
-import hu.akoel.grawit.tree.datamodel.PageBaseRootDataModel;
+import hu.akoel.grawit.gui.tree.PageBaseTree;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -67,10 +64,10 @@ public class PageBaseNodePanel extends DataPanel{
 	}
 	
 	//Itt modisitas van
-	public PageBaseNodePanel( PageBaseTree tree, PageBaseNodeDataModel selectedNode, EditMode mode ){		
+	public PageBaseNodePanel( PageBaseTree pageBaseTree, PageBaseNodeDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.node") );
 
-		this.tree = tree;
+		this.tree = pageBaseTree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
@@ -156,7 +153,7 @@ public class PageBaseNodePanel extends DataPanel{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 
-			TreePath pathToOpen = null;
+			//TreePath pathToOpen = null;
 			
 			//Uj rogzites eseten
 			if( null == mode ){
@@ -168,7 +165,7 @@ public class PageBaseNodePanel extends DataPanel{
 				nodeForCapture.add( newPageBaseNode );
 			
 				//Ebbe a nodba kell majd visszaallni
-				pathToOpen = new TreePath(newPageBaseNode.getPath());
+				//pathToOpen = new TreePath(newPageBaseNode.getPath());
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -178,11 +175,11 @@ public class PageBaseNodePanel extends DataPanel{
 				nodeForModify.setDetails( fieldDetails.getText() );
 			
 				//Ebbe a nodba kell majd visszaallni
-				pathToOpen = new TreePath(nodeForModify.getPath());
+				//pathToOpen = new TreePath(nodeForModify.getPath());
 			}			
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.changed( pathToOpen );
+			tree.changed();
 		}		
 	}
 }
