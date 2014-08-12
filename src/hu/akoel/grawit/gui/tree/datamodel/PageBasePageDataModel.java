@@ -1,6 +1,6 @@
 package hu.akoel.grawit.gui.tree.datamodel;
 
-import hu.akoel.grawit.i.pages.PageBase;
+import hu.akoel.grawit.pages.PageBase;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

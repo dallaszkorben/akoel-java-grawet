@@ -12,12 +12,14 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.elements.ElementBase;
+import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
-import hu.akoel.grawit.i.pages.PageBase;
+import hu.akoel.grawit.pages.PageBase;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -243,7 +245,7 @@ public class GUIFrame extends JFrame{
 		treePanel.hide();
 	}
 	
-	public void showEditorPanel( DataPanel panel ){
+	public void showEditorPanel( DataEditor panel ){
 		editorPanel.hide();
 		editorPanel.show( panel );
 	}
@@ -477,7 +479,7 @@ public class GUIFrame extends JFrame{
 			this.revalidate();
 			
 			//Ures szerkesztoi ablak
-			EmptyPanel emptyPanel = new EmptyPanel();								
+			EmptyEditor emptyPanel = new EmptyEditor();								
 			showEditorPanel( emptyPanel);		
 		}
 		
@@ -511,7 +513,7 @@ public class GUIFrame extends JFrame{
 			this.setBackground( Color.red);		
 		}
 
-		public void show( DataPanel panel ){
+		public void show( DataEditor panel ){
 
 			//Ha volt valamilyen mas EditorPanel az ablakban akkor azt eltavolitom
 			if( null != panelToView ){

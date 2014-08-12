@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui;
+package hu.akoel.grawit.gui.editor;
 
 import java.awt.Component;
 import java.text.MessageFormat;
@@ -19,7 +19,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.tree.TreeNode;
 
-public class PageBaseElementPanel extends DataPanel{
+public class PageBaseElementEditor extends DataEditor{
 	
 	private static final long serialVersionUID = 165396704460481021L;
 	
@@ -37,7 +37,7 @@ public class PageBaseElementPanel extends DataPanel{
 	private JRadioButton cssButton;
 	
 	//Insert
-	public PageBaseElementPanel( PageBaseTree tree, PageBasePageDataModel selectedNode ){
+	public PageBaseElementEditor( PageBaseTree tree, PageBasePageDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.elementbase") );
 
 		this.tree = tree;
@@ -64,7 +64,7 @@ public class PageBaseElementPanel extends DataPanel{
 	
 	
 	//Modositas vagy View
-	public PageBaseElementPanel( PageBaseTree tree, PageBaseElementDataModel selectedNode, EditMode mode ){		
+	public PageBaseElementEditor( PageBaseTree tree, PageBaseElementDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.elementbase") );
 
 		this.tree = tree;
