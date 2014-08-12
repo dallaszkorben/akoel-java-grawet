@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 public class PageBasePagePanel extends DataPanel{
 	
@@ -23,7 +24,7 @@ public class PageBasePagePanel extends DataPanel{
 	private PageBaseTree tree; 
 	private PageBasePageDataModel nodeForModify;
 	private PageBaseNodeDataModel nodeForCapture;
-	private Mode mode;
+	private EditMode mode;
 	
 	private JLabel labelName;
 	private JTextField fieldName;
@@ -32,11 +33,11 @@ public class PageBasePagePanel extends DataPanel{
 	
 	//Itt biztos beszuras van
 	public PageBasePagePanel( PageBaseTree tree, PageBaseNodeDataModel selectedNode ){
-		super( Mode.CAPTURE, CommonOperations.getTranslation("tree.pagebase") );
+		super( CommonOperations.getTranslation("tree.pagebase") );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
-		this.mode = Mode.CAPTURE;
+		this.mode = null;
 		
 		//Name
 		fieldName = new JTextField( "" );
@@ -49,7 +50,7 @@ public class PageBasePagePanel extends DataPanel{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public PageBasePagePanel( PageBaseTree tree, PageBasePageDataModel selectedNode, Mode mode ){
+	public PageBasePagePanel( PageBaseTree tree, PageBasePageDataModel selectedNode, EditMode mode ){
 		super( mode, CommonOperations.getTranslation("tree.pagebase") );
 
 		this.tree = tree;
@@ -100,12 +101,14 @@ public class PageBasePagePanel extends DataPanel{
 		}else{
 
 			TreeNode nodeForSearch = null;
-						
-			if( mode.equals(Mode.CAPTURE)){
+
+			//CAPTURE
+			if( null == mode){
 				
 				nodeForSearch = nodeForCapture;
 				
-			}else if( mode.equals( Mode.MODIFY )){
+			//MODIFY
+			}else if( mode.equals( EditMode.MODIFY )){
 				
 				nodeForSearch = nodeForModify.getParent();
 				
@@ -123,7 +126,7 @@ public class PageBasePagePanel extends DataPanel{
 					if( ((PageBasePageDataModel) levelNode).getPageBase().getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
-						if( mode.equals( Mode.CAPTURE ) || ( mode.equals( Mode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
+						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
 										
 							errorList.put( 
 								fieldName, 
@@ -149,27 +152,35 @@ public class PageBasePagePanel extends DataPanel{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 			
-			//Modositas eseten
-			if( mode.equals(Mode.MODIFY ) ){
-				
-				PageBase pageBase = nodeForModify.getPageBase(); 
-				
-				pageBase.setName( fieldName.getText() );
-				pageBase.setDetails( fieldDetails.getText() );
+			TreePath pathToOpen = null;
 			
 			//Uj rogzites eseten
-			}else if( mode.equals( Mode.CAPTURE ) ){
-				
+			if( null == mode ){
+			
 				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
 				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
 				PageBase pageBase = new PageBase( fieldName.getText(), fieldDetails.getText() );				
 				PageBasePageDataModel newPageBasePage = new PageBasePageDataModel( pageBase );
 				//parentNode.insert( newPageBasePage, selectedNodeIndex);
 				nodeForCapture.add( newPageBasePage );
-			}
+
+				//Ebbe a nodba kell majd visszaallni
+				pathToOpen = new TreePath(newPageBasePage.getPath());
+				
+			//Modositas eseten
+			}else if( mode.equals(EditMode.MODIFY ) ){
+				
+				PageBase pageBase = nodeForModify.getPageBase(); 
+				
+				pageBase.setName( fieldName.getText() );
+				pageBase.setDetails( fieldDetails.getText() );
+			
+				//Ebbe a nodba kell majd visszaallni
+				pathToOpen = new TreePath(nodeForModify.getPath());
+			}			
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.changed();
+			tree.changed( pathToOpen );
 		}
 	}
 }
