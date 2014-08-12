@@ -154,7 +154,7 @@ public class PageBaseTree extends JTree{
 				//Ha egyaltalan valamilyen egergombot benyomtam
 				if( selectedNode instanceof PageBaseRootDataModel ){
 					EmptyEditor emptyPanel = new EmptyEditor();								
-					guiFrame.showEditorPanel( emptyPanel);
+					guiFrame.showEditorPanel( emptyPanel );
 				
 				}else if( selectedNode instanceof PageBaseNodeDataModel ){
 					PageBaseNodeEditor pageBaseNodePanel = new PageBaseNodeEditor(PageBaseTree.this, (PageBaseNodeDataModel)selectedNode, EditMode.VIEW);

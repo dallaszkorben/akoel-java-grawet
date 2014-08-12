@@ -8,7 +8,7 @@ public class PageBaseRootDataModel extends PageBaseNodeDataModel{
 	private static final long serialVersionUID = 5361088361756620748L;
 
 	public PageBaseRootDataModel(){
-		super( "BasePage", "" );
+		super( "", "" );
 	}
 	
 	@Override
