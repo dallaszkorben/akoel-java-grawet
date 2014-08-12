@@ -37,6 +37,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultTreeModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -72,6 +73,7 @@ public class GUIFrame extends JFrame{
 	private File usedDirectory = null;
 	
 	//Esemenyfigyelok a menupontokhoz
+	private NewActionListener newActionListener;
 	private OpenActionListener openActionListener;
 	private SaveAsActionListener saveAsActionListener;
 	private SaveActionListener saveActionListener;
@@ -128,10 +130,20 @@ public class GUIFrame extends JFrame{
         menu.setMnemonic(KeyEvent.VK_F); 
         menuBar.add(menu);
 
-        //File menu almenui      
+        //
+        //File menu almenui  
+        //
+        
+        //New test Suit
+        JMenuItem menuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.newtestsuit") );
+        menuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.newtestsuit")).getKeyCode());
+        newActionListener = new NewActionListener();
+        menuItem.addActionListener( newActionListener );
+        menu.add( menuItem ); //New menu
+        
         //Open Test Suits     
-        JMenuItem menuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.opentestsuits") );
-        menuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.opentestsuits")).getKeyCode()); //KeyEvent.VK_O
+        menuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.opentestsuit") );
+        menuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.opentestsuit")).getKeyCode()); //KeyEvent.VK_O
         //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_O, ActionEvent.ALT_MASK));
         menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
         openActionListener = new OpenActionListener();
@@ -139,8 +151,8 @@ public class GUIFrame extends JFrame{
         menu.add(menuItem); //Open menu
 
         //Save
-        fileSaveMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.savetestsuits") );
-        fileSaveMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.savetestsuits")).getKeyCode()); //KeyEvent.VK_S );
+        fileSaveMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.savetestsuit") );
+        fileSaveMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.savetestsuit")).getKeyCode()); //KeyEvent.VK_S );
         //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_S, ActionEvent.ALT_MASK));
         //menuItem.setMnemonic(KeyEvent.VK_S);
         saveActionListener = new SaveActionListener();
@@ -149,8 +161,8 @@ public class GUIFrame extends JFrame{
         menu.add(fileSaveMenuItem);        
         
         //Save AS
-        menuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.savetestsuitsas") );
-        menuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.savetestsuitsas")).getKeyCode()); //KeyEvent.VK_S );
+        menuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.saveastestsuit") );
+        menuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.saveastestsuit")).getKeyCode()); //KeyEvent.VK_S );
         //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_S, ActionEvent.ALT_MASK));
         //menuItem.setMnemonic(KeyEvent.VK_S);
         saveAsActionListener = new SaveAsActionListener();
@@ -171,6 +183,7 @@ public class GUIFrame extends JFrame{
         //
         //Edit fomenu
         //
+        
         menu = new JMenu( CommonOperations.getTranslation("menu.element.edit") );
         menu.setMnemonic( KeyStroke.getKeyStroke( CommonOperations.getTranslation("menu.mnemonic.edit") ).getKeyCode()); // KeyEvent.VK_E);
         //menu.getAccessibleContext().setAccessibleDescription("This menu does nothing");
@@ -265,6 +278,40 @@ public class GUIFrame extends JFrame{
 	}
 	
 	/**
+	 * 
+	 * New
+	 * 
+	 * @author akoel
+	 *
+	 */
+	class NewActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			//Kikapcsolom a PAGEBASE szerkesztesi menut
+			editPageMenuItem.setEnabled( false );
+			editPurePageMenuItem.setEnabled( false );
+			editTestCaseMenuItem.setEnabled( false );
+			
+			setTitle( appNameAndVersion );
+			pageBaseRootDataModel.removeAllChildren();
+			//pageBaseRootDataModel = new PageBaseRootDataModel();
+			
+			JTree tree = treePanel.getTree();
+			if ( null != tree ){
+				((DefaultTreeModel)tree.getModel()).reload();
+			}
+		
+			//Bekapcsolom a PAGEBASE szerkesztesi menut
+			editPageMenuItem.setEnabled( true );
+			editPurePageMenuItem.setEnabled( true );
+			editTestCaseMenuItem.setEnabled( true );
+		}
+		
+	}
+	
+	/**
 	 * Save As..
 	 * 
 	 * @author akoel
@@ -345,16 +392,15 @@ public class GUIFrame extends JFrame{
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
 
-				}
-						
+				}						
 				
 			} catch (ParserConfigurationException | TransformerException e1) {
 				JOptionPane.showMessageDialog(GUIFrame.this, "Nem sikerült a file mentése: \n" + e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
-			}
-			
-		}
-		
+			}			
+		}		
 	}
+	
+
 	
 	/**
 	 * 
@@ -408,6 +454,9 @@ public class GUIFrame extends JFrame{
 			//Bakapcsolom a PAGEBASE szerkesztesi menut
 			editPurePageMenuItem.setEnabled( true );
 
+			//Ha volt nyitva tree akkor azt zarjuk, mert hogy bonyolult lenne kitalalnom, hogy mi volt nyitva. De vegul is meg lehetne csinalni TODO
+			treePanel.hide();
+		
 	
 		}
 	}
@@ -454,6 +503,7 @@ public class GUIFrame extends JFrame{
 		
 		private static final long serialVersionUID = -60536416293858503L;
 		private JScrollPane panelToView = null;
+		private JTree tree = null;
 
 		public TreePanel(){
 				
@@ -464,6 +514,8 @@ public class GUIFrame extends JFrame{
 		
 		public void show( JTree tree ){
 
+			this.tree = tree;
+			
 			//Ha volt valamilyen mas Tree az ablakban akkor azt eltavolitom
 			if( null != panelToView ){
 				this.remove( panelToView );
@@ -493,6 +545,10 @@ public class GUIFrame extends JFrame{
 			//Ujrarajzoltatom
 			this.repaint();
 			this.revalidate();
+		}
+		
+		public JTree getTree(){
+			return tree;
 		}
 			
 	}

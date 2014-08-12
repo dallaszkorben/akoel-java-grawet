@@ -83,7 +83,7 @@ public abstract class DataEditor extends JPanel{
 		//
 		titleSection = new JPanel();
 		titleSection.setBackground( Color.white );
-		if( null != mode && !mode.equals(EditMode.NO)){
+		if( null == mode || !mode.equals(EditMode.NO)){
 			headlinePanel.add( titleSection, BorderLayout.CENTER );
 		}
 		
@@ -92,9 +92,10 @@ public abstract class DataEditor extends JPanel{
 		//
 		JLabel operationSection = new JLabel();
 		operationSection.setBorder( BorderFactory.createEmptyBorder(7, 10, 7, 10));
-		if( null != mode && !mode.equals(EditMode.NO)){
+		if( null == mode || !mode.equals(EditMode.NO)){
 			headlinePanel.add( operationSection, BorderLayout.WEST );
 		}
+		
 		ImageIcon pageIcon = null;
 		//CAPTURE
 		if( null == mode ) {
