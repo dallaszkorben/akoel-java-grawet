@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
-import hu.akoel.grawit.elements.ElementBase;
+import hu.akoel.grawit.core.elements.ElementBase;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;

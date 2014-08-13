@@ -11,7 +11,8 @@ import java.io.File;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
-import hu.akoel.grawit.elements.ElementBase;
+import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.core.pages.PageBase;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
@@ -19,7 +20,6 @@ import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
-import hu.akoel.grawit.pages.PageBase;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
