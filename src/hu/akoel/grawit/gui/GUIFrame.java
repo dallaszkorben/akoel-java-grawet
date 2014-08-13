@@ -16,6 +16,7 @@ import hu.akoel.grawit.core.pages.PageBase;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
+import hu.akoel.grawit.gui.tree.ParamPageTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
@@ -339,8 +340,14 @@ public class GUIFrame extends JFrame{
 				Element rootElement = doc.createElement("grawit");
 				doc.appendChild(rootElement);
 
+				//PAGE BASE mentese
 				Element pageBaseElement = pageBaseRootDataModel.getXMLElement(doc);	
 				rootElement.appendChild( pageBaseElement );
+				
+				//PARAM PAGE mentese
+				Element paramPageElement = paramPageRootDataModel.getXMLElement(doc);	
+				rootElement.appendChild( paramPageElement );
+				
 				
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
 				Transformer transformer = transformerFactory.newTransformer();
@@ -482,8 +489,6 @@ public class GUIFrame extends JFrame{
 			firstPageNode.add(searchButtonNode);
 */
 
-			paramPageRootDataModel.add( new PageBaseNodeDataModel("REV", "REV applikaciok tesztelese" ) );
-			
 			paramPageRootDataModel.add( new ParamPageNodeDataModel("REV PARAM", "REV applikaciok tesztelese" ) );
 			paramPageRootDataModel.add( new ParamPageNodeDataModel("DS PARAM", "DS applikaciok tesztelese" ) );			
 			
@@ -513,7 +518,7 @@ public class GUIFrame extends JFrame{
 			//Legyartja a JTREE-t a modell alapjan
 			PageBaseTree tree = new PageBaseTree( GUIFrame.this, pageBaseRootDataModel );
 			
-			//Es megjeleniti
+			treePanel.hide();
 			treePanel.show( tree );
 			
 		}		
@@ -523,8 +528,12 @@ public class GUIFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+						
+			//Legyartja a JTREE-t a modell alapjan
+			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramPageRootDataModel );
 			
 			treePanel.hide();
+			treePanel.show( tree );
 			
 		}
 		

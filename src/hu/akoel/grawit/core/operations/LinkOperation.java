@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.core.elements.ElementBase;
-import hu.akoel.grawit.core.elements.ParameterizedElement;
+import hu.akoel.grawit.core.elements.ParamElement;
 
 public class LinkOperation implements ElementOperation{
 
@@ -19,7 +19,7 @@ public class LinkOperation implements ElementOperation{
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParameterizedElement element ) {
+	public void doAction( WebDriver driver, ParamElement element ) {
 		ElementBase elementBase = element.getElement();
 		
 		//Searching for the element - waiting for it

@@ -16,7 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.tree.TreeNode;
 
-public class PageBasePageEditor extends DataEditor{
+public class ParamPagePageEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -9038879802467565947L;
 
@@ -31,7 +31,7 @@ public class PageBasePageEditor extends DataEditor{
 	private JTextArea fieldDetails;
 	
 	//Itt biztos beszuras van
-	public PageBasePageEditor( PageBaseTree tree, PageBaseNodeDataModel selectedNode ){
+	public ParamPagePageEditor( PageBaseTree tree, PageBaseNodeDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.pagebase") );
 		
 		this.tree = tree;
@@ -49,7 +49,7 @@ public class PageBasePageEditor extends DataEditor{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public PageBasePageEditor( PageBaseTree tree, PageBasePageDataModel selectedNode, EditMode mode ){
+	public ParamPagePageEditor( PageBaseTree tree, PageBasePageDataModel selectedNode, EditMode mode ){
 		super( mode, CommonOperations.getTranslation("tree.nodetype.pagebase") );
 
 		this.tree = tree;

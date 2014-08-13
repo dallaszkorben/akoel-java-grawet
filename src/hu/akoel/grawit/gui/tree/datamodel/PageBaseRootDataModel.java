@@ -14,7 +14,7 @@ public class PageBaseRootDataModel extends PageBaseNodeDataModel{
 	}
 	
 	public String getNameToString(){
-		return "Root";
+		return "Base Root";
 	}
 	
 	public String getTypeToString(){

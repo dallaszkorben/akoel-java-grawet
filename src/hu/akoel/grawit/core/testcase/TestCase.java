@@ -24,7 +24,7 @@ public class TestCase {
 	}
 	
 	/**
-	 * Add a new ParameterizedPage to the test case
+	 * Add a new ParamPage to the test case
 	 * 
 	 * @param parameterizedPage
 	 */

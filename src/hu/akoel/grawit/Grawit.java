@@ -66,9 +66,9 @@ public class Grawit {
 		
 		
 		
-		ParameterizedPage firstPage = new ParameterizedPage( "Google kereso", elsoOldal );
+		ParamPage firstPage = new ParamPage( "Google kereso", elsoOldal );
 		firstPage.setPageProgressInterface( pageProgress );
-		ParameterizedElement pe = firstPage.addElement(searchField, new FieldOperation( new StringParameter( "search", "hitel") ) );
+		ParamElement pe = firstPage.addElement(searchField, new FieldOperation( new StringParameter( "search", "hitel") ) );
 		firstPage.addElement(searchButton, new ButtonOperation(  ) );
 		
 		
