@@ -32,9 +32,9 @@ public class PageBaseRootDataModel extends PageBaseNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof DataModelInterface ){
+			if( !object.equals(this) && object instanceof PageBaseDataModelInterface ){
 				
-				Element element = ((DataModelInterface)object).getXMLElement( document );
+				Element element = ((PageBaseDataModelInterface)object).getXMLElement( document );
 				pageBaseElement.appendChild( element );		    		
 		    	
 			}

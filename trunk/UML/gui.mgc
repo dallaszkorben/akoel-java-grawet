@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="hu.akoel.grawit.gui.GUIFrame.SaveAsActionListener"
+        x="264" y="821">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawit.gui.GUIFrame.StatusPanel" x="1143" y="816">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawit.gui.GUIFrame.SaveActionListener"
+        x="264" y="733">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawit.gui.GUIFrame.EditorPanel" x="1141" y="638">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawit.gui.GUIFrame.TreePanel" x="1145" y="518">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="hu.akoel.grawit.gui.GUIFrame"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.GUIFrame.EditParameterizedPageActionListener"
+        x="898" y="829">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="hu.akoel.grawit.gui.GUIFrame.TreePanel"/>
+    </Class>
+    <Class name="hu.akoel.grawit.gui.GUIFrame.OpenActionListener"
+        x="265" y="641">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="hu.akoel.grawit.gui.GUIFrame.TreePanel"/>
+    </Class>
+    <Class name="hu.akoel.grawit.gui.GUIFrame" x="706" y="590">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.GUIFrame.AssistantPanel"
+            endpointName="assistantPanel" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.GUIFrame.OpenActionListener"
+            endpointName="openActionListener" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.GUIFrame.EditorPanel"
+            endpointName="editorPanel" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.GUIFrame.SaveAsActionListener"
+            endpointName="saveAsActionListener" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.GUIFrame.EditParameterizedPageActionListener"
+            endpointName="editParameterizedPageActionListener" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.GUIFrame.TreePanel"
+            endpointName="treePanel" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.GUIFrame.SaveActionListener"
+            endpointName="saveActionListener" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.GUIFrame.EditPageBaseActionListener"
+            endpointName="editPageBaseActionListener" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.GUIFrame.NewActionListener"
+            endpointName="newActionListener" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.gui.GUIFrame.EditorPanel"/>
+        <Communication destinationClassName="hu.akoel.grawit.gui.GUIFrame.TreePanel"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.GUIFrame.EditPageBaseActionListener"
+        x="610" y="829">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="hu.akoel.grawit.gui.GUIFrame.TreePanel"/>
+    </Class>
+    <Class name="hu.akoel.grawit.gui.GUIFrame.AssistantPanel" x="1141" y="745">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawit.gui.GUIFrame.NewActionListener" x="266" y="559">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="hu.akoel.grawit.gui.GUIFrame.TreePanel"/>
+    </Class>
+</ClassDiagram>

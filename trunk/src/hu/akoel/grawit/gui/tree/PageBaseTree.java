@@ -15,7 +15,7 @@ import hu.akoel.grawit.gui.editor.PageBaseElementEditor;
 import hu.akoel.grawit.gui.editor.PageBaseNodeEditor;
 import hu.akoel.grawit.gui.editor.PageBasePageEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.tree.datamodel.DataModelInterface;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseDataModelInterface;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
@@ -104,7 +104,7 @@ public class PageBaseTree extends JTree{
 		    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 		    	
 		    	//Felirata a NODE-nak
-		    	setText( ((DataModelInterface)value).getNameToString() );
+		    	setText( ((PageBaseDataModelInterface)value).getNameToString() );
 		    	
 		    	//Iconja a NODE-nak
 		    	if( value instanceof PageBasePageDataModel){
@@ -246,7 +246,7 @@ public class PageBaseTree extends JTree{
 		private static final long serialVersionUID = -2476473336416059356L;
 
 		private DefaultMutableTreeNode parentNode;
-		private DataModelInterface selectedNode;
+		private PageBaseDataModelInterface selectedNode;
 		private TreePath selectedPath;
 		private DefaultTreeModel totalTreeModel;
 		private int selectedIndexInTheNode;
@@ -260,7 +260,7 @@ public class PageBaseTree extends JTree{
 			totalTreeModel = (DefaultTreeModel)PageBaseTree.this.getModel();
 
 			//A kivalasztott NODE			
-			selectedNode = (DataModelInterface)PageBaseTree.this.getLastSelectedPathComponent();
+			selectedNode = (PageBaseDataModelInterface)PageBaseTree.this.getLastSelectedPathComponent();
 
 			//A kivalasztott node-ig vezeto PATH
 			selectedPath = PageBaseTree.this.getSelectionPath();	

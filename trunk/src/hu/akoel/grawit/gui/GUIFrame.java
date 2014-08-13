@@ -20,6 +20,8 @@ import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -58,8 +60,8 @@ public class GUIFrame extends JFrame{
 	private static int treePanelStartWidth = 200;
 	
 	//Ki/be kapcsolhato menuelemeek
-	private JMenuItem editPurePageMenuItem;
-	private JMenuItem editPageMenuItem;
+	private JMenuItem editPageBaseMenuItem;
+	private JMenuItem editParamPageMenuItem;
 	private JMenuItem editTestCaseMenuItem;
 	private JMenuItem fileSaveMenuItem;
 	
@@ -68,6 +70,8 @@ public class GUIFrame extends JFrame{
 	private AssistantPanel assistantPanel;
 	
 	private PageBaseRootDataModel pageBaseRootDataModel = new PageBaseRootDataModel();
+	private ParamPageRootDataModel paramPageRootDataModel = new ParamPageRootDataModel();
+	
 	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseRootDataModel);
 	
 	private File usedDirectory = null;
@@ -77,7 +81,7 @@ public class GUIFrame extends JFrame{
 	private OpenActionListener openActionListener;
 	private SaveAsActionListener saveAsActionListener;
 	private SaveActionListener saveActionListener;
-	private EditPurePageActionListener editPurePageActionListener;
+	private EditPageBaseActionListener editPageBaseActionListener;
 	private EditParameterizedPageActionListener editParameterizedPageActionListener;
     
 	public GUIFrame( String appNameAndVersion, int frameWidth, int frameHeight ){
@@ -191,22 +195,22 @@ public class GUIFrame extends JFrame{
 
         //Edit menu almenui
         //Edit Base Pages
-        editPurePageMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.pagebase") );
-        editPurePageMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.pagebase") ).getKeyCode()); // KeyEvent.VK_B);
+        editPageBaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.pagebase") );
+        editPageBaseMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.pagebase") ).getKeyCode()); // KeyEvent.VK_B);
         //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_B, ActionEvent.ALT_MASK));
-        editPurePageActionListener = new EditPurePageActionListener();
-        editPurePageMenuItem.addActionListener( editPurePageActionListener );
-        editPurePageMenuItem.setEnabled( false );
-        menu.add(editPurePageMenuItem);
+        editPageBaseActionListener = new EditPageBaseActionListener();
+        editPageBaseMenuItem.addActionListener( editPageBaseActionListener );
+        editPageBaseMenuItem.setEnabled( false );
+        menu.add(editPageBaseMenuItem);
 
         //Edit Pages        
-        editPageMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.page") );
-        editPageMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.page") ).getKeyCode() ); //KeyEvent.VK_P);
+        editParamPageMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.page") );
+        editParamPageMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.page") ).getKeyCode() ); //KeyEvent.VK_P);
         //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_P, ActionEvent.ALT_MASK));
         editParameterizedPageActionListener = new EditParameterizedPageActionListener();
-        editPageMenuItem.addActionListener( editParameterizedPageActionListener );
-        editPageMenuItem.setEnabled( false );
-        menu.add(editPageMenuItem);
+        editParamPageMenuItem.addActionListener( editParameterizedPageActionListener );
+        editParamPageMenuItem.setEnabled( false );
+        menu.add(editParamPageMenuItem);
 
         //Edit Test Cases
         editTestCaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.testcase") );
@@ -290,8 +294,8 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			
 			//Kikapcsolom a PAGEBASE szerkesztesi menut
-			editPageMenuItem.setEnabled( false );
-			editPurePageMenuItem.setEnabled( false );
+			editParamPageMenuItem.setEnabled( false );
+			editPageBaseMenuItem.setEnabled( false );
 			editTestCaseMenuItem.setEnabled( false );
 			
 			setTitle( appNameAndVersion );
@@ -304,8 +308,8 @@ public class GUIFrame extends JFrame{
 			}
 		
 			//Bekapcsolom a PAGEBASE szerkesztesi menut
-			editPageMenuItem.setEnabled( true );
-			editPurePageMenuItem.setEnabled( true );
+			editParamPageMenuItem.setEnabled( true );
+			editPageBaseMenuItem.setEnabled( true );
 			editTestCaseMenuItem.setEnabled( true );
 		}
 		
@@ -415,8 +419,8 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 				
 			//Kikapcsolom a PAGEBASE szerkesztesi menut
-			editPageMenuItem.setEnabled( false );
-			editPurePageMenuItem.setEnabled( false );
+			editParamPageMenuItem.setEnabled( false );
+			editPageBaseMenuItem.setEnabled( false );
 			editTestCaseMenuItem.setEnabled( false );
 
 //TODO tree toltes			
@@ -424,12 +428,43 @@ public class GUIFrame extends JFrame{
 			// Most csak direktben beirok valamit
 			// Tulajdonkeppen a pageBaseRootDataModel-ot toltom fel
 			// Ez tartalmazza az adatmodellt
+			
+			//
+			// PAGEBASE
+			//
 			pageBaseRootDataModel = new PageBaseRootDataModel(); //Torli
 			//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseRootDataModel);
 
-			PageBaseNodeDataModel posNode = new PageBaseNodeDataModel("POS", "POS applikaciok tesztelese");
-			pageBaseRootDataModel.add( posNode );
+			PageBaseNodeDataModel basePosNode = new PageBaseNodeDataModel("POS", "POS applikaciok tesztelese");
+			pageBaseRootDataModel.add( basePosNode );
 
+			PageBase firstPageBase = new PageBase( "Google kereso oldal", "Ez az elso oldal");
+			ElementBase searchField = new ElementBase("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
+			firstPageBase.addElement(searchField);
+			ElementBase searchButton = new ElementBase("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
+			firstPageBase.addElement(searchButton);
+
+			PageBasePageDataModel firstPageNode = new PageBasePageDataModel(firstPageBase);
+			basePosNode.add( firstPageNode );
+
+			PageBaseElementDataModel searchFieldNode = new PageBaseElementDataModel( searchField );
+			firstPageNode.add( searchFieldNode );
+
+			PageBaseElementDataModel searchButtonNode = new PageBaseElementDataModel( searchButton );
+			firstPageNode.add(searchButtonNode);
+
+			pageBaseRootDataModel.add( new PageBaseNodeDataModel("REV", "REV applikaciok tesztelese" ) );
+			pageBaseRootDataModel.add( new PageBaseNodeDataModel("DS", "DS applikaciok tesztelese" ) );
+			
+			
+			//
+			// PARAMPAGE
+			//
+			paramPageRootDataModel = new ParamPageRootDataModel(); //Torli
+
+			ParamPageNodeDataModel paramPosNode = new ParamPageNodeDataModel("POS PARAM", "POS applikaciok tesztelese");
+			paramPageRootDataModel.add( paramPosNode );
+/*
 
 			PageBase firstPageBase = new PageBase( "Google kereso oldal", "Ez az elso oldal");
 			ElementBase searchField = new ElementBase("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
@@ -445,18 +480,21 @@ public class GUIFrame extends JFrame{
 
 			PageBaseElementDataModel searchButtonNode = new PageBaseElementDataModel( searchButton );
 			firstPageNode.add(searchButtonNode);
+*/
 
-
-			pageBaseRootDataModel.add( new PageBaseNodeDataModel("REV", "REV applikaciok tesztelese" ) );
-			pageBaseRootDataModel.add( new PageBaseNodeDataModel("DS", "DS applikaciok tesztelese" ) );
-			//
+			paramPageRootDataModel.add( new PageBaseNodeDataModel("REV", "REV applikaciok tesztelese" ) );
+			
+			paramPageRootDataModel.add( new ParamPageNodeDataModel("REV PARAM", "REV applikaciok tesztelese" ) );
+			paramPageRootDataModel.add( new ParamPageNodeDataModel("DS PARAM", "DS applikaciok tesztelese" ) );			
 			
 			//Bakapcsolom a PAGEBASE szerkesztesi menut
-			editPurePageMenuItem.setEnabled( true );
+			editPageBaseMenuItem.setEnabled( true );
+			
+			//Bakapcsolom a PAGE szerkesztesi menut
+			editParamPageMenuItem.setEnabled( true );
 
 			//Ha volt nyitva tree akkor azt zarjuk, mert hogy bonyolult lenne kitalalnom, hogy mi volt nyitva. De vegul is meg lehetne csinalni TODO
-			treePanel.hide();
-		
+			treePanel.hide();	
 	
 		}
 	}
@@ -467,7 +505,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditPurePageActionListener implements ActionListener{
+	class EditPageBaseActionListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
