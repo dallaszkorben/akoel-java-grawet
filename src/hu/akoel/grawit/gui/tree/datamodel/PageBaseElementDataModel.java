@@ -1,5 +1,7 @@
 package hu.akoel.grawit.gui.tree.datamodel;
 
+import javax.swing.tree.MutableTreeNode;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.elements.ElementBase;
 
@@ -7,7 +9,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBaseElementDataModel  extends DataModelInterface{
+public class PageBaseElementDataModel  extends PageBaseDataModelInterface{
 
 	private static final long serialVersionUID = -8916078747948054716L;
 	private ElementBase elementBase;
@@ -17,6 +19,11 @@ public class PageBaseElementDataModel  extends DataModelInterface{
 		this.elementBase = elementBase;
 	}
 
+	@Override
+	public void add(PageBaseDataModelInterface node) {
+		super.add( (MutableTreeNode)node );
+	}
+	
 	public String getNameToString(){
 		return elementBase.getName();
 	}

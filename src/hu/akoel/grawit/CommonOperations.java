@@ -1,6 +1,5 @@
 package hu.akoel.grawit;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,7 +8,6 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.openqa.selenium.WebDriver;
@@ -155,5 +153,17 @@ public class CommonOperations {
 		 } else {	           
 			 return null;
 		 }
+	 }
+	 
+	 public static String getMethodName(int node){
+		 final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+		 return ste[ node ].getMethodName();
+		 //return ste[ste.length - 1 - depth].getMethodName();
+	 }
+	 
+	 public static String getClassName(int node){
+		 final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+		 return ste[ node ].getClassName();
+		 //return ste[ste.length - 1 - depth].getMethodName();
 	 }
 }

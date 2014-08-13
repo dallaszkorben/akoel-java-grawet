@@ -8,20 +8,21 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBaseNodeDataModel extends PageBaseDataModelInterface{
+public class ParamPageNodeDataModel extends ParamPageDataModelInterface{
 
-	private static final long serialVersionUID = -5125611897338677880L;
+	private static final long serialVersionUID = -2466202302741284519L;
+	
 	private String name;
 	private String details;
 	
-	public PageBaseNodeDataModel( String name, String details ){
+	public ParamPageNodeDataModel( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;
 	}
 	
 	@Override
-	public void add(PageBaseDataModelInterface node) {
+	public void add(ParamPageDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -79,24 +80,8 @@ public class PageBaseNodeDataModel extends PageBaseDataModelInterface{
 		    	
 			}
 		}
-		
-/*		//Enumeration<?> e = this.preorderEnumeration();
-		//Enumeration<?> e = this.breadthFirstEnumeration();
-		Enumeration<?> e = this.depthFirstEnumeration();
-		while(e.hasMoreElements()){
 			
-			Object object = e.nextElement();
-			
-			if( !object.equals(this) && object instanceof DataModelInterface ){
-				
-				Element element = ((DataModelInterface)object).getXMLElement( document );
-				//nodeElement.appendChild( element );		    		
-		    	
-			}
-		}
-*/			
 		return nodeElement;		
 	}
-
 
 }
