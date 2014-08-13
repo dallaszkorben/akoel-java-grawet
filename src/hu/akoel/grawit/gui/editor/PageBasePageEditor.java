@@ -32,7 +32,7 @@ public class PageBasePageEditor extends DataEditor{
 	
 	//Itt biztos beszuras van
 	public PageBasePageEditor( PageBaseTree tree, PageBaseNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.pagebase") );
+		super( CommonOperations.getTranslation("tree.nodetype.pagebase") );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -50,7 +50,7 @@ public class PageBasePageEditor extends DataEditor{
 	
 	//Itt lehet hogy modositas vagy megtekintes van
 	public PageBasePageEditor( PageBaseTree tree, PageBasePageDataModel selectedNode, EditMode mode ){
-		super( mode, CommonOperations.getTranslation("tree.pagebase") );
+		super( mode, CommonOperations.getTranslation("tree.nodetype.pagebase") );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
@@ -132,7 +132,7 @@ public class PageBasePageEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.pagebase") 
+										CommonOperations.getTranslation("tree.nodetype.pagebase") 
 								) 
 							);
 							break;

@@ -308,7 +308,7 @@ public abstract class DataEditor extends JPanel{
 			if( null != tooltipText && tooltipText.length() != 0 ){
 				
 				//Akkor megjeleniti a hibauzenetet egy ablakban
-				JOptionPane.showMessageDialog(null, tooltipText, CommonOperations.getTranslation( "section.errormessage.windowtitle.error" ), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, tooltipText, CommonOperations.getTranslation( "section.windowtitle.error" ), JOptionPane.ERROR_MESSAGE);
 
 			}
 		}

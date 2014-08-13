@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 public class PageBaseElementEditor extends DataEditor{
@@ -38,7 +39,7 @@ public class PageBaseElementEditor extends DataEditor{
 	
 	//Insert
 	public PageBaseElementEditor( PageBaseTree tree, PageBasePageDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.elementbase") );
+		super( CommonOperations.getTranslation("tree.nodetype.elementbase") );
 
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -65,7 +66,7 @@ public class PageBaseElementEditor extends DataEditor{
 	
 	//Modositas vagy View
 	public PageBaseElementEditor( PageBaseTree tree, PageBaseElementDataModel selectedNode, EditMode mode ){		
-		super( mode, CommonOperations.getTranslation("tree.elementbase") );
+		super( mode, CommonOperations.getTranslation("tree.nodetype.elementbase") );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
@@ -190,7 +191,7 @@ public class PageBaseElementEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.elementbase") 
+										CommonOperations.getTranslation("tree.nodetype.elementbase") 
 								) 
 							);
 							break;

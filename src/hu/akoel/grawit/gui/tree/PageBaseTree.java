@@ -15,6 +15,7 @@ import hu.akoel.grawit.gui.editor.PageBaseElementEditor;
 import hu.akoel.grawit.gui.editor.PageBaseNodeEditor;
 import hu.akoel.grawit.gui.editor.PageBasePageEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.tree.datamodel.DataModelInterface;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
@@ -22,6 +23,7 @@ import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
@@ -101,6 +103,10 @@ public class PageBaseTree extends JTree{
 		    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/node-closed-icon.png");
 		    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 		    	
+		    	//Felirata a NODE-nak
+		    	setText( ((DataModelInterface)value).getNameToString() );
+		    	
+		    	//Iconja a NODE-nak
 		    	if( value instanceof PageBasePageDataModel){
 		            setIcon(pageIcon);
 		    	}else if( value instanceof PageBaseElementDataModel ){
@@ -240,7 +246,7 @@ public class PageBaseTree extends JTree{
 		private static final long serialVersionUID = -2476473336416059356L;
 
 		private DefaultMutableTreeNode parentNode;
-		private DefaultMutableTreeNode selectedNode;
+		private DataModelInterface selectedNode;
 		private TreePath selectedPath;
 		private DefaultTreeModel totalTreeModel;
 		private int selectedIndexInTheNode;
@@ -254,7 +260,7 @@ public class PageBaseTree extends JTree{
 			totalTreeModel = (DefaultTreeModel)PageBaseTree.this.getModel();
 
 			//A kivalasztott NODE			
-			selectedNode = (DefaultMutableTreeNode)PageBaseTree.this.getLastSelectedPathComponent();
+			selectedNode = (DataModelInterface)PageBaseTree.this.getLastSelectedPathComponent();
 
 			//A kivalasztott node-ig vezeto PATH
 			selectedPath = PageBaseTree.this.getSelectionPath();	
@@ -430,6 +436,45 @@ public class PageBaseTree extends JTree{
 					});
 					this.add ( insertElementMenu );
 				
+				}
+				
+				//
+				// Torles
+				// Ha nincs alatta ujabb elem
+				//
+				if( selectedNode.getChildCount() == 0 ){
+					
+				
+					JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.delete") );
+					deleteMenu.setActionCommand( ActionCommand.UP.name());
+					deleteMenu.addActionListener( new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+
+							//Megerosito kerdes
+							Object[] options = {
+									CommonOperations.getTranslation("button.no"),
+									CommonOperations.getTranslation("button.yes")								
+							};
+							
+							int n = JOptionPane.showOptionDialog(guiFrame,
+									"Valóban torolni kívánod a(z) " + selectedNode.getNameToString() + " nevü " + selectedNode.getTypeToString() + "-t ?",
+									CommonOperations.getTranslation("section.windowtitle.confirmation.delete"),
+									JOptionPane.YES_NO_CANCEL_OPTION,
+									JOptionPane.QUESTION_MESSAGE,
+									null,
+									options,
+									options[0]);
+
+							if( n == 1 ){
+								totalTreeModel.removeNodeFromParent( selectedNode);
+								PageBaseTree.this.setSelectionRow(selectedRow - 1);
+							}							
+						}
+					});
+					this.add ( deleteMenu );
+					
 				}
 				
 			//ROOT volt kivalasztva
