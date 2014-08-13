@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.tree.datamodel;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.pages.PageBase;
+import hu.akoel.grawit.core.pages.PageBase;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;

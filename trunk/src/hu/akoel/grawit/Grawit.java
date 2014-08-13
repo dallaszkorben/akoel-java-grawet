@@ -3,8 +3,8 @@ package hu.akoel.grawit;
 import java.awt.EventQueue;
 import java.util.Locale;
 
+import hu.akoel.grawit.core.pages.PageProgressInterface;
 import hu.akoel.grawit.gui.GUIFrame;
-import hu.akoel.grawit.pages.PageProgressInterface;
 
 import org.openqa.selenium.WebDriver;
 
