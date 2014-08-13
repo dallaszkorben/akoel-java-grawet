@@ -1,14 +1,13 @@
 package hu.akoel.grawit.gui.tree.datamodel;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.elements.ElementBase;
-
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBaseElementDataModel  extends DefaultMutableTreeNode implements DataModelInterface{
+public class PageBaseElementDataModel  extends DataModelInterface{
 
 	private static final long serialVersionUID = -8916078747948054716L;
 	private ElementBase elementBase;
@@ -17,9 +16,13 @@ public class PageBaseElementDataModel  extends DefaultMutableTreeNode implements
 		super();
 		this.elementBase = elementBase;
 	}
-	
-	public String toString(){
+
+	public String getNameToString(){
 		return elementBase.getName();
+	}
+	
+	public String getTypeToString(){
+		return CommonOperations.getTranslation( "tree.nodetype.elementbase");
 	}
 	
 	public ElementBase getElementBase(){

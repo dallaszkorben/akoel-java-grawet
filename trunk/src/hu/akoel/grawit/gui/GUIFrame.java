@@ -67,7 +67,7 @@ public class GUIFrame extends JFrame{
 	private EditorPanel editorPanel;
 	private AssistantPanel assistantPanel;
 	
-	private PageBaseRootDataModel pageBaseRootDataModel = null;
+	private PageBaseRootDataModel pageBaseRootDataModel = new PageBaseRootDataModel();
 	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseRootDataModel);
 	
 	private File usedDirectory = null;

@@ -1,14 +1,13 @@
 package hu.akoel.grawit.gui.tree.datamodel;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.pages.PageBase;
-
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBasePageDataModel  extends DefaultMutableTreeNode implements DataModelInterface{
+public class PageBasePageDataModel  extends DataModelInterface{
 	private PageBase pageBase;
 
 	private static final long serialVersionUID = 8871077064641984017L;
@@ -17,9 +16,13 @@ public class PageBasePageDataModel  extends DefaultMutableTreeNode implements Da
 		super();
 		this.pageBase = pageBase;
 	}
-	
-	public String toString(){
+
+	public String getNameToString(){
 		return pageBase.getName();
+	}
+	
+	public String getTypeToString(){
+		return CommonOperations.getTranslation( "tree.nodetype.pagebase");
 	}
 	
 	public PageBase getPageBase(){
