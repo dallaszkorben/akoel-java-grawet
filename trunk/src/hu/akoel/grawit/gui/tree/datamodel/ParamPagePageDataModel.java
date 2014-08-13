@@ -4,55 +4,57 @@ import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.pages.PageBase;
+import hu.akoel.grawit.core.pages.ParamPage;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBasePageDataModel  extends PageBaseDataModelInterface{
-	private PageBase pageBase;
+public class ParamPagePageDataModel  extends ParamPageDataModelInterface{
 
-	private static final long serialVersionUID = 8871077064641984017L;
+	private static final long serialVersionUID = -5098304990124055586L;
 	
-	public PageBasePageDataModel( PageBase pageBase ){
+	private ParamPage paramPage;
+	
+	public ParamPagePageDataModel( ParamPage paramPage ){
 		super();
-		this.pageBase = pageBase;
+		this.paramPage = paramPage;
 	}
 
 	@Override
-	public void add(PageBaseDataModelInterface node) {
+	public void add(ParamPageDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
 	}
 
 	public String getNameToString(){
-		return pageBase.getName();
+		return paramPage.getName();
 	}
 	
 	public String getTypeToString(){
-		return CommonOperations.getTranslation( "tree.nodetype.pagebase");
+		return CommonOperations.getTranslation( "tree.nodetype.parampage");
 	}
 	
-	public PageBase getPageBase(){
-		return pageBase;
+	public ParamPage getParamPage(){
+		return paramPage;
 	}
 
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
-	
+
 		//Node element
 		Element pageElement = document.createElement("page");
 		
 		//NAME attributum
 		attr = document.createAttribute("name");
-		attr.setValue( pageBase.getName() );
+		attr.setValue( paramPage.getName() );
 		pageElement.setAttributeNode(attr);	
 		
 		//DETAILS attributum
-		attr = document.createAttribute("details");
-		attr.setValue( pageBase.getDetails() );
+/*		attr = document.createAttribute("details");
+		attr.setValue( paramPage.getDetails() );
 		pageElement.setAttributeNode(attr);
-		
+*/		
 
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
@@ -67,19 +69,6 @@ public class PageBasePageDataModel  extends PageBaseDataModelInterface{
 			}
 		}
 		
-/*		Enumeration<?> e = this.preorderEnumeration();
-		while(e.hasMoreElements()){
-			
-			Object object = e.nextElement();
-			
-			if( !object.equals(this) && object instanceof DataModelInterface ){
-				
-				Element element = ((DataModelInterface)object).getXMLElement( document );
-				//pageElement.appendChild( element );		    		
-		    	
-			}
-		}
-*/			
 		return pageElement;	
 	}
 }

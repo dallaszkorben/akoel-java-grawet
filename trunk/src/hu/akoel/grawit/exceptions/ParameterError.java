@@ -11,7 +11,9 @@ public class ParameterError extends Error{
 	 * Ha a hivo osztalyanal magasabb osztalyt es metodusat kell kijelezni a hiba forrasanak
 	 */
 	public ParameterError( int shift, String message ){
-		super( CommonOperations.getClassName(3+shift) + "." + CommonOperations.getMethodName(3+shift) + "()" + " method has Wrong parameter. " + message );
+		super( "\n" + CommonOperations.getClassName(3+shift) + "." + CommonOperations.getMethodName(3+shift) + "()" + " method has Wrong parameter. \n" +
+				"Called from " + CommonOperations.getClassName(4+shift) + "." + CommonOperations.getMethodName(4+shift) + "() line: " + String.valueOf( CommonOperations.getLineNumber(4+shift) ) + "\n"
+				+ message );
 	}
 	
 	/**

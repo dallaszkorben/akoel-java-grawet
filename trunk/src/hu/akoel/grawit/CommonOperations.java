@@ -158,12 +158,15 @@ public class CommonOperations {
 	 public static String getMethodName(int node){
 		 final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		 return ste[ node ].getMethodName();
-		 //return ste[ste.length - 1 - depth].getMethodName();
 	 }
 	 
 	 public static String getClassName(int node){
 		 final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		 return ste[ node ].getClassName();
-		 //return ste[ste.length - 1 - depth].getMethodName();
+	 }
+	 
+	 public static int getLineNumber(int node){
+		 final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+		 return ste[ node ].getLineNumber();
 	 }
 }

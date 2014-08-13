@@ -11,7 +11,7 @@ import javax.tools.ToolProvider;
 import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.core.elements.ElementBase;
-import hu.akoel.grawit.core.elements.ParameterizedElement;
+import hu.akoel.grawit.core.elements.ParamElement;
 import hu.akoel.grawit.core.operations.ElementOperation;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -21,17 +21,17 @@ import hu.akoel.grawit.exceptions.PageException;
  * @author akoel
  *
  */
-public class ParameterizedPage implements ExecutablePageInterface, BasePageChangeListener{
+public class ParamPage implements ExecutablePageInterface, BasePageChangeListener{
 	private PageBase pageBase;
 	private String name;
-	private ArrayList<ParameterizedElement> elementSet = new ArrayList<>(); 
+	private ArrayList<ParamElement> elementSet = new ArrayList<>(); 
 	private PageProgressInterface pageProgressInterface = null;
 
 	/**
 	 * 
 	 * @param pageBase
 	 */
-	public ParameterizedPage( String name, PageBase pageBase ) {
+	public ParamPage( String name, PageBase pageBase ) {
 		this.name = name;
 		this.pageBase = pageBase;
 		if( null != this.pageBase ){
@@ -63,12 +63,12 @@ public class ParameterizedPage implements ExecutablePageInterface, BasePageChang
 	 * @param element
 	 * @param operation
 	 */
-	public ParameterizedElement addElement( ElementBase element, ElementOperation operation ){
+	public ParamElement addElement( ElementBase element, ElementOperation operation ){
 		
 		//Ha letezik egyaltalan a PageBase listajaban
 		if( pageBase.getIndex( element ) >= 0 ){
 			
-			ParameterizedElement eop = new ParameterizedElement(element, operation);
+			ParamElement eop = new ParamElement(element, operation);
 			
 			//Csak ha meg nem szerepelt a listaban
 			if( elementSet.indexOf( eop ) == -1){
@@ -89,28 +89,28 @@ public class ParameterizedPage implements ExecutablePageInterface, BasePageChang
 	
 	/**
 	 * 
-	 * Remove the ElementBase from the ParameterizedPage list
+	 * Remove the ElementBase from the ParamPage list
 	 * 
 	 * @param element
 	 */
 	public void removeElement( ElementBase element ){
 		
 		//Az adott elem sorszama
-		int index = elementSet.indexOf( new ParameterizedElement( element, null ) );
+		int index = elementSet.indexOf( new ParamElement( element, null ) );
 		
 		elementSet.remove( index );
 	}
 	
 	/**
 	 * 
-	 * Move the ParameterizedElement up (forward to the beginning) one position 
+	 * Move the ParamElement up (forward to the beginning) one position 
 	 * 
 	 * @param element
 	 */
 	public void upElement( ElementBase element ){
 		
 		//Az adott elem sorszama
-		int index = elementSet.indexOf( new ParameterizedElement( element, null ) );
+		int index = elementSet.indexOf( new ParamElement( element, null ) );
 	
 		//Ha nem az elso a listaban
 		if( index > 0 ){
@@ -122,14 +122,14 @@ public class ParameterizedPage implements ExecutablePageInterface, BasePageChang
 	
 	/**
 	 * 
-	 * Move the ParameterizedElement down (forward to the end) one position
+	 * Move the ParamElement down (forward to the end) one position
 	 * 
 	 * @param element 
 	 */
 	public void downElement( ElementBase element ){
 
 		//Az adott elem sorszama
-		int index = elementSet.indexOf( new ParameterizedElement( element, null ) );
+		int index = elementSet.indexOf( new ParamElement( element, null ) );
 	
 		//Ha nem az utolso a listaban, de azert a listaban szerepel
 		if( index >= 0 && index < elementSet.size() - 1 ){
@@ -142,13 +142,13 @@ public class ParameterizedPage implements ExecutablePageInterface, BasePageChang
 	
 	/**
 	 * 
-	 * Get the position of the given ElementBase in the ParameterizedPage
+	 * Get the position of the given ElementBase in the ParamPage
 	 * 
 	 * @param element
 	 * @return
 	 */
 	public int getPosition( ElementBase element ){
-		return elementSet.indexOf( new ParameterizedElement(element, null));
+		return elementSet.indexOf( new ParamElement(element, null));
 	}
 	
 	/**
@@ -187,10 +187,10 @@ public class ParameterizedPage implements ExecutablePageInterface, BasePageChang
 			
 			
 			
-		//Kulonben normal ParameterizedPage-kent az ParameterizedElement-eken hajtja vegre sorban az ElementOperation-okat
+		//Kulonben normal ParamPage-kent az ParamElement-eken hajtja vegre sorban az ElementOperation-okat
 		}else{
 
-			for( ParameterizedElement eop: elementSet ){
+			for( ParamElement eop: elementSet ){
 			
 				// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
 				String frame = eop.getElement().getFrame();
@@ -229,7 +229,7 @@ public class ParameterizedPage implements ExecutablePageInterface, BasePageChang
 	 * 
 	 * The PageBase calls this method when an ElementBase is removed there.
 	 * In this case the same ElementBase, connected to an ElementOperation,
-	 * in this the ParameterizedPage must be removed as well.
+	 * in this the ParamPage must be removed as well.
 	 * 
 	 */
 	@Override

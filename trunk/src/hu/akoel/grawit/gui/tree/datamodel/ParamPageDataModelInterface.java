@@ -18,10 +18,12 @@ public abstract class ParamPageDataModelInterface extends DefaultMutableTreeNode
 	
 	public abstract void add( ParamPageDataModelInterface node );
 	
-	public void add( MutableTreeNode node ){
-		throw new ParameterError( 1, "Instead of '" + MutableTreeNode.class.getSimpleName() + "' it should have been: " + ParamPageDataModelInterface.class.getSimpleName() );
+/*	public void add( MutableTreeNode node ){
+		throw new ParameterError( 
+				
+				1, "Instead of '" + MutableTreeNode.class.getSimpleName() + "' it should have been: " + ParamPageDataModelInterface.class.getSimpleName() );
 	}
-	
+*/	
 	public abstract Element getXMLElement( Document document );
 }
 

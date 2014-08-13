@@ -14,7 +14,7 @@ public class ParamPageRootDataModel extends ParamPageNodeDataModel{
 	}
 	
 	public String getNameToString(){
-		return "haliho Root";
+		return "Page Root";
 	}
 	
 	public String getTypeToString(){
@@ -32,9 +32,9 @@ public class ParamPageRootDataModel extends ParamPageNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof PageBaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof ParamPageDataModelInterface ){
 				
-				Element element = ((PageBaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((ParamPageDataModelInterface)object).getXMLElement( document );
 				paramPageElement.appendChild( element );		    		
 		    	
 			}

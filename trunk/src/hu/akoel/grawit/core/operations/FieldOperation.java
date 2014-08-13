@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.core.elements.ElementBase;
-import hu.akoel.grawit.core.elements.ParameterizedElement;
+import hu.akoel.grawit.core.elements.ParamElement;
 import hu.akoel.grawit.core.parameter.ElementParameter;
 import hu.akoel.grawit.exceptions.ElementException;
 
@@ -26,7 +26,7 @@ public class FieldOperation implements ElementOperation{
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParameterizedElement element ) throws ElementException{
+	public void doAction( WebDriver driver, ParamElement element ) throws ElementException{
 		ElementBase elementBase = element.getElement();
 		
 		//Searching for the element - waiting for it

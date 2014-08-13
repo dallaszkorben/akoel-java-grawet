@@ -7,24 +7,18 @@ import hu.akoel.grawit.core.operations.ElementOperation;
 import hu.akoel.grawit.exceptions.ElementException;
 
 
-public class ParameterizedElement{
+public class ParamElement{
 	private ElementOperation operation;
 	private ElementBase element;
 	
 	private String variableValue = "";
 	
 
-	public ParameterizedElement( ElementBase element, ElementOperation operation){
+	public ParamElement( ElementBase element, ElementOperation operation){
 		this.element = element;
 		this.operation = operation;
 	}
 	
-/*	public ParameterizedElement(WebDriver driver, String name, By by, boolean isVariable, VariableSample variableSample, ElementOperation operation ) {
-		super( driver, name, by, isVariable, variableSample );
-		
-		this.operation = operation;
-	}
-*/
 	/**
 	 * 
 	 * Executes the defined Operation with the defined Parameter
@@ -64,14 +58,14 @@ public class ParameterizedElement{
 		if( null == obj ){
 			return false;
 		}
-		if( !( obj instanceof ParameterizedElement )){
+		if( !( obj instanceof ParamElement )){
 			return false;
 		}
 		if( obj == this ){
 			return true;
 		}
 		
-		ParameterizedElement eo = (ParameterizedElement)obj;
+		ParamElement eo = (ParamElement)obj;
 		if( eo.getElement() != this.getElement() ){
 			return false;
 		}
