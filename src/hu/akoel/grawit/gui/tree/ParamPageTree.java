@@ -14,6 +14,7 @@ import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.ParamPageNodeEditor;
 import hu.akoel.grawit.gui.editor.ParamPagePageEditor;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageDataModelInterface;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageElementDataModel;
@@ -44,6 +45,8 @@ public class ParamPageTree extends JTree{
 
 	private DefaultTreeModel treeModel;
 	
+	private PageBaseRootDataModel pageBaseRootDataModel;
+	
 	/**
 	 * 
 	 * Ertesiti a tree-t, hogy valtozas tortent
@@ -71,9 +74,11 @@ public class ParamPageTree extends JTree{
 		
 	}
 	
-	public ParamPageTree( GUIFrame guiFrame, ParamPageRootDataModel paramPageRootDataModel ){
+	public ParamPageTree( GUIFrame guiFrame, ParamPageRootDataModel paramPageRootDataModel, PageBaseRootDataModel pageBaseRootDataModel ){
 	
 		super( new DefaultTreeModel(paramPageRootDataModel) );
+		
+		this.pageBaseRootDataModel = pageBaseRootDataModel;
 		
 		treeModel = (DefaultTreeModel)this.getModel();
 		
@@ -404,8 +409,7 @@ public class ParamPageTree extends JTree{
 					
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							
-							ParamPagePageEditor paramPageNodePanel = new ParamPagePageEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
+							ParamPagePageEditor paramPageNodePanel = new ParamPagePageEditor( guiFrame, ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, ParamPageTree.this.pageBaseRootDataModel );								
 							guiFrame.showEditorPanel( paramPageNodePanel);								
 						
 						}

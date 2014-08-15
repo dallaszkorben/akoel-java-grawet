@@ -1,10 +1,6 @@
 package hu.akoel.grawit.gui.tree.datamodel;
 
-import hu.akoel.grawit.exceptions.ParameterError;
-
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -15,6 +11,8 @@ public abstract class PageBaseDataModelInterface extends DefaultMutableTreeNode{
 	public abstract String getTypeToString();
 	
 	public abstract String getNameToString();
+	
+	public abstract String getPathToString();
 	
 	public abstract void add( PageBaseDataModelInterface node );
 	

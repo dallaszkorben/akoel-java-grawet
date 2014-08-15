@@ -32,6 +32,11 @@ public class PageBaseElementDataModel  extends PageBaseDataModelInterface{
 		return CommonOperations.getTranslation( "tree.nodetype.elementbase");
 	}
 	
+	@Override
+	public String getPathToString() {		
+		return this.getPath().toString();
+	}	
+	
 	public ElementBase getElementBase(){
 		return elementBase;
 	}
