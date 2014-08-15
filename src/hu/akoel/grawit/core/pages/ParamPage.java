@@ -15,6 +15,7 @@ import hu.akoel.grawit.core.elements.ParamElement;
 import hu.akoel.grawit.core.operations.ElementOperation;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
+import hu.akoel.grawit.exceptions.ParameterError;
 
 /**
  * 
@@ -43,7 +44,11 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 		return name;
 	}
 	
-	public PageBase getPurePage(){
+	public void setName( String name ){
+		this.name = name;
+	}
+	
+	public PageBase getPageBase(){
 		return pageBase;
 	}
 	
@@ -80,8 +85,7 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 			}
 			
 		}else{
-			System.err.println("hiba - Nincs a PageBase listaban az elem: " + this.getClass().getName() );
-			//TODO hibageneralas
+			new ParameterError("Nincs a " + PageBase.class.getSimpleName() + " listaban a(z) " + element.getClass().getSimpleName() + " elem.");
 		}
 		
 		return null;

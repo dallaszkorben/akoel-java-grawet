@@ -73,9 +73,9 @@ public class ParamPageNodeDataModel extends ParamPageDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof PageBaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof ParamPageDataModelInterface ){
 				
-				Element element = ((PageBaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((ParamPageDataModelInterface)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}

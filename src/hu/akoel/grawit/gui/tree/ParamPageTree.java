@@ -9,7 +9,10 @@ import java.awt.event.MouseListener;
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.gui.GUIFrame;
+import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
+import hu.akoel.grawit.gui.editor.ParamPageNodeEditor;
+import hu.akoel.grawit.gui.editor.ParamPagePageEditor;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageDataModelInterface;
@@ -152,14 +155,14 @@ public class ParamPageTree extends JTree{
 				selectedNode = (DefaultMutableTreeNode)e.getNewLeadSelectionPath().getLastPathComponent();
 				//selectedNode = (DefaultMutableTreeNode)PageBaseTree.this.getLastSelectedPathComponent();
 			
-				//Ha egyaltalan valamilyen egergombot benyomtam
+				//Ha a root-ot valasztottam
 				if( selectedNode instanceof ParamPageRootDataModel ){
 					EmptyEditor emptyPanel = new EmptyEditor();								
 					guiFrame.showEditorPanel( emptyPanel );
 				
 				}else if( selectedNode instanceof ParamPageNodeDataModel ){
-//					PageBaseNodeEditor pageBaseNodePanel = new ParamPageNodeEditor(ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, EditMode.VIEW);
-//					guiFrame.showEditorPanel( pageBaseNodePanel);								
+					ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor(ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, EditMode.VIEW);
+					guiFrame.showEditorPanel( paramPageNodePanel);								
 				
 				}else if( selectedNode instanceof ParamPagePageDataModel ){
 //					ParamPagePageEditor pageBasePagePanel = new ParamPagePageEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, EditMode.VIEW );								
@@ -354,8 +357,8 @@ public class ParamPageTree extends JTree{
 						
 						if( selectedNode instanceof ParamPageNodeDataModel ){
 							
-//							ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-//							guiFrame.showEditorPanel( paramPageNodePanel);								
+							ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, EditMode.MODIFY );								
+							guiFrame.showEditorPanel( paramPageNodePanel);								
 								
 						}else if( selectedNode instanceof ParamPagePageDataModel ){
 								
@@ -371,6 +374,8 @@ public class ParamPageTree extends JTree{
 					}
 				});
 				this.add ( editMenu );
+
+				
 				
 				//
 				// Csomopont eseten
@@ -385,8 +390,8 @@ public class ParamPageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-//							ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
-//							guiFrame.showEditorPanel( paramPageNodePanel);								
+							ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
+							guiFrame.showEditorPanel( paramPageNodePanel);								
 						
 						}
 					});
@@ -400,15 +405,16 @@ public class ParamPageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-//							ParamPagePageEditor paramPageNodePanel = new ParamPagePageEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
-//							guiFrame.showEditorPanel( paramPageNodePanel);								
+							ParamPagePageEditor paramPageNodePanel = new ParamPagePageEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
+							guiFrame.showEditorPanel( paramPageNodePanel);								
 						
 						}
 					});
 					this.add ( insertPageMenu );
 					
 				}		
-				
+
+/*				
 				//
 				// Page eseten
 				//
@@ -430,7 +436,7 @@ public class ParamPageTree extends JTree{
 					this.add ( insertElementMenu );
 				
 				}
-				
+*/				
 				//
 				// Torles
 				// Ha nincs alatta ujabb elem
@@ -481,8 +487,8 @@ public class ParamPageTree extends JTree{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
-//						ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
-//						guiFrame.showEditorPanel( paramPageNodePanel);								
+						ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
+						guiFrame.showEditorPanel( paramPageNodePanel);								
 					
 					}
 				});

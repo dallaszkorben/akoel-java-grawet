@@ -5,43 +5,51 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.PageBase;
-import hu.akoel.grawit.core.pages.ParamPage;
-import hu.akoel.grawit.gui.container.TreeSelectionCombo;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPagePageDataModel;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
-public class ParamPagePageEditor extends DataEditor{
+public class ParamPageNodeEditor extends DataEditor{
+
+	private static final long serialVersionUID = 2644128362590221646L;
 	
-	private static final long serialVersionUID = -9038879802467565947L;
-
-	private ParamPageTree tree; 
-	private ParamPagePageDataModel nodeForModify;
+	private ParamPageTree tree;
+	private ParamPageNodeDataModel nodeForModify;
 	private ParamPageNodeDataModel nodeForCapture;
-	private EditMode mode;
+	private  EditMode mode;
 	
 	private JLabel labelName;
 	private JTextField fieldName;
-//	private JLabel labelDetails;
-	private JLabel labelBasePagePath;
-	private TreeSelectionCombo fieldBasePagePath;
-//	private JTextArea fieldDetails;
+	private JTextArea fieldDetails;
+
+	private void common(){
+		
+		//Name
+		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
+
+		//Details
+		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("section.title.details") + ": ");
+		JScrollPane scrollDetails = new JScrollPane(fieldDetails);
+
+		this.add( labelName, fieldName );
+		this.add( labelDetails, scrollDetails );
+
+		
+	}
 	
 	//Itt biztos beszuras van
-	public ParamPagePageEditor( JFrame parent, ParamPageTree tree, ParamPageNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.nodetype.parampage") );
-				
+	public ParamPageNodeEditor( ParamPageTree tree, ParamPageNodeDataModel selectedNode ){
+		super( CommonOperations.getTranslation("tree.nodetype.node") );
+		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
 		this.mode = null;
@@ -49,55 +57,41 @@ public class ParamPagePageEditor extends DataEditor{
 		//Name
 		fieldName = new JTextField( "" );
 		
-		//BasePage
-		fieldBasePagePath = new TreeSelectionCombo( parent );
-
+		//Details
+		fieldDetails = new JTextArea( "", 5, 15);
+		
 		common();
 		
 	}
 	
-	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamPagePageEditor( JFrame parent, ParamPageTree tree, ParamPagePageDataModel selectedNode, EditMode mode ){
-		super( mode, CommonOperations.getTranslation("tree.nodetype.parampage") );
+	//Itt modisitas van
+	public ParamPageNodeEditor( ParamPageTree pageBaseTree, ParamPageNodeDataModel selectedNode, EditMode mode ){		
+		super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
 
-		this.tree = tree;
+		this.tree = pageBaseTree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		ParamPage paramPage = selectedNode.getParamPage();
 		
-		//Name		
-		fieldName = new JTextField( paramPage.getName());
-			
-		//BasePage
-		fieldBasePagePath = new TreeSelectionCombo( parent, selectedNode.getParamPage().getPageBase() );
+		//Name
+		fieldName = new JTextField( selectedNode.getName());
+		
+		//Details
+		fieldDetails = new JTextArea( selectedNode.getDetails(), 5, 15);
 		
 		common();
-		
 	}
-	
-	private void common(){
-		
-		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
-		labelBasePagePath = new JLabel( "cim" + ": "); //TODO
-		
-		this.add( labelName, fieldName );		
-		this.add( labelBasePagePath, fieldBasePagePath );
-
-//		this.add( labelDetails, scrollDetails );
-	}
-	
 	
 	@Override
 	public void save() {
-		
+
 		//Ertekek trimmelese
 		fieldName.setText( fieldName.getText().trim() );
-//		fieldDetails.setText( fieldDetails.getText().trim() );
+		fieldDetails.setText( fieldDetails.getText().trim() );
 		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
-		//
+		//		
 		LinkedHashMap<Component, String> errorList = new LinkedHashMap<Component, String>();		
 		if( fieldName.getText().length() == 0 ){
 			errorList.put( 
@@ -110,41 +104,40 @@ public class ParamPagePageEditor extends DataEditor{
 		}else{
 
 			TreeNode nodeForSearch = null;
-
-			//CAPTURE
-			if( null == mode){
+			
+			if( null == mode ){
 				
 				nodeForSearch = nodeForCapture;
 				
-			//MODIFY
 			}else if( mode.equals( EditMode.MODIFY )){
 				
 				nodeForSearch = nodeForModify.getParent();
 				
 			}
 			
-			//Megnezi, hogy van-e masik azonos nevu elem
+			//Megnezi, hogy a node-ban van-e masik azonos nevu elem
 			int childrenCount = nodeForSearch.getChildCount();
 			for( int i = 0; i < childrenCount; i++ ){
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
-				//Ha Page-rol van szo (Lehetne meg NODE is)
-				if( levelNode instanceof PageBasePageDataModel ){
+				//Ha Node-rol van szo
+				if( levelNode instanceof PageBaseNodeDataModel ){
 					
 					//Ha azonos a nev
-					if( ((ParamPagePageDataModel) levelNode).getParamPage().getName().equals( fieldName.getText() ) ){
-					
+					if( ((PageBaseNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
-										
+							
+							//Akkor hiba van
 							errorList.put( 
 								fieldName, 
 								MessageFormat.format( 
 										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.parampage") 
+										CommonOperations.getTranslation("tree.nodetype.node") 
 								) 
-							);
+							);	
 							break;
 						}
 					}
@@ -152,7 +145,7 @@ public class ParamPagePageEditor extends DataEditor{
 			}
 		}
 		
-		//Volt hiba
+		//Ha volt hiba
 		if( errorList.size() != 0 ){
 			
 			//Hibajelzes
@@ -160,28 +153,27 @@ public class ParamPagePageEditor extends DataEditor{
 		
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
-			
+
 			//TreePath pathToOpen = null;
 			
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				PageBase pageBase = new PageBase("", "");
-				
-				ParamPage paramPage = new ParamPage( fieldName.getText(), pageBase );				
-				ParamPagePageDataModel newParamPagePage = new ParamPagePageDataModel( paramPage );
-				nodeForCapture.add( newParamPagePage );
-
+				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
+				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
+				ParamPageNodeDataModel newPageBaseNode = new ParamPageNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				//parentNode.insert( newPageBaseNode, selectedNodeIndex);
+				nodeForCapture.add( newPageBaseNode );
+			
 				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(newPageBasePage.getPath());
+				//pathToOpen = new TreePath(newPageBaseNode.getPath());
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
-				
-				ParamPage paramPage = nodeForModify.getParamPage(); 
-				
-				paramPage.setName( fieldName.getText() );
-//				paramPage.setDetails( fieldDetails.getText() );
+
+				//Modositja a valtozok erteket
+				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setDetails( fieldDetails.getText() );
 			
 				//Ebbe a nodba kell majd visszaallni
 				//pathToOpen = new TreePath(nodeForModify.getPath());
@@ -189,6 +181,6 @@ public class ParamPagePageEditor extends DataEditor{
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
 			tree.changed();
-		}
+		}		
 	}
 }
