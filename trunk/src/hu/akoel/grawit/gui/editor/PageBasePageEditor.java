@@ -6,42 +6,34 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.pages.PageBase;
-import hu.akoel.grawit.core.pages.ParamPage;
-import hu.akoel.grawit.gui.container.TreeSelectionCombo;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
-import hu.akoel.grawit.gui.tree.ParamPageTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPagePageDataModel;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.tree.TreeNode;
 
-public class ParamPagePageEditor extends DataEditor{
+public class PageBasePageEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -9038879802467565947L;
 
-	private ParamPageTree tree; 
-	private ParamPagePageDataModel nodeForModify;
-	private ParamPageNodeDataModel nodeForCapture;
+	private PageBaseTree tree; 
+	private PageBasePageDataModel nodeForModify;
+	private PageBaseNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
 	private JTextField fieldName;
-//	private JLabel labelDetails;
-	private JLabel labelBasePagePath;
-	private TreeSelectionCombo fieldBasePagePath;
-//	private JTextArea fieldDetails;
+	private JLabel labelDetails;
+	private JTextArea fieldDetails;
 	
 	//Itt biztos beszuras van
-	public ParamPagePageEditor( JFrame parent, ParamPageTree tree, ParamPageNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.nodetype.parampage") );
-				
+	public PageBasePageEditor( PageBaseTree tree, PageBaseNodeDataModel selectedNode ){
+		super( CommonOperations.getTranslation("tree.nodetype.pagebase") );
+		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
 		this.mode = null;
@@ -49,42 +41,40 @@ public class ParamPagePageEditor extends DataEditor{
 		//Name
 		fieldName = new JTextField( "" );
 		
-		//BasePage
-		fieldBasePagePath = new TreeSelectionCombo( parent );
+		//Details
+		fieldDetails = new JTextArea( "", 5, 15);
 
 		common();
 		
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamPagePageEditor( JFrame parent, ParamPageTree tree, ParamPagePageDataModel selectedNode, EditMode mode ){
-		super( mode, CommonOperations.getTranslation("tree.nodetype.parampage") );
+	public PageBasePageEditor( PageBaseTree tree, PageBasePageDataModel selectedNode, EditMode mode ){
+		super( mode, CommonOperations.getTranslation("tree.nodetype.pagebase") );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		ParamPage paramPage = selectedNode.getParamPage();
+		PageBase pageBase = selectedNode.getPageBase();
 		
 		//Name		
-		fieldName = new JTextField( paramPage.getName());
+		fieldName = new JTextField( pageBase.getName());
 			
-		//BasePage
-		fieldBasePagePath = new TreeSelectionCombo( parent, selectedNode.getParamPage().getPageBase() );
+		//Details
+		fieldDetails = new JTextArea( pageBase.getDetails(), 5, 15);
 		
 		common();
 		
 	}
 	
 	private void common(){
-		
 		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
-		labelBasePagePath = new JLabel( "cim" + ": "); //TODO
+		labelDetails = new JLabel( CommonOperations.getTranslation("section.title.details") + ": ");
+		JScrollPane scrollDetails = new JScrollPane(fieldDetails);
 		
-		this.add( labelName, fieldName );		
-		this.add( labelBasePagePath, fieldBasePagePath );
-
-//		this.add( labelDetails, scrollDetails );
+		this.add( labelName, fieldName );
+		this.add( labelDetails, scrollDetails );
 	}
 	
 	
@@ -93,7 +83,7 @@ public class ParamPagePageEditor extends DataEditor{
 		
 		//Ertekek trimmelese
 		fieldName.setText( fieldName.getText().trim() );
-//		fieldDetails.setText( fieldDetails.getText().trim() );
+		fieldDetails.setText( fieldDetails.getText().trim() );
 		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
@@ -132,7 +122,7 @@ public class ParamPagePageEditor extends DataEditor{
 				if( levelNode instanceof PageBasePageDataModel ){
 					
 					//Ha azonos a nev
-					if( ((ParamPagePageDataModel) levelNode).getParamPage().getName().equals( fieldName.getText() ) ){
+					if( ((PageBasePageDataModel) levelNode).getPageBase().getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -142,7 +132,7 @@ public class ParamPagePageEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.parampage") 
+										CommonOperations.getTranslation("tree.nodetype.pagebase") 
 								) 
 							);
 							break;
@@ -166,11 +156,12 @@ public class ParamPagePageEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				PageBase pageBase = new PageBase("", "");
-				
-				ParamPage paramPage = new ParamPage( fieldName.getText(), pageBase );				
-				ParamPagePageDataModel newParamPagePage = new ParamPagePageDataModel( paramPage );
-				nodeForCapture.add( newParamPagePage );
+				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
+				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
+				PageBase pageBase = new PageBase( fieldName.getText(), fieldDetails.getText() );				
+				PageBasePageDataModel newPageBasePage = new PageBasePageDataModel( pageBase );
+				//parentNode.insert( newPageBasePage, selectedNodeIndex);
+				nodeForCapture.add( newPageBasePage );
 
 				//Ebbe a nodba kell majd visszaallni
 				//pathToOpen = new TreePath(newPageBasePage.getPath());
@@ -178,10 +169,10 @@ public class ParamPagePageEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
-				ParamPage paramPage = nodeForModify.getParamPage(); 
+				PageBase pageBase = nodeForModify.getPageBase(); 
 				
-				paramPage.setName( fieldName.getText() );
-//				paramPage.setDetails( fieldDetails.getText() );
+				pageBase.setName( fieldName.getText() );
+				pageBase.setDetails( fieldDetails.getText() );
 			
 				//Ebbe a nodba kell majd visszaallni
 				//pathToOpen = new TreePath(nodeForModify.getPath());

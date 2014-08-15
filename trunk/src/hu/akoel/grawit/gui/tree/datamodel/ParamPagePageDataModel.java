@@ -3,7 +3,6 @@ package hu.akoel.grawit.gui.tree.datamodel;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.PageBase;
 import hu.akoel.grawit.core.pages.ParamPage;
 
 import org.w3c.dom.Attr;
@@ -61,9 +60,9 @@ public class ParamPagePageDataModel  extends ParamPageDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof PageBaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof ParamPageDataModelInterface ){
 				
-				Element element = ((PageBaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((ParamPageDataModelInterface)object).getXMLElement( document );
 				pageElement.appendChild( element );		    		
 		    	
 			}

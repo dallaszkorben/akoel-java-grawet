@@ -13,7 +13,7 @@ import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.PageBaseElementEditor;
 import hu.akoel.grawit.gui.editor.PageBaseNodeEditor;
-import hu.akoel.grawit.gui.editor.ParamPagePageEditor;
+import hu.akoel.grawit.gui.editor.PageBasePageEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseDataModelInterface;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
@@ -43,7 +43,7 @@ public class PageBaseTree extends JTree{
 	
 	private DefaultMutableTreeNode selectedNode;
 
-	private DefaultTreeModel treeModel;
+//	private DefaultTreeModel treeModel;
 	/**
 	 * 
 	 * Ertesiti a tree-t, hogy valtozas tortent
@@ -167,7 +167,7 @@ public class PageBaseTree extends JTree{
 					guiFrame.showEditorPanel( pageBaseNodePanel);								
 				
 				}else if( selectedNode instanceof PageBasePageDataModel ){
-					ParamPagePageEditor pageBasePagePanel = new ParamPagePageEditor( PageBaseTree.this, (PageBasePageDataModel)selectedNode, EditMode.VIEW );								
+					PageBasePageEditor pageBasePagePanel = new PageBasePageEditor( PageBaseTree.this, (PageBasePageDataModel)selectedNode, EditMode.VIEW );								
 					guiFrame.showEditorPanel( pageBasePagePanel);				
 								
 				}else if( selectedNode instanceof PageBaseElementDataModel ){
@@ -366,7 +366,7 @@ public class PageBaseTree extends JTree{
 								
 							}else if( selectedNode instanceof PageBasePageDataModel ){
 								
-								ParamPagePageEditor pageBasePagePanel = new ParamPagePageEditor( PageBaseTree.this, (PageBasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+								PageBasePageEditor pageBasePagePanel = new PageBasePageEditor( PageBaseTree.this, (PageBasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 								guiFrame.showEditorPanel( pageBasePagePanel);		
 								
 							}else if( selectedNode instanceof PageBaseElementDataModel ){
@@ -407,7 +407,7 @@ public class PageBaseTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							ParamPagePageEditor pageBaseNodePanel = new ParamPagePageEditor( PageBaseTree.this, (PageBaseNodeDataModel)selectedNode );								
+							PageBasePageEditor pageBaseNodePanel = new PageBasePageEditor( PageBaseTree.this, (PageBaseNodeDataModel)selectedNode );								
 							guiFrame.showEditorPanel( pageBaseNodePanel);								
 						
 						}
