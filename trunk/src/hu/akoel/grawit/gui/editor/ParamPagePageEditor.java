@@ -7,13 +7,16 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.pages.PageBase;
 import hu.akoel.grawit.core.pages.ParamPage;
+import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.container.TreeSelectionCombo;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPagePageDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,7 +42,7 @@ public class ParamPagePageEditor extends DataEditor{
 //	private JTextArea fieldDetails;
 	
 	//Itt biztos beszuras van
-	public ParamPagePageEditor( JFrame parent, ParamPageTree tree, ParamPageNodeDataModel selectedNode ){
+	public ParamPagePageEditor( GUIFrame parent, ParamPageTree tree, ParamPageNodeDataModel selectedNode, PageBaseRootDataModel pageBaseRootDataModel ){
 		super( CommonOperations.getTranslation("tree.nodetype.parampage") );
 				
 		this.tree = tree;
@@ -50,15 +53,15 @@ public class ParamPagePageEditor extends DataEditor{
 		fieldName = new JTextField( "" );
 		
 		//BasePage
-		fieldBasePagePath = new TreeSelectionCombo( parent );
+		fieldBasePagePath = new TreeSelectionCombo( parent, pageBaseRootDataModel );
 
 		common();
 		
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamPagePageEditor( JFrame parent, ParamPageTree tree, ParamPagePageDataModel selectedNode, EditMode mode ){
-		super( mode, CommonOperations.getTranslation("tree.nodetype.parampage") );
+	public ParamPagePageEditor( GUIFrame parent, ParamPageTree tree, ParamPagePageDataModel selectedNode, PageBaseRootDataModel pageBaseRootDataModel, EditMode mode ){
+		super( mode, CommonOperations.getTranslation( "tree.nodetype.parampage" ) );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
@@ -68,9 +71,11 @@ public class ParamPagePageEditor extends DataEditor{
 		
 		//Name		
 		fieldName = new JTextField( paramPage.getName());
-			
+	
+//TODO meg kell oldani !!!!1		
+fieldBasePagePath =  new TreeSelectionCombo( parent, pageBaseRootDataModel );
 		//BasePage
-		fieldBasePagePath = new TreeSelectionCombo( parent, selectedNode.getParamPage().getPageBase() );
+//		fieldBasePagePath = new TreeSelectionCombo( parent, selectedNode.getParamPage().getPageBase() );
 		
 		common();
 		

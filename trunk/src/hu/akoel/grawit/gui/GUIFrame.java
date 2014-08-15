@@ -530,7 +530,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramPageRootDataModel );
+			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramPageRootDataModel, pageBaseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

@@ -25,12 +25,19 @@ public class PageBaseNodeDataModel extends PageBaseDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 	
+	@Override
 	public String getNameToString(){
 		return name;
 	}
 	
+	@Override
 	public String getTypeToString(){
 		return CommonOperations.getTranslation( "tree.nodetype.node");
+	}
+	
+	@Override
+	public String getPathToString() {		
+		return this.getPath().toString();
 	}
 	
 	public String getName(){

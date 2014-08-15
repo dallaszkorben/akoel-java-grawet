@@ -28,6 +28,11 @@ public class PageBasePageDataModel  extends PageBaseDataModelInterface{
 		return pageBase.getName();
 	}
 	
+	@Override
+	public String getPathToString() {		
+		return this.getPath().toString();
+	}
+	
 	public String getTypeToString(){
 		return CommonOperations.getTranslation( "tree.nodetype.pagebase");
 	}
@@ -82,4 +87,6 @@ public class PageBasePageDataModel  extends PageBaseDataModelInterface{
 */			
 		return pageElement;	
 	}
+
+
 }
