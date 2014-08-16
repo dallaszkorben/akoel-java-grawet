@@ -170,8 +170,8 @@ public class ParamPageTree extends JTree{
 					guiFrame.showEditorPanel( paramPageNodePanel);								
 				
 				}else if( selectedNode instanceof ParamPagePageDataModel ){
-//					ParamPagePageEditor pageBasePagePanel = new ParamPagePageEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, EditMode.VIEW );								
-//					guiFrame.showEditorPanel( pageBasePagePanel);				
+					ParamPagePageEditor pageBasePagePanel = new ParamPagePageEditor( guiFrame, ParamPageTree.this, (ParamPagePageDataModel)selectedNode, pageBaseRootDataModel, EditMode.VIEW );								
+					guiFrame.showEditorPanel( pageBasePagePanel);				
 								
 				}else if( selectedNode instanceof ParamPageElementDataModel ){
 //					PageBaseElementEditor pageBaseElementPanel = new ParamPageElementEditor( ParamPageTree.this, (ParamPageElementDataModel)selectedNode, EditMode.VIEW );								
@@ -463,7 +463,7 @@ public class ParamPageTree extends JTree{
 							
 							int n = JOptionPane.showOptionDialog(guiFrame,
 									"Valóban torolni kívánod a(z) " + selectedNode.getNameToString() + " nevü " + selectedNode.getTypeToString() + "-t ?",
-									CommonOperations.getTranslation("section.windowtitle.confirmation.delete"),
+									CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 									JOptionPane.YES_NO_CANCEL_OPTION,
 									JOptionPane.QUESTION_MESSAGE,
 									null,
