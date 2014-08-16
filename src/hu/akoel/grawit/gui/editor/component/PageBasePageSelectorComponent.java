@@ -37,20 +37,17 @@ public class PageBasePageSelectorComponent extends JPanel implements EditorCompo
 	private JButton button;
 	private JTextField field = new JTextField();
 	private PageBasePageDataModel pageBasePageDataModel;
-
 	
-	private GUIFrame parent;
-	
-	public PageBasePageSelectorComponent( GUIFrame parent, PageBaseRootDataModel pageBaseRootDataModel ){
+	public PageBasePageSelectorComponent( PageBaseRootDataModel pageBaseRootDataModel ){
 		super();
 	
-		common( parent, pageBaseRootDataModel );		
+		common( pageBaseRootDataModel );		
 	}
 	
-	public PageBasePageSelectorComponent( GUIFrame parent, PageBaseRootDataModel pageBaseRootDataModel, PageBase selectedPageBase ){
+	public PageBasePageSelectorComponent( PageBaseRootDataModel pageBaseRootDataModel, PageBase selectedPageBase ){
 		super();
 	
-		common( parent, pageBaseRootDataModel );
+		common( pageBaseRootDataModel );
 
 		boolean found = false;
 		
@@ -79,8 +76,7 @@ if( !found ){
 }		
 	}
 	
-	private void common( GUIFrame parent, final PageBaseRootDataModel pageBaseRootDataModel ){
-		this.parent = parent;		
+	private void common( final PageBaseRootDataModel pageBaseRootDataModel ){	
 		this.setLayout(new BorderLayout());
 		
 		field.setEditable( false );
@@ -119,14 +115,6 @@ if( !found ){
 		return pageBasePageDataModel.getPageBase();
 	}
 	
-/*	public PageBasePageDataModel getPageBasePageDataModel(){
-		return pageBasePageDataModel;
-	}
-*/	
-	public GUIFrame getParent(){
-		return parent;
-	}
-	
 	public void setSelectedPathToPageBase( PageBasePageDataModel selectedPageBase ){
 		this.pageBasePageDataModel = selectedPageBase;
 		field.setText( selectedPageBase.getPathToString() );		
@@ -134,21 +122,34 @@ if( !found ){
 	
 }
 
+/**
+ * 
+ * Modalis tipusu PageBasePage selector ablak.
+ * A "..." nyomogomb hatasara nyilik ki
+ * 
+ * @author akoel
+ *
+ */
 class SelectorPageBasePageDialog extends JDialog{
 
 	private static final long serialVersionUID = 1607956458285776550L;
 	
 	public SelectorPageBasePageDialog( PageBasePageSelectorComponent pageBasePageSelectorComponent, PageBaseRootDataModel pageBaseRootDataModel ){
-		super( pageBasePageSelectorComponent.getParent(), true );
+		//super( pageBasePageSelectorComponent.getParent(), true );
+		super( );
 
+		//Modalis a PageBasePage selector ablak
+		this.setModal( true );
+		
 		//A fo ablak kozepere igazitja a dialogus ablakot
-		this.setLocationRelativeTo( pageBasePageSelectorComponent.getParent() );
+		this.setLocationRelativeTo( pageBasePageSelectorComponent );
 
 		this.setLayout( new BorderLayout() );
 
+		//Elkesziti a PageBase faszerkezetet
 		PageBaseTreeForSelect pageBaseTree = new PageBaseTreeForSelect( pageBasePageSelectorComponent, pageBaseRootDataModel );
 		
-		//Becsomagolom a Tree-t hogy scroll-ozhato legyen
+		//Becsomagolom a PageBase faszerkezetet hogy scroll-ozhato legyen
 		JScrollPane scrolledPageBaseTree = new JScrollPane( pageBaseTree );
 		
 		//Kiteszem a Treet az ablakba

@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.pages.PageBase;
 import hu.akoel.grawit.core.pages.ParamPage;
-import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.component.PageBasePageSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
@@ -34,7 +33,7 @@ public class ParamPagePageEditor extends DataEditor{
 	private PageBasePageSelectorComponent fieldPageBasePageSelector;
 	
 	//Itt biztos beszuras van
-	public ParamPagePageEditor( GUIFrame parent, ParamPageTree tree, ParamPageNodeDataModel selectedNode, PageBaseRootDataModel pageBaseRootDataModel ){
+	public ParamPagePageEditor( ParamPageTree tree, ParamPageNodeDataModel selectedNode, PageBaseRootDataModel pageBaseRootDataModel ){
 		super( CommonOperations.getTranslation("tree.nodetype.parampage") );
 				
 		this.tree = tree;
@@ -45,14 +44,14 @@ public class ParamPagePageEditor extends DataEditor{
 		fieldName = new TextFieldComponent( "" );
 		
 		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)
-		fieldPageBasePageSelector = new PageBasePageSelectorComponent( parent, pageBaseRootDataModel );
+		fieldPageBasePageSelector = new PageBasePageSelectorComponent( pageBaseRootDataModel );
 
 		common();
 		
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamPagePageEditor( GUIFrame parent, ParamPageTree tree, ParamPagePageDataModel selectedNode, PageBaseRootDataModel pageBaseRootDataModel, EditMode mode ){
+	public ParamPagePageEditor( ParamPageTree tree, ParamPagePageDataModel selectedNode, PageBaseRootDataModel pageBaseRootDataModel, EditMode mode ){
 		super( mode, CommonOperations.getTranslation( "tree.nodetype.parampage" ) );
 
 		this.tree = tree;
@@ -68,7 +67,7 @@ public class ParamPagePageEditor extends DataEditor{
 		PageBase selectedPageBase = paramPage.getPageBase();
 		
 		//PAGEBASEPAGE SELECTOR COMBO
-		fieldPageBasePageSelector =  new PageBasePageSelectorComponent( parent, pageBaseRootDataModel, selectedPageBase );
+		fieldPageBasePageSelector =  new PageBasePageSelectorComponent( pageBaseRootDataModel, selectedPageBase );
 		
 		common();
 		

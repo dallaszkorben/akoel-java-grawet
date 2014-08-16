@@ -166,12 +166,12 @@ public class ParamPageTree extends JTree{
 					guiFrame.showEditorPanel( emptyPanel );
 				
 				}else if( selectedNode instanceof ParamPageNodeDataModel ){
-					ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor(ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, EditMode.VIEW);
-					guiFrame.showEditorPanel( paramPageNodePanel);								
+					ParamPageNodeEditor paramPageNodeEditor = new ParamPageNodeEditor(ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, EditMode.VIEW);
+					guiFrame.showEditorPanel( paramPageNodeEditor);								
 				
 				}else if( selectedNode instanceof ParamPagePageDataModel ){
-					ParamPagePageEditor pageBasePagePanel = new ParamPagePageEditor( guiFrame, ParamPageTree.this, (ParamPagePageDataModel)selectedNode, pageBaseRootDataModel, EditMode.VIEW );								
-					guiFrame.showEditorPanel( pageBasePagePanel);				
+					ParamPagePageEditor paramPagePageEditor = new ParamPagePageEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, pageBaseRootDataModel, EditMode.VIEW );								
+					guiFrame.showEditorPanel( paramPagePageEditor);				
 								
 				}else if( selectedNode instanceof ParamPageElementDataModel ){
 //					PageBaseElementEditor pageBaseElementPanel = new ParamPageElementEditor( ParamPageTree.this, (ParamPageElementDataModel)selectedNode, EditMode.VIEW );								
@@ -366,9 +366,9 @@ public class ParamPageTree extends JTree{
 							guiFrame.showEditorPanel( paramPageNodePanel);								
 								
 						}else if( selectedNode instanceof ParamPagePageDataModel ){
-								
-//							ParamPagePageEditor paramPagePagePanel = new ParamPagePageEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-//							guiFrame.showEditorPanel( paramPagePagePanel);		
+							
+							ParamPagePageEditor paramPagePagePanel = new ParamPagePageEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, pageBaseRootDataModel, EditMode.MODIFY );							                                            
+							guiFrame.showEditorPanel( paramPagePagePanel);		
 								
 						}else if( selectedNode instanceof ParamPageElementDataModel ){
 
@@ -378,9 +378,7 @@ public class ParamPageTree extends JTree{
 						}
 					}
 				});
-				this.add ( editMenu );
-
-				
+				this.add ( editMenu );				
 				
 				//
 				// Csomopont eseten
@@ -395,8 +393,8 @@ public class ParamPageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
-							guiFrame.showEditorPanel( paramPageNodePanel);								
+							ParamPageNodeEditor paramPageNodeEditor = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
+							guiFrame.showEditorPanel( paramPageNodeEditor);								
 						
 						}
 					});
@@ -409,8 +407,8 @@ public class ParamPageTree extends JTree{
 					
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							ParamPagePageEditor paramPageNodePanel = new ParamPagePageEditor( guiFrame, ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, ParamPageTree.this.pageBaseRootDataModel );								
-							guiFrame.showEditorPanel( paramPageNodePanel);								
+							ParamPagePageEditor paramPagePageEditor = new ParamPagePageEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, ParamPageTree.this.pageBaseRootDataModel );								
+							guiFrame.showEditorPanel( paramPagePageEditor);								
 						
 						}
 					});
@@ -491,8 +489,8 @@ public class ParamPageTree extends JTree{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
-						ParamPageNodeEditor paramPageNodePanel = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
-						guiFrame.showEditorPanel( paramPageNodePanel);								
+						ParamPageNodeEditor paramPageNodeEditor = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode );								
+						guiFrame.showEditorPanel( paramPageNodeEditor);								
 					
 					}
 				});

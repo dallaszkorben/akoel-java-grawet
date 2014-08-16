@@ -174,6 +174,10 @@ public abstract class DataEditor extends JPanel{
 		
 	}
 	
+	/**
+	 * Az osztaly leszarmazottaiban mar nem engedelyezem a Component, Object paros hozzaadasat
+	 * Csak abban az esetben ha ez első parameter Component, a masodik pedig EditorComponentInterface leszarmazottja
+	 */
 	public void add( Component c, Object o ){
 		add( c, (EditorComponentInterface)o );
 	}
@@ -313,7 +317,7 @@ public abstract class DataEditor extends JPanel{
 			if( null != tooltipText && tooltipText.length() != 0 ){
 				
 				//Akkor megjeleniti a hibauzenetet egy ablakban
-				JOptionPane.showMessageDialog(null, tooltipText, CommonOperations.getTranslation( "editor.windowtitle.error" ), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog( DataEditor.this, tooltipText, CommonOperations.getTranslation( "editor.windowtitle.error" ), JOptionPane.ERROR_MESSAGE);
 
 			}
 		}
