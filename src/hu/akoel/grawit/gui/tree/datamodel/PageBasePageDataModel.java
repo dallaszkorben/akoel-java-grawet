@@ -2,7 +2,6 @@ package hu.akoel.grawit.gui.tree.datamodel;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.pages.PageBase;
@@ -79,19 +78,6 @@ public class PageBasePageDataModel  extends PageBaseDataModelInterface{
 			}
 		}
 		
-/*		Enumeration<?> e = this.preorderEnumeration();
-		while(e.hasMoreElements()){
-			
-			Object object = e.nextElement();
-			
-			if( !object.equals(this) && object instanceof DataModelInterface ){
-				
-				Element element = ((DataModelInterface)object).getXMLElement( document );
-				//pageElement.appendChild( element );		    		
-		    	
-			}
-		}
-*/			
 		return pageElement;	
 	}
 

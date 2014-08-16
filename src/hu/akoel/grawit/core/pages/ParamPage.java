@@ -10,9 +10,9 @@ import javax.tools.ToolProvider;
 
 import org.openqa.selenium.WebDriver;
 
-import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.core.elements.BaseElement;
 import hu.akoel.grawit.core.elements.ParamElement;
-import hu.akoel.grawit.core.operations.ElementOperation;
+import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.ParameterError;
@@ -63,17 +63,17 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 	
 	/**
 	 * 
-	 * A new ElementBase-ElementOperation pair added to this ParemeterizedPage
+	 * A new BaseElement-ElementOperationInterface pair added to this ParemeterizedPage
 	 * 
 	 * @param element
 	 * @param operation
 	 */
-	public ParamElement addElement( ElementBase element, ElementOperation operation ){
+	public ParamElement addElement( String name, BaseElement element, ElementOperationInterface operation ){
 		
 		//Ha letezik egyaltalan a PageBase listajaban
 		if( pageBase.getIndex( element ) >= 0 ){
 			
-			ParamElement eop = new ParamElement(element, operation);
+			ParamElement eop = new ParamElement(name, element, operation);
 			
 			//Csak ha meg nem szerepelt a listaban
 			if( elementSet.indexOf( eop ) == -1){
@@ -93,14 +93,14 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 	
 	/**
 	 * 
-	 * Remove the ElementBase from the ParamPage list
+	 * Remove the BaseElement from the ParamPage list
 	 * 
 	 * @param element
 	 */
-	public void removeElement( ElementBase element ){
+	public void removeElement( BaseElement element ){
 		
 		//Az adott elem sorszama
-		int index = elementSet.indexOf( new ParamElement( element, null ) );
+		int index = elementSet.indexOf( new ParamElement( null, element, null ) );
 		
 		elementSet.remove( index );
 	}
@@ -111,10 +111,10 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 	 * 
 	 * @param element
 	 */
-	public void upElement( ElementBase element ){
+	public void upElement( BaseElement element ){
 		
 		//Az adott elem sorszama
-		int index = elementSet.indexOf( new ParamElement( element, null ) );
+		int index = elementSet.indexOf( new ParamElement( null, element, null ) );
 	
 		//Ha nem az elso a listaban
 		if( index > 0 ){
@@ -130,10 +130,10 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 	 * 
 	 * @param element 
 	 */
-	public void downElement( ElementBase element ){
+	public void downElement( BaseElement element ){
 
 		//Az adott elem sorszama
-		int index = elementSet.indexOf( new ParamElement( element, null ) );
+		int index = elementSet.indexOf( new ParamElement( null, element, null ) );
 	
 		//Ha nem az utolso a listaban, de azert a listaban szerepel
 		if( index >= 0 && index < elementSet.size() - 1 ){
@@ -146,13 +146,13 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 	
 	/**
 	 * 
-	 * Get the position of the given ElementBase in the ParamPage
+	 * Get the position of the given BaseElement in the ParamPage
 	 * 
 	 * @param element
 	 * @return
 	 */
-	public int getPosition( ElementBase element ){
-		return elementSet.indexOf( new ParamElement(element, null));
+	public int getPosition( BaseElement element ){
+		return elementSet.indexOf( new ParamElement(null, element, null));
 	}
 	
 	/**
@@ -191,13 +191,13 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 			
 			
 			
-		//Kulonben normal ParamPage-kent az ParamElement-eken hajtja vegre sorban az ElementOperation-okat
+		//Kulonben normal ParamPage-kent az ParamElement-eken hajtja vegre sorban az ElementOperationInterface-okat
 		}else{
 
 			for( ParamElement eop: elementSet ){
 			
 				// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
-				String frame = eop.getElement().getFrame();
+				String frame = eop.getBaseElement().getFrame();
 				if( null != frame ){
 					driver.switchTo().defaultContent();
 					driver.switchTo().frame("menuFrame");		
@@ -231,13 +231,13 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 
 	/**
 	 * 
-	 * The PageBase calls this method when an ElementBase is removed there.
-	 * In this case the same ElementBase, connected to an ElementOperation,
+	 * The PageBase calls this method when an BaseElement is removed there.
+	 * In this case the same BaseElement, connected to an ElementOperationInterface,
 	 * in this the ParamPage must be removed as well.
 	 * 
 	 */
 	@Override
-	public void removePureElement(ElementBase element) {
+	public void removePureElement(BaseElement element) {
 		removeElement(element);		
 	}
 

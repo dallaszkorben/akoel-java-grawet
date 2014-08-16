@@ -8,11 +8,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawit.IdentificationType;
-import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.core.elements.BaseElement;
 import hu.akoel.grawit.core.elements.ParamElement;
 
-public class RadioButtonOperation implements ElementOperation{
+public class RadioButtonOperation implements ElementOperationInterface{
 
+	@Override
+	public Operation getOperation() {
+		return Operation.RADIOBUTTON;
+	}
+	
 	/**
 	 * 
 	 * Executes a Click action on the WebElement (RadioButon)
@@ -20,7 +25,7 @@ public class RadioButtonOperation implements ElementOperation{
 	 */
 	@Override
 	public void doAction( WebDriver driver, ParamElement element ) {
-		ElementBase elementBase = element.getElement();
+		BaseElement baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);		
@@ -28,10 +33,10 @@ public class RadioButtonOperation implements ElementOperation{
 		By by = null;
 		
 		//ID
-		if( elementBase.getIdentificationType().equals(IdentificationType.ID)){
-			by = By.id( elementBase.getIdentifier() );
-		}else if( elementBase.getIdentificationType().equals(IdentificationType.CSS)){
-			by = By.cssSelector( elementBase.getIdentifier() );
+		if( baseElement.getIdentificationType().equals(IdentificationType.ID)){
+			by = By.id( baseElement.getIdentifier() );
+		}else if( baseElement.getIdentificationType().equals(IdentificationType.CSS)){
+			by = By.cssSelector( baseElement.getIdentifier() );
 		}
 		
 		wait.until(ExpectedConditions.elementToBeClickable( by ) );		

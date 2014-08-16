@@ -15,9 +15,13 @@ public class ParamPagePageDataModel  extends ParamPageDataModelInterface{
 	
 	private ParamPage paramPage;
 	
-	public ParamPagePageDataModel( ParamPage paramPage ){
+	private PageBaseRootDataModel pageBaseRootDataModel;
+	
+	public ParamPagePageDataModel( ParamPage paramPage, PageBaseRootDataModel pageBaseRootDataModel ){
 		super();
+		
 		this.paramPage = paramPage;
+		this.pageBaseRootDataModel = pageBaseRootDataModel;
 	}
 
 	@Override
@@ -36,24 +40,25 @@ public class ParamPagePageDataModel  extends ParamPageDataModelInterface{
 	public ParamPage getParamPage(){
 		return paramPage;
 	}
-
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
 
 		//Node element
-		Element pageElement = document.createElement("page");
+		Element pageElement = document.createElement("parampage");
 		
 		//NAME attributum
 		attr = document.createAttribute("name");
 		attr.setValue( paramPage.getName() );
 		pageElement.setAttributeNode(attr);	
-		
-		//DETAILS attributum
-/*		attr = document.createAttribute("details");
-		attr.setValue( paramPage.getDetails() );
+
+		//PAGEBASEPAGE attributum
+		PageBasePageDataModel pageBasePageDataModel = CommonOperations.getPageBasePageDataModelByPageBase( pageBaseRootDataModel, paramPage.getPageBase() );	
+		attr = document.createAttribute("pagebasepagepath");
+		attr.setValue( pageBasePageDataModel.getPathToString() );
 		pageElement.setAttributeNode(attr);
-*/		
+		
 
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){

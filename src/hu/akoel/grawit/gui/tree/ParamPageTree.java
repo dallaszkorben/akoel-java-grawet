@@ -11,6 +11,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
+import hu.akoel.grawit.gui.editor.ParamPageElementEditor;
 import hu.akoel.grawit.gui.editor.ParamPageNodeEditor;
 import hu.akoel.grawit.gui.editor.ParamPagePageEditor;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
@@ -43,8 +44,6 @@ public class ParamPageTree extends JTree{
 	
 	private DefaultMutableTreeNode selectedNode;
 
-	private DefaultTreeModel treeModel;
-	
 	private PageBaseRootDataModel pageBaseRootDataModel;
 	
 	/**
@@ -70,8 +69,7 @@ public class ParamPageTree extends JTree{
 			
 			//Akkor kiterjeszti
 			this.expandPath( path );
-		}
-		
+		}		
 	}
 	
 	public ParamPageTree( GUIFrame guiFrame, ParamPageRootDataModel paramPageRootDataModel, PageBaseRootDataModel pageBaseRootDataModel ){
@@ -415,8 +413,7 @@ public class ParamPageTree extends JTree{
 					this.add ( insertPageMenu );
 					
 				}		
-
-/*				
+				
 				//
 				// Page eseten
 				//
@@ -430,15 +427,15 @@ public class ParamPageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-//							ParamPageElementEditor paramPageNodePanel = new ParamPageElementEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode );								
-//							guiFrame.showEditorPanel( paramPageNodePanel);								
+							ParamPageElementEditor paramPageNodePanel = new ParamPageElementEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode );								
+							guiFrame.showEditorPanel( paramPageNodePanel);								
 						
 						}
 					});
 					this.add ( insertElementMenu );
 				
 				}
-*/				
+			
 				//
 				// Torles
 				// Ha nincs alatta ujabb elem

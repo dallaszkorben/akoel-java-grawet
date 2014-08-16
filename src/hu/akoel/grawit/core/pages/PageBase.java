@@ -3,14 +3,14 @@ package hu.akoel.grawit.core.pages;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.core.elements.BaseElement;
 
 public class PageBase {
 	private String name ;
 	private String details;
 //	private String url;
 //	private String frame;
-	private ArrayList<ElementBase> elementList = new ArrayList<>();
+	private ArrayList<BaseElement> elementList = new ArrayList<>();
 	private ArrayList<BasePageChangeListener> changeListenerList = new ArrayList<>();
 		
 	public PageBase( String name, String details ){
@@ -58,29 +58,29 @@ public class PageBase {
 */	
 	/**
 	 * 
-	 * Add a new ElementBase into the end of this PageBase
+	 * Add a new BaseElement into the end of this PageBase
 	 * 
 	 * @param element
 	 */
-	public void addElement( ElementBase element ){
+	public void addElement( BaseElement element ){
 		elementList.add( element );
 	}
 	
 	/**
 	 * 
-	 * Remove the ElementBase on this PageBase
+	 * Remove the BaseElement on this PageBase
 	 * @param element
 	 */
-	public void removeElement( ElementBase element ){
+	public void removeElement( BaseElement element ){
 		elementList.remove( element );
 	}
 	
 	/**
 	 * 
-	 * Move the ElementBase up (forward to the beginning) one position 
+	 * Move the BaseElement up (forward to the beginning) one position 
 	 * @param element
 	 */
-	public void upElement( ElementBase element ){
+	public void upElement( BaseElement element ){
 		
 		//Az adott elem sorszama
 		int index = elementList.indexOf( element );
@@ -95,10 +95,10 @@ public class PageBase {
 	
 	/**
 	 * 
-	 * Move the ElementBase down (forward to the end) one position
+	 * Move the BaseElement down (forward to the end) one position
 	 * @param element
 	 */
-	public void downElement( ElementBase element ){
+	public void downElement( BaseElement element ){
 
 		//Az adott elem sorszama
 		int index = elementList.indexOf( element );
@@ -114,7 +114,7 @@ public class PageBase {
 	
 	/**
 	 * 
-	 * Remove the indexth ElementBase on this PageBase
+	 * Remove the indexth BaseElement on this PageBase
 	 * @param index
 	 */
 /*	public void deleteElement( int index ){
@@ -133,16 +133,16 @@ public class PageBase {
 	
 	/**
 	 * 
-	 * Gives back the ElementBase on this PageBase in the given index
+	 * Gives back the BaseElement on this PageBase in the given index
 	 * 
 	 * @param index
 	 * @return
 	 */
-	public ElementBase getElement( int index ){
+	public BaseElement getElement( int index ){
 		return elementList.get(index);
 	}
 	
-	public int getIndex( ElementBase element ){
+	public int getIndex( BaseElement element ){
 		return elementList.indexOf( element );
 	}
 	

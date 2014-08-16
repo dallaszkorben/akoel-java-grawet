@@ -3,19 +3,21 @@ package hu.akoel.grawit.core.elements;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.openqa.selenium.WebDriver;
 
-import hu.akoel.grawit.core.operations.ElementOperation;
+import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.exceptions.ElementException;
 
 
 public class ParamElement{
-	private ElementOperation operation;
-	private ElementBase element;
+	private String name;
+	private ElementOperationInterface operation;
+	private BaseElement baseElement;
 	
 	private String variableValue = "";
 	
 
-	public ParamElement( ElementBase element, ElementOperation operation){
-		this.element = element;
+	public ParamElement( String name, BaseElement baseElement, ElementOperationInterface operation){
+		this.name = name;
+		this.baseElement = baseElement;
 		this.operation = operation;
 	}
 	
@@ -26,18 +28,26 @@ public class ParamElement{
 	 * 
 	 */
 	public void doAction( WebDriver driver ) throws ElementException{
-		this.getOperation().doAction( driver, this );
+		this.getElementOperation().doAction( driver, this );
 	}
 	
-	public ElementBase getElement(){
-		return element;
+	public void setName( String name ){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return this.name;
+	}
+	
+	public BaseElement getBaseElement(){
+		return baseElement;
 	}	
 	
-	public ElementOperation getOperation() {
+	public ElementOperationInterface getElementOperation() {
 		return operation;
 	}
 
-	public void setOperation(ElementOperation operation) {
+	public void setOperation(ElementOperationInterface operation) {
 		this.operation = operation;
 	}	
 	
@@ -51,7 +61,7 @@ public class ParamElement{
 
 	/**
 	 * 
-	 * Akkor egyenlo a ket objektum, ha azonosak, vagy azonos az element tagjuk
+	 * Akkor egyenlo a ket objektum, ha azonosak, vagy azonos az baseElement tagjuk
 	 * 
 	 */
 	public boolean equals( Object obj ){
@@ -66,7 +76,7 @@ public class ParamElement{
 		}
 		
 		ParamElement eo = (ParamElement)obj;
-		if( eo.getElement() != this.getElement() ){
+		if( eo.getBaseElement() != this.getBaseElement() ){
 			return false;
 		}
 		return true;
@@ -79,7 +89,7 @@ public class ParamElement{
 	 */
 	public int hashCode() {
         return new HashCodeBuilder(17, 31).
-            append(element).
+            append(baseElement).
             toHashCode();
     }
 }

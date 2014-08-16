@@ -3,7 +3,7 @@ package hu.akoel.grawit.gui.tree.datamodel;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.core.elements.BaseElement;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -12,11 +12,11 @@ import org.w3c.dom.Element;
 public class PageBaseElementDataModel  extends PageBaseDataModelInterface{
 
 	private static final long serialVersionUID = -8916078747948054716L;
-	private ElementBase elementBase;
+	private BaseElement baseElement;
 
-	public PageBaseElementDataModel( ElementBase elementBase ){
+	public PageBaseElementDataModel( BaseElement baseElement ){
 		super();
-		this.elementBase = elementBase;
+		this.baseElement = baseElement;
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class PageBaseElementDataModel  extends PageBaseDataModelInterface{
 	}
 	
 	public String getNameToString(){
-		return elementBase.getName();
+		return baseElement.getName();
 	}
 	
 	public String getTypeToString(){
@@ -37,8 +37,8 @@ public class PageBaseElementDataModel  extends PageBaseDataModelInterface{
 		return this.getPath().toString();
 	}	
 	
-	public ElementBase getElementBase(){
-		return elementBase;
+	public BaseElement getElementBase(){
+		return baseElement;
 	}
 
 	@Override
@@ -48,23 +48,23 @@ public class PageBaseElementDataModel  extends PageBaseDataModelInterface{
 		//Node element
 		Element elementElement = document.createElement("element");
 		attr = document.createAttribute("name");
-		attr.setValue( elementBase.getName() );
+		attr.setValue( baseElement.getName() );
 		elementElement.setAttributeNode(attr);	
 		
 		attr = document.createAttribute("frame");
-		attr.setValue( elementBase.getFrame() );
+		attr.setValue( baseElement.getFrame() );
 		elementElement.setAttributeNode(attr);	
 
 		attr = document.createAttribute("variablesemple");
-		attr.setValue( elementBase.getVariableSample().name() );
+		attr.setValue( baseElement.getVariableSample().name() );
 		elementElement.setAttributeNode(attr);
 		
 		attr = document.createAttribute("identifier");
-		attr.setValue( elementBase.getIdentifier() );
+		attr.setValue( baseElement.getIdentifier() );
 		elementElement.setAttributeNode(attr);	
 
 		attr = document.createAttribute("identificationType");
-		attr.setValue( elementBase.getIdentificationType().name() );
+		attr.setValue( baseElement.getIdentificationType().name() );
 		elementElement.setAttributeNode(attr);	
 
 		return elementElement;	

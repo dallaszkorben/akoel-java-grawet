@@ -3,42 +3,30 @@ package hu.akoel.grawit.core.elements;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-
-public class ElementBase {
-//	private WebDriver driver;
+public class BaseElement {
 	private String name;
-	//private By by;
 	private VariableSample variableSample;
 	private String frame;
 	private String identifier;
 	private IdentificationType identificationType;
 
 
-//	public ElementBase( WebDriver driver, String name, By by, VariableSample variableSample, String frame){
-	public ElementBase( String name, String identifier, IdentificationType identificationType, VariableSample variableSample, String frame){
-		//common( driver, name, by, variableSample, frame );
+	public BaseElement( String name, String identifier, IdentificationType identificationType, VariableSample variableSample, String frame){
 		common( name, identifier, identificationType, variableSample, frame );	
 	}
 
-//	public ElementBase( WebDriver driver, String name, By by, VariableSample variableSample ){
-	public ElementBase( String name, String identifier, IdentificationType identificationType, VariableSample variableSample ){
-		//common( driver, name, by, variableSample, null );		
+	public BaseElement( String name, String identifier, IdentificationType identificationType, VariableSample variableSample ){
 		common( name, identifier, identificationType, variableSample, null );
 	}
 
-	public ElementBase( ElementBase element ){
-//		this.driver = element.getDriver();
+	public BaseElement( BaseElement element ){
 		this.name = element.getName();
 		this.identifier = getIdentifier();
 		this.identificationType = getIdentificationType();
 		this.variableSample = element.getVariableSample();
 	}
 
-//	private void common( WebDriver driver, String name, By by, VariableSample variableSample, String frame ){
 	private void common( String name, String identifier, IdentificationType identificationType, VariableSample variableSample, String frame ){		
-//		this.driver = driver;
 		this.name = name;
 		this.identifier = identifier;
 		this.identificationType = identificationType;
@@ -46,15 +34,6 @@ public class ElementBase {
 		this.frame = frame;
 	}
 
-
-/*	public WebDriver getDriver() {
-		return driver;
-	}
-
-	public void setDriver(WebDriver driver) {
-		this.driver = driver;
-	}
-*/
 	public String getName() {
 		return name;
 	}
