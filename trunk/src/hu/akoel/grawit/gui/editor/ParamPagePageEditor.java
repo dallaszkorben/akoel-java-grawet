@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.pages.PageBase;
 import hu.akoel.grawit.core.pages.ParamPage;
+import hu.akoel.grawit.gui.editor.component.CheckBoxComponent;
 import hu.akoel.grawit.gui.editor.component.PageBasePageSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
@@ -25,12 +26,13 @@ public class ParamPagePageEditor extends DataEditor{
 	private ParamPageTree tree; 
 	private ParamPagePageDataModel nodeForModify;
 	private ParamPageNodeDataModel nodeForCapture;
+	private PageBaseRootDataModel pageBaseRootDataModel;
 	private EditMode mode;
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelPageBasePageSelector;
-	private PageBasePageSelectorComponent fieldPageBasePageSelector;
+	private PageBasePageSelectorComponent fieldPageBasePageSelector;	
 	
 	//Itt biztos beszuras van
 	public ParamPagePageEditor( ParamPageTree tree, ParamPageNodeDataModel selectedNode, PageBaseRootDataModel pageBaseRootDataModel ){
@@ -44,9 +46,9 @@ public class ParamPagePageEditor extends DataEditor{
 		fieldName = new TextFieldComponent( "" );
 		
 		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)
-		fieldPageBasePageSelector = new PageBasePageSelectorComponent( pageBaseRootDataModel );
-
-		common();
+		fieldPageBasePageSelector = new PageBasePageSelectorComponent( pageBaseRootDataModel );		
+		
+		common( pageBaseRootDataModel );
 		
 	}
 	
@@ -69,18 +71,20 @@ public class ParamPagePageEditor extends DataEditor{
 		//PAGEBASEPAGE SELECTOR COMBO
 		fieldPageBasePageSelector =  new PageBasePageSelectorComponent( pageBaseRootDataModel, selectedPageBase );
 		
-		common();
+		common( pageBaseRootDataModel );
 		
 	}
 	
-	private void common(){
+	private void common( PageBaseRootDataModel pageBaseRootDataModel ){
+		
+		this.pageBaseRootDataModel = pageBaseRootDataModel;
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
 		labelPageBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.title.pagebase") + ": ");
 		
 		this.add( labelName, fieldName );		
 		this.add( labelPageBasePageSelector, fieldPageBasePageSelector );
-
+		
 	}
 	
 	
@@ -174,11 +178,8 @@ public class ParamPagePageEditor extends DataEditor{
 			if( null == mode ){				
 				
 				ParamPage paramPage = new ParamPage( fieldName.getText(), fieldPageBasePageSelector.getPageBase() );				
-				ParamPagePageDataModel newParamPagePage = new ParamPagePageDataModel( paramPage );
+				ParamPagePageDataModel newParamPagePage = new ParamPagePageDataModel( paramPage, pageBaseRootDataModel );
 				nodeForCapture.add( newParamPagePage );
-
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(newPageBasePage.getPath());
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){

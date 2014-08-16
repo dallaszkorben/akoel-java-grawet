@@ -8,16 +8,21 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
-import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.core.elements.BaseElement;
 import hu.akoel.grawit.core.elements.ParamElement;
 import hu.akoel.grawit.core.parameter.ElementParameter;
 import hu.akoel.grawit.exceptions.ElementException;
 
-public class FieldOperation implements ElementOperation{
+public class FieldOperation implements ElementOperationInterface{
 	private ElementParameter parameter;
 	
 	public FieldOperation( ElementParameter parameter ){
 		this.parameter = parameter;
+	}
+	
+	@Override
+	public Operation getOperation() {
+		return Operation.FIELD;
 	}
 	
 	/**
@@ -27,7 +32,7 @@ public class FieldOperation implements ElementOperation{
 	 */
 	@Override
 	public void doAction( WebDriver driver, ParamElement element ) throws ElementException{
-		ElementBase elementBase = element.getElement();
+		BaseElement baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -35,11 +40,11 @@ public class FieldOperation implements ElementOperation{
 		By by = null;
 		
 		//ID
-		if( elementBase.getIdentificationType().equals(IdentificationType.ID)){
-			by = By.id( elementBase.getIdentifier() );
+		if( baseElement.getIdentificationType().equals(IdentificationType.ID)){
+			by = By.id( baseElement.getIdentifier() );
 		//CSS
-		}else if( elementBase.getIdentificationType().equals(IdentificationType.CSS)){
-			by = By.cssSelector( elementBase.getIdentifier() );
+		}else if( baseElement.getIdentificationType().equals(IdentificationType.CSS)){
+			by = By.cssSelector( baseElement.getIdentifier() );
 		}
 		
 		wait.until(ExpectedConditions.elementToBeClickable( by ) );		
@@ -49,7 +54,7 @@ public class FieldOperation implements ElementOperation{
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
 		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-		if( elementBase.getVariableSample().equals( VariableSample.PRE ) ){
+		if( baseElement.getVariableSample().equals( VariableSample.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			element.setVariableValue( webElement.getText() );
@@ -60,7 +65,7 @@ public class FieldOperation implements ElementOperation{
 		webElement.sendKeys( parameter.getValue() );
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-		if( elementBase.getVariableSample().equals( VariableSample.POST ) ){
+		if( baseElement.getVariableSample().equals( VariableSample.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			//webElement.sendKeys(Keys.TAB);

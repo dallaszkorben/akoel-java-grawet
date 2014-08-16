@@ -8,11 +8,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawit.IdentificationType;
-import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.core.elements.BaseElement;
 import hu.akoel.grawit.core.elements.ParamElement;
 
-public class CheckboxOperation implements ElementOperation{
+public class CheckboxOperation implements ElementOperationInterface{
 	
+	@Override
+	public Operation getOperation() {
+		return Operation.CHECKBOX;
+	}
 	
 	/**
 	 * 
@@ -21,7 +25,7 @@ public class CheckboxOperation implements ElementOperation{
 	 */
 	@Override
 	public void doAction( WebDriver driver, ParamElement element ) {
-		ElementBase elementBase = element.getElement();
+		BaseElement baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait( driver, 10 );	
@@ -29,11 +33,11 @@ public class CheckboxOperation implements ElementOperation{
 		By by = null;
 		
 		//ID
-		if( elementBase.getIdentificationType().equals(IdentificationType.ID)){
-			by = By.id( elementBase.getIdentifier() );
+		if( baseElement.getIdentificationType().equals(IdentificationType.ID)){
+			by = By.id( baseElement.getIdentifier() );
 		//CSS
-		}else if( elementBase.getIdentificationType().equals(IdentificationType.CSS)){
-			by = By.cssSelector( elementBase.getIdentifier() );
+		}else if( baseElement.getIdentificationType().equals(IdentificationType.CSS)){
+			by = By.cssSelector( baseElement.getIdentifier() );
 		}
 		
 		wait.until(ExpectedConditions.elementToBeClickable( by ) );		

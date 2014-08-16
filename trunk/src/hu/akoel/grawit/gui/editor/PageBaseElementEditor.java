@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
-import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.core.elements.BaseElement;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.RadioButtonComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
@@ -42,7 +42,7 @@ public class PageBaseElementEditor extends DataEditor{
 	
 	//Insert
 	public PageBaseElementEditor( PageBaseTree tree, PageBasePageDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.nodetype.elementbase") );
+		super( CommonOperations.getTranslation("tree.nodetype.baseelement") );
 
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -69,24 +69,24 @@ public class PageBaseElementEditor extends DataEditor{
 	
 	//Modositas vagy View
 	public PageBaseElementEditor( PageBaseTree tree, PageBaseElementDataModel selectedNode, EditMode mode ){		
-		super( mode, CommonOperations.getTranslation("tree.nodetype.elementbase") );
+		super( mode, CommonOperations.getTranslation("tree.nodetype.baseelement") );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		ElementBase elementBase = selectedNode.getElementBase();
+		BaseElement baseElement = selectedNode.getElementBase();
 		
 		commonPre();
 		
 		//Name
-		fieldName = new TextFieldComponent( elementBase.getName());
+		fieldName = new TextFieldComponent( baseElement.getName());
 				
 		//Identifier
-		fieldIdentifier = new TextFieldComponent( elementBase.getIdentifier() );
+		fieldIdentifier = new TextFieldComponent( baseElement.getIdentifier() );
 	
 		//Identifier type
-	    IdentificationType idType = elementBase.getIdentificationType();	    
+	    IdentificationType idType = baseElement.getIdentificationType();	    
 	   	if( idType.equals( IdentificationType.ID ) ){
 	   		buttonID.setSelected(true);
 	   	}else if( idType.equals( IdentificationType.CSS ) ){
@@ -94,14 +94,7 @@ public class PageBaseElementEditor extends DataEditor{
 	   	}
 			
 		//Variable	
-		VariableSample varSamp = elementBase.getVariableSample();
-		if( varSamp.equals( VariableSample.NO ) ){
-			fieldVariable.setSelectedIndex( 0 );
-		}else if( varSamp.equals( VariableSample.PRE ) ){
-			fieldVariable.setSelectedIndex( 1 );
-		}else if( varSamp.equals( VariableSample.POST ) ){
-			fieldVariable.setSelectedIndex( 2 );
-		} 		
+		fieldVariable.setSelectedIndex( baseElement.getVariableSample().getIndex() );
 	
 		commonPost();
 		
@@ -133,9 +126,9 @@ public class PageBaseElementEditor extends DataEditor{
 		
 		//Variable
 		fieldVariable = new ComboBoxComponent<>();
-		fieldVariable.addItem( CommonOperations.getTranslation( "editor.title.variable.no") );
-		fieldVariable.addItem( CommonOperations.getTranslation( "editor.title.variable.pre") );
-		fieldVariable.addItem( CommonOperations.getTranslation( "editor.title.variable.post") );
+		fieldVariable.addItem( VariableSample.getVariableSampleByIndex(0).getTranslatedName() );
+		fieldVariable.addItem( VariableSample.getVariableSampleByIndex(1).getTranslatedName() );
+		fieldVariable.addItem( VariableSample.getVariableSampleByIndex(2).getTranslatedName() );
 		
 	}
 	
@@ -247,8 +240,8 @@ public class PageBaseElementEditor extends DataEditor{
 				
 				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
 				//int selectedNodeIndex = parentNode.getIndex( selectedNode );				
-				ElementBase elementBase = new ElementBase( fieldName.getText(), fieldIdentifier.getText(), identificationType, variableSample  );				
-				PageBaseElementDataModel newPageBaseElement = new PageBaseElementDataModel( elementBase );
+				BaseElement baseElement = new BaseElement( fieldName.getText(), fieldIdentifier.getText(), identificationType, variableSample  );				
+				PageBaseElementDataModel newPageBaseElement = new PageBaseElementDataModel( baseElement );
 				//parentNode.insert( newPageBaseElement, selectedNodeIndex);
 			
 				nodeForCapture.add( newPageBaseElement );
@@ -259,12 +252,12 @@ public class PageBaseElementEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
-				ElementBase elementBase = nodeForModify.getElementBase(); 
+				BaseElement baseElement = nodeForModify.getElementBase(); 
 				
-				elementBase.setName( fieldName.getText() );
-				elementBase.setIdentifier( fieldIdentifier.getText() );				
-				elementBase.setVariableSample( variableSample );
-				elementBase.setIdentificationType( identificationType );
+				baseElement.setName( fieldName.getText() );
+				baseElement.setIdentifier( fieldIdentifier.getText() );				
+				baseElement.setVariableSample( variableSample );
+				baseElement.setIdentificationType( identificationType );
 				
 				//Ebbe a nodba kell majd visszaallni
 				//pathToOpen = new TreePath(nodeForModify.getPath());

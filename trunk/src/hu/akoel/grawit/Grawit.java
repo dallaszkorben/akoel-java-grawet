@@ -58,10 +58,10 @@ public class Grawit {
 		
 		PageBase elsoOldal = new PageBase( "Google kereso");
 		
-		ElementBase searchField = new ElementBase("SearchField", By.id("gbqfq"), VariableSample.POST );
+		BaseElement searchField = new BaseElement("SearchField", By.id("gbqfq"), VariableSample.POST );
 		elsoOldal.addElement(searchField);
 
-		ElementBase searchButton = new ElementBase("SearchButton", By.id("gbqfb"), VariableSample.NO );
+		BaseElement searchButton = new BaseElement("SearchButton", By.id("gbqfb"), VariableSample.NO );
 		elsoOldal.addElement(searchButton);
 		
 		

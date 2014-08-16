@@ -28,21 +28,21 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-public class PageBasePageSelectorComponent extends JPanel implements EditorComponentInterface{
+public class PageBaseElementSelectorComponent extends JPanel implements EditorComponentInterface{
 
-	private static final long serialVersionUID = 6475998839112722226L;
-
+	private static final long serialVersionUID = -326596399207552100L;
+	
 	private JButton button;
 	private JTextField field = new JTextField();
 	private PageBasePageDataModel pageBasePageDataModel;
 	
-	public PageBasePageSelectorComponent( PageBaseRootDataModel pageBaseRootDataModel ){
+	public PageBaseElementSelectorComponent( PageBaseRootDataModel pageBaseRootDataModel ){
 		super();
 	
 		common( pageBaseRootDataModel );		
 	}
 	
-	public PageBasePageSelectorComponent( PageBaseRootDataModel pageBaseRootDataModel, PageBase selectedPageBase ){
+	public PageBaseElementSelectorComponent( PageBaseRootDataModel pageBaseRootDataModel, PageBase selectedPageBase ){
 		super();
 	
 		common( pageBaseRootDataModel );
@@ -66,7 +66,7 @@ public class PageBasePageSelectorComponent extends JPanel implements EditorCompo
 				
 				//Akkor megnyitja a Dialogus ablakot a Page valasztashoz
 				//SelectorPageBasePageDialog selector = 
-				new SelectorPageBasePageDialog( PageBasePageSelectorComponent.this, pageBaseRootDataModel );
+				new SelectorPageBasePageDialog( PageBaseElementSelectorComponent.this, pageBaseRootDataModel );
 			}
 		} );
 
@@ -111,7 +111,7 @@ class SelectorPageBasePageDialog extends JDialog{
 
 	private static final long serialVersionUID = 1607956458285776550L;
 	
-	public SelectorPageBasePageDialog( PageBasePageSelectorComponent pageBasePageSelectorComponent, PageBaseRootDataModel pageBaseRootDataModel ){
+	public SelectorPageBasePageDialog( PageBaseElementSelectorComponent pageBasePageSelectorComponent, PageBaseRootDataModel pageBaseRootDataModel ){
 		//super( pageBasePageSelectorComponent.getParent(), true );
 		super( );
 
@@ -155,9 +155,9 @@ class SelectorPageBasePageDialog extends JDialog{
 		private static final long serialVersionUID = 800888675922537771L;
 		
 		private PageBaseDataModelInterface selectedNode;
-		private  PageBasePageSelectorComponent pageBasePageSelectorComponent;
+		private  PageBaseElementSelectorComponent pageBasePageSelectorComponent;
 
-		public PageBaseTreeForSelect( PageBasePageSelectorComponent pageBasePageSelectorComponent, PageBaseRootDataModel pageBaseRootDataModel ){
+		public PageBaseTreeForSelect( PageBaseElementSelectorComponent pageBasePageSelectorComponent, PageBaseRootDataModel pageBaseRootDataModel ){
 		
 			super( new DefaultTreeModel(pageBaseRootDataModel) );
 			

@@ -124,6 +124,7 @@ public class CustomPage implements CustomPageInterface {
 
 			URL url = f.toURI().toURL();
 			URL[] urls = new URL[] { url };
+			@SuppressWarnings("resource")
 			ClassLoader loader = new URLClassLoader(urls);
 			Class<?> thisClass = loader.loadClass( customClassName );
 			Object instance = thisClass.newInstance();

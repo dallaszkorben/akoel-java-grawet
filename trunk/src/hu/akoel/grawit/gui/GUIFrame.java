@@ -11,7 +11,7 @@ import java.io.File;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
-import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.core.elements.BaseElement;
 import hu.akoel.grawit.core.pages.PageBase;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -446,9 +446,9 @@ public class GUIFrame extends JFrame{
 			pageBaseRootDataModel.add( basePosNode );
 
 			PageBase firstPageBase = new PageBase( "Google kereso oldal", "Ez az elso oldal");
-			ElementBase searchField = new ElementBase("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
+			BaseElement searchField = new BaseElement("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
 			firstPageBase.addElement(searchField);
-			ElementBase searchButton = new ElementBase("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
+			BaseElement searchButton = new BaseElement("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
 			firstPageBase.addElement(searchButton);
 
 			PageBasePageDataModel firstPageNode = new PageBasePageDataModel(firstPageBase);
@@ -474,9 +474,9 @@ public class GUIFrame extends JFrame{
 /*
 
 			PageBase firstPageBase = new PageBase( "Google kereso oldal", "Ez az elso oldal");
-			ElementBase searchField = new ElementBase("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
+			BaseElement searchField = new BaseElement("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
 			firstPageBase.addElement(searchField);
-			ElementBase searchButton = new ElementBase("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
+			BaseElement searchButton = new BaseElement("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
 			firstPageBase.addElement(searchButton);
 
 			PageBasePageDataModel firstPageNode = new PageBasePageDataModel(firstPageBase);

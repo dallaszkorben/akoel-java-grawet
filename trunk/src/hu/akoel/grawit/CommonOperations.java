@@ -1,8 +1,14 @@
 package hu.akoel.grawit;
 
+import hu.akoel.grawit.core.pages.PageBase;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseDataModelInterface;
+import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
@@ -169,4 +175,26 @@ public class CommonOperations {
 		 final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		 return ste[ node ].getLineNumber();
 	 }
+	 
+	 public static PageBasePageDataModel getPageBasePageDataModelByPageBase( PageBaseRootDataModel pageBaseRootDataModel, PageBase selectedPageBase ){
+			
+			//Vegig megyek a PAGEBASE fan
+			@SuppressWarnings("unchecked")
+			Enumeration<PageBaseDataModelInterface> e = pageBaseRootDataModel.depthFirstEnumeration();
+	   
+			while (e.hasMoreElements()) {
+				PageBaseDataModelInterface node = e.nextElement();
+	    	
+				//Ha a vizsgalt node PAGEBASEPAGE
+				if( node instanceof PageBasePageDataModel ){
+	    		
+					//Akkor megnezem, hogy azonos-e a keresettel
+					if( ((PageBasePageDataModel)node).getPageBase().equals( selectedPageBase ) ){
+						
+						return (PageBasePageDataModel)node;    			
+					}
+				}
+			}
+			return null;
+		}
 }
