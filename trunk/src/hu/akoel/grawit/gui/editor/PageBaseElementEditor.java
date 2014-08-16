@@ -8,6 +8,9 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.core.elements.ElementBase;
+import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
+import hu.akoel.grawit.gui.editor.component.RadioButtonComponent;
+import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
@@ -30,12 +33,12 @@ public class PageBaseElementEditor extends DataEditor{
 	private EditMode mode;
 	
 	private JLabel labelName;
-	private JTextField fieldName;
+	private TextFieldComponent fieldName;
 	private JLabel labelIdentifier;
-	private JTextField fieldIdentifier;
-	private JComboBox<String> fieldVariable;
-	private JRadioButton idButton;
-	private JRadioButton cssButton;
+	private TextFieldComponent fieldIdentifier;
+	private ComboBoxComponent<String> fieldVariable;
+	private RadioButtonComponent buttonID;
+	private RadioButtonComponent buttonCSS;
 	
 	//Insert
 	public PageBaseElementEditor( PageBaseTree tree, PageBasePageDataModel selectedNode ){
@@ -48,13 +51,13 @@ public class PageBaseElementEditor extends DataEditor{
 		commonPre();
 		
 		//Name
-		fieldName = new JTextField( "" );
+		fieldName = new TextFieldComponent( "" );
 
 		//Identifier
-		fieldIdentifier = new JTextField( "" );
+		fieldIdentifier = new TextFieldComponent( "" );
 
 		//Identifier type
-    	idButton.setSelected( true );
+    	buttonID.setSelected( true );
     	
     	//Variable
 		fieldVariable.setSelectedIndex( 0 );
@@ -77,17 +80,17 @@ public class PageBaseElementEditor extends DataEditor{
 		commonPre();
 		
 		//Name
-		fieldName = new JTextField( elementBase.getName());
+		fieldName = new TextFieldComponent( elementBase.getName());
 				
 		//Identifier
-		fieldIdentifier = new JTextField( elementBase.getIdentifier() );
+		fieldIdentifier = new TextFieldComponent( elementBase.getIdentifier() );
 	
 		//Identifier type
 	    IdentificationType idType = elementBase.getIdentificationType();	    
 	   	if( idType.equals( IdentificationType.ID ) ){
-	   		idButton.setSelected(true);
+	   		buttonID.setSelected(true);
 	   	}else if( idType.equals( IdentificationType.CSS ) ){
-	   		cssButton.setSelected(true);
+	   		buttonCSS.setSelected(true);
 	   	}
 			
 		//Variable	
@@ -106,34 +109,33 @@ public class PageBaseElementEditor extends DataEditor{
 
 	private void commonPost(){
 		
-		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
-		labelIdentifier = new JLabel( CommonOperations.getTranslation("section.title.identifier") + ": ");
-		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("section.title.identifiertype") + ": ");
-		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("section.title.variable") + ": " );
+		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
+		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.title.identifier") + ": ");
+		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.title.identifiertype") + ": ");
+		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("editor.title.variable") + ": " );
 		
 		this.add( labelName, fieldName );
 		this.add( labelIdentifier, fieldIdentifier );
-		this.add( labelIdentifierType, idButton );
-		this.add( new JLabel(), cssButton );
+		this.add( labelIdentifierType, buttonID );
+		this.add( new JLabel(), buttonCSS );
 		this.add( labelVariable, fieldVariable );
-		
 		
 	}
 	
 	private void commonPre(){
 		
 		//Identifier tipus
-		idButton = new JRadioButton( CommonOperations.getTranslation("section.title.identifiertype.id") );
-		cssButton = new JRadioButton( CommonOperations.getTranslation("section.title.identifiertype.css") );
+		buttonID = new RadioButtonComponent( CommonOperations.getTranslation("editor.title.identifiertype.id") );
+		buttonCSS = new RadioButtonComponent( CommonOperations.getTranslation("editor.title.identifiertype.css") );
 		ButtonGroup group = new ButtonGroup();
-		group.add(idButton);
-		group.add(cssButton);
+		group.add(buttonID);
+		group.add(buttonCSS);
 		
 		//Variable
-		fieldVariable = new JComboBox<>();
-		fieldVariable.addItem( CommonOperations.getTranslation( "section.title.variable.no") );
-		fieldVariable.addItem( CommonOperations.getTranslation( "section.title.variable.pre") );
-		fieldVariable.addItem( CommonOperations.getTranslation( "section.title.variable.post") );
+		fieldVariable = new ComboBoxComponent<>();
+		fieldVariable.addItem( CommonOperations.getTranslation( "editor.title.variable.no") );
+		fieldVariable.addItem( CommonOperations.getTranslation( "editor.title.variable.pre") );
+		fieldVariable.addItem( CommonOperations.getTranslation( "editor.title.variable.post") );
 		
 	}
 	
@@ -154,7 +156,7 @@ public class PageBaseElementEditor extends DataEditor{
 			errorList.put( 
 					fieldName,
 					MessageFormat.format(
-							CommonOperations.getTranslation("section.errormessage.emptyfield"), 
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
 							"'"+labelName.getText()+"'"
 					)
 			);
@@ -189,7 +191,7 @@ public class PageBaseElementEditor extends DataEditor{
 							errorList.put( 
 								fieldName, 
 								MessageFormat.format( 
-										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
+										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
 										CommonOperations.getTranslation("tree.nodetype.elementbase") 
 								) 
@@ -206,7 +208,7 @@ public class PageBaseElementEditor extends DataEditor{
 			errorList.put( 
 					fieldIdentifier,
 					MessageFormat.format(
-							CommonOperations.getTranslation("section.errormessage.emptyfield"), 
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
 							"'"+labelIdentifier.getText()+"'"
 					)
 			);
@@ -232,9 +234,9 @@ public class PageBaseElementEditor extends DataEditor{
 			} 
 			
 			IdentificationType identificationType = null;
-			if( idButton.isSelected() ){
+			if( buttonID.isSelected() ){
 				identificationType = IdentificationType.ID;
-			}else if( cssButton.isSelected() ){
+			}else if( buttonCSS.isSelected() ){
 				identificationType = IdentificationType.CSS;
 			}
 			

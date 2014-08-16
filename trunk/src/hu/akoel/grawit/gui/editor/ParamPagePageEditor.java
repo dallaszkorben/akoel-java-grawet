@@ -8,21 +8,15 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.pages.PageBase;
 import hu.akoel.grawit.core.pages.ParamPage;
 import hu.akoel.grawit.gui.GUIFrame;
-import hu.akoel.grawit.gui.container.TreeSelectionCombo;
-import hu.akoel.grawit.gui.tree.PageBaseTree;
+import hu.akoel.grawit.gui.editor.component.PageBasePageSelectorComponent;
+import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPagePageDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.tree.TreeNode;
 
 public class ParamPagePageEditor extends DataEditor{
@@ -35,11 +29,9 @@ public class ParamPagePageEditor extends DataEditor{
 	private EditMode mode;
 	
 	private JLabel labelName;
-	private JTextField fieldName;
-//	private JLabel labelDetails;
-	private JLabel labelBasePagePath;
-	private TreeSelectionCombo fieldBasePagePath;
-//	private JTextArea fieldDetails;
+	private TextFieldComponent fieldName;
+	private JLabel labelPageBasePageSelector;
+	private PageBasePageSelectorComponent fieldPageBasePageSelector;
 	
 	//Itt biztos beszuras van
 	public ParamPagePageEditor( GUIFrame parent, ParamPageTree tree, ParamPageNodeDataModel selectedNode, PageBaseRootDataModel pageBaseRootDataModel ){
@@ -50,10 +42,10 @@ public class ParamPagePageEditor extends DataEditor{
 		this.mode = null;
 		
 		//Name
-		fieldName = new JTextField( "" );
+		fieldName = new TextFieldComponent( "" );
 		
-		//BasePage
-		fieldBasePagePath = new TreeSelectionCombo( parent, pageBaseRootDataModel );
+		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)
+		fieldPageBasePageSelector = new PageBasePageSelectorComponent( parent, pageBaseRootDataModel );
 
 		common();
 		
@@ -70,12 +62,13 @@ public class ParamPagePageEditor extends DataEditor{
 		ParamPage paramPage = selectedNode.getParamPage();
 		
 		//Name		
-		fieldName = new JTextField( paramPage.getName());
+		fieldName = new TextFieldComponent( paramPage.getName());
 	
-//TODO meg kell oldani !!!!1		
-fieldBasePagePath =  new TreeSelectionCombo( parent, pageBaseRootDataModel );
-		//BasePage
-//		fieldBasePagePath = new TreeSelectionCombo( parent, selectedNode.getParamPage().getPageBase() );
+		//Az eredetileg kivalasztott PAGE BASE
+		PageBase selectedPageBase = paramPage.getPageBase();
+		
+		//PAGEBASEPAGE SELECTOR COMBO
+		fieldPageBasePageSelector =  new PageBasePageSelectorComponent( parent, pageBaseRootDataModel, selectedPageBase );
 		
 		common();
 		
@@ -83,13 +76,12 @@ fieldBasePagePath =  new TreeSelectionCombo( parent, pageBaseRootDataModel );
 	
 	private void common(){
 		
-		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
-		labelBasePagePath = new JLabel( "cim" + ": "); //TODO
+		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
+		labelPageBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.title.pagebase") + ": ");
 		
 		this.add( labelName, fieldName );		
-		this.add( labelBasePagePath, fieldBasePagePath );
+		this.add( labelPageBasePageSelector, fieldPageBasePageSelector );
 
-//		this.add( labelDetails, scrollDetails );
 	}
 	
 	
@@ -98,7 +90,6 @@ fieldBasePagePath =  new TreeSelectionCombo( parent, pageBaseRootDataModel );
 		
 		//Ertekek trimmelese
 		fieldName.setText( fieldName.getText().trim() );
-//		fieldDetails.setText( fieldDetails.getText().trim() );
 		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
@@ -108,11 +99,25 @@ fieldBasePagePath =  new TreeSelectionCombo( parent, pageBaseRootDataModel );
 			errorList.put( 
 					fieldName,
 					MessageFormat.format(
-							CommonOperations.getTranslation("section.errormessage.emptyfield"), 
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
 							"'"+labelName.getText()+"'"
 					)
 			);
-		}else{
+		}	
+		if( null == fieldPageBasePageSelector.getPageBase() ){
+			errorList.put( 
+					fieldPageBasePageSelector,
+					MessageFormat.format(
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
+							"'"+labelPageBasePageSelector.getText()+"'"
+					)
+			);
+		}
+		
+		//
+		//Ha nem volt hiba, akkor rogzitheto
+		//
+		if( errorList.size() == 0 ){
 
 			TreeNode nodeForSearch = null;
 
@@ -145,7 +150,7 @@ fieldBasePagePath =  new TreeSelectionCombo( parent, pageBaseRootDataModel );
 							errorList.put( 
 								fieldName, 
 								MessageFormat.format( 
-										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
+										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
 										CommonOperations.getTranslation("tree.nodetype.parampage") 
 								) 
@@ -166,14 +171,10 @@ fieldBasePagePath =  new TreeSelectionCombo( parent, pageBaseRootDataModel );
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 			
-			//TreePath pathToOpen = null;
-			
 			//Uj rogzites eseten
-			if( null == mode ){
-			
-				PageBase pageBase = new PageBase("", "");
+			if( null == mode ){				
 				
-				ParamPage paramPage = new ParamPage( fieldName.getText(), pageBase );				
+				ParamPage paramPage = new ParamPage( fieldName.getText(), fieldPageBasePageSelector.getPageBase() );				
 				ParamPagePageDataModel newParamPagePage = new ParamPagePageDataModel( paramPage );
 				nodeForCapture.add( newParamPagePage );
 

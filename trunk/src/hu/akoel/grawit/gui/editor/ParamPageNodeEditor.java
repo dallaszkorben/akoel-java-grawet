@@ -5,6 +5,8 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
+import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
@@ -25,23 +27,21 @@ public class ParamPageNodeEditor extends DataEditor{
 	private ParamPageTree tree;
 	private ParamPageNodeDataModel nodeForModify;
 	private ParamPageNodeDataModel nodeForCapture;
-	private  EditMode mode;
+	private EditMode mode;
 	
 	private JLabel labelName;
-	private JTextField fieldName;
-	private JTextArea fieldDetails;
+	private TextFieldComponent fieldName;
+	private TextAreaComponent fieldDetails;
 
 	private void common(){
 		
 		//Name
-		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
+		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
 
 		//Details
-		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("section.title.details") + ": ");
-		JScrollPane scrollDetails = new JScrollPane(fieldDetails);
-
+		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.title.details") + ": ");		
 		this.add( labelName, fieldName );
-		this.add( labelDetails, scrollDetails );
+		this.add( labelDetails, fieldDetails );
 
 		
 	}
@@ -55,10 +55,10 @@ public class ParamPageNodeEditor extends DataEditor{
 		this.mode = null;
 		
 		//Name
-		fieldName = new JTextField( "" );
+		fieldName = new TextFieldComponent( "" );
 		
 		//Details
-		fieldDetails = new JTextArea( "", 5, 15);
+		fieldDetails = new TextAreaComponent( "", 5, 15);
 		
 		common();
 		
@@ -74,10 +74,10 @@ public class ParamPageNodeEditor extends DataEditor{
 		
 		
 		//Name
-		fieldName = new JTextField( selectedNode.getName());
+		fieldName = new TextFieldComponent( selectedNode.getName());
 		
 		//Details
-		fieldDetails = new JTextArea( selectedNode.getDetails(), 5, 15);
+		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
 		common();
 	}
@@ -97,7 +97,7 @@ public class ParamPageNodeEditor extends DataEditor{
 			errorList.put( 
 					fieldName,
 					MessageFormat.format(
-							CommonOperations.getTranslation("section.errormessage.emptyfield"), 
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
 							"'"+labelName.getText()+"'"
 					)
 			);
@@ -133,7 +133,7 @@ public class ParamPageNodeEditor extends DataEditor{
 							errorList.put( 
 								fieldName, 
 								MessageFormat.format( 
-										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
+										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
 										CommonOperations.getTranslation("tree.nodetype.node") 
 								) 

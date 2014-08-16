@@ -1,6 +1,8 @@
 package hu.akoel.grawit.gui.tree.datamodel;
 
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.pages.PageBase;
@@ -29,8 +31,13 @@ public class PageBasePageDataModel  extends PageBaseDataModelInterface{
 	}
 	
 	@Override
-	public String getPathToString() {		
-		return this.getPath().toString();
+	public String getPathToString() {
+		StringBuffer out = new StringBuffer();
+		for( TreeNode node: this.getPath() ){
+			out.append( ((PageBaseDataModelInterface)node).getNameToString() );
+			out.append("/");
+		}		
+		return out.toString();
 	}
 	
 	public String getTypeToString(){

@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.editor;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.gui.editor.component.EditorComponentInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -76,7 +77,7 @@ public abstract class DataEditor extends JPanel{
 		headlinePanel.setBackground( Color.white );
 		headlinePanel.setLayout( new BorderLayout());
 	
-		this.add( headlinePanel, BorderLayout.NORTH );
+		super.add( headlinePanel, BorderLayout.NORTH );
 		
 		//
 		// Cim szekcio
@@ -133,7 +134,7 @@ public abstract class DataEditor extends JPanel{
 		dataSection.setBorder( BorderFactory.createEmptyBorder( 20, 10, 10, 10 ) );
 		c = new GridBagConstraints();
 		
-		this.add( dataSection, BorderLayout.CENTER );
+		super.add( dataSection, BorderLayout.CENTER );
 	
 		//Mentes gomb
 		saveButton = new JButton( CommonOperations.getTranslation( "button.save" ) );
@@ -173,19 +174,23 @@ public abstract class DataEditor extends JPanel{
 		
 	}
 	
+	public void add( Component c, Object o ){
+		add( c, (EditorComponentInterface)o );
+	}
+	
 	/**
 	 * Hozza ad egy cim-adat parost az oldalhoz
 	 * 
 	 * @param titleComponent
 	 * @param valueComponent
 	 */
-	public void add( Component titleComponent, Component valueComponent ){
-		
+	public void add( Component titleComponent, EditorComponentInterface valueComponent ){
+	
 		//Ha csak megjelenitesrol van szo, akkor
 		if( null != mode && mode.equals( EditMode.VIEW ) ){
 			
 			//a megjeleno VALUE-k nem modosithatoak
-			valueComponent.setEnabled( false );
+			valueComponent.setEnableModify( false );
 		}		
 		
 		//Eltavolitom az elozo ADD funkcio utan az utlso sorba elhelyezett kitolto elemet (ha volt egyaltalan)
@@ -210,7 +215,7 @@ public abstract class DataEditor extends JPanel{
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1;
-		dataSection.add( valueComponent, c );
+		dataSection.add( valueComponent.getComponent(), c );
 
 		//Status icon	
 		c.gridx = POS_STATISICON;
@@ -222,7 +227,7 @@ public abstract class DataEditor extends JPanel{
 		JLabel statusIconLabel = new JLabel();		
 		dataSection.add( statusIconLabel, c );
 		statusIconLabel.addMouseListener( new StatusClickListener(statusIconLabel));
-		statusIconList.put( valueComponent, statusIconLabel );
+		statusIconList.put( valueComponent.getComponent(), statusIconLabel );
 		
 		gridY++;
 		
@@ -308,7 +313,7 @@ public abstract class DataEditor extends JPanel{
 			if( null != tooltipText && tooltipText.length() != 0 ){
 				
 				//Akkor megjeleniti a hibauzenetet egy ablakban
-				JOptionPane.showMessageDialog(null, tooltipText, CommonOperations.getTranslation( "section.windowtitle.error" ), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, tooltipText, CommonOperations.getTranslation( "editor.windowtitle.error" ), JOptionPane.ERROR_MESSAGE);
 
 			}
 		}

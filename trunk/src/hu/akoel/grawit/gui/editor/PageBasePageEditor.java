@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.pages.PageBase;
+import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
+import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.PageBaseTree;
 import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
@@ -26,9 +28,9 @@ public class PageBasePageEditor extends DataEditor{
 	private EditMode mode;
 	
 	private JLabel labelName;
-	private JTextField fieldName;
+	private TextFieldComponent fieldName;
 	private JLabel labelDetails;
-	private JTextArea fieldDetails;
+	private TextAreaComponent fieldDetails;
 	
 	//Itt biztos beszuras van
 	public PageBasePageEditor( PageBaseTree tree, PageBaseNodeDataModel selectedNode ){
@@ -39,10 +41,10 @@ public class PageBasePageEditor extends DataEditor{
 		this.mode = null;
 		
 		//Name
-		fieldName = new JTextField( "" );
+		fieldName = new TextFieldComponent( "" );
 		
 		//Details
-		fieldDetails = new JTextArea( "", 5, 15);
+		fieldDetails = new TextAreaComponent( "", 5, 15);
 
 		common();
 		
@@ -59,22 +61,21 @@ public class PageBasePageEditor extends DataEditor{
 		PageBase pageBase = selectedNode.getPageBase();
 		
 		//Name		
-		fieldName = new JTextField( pageBase.getName());
+		fieldName = new TextFieldComponent( pageBase.getName());
 			
 		//Details
-		fieldDetails = new JTextArea( pageBase.getDetails(), 5, 15);
+		fieldDetails = new TextAreaComponent( pageBase.getDetails(), 5, 15);
 		
 		common();
 		
 	}
 	
 	private void common(){
-		labelName = new JLabel( CommonOperations.getTranslation("section.title.name") + ": ");
-		labelDetails = new JLabel( CommonOperations.getTranslation("section.title.details") + ": ");
-		JScrollPane scrollDetails = new JScrollPane(fieldDetails);
+		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
+		labelDetails = new JLabel( CommonOperations.getTranslation("editor.title.details") + ": ");
 		
 		this.add( labelName, fieldName );
-		this.add( labelDetails, scrollDetails );
+		this.add( labelDetails, fieldDetails );
 	}
 	
 	
@@ -93,7 +94,7 @@ public class PageBasePageEditor extends DataEditor{
 			errorList.put( 
 					fieldName,
 					MessageFormat.format(
-							CommonOperations.getTranslation("section.errormessage.emptyfield"), 
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
 							"'"+labelName.getText()+"'"
 					)
 			);
@@ -130,7 +131,7 @@ public class PageBasePageEditor extends DataEditor{
 							errorList.put( 
 								fieldName, 
 								MessageFormat.format( 
-										CommonOperations.getTranslation("section.errormessage.duplicateelement"), 
+										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
 										CommonOperations.getTranslation("tree.nodetype.pagebase") 
 								) 

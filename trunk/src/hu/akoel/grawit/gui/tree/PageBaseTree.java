@@ -460,7 +460,7 @@ public class PageBaseTree extends JTree{
 							
 							int n = JOptionPane.showOptionDialog(guiFrame,
 									"Valóban torolni kívánod a(z) " + selectedNode.getNameToString() + " nevü " + selectedNode.getTypeToString() + "-t ?",
-									CommonOperations.getTranslation("section.windowtitle.confirmation.delete"),
+									CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 									JOptionPane.YES_NO_CANCEL_OPTION,
 									JOptionPane.QUESTION_MESSAGE,
 									null,
