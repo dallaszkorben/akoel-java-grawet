@@ -3,12 +3,13 @@ package hu.akoel.grawit.gui.tree.datamodel;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class BasePageNodeDataModel extends BasePageDataModelInterface{
+public class BasePageNodeDataModel extends BaseDataModelInterface{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	private String name;
@@ -21,7 +22,7 @@ public class BasePageNodeDataModel extends BasePageDataModelInterface{
 	}
 	
 	@Override
-	public void add(BasePageDataModelInterface node) {
+	public void add(BaseDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -79,9 +80,9 @@ public class BasePageNodeDataModel extends BasePageDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof BasePageDataModelInterface ){
+			if( !object.equals(this) && object instanceof BaseDataModelInterface ){
 				
-				Element element = ((BasePageDataModelInterface)object).getXMLElement( document );
+				Element element = ((BaseDataModelInterface)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}

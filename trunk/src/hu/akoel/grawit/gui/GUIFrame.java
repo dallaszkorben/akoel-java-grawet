@@ -11,15 +11,13 @@ import java.io.File;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
-import hu.akoel.grawit.core.elements.BaseElement;
-import hu.akoel.grawit.core.pages.BasePage;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BasePageTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
@@ -439,30 +437,38 @@ public class GUIFrame extends JFrame{
 			//
 			// PAGEBASE
 			//
+
+			//Root
 			basePageRootDataModel = new BasePageRootDataModel(); //Torli
-			//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(basePageRootDataModel);
 
-			BasePageNodeDataModel basePosNode = new BasePageNodeDataModel("POS", "POS applikaciok tesztelese");
-			basePageRootDataModel.add( basePosNode );
-
-			BasePage firstPageBase = new BasePage( "Google kereso oldal", "Ez az elso oldal");
-			BaseElement searchField = new BaseElement("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
-			firstPageBase.addElement(searchField);
-			BaseElement searchButton = new BaseElement("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
-			firstPageBase.addElement(searchButton);
-
-			BasePagePageDataModel firstPageNode = new BasePagePageDataModel(firstPageBase);
-			basePosNode.add( firstPageNode );
-
-			BasePageElementDataModel searchFieldNode = new BasePageElementDataModel( searchField );
-			firstPageNode.add( searchFieldNode );
-
-			BasePageElementDataModel searchButtonNode = new BasePageElementDataModel( searchButton );
-			firstPageNode.add(searchButtonNode);
-
-			basePageRootDataModel.add( new BasePageNodeDataModel("REV", "REV applikaciok tesztelese" ) );
-			basePageRootDataModel.add( new BasePageNodeDataModel("DS", "DS applikaciok tesztelese" ) );
+			//Node
+			BasePageNodeDataModel basePosNode = new BasePageNodeDataModel("POS", "POS applikaciok tesztelese");			
+			BasePageNodeDataModel baseRevNode = new BasePageNodeDataModel("REV", "REV applikaciok tesztelese");			
+			BasePageNodeDataModel baseDslNode = new BasePageNodeDataModel("DS", "DS applikaciok tesztelese" );
 			
+			//Page
+			BasePageDataModel basePosPage1 = new BasePageDataModel("Google kereso oldal", "Ez az elso oldal");
+			BasePageDataModel basePosPage2 = new BasePageDataModel("Ez valami masik oldal", "Ez a kovetkezo oldal");
+			
+			//Element
+			BaseElementDataModel basePosPage1Element1 = new BaseElementDataModel("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
+			BaseElementDataModel basePosPage1Element2 = new BaseElementDataModel("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
+			BaseElementDataModel basePosPage1Element3 = new BaseElementDataModel("Mezo 1", "aaa", IdentificationType.CSS, VariableSample.PRE );
+
+			//Assignment
+			//Element -> Page
+			basePosPage1.add(basePosPage1Element1);
+			basePosPage1.add(basePosPage1Element2);
+			basePosPage1.add(basePosPage1Element3);
+			
+			//Page -> Node
+			basePosNode.add( basePosPage1);
+			basePosNode.add( basePosPage2);
+			
+			//Node -> Root
+			basePageRootDataModel.add(basePosNode);
+			basePageRootDataModel.add(baseRevNode);
+			basePageRootDataModel.add(baseDslNode);
 			
 			//
 			// PARAMPAGE

@@ -3,12 +3,13 @@ package hu.akoel.grawit.gui.tree.datamodel;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class ParamPageNodeDataModel extends ParamPageDataModelInterface{
+public class ParamPageNodeDataModel extends ParamDataModelInterface{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
@@ -22,7 +23,7 @@ public class ParamPageNodeDataModel extends ParamPageDataModelInterface{
 	}
 	
 	@Override
-	public void add(ParamPageDataModelInterface node) {
+	public void add(ParamDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -73,9 +74,9 @@ public class ParamPageNodeDataModel extends ParamPageDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamPageDataModelInterface ){
+			if( !object.equals(this) && object instanceof ParamDataModelInterface ){
 				
-				Element element = ((ParamPageDataModelInterface)object).getXMLElement( document );
+				Element element = ((ParamDataModelInterface)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
