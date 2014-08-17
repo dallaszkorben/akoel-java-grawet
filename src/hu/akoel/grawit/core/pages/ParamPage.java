@@ -23,20 +23,20 @@ import hu.akoel.grawit.exceptions.ParameterError;
  *
  */
 public class ParamPage implements ExecutablePageInterface, BasePageChangeListener{
-	private PageBase pageBase;
+	private BasePage basePage;
 	private String name;
 	private ArrayList<ParamElement> elementSet = new ArrayList<>(); 
 	private PageProgressInterface pageProgressInterface = null;
 
 	/**
 	 * 
-	 * @param pageBase
+	 * @param basePage
 	 */
-	public ParamPage( String name, PageBase pageBase ) {
+	public ParamPage( String name, BasePage basePage ) {
 		this.name = name;
-		this.pageBase = pageBase;
-		if( null != this.pageBase ){
-			this.pageBase.addChangeListener(this);
+		this.basePage = basePage;
+		if( null != this.basePage ){
+			this.basePage.addChangeListener(this);
 		}
 	}
 
@@ -48,8 +48,8 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 		this.name = name;
 	}
 	
-	public PageBase getPageBase(){
-		return pageBase;
+	public BasePage getBasePage(){
+		return basePage;
 	}
 	
 	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ){
@@ -70,8 +70,8 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 	 */
 	public ParamElement addElement( String name, BaseElement element, ElementOperationInterface operation ){
 		
-		//Ha letezik egyaltalan a PageBase listajaban
-		if( pageBase.getIndex( element ) >= 0 ){
+		//Ha letezik egyaltalan a BasePage listajaban
+		if( basePage.getIndex( element ) >= 0 ){
 			
 			ParamElement eop = new ParamElement(name, element, operation);
 			
@@ -85,7 +85,7 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 			}
 			
 		}else{
-			new ParameterError("Nincs a " + PageBase.class.getSimpleName() + " listaban a(z) " + element.getClass().getSimpleName() + " elem.");
+			new ParameterError("Nincs a " + BasePage.class.getSimpleName() + " listaban a(z) " + element.getClass().getSimpleName() + " elem.");
 		}
 		
 		return null;
@@ -222,22 +222,22 @@ public class ParamPage implements ExecutablePageInterface, BasePageChangeListene
 	/**
 	 * 
 	 * If this object is not needed anymore, you have to call this method
-	 * in order to remove the changeListener from the PageBase (was set in the constructor)
+	 * in order to remove the changeListener from the BasePage (was set in the constructor)
 	 * 
 	 */
 	public void destroy(){
-		this.pageBase.removeChangeListener(this);
+		this.basePage.removeChangeListener(this);
 	}
 
 	/**
 	 * 
-	 * The PageBase calls this method when an BaseElement is removed there.
+	 * The BasePage calls this method when an BaseElement is removed there.
 	 * In this case the same BaseElement, connected to an ElementOperationInterface,
 	 * in this the ParamPage must be removed as well.
 	 * 
 	 */
 	@Override
-	public void removePureElement(BaseElement element) {
+	public void removeBaseElement(BaseElement element) {
 		removeElement(element);		
 	}
 

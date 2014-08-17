@@ -5,11 +5,11 @@ import hu.akoel.grawit.CommonOperations;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBaseRootDataModel extends PageBaseNodeDataModel{
+public class BasePageRootDataModel extends BasePageNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	public PageBaseRootDataModel(){
+	public BasePageRootDataModel(){
 		super( "", "" );
 	}
 	
@@ -32,9 +32,9 @@ public class PageBaseRootDataModel extends PageBaseNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof PageBaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof BasePageDataModelInterface ){
 				
-				Element element = ((PageBaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((BasePageDataModelInterface)object).getXMLElement( document );
 				pageBaseElement.appendChild( element );		    		
 		    	
 			}

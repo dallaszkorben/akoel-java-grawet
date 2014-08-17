@@ -19,6 +19,8 @@ public interface ElementOperationInterface {
 		private int index;
 		
 		private Operation( int index, String translatedName ){
+System.err.println(index);			
+			this.index = index;
 			this.translatedName = translatedName;
 		}
 		

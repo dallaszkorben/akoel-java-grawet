@@ -5,7 +5,7 @@ import java.util.Collections;
 
 import hu.akoel.grawit.core.elements.BaseElement;
 
-public class PageBase {
+public class BasePage {
 	private String name ;
 	private String details;
 //	private String url;
@@ -13,17 +13,17 @@ public class PageBase {
 	private ArrayList<BaseElement> elementList = new ArrayList<>();
 	private ArrayList<BasePageChangeListener> changeListenerList = new ArrayList<>();
 		
-	public PageBase( String name, String details ){
+	public BasePage( String name, String details ){
 		this.name = name;
 		this.details = details;
 		//common( name, null );
 	}
 	
-/*	public PageBase( String name, String url ){
+/*	public BasePage( String name, String url ){
 		common( name, url );
 	}
 */	
-/*	public PageBase( String name, String url, String frame ){
+/*	public BasePage( String name, String url, String frame ){
 		common( name, url, frame );
 	}
 */	
@@ -58,7 +58,7 @@ public class PageBase {
 */	
 	/**
 	 * 
-	 * Add a new BaseElement into the end of this PageBase
+	 * Add a new BaseElement into the end of this BasePage
 	 * 
 	 * @param element
 	 */
@@ -68,7 +68,7 @@ public class PageBase {
 	
 	/**
 	 * 
-	 * Remove the BaseElement on this PageBase
+	 * Remove the BaseElement on this BasePage
 	 * @param element
 	 */
 	public void removeElement( BaseElement element ){
@@ -114,7 +114,7 @@ public class PageBase {
 	
 	/**
 	 * 
-	 * Remove the indexth BaseElement on this PageBase
+	 * Remove the indexth BaseElement on this BasePage
 	 * @param index
 	 */
 /*	public void deleteElement( int index ){
@@ -123,7 +123,7 @@ public class PageBase {
 */	
 	/**
 	 * 
-	 * The number of the PureElements on this PageBase
+	 * The number of the PureElements on this BasePage
 	 * 
 	 * @return
 	 */
@@ -133,7 +133,7 @@ public class PageBase {
 	
 	/**
 	 * 
-	 * Gives back the BaseElement on this PageBase in the given index
+	 * Gives back the BaseElement on this BasePage in the given index
 	 * 
 	 * @param index
 	 * @return

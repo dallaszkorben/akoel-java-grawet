@@ -15,13 +15,13 @@ public class ParamPagePageDataModel  extends ParamPageDataModelInterface{
 	
 	private ParamPage paramPage;
 	
-	private PageBaseRootDataModel pageBaseRootDataModel;
+	private BasePageRootDataModel basePageRootDataModel;
 	
-	public ParamPagePageDataModel( ParamPage paramPage, PageBaseRootDataModel pageBaseRootDataModel ){
+	public ParamPagePageDataModel( ParamPage paramPage, BasePageRootDataModel basePageRootDataModel ){
 		super();
 		
 		this.paramPage = paramPage;
-		this.pageBaseRootDataModel = pageBaseRootDataModel;
+		this.basePageRootDataModel = basePageRootDataModel;
 	}
 
 	@Override
@@ -54,9 +54,9 @@ public class ParamPagePageDataModel  extends ParamPageDataModelInterface{
 		pageElement.setAttributeNode(attr);	
 
 		//PAGEBASEPAGE attributum
-		PageBasePageDataModel pageBasePageDataModel = CommonOperations.getPageBasePageDataModelByPageBase( pageBaseRootDataModel, paramPage.getPageBase() );	
+		BasePagePageDataModel basePagePageDataModel = CommonOperations.getBasePagePageDataModelByBasePage( basePageRootDataModel, paramPage.getBasePage() );	
 		attr = document.createAttribute("pagebasepagepath");
-		attr.setValue( pageBasePageDataModel.getPathToString() );
+		attr.setValue( basePagePageDataModel.getPathToString() );
 		pageElement.setAttributeNode(attr);
 		
 

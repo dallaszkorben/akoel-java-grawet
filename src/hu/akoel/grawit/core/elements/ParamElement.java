@@ -9,7 +9,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 
 public class ParamElement{
 	private String name;
-	private ElementOperationInterface operation;
+	private ElementOperationInterface elementOperation;
 	private BaseElement baseElement;
 	
 	private String variableValue = "";
@@ -18,7 +18,7 @@ public class ParamElement{
 	public ParamElement( String name, BaseElement baseElement, ElementOperationInterface operation){
 		this.name = name;
 		this.baseElement = baseElement;
-		this.operation = operation;
+		this.elementOperation = operation;
 	}
 	
 	/**
@@ -39,16 +39,12 @@ public class ParamElement{
 		return this.name;
 	}
 	
-	public BaseElement getBaseElement(){
-		return baseElement;
-	}	
-	
 	public ElementOperationInterface getElementOperation() {
-		return operation;
+		return elementOperation;
 	}
 
-	public void setOperation(ElementOperationInterface operation) {
-		this.operation = operation;
+	public void setOperation(ElementOperationInterface elementOperation) {
+		this.elementOperation = elementOperation;
 	}	
 	
 	public String getVariableValue() {
@@ -59,6 +55,14 @@ public class ParamElement{
 		this.variableValue = variableValue;
 	}
 
+	public void setBaseElement( BaseElement baseElement ){
+		this.baseElement = baseElement;
+	}
+	
+	public BaseElement getBaseElement(){
+		return baseElement;
+	}
+	
 	/**
 	 * 
 	 * Akkor egyenlo a ket objektum, ha azonosak, vagy azonos az baseElement tagjuk

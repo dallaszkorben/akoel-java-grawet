@@ -4,5 +4,5 @@ import hu.akoel.grawit.core.elements.BaseElement;
 
 public interface BasePageChangeListener {
 
-	public void removePureElement( BaseElement element );
+	public void removeBaseElement( BaseElement element );
 }

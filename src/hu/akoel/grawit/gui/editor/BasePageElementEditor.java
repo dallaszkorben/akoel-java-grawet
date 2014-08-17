@@ -11,9 +11,9 @@ import hu.akoel.grawit.core.elements.BaseElement;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.RadioButtonComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.tree.PageBaseTree;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
+import hu.akoel.grawit.gui.tree.BasePageTree;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
@@ -23,13 +23,13 @@ import javax.swing.JTextField;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
-public class PageBaseElementEditor extends DataEditor{
+public class BasePageElementEditor extends DataEditor{
 	
 	private static final long serialVersionUID = 165396704460481021L;
 	
-	private PageBaseTree tree;
-	private PageBaseElementDataModel nodeForModify;
-	private PageBasePageDataModel nodeForCapture;
+	private BasePageTree tree;
+	private BasePageElementDataModel nodeForModify;
+	private BasePagePageDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -41,7 +41,7 @@ public class PageBaseElementEditor extends DataEditor{
 	private RadioButtonComponent buttonCSS;
 	
 	//Insert
-	public PageBaseElementEditor( PageBaseTree tree, PageBasePageDataModel selectedNode ){
+	public BasePageElementEditor( BasePageTree tree, BasePagePageDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.baseelement") );
 
 		this.tree = tree;
@@ -68,14 +68,14 @@ public class PageBaseElementEditor extends DataEditor{
 	
 	
 	//Modositas vagy View
-	public PageBaseElementEditor( PageBaseTree tree, PageBaseElementDataModel selectedNode, EditMode mode ){		
+	public BasePageElementEditor( BasePageTree tree, BasePageElementDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.baseelement") );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		BaseElement baseElement = selectedNode.getElementBase();
+		BaseElement baseElement = selectedNode.getBaseElement();
 		
 		commonPre();
 		
@@ -173,10 +173,10 @@ public class PageBaseElementEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof PageBaseElementDataModel ){
+				if( levelNode instanceof BasePageElementDataModel ){
 					
 					//Ha azonos a nev
-					if( ((PageBaseElementDataModel) levelNode).getElementBase().getName().equals( fieldName.getText() ) ){
+					if( ((BasePageElementDataModel) levelNode).getBaseElement().getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -186,7 +186,7 @@ public class PageBaseElementEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.elementbase") 
+										CommonOperations.getTranslation("tree.nodetype.baseelement") 
 								) 
 							);
 							break;
@@ -241,7 +241,7 @@ public class PageBaseElementEditor extends DataEditor{
 				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
 				//int selectedNodeIndex = parentNode.getIndex( selectedNode );				
 				BaseElement baseElement = new BaseElement( fieldName.getText(), fieldIdentifier.getText(), identificationType, variableSample  );				
-				PageBaseElementDataModel newPageBaseElement = new PageBaseElementDataModel( baseElement );
+				BasePageElementDataModel newPageBaseElement = new BasePageElementDataModel( baseElement );
 				//parentNode.insert( newPageBaseElement, selectedNodeIndex);
 			
 				nodeForCapture.add( newPageBaseElement );
@@ -252,7 +252,7 @@ public class PageBaseElementEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
-				BaseElement baseElement = nodeForModify.getElementBase(); 
+				BaseElement baseElement = nodeForModify.getBaseElement(); 
 				
 				baseElement.setName( fieldName.getText() );
 				baseElement.setIdentifier( fieldIdentifier.getText() );				

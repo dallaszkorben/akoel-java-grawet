@@ -11,15 +11,15 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
-import hu.akoel.grawit.gui.editor.PageBaseElementEditor;
-import hu.akoel.grawit.gui.editor.PageBaseNodeEditor;
-import hu.akoel.grawit.gui.editor.PageBasePageEditor;
+import hu.akoel.grawit.gui.editor.BasePageElementEditor;
+import hu.akoel.grawit.gui.editor.BasePageNodeEditor;
+import hu.akoel.grawit.gui.editor.BasePagePageEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseDataModelInterface;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageDataModelInterface;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -35,7 +35,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-public class PageBaseTree extends JTree{
+public class BasePageTree extends JTree{
 
 	private static final long serialVersionUID = -3929758449314068678L;
 	
@@ -71,9 +71,9 @@ public class PageBaseTree extends JTree{
 		
 	}
 	
-	public PageBaseTree( GUIFrame guiFrame, PageBaseRootDataModel pageBaseRootDataModel ){
+	public BasePageTree( GUIFrame guiFrame, BasePageRootDataModel basePageRootDataModel ){
 	
-		super( new DefaultTreeModel(pageBaseRootDataModel) );
+		super( new DefaultTreeModel(basePageRootDataModel) );
 		
 		treeModel = (DefaultTreeModel)this.getModel();
 		
@@ -104,14 +104,14 @@ public class PageBaseTree extends JTree{
 		    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 		    	
 		    	//Felirata a NODE-nak
-		    	setText( ((PageBaseDataModelInterface)value).getNameToString() );
+		    	setText( ((BasePageDataModelInterface)value).getNameToString() );
 		    	
 		    	//Iconja a NODE-nak
-		    	if( value instanceof PageBasePageDataModel){
+		    	if( value instanceof BasePagePageDataModel){
 		            setIcon(pageIcon);
-		    	}else if( value instanceof PageBaseElementDataModel ){
+		    	}else if( value instanceof BasePageElementDataModel ){
 		            setIcon(elementIcon);
-		    	}else if( value instanceof PageBaseNodeDataModel){
+		    	}else if( value instanceof BasePageNodeDataModel){
 		    		if( expanded ){
 		    			setIcon(nodeOpenIcon);
 		    		}else{
@@ -155,23 +155,23 @@ public class PageBaseTree extends JTree{
 			}else{
 			
 				selectedNode = (DefaultMutableTreeNode)e.getNewLeadSelectionPath().getLastPathComponent();
-				//selectedNode = (DefaultMutableTreeNode)PageBaseTree.this.getLastSelectedPathComponent();
+				//selectedNode = (DefaultMutableTreeNode)BasePageTree.this.getLastSelectedPathComponent();
 			
 				//Ha egyaltalan valamilyen egergombot benyomtam
-				if( selectedNode instanceof PageBaseRootDataModel ){
+				if( selectedNode instanceof BasePageRootDataModel ){
 					EmptyEditor emptyPanel = new EmptyEditor();								
 					guiFrame.showEditorPanel( emptyPanel );
 				
-				}else if( selectedNode instanceof PageBaseNodeDataModel ){
-					PageBaseNodeEditor pageBaseNodePanel = new PageBaseNodeEditor(PageBaseTree.this, (PageBaseNodeDataModel)selectedNode, EditMode.VIEW);
+				}else if( selectedNode instanceof BasePageNodeDataModel ){
+					BasePageNodeEditor pageBaseNodePanel = new BasePageNodeEditor(BasePageTree.this, (BasePageNodeDataModel)selectedNode, EditMode.VIEW);
 					guiFrame.showEditorPanel( pageBaseNodePanel);								
 				
-				}else if( selectedNode instanceof PageBasePageDataModel ){
-					PageBasePageEditor pageBasePagePanel = new PageBasePageEditor( PageBaseTree.this, (PageBasePageDataModel)selectedNode, EditMode.VIEW );								
+				}else if( selectedNode instanceof BasePagePageDataModel ){
+					BasePagePageEditor pageBasePagePanel = new BasePagePageEditor( BasePageTree.this, (BasePagePageDataModel)selectedNode, EditMode.VIEW );								
 					guiFrame.showEditorPanel( pageBasePagePanel);				
 								
-				}else if( selectedNode instanceof PageBaseElementDataModel ){
-					PageBaseElementEditor pageBaseElementPanel = new PageBaseElementEditor( PageBaseTree.this, (PageBaseElementDataModel)selectedNode, EditMode.VIEW );								
+				}else if( selectedNode instanceof BasePageElementDataModel ){
+					BasePageElementEditor pageBaseElementPanel = new BasePageElementEditor( BasePageTree.this, (BasePageElementDataModel)selectedNode, EditMode.VIEW );								
 					guiFrame.showEditorPanel( pageBaseElementPanel);		
 										
 				}
@@ -192,20 +192,20 @@ public class PageBaseTree extends JTree{
 		public void mouseClicked(MouseEvent e) {
 			
 			//A kivalasztott NODE			
-			selectedNode = (DefaultMutableTreeNode)PageBaseTree.this.getLastSelectedPathComponent();
+			selectedNode = (DefaultMutableTreeNode)BasePageTree.this.getLastSelectedPathComponent();
 		
 			//Ha jobb-eger gombot nyomtam - Akkor popup menu jelenik meg
 			if (SwingUtilities.isRightMouseButton(e)) {
 
 				//A kivalasztott elem sora - kell a sor kiszinezesehez es a PopUp menu poziciojahoz
-				int row = PageBaseTree.this.getClosestRowForLocation(e.getX(), e.getY());
-				//int row = PageBaseTree.this.getRowForLocation(e.getX(), e.getY());
+				int row = BasePageTree.this.getClosestRowForLocation(e.getX(), e.getY());
+				//int row = BasePageTree.this.getRowForLocation(e.getX(), e.getY());
 				
 				//Kiszinezi a sort
-				PageBaseTree.this.setSelectionRow(row);
+				BasePageTree.this.setSelectionRow(row);
 
 				//Jelzi, hogy mostantol, hiaba nem bal-egerrel valasztottam ki a node-ot, megis kivalasztott lesz
-				selectedNode = (DefaultMutableTreeNode)PageBaseTree.this.getLastSelectedPathComponent();
+				selectedNode = (DefaultMutableTreeNode)BasePageTree.this.getLastSelectedPathComponent();
 
 				//Letrehozza a PopUpMenu-t
 				//PopUpMenu popUpMenu = new PopUpMenu( row, node, path );
@@ -246,7 +246,7 @@ public class PageBaseTree extends JTree{
 		private static final long serialVersionUID = -2476473336416059356L;
 
 		private DefaultMutableTreeNode parentNode;
-		private PageBaseDataModelInterface selectedNode;
+		private BasePageDataModelInterface selectedNode;
 		private TreePath selectedPath;
 		private DefaultTreeModel totalTreeModel;
 		private int selectedIndexInTheNode;
@@ -257,13 +257,13 @@ public class PageBaseTree extends JTree{
 			super();
 
 			//A teljes fastruktura modell-je			
-			totalTreeModel = (DefaultTreeModel)PageBaseTree.this.getModel();
+			totalTreeModel = (DefaultTreeModel)BasePageTree.this.getModel();
 
 			//A kivalasztott NODE			
-			selectedNode = (PageBaseDataModelInterface)PageBaseTree.this.getLastSelectedPathComponent();
+			selectedNode = (BasePageDataModelInterface)BasePageTree.this.getLastSelectedPathComponent();
 
 			//A kivalasztott node-ig vezeto PATH
-			selectedPath = PageBaseTree.this.getSelectionPath();	
+			selectedPath = BasePageTree.this.getSelectionPath();	
 
 			//A kivalasztott node fastrukturaban elfoglalt melyseget adja vissza. 1 jelenti a gyokeret
 			int pathLevel = selectedPath.getPathCount();
@@ -306,7 +306,7 @@ public class PageBaseTree extends JTree{
 								totalTreeModel.insertNodeInto(selectedNode, (DefaultMutableTreeNode)parentNode, selectedIndexInTheNode - 1);    // move the node
 								
 								//Ujra ki kell szinezni az eredetileg kivalasztott sort
-								PageBaseTree.this.setSelectionRow(selectedRow - 1);
+								BasePageTree.this.setSelectionRow(selectedRow - 1);
 							}							
 						}
 					});
@@ -338,7 +338,7 @@ public class PageBaseTree extends JTree{
 								totalTreeModel.insertNodeInto(selectedNode, (DefaultMutableTreeNode)parentNode, selectedIndexInTheNode + 1);    
 								
 								//Ujra ki kell szinezni az eredetileg kivalasztott sort
-								PageBaseTree.this.setSelectionRow(selectedRow + 1);
+								BasePageTree.this.setSelectionRow(selectedRow + 1);
 							}	
 							
 						}
@@ -359,19 +359,19 @@ public class PageBaseTree extends JTree{
 						
 //						if( selectedIndexInTheNode >= 1 ) {
 							
-							if( selectedNode instanceof PageBaseNodeDataModel ){
+							if( selectedNode instanceof BasePageNodeDataModel ){
 							
-								PageBaseNodeEditor pageBaseNodePanel = new PageBaseNodeEditor( PageBaseTree.this, (PageBaseNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+								BasePageNodeEditor pageBaseNodePanel = new BasePageNodeEditor( BasePageTree.this, (BasePageNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 								guiFrame.showEditorPanel( pageBaseNodePanel);								
 								
-							}else if( selectedNode instanceof PageBasePageDataModel ){
+							}else if( selectedNode instanceof BasePagePageDataModel ){
 								
-								PageBasePageEditor pageBasePagePanel = new PageBasePageEditor( PageBaseTree.this, (PageBasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+								BasePagePageEditor pageBasePagePanel = new BasePagePageEditor( BasePageTree.this, (BasePagePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 								guiFrame.showEditorPanel( pageBasePagePanel);		
 								
-							}else if( selectedNode instanceof PageBaseElementDataModel ){
+							}else if( selectedNode instanceof BasePageElementDataModel ){
 
-								PageBaseElementEditor pageBaseElementPanel = new PageBaseElementEditor( PageBaseTree.this, (PageBaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+								BasePageElementEditor pageBaseElementPanel = new BasePageElementEditor( BasePageTree.this, (BasePageElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 								guiFrame.showEditorPanel( pageBaseElementPanel);		
 								
 							}
@@ -382,7 +382,7 @@ public class PageBaseTree extends JTree{
 				//
 				// Csomopont eseten
 				//
-				if( selectedNode instanceof PageBaseNodeDataModel ){
+				if( selectedNode instanceof BasePageNodeDataModel ){
 
 					//Insert Node
 					JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.insert.node") );
@@ -392,7 +392,7 @@ public class PageBaseTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							PageBaseNodeEditor pageBaseNodePanel = new PageBaseNodeEditor( PageBaseTree.this, (PageBaseNodeDataModel)selectedNode );								
+							BasePageNodeEditor pageBaseNodePanel = new BasePageNodeEditor( BasePageTree.this, (BasePageNodeDataModel)selectedNode );								
 							guiFrame.showEditorPanel( pageBaseNodePanel);								
 						
 						}
@@ -407,7 +407,7 @@ public class PageBaseTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							PageBasePageEditor pageBaseNodePanel = new PageBasePageEditor( PageBaseTree.this, (PageBaseNodeDataModel)selectedNode );								
+							BasePagePageEditor pageBaseNodePanel = new BasePagePageEditor( BasePageTree.this, (BasePageNodeDataModel)selectedNode );								
 							guiFrame.showEditorPanel( pageBaseNodePanel);								
 						
 						}
@@ -419,7 +419,7 @@ public class PageBaseTree extends JTree{
 				//
 				// Page eseten
 				//
-				if( selectedNode instanceof PageBasePageDataModel ){
+				if( selectedNode instanceof BasePagePageDataModel ){
 
 					//Insert Element
 					JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.insert.element") );
@@ -429,7 +429,7 @@ public class PageBaseTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							PageBaseElementEditor pageBaseNodePanel = new PageBaseElementEditor( PageBaseTree.this, (PageBasePageDataModel)selectedNode );								
+							BasePageElementEditor pageBaseNodePanel = new BasePageElementEditor( BasePageTree.this, (BasePagePageDataModel)selectedNode );								
 							guiFrame.showEditorPanel( pageBaseNodePanel);								
 						
 						}
@@ -469,7 +469,7 @@ public class PageBaseTree extends JTree{
 
 							if( n == 1 ){
 								totalTreeModel.removeNodeFromParent( selectedNode);
-								PageBaseTree.this.setSelectionRow(selectedRow - 1);
+								BasePageTree.this.setSelectionRow(selectedRow - 1);
 							}							
 						}
 					});
@@ -488,7 +488,7 @@ public class PageBaseTree extends JTree{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
-						PageBaseNodeEditor pageBaseNodePanel = new PageBaseNodeEditor( PageBaseTree.this, (PageBaseNodeDataModel)selectedNode );								
+						BasePageNodeEditor pageBaseNodePanel = new BasePageNodeEditor( BasePageTree.this, (BasePageNodeDataModel)selectedNode );								
 						guiFrame.showEditorPanel( pageBaseNodePanel);								
 					
 					}

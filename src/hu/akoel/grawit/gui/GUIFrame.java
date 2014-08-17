@@ -12,15 +12,15 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.core.elements.BaseElement;
-import hu.akoel.grawit.core.pages.PageBase;
+import hu.akoel.grawit.core.pages.BasePage;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
-import hu.akoel.grawit.gui.tree.PageBaseTree;
+import hu.akoel.grawit.gui.tree.BasePageTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
 
@@ -70,10 +70,10 @@ public class GUIFrame extends JFrame{
 	private EditorPanel editorPanel;
 	private AssistantPanel assistantPanel;
 	
-	private PageBaseRootDataModel pageBaseRootDataModel = new PageBaseRootDataModel();
+	private BasePageRootDataModel basePageRootDataModel = new BasePageRootDataModel();
 	private ParamPageRootDataModel paramPageRootDataModel = new ParamPageRootDataModel();
 	
-	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseRootDataModel);
+	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(basePageRootDataModel);
 	
 	private File usedDirectory = null;
 	
@@ -300,8 +300,8 @@ public class GUIFrame extends JFrame{
 			editTestCaseMenuItem.setEnabled( false );
 			
 			setTitle( appNameAndVersion );
-			pageBaseRootDataModel.removeAllChildren();
-			//pageBaseRootDataModel = new PageBaseRootDataModel();
+			basePageRootDataModel.removeAllChildren();
+			//basePageRootDataModel = new BasePageRootDataModel();
 			
 			JTree tree = treePanel.getTree();
 			if ( null != tree ){
@@ -327,7 +327,7 @@ public class GUIFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if( null == pageBaseRootDataModel ){
+			if( null == basePageRootDataModel ){
 				return;
 			}
 			
@@ -341,7 +341,7 @@ public class GUIFrame extends JFrame{
 				doc.appendChild(rootElement);
 
 				//PAGE BASE mentese
-				Element pageBaseElement = pageBaseRootDataModel.getXMLElement(doc);	
+				Element pageBaseElement = basePageRootDataModel.getXMLElement(doc);	
 				rootElement.appendChild( pageBaseElement );
 				
 				//PARAM PAGE mentese
@@ -433,35 +433,35 @@ public class GUIFrame extends JFrame{
 //TODO tree toltes			
 			// TODO Be kell majd toltenem fajlbol az adatokat
 			// Most csak direktben beirok valamit
-			// Tulajdonkeppen a pageBaseRootDataModel-ot toltom fel
+			// Tulajdonkeppen a basePageRootDataModel-ot toltom fel
 			// Ez tartalmazza az adatmodellt
 			
 			//
 			// PAGEBASE
 			//
-			pageBaseRootDataModel = new PageBaseRootDataModel(); //Torli
-			//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(pageBaseRootDataModel);
+			basePageRootDataModel = new BasePageRootDataModel(); //Torli
+			//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(basePageRootDataModel);
 
-			PageBaseNodeDataModel basePosNode = new PageBaseNodeDataModel("POS", "POS applikaciok tesztelese");
-			pageBaseRootDataModel.add( basePosNode );
+			BasePageNodeDataModel basePosNode = new BasePageNodeDataModel("POS", "POS applikaciok tesztelese");
+			basePageRootDataModel.add( basePosNode );
 
-			PageBase firstPageBase = new PageBase( "Google kereso oldal", "Ez az elso oldal");
+			BasePage firstPageBase = new BasePage( "Google kereso oldal", "Ez az elso oldal");
 			BaseElement searchField = new BaseElement("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
 			firstPageBase.addElement(searchField);
 			BaseElement searchButton = new BaseElement("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
 			firstPageBase.addElement(searchButton);
 
-			PageBasePageDataModel firstPageNode = new PageBasePageDataModel(firstPageBase);
+			BasePagePageDataModel firstPageNode = new BasePagePageDataModel(firstPageBase);
 			basePosNode.add( firstPageNode );
 
-			PageBaseElementDataModel searchFieldNode = new PageBaseElementDataModel( searchField );
+			BasePageElementDataModel searchFieldNode = new BasePageElementDataModel( searchField );
 			firstPageNode.add( searchFieldNode );
 
-			PageBaseElementDataModel searchButtonNode = new PageBaseElementDataModel( searchButton );
+			BasePageElementDataModel searchButtonNode = new BasePageElementDataModel( searchButton );
 			firstPageNode.add(searchButtonNode);
 
-			pageBaseRootDataModel.add( new PageBaseNodeDataModel("REV", "REV applikaciok tesztelese" ) );
-			pageBaseRootDataModel.add( new PageBaseNodeDataModel("DS", "DS applikaciok tesztelese" ) );
+			basePageRootDataModel.add( new BasePageNodeDataModel("REV", "REV applikaciok tesztelese" ) );
+			basePageRootDataModel.add( new BasePageNodeDataModel("DS", "DS applikaciok tesztelese" ) );
 			
 			
 			//
@@ -473,19 +473,19 @@ public class GUIFrame extends JFrame{
 			paramPageRootDataModel.add( paramPosNode );
 /*
 
-			PageBase firstPageBase = new PageBase( "Google kereso oldal", "Ez az elso oldal");
+			BasePage firstPageBase = new BasePage( "Google kereso oldal", "Ez az elso oldal");
 			BaseElement searchField = new BaseElement("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
 			firstPageBase.addElement(searchField);
 			BaseElement searchButton = new BaseElement("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
 			firstPageBase.addElement(searchButton);
 
-			PageBasePageDataModel firstPageNode = new PageBasePageDataModel(firstPageBase);
+			BasePagePageDataModel firstPageNode = new BasePagePageDataModel(firstPageBase);
 			posNode.add( firstPageNode );
 
-			PageBaseElementDataModel searchFieldNode = new PageBaseElementDataModel( searchField );
+			BasePageElementDataModel searchFieldNode = new BasePageElementDataModel( searchField );
 			firstPageNode.add( searchFieldNode );
 
-			PageBaseElementDataModel searchButtonNode = new PageBaseElementDataModel( searchButton );
+			BasePageElementDataModel searchButtonNode = new BasePageElementDataModel( searchButton );
 			firstPageNode.add(searchButtonNode);
 */
 
@@ -516,7 +516,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			PageBaseTree tree = new PageBaseTree( GUIFrame.this, pageBaseRootDataModel );
+			BasePageTree tree = new BasePageTree( GUIFrame.this, basePageRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );
@@ -530,7 +530,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramPageRootDataModel, pageBaseRootDataModel );
+			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramPageRootDataModel, basePageRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );
