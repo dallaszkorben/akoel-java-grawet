@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.tree.datamodel;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,9 +33,9 @@ public class ParamPageRootDataModel extends ParamPageNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamPageDataModelInterface ){
+			if( !object.equals(this) && object instanceof ParamDataModelInterface ){
 				
-				Element element = ((ParamPageDataModelInterface)object).getXMLElement( document );
+				Element element = ((ParamDataModelInterface)object).getXMLElement( document );
 				paramPageElement.appendChild( element );		    		
 		    	
 			}

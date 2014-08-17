@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.tree.datamodel;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,9 +33,9 @@ public class BasePageRootDataModel extends BasePageNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof BasePageDataModelInterface ){
+			if( !object.equals(this) && object instanceof BaseDataModelInterface ){
 				
-				Element element = ((BasePageDataModelInterface)object).getXMLElement( document );
+				Element element = ((BaseDataModelInterface)object).getXMLElement( document );
 				pageBaseElement.appendChild( element );		    		
 		    	
 			}

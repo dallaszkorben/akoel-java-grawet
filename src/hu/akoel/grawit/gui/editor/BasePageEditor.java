@@ -5,25 +5,21 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.BasePage;
+import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.BasePageTree;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
 
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.tree.TreeNode;
 
-public class BasePagePageEditor extends DataEditor{
+public class BasePageEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -9038879802467565947L;
 
 	private BasePageTree tree; 
-	private BasePagePageDataModel nodeForModify;
+	private BasePageDataModel nodeForModify;
 	private BasePageNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
@@ -33,8 +29,8 @@ public class BasePagePageEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 	
 	//Itt biztos beszuras van
-	public BasePagePageEditor( BasePageTree tree, BasePageNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.nodetype.pagebase") );
+	public BasePageEditor( BasePageTree tree, BasePageNodeDataModel selectedNode ){
+		super( CommonOperations.getTranslation("tree.nodetype.basepage") );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -51,14 +47,15 @@ public class BasePagePageEditor extends DataEditor{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public BasePagePageEditor( BasePageTree tree, BasePagePageDataModel selectedNode, EditMode mode ){
-		super( mode, CommonOperations.getTranslation("tree.nodetype.pagebase") );
+	public BasePageEditor( BasePageTree tree, BasePageDataModel selectedNode, EditMode mode ){
+		super( mode, CommonOperations.getTranslation("tree.nodetype.basepage") );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		BasePage basePage = selectedNode.getBasePage();
+		//TODO torolni
+		BasePageDataModel basePage = selectedNode;
 		
 		//Name		
 		fieldName = new TextFieldComponent( basePage.getName());
@@ -120,10 +117,10 @@ public class BasePagePageEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Page-rol van szo (Lehetne meg NODE is)
-				if( levelNode instanceof BasePagePageDataModel ){
+				if( levelNode instanceof BasePageDataModel ){
 					
 					//Ha azonos a nev
-					if( ((BasePagePageDataModel) levelNode).getBasePage().getName().equals( fieldName.getText() ) ){
+					if( ((BasePageDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -133,7 +130,7 @@ public class BasePagePageEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.pagebase") 
+										CommonOperations.getTranslation("tree.nodetype.basepage") 
 								) 
 							);
 							break;
@@ -157,12 +154,8 @@ public class BasePagePageEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
-				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
-				BasePage basePage = new BasePage( fieldName.getText(), fieldDetails.getText() );				
-				BasePagePageDataModel newPageBasePage = new BasePagePageDataModel( basePage );
-				//parentNode.insert( newPageBasePage, selectedNodeIndex);
-				nodeForCapture.add( newPageBasePage );
+				BasePageDataModel newBasePage = new BasePageDataModel( fieldName.getText(), fieldDetails.getText() );				
+				nodeForCapture.add( newBasePage );
 
 				//Ebbe a nodba kell majd visszaallni
 				//pathToOpen = new TreePath(newPageBasePage.getPath());
@@ -170,7 +163,8 @@ public class BasePagePageEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
-				BasePage basePage = nodeForModify.getBasePage(); 
+				//TODO torolni
+				BasePageDataModel basePage = nodeForModify; 
 				
 				basePage.setName( fieldName.getText() );
 				basePage.setDetails( fieldDetails.getText() );

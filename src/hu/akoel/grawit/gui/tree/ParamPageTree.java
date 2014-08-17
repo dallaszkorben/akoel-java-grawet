@@ -8,18 +8,17 @@ import java.awt.event.MouseListener;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
+import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
-import hu.akoel.grawit.gui.editor.ParamPageElementEditor;
+import hu.akoel.grawit.gui.editor.ParamElementEditor;
 import hu.akoel.grawit.gui.editor.ParamPageNodeEditor;
-import hu.akoel.grawit.gui.editor.ParamPagePageEditor;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
+import hu.akoel.grawit.gui.editor.ParamPageEditor;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageDataModelInterface;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageElementDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPagePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
 
 import javax.swing.ImageIcon;
@@ -105,12 +104,12 @@ public class ParamPageTree extends JTree{
 		    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 		    	
 		    	//Felirata a NODE-nak
-		    	setText( ((ParamPageDataModelInterface)value).getNameToString() );
+		    	setText( ((ParamDataModelInterface)value).getNameToString() );
 		    	
 		    	//Iconja a NODE-nak
-		    	if( value instanceof ParamPagePageDataModel){
+		    	if( value instanceof ParamPageDataModel){
 		            setIcon(pageIcon);
-		    	}else if( value instanceof ParamPageElementDataModel ){
+		    	}else if( value instanceof ParamElementDataModel ){
 		            setIcon(elementIcon);
 		    	}else if( value instanceof ParamPageNodeDataModel){
 		    		if( expanded ){
@@ -167,13 +166,13 @@ public class ParamPageTree extends JTree{
 					ParamPageNodeEditor paramPageNodeEditor = new ParamPageNodeEditor(ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, EditMode.VIEW);
 					guiFrame.showEditorPanel( paramPageNodeEditor);								
 				
-				}else if( selectedNode instanceof ParamPagePageDataModel ){
-					ParamPagePageEditor paramPagePageEditor = new ParamPagePageEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, basePageRootDataModel, EditMode.VIEW );								
-					guiFrame.showEditorPanel( paramPagePageEditor);				
+				}else if( selectedNode instanceof ParamPageDataModel ){
+					ParamPageEditor paramPageEditor = new ParamPageEditor( ParamPageTree.this, (ParamPageDataModel)selectedNode, basePageRootDataModel, EditMode.VIEW );								
+					guiFrame.showEditorPanel( paramPageEditor);				
 								
-				}else if( selectedNode instanceof ParamPageElementDataModel ){
-					ParamPageElementEditor pageBaseElementEditor = new ParamPageElementEditor( ParamPageTree.this, (ParamPageElementDataModel)selectedNode, basePageRootDataModel, EditMode.VIEW );	
-//					BasePageElementEditor pageBaseElementPanel = new ParamPageElementEditor( ParamPageTree.this, (ParamPageElementDataModel)selectedNode, EditMode.VIEW );								
+				}else if( selectedNode instanceof ParamElementDataModel ){
+					ParamElementEditor pageBaseElementEditor = new ParamElementEditor( ParamPageTree.this, (ParamElementDataModel)selectedNode, basePageRootDataModel, EditMode.VIEW );	
+//					BaseElementEditor pageBaseElementPanel = new ParamElementEditor( ParamPageTree.this, (ParamPageElementDataModel)selectedNode, EditMode.VIEW );								
 					guiFrame.showEditorPanel( pageBaseElementEditor);		
 										
 				}
@@ -248,7 +247,7 @@ public class ParamPageTree extends JTree{
 		private static final long serialVersionUID = -2476473336416059356L;
 
 		private DefaultMutableTreeNode parentNode;
-		private ParamPageDataModelInterface selectedNode;
+		private ParamDataModelInterface selectedNode;
 		private TreePath selectedPath;
 		private DefaultTreeModel totalTreeModel;
 		private int selectedIndexInTheNode;
@@ -262,7 +261,7 @@ public class ParamPageTree extends JTree{
 			totalTreeModel = (DefaultTreeModel)ParamPageTree.this.getModel();
 
 			//A kivalasztott NODE			
-			selectedNode = (ParamPageDataModelInterface)ParamPageTree.this.getLastSelectedPathComponent();
+			selectedNode = (ParamDataModelInterface)ParamPageTree.this.getLastSelectedPathComponent();
 
 			//A kivalasztott node-ig vezeto PATH
 			selectedPath = ParamPageTree.this.getSelectionPath();	
@@ -364,16 +363,16 @@ public class ParamPageTree extends JTree{
 							ParamPageNodeEditor paramPageNodeEditor = new ParamPageNodeEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, EditMode.MODIFY );								
 							guiFrame.showEditorPanel( paramPageNodeEditor);								
 								
-						}else if( selectedNode instanceof ParamPagePageDataModel ){
+						}else if( selectedNode instanceof ParamPageDataModel ){
 							
-							ParamPagePageEditor paramPagePageEditor = new ParamPagePageEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, basePageRootDataModel, EditMode.MODIFY );							                                            
-							guiFrame.showEditorPanel( paramPagePageEditor);		
+							ParamPageEditor paramPageEditor = new ParamPageEditor( ParamPageTree.this, (ParamPageDataModel)selectedNode, basePageRootDataModel, EditMode.MODIFY );							                                            
+							guiFrame.showEditorPanel( paramPageEditor);		
 								
-						}else if( selectedNode instanceof ParamPageElementDataModel ){
+						}else if( selectedNode instanceof ParamElementDataModel ){
 
-							//ParamPageElementEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, ParamPageTree.this.basePageRootDataModel, EditMode.MODIFY  );
-							ParamPageElementEditor paramPageElementEditor = new ParamPageElementEditor( ParamPageTree.this, (ParamPageElementDataModel)selectedNode, basePageRootDataModel, EditMode.MODIFY );								
-							guiFrame.showEditorPanel( paramPageElementEditor);		
+							//ParamElementEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, ParamPageTree.this.basePageRootDataModel, EditMode.MODIFY  );
+							ParamElementEditor paramElementEditor = new ParamElementEditor( ParamPageTree.this, (ParamElementDataModel)selectedNode, basePageRootDataModel, EditMode.MODIFY );								
+							guiFrame.showEditorPanel( paramElementEditor);		
 								
 						}
 					}
@@ -407,8 +406,8 @@ public class ParamPageTree extends JTree{
 					
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							ParamPagePageEditor paramPagePageEditor = new ParamPagePageEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, ParamPageTree.this.basePageRootDataModel );								
-							guiFrame.showEditorPanel( paramPagePageEditor);								
+							ParamPageEditor paramPageEditor = new ParamPageEditor( ParamPageTree.this, (ParamPageNodeDataModel)selectedNode, ParamPageTree.this.basePageRootDataModel );								
+							guiFrame.showEditorPanel( paramPageEditor);								
 						
 						}
 					});
@@ -419,7 +418,7 @@ public class ParamPageTree extends JTree{
 				//
 				// Page eseten
 				//
-				if( selectedNode instanceof ParamPagePageDataModel ){
+				if( selectedNode instanceof ParamPageDataModel ){
 
 					//Insert Element
 					JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.insert.element") );
@@ -429,7 +428,7 @@ public class ParamPageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							ParamPageElementEditor paramPageNodeEditor = new ParamPageElementEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, ParamPageTree.this.basePageRootDataModel  );								
+							ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamPageTree.this, (ParamPageDataModel)selectedNode, ParamPageTree.this.basePageRootDataModel  );								
 							guiFrame.showEditorPanel( paramPageNodeEditor);								
 						
 						}

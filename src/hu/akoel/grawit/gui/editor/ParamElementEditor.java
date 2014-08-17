@@ -5,8 +5,10 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.elements.BaseElement;
-import hu.akoel.grawit.core.elements.ParamElement;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
+import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
 import hu.akoel.grawit.core.operations.ButtonOperation;
 import hu.akoel.grawit.core.operations.CheckboxOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
@@ -14,28 +16,23 @@ import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
 import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
-import hu.akoel.grawit.core.pages.BasePage;
 import hu.akoel.grawit.core.parameter.StringParameter;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.BasePageElementSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageElementDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPagePageDataModel;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class ParamPageElementEditor extends DataEditor{
+public class ParamElementEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
 	private ParamPageTree tree;
-	private ParamPageElementDataModel nodeForModify;
-	private ParamPagePageDataModel nodeForCapture;
+	private ParamElementDataModel nodeForModify;
+	private ParamPageDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -43,7 +40,7 @@ public class ParamPageElementEditor extends DataEditor{
 	private JLabel labelOperation;
 	private ComboBoxComponent<String> fieldOperation;
 	private JLabel labelPageBaseElementSelector;
-	private BasePageElementSelectorComponent fieldBasePageElementSelector;	
+	private BasePageElementSelectorComponent fieldBaseElementSelector;	
 	
 	/**
 	 *  Uj ParamPageElement rogzitese - Insert
@@ -51,7 +48,7 @@ public class ParamPageElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedNode
 	 */
-	public ParamPageElementEditor( ParamPageTree tree, ParamPagePageDataModel selectedNode, BasePageRootDataModel basePageRootDataModel ){
+	public ParamElementEditor( ParamPageTree tree, ParamPageDataModel selectedNode, BasePageRootDataModel basePageRootDataModel ){
 		super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;
@@ -64,9 +61,8 @@ public class ParamPageElementEditor extends DataEditor{
 		fieldName.setText( "" );
 
 		//Base Element
-		BasePage basePage = selectedNode.getParamPage().getBasePage();
-		BasePagePageDataModel basePagePageDataModel = CommonOperations.getBasePagePageDataModelByBasePage(basePageRootDataModel, basePage);
-		fieldBasePageElementSelector = new BasePageElementSelectorComponent( basePagePageDataModel ); 
+		BasePageDataModel basePage = selectedNode.getBasePage();
+		fieldBaseElementSelector = new BasePageElementSelectorComponent( basePage ); 
 
     	//Variable
 		fieldOperation.setSelectedIndex( 0 );
@@ -81,15 +77,16 @@ public class ParamPageElementEditor extends DataEditor{
 	 * @param selectedNode
 	 * @param mode
 	 */
-	public ParamPageElementEditor( ParamPageTree tree, ParamPageElementDataModel selectedNode, BasePageRootDataModel basePageRootDataModel, EditMode mode ){		
+	public ParamElementEditor( ParamPageTree tree, ParamElementDataModel selectedNode, BasePageRootDataModel baseRoot, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 	
-		ParamElement paramElement = selectedNode.getParamElement();
-		BaseElement baseElement = selectedNode.getParamElement().getBaseElement();	
+		//TODO torolni
+		ParamElementDataModel paramElement = selectedNode;
+		BaseElementDataModel baseElement = selectedNode.getBaseElement();	
 		
 		commonPre();
 		
@@ -97,9 +94,9 @@ public class ParamPageElementEditor extends DataEditor{
 		fieldName.setText( paramElement.getName() );
 
 		//Base Element
-		BasePagePageDataModel basePagePageDataModel = CommonOperations.getBasePagePageDataModelByBaseElement(basePageRootDataModel, baseElement);
+		BasePageDataModel basePageDataModel = CommonOperations.getBasePagePageDataModelByBaseElement(baseRoot, baseElement);
 				
-		fieldBasePageElementSelector = new BasePageElementSelectorComponent( basePagePageDataModel, baseElement ); 
+		fieldBaseElementSelector = new BasePageElementSelectorComponent( basePageDataModel, baseElement ); 
 		
 		//Operation
 		Operation op = paramElement.getElementOperation().getOperation();
@@ -131,7 +128,7 @@ public class ParamPageElementEditor extends DataEditor{
 		labelPageBaseElementSelector = new JLabel("hello");
 		
 		this.add( labelName, fieldName );
-		this.add( labelPageBaseElementSelector, fieldBasePageElementSelector );
+		this.add( labelPageBaseElementSelector, fieldBaseElementSelector );
 		this.add( labelOperation, fieldOperation );
 
 	}
@@ -178,10 +175,10 @@ public class ParamPageElementEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof BasePageElementDataModel ){
+				if( levelNode instanceof BaseElementDataModel ){
 					
 					//Ha azonos a nev
-					if( ((BasePageElementDataModel) levelNode).getBaseElement().getName().equals( fieldName.getText() ) ){
+					if( ((BaseElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -206,10 +203,10 @@ public class ParamPageElementEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof ParamPageElementDataModel ){
+				if( levelNode instanceof ParamElementDataModel ){
 				
 					//Ha azonos a BaseElement					
-					if( ((ParamPageElementDataModel)levelNode).getParamElement().getBaseElement().equals( fieldBasePageElementSelector.getBaseElement() ) ){
+					if( ((ParamElementDataModel)levelNode).getBaseElement().equals( fieldBaseElementSelector.getBaseElement() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -257,20 +254,20 @@ public class ParamPageElementEditor extends DataEditor{
 				elementOperation = new LinkOperation();
 			}
 					
-			BaseElement baseElement = fieldBasePageElementSelector.getBaseElement();
+			BaseElementDataModel baseElement = fieldBaseElementSelector.getBaseElement();
 			
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				ParamElement paramElement = new ParamElement( fieldName.getText(), baseElement, elementOperation  );				
-				ParamPageElementDataModel newParamPageElement = new ParamPageElementDataModel( paramElement );
+				ParamElementDataModel newParamElement = new ParamElementDataModel( fieldName.getText(), baseElement, elementOperation  );			
 				
-				nodeForCapture.add( newParamPageElement );
+				nodeForCapture.add( newParamElement );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
-				ParamElement paramElement = nodeForModify.getParamElement(); 
+				//TODO torolni
+				ParamElementDataModel paramElement = nodeForModify; 
 				
 				paramElement.setName( fieldName.getText() );
 				paramElement.setOperation( elementOperation );

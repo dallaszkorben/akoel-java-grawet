@@ -1,11 +1,10 @@
 package hu.akoel.grawit.gui.editor.component;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.BasePage;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageDataModelInterface;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
+import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 
 import java.awt.BorderLayout;
@@ -28,27 +27,27 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-public class BasePagePageSelectorComponent extends JPanel implements EditorComponentInterface{
+public class BasePageSelectorComponent extends JPanel implements EditorComponentInterface{
 
 	private static final long serialVersionUID = 6475998839112722226L;
 
 	private JButton button;
 	private JTextField field = new JTextField();
-	private BasePagePageDataModel basePagePageDataModel;
+	private BasePageDataModel basePagePageDataModel;
 	
-	public BasePagePageSelectorComponent( BasePageRootDataModel basePageRootDataModel ){
+	public BasePageSelectorComponent( BasePageRootDataModel basePageRootDataModel ){
 		super();
 	
 		common( basePageRootDataModel );		
 	}
 	
-	public BasePagePageSelectorComponent( BasePageRootDataModel basePageRootDataModel, BasePage selectedPageBase ){
+	public BasePageSelectorComponent( BasePageRootDataModel basePageRootDataModel, BasePageDataModel selectedPageBase ){
 		super();
 	
 		common( basePageRootDataModel );
 
-		BasePagePageDataModel basePagePageDataModel = CommonOperations.getBasePagePageDataModelByBasePage(basePageRootDataModel, selectedPageBase);
-		setSelectedPathToPageBase( basePagePageDataModel );
+		//BasePagePageDataModel basePagePageDataModel = CommonOperations.getBasePagePageDataModelByBasePage(basePageRootDataModel, selectedPageBase);
+		setSelectedPathToPageBase( selectedPageBase );
 		
 	}
 	
@@ -66,7 +65,7 @@ public class BasePagePageSelectorComponent extends JPanel implements EditorCompo
 				
 				//Akkor megnyitja a Dialogus ablakot a Page valasztashoz
 				//SelectorPageBasePageDialog selector = 
-				new SelectorPageBasePageDialog( BasePagePageSelectorComponent.this, basePageRootDataModel );
+				new SelectorPageBasePageDialog( BasePageSelectorComponent.this, basePageRootDataModel );
 			}
 		} );
 
@@ -85,14 +84,14 @@ public class BasePagePageSelectorComponent extends JPanel implements EditorCompo
 		return this;
 	}
 	
-	public BasePage getPageBase(){
+	public BasePageDataModel getPageBase(){
 		if( null == basePagePageDataModel ){
 			return null;
 		}
-		return basePagePageDataModel.getBasePage();
+		return basePagePageDataModel;
 	}
 	
-	public void setSelectedPathToPageBase( BasePagePageDataModel selectedPageBase ){
+	public void setSelectedPathToPageBase( BasePageDataModel selectedPageBase ){
 		this.basePagePageDataModel = selectedPageBase;
 		field.setText( selectedPageBase.getPathToString() );		
 	}
@@ -111,20 +110,20 @@ class SelectorPageBasePageDialog extends JDialog{
 
 	private static final long serialVersionUID = 1607956458285776550L;
 	
-	public SelectorPageBasePageDialog( BasePagePageSelectorComponent basePagePageSelectorComponent, BasePageRootDataModel basePageRootDataModel ){
-		//super( basePagePageSelectorComponent.getParent(), true );
+	public SelectorPageBasePageDialog( BasePageSelectorComponent basePageSelectorComponent, BasePageRootDataModel basePageRootDataModel ){
+		//super( basePageSelectorComponent.getParent(), true );
 		super( );
 
 		//Modalis a PageBasePage selector ablak
 		this.setModal( true );
 		
 		//A fo ablak kozepere igazitja a dialogus ablakot
-		this.setLocationRelativeTo( basePagePageSelectorComponent );
+		this.setLocationRelativeTo( basePageSelectorComponent );
 
 		this.setLayout( new BorderLayout() );
 
 		//Elkesziti a BasePage faszerkezetet
-		PageBaseTreeForSelect pageBaseTree = new PageBaseTreeForSelect( basePagePageSelectorComponent, basePageRootDataModel );
+		PageBaseTreeForSelect pageBaseTree = new PageBaseTreeForSelect( basePageSelectorComponent, basePageRootDataModel );
 		
 		//Becsomagolom a BasePage faszerkezetet hogy scroll-ozhato legyen
 		JScrollPane scrolledPageBaseTree = new JScrollPane( pageBaseTree );
@@ -154,14 +153,14 @@ class SelectorPageBasePageDialog extends JDialog{
 
 		private static final long serialVersionUID = 800888675922537771L;
 		
-		private BasePageDataModelInterface selectedNode;
-		private  BasePagePageSelectorComponent basePagePageSelectorComponent;
+		private BaseDataModelInterface selectedNode;
+		private  BasePageSelectorComponent basePageSelectorComponent;
 
-		public PageBaseTreeForSelect( BasePagePageSelectorComponent basePagePageSelectorComponent, BasePageRootDataModel basePageRootDataModel ){
+		public PageBaseTreeForSelect( BasePageSelectorComponent basePageSelectorComponent, BasePageRootDataModel basePageRootDataModel ){
 		
 			super( new DefaultTreeModel(basePageRootDataModel) );
 			
-			this.basePagePageSelectorComponent = basePagePageSelectorComponent;
+			this.basePageSelectorComponent = basePageSelectorComponent;
 			this.treeModel = (DefaultTreeModel)this.getModel();
 			
 			//Ne latszodjon a root
@@ -190,12 +189,12 @@ class SelectorPageBasePageDialog extends JDialog{
 			    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 			    	
 			    	//Felirata a NODE-nak
-			    	setText( ((BasePageDataModelInterface)value).getNameToString() );
+			    	setText( ((BaseDataModelInterface)value).getNameToString() );
 			    	
 			    	//Iconja a NODE-nak
-			    	if( value instanceof BasePagePageDataModel){
+			    	if( value instanceof BasePageDataModel){
 			            setIcon(pageIcon);
-			    	}else if( value instanceof BasePageElementDataModel ){
+			    	}else if( value instanceof BaseElementDataModel ){
 			            setIcon(elementIcon);
 			    	}else if( value instanceof BasePageNodeDataModel){
 			    		if( expanded ){
@@ -224,7 +223,7 @@ class SelectorPageBasePageDialog extends JDialog{
 	       
 	        if (state) {
 	        
-	        	if( !( path.getLastPathComponent() instanceof BasePagePageDataModel ) ){
+	        	if( !( path.getLastPathComponent() instanceof BasePageDataModel ) ){
 	        		super.setExpandedState(path, state);
 	        	}
 	        }
@@ -245,13 +244,13 @@ class SelectorPageBasePageDialog extends JDialog{
 				if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
 					
 					//A kivalasztott NODE			
-					selectedNode = (BasePageDataModelInterface)PageBaseTreeForSelect.this.getLastSelectedPathComponent();
+					selectedNode = (BaseDataModelInterface)PageBaseTreeForSelect.this.getLastSelectedPathComponent();
 					
 					//Ha PAGEBASE PAGE-t valasztottam ki
-					if( selectedNode instanceof BasePagePageDataModel ){
+					if( selectedNode instanceof BasePageDataModel ){
 						
 						//A kivalasztott NODE			
-						basePagePageSelectorComponent.setSelectedPathToPageBase( ((BasePagePageDataModel)selectedNode) );
+						basePageSelectorComponent.setSelectedPathToPageBase( ((BasePageDataModel)selectedNode) );
 						SelectorPageBasePageDialog.this.close();
 					}
 				}		

@@ -7,29 +7,24 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
-import hu.akoel.grawit.core.elements.BaseElement;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.RadioButtonComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.BasePageTree;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
-public class BasePageElementEditor extends DataEditor{
+public class BaseElementEditor extends DataEditor{
 	
 	private static final long serialVersionUID = 165396704460481021L;
 	
 	private BasePageTree tree;
-	private BasePageElementDataModel nodeForModify;
-	private BasePagePageDataModel nodeForCapture;
+	private BaseElementDataModel nodeForModify;
+	private BasePageDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -41,7 +36,7 @@ public class BasePageElementEditor extends DataEditor{
 	private RadioButtonComponent buttonCSS;
 	
 	//Insert
-	public BasePageElementEditor( BasePageTree tree, BasePagePageDataModel selectedNode ){
+	public BaseElementEditor( BasePageTree tree, BasePageDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.baseelement") );
 
 		this.tree = tree;
@@ -68,14 +63,15 @@ public class BasePageElementEditor extends DataEditor{
 	
 	
 	//Modositas vagy View
-	public BasePageElementEditor( BasePageTree tree, BasePageElementDataModel selectedNode, EditMode mode ){		
+	public BaseElementEditor( BasePageTree tree, BaseElementDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.baseelement") );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		BaseElement baseElement = selectedNode.getBaseElement();
+		//TODO torolni
+		BaseElementDataModel baseElement = selectedNode;
 		
 		commonPre();
 		
@@ -99,21 +95,6 @@ public class BasePageElementEditor extends DataEditor{
 		commonPost();
 		
 	}
-
-	private void commonPost(){
-		
-		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
-		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.title.identifier") + ": ");
-		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.title.identifiertype") + ": ");
-		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("editor.title.variable") + ": " );
-		
-		this.add( labelName, fieldName );
-		this.add( labelIdentifier, fieldIdentifier );
-		this.add( labelIdentifierType, buttonID );
-		this.add( new JLabel(), buttonCSS );
-		this.add( labelVariable, fieldVariable );
-		
-	}
 	
 	private void commonPre(){
 		
@@ -129,6 +110,21 @@ public class BasePageElementEditor extends DataEditor{
 		fieldVariable.addItem( VariableSample.getVariableSampleByIndex(0).getTranslatedName() );
 		fieldVariable.addItem( VariableSample.getVariableSampleByIndex(1).getTranslatedName() );
 		fieldVariable.addItem( VariableSample.getVariableSampleByIndex(2).getTranslatedName() );
+		
+	}
+
+	private void commonPost(){
+		
+		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
+		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.title.identifier") + ": ");
+		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.title.identifiertype") + ": ");
+		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("editor.title.variable") + ": " );
+		
+		this.add( labelName, fieldName );
+		this.add( labelIdentifier, fieldIdentifier );
+		this.add( labelIdentifierType, buttonID );
+		this.add( new JLabel(), buttonCSS );
+		this.add( labelVariable, fieldVariable );
 		
 	}
 	
@@ -173,10 +169,10 @@ public class BasePageElementEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof BasePageElementDataModel ){
+				if( levelNode instanceof BaseElementDataModel ){
 					
 					//Ha azonos a nev
-					if( ((BasePageElementDataModel) levelNode).getBaseElement().getName().equals( fieldName.getText() ) ){
+					if( ((BaseElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -237,14 +233,11 @@ public class BasePageElementEditor extends DataEditor{
 			
 			//Uj rogzites eseten
 			if( null == mode ){
-				
-				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
-				//int selectedNodeIndex = parentNode.getIndex( selectedNode );				
-				BaseElement baseElement = new BaseElement( fieldName.getText(), fieldIdentifier.getText(), identificationType, variableSample  );				
-				BasePageElementDataModel newPageBaseElement = new BasePageElementDataModel( baseElement );
-				//parentNode.insert( newPageBaseElement, selectedNodeIndex);
 			
-				nodeForCapture.add( newPageBaseElement );
+				BaseElementDataModel newBaseElement = new BaseElementDataModel( fieldName.getText(), fieldIdentifier.getText(), identificationType, variableSample  );				
+				//BaseElementDataModel newPageBaseElement = new BaseElementDataModel( baseElement );
+			
+				nodeForCapture.add( newBaseElement );
 				
 				//Ebbe a nodba kell majd visszaallni
 				//pathToOpen = new TreePath(newPageBaseElement.getPath());
@@ -252,16 +245,14 @@ public class BasePageElementEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
-				BaseElement baseElement = nodeForModify.getBaseElement(); 
+				//TODO Torolni
+				BaseElementDataModel baseElement = nodeForModify; 
 				
 				baseElement.setName( fieldName.getText() );
 				baseElement.setIdentifier( fieldIdentifier.getText() );				
 				baseElement.setVariableSample( variableSample );
 				baseElement.setIdentificationType( identificationType );
 				
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(nodeForModify.getPath());
-					
 			}
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)

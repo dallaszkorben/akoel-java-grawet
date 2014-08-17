@@ -8,17 +8,17 @@ import java.awt.event.MouseListener;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
-import hu.akoel.grawit.gui.editor.BasePageElementEditor;
+import hu.akoel.grawit.gui.editor.BaseElementEditor;
 import hu.akoel.grawit.gui.editor.BasePageNodeEditor;
-import hu.akoel.grawit.gui.editor.BasePagePageEditor;
+import hu.akoel.grawit.gui.editor.BasePageEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageDataModelInterface;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 
 import javax.swing.ImageIcon;
@@ -104,12 +104,12 @@ public class BasePageTree extends JTree{
 		    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 		    	
 		    	//Felirata a NODE-nak
-		    	setText( ((BasePageDataModelInterface)value).getNameToString() );
+		    	setText( ((BaseDataModelInterface)value).getNameToString() );
 		    	
 		    	//Iconja a NODE-nak
-		    	if( value instanceof BasePagePageDataModel){
+		    	if( value instanceof BasePageDataModel){
 		            setIcon(pageIcon);
-		    	}else if( value instanceof BasePageElementDataModel ){
+		    	}else if( value instanceof BaseElementDataModel ){
 		            setIcon(elementIcon);
 		    	}else if( value instanceof BasePageNodeDataModel){
 		    		if( expanded ){
@@ -166,12 +166,12 @@ public class BasePageTree extends JTree{
 					BasePageNodeEditor pageBaseNodePanel = new BasePageNodeEditor(BasePageTree.this, (BasePageNodeDataModel)selectedNode, EditMode.VIEW);
 					guiFrame.showEditorPanel( pageBaseNodePanel);								
 				
-				}else if( selectedNode instanceof BasePagePageDataModel ){
-					BasePagePageEditor pageBasePagePanel = new BasePagePageEditor( BasePageTree.this, (BasePagePageDataModel)selectedNode, EditMode.VIEW );								
+				}else if( selectedNode instanceof BasePageDataModel ){
+					BasePageEditor pageBasePagePanel = new BasePageEditor( BasePageTree.this, (BasePageDataModel)selectedNode, EditMode.VIEW );								
 					guiFrame.showEditorPanel( pageBasePagePanel);				
 								
-				}else if( selectedNode instanceof BasePageElementDataModel ){
-					BasePageElementEditor pageBaseElementPanel = new BasePageElementEditor( BasePageTree.this, (BasePageElementDataModel)selectedNode, EditMode.VIEW );								
+				}else if( selectedNode instanceof BaseElementDataModel ){
+					BaseElementEditor pageBaseElementPanel = new BaseElementEditor( BasePageTree.this, (BaseElementDataModel)selectedNode, EditMode.VIEW );								
 					guiFrame.showEditorPanel( pageBaseElementPanel);		
 										
 				}
@@ -246,7 +246,7 @@ public class BasePageTree extends JTree{
 		private static final long serialVersionUID = -2476473336416059356L;
 
 		private DefaultMutableTreeNode parentNode;
-		private BasePageDataModelInterface selectedNode;
+		private BaseDataModelInterface selectedNode;
 		private TreePath selectedPath;
 		private DefaultTreeModel totalTreeModel;
 		private int selectedIndexInTheNode;
@@ -260,7 +260,7 @@ public class BasePageTree extends JTree{
 			totalTreeModel = (DefaultTreeModel)BasePageTree.this.getModel();
 
 			//A kivalasztott NODE			
-			selectedNode = (BasePageDataModelInterface)BasePageTree.this.getLastSelectedPathComponent();
+			selectedNode = (BaseDataModelInterface)BasePageTree.this.getLastSelectedPathComponent();
 
 			//A kivalasztott node-ig vezeto PATH
 			selectedPath = BasePageTree.this.getSelectionPath();	
@@ -364,14 +364,14 @@ public class BasePageTree extends JTree{
 								BasePageNodeEditor pageBaseNodePanel = new BasePageNodeEditor( BasePageTree.this, (BasePageNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 								guiFrame.showEditorPanel( pageBaseNodePanel);								
 								
-							}else if( selectedNode instanceof BasePagePageDataModel ){
+							}else if( selectedNode instanceof BasePageDataModel ){
 								
-								BasePagePageEditor pageBasePagePanel = new BasePagePageEditor( BasePageTree.this, (BasePagePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+								BasePageEditor pageBasePagePanel = new BasePageEditor( BasePageTree.this, (BasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 								guiFrame.showEditorPanel( pageBasePagePanel);		
 								
-							}else if( selectedNode instanceof BasePageElementDataModel ){
+							}else if( selectedNode instanceof BaseElementDataModel ){
 
-								BasePageElementEditor pageBaseElementPanel = new BasePageElementEditor( BasePageTree.this, (BasePageElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+								BaseElementEditor pageBaseElementPanel = new BaseElementEditor( BasePageTree.this, (BaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 								guiFrame.showEditorPanel( pageBaseElementPanel);		
 								
 							}
@@ -407,7 +407,7 @@ public class BasePageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							BasePagePageEditor pageBaseNodePanel = new BasePagePageEditor( BasePageTree.this, (BasePageNodeDataModel)selectedNode );								
+							BasePageEditor pageBaseNodePanel = new BasePageEditor( BasePageTree.this, (BasePageNodeDataModel)selectedNode );								
 							guiFrame.showEditorPanel( pageBaseNodePanel);								
 						
 						}
@@ -419,7 +419,7 @@ public class BasePageTree extends JTree{
 				//
 				// Page eseten
 				//
-				if( selectedNode instanceof BasePagePageDataModel ){
+				if( selectedNode instanceof BasePageDataModel ){
 
 					//Insert Element
 					JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.insert.element") );
@@ -429,7 +429,7 @@ public class BasePageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							BasePageElementEditor pageBaseNodePanel = new BasePageElementEditor( BasePageTree.this, (BasePagePageDataModel)selectedNode );								
+							BaseElementEditor pageBaseNodePanel = new BaseElementEditor( BasePageTree.this, (BasePageDataModel)selectedNode );								
 							guiFrame.showEditorPanel( pageBaseNodePanel);								
 						
 						}
