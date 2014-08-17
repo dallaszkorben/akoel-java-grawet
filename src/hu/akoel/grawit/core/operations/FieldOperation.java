@@ -8,8 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
-import hu.akoel.grawit.core.elements.BaseElement;
-import hu.akoel.grawit.core.elements.ParamElement;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
 import hu.akoel.grawit.core.parameter.ElementParameter;
 import hu.akoel.grawit.exceptions.ElementException;
 
@@ -31,8 +31,8 @@ public class FieldOperation implements ElementOperationInterface{
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParamElement element ) throws ElementException{
-		BaseElement baseElement = element.getBaseElement();
+	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException{
+		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);
