@@ -1,10 +1,8 @@
 package hu.akoel.grawit;
 
-import hu.akoel.grawit.core.elements.BaseElement;
-import hu.akoel.grawit.core.pages.BasePage;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageDataModelInterface;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
+import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 
 import java.sql.Timestamp;
@@ -186,14 +184,14 @@ public class CommonOperations {
 	  * @param selectedBasePage
 	  * @return
 	  */
-	 public static BasePagePageDataModel getBasePagePageDataModelByBasePage( BasePageRootDataModel basePageRootDataModel, BasePage selectedBasePage ){
+/*	 public static BasePagePageDataModel getBasePagePageDataModelByBasePage( BasePageRootDataModel basePageRootDataModel, BasePage selectedBasePage ){
 			
 		 //Vegig megyek a PAGEBASE fan
 		 @SuppressWarnings("unchecked")
-		 Enumeration<BasePageDataModelInterface> e = basePageRootDataModel.depthFirstEnumeration();
+		 Enumeration<BaseDataModelInterface> e = basePageRootDataModel.depthFirstEnumeration();
 	   
 		 while (e.hasMoreElements()) {
-			 BasePageDataModelInterface node = e.nextElement();
+			 BaseDataModelInterface node = e.nextElement();
 	    	
 			 //Ha a vizsgalt node PAGEBASEPAGE
 			 if( node instanceof BasePagePageDataModel ){
@@ -207,24 +205,24 @@ public class CommonOperations {
 		 }
 		 return null;
 	 }
-	 
-	 public static BasePagePageDataModel getBasePagePageDataModelByBaseElement( BasePageRootDataModel basePageRootDataModel, BaseElement selectedBaseElement ){
+*/	 
+	 public static BasePageDataModel getBasePagePageDataModelByBaseElement( BasePageRootDataModel baseRoot, BaseElementDataModel selectedBaseElement ){
 			
 		 //Vegig megyek a PAGEBASE fan
 		 @SuppressWarnings("unchecked")
-		 Enumeration<BasePageDataModelInterface> e = basePageRootDataModel.depthFirstEnumeration();
+		 Enumeration<BaseDataModelInterface> e = baseRoot.depthFirstEnumeration();
 	   
 		 while (e.hasMoreElements()) {
-			 BasePageDataModelInterface node = e.nextElement();
+			 BaseDataModelInterface node = e.nextElement();
 	    	
 			 //Ha a vizsgalt node PAGEBASEPAGE
-			 if( node instanceof BasePageElementDataModel ){
+			 if( node instanceof BaseElementDataModel ){
 	    		
 				 //Akkor megnezem, hogy azonos-e a keresettel
-				 if( ((BasePageElementDataModel)node).getBaseElement().equals( selectedBaseElement ) ){
+				 if( ((BaseElementDataModel)node).equals( selectedBaseElement ) ){
 						
 					 
-					 return (BasePagePageDataModel)(node.getParent());    			
+					 return (BasePageDataModel)(node.getParent());    			
 				 }	
 			 }	
 		 }
@@ -237,14 +235,14 @@ public class CommonOperations {
 	  * @param selectedBaseElement
 	  * @return
 	  */
-	 public static BasePageElementDataModel getBasePageElementDataModelByBaseElement( BasePagePageDataModel basePagePageDataModel, BaseElement selectedBaseElement ){
+/*	 public static BasePageElementDataModel getBasePageElementDataModelByBaseElement( BasePagePageDataModel basePagePageDataModel, BaseElement selectedBaseElement ){
 			
 		 //Vegig megyek a PAGEBASE fan
 		 @SuppressWarnings("unchecked")
-		 Enumeration<BasePageDataModelInterface> e = basePagePageDataModel.depthFirstEnumeration();
+		 Enumeration<BaseDataModelInterface> e = basePagePageDataModel.depthFirstEnumeration();
 	   
 		 while (e.hasMoreElements()) {
-			 BasePageDataModelInterface node = e.nextElement();
+			 BaseDataModelInterface node = e.nextElement();
 	    	
 			 //Ha a vizsgalt node PAGEBASEELEMENT
 			 if( node instanceof BasePageElementDataModel ){
@@ -258,7 +256,7 @@ public class CommonOperations {
 		 }
 		 return null;
 	 }	
-	 
+*/	 
 	 
 	 
 }
