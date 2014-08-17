@@ -4,36 +4,36 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.PageBase;
+import hu.akoel.grawit.core.pages.BasePage;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBasePageDataModel  extends PageBaseDataModelInterface{
-	private PageBase pageBase;
+public class BasePagePageDataModel  extends BasePageDataModelInterface{
+	private BasePage basePage;
 
 	private static final long serialVersionUID = 8871077064641984017L;
 	
-	public PageBasePageDataModel( PageBase pageBase ){
+	public BasePagePageDataModel( BasePage basePage ){
 		super();
-		this.pageBase = pageBase;
+		this.basePage = basePage;
 	}
 
 	@Override
-	public void add(PageBaseDataModelInterface node) {
+	public void add(BasePageDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
 	}
 
 	public String getNameToString(){
-		return pageBase.getName();
+		return basePage.getName();
 	}
 	
 	@Override
 	public String getPathToString() {
 		StringBuffer out = new StringBuffer();
 		for( TreeNode node: this.getPath() ){
-			out.append( ((PageBaseDataModelInterface)node).getNameToString() );
+			out.append( ((BasePageDataModelInterface)node).getNameToString() );
 			out.append("/");
 		}		
 		return out.toString();
@@ -43,8 +43,8 @@ public class PageBasePageDataModel  extends PageBaseDataModelInterface{
 		return CommonOperations.getTranslation( "tree.nodetype.pagebase");
 	}
 	
-	public PageBase getPageBase(){
-		return pageBase;
+	public BasePage getBasePage(){
+		return basePage;
 	}
 
 	@Override
@@ -56,12 +56,12 @@ public class PageBasePageDataModel  extends PageBaseDataModelInterface{
 		
 		//NAME attributum
 		attr = document.createAttribute("name");
-		attr.setValue( pageBase.getName() );
+		attr.setValue( basePage.getName() );
 		pageElement.setAttributeNode(attr);	
 		
 		//DETAILS attributum
 		attr = document.createAttribute("details");
-		attr.setValue( pageBase.getDetails() );
+		attr.setValue( basePage.getDetails() );
 		pageElement.setAttributeNode(attr);
 		
 
@@ -70,9 +70,9 @@ public class PageBasePageDataModel  extends PageBaseDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof PageBaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof BasePageDataModelInterface ){
 				
-				Element element = ((PageBaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((BasePageDataModelInterface)object).getXMLElement( document );
 				pageElement.appendChild( element );		    		
 		    	
 			}

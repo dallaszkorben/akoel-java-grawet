@@ -5,8 +5,6 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.IdentificationType;
-import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.core.elements.BaseElement;
 import hu.akoel.grawit.core.elements.ParamElement;
 import hu.akoel.grawit.core.operations.ButtonOperation;
@@ -16,12 +14,15 @@ import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
 import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
+import hu.akoel.grawit.core.pages.BasePage;
 import hu.akoel.grawit.core.parameter.StringParameter;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
-import hu.akoel.grawit.gui.editor.component.RadioButtonComponent;
+import hu.akoel.grawit.gui.editor.component.BasePageElementSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseElementDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageElementDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPagePageDataModel;
 
@@ -41,6 +42,8 @@ public class ParamPageElementEditor extends DataEditor{
 	private TextFieldComponent fieldName;
 	private JLabel labelOperation;
 	private ComboBoxComponent<String> fieldOperation;
+	private JLabel labelPageBaseElementSelector;
+	private BasePageElementSelectorComponent fieldBasePageElementSelector;	
 	
 	/**
 	 *  Uj ParamPageElement rogzitese - Insert
@@ -48,7 +51,7 @@ public class ParamPageElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedNode
 	 */
-	public ParamPageElementEditor( ParamPageTree tree, ParamPagePageDataModel selectedNode ){
+	public ParamPageElementEditor( ParamPageTree tree, ParamPagePageDataModel selectedNode, BasePageRootDataModel basePageRootDataModel ){
 		super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;
@@ -58,7 +61,12 @@ public class ParamPageElementEditor extends DataEditor{
 		commonPre();
 		
 		//Name
-		fieldName = new TextFieldComponent( "" );
+		fieldName.setText( "" );
+
+		//Base Element
+		BasePage basePage = selectedNode.getParamPage().getBasePage();
+		BasePagePageDataModel basePagePageDataModel = CommonOperations.getBasePagePageDataModelByBasePage(basePageRootDataModel, basePage);
+		fieldBasePageElementSelector = new BasePageElementSelectorComponent( basePagePageDataModel ); 
 
     	//Variable
 		fieldOperation.setSelectedIndex( 0 );
@@ -73,21 +81,26 @@ public class ParamPageElementEditor extends DataEditor{
 	 * @param selectedNode
 	 * @param mode
 	 */
-	public ParamPageElementEditor( ParamPageTree tree, ParamPageElementDataModel selectedNode, EditMode mode ){		
+	public ParamPageElementEditor( ParamPageTree tree, ParamPageElementDataModel selectedNode, BasePageRootDataModel basePageRootDataModel, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
-		
-		BaseElement baseElement = selectedNode.getParamElement().getBaseElement();
+	
 		ParamElement paramElement = selectedNode.getParamElement();
+		BaseElement baseElement = selectedNode.getParamElement().getBaseElement();	
 		
 		commonPre();
 		
 		//Name
-		fieldName = new TextFieldComponent( baseElement.getName());
+		fieldName.setText( paramElement.getName() );
 
+		//Base Element
+		BasePagePageDataModel basePagePageDataModel = CommonOperations.getBasePagePageDataModelByBaseElement(basePageRootDataModel, baseElement);
+				
+		fieldBasePageElementSelector = new BasePageElementSelectorComponent( basePagePageDataModel, baseElement ); 
+		
 		//Operation
 		Operation op = paramElement.getElementOperation().getOperation();
 		fieldOperation.setSelectedIndex( op.getIndex() );
@@ -97,6 +110,9 @@ public class ParamPageElementEditor extends DataEditor{
 	}
 
 	private void commonPre(){
+		
+		//Name
+		fieldName = new TextFieldComponent();
 		
 		//Operation
 		fieldOperation = new ComboBoxComponent<>();		
@@ -112,10 +128,12 @@ public class ParamPageElementEditor extends DataEditor{
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
 		labelOperation = new JLabel( CommonOperations.getTranslation("editor.title.operation") + ": ");
+		labelPageBaseElementSelector = new JLabel("hello");
 		
 		this.add( labelName, fieldName );
+		this.add( labelPageBaseElementSelector, fieldBasePageElementSelector );
 		this.add( labelOperation, fieldOperation );
-		
+
 	}
 		
 	@Override
@@ -160,10 +178,10 @@ public class ParamPageElementEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof PageBaseElementDataModel ){
+				if( levelNode instanceof BasePageElementDataModel ){
 					
 					//Ha azonos a nev
-					if( ((PageBaseElementDataModel) levelNode).getElementBase().getName().equals( fieldName.getText() ) ){
+					if( ((BasePageElementDataModel) levelNode).getBaseElement().getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -173,7 +191,7 @@ public class ParamPageElementEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.elementbase") 
+										CommonOperations.getTranslation("tree.nodetype.baseelement") 
 								) 
 							);
 							break;
@@ -181,6 +199,35 @@ public class ParamPageElementEditor extends DataEditor{
 					}
 				}
 			}
+			
+			//Megnezik hogy van-e masik azonos BaseElement
+			childrenCount = nodeForSearch.getChildCount();
+			for( int i = 0; i < childrenCount; i++ ){
+				TreeNode levelNode = nodeForSearch.getChildAt( i );
+				
+				//Ha Element-rol van szo 
+				if( levelNode instanceof ParamPageElementDataModel ){
+				
+					//Ha azonos a BaseElement					
+					if( ((ParamPageElementDataModel)levelNode).getParamElement().getBaseElement().equals( fieldBasePageElementSelector.getBaseElement() ) ){
+					
+						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
+						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
+							
+							errorList.put( 
+								fieldName, 
+								MessageFormat.format( 
+										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
+										fieldName.getText(), 
+										CommonOperations.getTranslation("tree.nodetype.baseelement") 
+								) 
+							);
+							break;
+						}
+					}
+				}
+			}
+			
 		}
 
 		//Operation
@@ -209,36 +256,28 @@ public class ParamPageElementEditor extends DataEditor{
 			}else {
 				elementOperation = new LinkOperation();
 			}
-/*					
+					
+			BaseElement baseElement = fieldBasePageElementSelector.getBaseElement();
+			
 			//Uj rogzites eseten
-			if( null == mode ){
+			if( null == mode ){			
 				
-				BaseElement baseElement = nodeForCapture.getParamElement().getBaseElement();
-				ParamElement paramElement = nodeForCapture.getParamElement();
+				ParamElement paramElement = new ParamElement( fieldName.getText(), baseElement, elementOperation  );				
+				ParamPageElementDataModel newParamPageElement = new ParamPageElementDataModel( paramElement );
 				
-				ParamElement paramElement = new ParamElement( fieldName.getText(), elemetb  );				
-				PageBaseElementDataModel newPageBaseElement = new PageBaseElementDataModel( elementBase );
-			
-				nodeForCapture.add( newPageBaseElement );
+				nodeForCapture.add( newParamPageElement );
 				
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(newPageBaseElement.getPath());
-			
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
-				ElementBase elementBase = nodeForModify.getElementBase(); 
+				ParamElement paramElement = nodeForModify.getParamElement(); 
 				
-				elementBase.setName( fieldName.getText() );
-				elementBase.setIdentifier( fieldIdentifier.getText() );				
-				elementBase.setVariableSample( variableSample );
-				elementBase.setIdentificationType( identificationType );
+				paramElement.setName( fieldName.getText() );
+				paramElement.setOperation( elementOperation );
+				paramElement.setBaseElement(baseElement);
 				
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(nodeForModify.getPath());
-					
 			}
-*/			
+			
 			//A fa-ban is modositja a nevet (ha az valtozott)
 			tree.changed();
 		}

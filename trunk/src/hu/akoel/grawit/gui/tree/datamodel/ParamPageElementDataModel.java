@@ -29,7 +29,7 @@ public class ParamPageElementDataModel  extends ParamPageDataModelInterface{
 	}
 	
 	public String getTypeToString(){
-		return CommonOperations.getTranslation( "tree.nodetype.elementbase");
+		return CommonOperations.getTranslation( "tree.nodetype.baseelement");
 	}
 	
 	public ParamElement getParamElement(){

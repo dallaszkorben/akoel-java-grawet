@@ -6,8 +6,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-public class ComboBoxComponent<E> extends JComboBox<E> implements
-		EditorComponentInterface {
+public class ComboBoxComponent<E> extends JComboBox<E> implements EditorComponentInterface {
 
 	private static final long serialVersionUID = -7942683931683851883L;
 

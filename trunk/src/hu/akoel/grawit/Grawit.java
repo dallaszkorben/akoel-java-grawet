@@ -56,7 +56,7 @@ public class Grawit {
 		OpenPage openPage = new OpenPage("Open page", url );
 		openPage.setPageProgressInterface( pageProgress );
 		
-		PageBase elsoOldal = new PageBase( "Google kereso");
+		BasePage elsoOldal = new BasePage( "Google kereso");
 		
 		BaseElement searchField = new BaseElement("SearchField", By.id("gbqfq"), VariableSample.POST );
 		elsoOldal.addElement(searchField);

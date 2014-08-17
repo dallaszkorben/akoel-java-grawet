@@ -1,9 +1,11 @@
 package hu.akoel.grawit;
 
-import hu.akoel.grawit.core.pages.PageBase;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseDataModelInterface;
-import hu.akoel.grawit.gui.tree.datamodel.PageBasePageDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.PageBaseRootDataModel;
+import hu.akoel.grawit.core.elements.BaseElement;
+import hu.akoel.grawit.core.pages.BasePage;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageDataModelInterface;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageElementDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePagePageDataModel;
+import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -176,25 +178,87 @@ public class CommonOperations {
 		 return ste[ node ].getLineNumber();
 	 }
 	 
-	 public static PageBasePageDataModel getPageBasePageDataModelByPageBase( PageBaseRootDataModel pageBaseRootDataModel, PageBase selectedPageBase ){
+	 /**
+	  * 
+	  * BasePage alapjan megkeresi a PageBaseRoot-on a hozza tartozo BasePagePageDataModel-t
+	  *  
+	  * @param basePageRootDataModel
+	  * @param selectedBasePage
+	  * @return
+	  */
+	 public static BasePagePageDataModel getBasePagePageDataModelByBasePage( BasePageRootDataModel basePageRootDataModel, BasePage selectedBasePage ){
 			
-			//Vegig megyek a PAGEBASE fan
-			@SuppressWarnings("unchecked")
-			Enumeration<PageBaseDataModelInterface> e = pageBaseRootDataModel.depthFirstEnumeration();
+		 //Vegig megyek a PAGEBASE fan
+		 @SuppressWarnings("unchecked")
+		 Enumeration<BasePageDataModelInterface> e = basePageRootDataModel.depthFirstEnumeration();
 	   
-			while (e.hasMoreElements()) {
-				PageBaseDataModelInterface node = e.nextElement();
+		 while (e.hasMoreElements()) {
+			 BasePageDataModelInterface node = e.nextElement();
 	    	
-				//Ha a vizsgalt node PAGEBASEPAGE
-				if( node instanceof PageBasePageDataModel ){
+			 //Ha a vizsgalt node PAGEBASEPAGE
+			 if( node instanceof BasePagePageDataModel ){
 	    		
-					//Akkor megnezem, hogy azonos-e a keresettel
-					if( ((PageBasePageDataModel)node).getPageBase().equals( selectedPageBase ) ){
+				 //Akkor megnezem, hogy azonos-e a keresettel
+				 if( ((BasePagePageDataModel)node).getBasePage().equals( selectedBasePage ) ){
 						
-						return (PageBasePageDataModel)node;    			
-					}
-				}
-			}
-			return null;
-		}
+					 return (BasePagePageDataModel)node;    			
+				 }	
+			 }	
+		 }
+		 return null;
+	 }
+	 
+	 public static BasePagePageDataModel getBasePagePageDataModelByBaseElement( BasePageRootDataModel basePageRootDataModel, BaseElement selectedBaseElement ){
+			
+		 //Vegig megyek a PAGEBASE fan
+		 @SuppressWarnings("unchecked")
+		 Enumeration<BasePageDataModelInterface> e = basePageRootDataModel.depthFirstEnumeration();
+	   
+		 while (e.hasMoreElements()) {
+			 BasePageDataModelInterface node = e.nextElement();
+	    	
+			 //Ha a vizsgalt node PAGEBASEPAGE
+			 if( node instanceof BasePageElementDataModel ){
+	    		
+				 //Akkor megnezem, hogy azonos-e a keresettel
+				 if( ((BasePageElementDataModel)node).getBaseElement().equals( selectedBaseElement ) ){
+						
+					 
+					 return (BasePagePageDataModel)(node.getParent());    			
+				 }	
+			 }	
+		 }
+		 return null;
+	 }
+
+	 /**
+	  * BaseElement alapjan megkeresi a PageBasePage-en a hozza tartozo BasePageElementDataModel-t
+	  * @param basePagePageDataModel
+	  * @param selectedBaseElement
+	  * @return
+	  */
+	 public static BasePageElementDataModel getBasePageElementDataModelByBaseElement( BasePagePageDataModel basePagePageDataModel, BaseElement selectedBaseElement ){
+			
+		 //Vegig megyek a PAGEBASE fan
+		 @SuppressWarnings("unchecked")
+		 Enumeration<BasePageDataModelInterface> e = basePagePageDataModel.depthFirstEnumeration();
+	   
+		 while (e.hasMoreElements()) {
+			 BasePageDataModelInterface node = e.nextElement();
+	    	
+			 //Ha a vizsgalt node PAGEBASEELEMENT
+			 if( node instanceof BasePageElementDataModel ){
+	    		
+				 //Akkor megnezem, hogy azonos-e a keresettel
+				 if( ((BasePageElementDataModel)node).getBaseElement().equals( selectedBaseElement ) ){
+						
+					 return (BasePageElementDataModel)node;    			
+				 }	
+			 }	
+		 }
+		 return null;
+	 }	
+	 
+	 
+	 
 }

@@ -8,20 +8,20 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PageBaseNodeDataModel extends PageBaseDataModelInterface{
+public class BasePageNodeDataModel extends BasePageDataModelInterface{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	private String name;
 	private String details;
 	
-	public PageBaseNodeDataModel( String name, String details ){
+	public BasePageNodeDataModel( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;
 	}
 	
 	@Override
-	public void add(PageBaseDataModelInterface node) {
+	public void add(BasePageDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -79,9 +79,9 @@ public class PageBaseNodeDataModel extends PageBaseDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof PageBaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof BasePageDataModelInterface ){
 				
-				Element element = ((PageBaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((BasePageDataModelInterface)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}

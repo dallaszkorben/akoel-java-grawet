@@ -8,6 +8,10 @@ public class TextFieldComponent extends JTextField implements EditorComponentInt
 
 	private static final long serialVersionUID = -4635265655452539977L;
 
+	public TextFieldComponent(){
+		super();
+	}
+
 	public TextFieldComponent( String text ){
 		super( text );
 	}
