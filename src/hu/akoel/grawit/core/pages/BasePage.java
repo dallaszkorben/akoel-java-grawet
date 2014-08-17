@@ -18,20 +18,7 @@ public class BasePage {
 		this.details = details;
 		//common( name, null );
 	}
-	
-/*	public BasePage( String name, String url ){
-		common( name, url );
-	}
-*/	
-/*	public BasePage( String name, String url, String frame ){
-		common( name, url, frame );
-	}
-*/	
-/*	private void common( String name, String url ){
-		this.name = name;
-		this.url = url;
-	}
-*/	
+		
 	public String getName(){
 		return name;
 	}
@@ -40,10 +27,6 @@ public class BasePage {
 		return details;
 	}
 	
-//	public String getURL(){
-//		return url;		
-//	}
-	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -51,11 +34,7 @@ public class BasePage {
 	public void setDetails(String details) {
 		this.details = details;
 	}
-
-	/*	public String getFrame(){
-		return frame;
-	}
-*/	
+	
 	/**
 	 * 
 	 * Add a new BaseElement into the end of this BasePage
@@ -111,16 +90,7 @@ public class BasePage {
 		}
 		
 	}
-	
-	/**
-	 * 
-	 * Remove the indexth BaseElement on this BasePage
-	 * @param index
-	 */
-/*	public void deleteElement( int index ){
-		elementList.remove(index);
-	}
-*/	
+		
 	/**
 	 * 
 	 * The number of the PureElements on this BasePage
