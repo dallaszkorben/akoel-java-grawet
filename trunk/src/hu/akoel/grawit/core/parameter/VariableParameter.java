@@ -1,12 +1,12 @@
 package hu.akoel.grawit.core.parameter;
 
-import hu.akoel.grawit.core.elements.ParamElement;
+import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
 
 public class VariableParameter implements ElementParameter{
 	String name;
-	ParamElement element;
+	ParamElementDataModel element;
 
-	public VariableParameter( String name, ParamElement element ){
+	public VariableParameter( String name, ParamElementDataModel element ){
 		this.name = name;
 		this.element = element;
 	}
