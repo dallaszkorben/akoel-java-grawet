@@ -10,6 +10,7 @@ public enum VariableSample {
 	
 	private VariableSample( int index, String translatedName ){
 		this.index = index;
+		this.translatedName = translatedName;
 	}
 	
 	public int getIndex(){
