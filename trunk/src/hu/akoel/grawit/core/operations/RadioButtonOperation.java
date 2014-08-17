@@ -8,8 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawit.IdentificationType;
-import hu.akoel.grawit.core.elements.BaseElement;
-import hu.akoel.grawit.core.elements.ParamElement;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
 
 public class RadioButtonOperation implements ElementOperationInterface{
 
@@ -24,8 +24,8 @@ public class RadioButtonOperation implements ElementOperationInterface{
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParamElement element ) {
-		BaseElement baseElement = element.getBaseElement();
+	public void doAction( WebDriver driver, ParamElementDataModel element ) {
+		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);		

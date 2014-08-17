@@ -3,7 +3,7 @@ package hu.akoel.grawit.core.operations;
 import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.elements.ParamElement;
+import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
 import hu.akoel.grawit.exceptions.ElementException;
 
 public interface ElementOperationInterface {
@@ -44,7 +44,7 @@ public interface ElementOperationInterface {
 		}
 	}
 	
-	public void doAction( WebDriver driver, ParamElement element ) throws ElementException;
+	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException;
 	
 	public Operation getOperation();
 }
