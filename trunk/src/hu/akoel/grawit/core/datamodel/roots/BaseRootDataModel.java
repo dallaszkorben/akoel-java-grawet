@@ -44,7 +44,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 					Element baseElement = (Element)baseNode;
 					
 					//Ha ujabb BASENODE van alatta
-					if( baseElement.getTagName().equals( BaseNodeDataModel.getTagName() ) ){
+					if( baseElement.getTagName().equals( BaseNodeDataModel.getTagNameStatic() ) ){
 						this.add(new BaseNodeDataModel(baseElement));
 					}
 				}
@@ -52,10 +52,25 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 		}		
 	}
 	
-	public String getNameToString(){
+	public static String getTagNameStatic(){
+		return TAG_NAME;
+	}
+
+	@Override
+	public String getTagName() {
+		return getTagNameStatic();
+	}
+
+	@Override	
+	public String getIDValue(){
 		return "Base Root";
 	}
 	
+	@Override
+	public String getIDName() {
+		return "";
+	}
+
 	public String getTypeToString(){
 		return CommonOperations.getTranslation( "tree.nodetype.root");
 	}

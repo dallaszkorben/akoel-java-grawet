@@ -102,7 +102,8 @@ public class BasePageElementSelectorComponent extends JPanel implements EditorCo
 	
 	public void setSelectedPathToElementBase( BaseElementDataModel selectedBaseElement ){
 		this.baseElementDataModel = selectedBaseElement;
-		field.setText( selectedBaseElement.getPathToString() );		
+		//field.setText( selectedBaseElement.getPathToString() );
+		field.setText( selectedBaseElement.getTaggedElementToString() );		
 	}
 	
 }
@@ -198,7 +199,7 @@ class SelectorPageBaseElementDialog extends JDialog{
 			    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 			    	
 			    	//Felirata a NODE-nak
-			    	setText( ((BaseDataModelInterface)value).getNameToString() );
+			    	setText( ((BaseDataModelInterface)value).getIDValue() );
 			    	
 			    	//Iconja a NODE-nak
 			    	if( value instanceof BasePageDataModel){

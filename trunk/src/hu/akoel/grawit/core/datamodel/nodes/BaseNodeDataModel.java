@@ -43,13 +43,13 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 	public BaseNodeDataModel( Element element ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getModelType().getName(), BaseNodeDataModel.getTagName(), ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getModelType().getName(), BaseNodeDataModel.getTagNameStatic(), ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getModelType().getName(), BaseNodeDataModel.getTagName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getModelType().getName(), BaseNodeDataModel.getTagNameStatic(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -61,29 +61,39 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 				Element baseElement = (Element)node;
 				
 				//Ha BASEPAGE van alatta
-				if( baseElement.getTagName().equals( BasePageDataModel.getTagName() )){
+				if( baseElement.getTagName().equals( BasePageDataModel.getTagNameStatic() )){
 					this.add(new BasePageDataModel(baseElement));
 				
 				//Ha ujabb BASENODE van alatta
-				}else if( baseElement.getTagName().equals( BaseNodeDataModel.getTagName() )){
+				}else if( baseElement.getTagName().equals( BaseNodeDataModel.getTagNameStatic() )){
 					this.add(new BaseNodeDataModel(baseElement));
 				}
 			}
 		}
 	}
 	
-	public static String getTagName() {
+	public static String getTagNameStatic(){
 		return TAG_NAME;
 	}
+
+	@Override
+	public String getTagName() {
+		return getTagNameStatic();
+	}
+
+	@Override
+	public String getIDName() {
+		return ATTR_NAME;
+	}
 	
+	@Override
+	public String getIDValue(){
+		return getName();
+	}
+
 	@Override
 	public void add(BaseDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
-	}
-	
-	@Override
-	public String getNameToString(){
-		return name;
 	}
 	
 	@Override
@@ -116,7 +126,7 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( BaseNodeDataModel.getTagName() );
+		Element nodeElement = document.createElement( BaseNodeDataModel.getTagNameStatic() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	

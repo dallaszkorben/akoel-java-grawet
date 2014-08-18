@@ -93,7 +93,7 @@ public class BasePageSelectorComponent extends JPanel implements EditorComponent
 	
 	public void setSelectedPathToPageBase( BasePageDataModel selectedPageBase ){
 		this.basePagePageDataModel = selectedPageBase;
-		field.setText( selectedPageBase.getPathToString() );		
+		field.setText( selectedPageBase.getTaggedPathToString() );		
 	}
 	
 }
@@ -189,7 +189,7 @@ class SelectorPageBasePageDialog extends JDialog{
 			    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 			    	
 			    	//Felirata a NODE-nak
-			    	setText( ((BaseDataModelInterface)value).getNameToString() );
+			    	setText( ((BaseDataModelInterface)value).getIDValue() );
 			    	
 			    	//Iconja a NODE-nak
 			    	if( value instanceof BasePageDataModel){

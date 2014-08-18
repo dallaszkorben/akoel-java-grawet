@@ -206,7 +206,7 @@ public class CommonOperations {
 		 return null;
 	 }
 */	 
-	 public static BasePageDataModel getBasePagePageDataModelByBaseElement( BaseRootDataModel baseRoot, BaseElementDataModel selectedBaseElement ){
+/*	 public static BasePageDataModel getBasePagePageDataModelByBaseElement( BaseRootDataModel baseRoot, BaseElementDataModel selectedBaseElement ){
 			
 		 //Vegig megyek a PAGEBASE fan
 		 @SuppressWarnings("unchecked")
@@ -228,7 +228,7 @@ public class CommonOperations {
 		 }
 		 return null;
 	 }
-
+*/
 	 /**
 	  * BaseElement alapjan megkeresi a PageBasePage-en a hozza tartozo BasePageElementDataModel-t
 	  * @param basePagePageDataModel
