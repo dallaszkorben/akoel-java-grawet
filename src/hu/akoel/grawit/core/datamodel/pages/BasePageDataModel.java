@@ -12,6 +12,8 @@ import org.w3c.dom.NodeList;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
+import hu.akoel.grawit.exceptions.XMLPharseException;
 
 public class BasePageDataModel extends BaseDataModelInterface{
 
@@ -31,12 +33,20 @@ public class BasePageDataModel extends BaseDataModelInterface{
 	 * BASEELEMENT-eket
 	 * 
 	 * @param element
+	 * @throws XMLPharseException 
 	 */
-	public BasePageDataModel( Element element ){
+	public BasePageDataModel( Element element ) throws XMLPharseException{
+		
+		if( !element.hasAttribute("name") ){
+			throw new XMLMissingAttributePharseException( "base", "page", "name" );			
+		}
 		String nameString = element.getAttribute("name");
-		String detailsString = element.getAttribute("details");
-//TODO throw exception, fent pedig elkapni		
 		this.name = nameString;
+		
+		if( !element.hasAttribute("details") ){
+			throw new XMLMissingAttributePharseException( "base", "page", "details" );			
+		}
+		String detailsString = element.getAttribute("details");
 		this.details = detailsString;
 		
 		NodeList nodelist = element.getChildNodes();

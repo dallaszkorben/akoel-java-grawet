@@ -3,7 +3,7 @@ package hu.akoel.grawit;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
+import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -206,7 +206,7 @@ public class CommonOperations {
 		 return null;
 	 }
 */	 
-	 public static BasePageDataModel getBasePagePageDataModelByBaseElement( BasePageRootDataModel baseRoot, BaseElementDataModel selectedBaseElement ){
+	 public static BasePageDataModel getBasePagePageDataModelByBaseElement( BaseRootDataModel baseRoot, BaseElementDataModel selectedBaseElement ){
 			
 		 //Vegig megyek a PAGEBASE fan
 		 @SuppressWarnings("unchecked")

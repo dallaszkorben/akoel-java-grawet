@@ -12,6 +12,9 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
+import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
+import hu.akoel.grawit.exceptions.XMLPharseException;
+import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 
 public class BaseElementDataModel extends BaseDataModelInterface{
 	private static final long serialVersionUID = -8916078747948054716L;
@@ -42,27 +45,48 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	 * XML alapjan gyartja le a BASEELEMENT-et
 	 * 
 	 * @param element
+	 * @throws XMLPharseException 
 	 */
-	public BaseElementDataModel( Element element ){
-		String nameString = element.getAttribute("name");
-		String identifierString = element.getAttribute("identifier");
-		String identificationTypeString = element.getAttribute("identificationtype");
-		String frameString = element.getAttribute("frame");
-		String variablesempleString = element.getAttribute("variablesemple");
+	public BaseElementDataModel( Element element ) throws XMLPharseException{
 		
+		//name
+		if( !element.hasAttribute("name") ){
+			throw new XMLMissingAttributePharseException( "base", "element", "name" );			
+		}
+		String nameString = element.getAttribute("name");		
 		this.name = nameString;
 		
+		//identifier             
+		if( !element.hasAttribute("identifier") ){
+			throw new XMLMissingAttributePharseException( "base", "element", "identifier" );			
+		}
+		String identifierString = element.getAttribute("identifier");
 		this.identifier = identifierString;
 		
+		//identificationtype
+		if( !element.hasAttribute("identificationtype" ) ){
+			throw new XMLMissingAttributePharseException( "base", "element", "identificationtype" );
+		}
+		String identificationTypeString = element.getAttribute("identificationtype");
 		if( IdentificationType.ID.name().equals( identificationTypeString ) ){
 			identificationType = IdentificationType.ID;
 		}else if( IdentificationType.CSS.name().equals( identificationTypeString ) ){
 			identificationType = IdentificationType.CSS;
-		}else{
-throw new Error( "identificationType nem talalhato a beolvasott XML-ben: " + this.getClass().getSimpleName() );
-			//TODO throw exception, fent pedig elkapni
+		}else{			
+			throw new XMLWrongAttributePharseException( "base", "element", "identificationtype", identificationTypeString ); 
 		}
 		
+		//frame
+		if( !element.hasAttribute("frame") ){
+			throw new XMLMissingAttributePharseException( "base", "element", "frame" );
+		}
+		String frameString = element.getAttribute("frame");
+
+		//variablesemple
+		String variablesempleString = element.getAttribute("variablesemple");
+		if( nameString.isEmpty() ){
+			throw new XMLMissingAttributePharseException( "base", "element", "variablesample" );			
+		}		
 		if( VariableSample.NO.name().equals(variablesempleString)){
 			variableSample = VariableSample.NO;
 		}else if( VariableSample.PRE.name().equals(variablesempleString)){
@@ -70,10 +94,8 @@ throw new Error( "identificationType nem talalhato a beolvasott XML-ben: " + thi
 		}else if( VariableSample.POST.name().equals(variablesempleString)){
 			variableSample = VariableSample.POST;
 		}else{
-throw new Error( "variableSample nem talalhato a beolvasott XML-ben: " + this.getClass().getSimpleName() );
-			//TODO throw exception, fent pedig elkapni
-		}
-		
+			throw new XMLWrongAttributePharseException( "base", "element", "variablesemple", variablesempleString );
+		}		
 	}
 	
 	private void common( String name, String identifier, IdentificationType identificationType, VariableSample variableSample, String frame ){		

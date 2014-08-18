@@ -7,10 +7,10 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
+import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.gui.editor.component.BasePageSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 
 import javax.swing.JLabel;
@@ -32,7 +32,7 @@ public class ParamPageEditor extends DataEditor{
 	private BasePageSelectorComponent fieldPageBasePageSelector;	
 	
 	//Itt biztos beszuras van
-	public ParamPageEditor( ParamPageTree tree, ParamPageNodeDataModel selectedNode, BasePageRootDataModel basePageRootDataModel ){
+	public ParamPageEditor( ParamPageTree tree, ParamPageNodeDataModel selectedNode, BaseRootDataModel basePageRootDataModel ){
 		super( CommonOperations.getTranslation("tree.nodetype.parampage") );
 				
 		this.tree = tree;
@@ -50,7 +50,7 @@ public class ParamPageEditor extends DataEditor{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamPageEditor( ParamPageTree tree, ParamPageDataModel selectedNode, BasePageRootDataModel basePageRootDataModel, EditMode mode ){
+	public ParamPageEditor( ParamPageTree tree, ParamPageDataModel selectedNode, BaseRootDataModel basePageRootDataModel, EditMode mode ){
 		super( mode, CommonOperations.getTranslation( "tree.nodetype.parampage" ) );
 
 		this.tree = tree;
@@ -70,7 +70,7 @@ public class ParamPageEditor extends DataEditor{
 		
 	}
 	
-	private void common( BasePageRootDataModel basePageRootDataModel ){
+	private void common( BaseRootDataModel basePageRootDataModel ){
 		
 //		this.basePageRootDataModel = basePageRootDataModel;
 		
