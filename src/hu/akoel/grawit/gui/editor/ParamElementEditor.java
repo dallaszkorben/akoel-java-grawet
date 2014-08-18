@@ -84,14 +84,12 @@ public class ParamElementEditor extends DataEditor{
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 	
-		//TODO torolni
-		ParamElementDataModel paramElement = selectedNode;
 		BaseElementDataModel baseElement = selectedNode.getBaseElement();	
 		
 		commonPre();
 		
 		//Name
-		fieldName.setText( paramElement.getName() );
+		fieldName.setText( selectedNode.getName() );
 
 		//Base Element
 		BasePageDataModel basePageDataModel = CommonOperations.getBasePagePageDataModelByBaseElement(baseRoot, baseElement);
@@ -99,7 +97,7 @@ public class ParamElementEditor extends DataEditor{
 		fieldBaseElementSelector = new BasePageElementSelectorComponent( basePageDataModel, baseElement ); 
 		
 		//Operation
-		Operation op = paramElement.getElementOperation().getOperation();
+		Operation op = selectedNode.getElementOperation().getOperation();
 		fieldOperation.setSelectedIndex( op.getIndex() );
 	
 		commonPost();
@@ -266,12 +264,9 @@ public class ParamElementEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
-				//TODO torolni
-				ParamElementDataModel paramElement = nodeForModify; 
-				
-				paramElement.setName( fieldName.getText() );
-				paramElement.setOperation( elementOperation );
-				paramElement.setBaseElement(baseElement);
+				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setOperation( elementOperation );
+				nodeForModify.setBaseElement(baseElement);
 				
 			}
 			

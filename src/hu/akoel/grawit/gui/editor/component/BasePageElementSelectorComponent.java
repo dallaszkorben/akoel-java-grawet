@@ -3,8 +3,8 @@ package hu.akoel.grawit.gui.editor.component;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 
 import java.awt.BorderLayout;
@@ -205,7 +205,7 @@ class SelectorPageBaseElementDialog extends JDialog{
 			            setIcon(pageIcon);
 			    	}else if( value instanceof BaseElementDataModel ){
 			            setIcon(elementIcon);
-			    	}else if( value instanceof BasePageNodeDataModel){
+			    	}else if( value instanceof BaseNodeDataModel){
 			    		if( expanded ){
 			    			setIcon(nodeOpenIcon);
 			    		}else{

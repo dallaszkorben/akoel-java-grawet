@@ -6,9 +6,12 @@ import javax.swing.tree.TreeNode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 
 public class BasePageDataModel extends BaseDataModelInterface{
 
@@ -23,6 +26,31 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		this.details = details;
 	}
 		
+	/**
+	 * XML alapjan gyartja le a BASEPAGE-et es az alatta elofordulo
+	 * BASEELEMENT-eket
+	 * 
+	 * @param element
+	 */
+	public BasePageDataModel( Element element ){
+		String nameString = element.getAttribute("name");
+		String detailsString = element.getAttribute("details");
+//TODO throw exception, fent pedig elkapni		
+		this.name = nameString;
+		this.details = detailsString;
+		
+		NodeList nodelist = element.getChildNodes();
+		for( int i = 0; i < nodelist.getLength(); i++ ){
+			Node node = nodelist.item( i );
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element baseElement = (Element)node;
+				if( baseElement.getTagName().equals("element")){
+					this.add(new BaseElementDataModel(baseElement));
+				}
+			}
+		}		
+	}
+	
 	public String getName(){
 		return name;
 	}
@@ -67,7 +95,7 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		Attr attr;
 	
 		//Node element
-		Element pageElement = document.createElement("basepage");
+		Element pageElement = document.createElement("page");
 		
 		//NAME attributum
 		attr = document.createAttribute("name");

@@ -65,7 +65,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		Attr attr;
 
 		//Node element
-		Element pageElement = document.createElement("parampage");
+		Element pageElement = document.createElement("page");
 		
 		//NAME attributum
 		attr = document.createAttribute("name");
@@ -73,7 +73,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		pageElement.setAttributeNode(attr);	
 
 		//PAGEBASEPAGE attributum
-		attr = document.createAttribute("pagebasepagepath");
+		attr = document.createAttribute("basepagepath");
 		attr.setValue( basePage.getPathToString() );
 		pageElement.setAttributeNode(attr);
 		

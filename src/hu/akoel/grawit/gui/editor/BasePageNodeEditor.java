@@ -5,10 +5,10 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.BasePageTree;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -23,8 +23,8 @@ public class BasePageNodeEditor extends DataEditor{
 	private static final long serialVersionUID = 165396704460481021L;
 	
 	private BasePageTree tree;
-	private BasePageNodeDataModel nodeForModify;
-	private BasePageNodeDataModel nodeForCapture;
+	private BaseNodeDataModel nodeForModify;
+	private BaseNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -32,7 +32,7 @@ public class BasePageNodeEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 
 	//Itt biztos beszuras van
-	public BasePageNodeEditor( BasePageTree tree, BasePageNodeDataModel selectedNode ){
+	public BasePageNodeEditor( BasePageTree tree, BaseNodeDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.node") );
 		
 		this.tree = tree;
@@ -50,7 +50,7 @@ public class BasePageNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public BasePageNodeEditor( BasePageTree basePageTree, BasePageNodeDataModel selectedNode, EditMode mode ){		
+	public BasePageNodeEditor( BasePageTree basePageTree, BaseNodeDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
 
 		this.tree = basePageTree;
@@ -120,10 +120,10 @@ public class BasePageNodeEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Node-rol van szo
-				if( levelNode instanceof BasePageNodeDataModel ){
+				if( levelNode instanceof BaseNodeDataModel ){
 					
 					//Ha azonos a nev
-					if( ((BasePageNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((BaseNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -160,7 +160,7 @@ public class BasePageNodeEditor extends DataEditor{
 			
 				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
 				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
-				BasePageNodeDataModel newPageBaseNode = new BasePageNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				BaseNodeDataModel newPageBaseNode = new BaseNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
 				//parentNode.insert( newPageBaseNode, selectedNodeIndex);
 				nodeForCapture.add( newPageBaseNode );
 			

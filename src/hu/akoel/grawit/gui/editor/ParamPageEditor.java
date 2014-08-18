@@ -57,14 +57,11 @@ public class ParamPageEditor extends DataEditor{
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		//TODO torolni
-		ParamPageDataModel paramPage = selectedNode;
-		
 		//Name		
-		fieldName = new TextFieldComponent( paramPage.getName());
+		fieldName = new TextFieldComponent( selectedNode.getName());
 	
 		//Az eredetileg kivalasztott PAGE BASE
-		BasePageDataModel selectedPageBase = paramPage.getBasePage();
+		BasePageDataModel selectedPageBase = selectedNode.getBasePage();
 		
 		//PAGEBASEPAGE SELECTOR COMBO
 		fieldPageBasePageSelector =  new BasePageSelectorComponent( basePageRootDataModel, selectedPageBase );
@@ -182,10 +179,7 @@ public class ParamPageEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
-				//TODO torolni
-				ParamPageDataModel paramPage = nodeForModify; 
-				
-				paramPage.setName( fieldName.getText() );
+				nodeForModify.setName( fieldName.getText() );
 
 			}			
 			

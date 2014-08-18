@@ -6,6 +6,7 @@ import javax.swing.tree.TreeNode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
@@ -37,6 +38,44 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.variableSample = element.getVariableSample();
 	}
 
+	/**
+	 * XML alapjan gyartja le a BASEELEMENT-et
+	 * 
+	 * @param element
+	 */
+	public BaseElementDataModel( Element element ){
+		String nameString = element.getAttribute("name");
+		String identifierString = element.getAttribute("identifier");
+		String identificationTypeString = element.getAttribute("identificationtype");
+		String frameString = element.getAttribute("frame");
+		String variablesempleString = element.getAttribute("variablesemple");
+		
+		this.name = nameString;
+		
+		this.identifier = identifierString;
+		
+		if( IdentificationType.ID.name().equals( identificationTypeString ) ){
+			identificationType = IdentificationType.ID;
+		}else if( IdentificationType.CSS.name().equals( identificationTypeString ) ){
+			identificationType = IdentificationType.CSS;
+		}else{
+throw new Error( "identificationType nem talalhato a beolvasott XML-ben: " + this.getClass().getSimpleName() );
+			//TODO throw exception, fent pedig elkapni
+		}
+		
+		if( VariableSample.NO.name().equals(variablesempleString)){
+			variableSample = VariableSample.NO;
+		}else if( VariableSample.PRE.name().equals(variablesempleString)){
+			variableSample = VariableSample.PRE;
+		}else if( VariableSample.POST.name().equals(variablesempleString)){
+			variableSample = VariableSample.POST;
+		}else{
+throw new Error( "variableSample nem talalhato a beolvasott XML-ben: " + this.getClass().getSimpleName() );
+			//TODO throw exception, fent pedig elkapni
+		}
+		
+	}
+	
 	private void common( String name, String identifier, IdentificationType identificationType, VariableSample variableSample, String frame ){		
 		this.name = name;
 		this.identifier = identifier;
@@ -131,7 +170,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		attr.setValue( getIdentifier() );
 		elementElement.setAttributeNode(attr);	
 
-		attr = document.createAttribute("identificationType");
+		attr = document.createAttribute("identificationtype");
 		attr.setValue( getIdentificationType().name() );
 		elementElement.setAttributeNode(attr);	
 
