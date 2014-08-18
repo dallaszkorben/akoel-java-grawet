@@ -2,11 +2,12 @@ package hu.akoel.grawit.gui.tree.datamodel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class BasePageRootDataModel extends BasePageNodeDataModel{
+public class BasePageRootDataModel extends BaseNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
@@ -26,7 +27,7 @@ public class BasePageRootDataModel extends BasePageNodeDataModel{
 	public Element getXMLElement(Document document) {
 		
 		//PageBaseElement
-		Element pageBaseElement = document.createElement("pagebase");
+		Element pageBaseElement = document.createElement("basepage");
 
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){

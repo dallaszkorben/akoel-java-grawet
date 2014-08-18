@@ -7,8 +7,6 @@ public class EmptyEditor extends DataEditor{
 
 	public EmptyEditor( ){
 		super( EditMode.NO, null );
-		
-		//TODO a feher fejlecet el kell torolni
 	}
 
 	@Override

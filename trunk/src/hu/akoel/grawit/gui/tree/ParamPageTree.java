@@ -291,7 +291,7 @@ public class ParamPageTree extends JTree{
 				if( selectedIndexInTheNode >= 1 ){
 					
 					//Akkor mozoghat felfele, letrehozhatom a fel menuelemet
-					JMenuItem upMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.up") );
+					JMenuItem upMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.up") );
 					upMenu.setActionCommand( ActionCommand.UP.name());
 					upMenu.addActionListener( new ActionListener() {
 						
@@ -323,7 +323,7 @@ public class ParamPageTree extends JTree{
 				if( selectedIndexInTheNode < elementsInTheNode - 1 ){
 					
 					//Akkor mozoghat lefele, letrehozhatom a le nemuelement
-					JMenuItem downMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.down")  );
+					JMenuItem downMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.down")  );
 					downMenu.setActionCommand( ActionCommand.DOWN.name() );
 					downMenu.addActionListener( new ActionListener() {
 						
@@ -351,7 +351,7 @@ public class ParamPageTree extends JTree{
 				//
 				//Szerkesztes
 				//
-				JMenuItem editMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.edit") );
+				JMenuItem editMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.edit") );
 				editMenu.setActionCommand( ActionCommand.EDIT.name());
 				editMenu.addActionListener( new ActionListener() {
 					
@@ -385,7 +385,7 @@ public class ParamPageTree extends JTree{
 				if( selectedNode instanceof ParamPageNodeDataModel ){
 
 					//Insert Node
-					JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.insert.node") );
+					JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
 					insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 					insertNodeMenu.addActionListener( new ActionListener() {
 					
@@ -400,7 +400,7 @@ public class ParamPageTree extends JTree{
 					this.add ( insertNodeMenu );
 
 					//Insert Page
-					JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.insert.page") );
+					JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.page") );
 					insertPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 					insertPageMenu.addActionListener( new ActionListener() {
 					
@@ -421,7 +421,7 @@ public class ParamPageTree extends JTree{
 				if( selectedNode instanceof ParamPageDataModel ){
 
 					//Insert Element
-					JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.insert.element") );
+					JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.element") );
 					insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 					insertElementMenu.addActionListener( new ActionListener() {
 					
@@ -444,7 +444,7 @@ public class ParamPageTree extends JTree{
 				if( selectedNode.getChildCount() == 0 ){
 					
 				
-					JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.delete") );
+					JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.delete") );
 					deleteMenu.setActionCommand( ActionCommand.UP.name());
 					deleteMenu.addActionListener( new ActionListener() {
 						
@@ -480,7 +480,7 @@ public class ParamPageTree extends JTree{
 			}else{
 				
 				//Insert Node
-				JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "popupmenu.insert.node") );
+				JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
 				insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 				insertNodeMenu.addActionListener( new ActionListener() {
 				

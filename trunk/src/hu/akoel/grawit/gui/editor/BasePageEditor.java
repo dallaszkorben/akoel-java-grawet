@@ -5,11 +5,11 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.BasePageTree;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
@@ -20,7 +20,7 @@ public class BasePageEditor extends DataEditor{
 
 	private BasePageTree tree; 
 	private BasePageDataModel nodeForModify;
-	private BasePageNodeDataModel nodeForCapture;
+	private BaseNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -29,7 +29,7 @@ public class BasePageEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 	
 	//Itt biztos beszuras van
-	public BasePageEditor( BasePageTree tree, BasePageNodeDataModel selectedNode ){
+	public BasePageEditor( BasePageTree tree, BaseNodeDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.basepage") );
 		
 		this.tree = tree;
@@ -54,14 +54,11 @@ public class BasePageEditor extends DataEditor{
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		//TODO torolni
-		BasePageDataModel basePage = selectedNode;
-		
 		//Name		
-		fieldName = new TextFieldComponent( basePage.getName());
+		fieldName = new TextFieldComponent( selectedNode.getName());
 			
 		//Details
-		fieldDetails = new TextAreaComponent( basePage.getDetails(), 5, 15);
+		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
 		common();
 		
@@ -163,11 +160,8 @@ public class BasePageEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
-				//TODO torolni
-				BasePageDataModel basePage = nodeForModify; 
-				
-				basePage.setName( fieldName.getText() );
-				basePage.setDetails( fieldDetails.getText() );
+				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setDetails( fieldDetails.getText() );
 			
 				//Ebbe a nodba kell majd visszaallni
 				//pathToOpen = new TreePath(nodeForModify.getPath());

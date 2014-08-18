@@ -70,19 +70,16 @@ public class BaseElementEditor extends DataEditor{
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		//TODO torolni
-		BaseElementDataModel baseElement = selectedNode;
-		
 		commonPre();
 		
 		//Name
-		fieldName = new TextFieldComponent( baseElement.getName());
+		fieldName = new TextFieldComponent( selectedNode.getName());
 				
 		//Identifier
-		fieldIdentifier = new TextFieldComponent( baseElement.getIdentifier() );
+		fieldIdentifier = new TextFieldComponent( selectedNode.getIdentifier() );
 	
 		//Identifier type
-	    IdentificationType idType = baseElement.getIdentificationType();	    
+	    IdentificationType idType = selectedNode.getIdentificationType();	    
 	   	if( idType.equals( IdentificationType.ID ) ){
 	   		buttonID.setSelected(true);
 	   	}else if( idType.equals( IdentificationType.CSS ) ){
@@ -90,7 +87,7 @@ public class BaseElementEditor extends DataEditor{
 	   	}
 			
 		//Variable	
-		fieldVariable.setSelectedIndex( baseElement.getVariableSample().getIndex() );
+		fieldVariable.setSelectedIndex( selectedNode.getVariableSample().getIndex() );
 	
 		commonPost();
 		
@@ -244,14 +241,11 @@ public class BaseElementEditor extends DataEditor{
 			
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
-		
-				//TODO Torolni
-				BaseElementDataModel baseElement = nodeForModify; 
 				
-				baseElement.setName( fieldName.getText() );
-				baseElement.setIdentifier( fieldIdentifier.getText() );				
-				baseElement.setVariableSample( variableSample );
-				baseElement.setIdentificationType( identificationType );
+				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setIdentifier( fieldIdentifier.getText() );				
+				nodeForModify.setVariableSample( variableSample );
+				nodeForModify.setIdentificationType( identificationType );
 				
 			}
 			

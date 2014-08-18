@@ -86,12 +86,25 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 	public Element getXMLElement(Document document) {
 		Attr attr;
 	
+		//
 		//Node element
+		//
 		Element elementElement = document.createElement("element");
+		
+		//Name
 		attr = document.createAttribute("name");
 		attr.setValue( getName() );
 		elementElement.setAttributeNode(attr);	
+		
+		//BaseElementPath
+		attr = document.createAttribute("baseelementpath");
+		attr.setValue( baseElement.getPathToString() );
+		elementElement.setAttributeNode(attr);
 
+		attr = document.createAttribute("operation");
+		attr.setValue( getElementOperation().getOperation().name() );
+		elementElement.setAttributeNode(attr);
+		
 		return elementElement;	
 	}
 	

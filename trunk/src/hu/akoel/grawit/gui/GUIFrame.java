@@ -7,17 +7,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
 import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BasePageTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
@@ -50,6 +51,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class GUIFrame extends JFrame{
 	private static final long serialVersionUID = 5462215116385991087L;
@@ -367,7 +371,7 @@ public class GUIFrame extends JFrame{
 				// Filechooser inicializalasa a felhasznalo munkakonyvtaraba
 
 				// A dialogus ablak cime
-				fc.setDialogTitle("Save the plan");
+				fc.setDialogTitle( CommonOperations.getTranslation( "window.title.savetestsuit" ));
 
 				// Csak az XML kiterjesztesu fajlokat lathatom
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("xml", "xml");
@@ -423,11 +427,117 @@ public class GUIFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 				
+			//
+			// Menuk tiltasa
+			//
+			
 			//Kikapcsolom a PAGEBASE szerkesztesi menut
 			editParamPageMenuItem.setEnabled( false );
+			
+			//Kikapcsolom a PAGE szerkesztesi menut
 			editPageBaseMenuItem.setEnabled( false );
+			
+			//Kikapcsolom a TESTCASE szerkesztesi menut
 			editTestCaseMenuItem.setEnabled( false );
+			
+			JFileChooser fc;
+			if (null == usedDirectory) {
+				fc = new JFileChooser(System.getProperty("user.dir"));
+			} else {
+				fc = new JFileChooser(usedDirectory);
+			}
+			
+			//Dialogusablak cime
+			fc.setDialogTitle( CommonOperations.getTranslation( "window.title.opentestsuit"));
+			
+			// Csak az XML kiterjesztesu fajlokat lathatom
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("xml", "xml");
+			fc.setFileFilter(filter);
 
+			// Nem engedi meg az "All" filter hasznalatat
+			fc.setAcceptAllFileFilterUsed(false);
+
+			// Dialogus ablak inditasa
+			int returnVal = fc.showOpenDialog( GUIFrame.this );
+			
+			//File valasztas tortent
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				
+				File file = fc.getSelectedFile();
+
+				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder dBuilder;
+				try {
+					
+					dBuilder = dbFactory.newDocumentBuilder();
+
+					// Error kimenetre irja hogy [Fatal Error] es csak utanna megy a catch agba
+					Document doc = dBuilder.parse(file);
+
+					// Recommended
+					doc.getDocumentElement().normalize();
+
+					// Root element = "grawit"
+					// doc.getDocumentElement().getNodeName();
+
+					basePageRootDataModel = new BasePageRootDataModel();
+					paramPageRootDataModel = new ParamPageRootDataModel(); //Torli
+					
+					//
+					// BASEPAGE
+					//
+					NodeList nList = doc.getElementsByTagName("basepage");
+					//Ha nem pontosan 1 db basepage tag van, akkor az gaz
+					if( nList.getLength() != 1 ){
+						throw new Error( "nem pont 1 db basepage tag van a beolvasott XML-ben: " + this.getClass().getSimpleName() );
+						//TODO throw exception, fent pedig elkapni
+					}
+					Node basePageNode = nList.item(0);
+					if (basePageNode.getNodeType() == Node.ELEMENT_NODE) {
+						
+						NodeList nodeList = basePageNode.getChildNodes();
+						for( int i = 0; i < nodeList.getLength(); i++ ){
+						
+							Node baseNode = nodeList.item( i );
+							
+							if (baseNode.getNodeType() == Node.ELEMENT_NODE) {
+								Element baseElement = (Element)baseNode;
+								
+								//Ha ujabb BASENODE van alatta
+								if( baseElement.getTagName().equals("node")){
+									basePageRootDataModel.add(new BaseNodeDataModel(baseElement));
+								}
+							}
+						}
+					}
+							
+		
+					setTitle(" :: " + file.getName());
+
+					usedDirectory = file;
+					fileSaveMenuItem.setEnabled(true);
+
+				} catch (ParserConfigurationException | SAXException | IOException e1) {
+
+					JOptionPane.showMessageDialog(GUIFrame.this, "Nem sikerült a file beolvasása: \n" + e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
+
+				}
+
+				
+
+				//
+				// Ablakok zarasa
+				//
+				
+				//Ha volt nyitva tree, akkor azt zarjuk, mert hogy bonyolult lenne kitalalnom, hogy mi volt nyitva. De vegul is meg lehetne csinalni TODO
+				treePanel.hide();	
+				
+				//Ha volt nyitva Editor, akkor azt zarjuk
+				editorPanel.hide();
+			}
+			
+			
+			
 //TODO tree toltes			
 			// TODO Be kell majd toltenem fajlbol az adatokat
 			// Most csak direktben beirok valamit
@@ -437,14 +547,14 @@ public class GUIFrame extends JFrame{
 			//
 			// PAGEBASE
 			//
-
+/*
 			//Root
 			basePageRootDataModel = new BasePageRootDataModel(); //Torli
 
 			//Node
-			BasePageNodeDataModel basePosNode = new BasePageNodeDataModel("POS", "POS applikaciok tesztelese");			
-			BasePageNodeDataModel baseRevNode = new BasePageNodeDataModel("REV", "REV applikaciok tesztelese");			
-			BasePageNodeDataModel baseDslNode = new BasePageNodeDataModel("DS", "DS applikaciok tesztelese" );
+			BaseNodeDataModel basePosNode = new BaseNodeDataModel("POS", "POS applikaciok tesztelese");			
+			BaseNodeDataModel baseRevNode = new BaseNodeDataModel("REV", "REV applikaciok tesztelese");			
+			BaseNodeDataModel baseDslNode = new BaseNodeDataModel("DS", "DS applikaciok tesztelese" );
 			
 			//Page
 			BasePageDataModel basePosPage1 = new BasePageDataModel("Google kereso oldal", "Ez az elso oldal");
@@ -469,7 +579,7 @@ public class GUIFrame extends JFrame{
 			basePageRootDataModel.add(basePosNode);
 			basePageRootDataModel.add(baseRevNode);
 			basePageRootDataModel.add(baseDslNode);
-			
+*/			
 			//
 			// PARAMPAGE
 			//
@@ -498,14 +608,22 @@ public class GUIFrame extends JFrame{
 			paramPageRootDataModel.add( new ParamPageNodeDataModel("REV PARAM", "REV applikaciok tesztelese" ) );
 			paramPageRootDataModel.add( new ParamPageNodeDataModel("DS PARAM", "DS applikaciok tesztelese" ) );			
 			
-			//Bakapcsolom a PAGEBASE szerkesztesi menut
+
+
+
+			
+			//
+			// Menuk engedelyezese
+			//
+			
+			//Bekapcsolom a PAGEBASE szerkesztesi menut
 			editPageBaseMenuItem.setEnabled( true );
 			
-			//Bakapcsolom a PAGE szerkesztesi menut
+			//Bekapcsolom a PAGE szerkesztesi menut
 			editParamPageMenuItem.setEnabled( true );
 
-			//Ha volt nyitva tree akkor azt zarjuk, mert hogy bonyolult lenne kitalalnom, hogy mi volt nyitva. De vegul is meg lehetne csinalni TODO
-			treePanel.hide();	
+			//Bekapcsolom a TESTCASE szerkesztesi menut
+			editTestCaseMenuItem.setEnabled( false );
 	
 		}
 	}
