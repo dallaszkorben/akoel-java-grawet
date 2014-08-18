@@ -15,6 +15,8 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
+	private static final String TAG_NAME = "basepage";
+	
 	public BaseRootDataModel(){
 		super( "", "" );
 	}
@@ -22,7 +24,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 	public BaseRootDataModel( Document doc ) throws XMLPharseException{
 		super("","");
 		
-		NodeList nList = doc.getElementsByTagName("basepage");
+		NodeList nList = doc.getElementsByTagName( TAG_NAME );
 		
 		//Ha nem pontosan 1 db basepage tag van, akkor az gaz
 		if( nList.getLength() != 1 ){
@@ -42,7 +44,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 					Element baseElement = (Element)baseNode;
 					
 					//Ha ujabb BASENODE van alatta
-					if( baseElement.getTagName().equals("node")){
+					if( baseElement.getTagName().equals( BaseNodeDataModel.getTagName() ) ){
 						this.add(new BaseNodeDataModel(baseElement));
 					}
 				}
@@ -62,7 +64,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 	public Element getXMLElement(Document document) {
 		
 		//PageBaseElement
-		Element pageBaseElement = document.createElement("basepage");
+		Element pageBaseElement = document.createElement( TAG_NAME );
 
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
@@ -76,22 +78,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 		    	
 			}
 		}
-		
-/*		//Enumeration<?> e = this.preorderEnumeration();
-		Enumeration<?> e = this.breadthFirstEnumeration();
-		//Enumeration<?> e = this.depthFirstEnumeration();
-		while(e.hasMoreElements()){
-			
-			Object object = e.nextElement();
-			
-			if( !object.equals(this) && object instanceof DataModelInterface ){
-				
-				Element element = ((DataModelInterface)object).getXMLElement( document );
-				rootElement.appendChild( element );		    		
-		    	
-			}
-		}
-*/			
+
 		return pageBaseElement;		
 	}
 	
