@@ -60,15 +60,30 @@ public class BasePageDataModel extends BaseDataModelInterface{
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element baseElement = (Element)node;
-				if( baseElement.getTagName().equals( BaseElementDataModel.getTagName() )){
+				if( baseElement.getTagName().equals( BaseElementDataModel.getTagNameStatic() )){
 					this.add(new BaseElementDataModel(baseElement));
 				}
 			}
 		}		
 	}
 	
-	public static String getTagName() {
+	public static String getTagNameStatic(){
 		return TAG_NAME;
+	}
+
+	@Override
+	public String getTagName() {
+		return getTagNameStatic();
+	}
+
+	@Override	
+	public String getIDValue(){
+		return getName();
+	}
+	
+	@Override
+	public String getIDName() {
+		return ATTR_NAME;
 	}
 	
 	public String getName(){
@@ -92,10 +107,6 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 
-	public String getNameToString(){
-		return getName();
-	}
-	
 	public String getTypeToString(){
 		return CommonOperations.getTranslation( "tree.nodetype.basepage");
 	}
@@ -105,7 +116,7 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		Attr attr;
 	
 		//Node element
-		Element pageElement = document.createElement( BasePageDataModel.getTagName());
+		Element pageElement = document.createElement( BasePageDataModel.getTagNameStatic());
 		
 		//NAME attributum
 		attr = document.createAttribute( ATTR_NAME );

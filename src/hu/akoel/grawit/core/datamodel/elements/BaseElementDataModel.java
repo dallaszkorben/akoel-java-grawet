@@ -1,8 +1,6 @@
 package hu.akoel.grawit.core.datamodel.elements;
 
 import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -59,21 +57,21 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( "base", "element", ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
 		//identifier             
 		if( !element.hasAttribute( ATTR_IDENTIFIER ) ){
-			throw new XMLMissingAttributePharseException( "base", "element", ATTR_IDENTIFIER );			
+			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_IDENTIFIER );			
 		}
 		String identifierString = element.getAttribute( ATTR_IDENTIFIER );
 		this.identifier = identifierString;
 		
 		//identificationtype
 		if( !element.hasAttribute( ATTR_IDENTIFICATION_TYPE ) ){
-			throw new XMLMissingAttributePharseException( "base", "element", ATTR_IDENTIFICATION_TYPE );
+			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_IDENTIFICATION_TYPE );
 		}
 		String identificationTypeString = element.getAttribute( ATTR_IDENTIFICATION_TYPE );
 		if( IdentificationType.ID.name().equals( identificationTypeString ) ){
@@ -81,19 +79,19 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}else if( IdentificationType.CSS.name().equals( identificationTypeString ) ){
 			identificationType = IdentificationType.CSS;
 		}else{			
-			throw new XMLWrongAttributePharseException( "base", "element", "identificationtype", identificationTypeString ); 
+			throw new XMLWrongAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
 		}
 		
 		//frame
 		if( !element.hasAttribute( ATTR_FRAME) ){
-			throw new XMLMissingAttributePharseException( "base", "element", ATTR_FRAME );
+			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_FRAME );
 		}
 		String frameString = element.getAttribute( ATTR_FRAME );
 
 		//variablesemple
 		String variablesempleString = element.getAttribute(ATTR_VARIABLE_SAMPLE);
 		if( nameString.isEmpty() ){
-			throw new XMLMissingAttributePharseException( "base", "element", ATTR_VARIABLE_SAMPLE );			
+			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_VARIABLE_SAMPLE );			
 		}		
 		if( VariableSample.NO.name().equals(variablesempleString)){
 			variableSample = VariableSample.NO;
@@ -102,7 +100,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}else if( VariableSample.POST.name().equals(variablesempleString)){
 			variableSample = VariableSample.POST;
 		}else{
-			throw new XMLWrongAttributePharseException( "base", "element", ATTR_VARIABLE_SAMPLE, variablesempleString );
+			throw new XMLWrongAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_VARIABLE_SAMPLE, variablesempleString );
 		}		
 	}
 	
@@ -114,10 +112,25 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.frame = frame;
 	}
 
-	public static String getTagName() {
+	public static String getTagNameStatic(){
 		return TAG_NAME;
 	}
+
+	@Override
+	public String getTagName() {
+		return getTagNameStatic();
+	}
+
+	@Override	
+	public String getIDValue(){
+		return getName();
+	}
 	
+	@Override
+	public String getIDName() {
+		return ATTR_NAME;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -163,10 +176,6 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 	
-	public String getNameToString(){
-		return getName();
-	}
-	
 	public String getTypeToString(){
 		return CommonOperations.getTranslation( "tree.nodetype.baseelement");
 	}
@@ -176,7 +185,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		Attr attr;
 
 		//Node element
-		Element elementElement = document.createElement( BaseElementDataModel.getTagName() );
+		Element elementElement = document.createElement( BaseElementDataModel.getTagNameStatic() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		elementElement.setAttributeNode(attr);	

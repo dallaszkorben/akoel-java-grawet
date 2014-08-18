@@ -13,6 +13,11 @@ public class ParamPageNodeDataModel extends ParamDataModelInterface{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
+	private static final String TAG_NAME = "node";
+	
+	private static final String ATTR_NAME = "name";
+	private static final String ATTR_DETAILS = "details";
+		
 	private String name;
 	private String details;
 	
@@ -22,13 +27,28 @@ public class ParamPageNodeDataModel extends ParamDataModelInterface{
 		this.details = details;
 	}
 	
+	public static String getTagNameStatic(){
+		return TAG_NAME;
+	}
+
+	@Override
+	public String getTagName() {
+		return getTagNameStatic();
+	}
+
+	@Override
+	public String getIDName() {
+		return ATTR_NAME;
+	}
+	
+	@Override
+	public String getIDValue(){
+		return getName();
+	}
+	
 	@Override
 	public void add(ParamDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
-	}
-	
-	public String getNameToString(){
-		return name;
 	}
 	
 	public String getTypeToString(){

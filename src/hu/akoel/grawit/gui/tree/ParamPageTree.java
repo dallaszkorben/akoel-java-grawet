@@ -104,7 +104,7 @@ public class ParamPageTree extends JTree{
 		    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 		    	
 		    	//Felirata a NODE-nak
-		    	setText( ((ParamDataModelInterface)value).getNameToString() );
+		    	setText( ((ParamDataModelInterface)value).getIDValue() );
 		    	
 		    	//Iconja a NODE-nak
 		    	if( value instanceof ParamPageDataModel){
@@ -171,7 +171,7 @@ public class ParamPageTree extends JTree{
 					guiFrame.showEditorPanel( paramPageEditor);				
 								
 				}else if( selectedNode instanceof ParamElementDataModel ){
-					ParamElementEditor pageBaseElementEditor = new ParamElementEditor( ParamPageTree.this, (ParamElementDataModel)selectedNode, basePageRootDataModel, EditMode.VIEW );	
+					ParamElementEditor pageBaseElementEditor = new ParamElementEditor( ParamPageTree.this, (ParamElementDataModel)selectedNode, EditMode.VIEW );	
 //					BaseElementEditor pageBaseElementPanel = new ParamElementEditor( ParamPageTree.this, (ParamPageElementDataModel)selectedNode, EditMode.VIEW );								
 					guiFrame.showEditorPanel( pageBaseElementEditor);		
 										
@@ -371,7 +371,8 @@ public class ParamPageTree extends JTree{
 						}else if( selectedNode instanceof ParamElementDataModel ){
 
 							//ParamElementEditor( ParamPageTree.this, (ParamPagePageDataModel)selectedNode, ParamPageTree.this.basePageRootDataModel, EditMode.MODIFY  );
-							ParamElementEditor paramElementEditor = new ParamElementEditor( ParamPageTree.this, (ParamElementDataModel)selectedNode, basePageRootDataModel, EditMode.MODIFY );								
+//							ParamElementEditor paramElementEditor = new ParamElementEditor( ParamPageTree.this, (ParamElementDataModel)selectedNode, basePageRootDataModel, EditMode.MODIFY );								
+							ParamElementEditor paramElementEditor = new ParamElementEditor( ParamPageTree.this, (ParamElementDataModel)selectedNode, EditMode.MODIFY );
 							guiFrame.showEditorPanel( paramElementEditor);		
 								
 						}
@@ -428,7 +429,7 @@ public class ParamPageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamPageTree.this, (ParamPageDataModel)selectedNode, ParamPageTree.this.basePageRootDataModel  );								
+							ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamPageTree.this, (ParamPageDataModel)selectedNode );								
 							guiFrame.showEditorPanel( paramPageNodeEditor);								
 						
 						}
@@ -458,7 +459,7 @@ public class ParamPageTree extends JTree{
 							};
 							
 							int n = JOptionPane.showOptionDialog(guiFrame,
-									"Valóban torolni kívánod a(z) " + selectedNode.getNameToString() + " nevü " + selectedNode.getTypeToString() + "-t ?",
+									"Valóban torolni kívánod a(z) " + selectedNode.getIDValue() + " nevü " + selectedNode.getTypeToString() + "-t ?",
 									CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 									JOptionPane.YES_NO_CANCEL_OPTION,
 									JOptionPane.QUESTION_MESSAGE,

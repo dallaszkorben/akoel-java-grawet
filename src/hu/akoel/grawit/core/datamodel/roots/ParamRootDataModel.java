@@ -15,7 +15,7 @@ public class ParamRootDataModel extends ParamPageNodeDataModel{
 		super( "", "" );
 	}
 	
-	public String getNameToString(){
+	public String getIDValue(){
 		return "Page Root";
 	}
 	

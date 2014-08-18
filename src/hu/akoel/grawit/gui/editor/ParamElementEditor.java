@@ -48,7 +48,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedNode
 	 */
-	public ParamElementEditor( ParamPageTree tree, ParamPageDataModel selectedNode, BaseRootDataModel basePageRootDataModel ){
+	public ParamElementEditor( ParamPageTree tree, ParamPageDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;
@@ -74,30 +74,32 @@ public class ParamElementEditor extends DataEditor{
 	 * 
 	 * Mar letezo ParamPageElement modositasa vagy megtekintese
 	 * @param tree
-	 * @param selectedNode
+	 * @param selectedElement
 	 * @param mode
 	 */
-	public ParamElementEditor( ParamPageTree tree, ParamElementDataModel selectedNode, BaseRootDataModel baseRoot, EditMode mode ){		
+	public ParamElementEditor( ParamPageTree tree, ParamElementDataModel selectedElement, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;
-		this.nodeForModify = selectedNode;
+		this.nodeForModify = selectedElement;
 		this.mode = mode;
 	
-		BaseElementDataModel baseElement = selectedNode.getBaseElement();	
+		BaseElementDataModel baseElement = selectedElement.getBaseElement();
+		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();
 		
 		commonPre();
 		
 		//Name
-		fieldName.setText( selectedNode.getName() );
+		fieldName.setText( selectedElement.getName() );
 
 		//Base Element
-		BasePageDataModel basePageDataModel = CommonOperations.getBasePagePageDataModelByBaseElement(baseRoot, baseElement);
+//		BasePageDataModel basePageDataModel = CommonOperations.getBasePagePageDataModelByBaseElement(baseRoot, baseElement);
 				
-		fieldBaseElementSelector = new BasePageElementSelectorComponent( basePageDataModel, baseElement ); 
+		//fieldBaseElementSelector = new BasePageElementSelectorComponent( basePageDataModel, baseElement ); 
+		fieldBaseElementSelector = new BasePageElementSelectorComponent( basePage, baseElement );
 		
 		//Operation
-		Operation op = selectedNode.getElementOperation().getOperation();
+		Operation op = selectedElement.getElementOperation().getOperation();
 		fieldOperation.setSelectedIndex( op.getIndex() );
 	
 		commonPost();

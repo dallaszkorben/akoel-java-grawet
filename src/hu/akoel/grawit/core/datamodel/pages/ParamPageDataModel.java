@@ -28,6 +28,11 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
+	private static final String TAG_NAME = "page";
+	
+	private static final String ATTR_NAME = "name";
+	private static final String ATTR_DETAILS = "details";
+	
 	private String name;
 	private BasePageDataModel basePage;	
 	
@@ -41,6 +46,25 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 
 	}
 
+	public static String getTagNameStatic(){
+		return TAG_NAME;
+	}
+
+	@Override
+	public String getTagName() {
+		return getTagNameStatic();
+	}
+
+	@Override	
+	public String getIDValue(){
+		return getName();
+	}
+	
+	@Override
+	public String getIDName() {
+		return ATTR_NAME;
+	}
+	
 	public BasePageDataModel getBasePage(){
 		return basePage;
 	}
@@ -48,11 +72,6 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	@Override
 	public void add(ParamDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
-	}
-
-	@Override
-	public String getNameToString(){
-		return getName();
 	}
 	
 	@Override
@@ -74,7 +93,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 
 		//PAGEBASEPAGE attributum
 		attr = document.createAttribute("basepagepath");
-		attr.setValue( basePage.getPathToString() );
+		attr.setValue( basePage.getTaggedPathToString() );
 		pageElement.setAttributeNode(attr);
 		
 
