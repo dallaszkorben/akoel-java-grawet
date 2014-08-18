@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.datamodel.pages;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import org.apache.xerces.dom.AttrNSImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,6 +19,11 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 public class BasePageDataModel extends BaseDataModelInterface{
 
 	private static final long serialVersionUID = 8871077064641984017L;
+	
+	private static final String TAG_NAME = "page";
+	
+	private static final String ATTR_NAME = "name";
+	private static final String ATTR_DETAILS = "details";
 	
 	private String name ;
 	private String details;
@@ -37,16 +43,16 @@ public class BasePageDataModel extends BaseDataModelInterface{
 	 */
 	public BasePageDataModel( Element element ) throws XMLPharseException{
 		
-		if( !element.hasAttribute("name") ){
-			throw new XMLMissingAttributePharseException( "base", "page", "name" );			
+		if( !element.hasAttribute( ATTR_NAME ) ){
+			throw new XMLMissingAttributePharseException( "base", "page", ATTR_NAME );			
 		}
-		String nameString = element.getAttribute("name");
+		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
-		if( !element.hasAttribute("details") ){
-			throw new XMLMissingAttributePharseException( "base", "page", "details" );			
+		if( !element.hasAttribute( ATTR_DETAILS ) ){
+			throw new XMLMissingAttributePharseException( "base", "page", ATTR_DETAILS );			
 		}
-		String detailsString = element.getAttribute("details");
+		String detailsString = element.getAttribute( ATTR_DETAILS );
 		this.details = detailsString;
 		
 		NodeList nodelist = element.getChildNodes();
@@ -54,11 +60,15 @@ public class BasePageDataModel extends BaseDataModelInterface{
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element baseElement = (Element)node;
-				if( baseElement.getTagName().equals("element")){
+				if( baseElement.getTagName().equals( BaseElementDataModel.getTagName() )){
 					this.add(new BaseElementDataModel(baseElement));
 				}
 			}
 		}		
+	}
+	
+	public static String getTagName() {
+		return TAG_NAME;
 	}
 	
 	public String getName(){
@@ -86,16 +96,6 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		return getName();
 	}
 	
-	@Override
-	public String getPathToString() {
-		StringBuffer out = new StringBuffer();
-		for( TreeNode node: this.getPath() ){
-			out.append( ((BaseDataModelInterface)node).getNameToString() );
-			out.append("/");
-		}		
-		return out.toString();
-	}
-	
 	public String getTypeToString(){
 		return CommonOperations.getTranslation( "tree.nodetype.basepage");
 	}
@@ -105,15 +105,15 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		Attr attr;
 	
 		//Node element
-		Element pageElement = document.createElement("page");
+		Element pageElement = document.createElement( BasePageDataModel.getTagName());
 		
 		//NAME attributum
-		attr = document.createAttribute("name");
+		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		pageElement.setAttributeNode(attr);	
 		
 		//DETAILS attributum
-		attr = document.createAttribute("details");
+		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		pageElement.setAttributeNode(attr);		
 

@@ -12,6 +12,7 @@ import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
 import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.core.datamodel.roots.ParamRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -19,7 +20,6 @@ import hu.akoel.grawit.gui.editor.ParamElementEditor;
 import hu.akoel.grawit.gui.editor.ParamPageNodeEditor;
 import hu.akoel.grawit.gui.editor.ParamPageEditor;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -71,9 +71,9 @@ public class ParamPageTree extends JTree{
 		}		
 	}
 	
-	public ParamPageTree( GUIFrame guiFrame, ParamPageRootDataModel paramPageRootDataModel, BaseRootDataModel basePageRootDataModel ){
+	public ParamPageTree( GUIFrame guiFrame, ParamRootDataModel paramRootDataModel, BaseRootDataModel basePageRootDataModel ){
 	
-		super( new DefaultTreeModel(paramPageRootDataModel) );
+		super( new DefaultTreeModel(paramRootDataModel) );
 		
 		this.basePageRootDataModel = basePageRootDataModel;
 		
@@ -158,7 +158,7 @@ public class ParamPageTree extends JTree{
 				//selectedNode = (DefaultMutableTreeNode)BasePageTree.this.getLastSelectedPathComponent();
 			
 				//Ha a root-ot valasztottam
-				if( selectedNode instanceof ParamPageRootDataModel ){
+				if( selectedNode instanceof ParamRootDataModel ){
 					EmptyEditor emptyPanel = new EmptyEditor();								
 					guiFrame.showEditorPanel( emptyPanel );
 				

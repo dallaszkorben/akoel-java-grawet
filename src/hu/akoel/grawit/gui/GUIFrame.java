@@ -10,19 +10,14 @@ import java.io.File;
 import java.io.IOException;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.IdentificationType;
-import hu.akoel.grawit.VariableSample;
-import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
-import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.core.datamodel.roots.ParamRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BasePageTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -52,8 +47,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class GUIFrame extends JFrame{
@@ -74,9 +67,7 @@ public class GUIFrame extends JFrame{
 	private AssistantPanel assistantPanel;
 	
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
-	private ParamPageRootDataModel paramPageRootDataModel = new ParamPageRootDataModel();
-	
-	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(basePageRootDataModel);
+	private ParamRootDataModel paramRootDataModel = new ParamRootDataModel();
 	
 	private File usedDirectory = null;
 	
@@ -256,6 +247,8 @@ public class GUIFrame extends JFrame{
                 
 		//make sure the JFrame is visible
         this.setVisible(true);
+        
+        makeNewTestSuit();
 	}
 	
 	public void showTreePanel( JTree tree ){
@@ -271,18 +264,88 @@ public class GUIFrame extends JFrame{
 		editorPanel.show( panel );
 	}
 	
-/*	public void hideEditorPanel(){
+	private void makeNewTestSuit(){
+		//Kikapcsolom a PAGEBASE szerkesztesi menut
+		editParamPageMenuItem.setEnabled( false );
+		editPageBaseMenuItem.setEnabled( false );
+		editTestCaseMenuItem.setEnabled( false );
+		
+		//Ablak cimenek beallitasa
+		setTitle( appNameAndVersion );
+		
+		baseRootDataModel.removeAllChildren();
+		paramRootDataModel.removeAllChildren();
+				
+		JTree tree = treePanel.getTree();
+		if ( null != tree ){
+			((DefaultTreeModel)tree.getModel()).reload();
+		}
+		treePanel.hide();
 		editorPanel.hide();
+		
+		//Bekapcsolom a PAGEBASE szerkesztesi menut
+		editParamPageMenuItem.setEnabled( true );
+		editPageBaseMenuItem.setEnabled( true );
+		editTestCaseMenuItem.setEnabled( true );
 	}
-*/
+	
+	private void saveTestSuit( File file ) throws ParserConfigurationException, TransformerException{
+	
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+		Document doc = docBuilder.newDocument();
+
+		Element rootElement = doc.createElement("grawit");
+		doc.appendChild(rootElement);
+			
+		//PAGE BASE mentese
+		Element pageBaseElement = baseRootDataModel.getXMLElement(doc);	
+		rootElement.appendChild( pageBaseElement );
+		
+		//PARAM PAGE mentese
+		Element paramPageElement = paramRootDataModel.getXMLElement(doc);	
+		rootElement.appendChild( paramPageElement );
+						
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		
+		// Stream letrehozasa
+		StreamResult result = new StreamResult( file );
+
+		// Iras
+		transformer.transform(source, result);
+		
+		//Tajekoztatas a sikeres metesrol
+//		JOptionPane.showMessageDialog( GUIFrame.this, CommonOperations.getTranslation("mesage.information.savesuccessful"));
+		
+	}
+	
+	
 	class SaveActionListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
+
+			if( null != usedDirectory ){
+
+				try{
+
+					//Konvertalas es mentes
+					saveTestSuit( usedDirectory );
+				
+					//Tajekoztatas a sikeres metesrol
+					JOptionPane.showMessageDialog( GUIFrame.this, CommonOperations.getTranslation("mesage.information.savesuccessful"));
+					
+				} catch (ParserConfigurationException | TransformerException e1) {
+					
+					//Tajekoztatas a sikertelen metesrol
+					JOptionPane.showMessageDialog(GUIFrame.this, CommonOperations.getTranslation("mesage.error.savefailed") + ": \n" + e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
+					fileSaveMenuItem.setEnabled(false);
+				}	
+			}			
+		}		
 	}
 	
 	/**
@@ -293,30 +356,10 @@ public class GUIFrame extends JFrame{
 	 *
 	 */
 	class NewActionListener implements ActionListener{
-
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			//Kikapcsolom a PAGEBASE szerkesztesi menut
-			editParamPageMenuItem.setEnabled( false );
-			editPageBaseMenuItem.setEnabled( false );
-			editTestCaseMenuItem.setEnabled( false );
-			
-			setTitle( appNameAndVersion );
-			baseRootDataModel.removeAllChildren();
-			//basePageRootDataModel = new BasePageRootDataModel();
-			
-			JTree tree = treePanel.getTree();
-			if ( null != tree ){
-				((DefaultTreeModel)tree.getModel()).reload();
-			}
-		
-			//Bekapcsolom a PAGEBASE szerkesztesi menut
-			editParamPageMenuItem.setEnabled( true );
-			editPageBaseMenuItem.setEnabled( true );
-			editTestCaseMenuItem.setEnabled( true );
-		}
-		
+		public void actionPerformed(ActionEvent e) {			
+			makeNewTestSuit();
+		}		
 	}
 	
 	/**
@@ -337,7 +380,7 @@ public class GUIFrame extends JFrame{
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			try{
 
-				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+/*				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 				Document doc = docBuilder.newDocument();
 
 				Element rootElement = doc.createElement("grawit");
@@ -348,7 +391,7 @@ public class GUIFrame extends JFrame{
 				rootElement.appendChild( pageBaseElement );
 				
 				//PARAM PAGE mentese
-				Element paramPageElement = paramPageRootDataModel.getXMLElement(doc);	
+				Element paramPageElement = paramRootDataModel.getXMLElement(doc);	
 				rootElement.appendChild( paramPageElement );
 				
 				
@@ -357,10 +400,8 @@ public class GUIFrame extends JFrame{
 				DOMSource source = new DOMSource(doc);
 				
 				//StreamResult result = new StreamResult("hello.xml");
-
+*/
 				// Iras
-				//transformer.transform(source, result);
-
 				
 				JFileChooser fc;
 				if (null == usedDirectory) {
@@ -395,21 +436,32 @@ public class GUIFrame extends JFrame{
 						file = new File(filePath + ".xml");
 					}
 
-					// Stream letrehozasa
+					//Konvertalas es mentes elvegzese
+					saveTestSuit(file);
+					
+					
+/*					// Stream letrehozasa
 					StreamResult result = new StreamResult(file);
 
 					// Iras
 					transformer.transform(source, result);
-
+*/
 					setTitle( appNameAndVersion + " :: " + file.getName());
 
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
 
+					//Tajekoztatas a sikeres metesrol
+					JOptionPane.showMessageDialog( GUIFrame.this, CommonOperations.getTranslation("mesage.information.savesuccessful"));
+
 				}						
 				
 			} catch (ParserConfigurationException | TransformerException e1) {
-				JOptionPane.showMessageDialog(GUIFrame.this, "Nem sikerült a file mentése: \n" + e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
+				
+				//Tajekoztatas a sikertelen metesrol
+				JOptionPane.showMessageDialog(GUIFrame.this, CommonOperations.getTranslation("mesage.error.savefailed") + ": \n" + e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
+				fileSaveMenuItem.setEnabled(false);
+
 			}			
 		}		
 	}
@@ -482,25 +534,24 @@ public class GUIFrame extends JFrame{
 					// doc.getDocumentElement().getNodeName();
 
 					//basePageRootDataModel = new BaseRootDataModel();
-					paramPageRootDataModel = new ParamPageRootDataModel(); //Torli
+					paramRootDataModel = new ParamRootDataModel(); //Torli
 				
 					// BASEPAGE
 					baseRootDataModel = new BaseRootDataModel(doc);
 		
-					setTitle(" :: " + file.getName());
+					setTitle( appNameAndVersion + " :: " + file.getName());
 
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
 
 				} catch (ParserConfigurationException | SAXException | IOException e1) {
 
-					JOptionPane.showMessageDialog(GUIFrame.this, "Nem sikerült a file beolvasása: \n" + e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(GUIFrame.this, CommonOperations.getTranslation("mesage.error.openfailed") + ": \n" + e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
 
 				} catch( XMLPharseException e2 ){
-					JOptionPane.showMessageDialog(GUIFrame.this, "Nem sikerült a file beolvasása: \n" + e2.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
+					
+					JOptionPane.showMessageDialog(GUIFrame.this, CommonOperations.getTranslation("mesage.error.openfailed") + ": \n" + e2.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
 				}
-
-				
 
 				//
 				// Ablakok zarasa
@@ -560,10 +611,10 @@ public class GUIFrame extends JFrame{
 			//
 			// PARAMPAGE
 			//
-			paramPageRootDataModel = new ParamPageRootDataModel(); //Torli
+			paramRootDataModel = new ParamRootDataModel(); //Torli
 
 			ParamPageNodeDataModel paramPosNode = new ParamPageNodeDataModel("POS PARAM", "POS applikaciok tesztelese");
-			paramPageRootDataModel.add( paramPosNode );
+			paramRootDataModel.add( paramPosNode );
 /*
 
 			BasePage firstPageBase = new BasePage( "Google kereso oldal", "Ez az elso oldal");
@@ -582,8 +633,8 @@ public class GUIFrame extends JFrame{
 			firstPageNode.add(searchButtonNode);
 */
 
-			paramPageRootDataModel.add( new ParamPageNodeDataModel("REV PARAM", "REV applikaciok tesztelese" ) );
-			paramPageRootDataModel.add( new ParamPageNodeDataModel("DS PARAM", "DS applikaciok tesztelese" ) );			
+			paramRootDataModel.add( new ParamPageNodeDataModel("REV PARAM", "REV applikaciok tesztelese" ) );
+			paramRootDataModel.add( new ParamPageNodeDataModel("DS PARAM", "DS applikaciok tesztelese" ) );			
 			
 
 
@@ -631,7 +682,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramPageRootDataModel, baseRootDataModel );
+			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramRootDataModel, baseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

@@ -6,7 +6,6 @@ import javax.swing.tree.TreeNode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IdentificationType;
@@ -19,11 +18,20 @@ import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 public class BaseElementDataModel extends BaseDataModelInterface{
 	private static final long serialVersionUID = -8916078747948054716L;
 
+	private static String TAG_NAME = "element";
+	
+	private static final String ATTR_NAME = "name";
+	private static final String ATTR_IDENTIFIER = "identifier";
+	private static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
+	private static final String ATTR_FRAME = "frame";
+	private static final String ATTR_VARIABLE_SAMPLE = "variablesample";
+	
 	private String name;
 	private VariableSample variableSample;
 	private String frame;
 	private String identifier;
 	private IdentificationType identificationType;
+
 
 
 	public BaseElementDataModel(String name, String identifier, IdentificationType identificationType, VariableSample variableSample, String frame){
@@ -50,24 +58,24 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	public BaseElementDataModel( Element element ) throws XMLPharseException{
 		
 		//name
-		if( !element.hasAttribute("name") ){
-			throw new XMLMissingAttributePharseException( "base", "element", "name" );			
+		if( !element.hasAttribute( ATTR_NAME ) ){
+			throw new XMLMissingAttributePharseException( "base", "element", ATTR_NAME );			
 		}
-		String nameString = element.getAttribute("name");		
+		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
 		//identifier             
-		if( !element.hasAttribute("identifier") ){
-			throw new XMLMissingAttributePharseException( "base", "element", "identifier" );			
+		if( !element.hasAttribute( ATTR_IDENTIFIER ) ){
+			throw new XMLMissingAttributePharseException( "base", "element", ATTR_IDENTIFIER );			
 		}
-		String identifierString = element.getAttribute("identifier");
+		String identifierString = element.getAttribute( ATTR_IDENTIFIER );
 		this.identifier = identifierString;
 		
 		//identificationtype
-		if( !element.hasAttribute("identificationtype" ) ){
-			throw new XMLMissingAttributePharseException( "base", "element", "identificationtype" );
+		if( !element.hasAttribute( ATTR_IDENTIFICATION_TYPE ) ){
+			throw new XMLMissingAttributePharseException( "base", "element", ATTR_IDENTIFICATION_TYPE );
 		}
-		String identificationTypeString = element.getAttribute("identificationtype");
+		String identificationTypeString = element.getAttribute( ATTR_IDENTIFICATION_TYPE );
 		if( IdentificationType.ID.name().equals( identificationTypeString ) ){
 			identificationType = IdentificationType.ID;
 		}else if( IdentificationType.CSS.name().equals( identificationTypeString ) ){
@@ -77,15 +85,15 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}
 		
 		//frame
-		if( !element.hasAttribute("frame") ){
-			throw new XMLMissingAttributePharseException( "base", "element", "frame" );
+		if( !element.hasAttribute( ATTR_FRAME) ){
+			throw new XMLMissingAttributePharseException( "base", "element", ATTR_FRAME );
 		}
-		String frameString = element.getAttribute("frame");
+		String frameString = element.getAttribute( ATTR_FRAME );
 
 		//variablesemple
-		String variablesempleString = element.getAttribute("variablesemple");
+		String variablesempleString = element.getAttribute(ATTR_VARIABLE_SAMPLE);
 		if( nameString.isEmpty() ){
-			throw new XMLMissingAttributePharseException( "base", "element", "variablesample" );			
+			throw new XMLMissingAttributePharseException( "base", "element", ATTR_VARIABLE_SAMPLE );			
 		}		
 		if( VariableSample.NO.name().equals(variablesempleString)){
 			variableSample = VariableSample.NO;
@@ -94,7 +102,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}else if( VariableSample.POST.name().equals(variablesempleString)){
 			variableSample = VariableSample.POST;
 		}else{
-			throw new XMLWrongAttributePharseException( "base", "element", "variablesemple", variablesempleString );
+			throw new XMLWrongAttributePharseException( "base", "element", ATTR_VARIABLE_SAMPLE, variablesempleString );
 		}		
 	}
 	
@@ -106,6 +114,10 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.frame = frame;
 	}
 
+	public static String getTagName() {
+		return TAG_NAME;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -158,41 +170,30 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	public String getTypeToString(){
 		return CommonOperations.getTranslation( "tree.nodetype.baseelement");
 	}
-	
-	@Override
-	public String getPathToString() {		
-		StringBuffer out = new StringBuffer();
-		for( TreeNode node: this.getPath() ){
-			out.append( ((BaseDataModelInterface)node).getNameToString() );
-			out.append("/");
-		}		
-		return out.toString();
-	}	
-	
 
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
-//System.err.println("   Elem");		
+
 		//Node element
-		Element elementElement = document.createElement("element");
-		attr = document.createAttribute("name");
+		Element elementElement = document.createElement( BaseElementDataModel.getTagName() );
+		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		elementElement.setAttributeNode(attr);	
 		
-		attr = document.createAttribute("frame");
+		attr = document.createAttribute( ATTR_FRAME);
 		attr.setValue( getFrame() );
 		elementElement.setAttributeNode(attr);	
 
-		attr = document.createAttribute("variablesemple");
+		attr = document.createAttribute( ATTR_VARIABLE_SAMPLE);
 		attr.setValue( getVariableSample().name() );
 		elementElement.setAttributeNode(attr);
 		
-		attr = document.createAttribute("identifier");
+		attr = document.createAttribute( ATTR_IDENTIFIER );
 		attr.setValue( getIdentifier() );
 		elementElement.setAttributeNode(attr);	
 
-		attr = document.createAttribute("identificationtype");
+		attr = document.createAttribute( ATTR_IDENTIFICATION_TYPE );
 		attr.setValue( getIdentificationType().name() );
 		elementElement.setAttributeNode(attr);	
 
