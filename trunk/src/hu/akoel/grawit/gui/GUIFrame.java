@@ -15,11 +15,12 @@ import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BasePageTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 import hu.akoel.grawit.gui.tree.datamodel.ParamPageRootDataModel;
 
@@ -72,7 +73,7 @@ public class GUIFrame extends JFrame{
 	private EditorPanel editorPanel;
 	private AssistantPanel assistantPanel;
 	
-	private BasePageRootDataModel basePageRootDataModel = new BasePageRootDataModel();
+	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
 	private ParamPageRootDataModel paramPageRootDataModel = new ParamPageRootDataModel();
 	
 	//DefaultTreeModel pageBaseTreeModel = new DefaultTreeModel(basePageRootDataModel);
@@ -302,7 +303,7 @@ public class GUIFrame extends JFrame{
 			editTestCaseMenuItem.setEnabled( false );
 			
 			setTitle( appNameAndVersion );
-			basePageRootDataModel.removeAllChildren();
+			baseRootDataModel.removeAllChildren();
 			//basePageRootDataModel = new BasePageRootDataModel();
 			
 			JTree tree = treePanel.getTree();
@@ -329,7 +330,7 @@ public class GUIFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if( null == basePageRootDataModel ){
+			if( null == baseRootDataModel ){
 				return;
 			}
 			
@@ -343,7 +344,7 @@ public class GUIFrame extends JFrame{
 				doc.appendChild(rootElement);
 
 				//PAGE BASE mentese
-				Element pageBaseElement = basePageRootDataModel.getXMLElement(doc);	
+				Element pageBaseElement = baseRootDataModel.getXMLElement(doc);	
 				rootElement.appendChild( pageBaseElement );
 				
 				//PARAM PAGE mentese
@@ -480,37 +481,11 @@ public class GUIFrame extends JFrame{
 					// Root element = "grawit"
 					// doc.getDocumentElement().getNodeName();
 
-					basePageRootDataModel = new BasePageRootDataModel();
+					//basePageRootDataModel = new BaseRootDataModel();
 					paramPageRootDataModel = new ParamPageRootDataModel(); //Torli
-					
-					//
+				
 					// BASEPAGE
-					//
-					NodeList nList = doc.getElementsByTagName("basepage");
-					//Ha nem pontosan 1 db basepage tag van, akkor az gaz
-					if( nList.getLength() != 1 ){
-						throw new Error( "nem pont 1 db basepage tag van a beolvasott XML-ben: " + this.getClass().getSimpleName() );
-						//TODO throw exception, fent pedig elkapni
-					}
-					Node basePageNode = nList.item(0);
-					if (basePageNode.getNodeType() == Node.ELEMENT_NODE) {
-						
-						NodeList nodeList = basePageNode.getChildNodes();
-						for( int i = 0; i < nodeList.getLength(); i++ ){
-						
-							Node baseNode = nodeList.item( i );
-							
-							if (baseNode.getNodeType() == Node.ELEMENT_NODE) {
-								Element baseElement = (Element)baseNode;
-								
-								//Ha ujabb BASENODE van alatta
-								if( baseElement.getTagName().equals("node")){
-									basePageRootDataModel.add(new BaseNodeDataModel(baseElement));
-								}
-							}
-						}
-					}
-							
+					baseRootDataModel = new BaseRootDataModel(doc);
 		
 					setTitle(" :: " + file.getName());
 
@@ -521,6 +496,8 @@ public class GUIFrame extends JFrame{
 
 					JOptionPane.showMessageDialog(GUIFrame.this, "Nem sikerült a file beolvasása: \n" + e1.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
 
+				} catch( XMLPharseException e2 ){
+					JOptionPane.showMessageDialog(GUIFrame.this, "Nem sikerült a file beolvasása: \n" + e2.getMessage(), "Hiba", JOptionPane.ERROR_MESSAGE);
 				}
 
 				
@@ -640,7 +617,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			BasePageTree tree = new BasePageTree( GUIFrame.this, basePageRootDataModel );
+			BasePageTree tree = new BasePageTree( GUIFrame.this, baseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );
@@ -654,7 +631,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramPageRootDataModel, basePageRootDataModel );
+			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramPageRootDataModel, baseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

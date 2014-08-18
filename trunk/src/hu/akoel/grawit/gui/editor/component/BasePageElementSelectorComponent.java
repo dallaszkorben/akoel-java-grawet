@@ -5,7 +5,7 @@ import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
+import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

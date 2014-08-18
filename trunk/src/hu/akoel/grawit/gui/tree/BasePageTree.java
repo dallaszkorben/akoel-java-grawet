@@ -12,6 +12,7 @@ import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -19,7 +20,6 @@ import hu.akoel.grawit.gui.editor.BaseElementEditor;
 import hu.akoel.grawit.gui.editor.BasePageNodeEditor;
 import hu.akoel.grawit.gui.editor.BasePageEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -71,7 +71,7 @@ public class BasePageTree extends JTree{
 		
 	}
 	
-	public BasePageTree( GUIFrame guiFrame, BasePageRootDataModel basePageRootDataModel ){
+	public BasePageTree( GUIFrame guiFrame, BaseRootDataModel basePageRootDataModel ){
 	
 		super( new DefaultTreeModel(basePageRootDataModel) );
 		
@@ -158,7 +158,7 @@ public class BasePageTree extends JTree{
 				//selectedNode = (DefaultMutableTreeNode)BasePageTree.this.getLastSelectedPathComponent();
 			
 				//Ha egyaltalan valamilyen egergombot benyomtam
-				if( selectedNode instanceof BasePageRootDataModel ){
+				if( selectedNode instanceof BaseRootDataModel ){
 					EmptyEditor emptyPanel = new EmptyEditor();								
 					guiFrame.showEditorPanel( emptyPanel );
 				

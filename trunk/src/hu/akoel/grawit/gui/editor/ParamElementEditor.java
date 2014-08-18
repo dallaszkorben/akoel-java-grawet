@@ -9,6 +9,7 @@ import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
+import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.core.operations.ButtonOperation;
 import hu.akoel.grawit.core.operations.CheckboxOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
@@ -21,7 +22,6 @@ import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.BasePageElementSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
@@ -48,7 +48,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedNode
 	 */
-	public ParamElementEditor( ParamPageTree tree, ParamPageDataModel selectedNode, BasePageRootDataModel basePageRootDataModel ){
+	public ParamElementEditor( ParamPageTree tree, ParamPageDataModel selectedNode, BaseRootDataModel basePageRootDataModel ){
 		super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;
@@ -77,7 +77,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param selectedNode
 	 * @param mode
 	 */
-	public ParamElementEditor( ParamPageTree tree, ParamElementDataModel selectedNode, BasePageRootDataModel baseRoot, EditMode mode ){		
+	public ParamElementEditor( ParamPageTree tree, ParamElementDataModel selectedNode, BaseRootDataModel baseRoot, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;

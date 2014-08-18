@@ -4,8 +4,9 @@ import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
-import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
+import hu.akoel.grawit.exceptions.XMLPharseException;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -30,14 +31,21 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 	 * BASENODE-okat, illetve BASEPAGE-eket
 	 * 
 	 * @param element
+	 * @throws XMLMissingAttributePharseException 
 	 */
-	public BaseNodeDataModel( Element element ){
-		String nameString = element.getAttribute("name");
-		String detailsString = element.getAttribute("details");
-		this.name = nameString;
-		this.details = detailsString;
+	public BaseNodeDataModel( Element element ) throws XMLPharseException{
 		
-//TODO throw exception, fent pedig elkapni
+		if( !element.hasAttribute("name") ){
+			throw new XMLMissingAttributePharseException( "base", "node", "name" );			
+		}
+		String nameString = element.getAttribute("name");
+		this.name = nameString;
+		
+		if( !element.hasAttribute("details") ){
+			throw new XMLMissingAttributePharseException( "base", "node", "details" );			
+		}		
+		String detailsString = element.getAttribute("details");		
+		this.details = detailsString;
 		
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){

@@ -5,7 +5,7 @@ import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.gui.tree.datamodel.BasePageRootDataModel;
+import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -35,13 +35,13 @@ public class BasePageSelectorComponent extends JPanel implements EditorComponent
 	private JTextField field = new JTextField();
 	private BasePageDataModel basePagePageDataModel;
 	
-	public BasePageSelectorComponent( BasePageRootDataModel basePageRootDataModel ){
+	public BasePageSelectorComponent( BaseRootDataModel basePageRootDataModel ){
 		super();
 	
 		common( basePageRootDataModel );		
 	}
 	
-	public BasePageSelectorComponent( BasePageRootDataModel basePageRootDataModel, BasePageDataModel selectedPageBase ){
+	public BasePageSelectorComponent( BaseRootDataModel basePageRootDataModel, BasePageDataModel selectedPageBase ){
 		super();
 	
 		common( basePageRootDataModel );
@@ -51,7 +51,7 @@ public class BasePageSelectorComponent extends JPanel implements EditorComponent
 		
 	}
 	
-	private void common( final BasePageRootDataModel basePageRootDataModel ){	
+	private void common( final BaseRootDataModel basePageRootDataModel ){	
 		this.setLayout(new BorderLayout());
 		
 		field.setEditable( false );
@@ -110,7 +110,7 @@ class SelectorPageBasePageDialog extends JDialog{
 
 	private static final long serialVersionUID = 1607956458285776550L;
 	
-	public SelectorPageBasePageDialog( BasePageSelectorComponent basePageSelectorComponent, BasePageRootDataModel basePageRootDataModel ){
+	public SelectorPageBasePageDialog( BasePageSelectorComponent basePageSelectorComponent, BaseRootDataModel basePageRootDataModel ){
 		//super( basePageSelectorComponent.getParent(), true );
 		super( );
 
@@ -156,7 +156,7 @@ class SelectorPageBasePageDialog extends JDialog{
 		private BaseDataModelInterface selectedNode;
 		private  BasePageSelectorComponent basePageSelectorComponent;
 
-		public PageBaseTreeForSelect( BasePageSelectorComponent basePageSelectorComponent, BasePageRootDataModel basePageRootDataModel ){
+		public PageBaseTreeForSelect( BasePageSelectorComponent basePageSelectorComponent, BaseRootDataModel basePageRootDataModel ){
 		
 			super( new DefaultTreeModel(basePageRootDataModel) );
 			
