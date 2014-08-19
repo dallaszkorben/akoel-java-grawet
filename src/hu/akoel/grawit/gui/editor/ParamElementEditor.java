@@ -46,13 +46,13 @@ public class ParamElementEditor extends DataEditor{
 	 *  Uj ParamPageElement rogzitese - Insert
 	 *  
 	 * @param tree
-	 * @param selectedNode
+	 * @param selectedPage
 	 */
-	public ParamElementEditor( ParamPageTree tree, ParamPageDataModel selectedNode ){
+	public ParamElementEditor( ParamPageTree tree, ParamPageDataModel selectedPage ){
 		super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;
-		this.nodeForCapture = selectedNode;
+		this.nodeForCapture = selectedPage;
 		this.mode = null;
 
 		commonPre();
@@ -61,7 +61,7 @@ public class ParamElementEditor extends DataEditor{
 		fieldName.setText( "" );
 
 		//Base Element
-		BasePageDataModel basePage = selectedNode.getBasePage();
+		BasePageDataModel basePage = selectedPage.getBasePage();
 		fieldBaseElementSelector = new BasePageElementSelectorComponent( basePage ); 
 
     	//Variable
@@ -92,10 +92,7 @@ public class ParamElementEditor extends DataEditor{
 		//Name
 		fieldName.setText( selectedElement.getName() );
 
-		//Base Element
-//		BasePageDataModel basePageDataModel = CommonOperations.getBasePagePageDataModelByBaseElement(baseRoot, baseElement);
-				
-		//fieldBaseElementSelector = new BasePageElementSelectorComponent( basePageDataModel, baseElement ); 
+		//Selector az elem valasztashoz - A root a basePage (nem latszik)
 		fieldBaseElementSelector = new BasePageElementSelectorComponent( basePage, baseElement );
 		
 		//Operation
@@ -125,7 +122,7 @@ public class ParamElementEditor extends DataEditor{
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
 		labelOperation = new JLabel( CommonOperations.getTranslation("editor.title.operation") + ": ");
-		labelPageBaseElementSelector = new JLabel("hello");
+		labelPageBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.title.baseelement") + ": " );
 		
 		this.add( labelName, fieldName );
 		this.add( labelPageBaseElementSelector, fieldBaseElementSelector );

@@ -5,13 +5,13 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.gui.editor.component.BasePageSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
@@ -22,8 +22,7 @@ public class ParamPageEditor extends DataEditor{
 
 	private ParamPageTree tree; 
 	private ParamPageDataModel nodeForModify;
-	private ParamPageNodeDataModel nodeForCapture;
-//	private BasePageRootDataModel basePageRootDataModel;
+	private ParamNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -32,7 +31,7 @@ public class ParamPageEditor extends DataEditor{
 	private BasePageSelectorComponent fieldPageBasePageSelector;	
 	
 	//Itt biztos beszuras van
-	public ParamPageEditor( ParamPageTree tree, ParamPageNodeDataModel selectedNode, BaseRootDataModel basePageRootDataModel ){
+	public ParamPageEditor( ParamPageTree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 		super( CommonOperations.getTranslation("tree.nodetype.parampage") );
 				
 		this.tree = tree;
@@ -43,39 +42,37 @@ public class ParamPageEditor extends DataEditor{
 		fieldName = new TextFieldComponent( "" );
 		
 		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)
-		fieldPageBasePageSelector = new BasePageSelectorComponent( basePageRootDataModel );		
+		fieldPageBasePageSelector = new BasePageSelectorComponent( baseRootDataModel );		
 		
-		common( basePageRootDataModel );
+		common( baseRootDataModel );
 		
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamPageEditor( ParamPageTree tree, ParamPageDataModel selectedNode, BaseRootDataModel basePageRootDataModel, EditMode mode ){
+	public ParamPageEditor( ParamPageTree tree, ParamPageDataModel selectedPage, EditMode mode ){
 		super( mode, CommonOperations.getTranslation( "tree.nodetype.parampage" ) );
 
 		this.tree = tree;
-		this.nodeForModify = selectedNode;
+		this.nodeForModify = selectedPage;
 		this.mode = mode;
 		
+		BasePageDataModel basePage = selectedPage.getBasePage();
+		BaseRootDataModel baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
+		
 		//Name		
-		fieldName = new TextFieldComponent( selectedNode.getName());
-	
-		//Az eredetileg kivalasztott PAGE BASE
-		BasePageDataModel selectedPageBase = selectedNode.getBasePage();
+		fieldName = new TextFieldComponent( selectedPage.getName());
 		
 		//PAGEBASEPAGE SELECTOR COMBO
-		fieldPageBasePageSelector =  new BasePageSelectorComponent( basePageRootDataModel, selectedPageBase );
+		fieldPageBasePageSelector =  new BasePageSelectorComponent( baseRootDataModel, basePage );
 		
-		common( basePageRootDataModel );
+		common( baseRootDataModel );
 		
 	}
 	
-	private void common( BaseRootDataModel basePageRootDataModel ){
-		
-//		this.basePageRootDataModel = basePageRootDataModel;
+	private void common( BaseRootDataModel baseRootDataModel ){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
-		labelPageBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.title.pagebase") + ": ");
+		labelPageBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.title.basepage") + ": ");
 		
 		this.add( labelName, fieldName );		
 		this.add( labelPageBasePageSelector, fieldPageBasePageSelector );

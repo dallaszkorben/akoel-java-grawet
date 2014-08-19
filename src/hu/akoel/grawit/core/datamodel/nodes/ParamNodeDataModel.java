@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.tree.datamodel;
+package hu.akoel.grawit.core.datamodel.nodes;
 
 import javax.swing.tree.MutableTreeNode;
 
@@ -9,7 +9,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class ParamPageNodeDataModel extends ParamDataModelInterface{
+public class ParamNodeDataModel extends ParamDataModelInterface{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
@@ -21,7 +21,7 @@ public class ParamPageNodeDataModel extends ParamDataModelInterface{
 	private String name;
 	private String details;
 	
-	public ParamPageNodeDataModel( String name, String details ){
+	public ParamNodeDataModel( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;

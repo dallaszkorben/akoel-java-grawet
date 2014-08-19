@@ -2,12 +2,12 @@ package hu.akoel.grawit.core.datamodel.roots;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
+import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class ParamRootDataModel extends ParamPageNodeDataModel{
+public class ParamRootDataModel extends ParamNodeDataModel{
 
 	private static final long serialVersionUID = 9062567931430247371L;
 

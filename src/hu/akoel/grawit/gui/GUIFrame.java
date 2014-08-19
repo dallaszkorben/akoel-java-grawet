@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.core.datamodel.roots.ParamRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -17,7 +18,6 @@ import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BasePageTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -613,7 +613,7 @@ public class GUIFrame extends JFrame{
 			//
 			paramRootDataModel = new ParamRootDataModel(); //Torli
 
-			ParamPageNodeDataModel paramPosNode = new ParamPageNodeDataModel("POS PARAM", "POS applikaciok tesztelese");
+			ParamNodeDataModel paramPosNode = new ParamNodeDataModel("POS PARAM", "POS applikaciok tesztelese");
 			paramRootDataModel.add( paramPosNode );
 /*
 
@@ -633,8 +633,8 @@ public class GUIFrame extends JFrame{
 			firstPageNode.add(searchButtonNode);
 */
 
-			paramRootDataModel.add( new ParamPageNodeDataModel("REV PARAM", "REV applikaciok tesztelese" ) );
-			paramRootDataModel.add( new ParamPageNodeDataModel("DS PARAM", "DS applikaciok tesztelese" ) );			
+			paramRootDataModel.add( new ParamNodeDataModel("REV PARAM", "REV applikaciok tesztelese" ) );
+			paramRootDataModel.add( new ParamNodeDataModel("DS PARAM", "DS applikaciok tesztelese" ) );			
 			
 
 
