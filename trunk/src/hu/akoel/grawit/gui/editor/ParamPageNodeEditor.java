@@ -6,11 +6,11 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
+import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.BasePageTree;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
-import hu.akoel.grawit.gui.tree.datamodel.ParamPageNodeDataModel;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -25,8 +25,8 @@ public class ParamPageNodeEditor extends DataEditor{
 	private static final long serialVersionUID = 2644128362590221646L;
 	
 	private ParamPageTree tree;
-	private ParamPageNodeDataModel nodeForModify;
-	private ParamPageNodeDataModel nodeForCapture;
+	private ParamNodeDataModel nodeForModify;
+	private ParamNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -47,7 +47,7 @@ public class ParamPageNodeEditor extends DataEditor{
 	}
 	
 	//Itt biztos beszuras van
-	public ParamPageNodeEditor( ParamPageTree tree, ParamPageNodeDataModel selectedNode ){
+	public ParamPageNodeEditor( ParamPageTree tree, ParamNodeDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.node") );
 		
 		this.tree = tree;
@@ -65,7 +65,7 @@ public class ParamPageNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public ParamPageNodeEditor( ParamPageTree pageBaseTree, ParamPageNodeDataModel selectedNode, EditMode mode ){		
+	public ParamPageNodeEditor( ParamPageTree pageBaseTree, ParamNodeDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
 
 		this.tree = pageBaseTree;
@@ -161,7 +161,7 @@ public class ParamPageNodeEditor extends DataEditor{
 			
 				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
 				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
-				ParamPageNodeDataModel newPageBaseNode = new ParamPageNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				ParamNodeDataModel newPageBaseNode = new ParamNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
 				//parentNode.insert( newPageBaseNode, selectedNodeIndex);
 				nodeForCapture.add( newPageBaseNode );
 			
