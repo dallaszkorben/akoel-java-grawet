@@ -1,13 +1,7 @@
 package hu.akoel.grawit.gui.editor.component;
 
-import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.DataModelInterface;
-import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -28,23 +22,25 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-public class TreeSelectorComponent extends JPanel implements EditorComponentInterface{
+//public abstract class TreeSelectorComponent<E extends DataModelInterface, F extends DataModelInterface> extends JPanel implements EditorComponentInterface{
+public abstract class TreeSelectorComponent<F extends DataModelInterface> extends JPanel implements EditorComponentInterface{
 
 	private static final long serialVersionUID = 2246129334894062585L;
 	
 	private JButton button;
 	private JTextField field = new JTextField();
-	private DataModelInterface dataModel;
+	private F selectedDataModel;
+	private Class<F> classF;
 	
 	/**
 	 * Uj rogzites
 	 * 
 	 * @param rootDataModel
 	 */
-	public TreeSelectorComponent( DataModelInterface rootDataModel ){
+	public TreeSelectorComponent( Class<F> classF, DataModelInterface rootDataModel ){
 		super();
 	
-		common( rootDataModel );		
+		common( classF, rootDataModel );		
 	}
 	
 	/**
@@ -53,16 +49,19 @@ public class TreeSelectorComponent extends JPanel implements EditorComponentInte
 	 * @param rootDataModel
 	 * @param selectedDataModel
 	 */
-	public TreeSelectorComponent( DataModelInterface rootDataModel, DataModelInterface selectedDataModel ){
+	public TreeSelectorComponent( Class<F> classF, DataModelInterface rootDataModel, F selectedDataModel ){
 		super();
 	
-		common( rootDataModel );
+		common( classF, rootDataModel );
 
-		setSelectedPathToElementBase( selectedDataModel );
+		setSelectedDataModelToField( selectedDataModel );
 		
 	}
 	
-	private void common( final DataModelInterface rootDataModel ){	
+	private void common( Class<F> classF, final DataModelInterface rootDataModel ){	
+		
+		this.classF = classF;
+		
 		this.setLayout(new BorderLayout());
 		
 		field.setEditable( false );
@@ -94,199 +93,213 @@ public class TreeSelectorComponent extends JPanel implements EditorComponentInte
 		return this;
 	}
 	
-	public DataModelInterface getBaseElement(){
-		if( null == dataModel ){
+	public F getSelectedDataModel(){
+		if( null == selectedDataModel ){
 			return null;
 		}
-		return dataModel;
-	}
-	
-	public void setSelectedPathToElementBase( BaseElementDataModel selectedBaseElement ){
-		this.dataModel = selectedBaseElement;
-		//field.setText( selectedBaseElement.getPathToString() );
-		field.setText( selectedBaseElement.getTaggedElementToString() );		
-	}
-	
-}
-
-/**
- * 
- * Modalis tipusu PageBasePage selector ablak.
- * A "..." nyomogomb hatasara nyilik ki
- * A fa strukturat jeleniti meg
- * 
- * @author akoel
- *
- */
-class SelectorDialog extends JDialog{
-
-	private static final long serialVersionUID = 1607956458285776550L;
-	
-	public SelectorDialog( TreeSelectorComponent treeSelectorComponent, DataModelInterface rootDataModel ){
-
-		super( );
-
-		//Modalis a PageBasePage selector ablak
-		this.setModal( true );
-		
-		//A fo ablak kozepere igazitja a dialogus ablakot
-		this.setLocationRelativeTo( treeSelectorComponent );
-
-		this.setLayout( new BorderLayout() );
-
-		//Elkesziti a BasePage faszerkezetet
-		TreeForSelect pageBaseTree = new TreeForSelect( treeSelectorComponent, rootDataModel );
-		
-		//Becsomagolom a BasePage faszerkezetet hogy scroll-ozhato legyen
-		JScrollPane scrolledPageBaseTree = new JScrollPane( pageBaseTree );
-		
-		//Kiteszem a Treet az ablakba
-		this.add( scrolledPageBaseTree, BorderLayout.CENTER );
-		
-		scrolledPageBaseTree.revalidate();
-		
-		this.setSize(200 , 200);
-		
-		//this.pack();
-		this.setVisible( true );
+		return selectedDataModel;
 	}
 	
 	/**
+	 * A parameterkent megkapott kivalasztott elemet elhelyezi a valtozoban e megjeleniti a mezoben
 	 * 
-	 * Lezarja a Dialog-ot
-	 * 
+	 * @param selectedDataModel
 	 */
-	public void close() {
-	    setVisible(false); 
-	    dispose();    
-	  }
+	public void setSelectedDataModelToField( F selectedDataModel ){
+		this.selectedDataModel = selectedDataModel;
+		//field.setText( selectedDataModel.getTaggedElementToString() );		
+		field.setText( getSelectedDataModelToString(selectedDataModel) );
+	}
 	
-	class TreeForSelect extends JTree{
+	/**
+	 * A parameterkent megadott DataModel-bol general egy azonositot, amit megjelenit a mezoben
+	 * 	
+	 * @param selectedDataModel
+	 * @return
+	 */
+	public abstract String getSelectedDataModelToString( F selectedDataModel );
 
-		private static final long serialVersionUID = 800888675922537771L;
+	/**
+	 * A parameterkent megadott Node-hoz rendel egy ikont
+	 * 
+	 * @param actualNode
+	 * @return
+	 */
+	public abstract ImageIcon getIcon( DataModelInterface actualNode, boolean expanded );
+
+	/**
+	 * Megmondja, hogy a parameterkent megadott Path nyiljon-e ki vagy sem
+	 * Ennak a metodusnak a segitsegevel bizonyos tipusu node-okat letilthatunk a kinyitastol
+	 * 
+	 *  return !( path.getLastPathComponent() instanceof BasePageDataModel ) );
+	 *  hasznalata eseten a BASEPAGE node hoz kapcsolodo ujabb agak mindig zarva maradnak
+	 *  
+	 * @param path
+	 * @param state
+	 * @return
+	 */
+	public abstract boolean needToExpand( TreePath path, boolean state);
+
+	/**
+	 * 
+	 * Modalis tipusu PageBasePage selector ablak.
+	 * A "..." nyomogomb hatasara nyilik ki
+	 * A fa strukturat jeleniti meg
+	 * 
+	 * @author akoel
+	 *
+	 */
+	class SelectorDialog extends JDialog{
+
+		private static final long serialVersionUID = 1607956458285776550L;
+	
+		public SelectorDialog( TreeSelectorComponent<F> treeSelectorComponent, DataModelInterface rootDataModel ){
+
+			super( );
+
+			//Modalis a PageBasePage selector ablak
+			this.setModal( true );
 		
-		private BaseDataModelInterface selectedNode;
-		private  TreeSelectorComponent basePageElementSelectorComponent;
+			//A fo ablak kozepere igazitja a dialogus ablakot
+			this.setLocationRelativeTo( treeSelectorComponent );
 
-		public TreeForSelect( TreeSelectorComponent pageBasePageSelectorComponent, DataModelInterface basePagePageDataModel ){
+			this.setLayout( new BorderLayout() );
+
+			//Elkesziti a BasePage faszerkezetet
+			TreeForSelect pageBaseTree = new TreeForSelect( rootDataModel );
 		
-			super( new DefaultTreeModel(basePagePageDataModel) );
-			
-			this.basePageElementSelectorComponent = pageBasePageSelectorComponent;
-			this.treeModel = (DefaultTreeModel)this.getModel();
-			
-			//Ne latszodjon a root
-			this.setRootVisible( false );
-
-			//Alapesetben ennyi sor latszodjon
-			this.setVisibleRowCount( 10 );
-			
-			//Csak egy elem lehet kivalasztva
-			this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+			//Becsomagolom a BasePage faszerkezetet hogy scroll-ozhato legyen
+			JScrollPane scrolledPageBaseTree = new JScrollPane( pageBaseTree );
 		
-			/**
-			 * Ikonokat helyezek el az egyes csomopontok ele
-			 */
-			this.setCellRenderer(new DefaultTreeCellRenderer() {
-
-				private static final long serialVersionUID = 757338184891022316L;
-
-				@Override
-			    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
-			    	Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
-			    	
-			    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/pagebase-page-icon.png");
-			    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/pagebase-element-icon.png");
-			    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/node-closed-icon.png");
-			    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
-			    	
-			    	//Felirata a NODE-nak
-			    	setText( ((BaseDataModelInterface)value).getIDValue() );
-			    	
-			    	//Iconja a NODE-nak
-			    	if( value instanceof BasePageDataModel){
-			            setIcon(pageIcon);
-			    	}else if( value instanceof BaseElementDataModel ){
-			            setIcon(elementIcon);
-			    	}else if( value instanceof BaseNodeDataModel){
-			    		if( expanded ){
-			    			setIcon(nodeOpenIcon);
-			    		}else{
-			    			setIcon(nodeClosedIcon);
-			    		}
-			        }		    	
-			    	return c;
-			    }
-			});		
-
-			/**
-			 * A eger benyomasara reagalok
-			 */
-			this.addMouseListener( new TreeMouseListener() );
+			//Kiteszem a Treet az ablakba
+			this.add( scrolledPageBaseTree, BorderLayout.CENTER );
 		
+			scrolledPageBaseTree.revalidate();
+		
+			this.setSize(200 , 200);
+		
+			//this.pack();
+			this.setVisible( true );
 		}
-		
+	
 		/**
 		 * 
-		 * Letiltom a Page node lenyitasat, igy nem latszanak az Element-ek
+		 * Lezarja a Dialog-ot
 		 * 
 		 */
-		protected void setExpandedState(TreePath path, boolean state) {
-	       
-	        if (state) {
-	        
-	        	if( !( path.getLastPathComponent() instanceof BasePageDataModel ) ){
-	        		super.setExpandedState(path, state);
-	        	}
-	        }
-	    }
-		
+		public void close() {
+			setVisible(false); 
+			dispose();    
+		}
+	
 		/**
-		 * A jobb-eger gomb benyomasara reagalo osztaly
+		 * Ez a tulajdonkeppeni fa
 		 * 
 		 * @author akoel
 		 *
 		 */
-		class TreeMouseListener implements MouseListener {
+		class TreeForSelect extends JTree{
 
-			@Override
-			public void mouseClicked(MouseEvent e) {			
+			private static final long serialVersionUID = 800888675922537771L;
 			
-				//Ha bal-eger gombot nyomtam 
-				if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
-					
-					//A kivalasztott NODE			
-					selectedNode = (BaseDataModelInterface)TreeForSelect.this.getLastSelectedPathComponent();
-					
-					//Ha PAGEBASE PAGE-t valasztottam ki
-					if( selectedNode instanceof BaseElementDataModel ){
-						
-						//A kivalasztott NODE			
-						basePageElementSelectorComponent.setSelectedPathToElementBase( ((BaseElementDataModel)selectedNode) );
-						SelectorPageBaseElementDialog.this.close();
+			public TreeForSelect( DataModelInterface rootDataModel ){
+		
+				super( new DefaultTreeModel(rootDataModel) );
+			
+				//this.treeModel = (DefaultTreeModel)this.getModel();
+			
+				//Ne latszodjon a root
+				this.setRootVisible( false );
+
+				//Alapesetben ennyi sor latszodjon
+				this.setVisibleRowCount( 10 );
+			
+				//Csak egy elem lehet kivalasztva
+				this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		
+				/**
+				 * Ikonokat helyezek el az egyes csomopontok ele
+				 */
+				this.setCellRenderer(new DefaultTreeCellRenderer() {
+
+					private static final long serialVersionUID = 757338184891022316L;
+
+					@Override
+					public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
+						Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
+			    	
+						//Felirata a NODE-nak
+						setText( ((DataModelInterface)value).getIDValue() );
+			    	
+						//Ikon a NODE-nak
+						setIcon( TreeSelectorComponent.this.getIcon( (DataModelInterface)value, expanded ) );
+							    	
+						return c;
 					}
-				}		
-			}
+				});		
 
-			@Override
-			public void mousePressed(MouseEvent e) {
-			}
+				/**
+				 * A eger benyomasara reagalok
+				 */
+				this.addMouseListener( new MouseListener() {
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {			
+				
+						//Ha bal-eger gombot nyomtam 
+						if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
+						
+							//A kivalasztott NODE			
+							DataModelInterface selectedNode = (DataModelInterface)TreeForSelect.this.getLastSelectedPathComponent();
 
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
+							//Ha megfelelo tipusu elemet valasztottam
+							if( classF.isInstance( selectedNode )){							
+							//if( selectedNode instanceof BasePageDataModel ){
+							
+								//A kivalasztott NODE			
+								TreeSelectorComponent.this.setSelectedDataModelToField( ((F)selectedNode) );
+								SelectorDialog.this.close();
+							}
+						}		
+					}
 
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
+					@Override
+					public void mousePressed(MouseEvent e) {
+					}
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}	 
+					@Override
+					public void mouseReleased(MouseEvent e) {
+					}
+
+					@Override
+					public void mouseEntered(MouseEvent e) {
+					}
+
+					@Override
+					public void mouseExited(MouseEvent e) {
+					}	
+	
+				} );		
+			}
+		
+			/**
+			 * 
+			 * Letiltom a Page node lenyitasat, igy nem latszanak az Element-ek
+			 * 
+			 */
+			protected void setExpandedState(TreePath path, boolean state) {
+	       
+				if (state) {
+
+					if( needToExpand( path, state)){
+					//if( !( path.getLastPathComponent() instanceof BasePageDataModel ) ){
+						super.setExpandedState(path, state);
+					}
+				}
+			}
 		}
 	}
 }
-
 
 
 	

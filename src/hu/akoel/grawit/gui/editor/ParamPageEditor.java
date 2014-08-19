@@ -9,7 +9,7 @@ import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
-import hu.akoel.grawit.gui.editor.component.BasePageSelectorComponent;
+import hu.akoel.grawit.gui.editor.component.BasePageTreeSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
 
@@ -27,8 +27,9 @@ public class ParamPageEditor extends DataEditor{
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
-	private JLabel labelPageBasePageSelector;
-	private BasePageSelectorComponent fieldPageBasePageSelector;	
+	private JLabel labelBasePageSelector;
+	//private BasePageSelectorComponent fieldBasePageSelector;
+	private BasePageTreeSelectorComponent fieldBasePageSelector;
 	
 	//Itt biztos beszuras van
 	public ParamPageEditor( ParamPageTree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
@@ -41,8 +42,8 @@ public class ParamPageEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent( "" );
 		
-		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)
-		fieldPageBasePageSelector = new BasePageSelectorComponent( baseRootDataModel );		
+		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)	
+		fieldBasePageSelector = new BasePageTreeSelectorComponent( baseRootDataModel );
 		
 		common( baseRootDataModel );
 		
@@ -63,7 +64,7 @@ public class ParamPageEditor extends DataEditor{
 		fieldName = new TextFieldComponent( selectedPage.getName());
 		
 		//PAGEBASEPAGE SELECTOR COMBO
-		fieldPageBasePageSelector =  new BasePageSelectorComponent( baseRootDataModel, basePage );
+		fieldBasePageSelector =  new BasePageTreeSelectorComponent( baseRootDataModel, basePage );
 		
 		common( baseRootDataModel );
 		
@@ -72,14 +73,13 @@ public class ParamPageEditor extends DataEditor{
 	private void common( BaseRootDataModel baseRootDataModel ){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
-		labelPageBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.title.basepage") + ": ");
+		labelBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.title.basepage") + ": ");
 		
 		this.add( labelName, fieldName );		
-		this.add( labelPageBasePageSelector, fieldPageBasePageSelector );
+		this.add( labelBasePageSelector, fieldBasePageSelector );
 		
 	}
-	
-	
+		
 	@Override
 	public void save() {
 		
@@ -99,12 +99,12 @@ public class ParamPageEditor extends DataEditor{
 					)
 			);
 		}	
-		if( null == fieldPageBasePageSelector.getPageBase() ){
+		if( null == fieldBasePageSelector.getSelectedDataModel() ){
 			errorList.put( 
-					fieldPageBasePageSelector,
+					fieldBasePageSelector,
 					MessageFormat.format(
 							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelPageBasePageSelector.getText()+"'"
+							"'"+labelBasePageSelector.getText()+"'"
 					)
 			);
 		}
@@ -169,7 +169,7 @@ public class ParamPageEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){				
 				
-				ParamPageDataModel newParamPage = new ParamPageDataModel( fieldName.getText(), fieldPageBasePageSelector.getPageBase() );				
+				ParamPageDataModel newParamPage = new ParamPageDataModel( fieldName.getText(), fieldBasePageSelector.getSelectedDataModel() );				
 				//ParamPagePageDataModel newParamPagePage = new ParamPagePageDataModel( paramPage, basePageRootDataModel );
 				nodeForCapture.add( newParamPage );
 				

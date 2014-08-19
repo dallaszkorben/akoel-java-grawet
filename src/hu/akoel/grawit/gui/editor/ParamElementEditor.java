@@ -17,8 +17,8 @@ import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
 import hu.akoel.grawit.core.parameter.StringParameter;
+import hu.akoel.grawit.gui.editor.component.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
-import hu.akoel.grawit.gui.editor.component.BasePageElementSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.ParamPageTree;
 
@@ -39,7 +39,7 @@ public class ParamElementEditor extends DataEditor{
 	private JLabel labelOperation;
 	private ComboBoxComponent<String> fieldOperation;
 	private JLabel labelPageBaseElementSelector;
-	private BasePageElementSelectorComponent fieldBaseElementSelector;	
+	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	
 	/**
 	 *  Uj ParamPageElement rogzitese - Insert
@@ -61,7 +61,7 @@ public class ParamElementEditor extends DataEditor{
 
 		//Base Element
 		BasePageDataModel basePage = selectedPage.getBasePage();
-		fieldBaseElementSelector = new BasePageElementSelectorComponent( basePage ); 
+		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage ); 
 
     	//Variable
 		fieldOperation.setSelectedIndex( 0 );
@@ -92,7 +92,7 @@ public class ParamElementEditor extends DataEditor{
 		fieldName.setText( selectedElement.getName() );
 
 		//Selector az elem valasztashoz - A root a basePage (nem latszik)
-		fieldBaseElementSelector = new BasePageElementSelectorComponent( basePage, baseElement );
+		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
 		
 		//Operation
 		Operation op = selectedElement.getElementOperation().getOperation();
@@ -202,7 +202,7 @@ public class ParamElementEditor extends DataEditor{
 				if( levelNode instanceof ParamElementDataModel ){
 				
 					//Ha azonos a BaseElement					
-					if( ((ParamElementDataModel)levelNode).getBaseElement().equals( fieldBaseElementSelector.getBaseElement() ) ){
+					if( ((ParamElementDataModel)levelNode).getBaseElement().equals( fieldBaseElementSelector.getSelectedDataModel() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -250,7 +250,7 @@ public class ParamElementEditor extends DataEditor{
 				elementOperation = new LinkOperation();
 			}
 					
-			BaseElementDataModel baseElement = fieldBaseElementSelector.getBaseElement();
+			BaseElementDataModel baseElement = fieldBaseElementSelector.getSelectedDataModel();
 			
 			//Uj rogzites eseten
 			if( null == mode ){			
