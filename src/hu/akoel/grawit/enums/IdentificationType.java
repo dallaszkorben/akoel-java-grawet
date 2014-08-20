@@ -1,4 +1,4 @@
-package hu.akoel.grawit;
+package hu.akoel.grawit.enums;
 
 public enum IdentificationType {
 	ID,

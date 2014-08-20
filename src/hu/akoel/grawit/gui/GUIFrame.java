@@ -533,12 +533,12 @@ public class GUIFrame extends JFrame{
 					// Root element = "grawit"
 					// doc.getDocumentElement().getNodeName();
 
-					//basePageRootDataModel = new BaseRootDataModel();
-					paramRootDataModel = new ParamRootDataModel(); //Torli
-				
-					// BASEPAGE
+					// BASE
 					baseRootDataModel = new BaseRootDataModel(doc);
-		
+					
+					// PARAM
+					paramRootDataModel = new ParamRootDataModel(doc, baseRootDataModel);
+						
 					setTitle( appNameAndVersion + " :: " + file.getName());
 
 					usedDirectory = file;
@@ -566,48 +566,7 @@ public class GUIFrame extends JFrame{
 			
 			
 			
-//TODO tree toltes			
-			// TODO Be kell majd toltenem fajlbol az adatokat
-			// Most csak direktben beirok valamit
-			// Tulajdonkeppen a basePageRootDataModel-ot toltom fel
-			// Ez tartalmazza az adatmodellt
-			
-			//
-			// PAGEBASE
-			//
 /*
-			//Root
-			basePageRootDataModel = new BasePageRootDataModel(); //Torli
-
-			//Node
-			BaseNodeDataModel basePosNode = new BaseNodeDataModel("POS", "POS applikaciok tesztelese");			
-			BaseNodeDataModel baseRevNode = new BaseNodeDataModel("REV", "REV applikaciok tesztelese");			
-			BaseNodeDataModel baseDslNode = new BaseNodeDataModel("DS", "DS applikaciok tesztelese" );
-			
-			//Page
-			BasePageDataModel basePosPage1 = new BasePageDataModel("Google kereso oldal", "Ez az elso oldal");
-			BasePageDataModel basePosPage2 = new BasePageDataModel("Ez valami masik oldal", "Ez a kovetkezo oldal");
-			
-			//Element
-			BaseElementDataModel basePosPage1Element1 = new BaseElementDataModel("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
-			BaseElementDataModel basePosPage1Element2 = new BaseElementDataModel("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
-			BaseElementDataModel basePosPage1Element3 = new BaseElementDataModel("Mezo 1", "aaa", IdentificationType.CSS, VariableSample.PRE );
-
-			//Assignment
-			//Element -> Page
-			basePosPage1.add(basePosPage1Element1);
-			basePosPage1.add(basePosPage1Element2);
-			basePosPage1.add(basePosPage1Element3);
-			
-			//Page -> Node
-			basePosNode.add( basePosPage1);
-			basePosNode.add( basePosPage2);
-			
-			//Node -> Root
-			basePageRootDataModel.add(basePosNode);
-			basePageRootDataModel.add(baseRevNode);
-			basePageRootDataModel.add(baseDslNode);
-*/			
 			//
 			// PARAMPAGE
 			//
@@ -615,27 +574,10 @@ public class GUIFrame extends JFrame{
 
 			ParamNodeDataModel paramPosNode = new ParamNodeDataModel("POS PARAM", "POS applikaciok tesztelese");
 			paramRootDataModel.add( paramPosNode );
-/*
-
-			BasePage firstPageBase = new BasePage( "Google kereso oldal", "Ez az elso oldal");
-			BaseElement searchField = new BaseElement("SearchField", "gbqfq", IdentificationType.ID, VariableSample.POST );
-			firstPageBase.addElement(searchField);
-			BaseElement searchButton = new BaseElement("SearchButton", "gbqfb", IdentificationType.ID, VariableSample.NO );
-			firstPageBase.addElement(searchButton);
-
-			BasePagePageDataModel firstPageNode = new BasePagePageDataModel(firstPageBase);
-			posNode.add( firstPageNode );
-
-			BasePageElementDataModel searchFieldNode = new BasePageElementDataModel( searchField );
-			firstPageNode.add( searchFieldNode );
-
-			BasePageElementDataModel searchButtonNode = new BasePageElementDataModel( searchButton );
-			firstPageNode.add(searchButtonNode);
-*/
 
 			paramRootDataModel.add( new ParamNodeDataModel("REV PARAM", "REV applikaciok tesztelese" ) );
 			paramRootDataModel.add( new ParamNodeDataModel("DS PARAM", "DS applikaciok tesztelese" ) );			
-			
+*/			
 
 
 

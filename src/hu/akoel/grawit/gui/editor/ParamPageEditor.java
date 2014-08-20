@@ -28,7 +28,6 @@ public class ParamPageEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelBasePageSelector;
-	//private BasePageSelectorComponent fieldBasePageSelector;
 	private BasePageTreeSelectorComponent fieldBasePageSelector;
 	
 	//Itt biztos beszuras van

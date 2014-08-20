@@ -1,7 +1,6 @@
 package hu.akoel.grawit.gui.editor.component;
 
 import hu.akoel.grawit.core.datamodel.DataModelInterface;
-import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -22,7 +21,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-//public abstract class TreeSelectorComponent<E extends DataModelInterface, F extends DataModelInterface> extends JPanel implements EditorComponentInterface{
 public abstract class TreeSelectorComponent<F extends DataModelInterface> extends JPanel implements EditorComponentInterface{
 
 	private static final long serialVersionUID = 2246129334894062585L;

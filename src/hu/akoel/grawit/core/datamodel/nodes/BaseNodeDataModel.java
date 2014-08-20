@@ -19,10 +19,10 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	
-	private static final String TAG_NAME = "node";
+	public static final String TAG_NAME = "node";
 	
-	private static final String ATTR_NAME = "name";
-	private static final String ATTR_DETAILS = "details";
+	public static final String ATTR_NAME = "name";
+	public static final String ATTR_DETAILS = "details";
 	
 	private String name;
 	private String details;
@@ -97,7 +97,7 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 	}
 	
 	@Override
-	public String getTypeToString(){
+	public String getTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.node");
 	}
 	

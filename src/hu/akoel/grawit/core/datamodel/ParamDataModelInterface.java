@@ -1,6 +1,6 @@
 package hu.akoel.grawit.core.datamodel;
 
-import hu.akoel.grawit.ModelType;
+import hu.akoel.grawit.enums.ModelType;
 
 
 public abstract class ParamDataModelInterface extends DataModelInterface{

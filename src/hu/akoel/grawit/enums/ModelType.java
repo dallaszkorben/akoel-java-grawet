@@ -1,8 +1,8 @@
-package hu.akoel.grawit;
+package hu.akoel.grawit.enums;
 
 public enum ModelType{
-	BASE("base"),
-	PARAM("param");
+	BASE("basepage"),
+	PARAM("parampage");
 	
 	private String name;
 	

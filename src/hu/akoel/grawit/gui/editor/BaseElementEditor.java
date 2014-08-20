@@ -5,10 +5,10 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.IdentificationType;
-import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.enums.IdentificationType;
+import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.RadioButtonComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;

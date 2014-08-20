@@ -15,7 +15,7 @@ public abstract class DataModelInterface extends DefaultMutableTreeNode{
 	 * 
 	 * @return
 	 */
-	public abstract String getTypeToString();
+	public abstract String getTypeToShow();
 	
 	/**
 	 * Az adatmodel tag-jenek neve (basepage, parampage, page, node, element)
@@ -43,22 +43,39 @@ public abstract class DataModelInterface extends DefaultMutableTreeNode{
 	 */
 	public abstract Element getXMLElement( Document document );
 	
-	public final String getTaggedPathToString() {		
+	/**
+	 * Az aktualis Adatmodellt keresi fel a root-tol kezdve egyenes uton
+	 * es keszit xml formaju tag-eket az ut egyes csomopontjait hasznalva
+	 * Magat a root-ot kihagyja
+	 * 
+	 * @return
+	 */
+	public final String getPathTag() {		
 		StringBuffer out = new StringBuffer();
-		for( TreeNode node: this.getPath() ){
+		TreeNode[] nodeArray = this.getPath();
+		for( TreeNode node: nodeArray ){
 			
 			DataModelInterface dataModel = (DataModelInterface)node;
 
 			if( !dataModel.isRoot() ){
-				out.append( dataModel.getTaggedElementToString() );
-			}
-			
-		}		
+				out.append( dataModel.getOpenTag() );
+			}			
+		}
+		
+		for( int i = nodeArray.length - 1; i >= 0; i-- ){
+			DataModelInterface dataModel = ((DataModelInterface)nodeArray[i]);
+			if( !dataModel.isRoot() ){
+				out.append( dataModel.getCloseTag() );
+			}			
+		}
 		return out.toString();
 	}
 	
-	public final String getTaggedElementToString(){
-		return "<" + this.getTagName() + " " + this.getIDName() + "=" + this.getIDValue() + ">";
+	public final String getOpenTag(){
+		return "<" + this.getTagName() + " " + this.getIDName() + "='" + this.getIDValue() + "'>";
 	}
 	
+	public final String getCloseTag(){
+		return "</" + this.getTagName() + ">";
+	}
 }

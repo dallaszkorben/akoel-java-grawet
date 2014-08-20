@@ -20,10 +20,10 @@ public class BasePageDataModel extends BaseDataModelInterface{
 
 	private static final long serialVersionUID = 8871077064641984017L;
 	
-	private static final String TAG_NAME = "page";
+	public static final String TAG_NAME = "page";
 	
-	private static final String ATTR_NAME = "name";
-	private static final String ATTR_DETAILS = "details";
+	public static final String ATTR_NAME = "name";
+	public static final String ATTR_DETAILS = "details";
 	
 	private String name ;
 	private String details;
@@ -55,6 +55,7 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		String detailsString = element.getAttribute( ATTR_DETAILS );
 		this.details = detailsString;
 		
+		//Vegig a BASEELEMENT-ekent
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
@@ -107,7 +108,7 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 
-	public String getTypeToString(){
+	public String getTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.basepage");
 	}
 
