@@ -29,6 +29,8 @@ public class BaseElementEditor extends DataEditor{
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
+	private JLabel labelFrame;
+	private TextFieldComponent fieldFrame;
 	private JLabel labelIdentifier;
 	private TextFieldComponent fieldIdentifier;
 	private ComboBoxComponent<String> fieldVariable;
@@ -47,6 +49,9 @@ public class BaseElementEditor extends DataEditor{
 		
 		//Name
 		fieldName = new TextFieldComponent( "" );
+		
+		//Frame
+		fieldFrame = new TextFieldComponent( "" );
 
 		//Identifier
 		fieldIdentifier = new TextFieldComponent( "" );
@@ -73,7 +78,10 @@ public class BaseElementEditor extends DataEditor{
 		commonPre();
 		
 		//Name
-		fieldName = new TextFieldComponent( selectedNode.getName());
+		fieldName = new TextFieldComponent( selectedNode.getName() );
+		
+		//Frame
+		fieldFrame = new TextFieldComponent( selectedNode.getFrame() );
 				
 		//Identifier
 		fieldIdentifier = new TextFieldComponent( selectedNode.getIdentifier() );
@@ -113,11 +121,13 @@ public class BaseElementEditor extends DataEditor{
 	private void commonPost(){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
+		labelFrame = new JLabel( CommonOperations.getTranslation("editor.title.frame") + ": ");
 		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.title.identifier") + ": ");
 		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.title.identifiertype") + ": ");
 		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("editor.title.variable") + ": " );
 		
 		this.add( labelName, fieldName );
+		this.add( labelFrame, fieldFrame );
 		this.add( labelIdentifier, fieldIdentifier );
 		this.add( labelIdentifierType, buttonID );
 		this.add( new JLabel(), buttonCSS );
@@ -138,6 +148,8 @@ public class BaseElementEditor extends DataEditor{
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
 		//
+		
+		//Empty Name
 		if( fieldName.getText().length() == 0 ){
 			errorList.put( 
 					fieldName,
@@ -189,7 +201,7 @@ public class BaseElementEditor extends DataEditor{
 			}
 		}
 
-		
+		//Empty identifier
 		if( fieldIdentifier.getText().length() == 0 ){
 			errorList.put( 
 					fieldIdentifier,
@@ -243,6 +255,7 @@ public class BaseElementEditor extends DataEditor{
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
 				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setFrame( fieldFrame.getText() );
 				nodeForModify.setIdentifier( fieldIdentifier.getText() );				
 				nodeForModify.setVariableSample( variableSample );
 				nodeForModify.setIdentificationType( identificationType );

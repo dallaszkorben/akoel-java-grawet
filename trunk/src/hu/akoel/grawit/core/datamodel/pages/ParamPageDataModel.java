@@ -32,6 +32,7 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
+import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -41,7 +42,6 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	
 	private static final Tag TAG = Tag.PARAMPAGE;
 	
-//	private static final String ATTR_NAME = "name";
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
 	
 	private String name;
@@ -75,7 +75,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		
 		//BasePage
 		if( !element.hasAttribute( ATTR_BASE_PAGE_PATH ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_BASE_PAGE_PATH );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH );			
 		}
 		String paramPagePathString = element.getAttribute(ATTR_BASE_PAGE_PATH);				
 		paramPagePathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramPagePathString;  
@@ -84,13 +84,16 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	    Document document = null;
 	    try  
 	    {  
+	    	//attributum-kent tarolt utvonal atalakitasa Documentum-ma
 	        builder = factory.newDocumentBuilder();  
 	        document = builder.parse( new InputSource( new StringReader( paramPagePathString ) ) );  
-	    } catch (Exception e) {  
-	    	//TODO XMLParseException nem tudja olvasni a referenciat a basepage-re
-	        e.printStackTrace();  
+	    } catch (Exception e) { 
+	    	
+	    	//Nem sikerult az atalakitas
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH), e );
+	    	
 	    } 
-		//Biztosan egy egyenes vonalu utvonal
+		//Megkeresem a BASEROOT-ben a BASEPAGE-hez vezeto utat
 	    Node actualNode = document;
 	    while( actualNode.hasChildNodes() ){
 		
@@ -105,8 +108,8 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASENODE, attrName );
 
 	    		if( null == baseDataModel ){
-	    			//TODO XMLParseException nem sikerult olvasni a referencia basePage-et
-	    			throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et");
+
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );
 	    		}
 	    		
 	    	//Ha BASEPAGE
@@ -114,27 +117,28 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
 	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEPAGE, attrName );
 	    		if( null == baseDataModel ){
-	    			//TODO XMLParseException nem sikerult olvasni a referencia basePage-et
-	    			throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et");
+
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );
 	    		}
 	    		
 	    	//Ha BASEELEMENT
 	    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
-	    		//todo XMLParseException nem talalja a referenciat
-	    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");
-	    		
+
+	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );	    		
 	    	}else{
-	    		//todo XMLParseException nem talalja a referenciat
-	    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");
 	    		
+	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );	    		
 	    	}
 	    }	    
 	    try{
+	    	
 	    	basePage = (BasePageDataModel)baseDataModel;
+	    	
 	    }catch(ClassCastException e){
-	    	//todo XMLParseException valami elromlott
-    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");
+
+	    	//Nem sikerult az utvonalat megtalalni
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH), e );
 	    }
 		
 		//Vegig a PARAMELEMENT-ekent
@@ -152,11 +156,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 
 
 	}
-	
-/*	public static Tag getTagStatic(){
-		return TAG;
-	}
-*/
+
 	@Override
 	public Tag getTag() {
 		return TAG;

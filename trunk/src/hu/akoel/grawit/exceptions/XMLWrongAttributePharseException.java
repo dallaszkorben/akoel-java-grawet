@@ -8,13 +8,15 @@ public class XMLWrongAttributePharseException extends XMLPharseException{
 
 	private Tag rootTag;
 	private Tag tag;
+	private String nameAttributeName;
+	private String nameAttributeValue;
 	private String attributeName;
 	private String receivedValue;	
 	
-	public XMLWrongAttributePharseException( Tag rootTag, Tag tag, String attributeName, String receivedValue ){
+	public XMLWrongAttributePharseException( Tag rootTag, Tag tag, String nameAttributeName, String nameAttributeValue, String attributeName, String receivedValue ){
 		
 		//TODO internationalization es meg a tobbi XMLExceptiont is megcsinalni
-		super("\n<" + rootTag.getName() + ">" + "\n   <" + tag.getName() + " " + attributeName + "='" + receivedValue + "'>" + "\n\nWrong attribute value");
+		super("\n<" + rootTag.getName() + ">" + "\n   <" + tag.getName() + " " + nameAttributeName + "=\"" + nameAttributeValue + "\" " + attributeName + "=\"" + receivedValue + "\">" + "\n\nWrong attribute value");
 		this.rootTag = rootTag;
 		this.tag = tag;
 		this.attributeName = attributeName;

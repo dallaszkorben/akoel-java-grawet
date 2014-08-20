@@ -64,16 +64,23 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
+		//frame             
+		if( !element.hasAttribute( ATTR_FRAME ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FRAME );			
+		}
+		String frameString = element.getAttribute( ATTR_FRAME );
+		this.frame = frameString;
+		
 		//identifier             
 		if( !element.hasAttribute( ATTR_IDENTIFIER ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_IDENTIFIER );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_IDENTIFIER );			
 		}
 		String identifierString = element.getAttribute( ATTR_IDENTIFIER );
 		this.identifier = identifierString;
 		
 		//identificationtype
 		if( !element.hasAttribute( ATTR_IDENTIFICATION_TYPE ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_IDENTIFICATION_TYPE );
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE );
 		}
 		String identificationTypeString = element.getAttribute( ATTR_IDENTIFICATION_TYPE );
 		if( IdentificationType.ID.name().equals( identificationTypeString ) ){
@@ -81,15 +88,9 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}else if( IdentificationType.CSS.name().equals( identificationTypeString ) ){
 			identificationType = IdentificationType.CSS;
 		}else{			
-			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
+			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
 		}
 		
-		//frame
-		if( !element.hasAttribute( ATTR_FRAME) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_FRAME );
-		}
-		String frameString = element.getAttribute( ATTR_FRAME );
-
 		//variablesemple
 		String variablesempleString = element.getAttribute(ATTR_VARIABLE_SAMPLE);
 		if( nameString.isEmpty() ){
@@ -102,7 +103,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}else if( VariableSample.POST.name().equals(variablesempleString)){
 			variableSample = VariableSample.POST;
 		}else{
-			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_VARIABLE_SAMPLE, variablesempleString );
+			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_SAMPLE, variablesempleString );
 		}		
 	}
 	

@@ -4,7 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.exceptions.XMLExtraTagPharseException;
+import hu.akoel.grawit.exceptions.XMLExtraRootTagPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
 import org.w3c.dom.Document;
@@ -16,7 +16,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	private static final Tag TAG = Tag.BASE;
+	private static final Tag TAG = Tag.BASEROOT;
 	
 	public static final String ATTR_NAME = "";
 	
@@ -32,7 +32,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 		//Ha nem pontosan 1 db basepage tag van, akkor az gaz
 		if( nList.getLength() != 1 ){
 			
-			throw new XMLExtraTagPharseException( Tag.BASE, TAG );
+			throw new XMLExtraRootTagPharseException( TAG );
 		}
 		
 		Node basePageNode = nList.item(0);

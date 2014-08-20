@@ -51,7 +51,7 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_DETAILS );			
 		}
 		String detailsString = element.getAttribute( ATTR_DETAILS );
 		this.details = detailsString;
