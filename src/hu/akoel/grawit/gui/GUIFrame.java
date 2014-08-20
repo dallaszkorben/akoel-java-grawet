@@ -10,14 +10,15 @@ import java.io.File;
 import java.io.IOException;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.core.datamodel.roots.ParamRootDataModel;
+import hu.akoel.grawit.core.datamodel.roots.VariableRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
-import hu.akoel.grawit.gui.tree.BasePageTree;
-import hu.akoel.grawit.gui.tree.ParamPageTree;
+import hu.akoel.grawit.gui.tree.BaseTree;
+import hu.akoel.grawit.gui.tree.ParamTree;
+import hu.akoel.grawit.gui.tree.VariableTree;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -57,8 +58,9 @@ public class GUIFrame extends JFrame{
 	private static int treePanelStartWidth = 200;
 	
 	//Ki/be kapcsolhato menuelemeek
-	private JMenuItem editPageBaseMenuItem;
-	private JMenuItem editParamPageMenuItem;
+	private JMenuItem editBaseMenuItem;
+	private JMenuItem editParamMenuItem;
+	private JMenuItem editVariableMenuItem;
 	private JMenuItem editTestCaseMenuItem;
 	private JMenuItem fileSaveMenuItem;
 	
@@ -68,6 +70,7 @@ public class GUIFrame extends JFrame{
 	
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
 	private ParamRootDataModel paramRootDataModel = new ParamRootDataModel();
+	private VariableRootDataModel variableRootDataModel = new VariableRootDataModel();
 	
 	private File usedDirectory = null;
 	
@@ -76,8 +79,9 @@ public class GUIFrame extends JFrame{
 	private OpenActionListener openActionListener;
 	private SaveAsActionListener saveAsActionListener;
 	private SaveActionListener saveActionListener;
-	private EditPageBaseActionListener editPageBaseActionListener;
-	private EditParameterizedPageActionListener editParameterizedPageActionListener;
+	private EditVariableActionListener editVariableActionListener;
+	private EditBaseActionListener editBaseActionListener;
+	private EditParamActionListener editParamActionListener;
     
 	public GUIFrame( String appNameAndVersion, int frameWidth, int frameHeight ){
 		super( appNameAndVersion );
@@ -143,7 +147,6 @@ public class GUIFrame extends JFrame{
         //Open Test Suits     
         menuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.file.opentestsuit") );
         menuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.file.opentestsuit")).getKeyCode()); //KeyEvent.VK_O
-        //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_O, ActionEvent.ALT_MASK));
         menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
         openActionListener = new OpenActionListener();
         menuItem.addActionListener( openActionListener );
@@ -188,29 +191,34 @@ public class GUIFrame extends JFrame{
         //menu.getAccessibleContext().setAccessibleDescription("This menu does nothing");
         menuBar.add(menu);
 
+        //Edit Variable Parameter      
+        editVariableMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.variable") );
+        editVariableMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.variable") ).getKeyCode() ); //KeyEvent.VK_P);
+        editVariableActionListener = new EditVariableActionListener();
+        editVariableMenuItem.addActionListener( editVariableActionListener );
+        editVariableMenuItem.setEnabled( false );
+        menu.add(editVariableMenuItem);
+        
         //Edit menu almenui
-        //Edit Base Pages
-        editPageBaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.pagebase") );
-        editPageBaseMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.pagebase") ).getKeyCode()); // KeyEvent.VK_B);
-        //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_B, ActionEvent.ALT_MASK));
-        editPageBaseActionListener = new EditPageBaseActionListener();
-        editPageBaseMenuItem.addActionListener( editPageBaseActionListener );
-        editPageBaseMenuItem.setEnabled( false );
-        menu.add(editPageBaseMenuItem);
+        //Edit Base
+        editBaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.basepage") );
+        editBaseMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.basepage") ).getKeyCode()); // KeyEvent.VK_B);
+        editBaseActionListener = new EditBaseActionListener();
+        editBaseMenuItem.addActionListener( editBaseActionListener );
+        editBaseMenuItem.setEnabled( false );
+        menu.add(editBaseMenuItem);
 
-        //Edit Pages        
-        editParamPageMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.page") );
-        editParamPageMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.page") ).getKeyCode() ); //KeyEvent.VK_P);
-        //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_P, ActionEvent.ALT_MASK));
-        editParameterizedPageActionListener = new EditParameterizedPageActionListener();
-        editParamPageMenuItem.addActionListener( editParameterizedPageActionListener );
-        editParamPageMenuItem.setEnabled( false );
-        menu.add(editParamPageMenuItem);
-
+        //Edit Param      
+        editParamMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.parampage") );
+        editParamMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.parampage") ).getKeyCode() ); //KeyEvent.VK_P);
+        editParamActionListener = new EditParamActionListener();
+        editParamMenuItem.addActionListener( editParamActionListener );
+        editParamMenuItem.setEnabled( false );
+        menu.add(editParamMenuItem);
+        
         //Edit Test Cases
         editTestCaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.testcase") );
         editTestCaseMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.testcase") ).getKeyCode() ); //KeyEvent.VK_T;
-        //menuItem.setAccelerator(KeyStroke.getKeyStroke( KeyEvent.VK_T, ActionEvent.ALT_MASK));
         editTestCaseMenuItem.setEnabled( false );
         menu.add(editTestCaseMenuItem);
 
@@ -266,8 +274,9 @@ public class GUIFrame extends JFrame{
 	
 	private void makeNewTestSuit(){
 		//Kikapcsolom a PAGEBASE szerkesztesi menut
-		editParamPageMenuItem.setEnabled( false );
-		editPageBaseMenuItem.setEnabled( false );
+		editVariableMenuItem.setEnabled( false );
+		editParamMenuItem.setEnabled( false );
+		editBaseMenuItem.setEnabled( false );
 		editTestCaseMenuItem.setEnabled( false );
 		
 		//Ablak cimenek beallitasa
@@ -284,8 +293,9 @@ public class GUIFrame extends JFrame{
 		editorPanel.hide();
 		
 		//Bekapcsolom a PAGEBASE szerkesztesi menut
-		editParamPageMenuItem.setEnabled( true );
-		editPageBaseMenuItem.setEnabled( true );
+		editVariableMenuItem.setEnabled( true );
+		editParamMenuItem.setEnabled( true );
+		editBaseMenuItem.setEnabled( true );
 		editTestCaseMenuItem.setEnabled( true );
 	}
 	
@@ -299,13 +309,17 @@ public class GUIFrame extends JFrame{
 		Element rootElement = doc.createElement("grawit");
 		doc.appendChild(rootElement);
 			
+		//VARIABLE PARAMETER mentese
+		Element variableRootElement = variableRootDataModel.getXMLElement(doc);	
+		rootElement.appendChild( variableRootElement );
+		
 		//PAGE BASEROOT mentese
-		Element pageBaseElement = baseRootDataModel.getXMLElement(doc);	
-		rootElement.appendChild( pageBaseElement );
+		Element baseRootElement = baseRootDataModel.getXMLElement(doc);	
+		rootElement.appendChild( baseRootElement );
 		
 		//PARAMROOT PAGE mentese
-		Element paramPageElement = paramRootDataModel.getXMLElement(doc);	
-		rootElement.appendChild( paramPageElement );
+		Element paramRootElement = paramRootDataModel.getXMLElement(doc);	
+		rootElement.appendChild( paramRootElement );
 						
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
@@ -485,11 +499,13 @@ public class GUIFrame extends JFrame{
 			// Menuk tiltasa
 			//
 			
+			editVariableMenuItem.setEnabled( false );
+			
 			//Kikapcsolom a PAGEBASE szerkesztesi menut
-			editParamPageMenuItem.setEnabled( false );
+			editParamMenuItem.setEnabled( false );
 			
 			//Kikapcsolom a PAGE szerkesztesi menut
-			editPageBaseMenuItem.setEnabled( false );
+			editBaseMenuItem.setEnabled( false );
 			
 			//Kikapcsolom a TESTCASE szerkesztesi menut
 			editTestCaseMenuItem.setEnabled( false );
@@ -534,6 +550,9 @@ public class GUIFrame extends JFrame{
 					// Root element = "grawit"
 					// doc.getDocumentElement().getNodeName();
 
+					// VARIABLEPARAMETER
+					variableRootDataModel = new VariableRootDataModel(doc);
+					
 					// BASEROOT
 					baseRootDataModel = new BaseRootDataModel(doc);
 					
@@ -569,31 +588,27 @@ public class GUIFrame extends JFrame{
 			// Menuk engedelyezese
 			//
 			
+			editVariableMenuItem.setEnabled( true );
+			
 			//Bekapcsolom a PAGEBASE szerkesztesi menut
-			editPageBaseMenuItem.setEnabled( true );
+			editBaseMenuItem.setEnabled( true );
 			
 			//Bekapcsolom a PAGE szerkesztesi menut
-			editParamPageMenuItem.setEnabled( true );
+			editParamMenuItem.setEnabled( true );
 
 			//Bekapcsolom a TESTCASE szerkesztesi menut
 			editTestCaseMenuItem.setEnabled( false );
 	
 		}
 	}
-	/**
-	 * 
-	 * Edit PurePage menu selection listener
-	 * 
-	 * @author akoel
-	 *
-	 */
-	class EditPageBaseActionListener implements ActionListener{
+	
+	class EditVariableActionListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			BasePageTree tree = new BasePageTree( GUIFrame.this, baseRootDataModel );
+			VariableTree tree = new VariableTree( GUIFrame.this, variableRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );
@@ -601,13 +616,34 @@ public class GUIFrame extends JFrame{
 		}		
 	}
 	
-	class EditParameterizedPageActionListener implements ActionListener{
+	/**
+	 * 
+	 * Edit PurePage menu selection listener
+	 * 
+	 * @author akoel
+	 *
+	 */
+	class EditBaseActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+	
+			//Legyartja a JTREE-t a modell alapjan
+			BaseTree tree = new BaseTree( GUIFrame.this, baseRootDataModel );
+			
+			treePanel.hide();
+			treePanel.show( tree );
+			
+		}		
+	}
+	
+	class EditParamActionListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamPageTree tree = new ParamPageTree( GUIFrame.this, paramRootDataModel, baseRootDataModel );
+			ParamTree tree = new ParamTree( GUIFrame.this, paramRootDataModel, baseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

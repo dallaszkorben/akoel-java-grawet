@@ -20,7 +20,7 @@ import hu.akoel.grawit.core.parameter.StringParameter;
 import hu.akoel.grawit.gui.editor.component.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.tree.ParamPageTree;
+import hu.akoel.grawit.gui.tree.ParamTree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
@@ -29,7 +29,7 @@ public class ParamElementEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
-	private ParamPageTree tree;
+	private ParamTree tree;
 	private ParamElementDataModel nodeForModify;
 	private ParamPageDataModel nodeForCapture;
 	private EditMode mode;
@@ -47,7 +47,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
-	public ParamElementEditor( ParamPageTree tree, ParamPageDataModel selectedPage ){
+	public ParamElementEditor( ParamTree tree, ParamPageDataModel selectedPage ){
 		super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;
@@ -76,7 +76,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param selectedElement
 	 * @param mode
 	 */
-	public ParamElementEditor( ParamPageTree tree, ParamElementDataModel selectedElement, EditMode mode ){		
+	public ParamElementEditor( ParamTree tree, ParamElementDataModel selectedElement, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.paramelement") );
 
 		this.tree = tree;

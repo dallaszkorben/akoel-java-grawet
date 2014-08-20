@@ -77,7 +77,7 @@ public abstract class DataModelInterface extends DefaultMutableTreeNode{
 	}
 	
 	public final String getOpenTag(){
-		return "<" + this.getTag().getName() + " " + ATTR_NAME + "='" + this.getTag() + "'>";
+		return "<" + this.getTag().getName() + " " + ATTR_NAME + "='" + this.getName() + "'>";
 	}
 	
 	public final String getCloseTag(){

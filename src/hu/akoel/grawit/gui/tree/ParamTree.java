@@ -18,7 +18,7 @@ import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.ParamElementEditor;
-import hu.akoel.grawit.gui.editor.ParamPageNodeEditor;
+import hu.akoel.grawit.gui.editor.ParamNodeEditor;
 import hu.akoel.grawit.gui.editor.ParamPageEditor;
 
 import javax.swing.ImageIcon;
@@ -35,47 +35,21 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-public class ParamPageTree extends JTree{
+public class ParamTree extends JTree{
 
 	private static final long serialVersionUID = 2628772390313043643L;
 
 	private GUIFrame guiFrame;
 	
 	private DefaultMutableTreeNode selectedNode;
-
-	private BaseRootDataModel basePageRootDataModel;
 	
-	/**
-	 * 
-	 * Ertesiti a tree-t, hogy valtozas tortent
-	 * 
-	 */
-	public void changed(){
-
-		TreePath path = new TreePath(selectedNode.getPath());
-		boolean isExpanded = this.isExpanded( path );
-		
-		//Ujratolti a modellt
-		((DefaultTreeModel)this.getModel()).reload();
-
-		//this.setSelectionPath(pathToSelect);
-
-		//Kivalasztja azt a csomopontot ami eleve ki volt valasztva
-		this.setSelectionPath( path );
-		
-		//Es ha ki volt terjesztve
-		if( isExpanded ){
-			
-			//Akkor kiterjeszti
-			this.expandPath( path );
-		}		
-	}
+	private BaseRootDataModel baseRootDataModel;
 	
-	public ParamPageTree( GUIFrame guiFrame, ParamRootDataModel paramRootDataModel, BaseRootDataModel basePageRootDataModel ){
+	public ParamTree( GUIFrame guiFrame, ParamRootDataModel paramRootDataModel, BaseRootDataModel baseRootDataModel ){
 	
 		super( new DefaultTreeModel(paramRootDataModel) );
 		
-		this.basePageRootDataModel = basePageRootDataModel;
+		this.baseRootDataModel =baseRootDataModel;
 		
 		treeModel = (DefaultTreeModel)this.getModel();
 		
@@ -123,14 +97,38 @@ public class ParamPageTree extends JTree{
 		    }
 		});
 		
-
-		
 		/**
 		 * A eger benyomasara reagalok
 		 */
 		this.addMouseListener( new TreeMouseListener() );
 		this.addTreeSelectionListener( new SelectionChangedListener() );
 	
+	}
+	
+	/**
+	 * 
+	 * Ertesiti a tree-t, hogy valtozas tortent
+	 * 
+	 */
+	public void changed(){
+
+		TreePath path = new TreePath(selectedNode.getPath());
+		boolean isExpanded = this.isExpanded( path );
+		
+		//Ujratolti a modellt
+		((DefaultTreeModel)this.getModel()).reload();
+
+		//this.setSelectionPath(pathToSelect);
+
+		//Kivalasztja azt a csomopontot ami eleve ki volt valasztva
+		this.setSelectionPath( path );
+		
+		//Es ha ki volt terjesztve
+		if( isExpanded ){
+			
+			//Akkor kiterjeszti
+			this.expandPath( path );
+		}		
 	}
 	
 	/**
@@ -159,15 +157,15 @@ public class ParamPageTree extends JTree{
 					guiFrame.showEditorPanel( emptyPanel );
 				
 				}else if( selectedNode instanceof ParamNodeDataModel ){
-					ParamPageNodeEditor paramPageNodeEditor = new ParamPageNodeEditor(ParamPageTree.this, (ParamNodeDataModel)selectedNode, EditMode.VIEW);
-					guiFrame.showEditorPanel( paramPageNodeEditor);								
+					ParamNodeEditor paramNodeEditor = new ParamNodeEditor(ParamTree.this, (ParamNodeDataModel)selectedNode, EditMode.VIEW);
+					guiFrame.showEditorPanel( paramNodeEditor);								
 				
 				}else if( selectedNode instanceof ParamPageDataModel ){
-					ParamPageEditor paramPageEditor = new ParamPageEditor( ParamPageTree.this, (ParamPageDataModel)selectedNode, EditMode.VIEW );								
+					ParamPageEditor paramPageEditor = new ParamPageEditor( ParamTree.this, (ParamPageDataModel)selectedNode, EditMode.VIEW );								
 					guiFrame.showEditorPanel( paramPageEditor);				
 								
 				}else if( selectedNode instanceof ParamElementDataModel ){
-					ParamElementEditor pageBaseElementEditor = new ParamElementEditor( ParamPageTree.this, (ParamElementDataModel)selectedNode, EditMode.VIEW );	
+					ParamElementEditor pageBaseElementEditor = new ParamElementEditor( ParamTree.this, (ParamElementDataModel)selectedNode, EditMode.VIEW );	
 					guiFrame.showEditorPanel( pageBaseElementEditor);		
 										
 				}
@@ -188,20 +186,20 @@ public class ParamPageTree extends JTree{
 		public void mouseClicked(MouseEvent e) {
 			
 			//A kivalasztott NODE			
-			selectedNode = (DefaultMutableTreeNode)ParamPageTree.this.getLastSelectedPathComponent();
+			selectedNode = (DefaultMutableTreeNode)ParamTree.this.getLastSelectedPathComponent();
 		
 			//Ha jobb-eger gombot nyomtam - Akkor popup menu jelenik meg
 			if (SwingUtilities.isRightMouseButton(e)) {
 
 				//A kivalasztott elem sora - kell a sor kiszinezesehez es a PopUp menu poziciojahoz
-				int row = ParamPageTree.this.getClosestRowForLocation(e.getX(), e.getY());
-				//int row = BasePageTree.this.getRowForLocation(e.getX(), e.getY());
+				int row = ParamTree.this.getClosestRowForLocation(e.getX(), e.getY());
+				//int row = BaseTree.this.getRowForLocation(e.getX(), e.getY());
 				
 				//Kiszinezi a sort
-				ParamPageTree.this.setSelectionRow(row);
+				ParamTree.this.setSelectionRow(row);
 
 				//Jelzi, hogy mostantol, hiaba nem bal-egerrel valasztottam ki a node-ot, megis kivalasztott lesz
-				selectedNode = (DefaultMutableTreeNode)ParamPageTree.this.getLastSelectedPathComponent();
+				selectedNode = (DefaultMutableTreeNode)ParamTree.this.getLastSelectedPathComponent();
 
 				//Letrehozza a PopUpMenu-t
 				//PopUpMenu popUpMenu = new PopUpMenu( row, node, path );
@@ -253,13 +251,13 @@ public class ParamPageTree extends JTree{
 			super();
 
 			//A teljes fastruktura modell-je			
-			totalTreeModel = (DefaultTreeModel)ParamPageTree.this.getModel();
+			totalTreeModel = (DefaultTreeModel)ParamTree.this.getModel();
 
 			//A kivalasztott NODE			
-			selectedNode = (ParamDataModelInterface)ParamPageTree.this.getLastSelectedPathComponent();
+			selectedNode = (ParamDataModelInterface)ParamTree.this.getLastSelectedPathComponent();
 
 			//A kivalasztott node-ig vezeto PATH
-			selectedPath = ParamPageTree.this.getSelectionPath();	
+			selectedPath = ParamTree.this.getSelectionPath();	
 
 			//A kivalasztott node fastrukturaban elfoglalt melyseget adja vissza. 1 jelenti a gyokeret
 			int pathLevel = selectedPath.getPathCount();
@@ -302,7 +300,7 @@ public class ParamPageTree extends JTree{
 								totalTreeModel.insertNodeInto(selectedNode, (DefaultMutableTreeNode)parentNode, selectedIndexInTheNode - 1);    // move the node
 								
 								//Ujra ki kell szinezni az eredetileg kivalasztott sort
-								ParamPageTree.this.setSelectionRow(selectedRow - 1);
+								ParamTree.this.setSelectionRow(selectedRow - 1);
 							}							
 						}
 					});
@@ -334,7 +332,7 @@ public class ParamPageTree extends JTree{
 								totalTreeModel.insertNodeInto(selectedNode, (DefaultMutableTreeNode)parentNode, selectedIndexInTheNode + 1);    
 								
 								//Ujra ki kell szinezni az eredetileg kivalasztott sort
-								ParamPageTree.this.setSelectionRow(selectedRow + 1);
+								ParamTree.this.setSelectionRow(selectedRow + 1);
 							}	
 							
 						}
@@ -355,17 +353,17 @@ public class ParamPageTree extends JTree{
 						
 						if( selectedNode instanceof ParamNodeDataModel ){
 							
-							ParamPageNodeEditor paramPageNodeEditor = new ParamPageNodeEditor( ParamPageTree.this, (ParamNodeDataModel)selectedNode, EditMode.MODIFY );								
-							guiFrame.showEditorPanel( paramPageNodeEditor);								
+							ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, EditMode.MODIFY );								
+							guiFrame.showEditorPanel( paramNodeEditor);								
 								
 						}else if( selectedNode instanceof ParamPageDataModel ){
 							
-							ParamPageEditor paramPageEditor = new ParamPageEditor( ParamPageTree.this, (ParamPageDataModel)selectedNode, EditMode.MODIFY );							                                            
+							ParamPageEditor paramPageEditor = new ParamPageEditor( ParamTree.this, (ParamPageDataModel)selectedNode, EditMode.MODIFY );							                                            
 							guiFrame.showEditorPanel( paramPageEditor);		
 								
 						}else if( selectedNode instanceof ParamElementDataModel ){
 
-							ParamElementEditor paramElementEditor = new ParamElementEditor( ParamPageTree.this, (ParamElementDataModel)selectedNode, EditMode.MODIFY );
+							ParamElementEditor paramElementEditor = new ParamElementEditor( ParamTree.this, (ParamElementDataModel)selectedNode, EditMode.MODIFY );
 							guiFrame.showEditorPanel( paramElementEditor);		
 								
 						}
@@ -386,8 +384,8 @@ public class ParamPageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							ParamPageNodeEditor paramPageNodeEditor = new ParamPageNodeEditor( ParamPageTree.this, (ParamNodeDataModel)selectedNode );								
-							guiFrame.showEditorPanel( paramPageNodeEditor);								
+							ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (ParamNodeDataModel)selectedNode );								
+							guiFrame.showEditorPanel( paramNodeEditor);								
 						
 						}
 					});
@@ -400,7 +398,7 @@ public class ParamPageTree extends JTree{
 					
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							ParamPageEditor paramPageEditor = new ParamPageEditor( ParamPageTree.this, (ParamNodeDataModel)selectedNode, ParamPageTree.this.basePageRootDataModel );								
+							ParamPageEditor paramPageEditor = new ParamPageEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
 							guiFrame.showEditorPanel( paramPageEditor);								
 						
 						}
@@ -422,7 +420,7 @@ public class ParamPageTree extends JTree{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							
-							ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamPageTree.this, (ParamPageDataModel)selectedNode );								
+							ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (ParamPageDataModel)selectedNode );								
 							guiFrame.showEditorPanel( paramPageNodeEditor);								
 						
 						}
@@ -462,7 +460,7 @@ public class ParamPageTree extends JTree{
 
 							if( n == 1 ){
 								totalTreeModel.removeNodeFromParent( selectedNode);
-								ParamPageTree.this.setSelectionRow(selectedRow - 1);
+								ParamTree.this.setSelectionRow(selectedRow - 1);
 							}							
 						}
 					});
@@ -481,8 +479,8 @@ public class ParamPageTree extends JTree{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
-						ParamPageNodeEditor paramPageNodeEditor = new ParamPageNodeEditor( ParamPageTree.this, (ParamNodeDataModel)selectedNode );								
-						guiFrame.showEditorPanel( paramPageNodeEditor);								
+						ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (ParamNodeDataModel)selectedNode );								
+						guiFrame.showEditorPanel( paramNodeEditor);								
 					
 					}
 				});
