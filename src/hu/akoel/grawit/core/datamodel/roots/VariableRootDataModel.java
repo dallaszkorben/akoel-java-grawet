@@ -12,19 +12,19 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ParamRootDataModel extends ParamNodeDataModel{
+public class VariableRootDataModel extends ParamNodeDataModel{
 
-	private static final long serialVersionUID = 9062567931430247371L;
+	private static final long serialVersionUID = -4193611923372308352L;
 
-	private static final Tag TAG = Tag.PARAMROOT;
+	private static final Tag TAG = Tag.VARIABLEROOT;
 	
 	public static final String ATTR_NAME = "";
 	
-	public ParamRootDataModel(){
+	public VariableRootDataModel(){
 		super( "", "" );
 	}
 	
-	public ParamRootDataModel( Document doc, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public VariableRootDataModel( Document doc ) throws XMLPharseException{
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -47,9 +47,8 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 					Element paramElement = (Element)paramNode;
 					
 					//Ha ujabb PARAMNODE van alatta
-					//if( paramElement.getTagName().equals( ParamNodeDataModel.getTagStatic() ) ){
-					if( paramElement.getTagName().equals( Tag.PARAMNODE.getName() ) ){						
-						this.add(new ParamNodeDataModel(paramElement, baseRootDataModel ));
+					if( paramElement.getTagName().equals( Tag.VARIABLENODE.getName() ) ){						
+						//this.add(new ParamNodeDataModel( paramElement ));
 					}
 				}
 			}

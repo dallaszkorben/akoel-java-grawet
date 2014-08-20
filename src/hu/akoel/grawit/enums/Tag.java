@@ -1,14 +1,19 @@
 package hu.akoel.grawit.enums;
 
 public enum Tag{
-	BASE("basepage"),
-	PARAM("parampage"),
+	BASEROOT("basepage"),
 	BASENODE("node"),
 	BASEPAGE("page"),
 	BASEELEMENT("element"),
+	
+	PARAMROOT("parampage"),
 	PARAMNODE("node"),
 	PARAMPAGE("page"),
-	PARAMELEMET("element");
+	PARAMELEMET("element"),
+	
+	VARIABLEROOT("variablepage"),
+	VARIABLENODE("node"),
+	VARIABLEELEMET("element");
 	
 	private String name;
 	

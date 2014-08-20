@@ -10,7 +10,7 @@ public abstract class ParamDataModelInterface extends DataModelInterface{
 	public abstract void add( ParamDataModelInterface node );
 	
 	public static Tag getRootTag(){
-		return Tag.PARAM;
+		return Tag.PARAMROOT;
 	}
 }
 

@@ -30,6 +30,7 @@ import hu.akoel.grawit.core.operations.RadioButtonOperation;
 import hu.akoel.grawit.core.parameter.StringParameter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
@@ -67,7 +68,7 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		
 		//Operation
 		if( !element.hasAttribute( ATTR_OPERATION ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_OPERATION );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPERATION );			
 		}
 		String operatorString = element.getAttribute( ATTR_OPERATION );
 		if( Operation.BUTTON.name().equals(operatorString ) ){
@@ -81,12 +82,12 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		}else if( Operation.RADIOBUTTON.name().equals( operatorString ) ){
 			this.elementOperation = new RadioButtonOperation();
 		}else{
-			throw new XMLWrongAttributePharseException(getRootTag(), TAG, ATTR_OPERATION, operatorString );
+			throw new XMLWrongAttributePharseException(getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPERATION, operatorString );
 		}
 
 		//BaseElement
 		if( !element.hasAttribute( ATTR_BASE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_BASE_ELEMENT_PATH );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH );			
 		}	
 		String paramElementPathString = element.getAttribute(ATTR_BASE_ELEMENT_PATH);				
 		paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
@@ -98,10 +99,12 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 	        builder = factory.newDocumentBuilder();  
 	        document = builder.parse( new InputSource( new StringReader( paramElementPathString ) ) );  
 	    } catch (Exception e) {  
-	    	//TODO XMLParseException nem tudja olvasni a referenciat a basepage-re
-	        e.printStackTrace();  
+	    
+	    	//Nem sikerult az atalakitas
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
 	    } 
-		//Biztosan egy egyenes vonalu utvonal
+	    
+		//Megkeresem a BASEROOT-ban az utvonalat az BASEELEMENT-hez
 	    Node actualNode = document;
 	    if( actualNode.hasChildNodes() ){
 		
@@ -115,25 +118,23 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, BaseElementDataModel.TAG, attrName );
 
 	    		if( null == baseDataModel ){
-	    			//TODO XMLParseException nem sikerult olvasni a referencia basePage-et
-	    			throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et");
-	    		}
+
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );	    		}
 	    		
 	    	}else{
-	    		//todo XMLParseException nem talalja a referenciat
-	    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");
-	    		
+	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );	    		
 	    	}
 	    }else{
-    		//todo XMLParseException nem talalja a referenciat
-    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");    		
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );
     	}
 	    
 	    try{
+	    	
 	    	baseElement = (BaseElementDataModel)baseDataModel;
+	    	
 	    }catch(ClassCastException e){
-	    	//todo XMLParseException valami elromlott
-    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");
+
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
 	    }		
 		
 	}

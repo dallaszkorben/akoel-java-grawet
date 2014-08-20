@@ -49,7 +49,7 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getRootTag(), Tag.BASENODE, ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getRootTag(), Tag.BASENODE, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;

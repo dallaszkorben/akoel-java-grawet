@@ -8,4 +8,8 @@ public abstract class XMLPharseException extends Exception{
 		super( message );
 	}
 	
+	public XMLPharseException( String message, Throwable cause ){
+		super( message, cause );
+	}
+	
 }

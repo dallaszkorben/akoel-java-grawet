@@ -299,11 +299,11 @@ public class GUIFrame extends JFrame{
 		Element rootElement = doc.createElement("grawit");
 		doc.appendChild(rootElement);
 			
-		//PAGE BASE mentese
+		//PAGE BASEROOT mentese
 		Element pageBaseElement = baseRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( pageBaseElement );
 		
-		//PARAM PAGE mentese
+		//PARAMROOT PAGE mentese
 		Element paramPageElement = paramRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( paramPageElement );
 						
@@ -386,11 +386,11 @@ public class GUIFrame extends JFrame{
 				Element rootElement = doc.createElement("grawit");
 				doc.appendChild(rootElement);
 
-				//PAGE BASE mentese
+				//PAGE BASEROOT mentese
 				Element pageBaseElement = baseRootDataModel.getXMLElement(doc);	
 				rootElement.appendChild( pageBaseElement );
 				
-				//PARAM PAGE mentese
+				//PARAMROOT PAGE mentese
 				Element paramPageElement = paramRootDataModel.getXMLElement(doc);	
 				rootElement.appendChild( paramPageElement );
 				
@@ -446,6 +446,7 @@ public class GUIFrame extends JFrame{
 					// Iras
 					transformer.transform(source, result);
 */
+					//Ablak cimenek allitasa
 					setTitle( appNameAndVersion + " :: " + file.getName());
 
 					usedDirectory = file;
@@ -533,10 +534,10 @@ public class GUIFrame extends JFrame{
 					// Root element = "grawit"
 					// doc.getDocumentElement().getNodeName();
 
-					// BASE
+					// BASEROOT
 					baseRootDataModel = new BaseRootDataModel(doc);
 					
-					// PARAM
+					// PARAMROOT
 					paramRootDataModel = new ParamRootDataModel(doc, baseRootDataModel);
 						
 					setTitle( appNameAndVersion + " :: " + file.getName());
@@ -563,24 +564,6 @@ public class GUIFrame extends JFrame{
 				//Ha volt nyitva Editor, akkor azt zarjuk
 				editorPanel.hide();
 			}
-			
-			
-			
-/*
-			//
-			// PARAMPAGE
-			//
-			paramRootDataModel = new ParamRootDataModel(); //Torli
-
-			ParamNodeDataModel paramPosNode = new ParamNodeDataModel("POS PARAM", "POS applikaciok tesztelese");
-			paramRootDataModel.add( paramPosNode );
-
-			paramRootDataModel.add( new ParamNodeDataModel("REV PARAM", "REV applikaciok tesztelese" ) );
-			paramRootDataModel.add( new ParamNodeDataModel("DS PARAM", "DS applikaciok tesztelese" ) );			
-*/			
-
-
-
 			
 			//
 			// Menuk engedelyezese

@@ -10,6 +10,6 @@ public abstract class BaseDataModelInterface extends DataModelInterface{
 	public abstract void add( BaseDataModelInterface node );
 
 	public static Tag getRootTag(){
-		return Tag.BASE;
+		return Tag.BASEROOT;
 	}
 }

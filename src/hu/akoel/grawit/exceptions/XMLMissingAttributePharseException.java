@@ -8,14 +8,41 @@ public class XMLMissingAttributePharseException extends XMLPharseException{
 
 	private Tag rootTag;
 	private Tag tag;
-	private String attributeName;
-	
-	public XMLMissingAttributePharseException( Tag rootTag, Tag tag, String attributeName ){
-		//super( "'" + attributeName + "'" + " attribute is missing from the <" + tag.getName() + "> tag in the <" + rootTag.getName() + "> block" );
-		super("\n<" + rootTag.getName() + ">" + "\n   <" + tag.getName() + " " + attributeName + "='...'>" + "\n\nAttribute is missing");
+	private String nameAttributeName;
+	private String nameAttributeValue;
+	private String missingAttributeName;
+
+	/**
+	 * Nincs "name" attribute
+	 * 
+	 * @param rootTag
+	 * @param tag
+	 */
+	public XMLMissingAttributePharseException( Tag rootTag, Tag tag, String nameAttributeName ){
+		super("\n<" + rootTag.getName() + ">" + "\n   <" + tag.getName() + " " + nameAttributeName + ">" + "\n\nAttribute is missing");
 		this.rootTag = rootTag;
 		this.tag = tag;
-		this.attributeName = attributeName;		
+		this.nameAttributeName = nameAttributeName;
+		this.nameAttributeValue = null;
+		this.missingAttributeName = nameAttributeName;
+	}
+
+	/**
+	 * Nincs missingAttributeName attribute
+	 * 
+	 * @param rootTag
+	 * @param tag
+	 * @param nameAttributeName
+	 * @param nameAttributeValue
+	 * @param missingAttributeName
+	 */
+	public XMLMissingAttributePharseException( Tag rootTag, Tag tag, String nameAttributeName, String nameAttributeValue, String missingAttributeName ){
+		super("\n<" + rootTag.getName() + ">" + "\n   <" + tag.getName() + " " + nameAttributeName + "=\"" + nameAttributeValue + "\" " + missingAttributeName +  ">" + "\n\nAttribute is missing");
+		this.rootTag = rootTag;
+		this.tag = tag;
+		this.nameAttributeName = nameAttributeName;
+		this.nameAttributeValue = nameAttributeValue;
+		this.missingAttributeName = missingAttributeName;
 	}
 	
 	public Tag getTag() {
@@ -27,7 +54,7 @@ public class XMLMissingAttributePharseException extends XMLPharseException{
 	}
 
 	public String getAttributeName() {
-		return attributeName;
+		return nameAttributeName;
 	}
 	
 }
