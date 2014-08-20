@@ -1,11 +1,11 @@
 package hu.akoel.grawit.core.datamodel.nodes;
 
 import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -19,9 +19,9 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	
-	public static final String TAG_NAME = "node";
+	public static final Tag TAG = Tag.BASENODE;
 	
-	public static final String ATTR_NAME = "name";
+//	public static final String ATTR_NAME = "name";
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name;
@@ -43,13 +43,13 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 	public BaseNodeDataModel( Element element ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getModelType().getName(), BaseNodeDataModel.getTagNameStatic(), ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getRootTag(), Tag.BASENODE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getModelType().getName(), BaseNodeDataModel.getTagNameStatic(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( BaseNodeDataModel.getRootTag(), Tag.BASENODE, ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -61,34 +61,27 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 				Element baseElement = (Element)node;
 				
 				//Ha BASEPAGE van alatta
-				if( baseElement.getTagName().equals( BasePageDataModel.getTagNameStatic() )){
+				//if( baseElement.getTagName().equals( BasePageDataModel.getTagStatic().getName() )){
+				if( baseElement.getTagName().equals( Tag.BASEPAGE.getName() )){
 					this.add(new BasePageDataModel(baseElement));
 				
 				//Ha ujabb BASENODE van alatta
-				}else if( baseElement.getTagName().equals( BaseNodeDataModel.getTagNameStatic() )){
+				//}else if( baseElement.getTagName().equals( BaseNodeDataModel.getTagStatic().getName() )){
+				}else if( baseElement.getTagName().equals( Tag.BASENODE.getName() )){
 					this.add(new BaseNodeDataModel(baseElement));
 				}
 			}
 		}
 	}
 	
-	public static String getTagNameStatic(){
-		return TAG_NAME;
+/*	public static Tag getTagStatic(){
+		return TAG;
 	}
-
+*/
 	@Override
-	public String getTagName() {
-		return getTagNameStatic();
-	}
-
-	@Override
-	public String getIDName() {
-		return ATTR_NAME;
-	}
-	
-	@Override
-	public String getIDValue(){
-		return getName();
+	public Tag getTag() {
+		return TAG;
+		//return getTagStatic();
 	}
 
 	@Override
@@ -101,6 +94,7 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 		return CommonOperations.getTranslation( "tree.nodetype.node");
 	}
 	
+	@Override
 	public String getName(){
 		return name;
 	}
@@ -126,7 +120,7 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( BaseNodeDataModel.getTagNameStatic() );
+		Element nodeElement = document.createElement( BaseNodeDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	

@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.datamodel;
 
+import hu.akoel.grawit.enums.Tag;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
@@ -9,6 +11,8 @@ import org.w3c.dom.Element;
 public abstract class DataModelInterface extends DefaultMutableTreeNode{
 	
 	private static final long serialVersionUID = 3951879392831974974L;
+	
+	public static final String ATTR_NAME = "name";
 
 	/**
 	 * Az adatmodel tipusanak olvashato megnevezese
@@ -18,22 +22,23 @@ public abstract class DataModelInterface extends DefaultMutableTreeNode{
 	public abstract String getTypeToShow();
 	
 	/**
-	 * Az adatmodel tag-jenek neve (basepage, parampage, page, node, element)
+	 * Az adatmodel tag-je (basepage, parampage, page, node, element)
 	 * @return
 	 */
-	public abstract String getTagName();
+	public abstract Tag getTag();
 	
 	/**
 	 * Az adatmodel tag-jenek azonosito attributum neve (name)
 	 * @return
 	 */
-	public abstract String getIDName();
+//	public abstract String getIDName();
 
 	/**
-	 * Az adatmodel tag-jenek azonosito attributumanak erteke
+	 * Az adatmodel "name" nevu attributumanak erteke
 	 * @return
 	 */
-	public abstract String getIDValue();
+	public abstract String getName();
+	
 	
 	/**
 	 * Visszaadja az adatmodel xml strukturajat (rekurzivan)
@@ -72,10 +77,10 @@ public abstract class DataModelInterface extends DefaultMutableTreeNode{
 	}
 	
 	public final String getOpenTag(){
-		return "<" + this.getTagName() + " " + this.getIDName() + "='" + this.getIDValue() + "'>";
+		return "<" + this.getTag().getName() + " " + ATTR_NAME + "='" + this.getTag() + "'>";
 	}
 	
 	public final String getCloseTag(){
-		return "</" + this.getTagName() + ">";
+		return "</" + this.getTag().getName() + ">";
 	}
 }

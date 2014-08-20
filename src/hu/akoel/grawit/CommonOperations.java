@@ -5,6 +5,7 @@ import hu.akoel.grawit.core.datamodel.DataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.enums.Tag;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -185,11 +186,11 @@ public class CommonOperations {
 	  * @param name
 	  * @return
 	  */
-	 public static DataModelInterface getDataModelByNameInLevel( DataModelInterface actualBaseDataModel, String tagName, String name ){
+	 public static DataModelInterface getDataModelByNameInLevel( DataModelInterface actualBaseDataModel, Tag tag, String name ){
 		 int childCount = actualBaseDataModel.getChildCount();
 		 for( int i = 0; i < childCount; i++ ){
 			 DataModelInterface dm = (DataModelInterface)actualBaseDataModel.getChildAt( i );
-			 if( dm.getIDValue().equals( name ) && dm.getTagName().equals( tagName )){
+			 if( dm.getName().equals( name ) && dm.getTag().equals( tag )){
 				 return dm;
 			 }
 		 }

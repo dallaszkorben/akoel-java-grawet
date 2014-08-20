@@ -4,9 +4,9 @@ import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
-import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -20,9 +20,9 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
-	private static final String TAG_NAME = "node";
+	private static final Tag TAG = Tag.PARAMNODE;
 	
-	private static final String ATTR_NAME = "name";
+//	private static final String ATTR_NAME = "name";
 	private static final String ATTR_DETAILS = "details";
 		
 	private String name;
@@ -37,13 +37,13 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 	public ParamNodeDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( ParamNodeDataModel.getModelType().getName(), ParamNodeDataModel.getTagNameStatic(), ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( ParamNodeDataModel.getRootTag(), Tag.PARAMNODE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( ParamNodeDataModel.getModelType().getName(), ParamNodeDataModel.getTagNameStatic(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( ParamNodeDataModel.getRootTag(), Tag.PARAMNODE, ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -55,34 +55,27 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 				Element baseElement = (Element)node;
 				
 				//Ha BASEPAGE van alatta
-				if( baseElement.getTagName().equals( ParamPageDataModel.getTagNameStatic() )){
+				//if( baseElement.getTagName().equals( ParamPageDataModel.getTagStatic().getName() )){
+				if( baseElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
 					this.add(new ParamPageDataModel(baseElement, baseRootDataModel) );
 				
 				//Ha ujabb BASENODE van alatta
-				}else if( baseElement.getTagName().equals( ParamNodeDataModel.getTagNameStatic() )){
+				//}else if( baseElement.getTagName().equals( ParamNodeDataModel.getTagStatic() )){
+				}else if( baseElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
 					this.add(new ParamNodeDataModel(baseElement, baseRootDataModel ) );
 				}
 			}
 		}
 	}
 
-	public static String getTagNameStatic(){
-		return TAG_NAME;
+/*	public static Tag getTagStatic(){
+		return TAG;
 	}
-
+*/	
 	@Override
-	public String getTagName() {
-		return getTagNameStatic();
-	}
-
-	@Override
-	public String getIDName() {
-		return ATTR_NAME;
-	}
-	
-	@Override
-	public String getIDValue(){
-		return getName();
+	public Tag getTag(){
+		return TAG;
+		//return getTagStatic();
 	}
 	
 	@Override
@@ -90,10 +83,12 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 	
+	@Override
 	public String getTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.node");
 	}
 	
+	@Override
 	public String getName(){
 		return name;
 	}

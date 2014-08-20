@@ -20,16 +20,15 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
-import hu.akoel.grawit.core.datamodel.DataModelInterface;
 import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
 import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
-import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.core.pages.BasePageChangeListener;
 import hu.akoel.grawit.core.pages.CustomPageInterface;
 import hu.akoel.grawit.core.pages.ExecutablePageInterface;
 import hu.akoel.grawit.core.pages.PageProgressInterface;
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -40,9 +39,9 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
-	private static final String TAG_NAME = "page";
+	private static final Tag TAG = Tag.PARAMPAGE;
 	
-	private static final String ATTR_NAME = "name";
+//	private static final String ATTR_NAME = "name";
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
 	
 	private String name;
@@ -69,14 +68,14 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
 		//BasePage
 		if( !element.hasAttribute( ATTR_BASE_PAGE_PATH ) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_BASE_PAGE_PATH );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_BASE_PAGE_PATH );			
 		}
 		String paramPagePathString = element.getAttribute(ATTR_BASE_PAGE_PATH);				
 		paramPagePathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramPagePathString;  
@@ -101,9 +100,9 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	    	String attrName = null;
 	    	
 	    	//Ha BASENODE
-	    	if( tagName.equals( BaseNodeDataModel.TAG_NAME ) ){
+	    	if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	    		
-	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, BaseNodeDataModel.TAG_NAME, attrName );
+	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASENODE, attrName );
 
 	    		if( null == baseDataModel ){
 	    			//TODO XMLParseException nem sikerult olvasni a referencia basePage-et
@@ -111,16 +110,16 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	    		}
 	    		
 	    	//Ha BASEPAGE
-	    	}else if( tagName.equals( BasePageDataModel.TAG_NAME ) ){
+	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
-	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, BasePageDataModel.TAG_NAME, attrName );
+	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEPAGE, attrName );
 	    		if( null == baseDataModel ){
 	    			//TODO XMLParseException nem sikerult olvasni a referencia basePage-et
 	    			throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et");
 	    		}
 	    		
 	    	//Ha BASEELEMENT
-	    	}else if( tagName.equals( BaseElementDataModel.TAG_NAME ) ){
+	    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
 	    		//todo XMLParseException nem talalja a referenciat
 	    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");
@@ -144,7 +143,8 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element paramElement = (Element)node;
-				if( paramElement.getTagName().equals( ParamElementDataModel.getTagNameStatic() )){
+				//if( paramElement.getTagName().equals( ParamElementDataModel.getTagStatic().getName() )){
+				if( paramElement.getTagName().equals( Tag.PARAMELEMET.getName() )){					
 					this.add(new ParamElementDataModel(paramElement, basePage ));
 				}
 			}
@@ -153,23 +153,14 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 
 	}
 	
-	public static String getTagNameStatic(){
-		return TAG_NAME;
+/*	public static Tag getTagStatic(){
+		return TAG;
 	}
-
+*/
 	@Override
-	public String getTagName() {
-		return getTagNameStatic();
-	}
-
-	@Override	
-	public String getIDValue(){
-		return getName();
-	}
-	
-	@Override
-	public String getIDName() {
-		return ATTR_NAME;
+	public Tag getTag() {
+		return TAG;
+		//return getTagStatic();
 	}
 	
 	public BasePageDataModel getBasePage(){
@@ -191,7 +182,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		Attr attr;
 
 		//Node element
-		Element pageElement = document.createElement(TAG_NAME);
+		Element pageElement = document.createElement(TAG.getName());
 		
 		//NAME attributum
 		attr = document.createAttribute(ATTR_NAME);

@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -20,9 +21,9 @@ public class BasePageDataModel extends BaseDataModelInterface{
 
 	private static final long serialVersionUID = 8871077064641984017L;
 	
-	public static final String TAG_NAME = "page";
+	public static final Tag TAG = Tag.BASEPAGE;
 	
-	public static final String ATTR_NAME = "name";
+//	public static final String ATTR_NAME = "name";
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name ;
@@ -44,13 +45,13 @@ public class BasePageDataModel extends BaseDataModelInterface{
 	public BasePageDataModel( Element element ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( "base", "page", ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( "base", "page", ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_DETAILS );			
 		}
 		String detailsString = element.getAttribute( ATTR_DETAILS );
 		this.details = detailsString;
@@ -61,32 +62,25 @@ public class BasePageDataModel extends BaseDataModelInterface{
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element baseElement = (Element)node;
-				if( baseElement.getTagName().equals( BaseElementDataModel.getTagNameStatic() )){
+				//if( baseElement.getTagName().equals( BaseElementDataModel.getTagStatic() )){
+				if( baseElement.getTagName().equals( Tag.BASEELEMENT.getName() )){					
 					this.add(new BaseElementDataModel(baseElement));
 				}
 			}
 		}		
 	}
 	
-	public static String getTagNameStatic(){
-		return TAG_NAME;
+/*	public static Tag getTagStatic(){
+		return TAG;
+	}
+*/
+	@Override
+	public Tag getTag() {
+		return TAG;
+		//return getTagStatic();
 	}
 
 	@Override
-	public String getTagName() {
-		return getTagNameStatic();
-	}
-
-	@Override	
-	public String getIDValue(){
-		return getName();
-	}
-	
-	@Override
-	public String getIDName() {
-		return ATTR_NAME;
-	}
-	
 	public String getName(){
 		return name;
 	}
@@ -117,7 +111,7 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		Attr attr;
 	
 		//Node element
-		Element pageElement = document.createElement( BasePageDataModel.getTagNameStatic());
+		Element pageElement = document.createElement( BasePageDataModel.this.getTag().getName() );
 		
 		//NAME attributum
 		attr = document.createAttribute( ATTR_NAME );
