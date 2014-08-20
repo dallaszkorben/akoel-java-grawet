@@ -1,4 +1,6 @@
-package hu.akoel.grawit;
+package hu.akoel.grawit.enums;
+
+import hu.akoel.grawit.CommonOperations;
 
 public enum VariableSample {
 	NO(0, CommonOperations.getTranslation( "editor.title.variable.no") ),

@@ -2,24 +2,62 @@ package hu.akoel.grawit.core.datamodel.roots;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
+import hu.akoel.grawit.exceptions.XMLExtraTagPharseException;
+import hu.akoel.grawit.exceptions.XMLPharseException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class ParamRootDataModel extends ParamNodeDataModel{
 
 	private static final long serialVersionUID = 9062567931430247371L;
 
+	private static final String TAG_NAME = "parampage";
+	
 	public ParamRootDataModel(){
 		super( "", "" );
+	}
+	
+	public ParamRootDataModel( Document doc, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+		super("","");
+		
+		NodeList nList = doc.getElementsByTagName( TAG_NAME );
+		
+		//Ha nem pontosan 1 db parampage tag van, akkor az gaz
+		if( nList.getLength() != 1 ){
+			
+			throw new XMLExtraTagPharseException( getModelType().getName(), TAG_NAME );
+		}
+		
+		Node paramPageNode = nList.item(0);
+		if (paramPageNode.getNodeType() == Node.ELEMENT_NODE) {
+			
+			NodeList nodeList = paramPageNode.getChildNodes();
+			for( int i = 0; i < nodeList.getLength(); i++ ){
+			
+				Node paramNode = nodeList.item( i );
+				
+				if (paramNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element paramElement = (Element)paramNode;
+					
+					//Ha ujabb PARAMNODE van alatta
+					if( paramElement.getTagName().equals( ParamNodeDataModel.getTagNameStatic() ) ){
+						this.add(new ParamNodeDataModel(paramElement, baseRootDataModel ));
+					}
+				}
+			}
+		}		
 	}
 	
 	public String getIDValue(){
 		return "Page Root";
 	}
 	
-	public String getTypeToString(){
+	public String getTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.root");
 	}
 	
@@ -27,7 +65,7 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 	public Element getXMLElement(Document document) {
 		
 		//ParamPageElement
-		Element paramPageElement = document.createElement("parampage");
+		Element paramPageElement = document.createElement( TAG_NAME );
 
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){

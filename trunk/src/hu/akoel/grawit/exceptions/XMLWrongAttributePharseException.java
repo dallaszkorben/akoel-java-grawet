@@ -10,7 +10,9 @@ public class XMLWrongAttributePharseException extends XMLPharseException{
 	private String receivedValue;	
 	
 	public XMLWrongAttributePharseException( String blockName, String tagName, String attributeName, String receivedValue ){
-		super( "'" + attributeName + "'" + " attribute has a wrong value in the <" + tagName + "> tag in the <" + blockName + "> block. Value: '" + receivedValue + "'" );
+		
+		//TODO internationalization es meg a tobbi XMLExceptiont is megcsinalni
+		super("\n<" + blockName + ">" + "\n   <" + tagName+ " " + attributeName + "='" + receivedValue + "'>" + "\n\nWrong attribute value");
 		this.blockName = blockName;
 		this.tagName = tagName;
 		this.attributeName = tagName;

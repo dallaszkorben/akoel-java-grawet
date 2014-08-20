@@ -1,16 +1,25 @@
 package hu.akoel.grawit.core.datamodel.elements;
 
+import java.io.StringReader;
+
 import javax.swing.tree.MutableTreeNode;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
+import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.core.operations.ButtonOperation;
 import hu.akoel.grawit.core.operations.CheckboxOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
@@ -46,7 +55,7 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		this.elementOperation = operation;
 	}
 	
-	public ParamElementDataModel( Element element ) throws XMLPharseException{
+	public ParamElementDataModel( Element element, BaseDataModelInterface baseDataModel ) throws XMLPharseException{
 
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
@@ -59,7 +68,7 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		if( !element.hasAttribute( ATTR_OPERATION ) ){
 			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_OPERATION );			
 		}
-		String operatorString = element.getAttribute( ATTR_NAME );
+		String operatorString = element.getAttribute( ATTR_OPERATION );
 		if( Operation.BUTTON.name().equals(operatorString ) ){
 			this.elementOperation = new ButtonOperation();
 		}else if( Operation.CHECKBOX.name().equals(operatorString) ){
@@ -76,10 +85,72 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 
 		//BaseElement
 		if( !element.hasAttribute( ATTR_BASE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_OPERATION );			
-		}
-		ParamPageDataModel paramPage = (ParamPageDataModel)this.getParent();
-		BasePageDataModel basePage = paramPage.getBasePage();
+			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_BASE_ELEMENT_PATH );			
+		}	
+		String paramElementPathString = element.getAttribute(ATTR_BASE_ELEMENT_PATH);				
+		paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
+	    DocumentBuilder builder;
+	    Document document = null;
+	    try  
+	    {  
+	        builder = factory.newDocumentBuilder();  
+	        document = builder.parse( new InputSource( new StringReader( paramElementPathString ) ) );  
+	    } catch (Exception e) {  
+	    	//TODO XMLParseException nem tudja olvasni a referenciat a basepage-re
+	        e.printStackTrace();  
+	    } 
+		//Biztosan egy egyenes vonalu utvonal
+	    Node actualNode = document;
+	    if( actualNode.hasChildNodes() ){
+		
+	    	actualNode = actualNode.getFirstChild();
+	    	Element actualElement = (Element)actualNode;
+	    	String tagName = actualElement.getTagName();
+	    	
+	    	//Ha ELEMENT
+	    	if( tagName.equals( BaseElementDataModel.TAG_NAME ) ){
+	    		String attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);	    		
+	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, BaseElementDataModel.TAG_NAME, attrName );
+
+	    		if( null == baseDataModel ){
+	    			//TODO XMLParseException nem sikerult olvasni a referencia basePage-et
+	    			throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et");
+	    		}
+	    		
+	    	}else{
+	    		//todo XMLParseException nem talalja a referenciat
+	    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");
+	    		
+	    	}
+	    }else{
+    		//todo XMLParseException nem talalja a referenciat
+    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");    		
+    	}
+	    
+	    try{
+	    	baseElement = (BaseElementDataModel)baseDataModel;
+	    }catch(ClassCastException e){
+	    	//todo XMLParseException valami elromlott
+    		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");
+	    }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 	}
 
 	/**
@@ -148,7 +219,7 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		return getName();
 	}
 	
-	public String getTypeToString(){
+	public String getTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.paramelement");
 	}
 	
@@ -168,7 +239,8 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		
 		//BaseElementPath
 		attr = document.createAttribute( ATTR_BASE_ELEMENT_PATH );
-		attr.setValue( baseElement.getTaggedPathToString() );
+		//attr.setValue( baseElement.getTaggedPathToString() );
+		attr.setValue( baseElement.getOpenTag() + baseElement.getCloseTag() );
 		elementElement.setAttributeNode(attr);
 
 		attr = document.createAttribute( ATTR_OPERATION );

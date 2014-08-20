@@ -1,6 +1,7 @@
 package hu.akoel.grawit;
 
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.datamodel.DataModelInterface;
 import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
@@ -175,6 +176,25 @@ public class CommonOperations {
 		 final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		 return ste[ node ].getLineNumber();
 	 }
+
+	 /**
+	  * Megkeresi a parameterkent megadott baseDataModelInterface aktualis szintjen a name nevu node-ot
+	  * Ha nem talalja, akkor null-t ad vissza, ha megtalalja, akkor pedig a node-ot mint BaseDataModelInterface
+	  * 
+	  * @param actualBaseDataModel
+	  * @param name
+	  * @return
+	  */
+	 public static DataModelInterface getDataModelByNameInLevel( DataModelInterface actualBaseDataModel, String tagName, String name ){
+		 int childCount = actualBaseDataModel.getChildCount();
+		 for( int i = 0; i < childCount; i++ ){
+			 DataModelInterface dm = (DataModelInterface)actualBaseDataModel.getChildAt( i );
+			 if( dm.getIDValue().equals( name ) && dm.getTagName().equals( tagName )){
+				 return dm;
+			 }
+		 }
+		 return null;
+	 }	 
 	 
 	 /**
 	  * 

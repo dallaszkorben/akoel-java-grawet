@@ -452,7 +452,7 @@ public class ParamPageTree extends JTree{
 							};
 							
 							int n = JOptionPane.showOptionDialog(guiFrame,
-									"Valóban torolni kívánod a(z) " + selectedNode.getIDValue() + " nevü " + selectedNode.getTypeToString() + "-t ?",
+									"Valóban torolni kívánod a(z) " + selectedNode.getIDValue() + " nevü " + selectedNode.getTypeToShow() + "-t ?",
 									CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 									JOptionPane.YES_NO_CANCEL_OPTION,
 									JOptionPane.QUESTION_MESSAGE,

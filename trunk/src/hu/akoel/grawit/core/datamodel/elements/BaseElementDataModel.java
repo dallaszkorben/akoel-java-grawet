@@ -1,14 +1,15 @@
 package hu.akoel.grawit.core.datamodel.elements;
 
 import javax.swing.tree.MutableTreeNode;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.IdentificationType;
-import hu.akoel.grawit.VariableSample;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
+import hu.akoel.grawit.enums.IdentificationType;
+import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
@@ -16,13 +17,13 @@ import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 public class BaseElementDataModel extends BaseDataModelInterface{
 	private static final long serialVersionUID = -8916078747948054716L;
 
-	private static String TAG_NAME = "element";
+	public static String TAG_NAME = "element";
 	
-	private static final String ATTR_NAME = "name";
-	private static final String ATTR_IDENTIFIER = "identifier";
-	private static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
-	private static final String ATTR_FRAME = "frame";
-	private static final String ATTR_VARIABLE_SAMPLE = "variablesample";
+	public static final String ATTR_NAME = "name";
+	public static final String ATTR_IDENTIFIER = "identifier";
+	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
+	public static final String ATTR_FRAME = "frame";
+	public static final String ATTR_VARIABLE_SAMPLE = "variablesample";
 	
 	private String name;
 	private VariableSample variableSample;
@@ -176,7 +177,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 	
-	public String getTypeToString(){
+	public String getTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.baseelement");
 	}
 
