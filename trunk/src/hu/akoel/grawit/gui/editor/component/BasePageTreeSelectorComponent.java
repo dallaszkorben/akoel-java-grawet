@@ -36,7 +36,7 @@ public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BasePag
 				}else{
 					out.append("-");
 				}
-				out.append( dataModel.getIDValue() );
+				out.append( dataModel.getName() );
 			}			
 		}
 		return out.toString();

@@ -25,7 +25,7 @@ public class BaseElementTreeSelectorComponent extends TreeSelectorComponent<Base
 	@Override
 	public String getSelectedDataModelToString( BaseElementDataModel selectedDataModel) {
 		StringBuffer out = new StringBuffer();
-		out.append( selectedDataModel.getIDValue() );
+		out.append( selectedDataModel.getName() );
 		return out.toString();
 	}
 

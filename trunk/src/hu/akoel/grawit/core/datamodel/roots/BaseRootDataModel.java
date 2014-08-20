@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.datamodel.roots;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLExtraTagPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -15,7 +16,9 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	private static final String TAG_NAME = "basepage";
+	private static final Tag TAG = Tag.BASE;
+	
+	public static final String ATTR_NAME = "";
 	
 	public BaseRootDataModel(){
 		super( "", "" );
@@ -24,12 +27,12 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 	public BaseRootDataModel( Document doc ) throws XMLPharseException{
 		super("","");
 		
-		NodeList nList = doc.getElementsByTagName( TAG_NAME );
+		NodeList nList = doc.getElementsByTagName( TAG.getName() );
 		
 		//Ha nem pontosan 1 db basepage tag van, akkor az gaz
 		if( nList.getLength() != 1 ){
 			
-			throw new XMLExtraTagPharseException( "base", "basepage" );
+			throw new XMLExtraTagPharseException( Tag.BASE, TAG );
 		}
 		
 		Node basePageNode = nList.item(0);
@@ -44,7 +47,8 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 					Element baseElement = (Element)baseNode;
 					
 					//Ha ujabb BASENODE van alatta
-					if( baseElement.getTagName().equals( BaseNodeDataModel.getTagNameStatic() ) ){
+					//if( baseElement.getTagName().equals( BaseNodeDataModel.getTagStatic().getName() ) ){
+					if( baseElement.getTagName().equals( Tag.BASENODE.getName() ) ){
 						this.add(new BaseNodeDataModel(baseElement));
 					}
 				}
@@ -52,25 +56,22 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 		}		
 	}
 	
-	public static String getTagNameStatic(){
-		return TAG_NAME;
+/*	public static Tag getTagStatic(){
+		return TAG;
+	}
+*/
+	@Override
+	public Tag getTag() {
+		return TAG;
+		//return getTagStatic();
 	}
 
 	@Override
-	public String getTagName() {
-		return getTagNameStatic();
-	}
-
-	@Override	
-	public String getIDValue(){
+	public String getName(){
 		return "Base Root";
 	}
 	
 	@Override
-	public String getIDName() {
-		return "";
-	}
-
 	public String getTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.root");
 	}
@@ -79,7 +80,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 	public Element getXMLElement(Document document) {
 		
 		//PageBaseElement
-		Element pageBaseElement = document.createElement( TAG_NAME );
+		Element pageBaseElement = document.createElement( TAG.getName() );
 
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){

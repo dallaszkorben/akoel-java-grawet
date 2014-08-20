@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.enums.IdentificationType;
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -17,9 +18,9 @@ import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 public class BaseElementDataModel extends BaseDataModelInterface{
 	private static final long serialVersionUID = -8916078747948054716L;
 
-	public static String TAG_NAME = "element";
+	public static Tag TAG = Tag.BASEELEMENT;
 	
-	public static final String ATTR_NAME = "name";
+//	public static final String ATTR_NAME = "name";
 	public static final String ATTR_IDENTIFIER = "identifier";
 	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
 	public static final String ATTR_FRAME = "frame";
@@ -58,21 +59,21 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
 		//identifier             
 		if( !element.hasAttribute( ATTR_IDENTIFIER ) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_IDENTIFIER );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_IDENTIFIER );			
 		}
 		String identifierString = element.getAttribute( ATTR_IDENTIFIER );
 		this.identifier = identifierString;
 		
 		//identificationtype
 		if( !element.hasAttribute( ATTR_IDENTIFICATION_TYPE ) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_IDENTIFICATION_TYPE );
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_IDENTIFICATION_TYPE );
 		}
 		String identificationTypeString = element.getAttribute( ATTR_IDENTIFICATION_TYPE );
 		if( IdentificationType.ID.name().equals( identificationTypeString ) ){
@@ -80,19 +81,19 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}else if( IdentificationType.CSS.name().equals( identificationTypeString ) ){
 			identificationType = IdentificationType.CSS;
 		}else{			
-			throw new XMLWrongAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
+			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
 		}
 		
 		//frame
 		if( !element.hasAttribute( ATTR_FRAME) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_FRAME );
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_FRAME );
 		}
 		String frameString = element.getAttribute( ATTR_FRAME );
 
 		//variablesemple
 		String variablesempleString = element.getAttribute(ATTR_VARIABLE_SAMPLE);
 		if( nameString.isEmpty() ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_VARIABLE_SAMPLE );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_VARIABLE_SAMPLE );			
 		}		
 		if( VariableSample.NO.name().equals(variablesempleString)){
 			variableSample = VariableSample.NO;
@@ -101,7 +102,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}else if( VariableSample.POST.name().equals(variablesempleString)){
 			variableSample = VariableSample.POST;
 		}else{
-			throw new XMLWrongAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_VARIABLE_SAMPLE, variablesempleString );
+			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_VARIABLE_SAMPLE, variablesempleString );
 		}		
 	}
 	
@@ -113,25 +114,16 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.frame = frame;
 	}
 
-	public static String getTagNameStatic(){
-		return TAG_NAME;
+	public static Tag getTagStatic(){
+		return TAG;
 	}
 
 	@Override
-	public String getTagName() {
-		return getTagNameStatic();
+	public Tag getTag() {
+		return getTagStatic();
 	}
 
-	@Override	
-	public String getIDValue(){
-		return getName();
-	}
-	
 	@Override
-	public String getIDName() {
-		return ATTR_NAME;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -186,7 +178,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		Attr attr;
 
 		//Node element
-		Element elementElement = document.createElement( BaseElementDataModel.getTagNameStatic() );
+		Element elementElement = document.createElement( BaseElementDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		elementElement.setAttributeNode(attr);	
@@ -209,4 +201,6 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 
 		return elementElement;	
 	}
+
+
 }

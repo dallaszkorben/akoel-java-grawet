@@ -28,6 +28,7 @@ import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
 import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
 import hu.akoel.grawit.core.parameter.StringParameter;
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -37,9 +38,9 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 	
 	private static final long serialVersionUID = -8916078747948054716L;
 
-	private static String TAG_NAME = "element";
+	private static Tag TAG = Tag.PARAMELEMET;
 	
-	private static final String ATTR_NAME = "name";
+//	private static final String ATTR_NAME = "name";
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementpath";
 	private static final String ATTR_OPERATION = "operation";
 	
@@ -59,14 +60,14 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
 		//Operation
 		if( !element.hasAttribute( ATTR_OPERATION ) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_OPERATION );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_OPERATION );			
 		}
 		String operatorString = element.getAttribute( ATTR_OPERATION );
 		if( Operation.BUTTON.name().equals(operatorString ) ){
@@ -80,12 +81,12 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		}else if( Operation.RADIOBUTTON.name().equals( operatorString ) ){
 			this.elementOperation = new RadioButtonOperation();
 		}else{
-			throw new XMLWrongAttributePharseException(getModelType().getName(), TAG_NAME, ATTR_OPERATION, operatorString );
+			throw new XMLWrongAttributePharseException(getRootTag(), TAG, ATTR_OPERATION, operatorString );
 		}
 
 		//BaseElement
 		if( !element.hasAttribute( ATTR_BASE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( getModelType().getName(), TAG_NAME, ATTR_BASE_ELEMENT_PATH );			
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_BASE_ELEMENT_PATH );			
 		}	
 		String paramElementPathString = element.getAttribute(ATTR_BASE_ELEMENT_PATH);				
 		paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
@@ -109,9 +110,9 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 	    	String tagName = actualElement.getTagName();
 	    	
 	    	//Ha ELEMENT
-	    	if( tagName.equals( BaseElementDataModel.TAG_NAME ) ){
+	    	if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
 	    		String attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);	    		
-	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, BaseElementDataModel.TAG_NAME, attrName );
+	    		baseDataModel = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModel, BaseElementDataModel.TAG, attrName );
 
 	    		if( null == baseDataModel ){
 	    			//TODO XMLParseException nem sikerult olvasni a referencia basePage-et
@@ -133,24 +134,8 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 	    }catch(ClassCastException e){
 	    	//todo XMLParseException valami elromlott
     		throw new Error("XMLParseException nem sikerult olvasni a referencia basePage-et. itt nem lenne szabad lennie");
-	    }
+	    }		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
 	}
 
 	/**
@@ -167,6 +152,7 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		this.name = name;
 	}
 	
+	@Override
 	public String getName(){
 		return this.name;
 	}
@@ -200,25 +186,16 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 	
-	public static String getTagNameStatic(){
-		return TAG_NAME;
+	public static Tag getTagStatic(){
+		return TAG;
 	}
 
 	@Override
-	public String getTagName() {
-		return getTagNameStatic();
-	}
-
-	@Override
-	public String getIDName() {
-		return ATTR_NAME;
+	public Tag getTag(){
+		return getTagStatic();
 	}
 	
 	@Override
-	public String getIDValue(){
-		return getName();
-	}
-	
 	public String getTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.paramelement");
 	}
@@ -230,7 +207,7 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		//
 		//Node element
 		//
-		Element elementElement = document.createElement( TAG_NAME );
+		Element elementElement = document.createElement( TAG.getName() );
 		
 		//Name
 		attr = document.createAttribute( ATTR_NAME );

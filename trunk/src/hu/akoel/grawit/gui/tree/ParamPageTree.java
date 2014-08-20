@@ -104,7 +104,7 @@ public class ParamPageTree extends JTree{
 		    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
 		    	
 		    	//Felirata a NODE-nak
-		    	setText( ((ParamDataModelInterface)value).getIDValue() );
+		    	setText( ((ParamDataModelInterface)value).getName() );
 		    	
 		    	//Iconja a NODE-nak
 		    	if( value instanceof ParamPageDataModel){
@@ -452,7 +452,7 @@ public class ParamPageTree extends JTree{
 							};
 							
 							int n = JOptionPane.showOptionDialog(guiFrame,
-									"Valóban torolni kívánod a(z) " + selectedNode.getIDValue() + " nevü " + selectedNode.getTypeToShow() + "-t ?",
+									"Valóban torolni kívánod a(z) " + selectedNode.getTag() + " nevü " + selectedNode.getTypeToShow() + "-t ?",
 									CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 									JOptionPane.YES_NO_CANCEL_OPTION,
 									JOptionPane.QUESTION_MESSAGE,

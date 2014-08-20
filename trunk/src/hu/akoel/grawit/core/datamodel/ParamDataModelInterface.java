@@ -1,6 +1,6 @@
 package hu.akoel.grawit.core.datamodel;
 
-import hu.akoel.grawit.enums.ModelType;
+import hu.akoel.grawit.enums.Tag;
 
 
 public abstract class ParamDataModelInterface extends DataModelInterface{
@@ -9,8 +9,8 @@ public abstract class ParamDataModelInterface extends DataModelInterface{
 	
 	public abstract void add( ParamDataModelInterface node );
 	
-	public static ModelType getModelType(){
-		return ModelType.PARAM;
+	public static Tag getRootTag(){
+		return Tag.PARAM;
 	}
 }
 

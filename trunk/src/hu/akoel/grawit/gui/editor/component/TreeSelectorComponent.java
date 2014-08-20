@@ -104,8 +104,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	 * @param selectedDataModel
 	 */
 	public void setSelectedDataModelToField( F selectedDataModel ){
-		this.selectedDataModel = selectedDataModel;
-		//field.setText( selectedDataModel.getTaggedElementToString() );		
+		this.selectedDataModel = selectedDataModel;	
 		field.setText( getSelectedDataModelToString(selectedDataModel) );
 	}
 	
@@ -227,7 +226,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 						Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
 			    	
 						//Felirata a NODE-nak
-						setText( ((DataModelInterface)value).getIDValue() );
+						setText( ((DataModelInterface)value).getName() );
 			    	
 						//Ikon a NODE-nak
 						setIcon( TreeSelectorComponent.this.getIcon( (DataModelInterface)value, expanded ) );

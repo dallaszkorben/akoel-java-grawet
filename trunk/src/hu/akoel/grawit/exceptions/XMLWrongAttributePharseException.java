@@ -1,30 +1,32 @@
 package hu.akoel.grawit.exceptions;
 
+import hu.akoel.grawit.enums.Tag;
+
 public class XMLWrongAttributePharseException extends XMLPharseException{
 
 	private static final long serialVersionUID = -4598121737499359506L;
 
-	private String blockName;
-	private String tagName;
+	private Tag rootTag;
+	private Tag tag;
 	private String attributeName;
 	private String receivedValue;	
 	
-	public XMLWrongAttributePharseException( String blockName, String tagName, String attributeName, String receivedValue ){
+	public XMLWrongAttributePharseException( Tag rootTag, Tag tag, String attributeName, String receivedValue ){
 		
 		//TODO internationalization es meg a tobbi XMLExceptiont is megcsinalni
-		super("\n<" + blockName + ">" + "\n   <" + tagName+ " " + attributeName + "='" + receivedValue + "'>" + "\n\nWrong attribute value");
-		this.blockName = blockName;
-		this.tagName = tagName;
-		this.attributeName = tagName;
+		super("\n<" + rootTag.getName() + ">" + "\n   <" + tag.getName() + " " + attributeName + "='" + receivedValue + "'>" + "\n\nWrong attribute value");
+		this.rootTag = rootTag;
+		this.tag = tag;
+		this.attributeName = attributeName;
 		this.receivedValue = receivedValue;
 	}
 	
-	public String getTagName() {
-		return tagName;
+	public Tag getTag() {
+		return tag;
 	}
 
-	public String getBlockName() {
-		return blockName;
+	public Tag getRootTag() {
+		return rootTag;
 	}
 
 	public String getAttributeName() {

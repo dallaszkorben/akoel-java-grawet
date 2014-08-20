@@ -1,27 +1,29 @@
 package hu.akoel.grawit.exceptions;
 
+import hu.akoel.grawit.enums.Tag;
+
 public class XMLMissingAttributePharseException extends XMLPharseException{
 
 	private static final long serialVersionUID = -4598121737499359506L;
 
-	private String blockName;
-	private String tagName;
+	private Tag rootTag;
+	private Tag tag;
 	private String attributeName;
 	
-	public XMLMissingAttributePharseException( String blockName, String tagName, String attributeName ){
-		super( "'" + attributeName + "'" + " attribute is missing from the <" + tagName + "> tag in the <" + blockName + "> block" );
-		this.blockName = blockName;
-		this.tagName = tagName;
-		this.attributeName = tagName;
-		
+	public XMLMissingAttributePharseException( Tag rootTag, Tag tag, String attributeName ){
+		//super( "'" + attributeName + "'" + " attribute is missing from the <" + tag.getName() + "> tag in the <" + rootTag.getName() + "> block" );
+		super("\n<" + rootTag.getName() + ">" + "\n   <" + tag.getName() + " " + attributeName + "='...'>" + "\n\nAttribute is missing");
+		this.rootTag = rootTag;
+		this.tag = tag;
+		this.attributeName = attributeName;		
 	}
 	
-	public String getTagName() {
-		return tagName;
+	public Tag getTag() {
+		return tag;
 	}
 
-	public String getBlockName() {
-		return blockName;
+	public Tag getRootTag() {
+		return rootTag;
 	}
 
 	public String getAttributeName() {
