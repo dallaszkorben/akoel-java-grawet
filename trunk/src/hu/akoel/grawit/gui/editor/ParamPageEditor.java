@@ -11,7 +11,7 @@ import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.gui.editor.component.BasePageTreeSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.tree.ParamPageTree;
+import hu.akoel.grawit.gui.tree.ParamTree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
@@ -20,7 +20,7 @@ public class ParamPageEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -9038879802467565947L;
 
-	private ParamPageTree tree; 
+	private ParamTree tree; 
 	private ParamPageDataModel nodeForModify;
 	private ParamNodeDataModel nodeForCapture;
 	private EditMode mode;
@@ -31,7 +31,7 @@ public class ParamPageEditor extends DataEditor{
 	private BasePageTreeSelectorComponent fieldBasePageSelector;
 	
 	//Itt biztos beszuras van
-	public ParamPageEditor( ParamPageTree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public ParamPageEditor( ParamTree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 		super( CommonOperations.getTranslation("tree.nodetype.parampage") );
 				
 		this.tree = tree;
@@ -49,7 +49,7 @@ public class ParamPageEditor extends DataEditor{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamPageEditor( ParamPageTree tree, ParamPageDataModel selectedPage, EditMode mode ){
+	public ParamPageEditor( ParamTree tree, ParamPageDataModel selectedPage, EditMode mode ){
 		super( mode, CommonOperations.getTranslation( "tree.nodetype.parampage" ) );
 
 		this.tree = tree;

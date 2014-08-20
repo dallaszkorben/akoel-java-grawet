@@ -2,7 +2,9 @@ package hu.akoel.grawit.core.datamodel.roots;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.datamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
+import hu.akoel.grawit.core.datamodel.nodes.VariableNodeDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLExtraRootTagPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -12,7 +14,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class VariableRootDataModel extends ParamNodeDataModel{
+public class VariableRootDataModel extends VariableNodeDataModel{
 
 	private static final long serialVersionUID = -4193611923372308352L;
 
@@ -29,26 +31,26 @@ public class VariableRootDataModel extends ParamNodeDataModel{
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
 		
-		//Ha nem pontosan 1 db parampage tag van, akkor az gaz
+		//Ha nem pontosan 1 db variableroot tag van, akkor az gaz
 		if( nList.getLength() != 1 ){
 			
 			throw new XMLExtraRootTagPharseException( TAG );
 		}
 		
-		Node paramPageNode = nList.item(0);
-		if (paramPageNode.getNodeType() == Node.ELEMENT_NODE) {
+		Node variablePageNode = nList.item(0);
+		if (variablePageNode.getNodeType() == Node.ELEMENT_NODE) {
 			
-			NodeList nodeList = paramPageNode.getChildNodes();
+			NodeList nodeList = variablePageNode.getChildNodes();
 			for( int i = 0; i < nodeList.getLength(); i++ ){
 			
-				Node paramNode = nodeList.item( i );
+				Node variableNode = nodeList.item( i );
 				
-				if (paramNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element paramElement = (Element)paramNode;
+				if (variableNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element variableElement = (Element)variableNode;
 					
 					//Ha ujabb PARAMNODE van alatta
-					if( paramElement.getTagName().equals( Tag.VARIABLENODE.getName() ) ){						
-						//this.add(new ParamNodeDataModel( paramElement ));
+					if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() ) ){						
+						this.add(new VariableNodeDataModel( variableElement ));
 					}
 				}
 			}
@@ -57,7 +59,7 @@ public class VariableRootDataModel extends ParamNodeDataModel{
 	
 	@Override
 	public String getName(){
-		return "Param Root";
+		return "Variable Root";
 	}
 
 	@Override
@@ -81,9 +83,9 @@ public class VariableRootDataModel extends ParamNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamDataModelInterface ){
+			if( !object.equals(this) && object instanceof VariableDataModelInterface ){
 				
-				Element element = ((ParamDataModelInterface)object).getXMLElement( document );
+				Element element = ((VariableDataModelInterface)object).getXMLElement( document );
 				paramPageElement.appendChild( element );		    		
 		    	
 			}
