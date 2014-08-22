@@ -8,21 +8,16 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.tree.BaseTree;
+import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 public class BaseNodeEditor extends DataEditor{
 	
 	private static final long serialVersionUID = 165396704460481021L;
 	
-	private BaseTree tree;
+	private Tree tree;
 	private BaseNodeDataModel nodeForModify;
 	private BaseNodeDataModel nodeForCapture;
 	private EditMode mode;
@@ -32,7 +27,7 @@ public class BaseNodeEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 
 	//Itt biztos beszuras van
-	public BaseNodeEditor( BaseTree tree, BaseNodeDataModel selectedNode ){
+	public BaseNodeEditor( Tree tree, BaseNodeDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.node") );
 		
 		this.tree = tree;
@@ -50,7 +45,7 @@ public class BaseNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public BaseNodeEditor( BaseTree baseTree, BaseNodeDataModel selectedNode, EditMode mode ){		
+	public BaseNodeEditor( Tree baseTree, BaseNodeDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
 
 		this.tree = baseTree;
