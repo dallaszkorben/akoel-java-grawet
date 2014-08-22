@@ -9,7 +9,7 @@ import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.tree.BaseTree;
+import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
@@ -18,7 +18,7 @@ public class BasePageEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -9038879802467565947L;
 
-	private BaseTree tree; 
+	private Tree tree; 
 	private BasePageDataModel nodeForModify;
 	private BaseNodeDataModel nodeForCapture;
 	private EditMode mode;
@@ -29,7 +29,7 @@ public class BasePageEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 	
 	//Itt biztos beszuras van
-	public BasePageEditor( BaseTree tree, BaseNodeDataModel selectedNode ){
+	public BasePageEditor( Tree tree, BaseNodeDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.basepage") );
 		
 		this.tree = tree;
@@ -47,7 +47,7 @@ public class BasePageEditor extends DataEditor{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public BasePageEditor( BaseTree tree, BasePageDataModel selectedNode, EditMode mode ){
+	public BasePageEditor( Tree tree, BasePageDataModel selectedNode, EditMode mode ){
 		super( mode, CommonOperations.getTranslation("tree.nodetype.basepage") );
 
 		this.tree = tree;

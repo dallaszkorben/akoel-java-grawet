@@ -16,8 +16,8 @@ import hu.akoel.grawit.core.datamodel.roots.VariableRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
-import hu.akoel.grawit.gui.tree.BaseTree;
-import hu.akoel.grawit.gui.tree.ParamTree;
+import hu.akoel.grawit.gui.tree.BTree;
+import hu.akoel.grawit.gui.tree.PTree;
 import hu.akoel.grawit.gui.tree.VariableTree;
 
 import javax.swing.BorderFactory;
@@ -629,7 +629,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			BaseTree tree = new BaseTree( GUIFrame.this, baseRootDataModel );
+			BTree tree = new BTree( GUIFrame.this, baseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );
@@ -643,7 +643,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamTree tree = new ParamTree( GUIFrame.this, paramRootDataModel, baseRootDataModel );
+			PTree tree = new PTree( GUIFrame.this, paramRootDataModel, baseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

@@ -251,7 +251,6 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 
 							//Ha megfelelo tipusu elemet valasztottam
 							if( classF.isInstance( selectedNode )){							
-							//if( selectedNode instanceof BasePageDataModel ){
 							
 								//A kivalasztott NODE			
 								TreeSelectorComponent.this.setSelectedDataModelToField( ((F)selectedNode) );
@@ -281,7 +280,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 		
 			/**
 			 * 
-			 * Letiltom a Page node lenyitasat, igy nem latszanak az Element-ek
+			 * Letiltom az adott tipusu node lenyitasat, igy nem latszanak az Element-ek
 			 * 
 			 */
 			protected void setExpandedState(TreePath path, boolean state) {
@@ -289,7 +288,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 				if (state) {
 
 					if( needToExpand( path, state)){
-					//if( !( path.getLastPathComponent() instanceof BasePageDataModel ) ){
+
 						super.setExpandedState(path, state);
 					}
 				}

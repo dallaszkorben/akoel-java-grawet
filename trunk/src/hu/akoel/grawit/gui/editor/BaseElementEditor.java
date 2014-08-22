@@ -12,7 +12,7 @@ import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.RadioButtonComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.tree.BaseTree;
+import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -22,7 +22,7 @@ public class BaseElementEditor extends DataEditor{
 	
 	private static final long serialVersionUID = 165396704460481021L;
 	
-	private BaseTree tree;
+	private Tree tree;
 	private BaseElementDataModel nodeForModify;
 	private BasePageDataModel nodeForCapture;
 	private EditMode mode;
@@ -38,7 +38,7 @@ public class BaseElementEditor extends DataEditor{
 	private RadioButtonComponent buttonCSS;
 	
 	//Insert
-	public BaseElementEditor( BaseTree tree, BasePageDataModel selectedNode ){
+	public BaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.baseelement") );
 
 		this.tree = tree;
@@ -68,7 +68,7 @@ public class BaseElementEditor extends DataEditor{
 	
 	
 	//Modositas vagy View
-	public BaseElementEditor( BaseTree tree, BaseElementDataModel selectedNode, EditMode mode ){		
+	public BaseElementEditor( Tree tree, BaseElementDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.baseelement") );
 
 		this.tree = tree;

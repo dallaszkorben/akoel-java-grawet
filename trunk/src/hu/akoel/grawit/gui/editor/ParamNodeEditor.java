@@ -9,22 +9,16 @@ import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.tree.BaseTree;
-import hu.akoel.grawit.gui.tree.ParamTree;
+import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 public class ParamNodeEditor extends DataEditor{
 
 	private static final long serialVersionUID = 2644128362590221646L;
 	
-	private ParamTree tree;
+	private Tree tree;
 	private ParamNodeDataModel nodeForModify;
 	private ParamNodeDataModel nodeForCapture;
 	private EditMode mode;
@@ -47,7 +41,7 @@ public class ParamNodeEditor extends DataEditor{
 	}
 	
 	//Itt biztos beszuras van
-	public ParamNodeEditor( ParamTree tree, ParamNodeDataModel selectedNode ){
+	public ParamNodeEditor( Tree tree, ParamNodeDataModel selectedNode ){
 		super( CommonOperations.getTranslation("tree.nodetype.node") );
 		
 		this.tree = tree;
@@ -65,7 +59,7 @@ public class ParamNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public ParamNodeEditor( ParamTree pageBaseTree, ParamNodeDataModel selectedNode, EditMode mode ){		
+	public ParamNodeEditor( Tree pageBaseTree, ParamNodeDataModel selectedNode, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
 
 		this.tree = pageBaseTree;
