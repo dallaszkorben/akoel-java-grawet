@@ -11,30 +11,28 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.datamodel.DataModelInterface;
-import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
-import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
+import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
+import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
-import hu.akoel.grawit.core.datamodel.roots.ParamRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
-import hu.akoel.grawit.gui.editor.EmptyEditor;
-import hu.akoel.grawit.gui.editor.ParamElementEditor;
-import hu.akoel.grawit.gui.editor.ParamNodeEditor;
-import hu.akoel.grawit.gui.editor.ParamPageEditor;
+import hu.akoel.grawit.gui.editor.BaseElementEditor;
+import hu.akoel.grawit.gui.editor.BaseNodeEditor;
+import hu.akoel.grawit.gui.editor.BasePageEditor;
+import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editor.EmptyEditor;
 
-public class PTree extends Tree {
+public class BaseTree extends Tree{
 
-	private static final long serialVersionUID = -7537783206534337777L;
+	private static final long serialVersionUID = -5965897830877262588L;
 	private GUIFrame guiFrame;
-	private BaseRootDataModel baseRootDataModel;
 	
-	public PTree(GUIFrame guiFrame, ParamRootDataModel rootDataModel, BaseRootDataModel baseRootDataModel) {
+	public BaseTree(GUIFrame guiFrame, BaseRootDataModel rootDataModel) {
 		super(guiFrame, rootDataModel);
-		
 		this.guiFrame = guiFrame;
-		this.baseRootDataModel = baseRootDataModel;
 	}
 
 	@Override
@@ -44,74 +42,73 @@ public class PTree extends Tree {
     	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/pagebase-element-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
-    	
+  
     	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamPageDataModel){
+    	if( actualNode instanceof BasePageDataModel){
             return pageIcon;
-    	}else if( actualNode instanceof ParamElementDataModel ){
+    	}else if( actualNode instanceof BaseElementDataModel ){
             return elementIcon;
-    	}else if( actualNode instanceof ParamNodeDataModel){
+    	}else if( actualNode instanceof BaseNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
     			return nodeClosedIcon;
     		}
         }
-    	
-		return null;
+    	return null;
 	}
 
 	@Override
 	public void doWiewWhenSelectionChanged(DataModelInterface selectedNode) {
-		
-		//Ha a root-ot valasztottam
-		if( selectedNode instanceof ParamRootDataModel ){
+	
+		//Ha egyaltalan valamilyen egergombot benyomtam
+		if( selectedNode instanceof BaseRootDataModel ){
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
-			
-		}else if( selectedNode instanceof ParamNodeDataModel ){
-			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.VIEW);
-			guiFrame.showEditorPanel( paramNodeEditor);								
-			
-		}else if( selectedNode instanceof ParamPageDataModel ){
-			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamPageDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( paramPageEditor);				
-							
-		}else if( selectedNode instanceof ParamElementDataModel ){
-			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, EditMode.VIEW );	
-			guiFrame.showEditorPanel( pageBaseElementEditor);									
-			
-		}
 		
-	}
-
-	@Override
-	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
-		if( selectedNode instanceof ParamNodeDataModel ){
-			
-			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.MODIFY );								
-			guiFrame.showEditorPanel( paramNodeEditor);								
-				
-		}else if( selectedNode instanceof ParamPageDataModel ){
-			
-			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamPageDataModel)selectedNode, EditMode.MODIFY );							                                            
-			guiFrame.showEditorPanel( paramPageEditor);		
-				
-		}else if( selectedNode instanceof ParamElementDataModel ){
-
-			ParamElementEditor paramElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, EditMode.MODIFY );
-			guiFrame.showEditorPanel( paramElementEditor);		
-				
+		}else if( selectedNode instanceof BaseNodeDataModel ){
+			BaseNodeEditor pageBaseNodePanel = new BaseNodeEditor(this, (BaseNodeDataModel)selectedNode, EditMode.VIEW);
+			guiFrame.showEditorPanel( pageBaseNodePanel);								
+		
+		}else if( selectedNode instanceof BasePageDataModel ){
+			BasePageEditor pageBasePagePanel = new BasePageEditor( this, (BasePageDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( pageBasePagePanel);				
+						
+		}else if( selectedNode instanceof BaseElementDataModel ){
+			BaseElementEditor pageBaseElementPanel = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( pageBaseElementPanel);		
+								
 		}		
 	}
 
 	@Override
-	public void doPopupInsert( JPopupMenu popupMenu, final DataModelInterface selectedNode) {
+	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
 		
+		if( selectedNode instanceof BaseNodeDataModel ){
+							
+			BaseNodeEditor pageBaseNodePanel = new BaseNodeEditor( this, (BaseNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( pageBaseNodePanel);								
+								
+		}else if( selectedNode instanceof BasePageDataModel ){
+								
+			BasePageEditor pageBasePagePanel = new BasePageEditor( this, (BasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( pageBasePagePanel);		
+								
+		}else if( selectedNode instanceof BaseElementDataModel ){
+
+			BaseElementEditor pageBaseElementPanel = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( pageBaseElementPanel);		
+								
+		}	
+	}
+
+	@Override
+	public void doPopupInsert( final JPopupMenu popupMenu, final DataModelInterface selectedNode) {
+
 		//
 		// Csomopont eseten
 		//
-		if( selectedNode instanceof ParamNodeDataModel ){
+		if( selectedNode instanceof BaseNodeDataModel ){
 
 			//Insert Node
 			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
@@ -121,12 +118,12 @@ public class PTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamNodeEditor paramNodeEditor = new ParamNodeEditor( PTree.this, (ParamNodeDataModel)selectedNode );								
-					guiFrame.showEditorPanel( paramNodeEditor);								
+					BaseNodeEditor pageBaseNodePanel = new BaseNodeEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( pageBaseNodePanel);								
 				
 				}
 			});
-			popupMenu.add ( insertNodeMenu );
+			this.add ( insertNodeMenu );
 
 			//Insert Page
 			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.page") );
@@ -135,8 +132,9 @@ public class PTree extends Tree {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ParamPageEditor paramPageEditor = new ParamPageEditor( PTree.this, (ParamNodeDataModel)selectedNode, PTree.this.baseRootDataModel );								
-					guiFrame.showEditorPanel( paramPageEditor);								
+					
+					BasePageEditor pageBaseNodePanel = new BasePageEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( pageBaseNodePanel);								
 				
 				}
 			});
@@ -144,10 +142,12 @@ public class PTree extends Tree {
 			
 		}		
 		
+		
 		//
 		// Page eseten
 		//
-		if( selectedNode instanceof ParamPageDataModel ){
+		
+		if( selectedNode instanceof BasePageDataModel ){
 
 			//Insert Element
 			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.element") );
@@ -157,23 +157,27 @@ public class PTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( PTree.this, (ParamPageDataModel)selectedNode );								
-					guiFrame.showEditorPanel( paramPageNodeEditor);								
+					BaseElementEditor pageBaseNodePanel = new BaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
+					guiFrame.showEditorPanel( pageBaseNodePanel);								
 				
 				}
 			});
 			popupMenu.add ( insertElementMenu );
 		
 		}
+	
 		
 	}
 
 	@Override
-	public void doPopupDelete( final DataModelInterface selectedNode, final int selectedRow,	final DefaultTreeModel totalTreeModel) {
+	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelInterface selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel ) {
 	
+		// Torles
+		// Ha nincs alatta ujabb elem
+		//
 		if( selectedNode.getChildCount() == 0 ){
 			
-			
+		
 			JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.delete") );
 			deleteMenu.setActionCommand( ActionCommand.UP.name());
 			deleteMenu.addActionListener( new ActionListener() {
@@ -198,18 +202,19 @@ public class PTree extends Tree {
 
 					if( n == 1 ){
 						totalTreeModel.removeNodeFromParent( selectedNode);
-						PTree.this.setSelectionRow(selectedRow - 1);
+						BaseTree.this.setSelectionRow(selectedRow - 1);
 					}							
 				}
 			});
-			this.add ( deleteMenu );
+			popupMenu.add ( deleteMenu );
 			
-		}		
+		}	
+		
 	}
 
 	@Override
 	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelInterface selectedNode ) {
-		
+
 		//Insert Node
 		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
 		insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
@@ -218,12 +223,13 @@ public class PTree extends Tree {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				ParamNodeEditor paramNodeEditor = new ParamNodeEditor( PTree.this, (ParamNodeDataModel)selectedNode );								
-				guiFrame.showEditorPanel( paramNodeEditor);								
+				
+				BaseNodeEditor pageBaseNodePanel = new BaseNodeEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+				guiFrame.showEditorPanel( pageBaseNodePanel);								
 			
 			}
 		});
-		popupMenu.add ( insertNodeMenu );
+		popupMenu.add ( insertNodeMenu );			
 		
 	}
 

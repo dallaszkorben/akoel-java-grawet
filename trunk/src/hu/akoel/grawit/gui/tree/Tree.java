@@ -92,7 +92,7 @@ public abstract class Tree extends JTree{
 		
 	public abstract void doPopupInsert( JPopupMenu popupMenu, DataModelInterface selectedNode );
 	
-	public abstract void doPopupDelete( DataModelInterface selectedNode, int selectedRow, DefaultTreeModel totalTreeModel );
+	public abstract void doPopupDelete( final JPopupMenu popupMenu, DataModelInterface selectedNode, int selectedRow, DefaultTreeModel totalTreeModel );
 	
 	public abstract void doPopupRootInsert( JPopupMenu popupMenu, DataModelInterface selectedNode );
 	
@@ -340,7 +340,7 @@ public abstract class Tree extends JTree{
 				
 				doPopupInsert( this, selectedNode );
 				
-				doPopupDelete( selectedNode, selectedRow, totalTreeModel );
+				doPopupDelete( this, selectedNode, selectedRow, totalTreeModel );
 				
 
 				
