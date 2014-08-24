@@ -9,12 +9,15 @@ public enum Tag{
 	PARAMROOT("parampage"),
 	PARAMNODE("node"),
 	PARAMPAGE("page"),
-	PARAMELEMET("element"),
+	PARAMELEMENT("element"),
 	
 	VARIABLEROOT("variablepage"),
 	VARIABLENODE("node"),
-	VARIABLEELEMET("element");
+	VARIABLEELEMENT("element"),
 	
+	VARIABLETYPE("variabletype"),
+	VARIABLEPARAMETER("parameter"),	
+	;
 	private String name;
 	
 	private Tag( String name ){
