@@ -1,6 +1,6 @@
 package hu.akoel.grawit.core.pages;
 
-import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
 
 public interface BasePageChangeListener {
 
