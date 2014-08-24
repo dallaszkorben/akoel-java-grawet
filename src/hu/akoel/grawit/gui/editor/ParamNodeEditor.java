@@ -5,8 +5,8 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.ParamNodeDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;

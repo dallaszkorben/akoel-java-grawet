@@ -5,8 +5,8 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.VariableTree;
@@ -114,7 +114,7 @@ public class VariableNodeEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Node-rol van szo
-				if( levelNode instanceof BaseNodeDataModel ){
+				if( levelNode instanceof VariableNodeDataModel ){
 					
 					//Ha azonos a nev
 					if( ((VariableNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){

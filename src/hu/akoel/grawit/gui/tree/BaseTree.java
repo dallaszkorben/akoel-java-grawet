@@ -11,12 +11,12 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
-import hu.akoel.grawit.core.datamodel.DataModelInterface;
-import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
-import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.BaseElementEditor;
 import hu.akoel.grawit.gui.editor.BaseNodeEditor;
@@ -59,7 +59,7 @@ public class BaseTree extends Tree{
 	}
 
 	@Override
-	public void doWiewWhenSelectionChanged(DataModelInterface selectedNode) {
+	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
 	
 		//Ha egyaltalan valamilyen egergombot benyomtam
 		if( selectedNode instanceof BaseRootDataModel ){
@@ -67,16 +67,16 @@ public class BaseTree extends Tree{
 			guiFrame.showEditorPanel( emptyPanel );
 		
 		}else if( selectedNode instanceof BaseNodeDataModel ){
-			BaseNodeEditor pageBaseNodePanel = new BaseNodeEditor(this, (BaseNodeDataModel)selectedNode, EditMode.VIEW);
-			guiFrame.showEditorPanel( pageBaseNodePanel);								
+			BaseNodeEditor baseNodeEditor = new BaseNodeEditor(this, (BaseNodeDataModel)selectedNode, EditMode.VIEW);
+			guiFrame.showEditorPanel( baseNodeEditor);								
 		
 		}else if( selectedNode instanceof BasePageDataModel ){
-			BasePageEditor pageBasePagePanel = new BasePageEditor( this, (BasePageDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( pageBasePagePanel);				
+			BasePageEditor basePageEditor = new BasePageEditor( this, (BasePageDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( basePageEditor);				
 						
 		}else if( selectedNode instanceof BaseElementDataModel ){
-			BaseElementEditor pageBaseElementPanel = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( pageBaseElementPanel);		
+			BaseElementEditor baseElementEditor = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( baseElementEditor);		
 								
 		}		
 	}
@@ -86,18 +86,18 @@ public class BaseTree extends Tree{
 		
 		if( selectedNode instanceof BaseNodeDataModel ){
 							
-			BaseNodeEditor pageBaseNodePanel = new BaseNodeEditor( this, (BaseNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( pageBaseNodePanel);								
+			BaseNodeEditor baseNodeEditor = new BaseNodeEditor( this, (BaseNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( baseNodeEditor);								
 								
 		}else if( selectedNode instanceof BasePageDataModel ){
 								
-			BasePageEditor pageBasePagePanel = new BasePageEditor( this, (BasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( pageBasePagePanel);		
+			BasePageEditor basePageEditor = new BasePageEditor( this, (BasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( basePageEditor);		
 								
 		}else if( selectedNode instanceof BaseElementDataModel ){
 
-			BaseElementEditor pageBaseElementPanel = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( pageBaseElementPanel);		
+			BaseElementEditor baseElementEditor = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( baseElementEditor);		
 								
 		}	
 	}
@@ -118,8 +118,8 @@ public class BaseTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					BaseNodeEditor pageBaseNodePanel = new BaseNodeEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
-					guiFrame.showEditorPanel( pageBaseNodePanel);								
+					BaseNodeEditor baseNodeEditor = new BaseNodeEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
 			});
@@ -133,8 +133,8 @@ public class BaseTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					BasePageEditor pageBaseNodePanel = new BasePageEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
-					guiFrame.showEditorPanel( pageBaseNodePanel);								
+					BasePageEditor baseNodeEditor = new BasePageEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
 			});
@@ -157,8 +157,8 @@ public class BaseTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					BaseElementEditor pageBaseNodePanel = new BaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
-					guiFrame.showEditorPanel( pageBaseNodePanel);								
+					BaseElementEditor baseNodeEditor = new BaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
+					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
 			});
@@ -192,7 +192,7 @@ public class BaseTree extends Tree{
 					};
 					
 					int n = JOptionPane.showOptionDialog(guiFrame,
-							"Valóban torolni kívánod a(z) " + selectedNode.getTag() + " nevü " + selectedNode.getTypeToShow() + "-t ?",
+							"Valóban torolni kívánod a(z) " + selectedNode.getTag() + " nevü " + selectedNode.getModelNameToShow() + "-t ?",
 							CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 							JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE,
@@ -224,8 +224,8 @@ public class BaseTree extends Tree{
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				BaseNodeEditor pageBaseNodePanel = new BaseNodeEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
-				guiFrame.showEditorPanel( pageBaseNodePanel);								
+				BaseNodeEditor baseNodeEditor = new BaseNodeEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+				guiFrame.showEditorPanel( baseNodeEditor);								
 			
 			}
 		});

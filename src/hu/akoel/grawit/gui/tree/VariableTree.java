@@ -11,19 +11,19 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
-import hu.akoel.grawit.core.datamodel.DataModelInterface;
-import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.VariableNodeDataModel;
-import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
-import hu.akoel.grawit.core.datamodel.roots.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.BaseElementEditor;
-import hu.akoel.grawit.gui.editor.BaseNodeEditor;
 import hu.akoel.grawit.gui.editor.BasePageEditor;
 import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editor.ParamElementEditor;
+import hu.akoel.grawit.gui.editor.VariableElementEditor;
 import hu.akoel.grawit.gui.editor.VariableNodeEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -41,8 +41,8 @@ public class VariableTree extends Tree{
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
 
-    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/pagebase-page-icon.png");
-    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/pagebase-element-icon.png");
+    	//ImageIcon pageIcon = CommonOperations.createImageIcon("tree/pagebase-page-icon.png");
+    	//ImageIcon elementIcon = CommonOperations.createImageIcon("tree/pagebase-element-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
   
@@ -58,24 +58,20 @@ public class VariableTree extends Tree{
 	}
 
 	@Override
-	public void doWiewWhenSelectionChanged(DataModelInterface selectedNode) {
+	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
 //TODO 	
 		//Ha egyaltalan valamilyen egergombot benyomtam
-		if( selectedNode instanceof BaseRootDataModel ){
+		if( selectedNode instanceof VariableRootDataModel ){
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 		
-		}else if( selectedNode instanceof BaseNodeDataModel ){
-			BaseNodeEditor pageBaseNodePanel = new BaseNodeEditor(this, (BaseNodeDataModel)selectedNode, EditMode.VIEW);
-			guiFrame.showEditorPanel( pageBaseNodePanel);								
+		}else if( selectedNode instanceof VariableNodeDataModel ){
+			VariableNodeEditor variableNodeEditor = new VariableNodeEditor(this, (VariableNodeDataModel)selectedNode, EditMode.VIEW);
+			guiFrame.showEditorPanel( variableNodeEditor);								
 		
-		}else if( selectedNode instanceof BasePageDataModel ){
-			BasePageEditor pageBasePagePanel = new BasePageEditor( this, (BasePageDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( pageBasePagePanel);				
-						
-		}else if( selectedNode instanceof BaseElementDataModel ){
-			BaseElementEditor pageBaseElementPanel = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( pageBaseElementPanel);		
+		}else if( selectedNode instanceof VariableElementDataModel ){
+			VariableElementEditor variableElementEditor = new VariableElementEditor( this, (VariableElementDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( variableElementEditor);		
 								
 		}		
 	}
@@ -107,8 +103,8 @@ public class VariableTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					VariableNodeEditor pageBaseNodePanel = new VariableNodeEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
-					guiFrame.showEditorPanel( pageBaseNodePanel);								
+					VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( variableNodeEditor);								
 				
 				}
 			});
@@ -122,8 +118,8 @@ public class VariableTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 //TODO befejezni							
-//					VariableElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (VariablePageDataModel)selectedNode );								
-//					guiFrame.showEditorPanel( paramPageNodeEditor);								
+					VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( variableElementEditor);								
 				
 				}
 			});
@@ -157,7 +153,7 @@ public class VariableTree extends Tree{
 					};
 					
 					int n = JOptionPane.showOptionDialog(guiFrame,
-							"Valóban torolni kívánod a(z) " + selectedNode.getTag() + " nevü " + selectedNode.getTypeToShow() + "-t ?",
+							"Valóban torolni kívánod a(z) " + selectedNode.getTag() + " nevü " + selectedNode.getModelNameToShow() + "-t ?",
 							CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 							JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE,
@@ -188,8 +184,8 @@ public class VariableTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				VariableNodeEditor pageBaseNodePanel = new VariableNodeEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
-				guiFrame.showEditorPanel( pageBaseNodePanel);								
+				VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
+				guiFrame.showEditorPanel( variableNodeEditor);								
 			
 			}
 		});

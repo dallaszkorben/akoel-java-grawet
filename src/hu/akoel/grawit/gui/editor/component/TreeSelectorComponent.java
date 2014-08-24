@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.editor.component;
 
-import hu.akoel.grawit.core.datamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;

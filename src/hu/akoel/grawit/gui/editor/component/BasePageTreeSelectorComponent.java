@@ -1,11 +1,11 @@
 package hu.akoel.grawit.gui.editor.component;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
-import hu.akoel.grawit.core.datamodel.DataModelInterface;
-import hu.akoel.grawit.core.datamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.BaseNodeDataModel;
-import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
