@@ -5,10 +5,10 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
-import hu.akoel.grawit.core.datamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
-import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.pages.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.gui.editor.component.BasePageTreeSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;

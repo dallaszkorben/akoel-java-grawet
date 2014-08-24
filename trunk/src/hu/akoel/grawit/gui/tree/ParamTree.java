@@ -11,12 +11,12 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.DataModelInterface;
-import hu.akoel.grawit.core.datamodel.elements.ParamElementDataModel;
-import hu.akoel.grawit.core.datamodel.nodes.ParamNodeDataModel;
-import hu.akoel.grawit.core.datamodel.pages.ParamPageDataModel;
-import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
-import hu.akoel.grawit.core.datamodel.roots.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.pages.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.ParamRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.ParamElementEditor;
@@ -62,7 +62,7 @@ public class ParamTree extends Tree {
 	}
 
 	@Override
-	public void doWiewWhenSelectionChanged(DataModelInterface selectedNode) {
+	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
 		
 		//Ha a root-ot valasztottam
 		if( selectedNode instanceof ParamRootDataModel ){
@@ -188,7 +188,7 @@ public class ParamTree extends Tree {
 					};
 					
 					int n = JOptionPane.showOptionDialog(guiFrame,
-							"Valóban torolni kívánod a(z) " + selectedNode.getTag() + " nevü " + selectedNode.getTypeToShow() + "-t ?",
+							"Valóban torolni kívánod a(z) " + selectedNode.getTag() + " nevü " + selectedNode.getModelNameToShow() + "-t ?",
 							CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 							JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE,

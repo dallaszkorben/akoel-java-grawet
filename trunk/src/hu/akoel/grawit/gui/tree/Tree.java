@@ -8,10 +8,11 @@ import java.awt.event.MouseListener;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.BaseDataModelInterface;
-import hu.akoel.grawit.core.datamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
+
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -86,7 +87,7 @@ public abstract class Tree extends JTree{
 	 */
 	public abstract ImageIcon getIcon( DataModelInterface actualNode, boolean expanded );
 	
-	public abstract void doWiewWhenSelectionChanged( DataModelInterface selectedNode );
+	public abstract void doViewWhenSelectionChanged( DataModelInterface selectedNode );
 	
 	public abstract void doModifyWithPopupEdit( DataModelInterface selectedNode );
 		
@@ -146,7 +147,7 @@ public abstract class Tree extends JTree{
 			
 				selectedNode = (DataModelInterface)e.getNewLeadSelectionPath().getLastPathComponent();
 			
-				doWiewWhenSelectionChanged( selectedNode );
+				doViewWhenSelectionChanged( selectedNode );
 				
 
 			}

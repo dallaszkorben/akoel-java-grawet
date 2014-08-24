@@ -10,15 +10,16 @@ import java.io.File;
 import java.io.IOException;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.roots.BaseRootDataModel;
-import hu.akoel.grawit.core.datamodel.roots.ParamRootDataModel;
-import hu.akoel.grawit.core.datamodel.roots.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BaseTree;
 import hu.akoel.grawit.gui.tree.ParamTree;
 import hu.akoel.grawit.gui.tree.VariableTree;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
