@@ -1,7 +1,5 @@
 package hu.akoel.grawit.enums;
 
-import java.util.ArrayList;
-
 import hu.akoel.grawit.CommonOperations;
 
 public enum VariableType {

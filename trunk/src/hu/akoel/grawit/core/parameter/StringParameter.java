@@ -14,14 +14,25 @@ public class StringParameter implements ElementParameter{
 	
 	private final static int parameterNumber = 1;
 	
-	private VariableType type;
+	private final static VariableType type = VariableType.STRING_PARAMETER;
+	
+	public StringParameter(){
+		this.name = "";
+		this.stringValue = "";		
+		common();
+	}
 	
 	public StringParameter( String name, String constant ){
 		this.name = name;
 		this.stringValue = constant;
-		this.stringTitle = CommonOperations.getTranslation("editor.title.variabletype.string.string");
+		
+		common();
 	}
 
+	private void common(){
+		this.stringTitle = CommonOperations.getTranslation("editor.title.variabletype.string.string");
+	}
+	
 	@Override
 	public String getName() {
 		return name;
@@ -69,9 +80,50 @@ public class StringParameter implements ElementParameter{
 			elementElement.setAttributeNode(attr);	
 
 			return elementElement;
+			
 		}else{
+			
 			return null;
+			
 		}
+	}
+
+	@Override
+	public String getParameterName(int index) {
+		if( index == 0 ){
+
+			return stringTitle;
+			
+		}
+		return null;
+	}
+
+	@Override
+	public Object getParameterValue(int index) {
+		if( index == 0 ){
+
+			return stringValue;
+			
+		}
+		return null;
+	}
+
+	@Override
+	public Class<?> getParameterClass(int index) {
+		if( index == 0 ){
+
+			return stringValue.getClass();
+			
+		}
+		return null;
+	}
+
+	@Override
+	public void setParameterValue(Object value, int index) {
+		if( index == 0 ){
+			stringValue = (String)value;
+		}
+		
 	}
 
 
