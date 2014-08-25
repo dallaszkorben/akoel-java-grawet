@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.datamodel.VariableTypeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
@@ -36,7 +35,7 @@ public class VariableElementEditor extends DataEditor{
 	 * @param selectedNode
 	 */
 	public VariableElementEditor( Tree tree, VariableNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.nodetype.variableelement") );
+		super( CommonOperations.getTranslation( "tree.nodetype.variableelement" ) );
 
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -71,12 +70,13 @@ public class VariableElementEditor extends DataEditor{
 		fieldName.setText( selectedElement.getName() );
 		
 		//Variable Type
-		fieldVariableType.setModel( selectedElement.getVariableTypeDataModel() );
-/*		for( int i = 0; i < selectedElement.getVariableTypeDataModel().getParameterSize(); i++ ){
-			selectedElement.getVariableTypeDataModel().getParameterNames().get(i)
+		//Tipus beallitas 
+		fieldVariableType.setType(selectedElement.getElementParameter().getType());
+		//Valtozo beallitas
+		for( int i = 0; i < selectedElement.getElementParameter().getParameterNumber(); i++ ){
+			fieldVariableType.setParameterValue( selectedElement.getElementParameter().getParameterValue(i), i);
 		}
-*/		
-		
+				
 		commonPost();
 		
 	}
@@ -86,8 +86,7 @@ public class VariableElementEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent();
 	
-		//VariableTypeSelector
-		VariableTypeDataModel vtdm = new VariableTypeDataModel();
+		//VariableTypeSelector		
 		fieldVariableType = new VariableTypeComponent();
 		
 	}
@@ -99,6 +98,8 @@ public class VariableElementEditor extends DataEditor{
 		
 		this.add( labelName, fieldName );
 		this.add( labelVariableType, fieldVariableType );
+		
+		fieldVariableType.revalidate();
 
 	}
 		
@@ -178,36 +179,19 @@ public class VariableElementEditor extends DataEditor{
 		
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
-/*			
-			ElementOperationInterface elementOperation = null;
-			Operation operation = Operation.getOperationByIndex( fieldOperation.getSelectedIndex() );
-			if( operation.equals( Operation.FIELD ) ){
-				elementOperation = new FieldOperation( new StringParameter("param1", "111" ) );
-			}else if( operation.equals( Operation.LINK ) ){
-				elementOperation = new LinkOperation();
-			}else if( operation.equals( Operation.BUTTON ) ){
-				elementOperation = new ButtonOperation();
-			}else if( operation.equals( Operation.CHECKBOX ) ){
-				elementOperation = new CheckboxOperation();
-			}else if( operation.equals( Operation.RADIOBUTTON ) ){
-				elementOperation = new RadioButtonOperation();
-			}else {
-				elementOperation = new LinkOperation();
-			}
-*/					
-			//BaseElementDataModel baseElement = fieldBaseElementSelector.getSelectedDataModel();
 			
 			//Uj rogzites eseten
 			if( null == mode ){			
-				
-				VariableElementDataModel newParamElement = new VariableElementDataModel( fieldName.getText(), fieldVariableType.getDataModel() );			
-				
+
+				fieldVariableType.setParameterName(fieldName.getText());				
+				VariableElementDataModel newParamElement = new VariableElementDataModel( fieldVariableType.getElementParameter() );	
+			
 				nodeForCapture.add( newParamElement );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
-				nodeForModify.setName( fieldName.getText() );
+//				nodeForModify.setName( fieldName.getText() );
 //				nodeForModify.setOperation( elementOperation );
 //				nodeForModify.setBaseElement(baseElement);
 				
