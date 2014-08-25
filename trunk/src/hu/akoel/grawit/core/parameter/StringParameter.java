@@ -1,5 +1,9 @@
 package hu.akoel.grawit.core.parameter;
 
+import java.text.Format;
+
+import javax.swing.text.MaskFormatter;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -124,6 +128,12 @@ public class StringParameter implements ElementParameter{
 			stringValue = (String)value;
 		}
 		
+	}
+
+	@Override
+	public Format getFormat() {
+		MaskFormatter
+		return null;
 	}
 
 

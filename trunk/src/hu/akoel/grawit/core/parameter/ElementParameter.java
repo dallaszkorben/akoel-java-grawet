@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.parameter;
 
+import java.text.Format;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -43,5 +45,6 @@ public interface ElementParameter {
 	public void setParameterValue( Object value, int index );
 	public Class<?> getParameterClass( int index );
 	public Element getXMLElement(Document document, int index);
+	public Format getFormat( int index );
 	
 }
