@@ -16,6 +16,7 @@ import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editor.component.VTComp;
 import hu.akoel.grawit.gui.editor.component.VariableParametersComponentInterface;
+import hu.akoel.grawit.gui.editor.component.VariableParametersStringComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -30,12 +31,15 @@ public class VariableElementEditor extends DataEditor{
 	private VariableNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
+//	private ArrayList<Object> parameters;
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelVariableType;
 	private ComboBoxComponent<String> fieldVariableType;
 	private JLabel labelVariableParameters;
 	private VariableParametersComponentInterface fieldVariableParameters;
+	
+	private VariableType type;
 	
 	/**
 	 *  Uj VariableElement rogzitese - Insert
@@ -56,10 +60,9 @@ public class VariableElementEditor extends DataEditor{
 		fieldName.setText( "" );
 		
 		//Type - String
-		fieldVariableType.setSelectedIndex( VariableType.STRING_PARAMETER.getIndex() );
+		type = VariableType.STRING_PARAMETER;
 		
-		//Parameters
-		//fieldVariableParameters = new  
+		fieldVariableType.setSelectedIndex( type.getIndex() );
 		
 		commonPost();
 	}
@@ -72,7 +75,7 @@ public class VariableElementEditor extends DataEditor{
 	 * @param selectedElement
 	 * @param mode
 	 */
-	public VariableElementEditor( Tree tree, VEDModel selectedElement, EditMode mode ){		
+	public VariableElementEditor( Tree tree, VariableElementDataModel selectedElement, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.variableelement") );
 
 		this.tree = tree;
@@ -84,14 +87,12 @@ public class VariableElementEditor extends DataEditor{
 		//Name
 		fieldName.setText( selectedElement.getName() );
 		
+		type = selectedElement.getType();
+		
 		//Variable Type
-		//Tipus beallitas 
-		fieldVariableType.setType(selectedElement.getElementParameter().getType());
-		//Valtozo beallitas
-		for( int i = 0; i < selectedElement.getElementParameter().getParameterNumber(); i++ ){
-			fieldVariableType.setParameterValue( selectedElement.getElementParameter().getParameterValue(i), i);
-		}
-				
+		//Tipus beallitas 		
+		fieldVariableType.setSelectedIndex( type.getIndex() );	
+		
 		commonPost();
 		
 	}
@@ -118,13 +119,13 @@ public class VariableElementEditor extends DataEditor{
 					int index = fieldVariableType.getSelectedIndex();
 				}
 			}
-		});
-		
-
-		
+		});		
 	}
 	
 	private void commonPost(){
+		
+		//Parameters
+		fieldVariableParameters = new VariableParametersStringComponent(type);
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
 		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.title.variabletype") + ": ");
@@ -134,7 +135,7 @@ public class VariableElementEditor extends DataEditor{
 		this.add( labelVariableType, fieldVariableType );
 		this.add( labelVariableParameters, fieldVariableParameters );
 		
-		fieldVariableType.revalidate();
+		//fieldVariableType.revalidate();
 
 	}
 		
@@ -214,14 +215,12 @@ public class VariableElementEditor extends DataEditor{
 		
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
-			
+		
 			//Uj rogzites eseten
 			if( null == mode ){			
 
-				fieldVariableType.setParameterName(fieldName.getText());				
-				VEDModel newParamElement = new VEDModel( fieldVariableType.getElementParameter() );	
-			
-				nodeForCapture.add( newParamElement );
+				VariableElementDataModel newVariableElement = new VariableElementDataModel( fieldName.getText(), type, fieldVariableParameters.getParameters());
+				nodeForCapture.add( newVariableElement );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -234,6 +233,7 @@ public class VariableElementEditor extends DataEditor{
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
 			tree.changed();
+
 		}
 		
 	}

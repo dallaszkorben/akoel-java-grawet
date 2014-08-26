@@ -12,18 +12,12 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.elements.VEDModel;
+import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
-import hu.akoel.grawit.gui.editor.BaseElementEditor;
-import hu.akoel.grawit.gui.editor.BasePageEditor;
 import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editor.ParamElementEditor;
-import hu.akoel.grawit.gui.editor.VEEditor;
+import hu.akoel.grawit.gui.editor.VariableElementEditor;
 import hu.akoel.grawit.gui.editor.VariableNodeEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -69,8 +63,8 @@ public class VariableTree extends Tree{
 			VariableNodeEditor variableNodeEditor = new VariableNodeEditor(this, (VariableNodeDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( variableNodeEditor);								
 		
-		}else if( selectedNode instanceof VEDModel ){
-			VEEditor variableElementEditor = new VEEditor( this, (VEDModel)selectedNode, EditMode.VIEW );								
+		}else if( selectedNode instanceof VariableElementDataModel ){
+			VariableElementEditor variableElementEditor = new VariableElementEditor( this, (VariableElementDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( variableElementEditor);		
 								
 		}		
@@ -118,7 +112,7 @@ public class VariableTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 //TODO befejezni							
-					VEEditor variableElementEditor = new VEEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
+					VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableElementEditor);								
 				
 				}

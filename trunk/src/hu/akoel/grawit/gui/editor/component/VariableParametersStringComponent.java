@@ -1,45 +1,70 @@
 package hu.akoel.grawit.gui.editor.component;
 
-import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.VariableType;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
-import javax.swing.JLabel;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 public class VariableParametersStringComponent extends JPanel implements VariableParametersComponentInterface{
 	
 	private static final long serialVersionUID = -5111211582850994473L;
 	
-	private final String ATTR_VALUE = "value";
-	
 	private JTextField fieldString;
+	private VariableType type;
+	
+	private ArrayList<Object> parameterList;
 
-	public VariableParametersStringComponent(){
+	public VariableParametersStringComponent( VariableType type ){
 		super();
 		
-		common();
+		common( type );
 	}
 	
-	private void common(){
+	private void common( VariableType type ){
+		this.type = type;
+
+		parameterList = new ArrayList<>();	
+		
 		this.setLayout( new GridBagLayout() );
 		
-		JLabel labelString = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.string.string") );
-		JTextField fieldString = new JTextField("");
+//		JLabel labelString = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.string.string") );
+		
+		fieldString = new JTextField("");
+		parameterList.add("");
+		fieldString.setInputVerifier(new InputVerifier() {
+			String goodValue = "";
+			
+			@Override
+			public boolean verify(JComponent input) {
+				JTextField text = (JTextField)input;
+				String possibleValue = text.getText();
+
+				try {
+					//Kiprobalja, hogy konvertalhato-e
+					Object value = VariableParametersStringComponent.this.type.getParameterClass(0).getConstructor(String.class).newInstance(possibleValue);
+					parameterList.set( 0, value );
+					goodValue = possibleValue;
+					
+				} catch (Exception e) {
+					text.setText( goodValue );
+					return false;
+				}				
+				return true;
+			}
+		});
 		
 		int gridY = 0;
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);
-		
+/*		
 		c.gridy = gridY;
 		c.gridx = 0;
 		c.gridwidth = 0;
@@ -48,9 +73,10 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
 		this.add( labelString, c );
-		
+*/		
+		gridY++;
 		c.gridy = gridY;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridwidth = 0;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -71,25 +97,8 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 	}
 
 	@Override
-	public Tag getTag() {
-		return TAG;
+	public ArrayList<Object> getParameters() {
+		return parameterList;
 	}
-	
-	@Override
-	public void getXMLElement(Document document, Element elementNode ) {
-		Attr attr;
-		
-		Element parameterNode;
-
-		//Node element
-		parameterNode = document.createElement( VariableParametersStringComponent.this.getTag().getName() );
-		attr = document.createAttribute( ATTR_VALUE );
-		attr.setValue( fieldString.getText() );
-		parameterNode.setAttributeNode(attr);	
-		elementNode.appendChild( parameterNode);
-
-	}
-
-
 
 }

@@ -6,8 +6,8 @@ public class XMLMissingTagPharseException extends XMLPharseException{
 
 	private static final long serialVersionUID = -4598121737499359506L;
 
-	private Tag rootTag;
-	private Tag tag;
+	private String rootTag;
+	private String tag;
 	private String missingTagName;
 
 	/**
@@ -16,18 +16,18 @@ public class XMLMissingTagPharseException extends XMLPharseException{
 	 * @param rootTag
 	 * @param tag
 	 */
-	public XMLMissingTagPharseException( Tag rootTag, Tag tag, String nameAttribute, Tag missingTagName ){
-		super("Under\n<" + rootTag.getName() + ">" + "\n   <" + tag.getName() + " name='" + nameAttribute + "'>" + "\n\n the <" + missingTagName + "> is missing");
+	public XMLMissingTagPharseException( String rootTag, String tag, String nameAttribute, String missingTagName ){
+		super("Under\n<" + rootTag + ">" + "\n   <" + tag + " name='" + nameAttribute + "'>" + "\n\n the <" + missingTagName + "> is missing");
 		this.rootTag = rootTag;
 		this.tag = tag;
-		this.missingTagName = missingTagName.getName();
+		this.missingTagName = missingTagName;
 	}
 	
-	public Tag getTag() {
+	public String getTag() {
 		return tag;
 	}
 
-	public Tag getRootTag() {
+	public String getRootTag() {
 		return rootTag;
 	}
 

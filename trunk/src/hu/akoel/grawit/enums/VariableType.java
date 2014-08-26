@@ -7,10 +7,10 @@ import hu.akoel.grawit.CommonOperations;
 
 public enum VariableType {	
 	
-	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.title.variabletype.string"), new Class[]{String.class}),
-	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.title.variabletype.randomstring"), new Class[]{String.class, Integer.class}),
-	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.title.variabletype.randominteger"), new Class[]{Integer.class, Integer.class}),
-	RANDOM_DECIMAL_PARAMETER( 3, CommonOperations.getTranslation("editor.title.variabletype.randomdecimal"), new Class[]{Integer.class, Integer.class, Double.class, Double.class});
+	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.title.variabletype.string"), new Class<?>[]{String.class}),
+	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.title.variabletype.randomstring"), new Class<?>[]{String.class, Integer.class}),
+	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.title.variabletype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
+	RANDOM_DECIMAL_PARAMETER( 3, CommonOperations.getTranslation("editor.title.variabletype.randomdecimal"), new Class<?>[]{Integer.class, Integer.class, Double.class, Double.class});
 	
 	private int index;
 	private String translatedName;
@@ -39,10 +39,13 @@ public enum VariableType {
 		//TODO folytatni
 		return null;
 	}
-
 	
 	public Class<?> getParameterClass( int index ){
 		return parameterClassList.get(index);
+	}
+	
+	public int getParameterLength(){
+		return parameterClassList.size();
 	}
 	
 	public static VariableType getVariableParameterTypeByIndex( int index ){

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import com.gargoylesoftware.htmlunit.javascript.host.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
@@ -14,7 +12,7 @@ import hu.akoel.grawit.core.parameter.ElementParameter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.VariableType;
-import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
+import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
 
@@ -38,7 +36,12 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		this.parameters = parameters;
 	}
 	
-	public VariableElementDataModel( Element element ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException{
+	public VariableElementDataModel( Element element ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
+		
+		if( !element.getTagName().equals( TAG.getName() ) ){
+			Element parentElement = (Element)element.getParentNode();
+			throw new XMLMissingTagPharseException( getRootTag().getName(), parentElement.getTagName(), parentElement.getAttribute( ATTR_NAME ), TAG.getName() );
+		}
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
@@ -67,20 +70,34 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		parameters = new ArrayList<Object>();
 		NodeList paramNodeList = (NodeList) element.getChildNodes();
 		int nodeListLength = paramNodeList.getLength();
-		for( int i = 0; i < nodeListLength; i++ ){
-			Element e = (Element)paramNodeList.item( i );
+		for( int index = 0; index < nodeListLength; index++ ){
+			Element e = (Element)paramNodeList.item( index );
 			if( !e.getTagName().equals( TAG_PARAMETER )){
-				throw new XMLMissingTagPharseException(getRootTag(), getTag(), name, TAG_PARAMETER );
+				throw new XMLMissingTagPharseException(getRootTag().getName(), getTag().getName(), name, TAG_PARAMETER.getName() );
 			}
 			if( !e.hasAttribute( ATTR_VALUE ) ){
 				throw new XMLMissingAttributePharseException( getRootTag(), TAG_PARAMETER, ATTR_VALUE );			
 			}
 			
-			//TODO na itt kell atalakitani
-			e.getAttribute( ATTR_VALUE );		
-		}
+			//At kell alakitani a parameter tipusanak megfeleloen
+			String valueString = e.getAttribute( ATTR_VALUE );	
+			
+			try {
+				parameters.add( type.getParameterClass(index).getConstructor(String.class).newInstance(valueString) );
+			} catch (Exception e1) {
+				throw new XMLCastPharseException( getRootTag().getName(), TAG_PARAMETER.getName(), valueString, type.getParameterClass(index).getSimpleName() );
+			}
+			
+		}		
 		
-		
+	}
+	
+	public VariableType getType(){
+		return type;
+	}
+	
+	public ArrayList<Object> getParameters(){
+		return parameters;
 	}
 	
 	@Override
