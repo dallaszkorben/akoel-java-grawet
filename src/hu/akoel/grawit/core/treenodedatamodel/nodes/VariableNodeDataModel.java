@@ -4,6 +4,7 @@ import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.VDMInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.elements.VEDModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -126,9 +127,9 @@ public class VariableNodeDataModel extends VDMInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof VDMInterface ){
+			if( !object.equals(this) && object instanceof VariableDataModelInterface ){
 				
-				Element element = ((VDMInterface)object).getXMLElement( document );
+				Element element = ((VariableDataModelInterface)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
