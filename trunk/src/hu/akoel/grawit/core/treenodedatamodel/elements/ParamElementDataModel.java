@@ -21,7 +21,7 @@ import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
 import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
-import hu.akoel.grawit.core.parameter.StringParameter;
+import hu.akoel.grawit.core.parameter.SParameter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
@@ -72,7 +72,7 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		}else if( Operation.CHECKBOX.name().equals(operatorString) ){
 			this.elementOperation = new CheckboxOperation();
 		}else if( Operation.FIELD.name().equals( operatorString ) ){
-			this.elementOperation = new FieldOperation( new StringParameter("", ""));
+			this.elementOperation = new FieldOperation( new SParameter("", ""));
 		}else if( Operation.LINK.name().equals( operatorString ) ){
 			this.elementOperation = new LinkOperation();
 		}else if( Operation.RADIOBUTTON.name().equals( operatorString ) ){

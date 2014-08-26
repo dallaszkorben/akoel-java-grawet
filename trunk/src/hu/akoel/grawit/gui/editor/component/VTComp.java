@@ -1,10 +1,10 @@
 package hu.akoel.grawit.gui.editor.component;
 
-import hu.akoel.grawit.core.parameter.ElementParameter;
-import hu.akoel.grawit.core.parameter.RandomDecimalParameter;
-import hu.akoel.grawit.core.parameter.RandomIntegerRangeParameter;
-import hu.akoel.grawit.core.parameter.RandomStringParameter;
-import hu.akoel.grawit.core.parameter.StringParameter;
+import hu.akoel.grawit.core.parameter.EParameter;
+import hu.akoel.grawit.core.parameter.RDecParameter;
+import hu.akoel.grawit.core.parameter.RIRParameter;
+import hu.akoel.grawit.core.parameter.RSParameter;
+import hu.akoel.grawit.core.parameter.SParameter;
 import hu.akoel.grawit.enums.VariableType;
 
 import java.awt.Component;
@@ -26,7 +26,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
-public class VariableTypeComponent extends JPanel implements EditorComponentInterface{
+public class VTComp extends JPanel implements EditorComponentInterface{
 
 	private static final long serialVersionUID = -3681477011797868779L;
 
@@ -34,16 +34,16 @@ public class VariableTypeComponent extends JPanel implements EditorComponentInte
 	private ComboBoxComponent<String> fieldVariableType;
 	
 	//Adatmodel
-	private ElementParameter elementParameter;
+	private EParameter elementParameter;
 	
 	private  ArrayList<JTextField> valueList = new ArrayList<>();
 	
-	public VariableTypeComponent(){
+	public VTComp(){
 		super();
 		
 		this.setLayout( new GridBagLayout());
 		
-		this.elementParameter = new StringParameter("", "");
+		this.elementParameter = new SParameter("", "");
 		
 		fieldVariableType = new ComboBoxComponent<String>();
 		fieldVariableType.addItem( VariableType.getVariableParameterTypeByIndex(0).getTranslatedName() );
@@ -64,17 +64,17 @@ public class VariableTypeComponent extends JPanel implements EditorComponentInte
 					int index = fieldVariableType.getSelectedIndex();
 					
 					if( VariableType.getVariableParameterTypeByIndex(index).equals( VariableType.STRING_PARAMETER ) ){
-						elementParameter = new StringParameter();
+						elementParameter = new SParameter();
 					}else if( VariableType.getVariableParameterTypeByIndex(index).equals( VariableType.RANDOM_STRING_PARAMETER ) ){
-						elementParameter = new RandomStringParameter();
+						elementParameter = new RSParameter();
 					}else if( VariableType.getVariableParameterTypeByIndex(index).equals( VariableType.RANDOM_INTEGER_PARAMETER ) ){
-						elementParameter = new RandomIntegerRangeParameter();
+						elementParameter = new RIRParameter();
 					}else if( VariableType.getVariableParameterTypeByIndex(index).equals( VariableType.RANDOM_DECIMAL_PARAMETER ) ){
-						elementParameter = new RandomDecimalParameter();
+						elementParameter = new RDecParameter();
 					}
 					
 					//Eltunteti az osszes Component-t
-					VariableTypeComponent.this.removeAll();
+					VTComp.this.removeAll();
 							
 					//Majd ujra feltolti
 					int gridY = 0;
@@ -87,7 +87,7 @@ public class VariableTypeComponent extends JPanel implements EditorComponentInte
 					c.fill = GridBagConstraints.HORIZONTAL;
 					c.weightx = 0;
 					c.anchor = GridBagConstraints.WEST;
-					VariableTypeComponent.this.add( fieldVariableType, c );
+					VTComp.this.add( fieldVariableType, c );
 					
 					for( int i = 0; i < elementParameter.getParameterNumber(); i++ ){
 						gridY++;
@@ -99,7 +99,7 @@ public class VariableTypeComponent extends JPanel implements EditorComponentInte
 						c.fill = GridBagConstraints.NONE;
 						c.weightx = 0;
 						c.anchor = GridBagConstraints.WEST;						
-						VariableTypeComponent.this.add( new JLabel( elementParameter.getParameterName(i) + ": "), c);
+						VTComp.this.add( new JLabel( elementParameter.getParameterName(i) + ": "), c);
 						
 						c.insets = new Insets(0,0,0,0);
 						c.gridy = gridY;
@@ -114,9 +114,9 @@ public class VariableTypeComponent extends JPanel implements EditorComponentInte
 
 						//textValue.getDocument().addDocumentListener( new ValueDocumentListener(textValue, i));							
 						((AbstractDocument)textValue.getDocument()).setDocumentFilter( new ValueDocumentFilter( textValue, i));
-						VariableTypeComponent.this.add( textValue, c);						
+						VTComp.this.add( textValue, c);						
 					}
-					VariableTypeComponent.this.revalidate();	
+					VTComp.this.revalidate();	
 					
 				}				
 			}
@@ -217,7 +217,7 @@ System.err.println("replace: " + length);
 */			
 		
 	
-	public ElementParameter getElementParameter(){
+	public EParameter getElementParameter(){
 		return elementParameter;
 	}
 	

@@ -1,41 +1,32 @@
 package hu.akoel.grawit.gui.editor;
 
 import java.awt.Component;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.elements.VEDModel;
-import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
-import hu.akoel.grawit.enums.VariableType;
-import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editor.component.VTComp;
-import hu.akoel.grawit.gui.editor.component.VariableParametersComponentInterface;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class VariableElementEditor extends DataEditor{
+public class VEEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
 	private Tree tree;
-	private VariableElementDataModel nodeForModify;
+	private VEDModel nodeForModify;
 	private VariableNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelVariableType;
-	private ComboBoxComponent<String> fieldVariableType;
-	private JLabel labelVariableParameters;
-	private VariableParametersComponentInterface fieldVariableParameters;
+	private VTComp fieldVariableType;
 	
 	/**
 	 *  Uj VariableElement rogzitese - Insert
@@ -43,7 +34,7 @@ public class VariableElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedNode
 	 */
-	public VariableElementEditor( Tree tree, VariableNodeDataModel selectedNode ){
+	public VEEditor( Tree tree, VariableNodeDataModel selectedNode ){
 		super( CommonOperations.getTranslation( "tree.nodetype.variableelement" ) );
 
 		this.tree = tree;
@@ -54,12 +45,6 @@ public class VariableElementEditor extends DataEditor{
 		
 		//Name
 		fieldName.setText( "" );
-		
-		//Type - String
-		fieldVariableType.setSelectedIndex( VariableType.STRING_PARAMETER.getIndex() );
-		
-		//Parameters
-		//fieldVariableParameters = new  
 		
 		commonPost();
 	}
@@ -72,7 +57,7 @@ public class VariableElementEditor extends DataEditor{
 	 * @param selectedElement
 	 * @param mode
 	 */
-	public VariableElementEditor( Tree tree, VEDModel selectedElement, EditMode mode ){		
+	public VEEditor( Tree tree, VEDModel selectedElement, EditMode mode ){		
 		super( mode, CommonOperations.getTranslation("tree.nodetype.variableelement") );
 
 		this.tree = tree;
@@ -102,25 +87,7 @@ public class VariableElementEditor extends DataEditor{
 		fieldName = new TextFieldComponent();
 	
 		//VariableTypeSelector		
-		fieldVariableType = new ComboBoxComponent<>();
-		fieldVariableType.addItem( VariableType.getVariableParameterTypeByIndex(0).getTranslatedName() );
-		fieldVariableType.addItem( VariableType.getVariableParameterTypeByIndex(1).getTranslatedName() );
-		fieldVariableType.addItem( VariableType.getVariableParameterTypeByIndex(2).getTranslatedName() );
-		fieldVariableType.addItem( VariableType.getVariableParameterTypeByIndex(3).getTranslatedName() );
-		fieldVariableType.addItemListener( new ItemListener() {
-			
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-			
-				//Ha megvaltoztattam a tipust
-				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
-				
-					int index = fieldVariableType.getSelectedIndex();
-				}
-			}
-		});
-		
-
+		fieldVariableType = new VTComp();
 		
 	}
 	
@@ -128,11 +95,9 @@ public class VariableElementEditor extends DataEditor{
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
 		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.title.variabletype") + ": ");
-		labelVariableParameters = new JLabel("");
 		
 		this.add( labelName, fieldName );
 		this.add( labelVariableType, fieldVariableType );
-		this.add( labelVariableParameters, fieldVariableParameters );
 		
 		fieldVariableType.revalidate();
 

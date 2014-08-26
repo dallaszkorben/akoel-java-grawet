@@ -2,7 +2,7 @@ package hu.akoel.grawit.core.parameter;
 
 import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
 
-public class VariableParameter implements ElementParameter{
+public class VariableParameter implements EParameter{
 	String name;
 	ParamElementDataModel element;
 

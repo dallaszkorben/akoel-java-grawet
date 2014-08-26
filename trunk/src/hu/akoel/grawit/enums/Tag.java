@@ -15,7 +15,7 @@ public enum Tag{
 	VARIABLENODE("node"),
 	VARIABLEELEMENT("element"),
 	
-	VARIABLETYPE("variabletype"),
+//	VARIABLETYPE("variabletype"),
 	VARIABLEPARAMETER("parameter"),	
 	;
 	private String name;

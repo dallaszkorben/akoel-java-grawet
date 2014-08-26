@@ -213,7 +213,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 
 	@Override
 	public void removeBaseElement(BaseElementDataModel element) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub Megoldani!!!!
 		
 	}
 

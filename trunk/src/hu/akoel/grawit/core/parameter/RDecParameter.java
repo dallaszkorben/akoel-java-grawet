@@ -7,46 +7,43 @@ import org.w3c.dom.Element;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.VariableType;
 
-public class RandomIntegerRangeParameter implements ElementParameter{
-
+public class RDecParameter implements EParameter{
 	private final static int parameterNumber = 2;	
-	private final static VariableType type = VariableType.RANDOM_INTEGER_PARAMETER;
+	private final static VariableType type = VariableType.RANDOM_DECIMAL_PARAMETER;
 	
 	String name;
-	Integer fromValue;
-	String fromTitle;
-	Integer toValue;
-	String toTitle;
+	String intLengthTitle;
+	Integer intLengthValue;
+	String decimalLengthTitle;
+	Integer decimalLengthValue;
 	
-	public RandomIntegerRangeParameter(){
+	public RDecParameter(){
 		this.name = "";
-		this.fromValue = 0;
-		this.toValue = 100;
-		
+		this.intLengthValue = 3;
+		this.decimalLengthValue = 2;
 		common();
 	}
 	
-	public RandomIntegerRangeParameter( String name, int from, int to ){
+	public RDecParameter( String name, int intLength, int decimalLength ){
 		this.name = name;
-		this.fromValue = from;
-		this.toValue = to;
-		
+		this.intLengthValue = intLength;
+		this.decimalLengthValue = decimalLength;
 		common();
 	}
 	
 	private void common(){
-		this.fromTitle = CommonOperations.getTranslation("editor.title.variabletype.randominteger.from");
-		this.toTitle = CommonOperations.getTranslation("editor.title.variabletype.randominteger.to");		
+		this.intLengthTitle = CommonOperations.getTranslation("editor.title.variabletype.randomdecimal.intlength");
+		this.decimalLengthTitle = CommonOperations.getTranslation("editor.title.variabletype.randomdecimal.decimallength");		
 	}
 	
 	@Override
-	public String getName() {		
+	public String getName( ) {		
 		return name;
 	}
 
 	@Override
 	public String getValue() {
-		return CommonOperations.getRandomStringIntegerRange(fromValue, toValue);
+		return CommonOperations.getRandomStringDecimal(intLengthValue, decimalLengthValue);
 	}
 
 	@Override
@@ -55,13 +52,13 @@ public class RandomIntegerRangeParameter implements ElementParameter{
 	}
 
 	@Override
-	public VariableType getType() {		
+	public VariableType getType() {
 		return type;
 	}
 
 	@Override
 	public int getParameterNumber() {
-		return parameterNumber;
+		return parameterNumber ;
 	}
 
 	@Override
@@ -77,12 +74,12 @@ public class RandomIntegerRangeParameter implements ElementParameter{
 
 			//Name
 			attr = document.createAttribute( ATTR_NAME );
-			attr.setValue( fromTitle );
+			attr.setValue( intLengthTitle );
 			elementElement.setAttributeNode(attr);	
 		
 			//Value
 			attr = document.createAttribute( ATTR_VALUE );
-			attr.setValue( fromValue.toString() );
+			attr.setValue( intLengthValue.toString() );
 			elementElement.setAttributeNode(attr);	
 
 			return elementElement;
@@ -91,12 +88,12 @@ public class RandomIntegerRangeParameter implements ElementParameter{
 
 			//Name
 			attr = document.createAttribute( ATTR_NAME );
-			attr.setValue( toTitle );
+			attr.setValue( decimalLengthTitle );
 			elementElement.setAttributeNode(attr);	
 		
 			//Value
 			attr = document.createAttribute( ATTR_VALUE );
-			attr.setValue( toValue.toString() );
+			attr.setValue( decimalLengthValue.toString() );
 			elementElement.setAttributeNode(attr);	
 
 			return elementElement;
@@ -107,16 +104,16 @@ public class RandomIntegerRangeParameter implements ElementParameter{
 			
 		}
 	}
-	
+
 	@Override
 	public String getParameterName(int index) {
 		if( index == 0 ){
 
-			return fromTitle;
+			return intLengthTitle;
 			
 		}else if( index == 1 ){
 
-			return toTitle;
+			return decimalLengthTitle;
 			
 		}
 		return null;
@@ -126,11 +123,11 @@ public class RandomIntegerRangeParameter implements ElementParameter{
 	public Object getParameterValue(int index) {
 		if( index == 0 ){
 
-			return fromValue;
+			return intLengthValue;
 			
 		}else if( index == 1 ){
 
-			return toValue;
+			return decimalLengthValue;
 			
 		}
 		return null;
@@ -140,25 +137,26 @@ public class RandomIntegerRangeParameter implements ElementParameter{
 	public Class<?> getParameterClass(int index) {
 		if( index == 0 ){
 
-			return fromValue.getClass();
+			return intLengthValue.getClass();
 			
 		}else if( index == 1 ){
 
-			return toValue.getClass();
+			return decimalLengthValue.getClass();
 			
 		}
 		return null;
 	}
 
+	//TODO atalakitas
 	@Override
 	public void setParameterValue(Object value, int index) {
 		if( index == 0 ){
 
-			fromValue = (Integer)value;
+			intLengthValue = (Integer)value;
 			
 		}else if( index == 1 ){
 
-			toValue = (Integer)value;
+			decimalLengthValue = (Integer)value;
 			
 		}
 		

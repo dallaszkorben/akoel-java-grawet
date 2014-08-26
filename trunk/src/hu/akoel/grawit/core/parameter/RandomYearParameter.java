@@ -2,7 +2,7 @@ package hu.akoel.grawit.core.parameter;
 
 import hu.akoel.grawit.CommonOperations;
 
-public class RandomYearParameter implements ElementParameter {
+public class RandomYearParameter implements EParameter {
 	String name;
 	int begin;
 	int end; 

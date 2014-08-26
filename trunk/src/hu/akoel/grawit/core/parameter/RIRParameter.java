@@ -7,56 +7,55 @@ import org.w3c.dom.Element;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.VariableType;
 
-public class RandomStringParameter implements ElementParameter{
-	private String name;
-	private String lengthTitle;
-	private Integer lengthValue;
-	private String sampleStringTitle;
-	private String sampleStringValue;
+public class RIRParameter implements EParameter{
+
+	private final static int parameterNumber = 2;	
+	private final static VariableType type = VariableType.RANDOM_INTEGER_PARAMETER;
 	
-	private final static int parameterNumber = 2;
+	String name;
+	Integer fromValue;
+	String fromTitle;
+	Integer toValue;
+	String toTitle;
 	
-	private final static VariableType type = VariableType.RANDOM_STRING_PARAMETER;
-	
-	public RandomStringParameter(){
-		super();
+	public RIRParameter(){
 		this.name = "";
-		this.lengthValue = 1;
-		this.sampleStringValue = "";
-		common();
-	}
-	
-	public RandomStringParameter( String name, String sampleStringValue, Integer lengthValue ){
-		super();
-		this.name = name;
-		this.lengthValue = lengthValue;
-		this.sampleStringValue = sampleStringValue;
+		this.fromValue = 0;
+		this.toValue = 100;
 		
 		common();
 	}
-
+	
+	public RIRParameter( String name, int from, int to ){
+		this.name = name;
+		this.fromValue = from;
+		this.toValue = to;
+		
+		common();
+	}
+	
 	private void common(){
-		this.lengthTitle = CommonOperations.getTranslation("editor.title.variabletype.randomstring.length");
-		this.sampleStringTitle = CommonOperations.getTranslation("editor.title.variabletype.randomstring.samplestring");		
+		this.fromTitle = CommonOperations.getTranslation("editor.title.variabletype.randominteger.from");
+		this.toTitle = CommonOperations.getTranslation("editor.title.variabletype.randominteger.to");		
 	}
 	
 	@Override
-	public String getName() {
+	public String getName() {		
 		return name;
 	}
-	
+
+	@Override
+	public String getValue() {
+		return CommonOperations.getRandomStringIntegerRange(fromValue, toValue);
+	}
+
 	@Override
 	public void setName(String name) {
 		this.name = name;		
 	}
 
 	@Override
-	public String getValue() {
-		return CommonOperations.getRandomString(sampleStringValue, lengthValue );
-	}
-	
-	@Override
-	public VariableType getType(){
+	public VariableType getType() {		
 		return type;
 	}
 
@@ -78,12 +77,12 @@ public class RandomStringParameter implements ElementParameter{
 
 			//Name
 			attr = document.createAttribute( ATTR_NAME );
-			attr.setValue( sampleStringTitle );
+			attr.setValue( fromTitle );
 			elementElement.setAttributeNode(attr);	
 		
 			//Value
 			attr = document.createAttribute( ATTR_VALUE );
-			attr.setValue( sampleStringValue );
+			attr.setValue( fromValue.toString() );
 			elementElement.setAttributeNode(attr);	
 
 			return elementElement;
@@ -92,12 +91,12 @@ public class RandomStringParameter implements ElementParameter{
 
 			//Name
 			attr = document.createAttribute( ATTR_NAME );
-			attr.setValue( lengthTitle );
+			attr.setValue( toTitle );
 			elementElement.setAttributeNode(attr);	
 		
 			//Value
 			attr = document.createAttribute( ATTR_VALUE );
-			attr.setValue( lengthValue.toString() );
+			attr.setValue( toValue.toString() );
 			elementElement.setAttributeNode(attr);	
 
 			return elementElement;
@@ -108,16 +107,16 @@ public class RandomStringParameter implements ElementParameter{
 			
 		}
 	}
-
+	
 	@Override
 	public String getParameterName(int index) {
 		if( index == 0 ){
 
-			return sampleStringTitle;
+			return fromTitle;
 			
 		}else if( index == 1 ){
 
-			return lengthTitle;
+			return toTitle;
 			
 		}
 		return null;
@@ -127,11 +126,11 @@ public class RandomStringParameter implements ElementParameter{
 	public Object getParameterValue(int index) {
 		if( index == 0 ){
 
-			return sampleStringValue;
+			return fromValue;
 			
 		}else if( index == 1 ){
 
-			return lengthValue;
+			return toValue;
 			
 		}
 		return null;
@@ -141,11 +140,11 @@ public class RandomStringParameter implements ElementParameter{
 	public Class<?> getParameterClass(int index) {
 		if( index == 0 ){
 
-			return sampleStringValue.getClass();
+			return fromValue.getClass();
 			
 		}else if( index == 1 ){
 
-			return lengthValue.getClass();
+			return toValue.getClass();
 			
 		}
 		return null;
@@ -155,17 +154,14 @@ public class RandomStringParameter implements ElementParameter{
 	public void setParameterValue(Object value, int index) {
 		if( index == 0 ){
 
-			sampleStringValue = (String)value;
+			fromValue = (Integer)value;
 			
 		}else if( index == 1 ){
 
-			lengthValue = (Integer)value;
+			toValue = (Integer)value;
 			
 		}
 		
 	}
 
-	
-	
-	
 }
