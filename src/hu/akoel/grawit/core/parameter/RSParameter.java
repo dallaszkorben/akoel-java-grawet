@@ -7,58 +7,62 @@ import org.w3c.dom.Element;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.VariableType;
 
-public class RandomDecimalParameter implements ElementParameter{
-	private final static int parameterNumber = 2;	
-	private final static VariableType type = VariableType.RANDOM_DECIMAL_PARAMETER;
+public class RSParameter implements EParameter{
+	private String name;
+	private String lengthTitle;
+	private Integer lengthValue;
+	private String sampleStringTitle;
+	private String sampleStringValue;
 	
-	String name;
-	String intLengthTitle;
-	Integer intLengthValue;
-	String decimalLengthTitle;
-	Integer decimalLengthValue;
+	private final static int parameterNumber = 2;
 	
-	public RandomDecimalParameter(){
+	private final static VariableType type = VariableType.RANDOM_STRING_PARAMETER;
+	
+	public RSParameter(){
+		super();
 		this.name = "";
-		this.intLengthValue = 3;
-		this.decimalLengthValue = 2;
+		this.lengthValue = 1;
+		this.sampleStringValue = "";
 		common();
 	}
 	
-	public RandomDecimalParameter( String name, int intLength, int decimalLength ){
+	public RSParameter( String name, String sampleStringValue, Integer lengthValue ){
+		super();
 		this.name = name;
-		this.intLengthValue = intLength;
-		this.decimalLengthValue = decimalLength;
+		this.lengthValue = lengthValue;
+		this.sampleStringValue = sampleStringValue;
+		
 		common();
 	}
-	
+
 	private void common(){
-		this.intLengthTitle = CommonOperations.getTranslation("editor.title.variabletype.randomdecimal.intlength");
-		this.decimalLengthTitle = CommonOperations.getTranslation("editor.title.variabletype.randomdecimal.decimallength");		
+		this.lengthTitle = CommonOperations.getTranslation("editor.title.variabletype.randomstring.length");
+		this.sampleStringTitle = CommonOperations.getTranslation("editor.title.variabletype.randomstring.samplestring");		
 	}
 	
 	@Override
-	public String getName( ) {		
+	public String getName() {
 		return name;
 	}
-
-	@Override
-	public String getValue() {
-		return CommonOperations.getRandomStringDecimal(intLengthValue, decimalLengthValue);
-	}
-
+	
 	@Override
 	public void setName(String name) {
 		this.name = name;		
 	}
 
 	@Override
-	public VariableType getType() {
+	public String getValue() {
+		return CommonOperations.getRandomString(sampleStringValue, lengthValue );
+	}
+	
+	@Override
+	public VariableType getType(){
 		return type;
 	}
 
 	@Override
 	public int getParameterNumber() {
-		return parameterNumber ;
+		return parameterNumber;
 	}
 
 	@Override
@@ -74,12 +78,12 @@ public class RandomDecimalParameter implements ElementParameter{
 
 			//Name
 			attr = document.createAttribute( ATTR_NAME );
-			attr.setValue( intLengthTitle );
+			attr.setValue( sampleStringTitle );
 			elementElement.setAttributeNode(attr);	
 		
 			//Value
 			attr = document.createAttribute( ATTR_VALUE );
-			attr.setValue( intLengthValue.toString() );
+			attr.setValue( sampleStringValue );
 			elementElement.setAttributeNode(attr);	
 
 			return elementElement;
@@ -88,12 +92,12 @@ public class RandomDecimalParameter implements ElementParameter{
 
 			//Name
 			attr = document.createAttribute( ATTR_NAME );
-			attr.setValue( decimalLengthTitle );
+			attr.setValue( lengthTitle );
 			elementElement.setAttributeNode(attr);	
 		
 			//Value
 			attr = document.createAttribute( ATTR_VALUE );
-			attr.setValue( decimalLengthValue.toString() );
+			attr.setValue( lengthValue.toString() );
 			elementElement.setAttributeNode(attr);	
 
 			return elementElement;
@@ -109,11 +113,11 @@ public class RandomDecimalParameter implements ElementParameter{
 	public String getParameterName(int index) {
 		if( index == 0 ){
 
-			return intLengthTitle;
+			return sampleStringTitle;
 			
 		}else if( index == 1 ){
 
-			return decimalLengthTitle;
+			return lengthTitle;
 			
 		}
 		return null;
@@ -123,11 +127,11 @@ public class RandomDecimalParameter implements ElementParameter{
 	public Object getParameterValue(int index) {
 		if( index == 0 ){
 
-			return intLengthValue;
+			return sampleStringValue;
 			
 		}else if( index == 1 ){
 
-			return decimalLengthValue;
+			return lengthValue;
 			
 		}
 		return null;
@@ -137,29 +141,31 @@ public class RandomDecimalParameter implements ElementParameter{
 	public Class<?> getParameterClass(int index) {
 		if( index == 0 ){
 
-			return intLengthValue.getClass();
+			return sampleStringValue.getClass();
 			
 		}else if( index == 1 ){
 
-			return decimalLengthValue.getClass();
+			return lengthValue.getClass();
 			
 		}
 		return null;
 	}
 
-	//TODO atalakitas
 	@Override
 	public void setParameterValue(Object value, int index) {
 		if( index == 0 ){
 
-			intLengthValue = (Integer)value;
+			sampleStringValue = (String)value;
 			
 		}else if( index == 1 ){
 
-			decimalLengthValue = (Integer)value;
+			lengthValue = (Integer)value;
 			
 		}
 		
 	}
 
+	
+	
+	
 }

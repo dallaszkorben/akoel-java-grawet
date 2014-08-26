@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 
 import hu.akoel.grawit.CommonOperations;
 
-public class RandomYearMonthParameter implements ElementParameter{
+public class RandomYearMonthParameter implements EParameter{
 	String name;
 	int beginYear;
 	int beginMonth;

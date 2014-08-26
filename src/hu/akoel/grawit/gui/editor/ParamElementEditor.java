@@ -12,7 +12,7 @@ import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
 import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
-import hu.akoel.grawit.core.parameter.StringParameter;
+import hu.akoel.grawit.core.parameter.SParameter;
 import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
@@ -219,8 +219,7 @@ public class ParamElementEditor extends DataEditor{
 						}
 					}
 				}
-			}
-			
+			}			
 		}
 
 		//Operation
@@ -237,7 +236,7 @@ public class ParamElementEditor extends DataEditor{
 			ElementOperationInterface elementOperation = null;
 			Operation operation = Operation.getOperationByIndex( fieldOperation.getSelectedIndex() );
 			if( operation.equals( Operation.FIELD ) ){
-				elementOperation = new FieldOperation( new StringParameter("param1", "111" ) );
+				elementOperation = new FieldOperation( new SParameter("param1", "111" ) );
 			}else if( operation.equals( Operation.LINK ) ){
 				elementOperation = new LinkOperation();
 			}else if( operation.equals( Operation.BUTTON ) ){

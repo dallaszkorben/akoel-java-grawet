@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.VariableType;
 
-public class StringParameter implements ElementParameter{
+public class SParameter implements EParameter{
 	private String name;
 	private String stringValue;
 	private String stringTitle;
@@ -20,13 +20,13 @@ public class StringParameter implements ElementParameter{
 	
 	private final static VariableType type = VariableType.STRING_PARAMETER;
 	
-	public StringParameter(){
+	public SParameter(){
 		this.name = "";
 		this.stringValue = "";		
 		common();
 	}
 	
-	public StringParameter( String name, String constant ){
+	public SParameter( String name, String constant ){
 		this.name = name;
 		this.stringValue = constant;
 		
@@ -131,8 +131,8 @@ public class StringParameter implements ElementParameter{
 	}
 
 	@Override
-	public Format getFormat() {
-		MaskFormatter
+	public Format getFormat(int index) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

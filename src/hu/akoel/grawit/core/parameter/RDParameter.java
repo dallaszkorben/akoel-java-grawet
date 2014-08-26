@@ -5,13 +5,13 @@ import hu.akoel.grawit.CommonOperations;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class RandomDateParameter implements ElementParameter{
+public class RDParameter implements EParameter{
 	String name;
 	Calendar begin;
 	Calendar end;
 	SimpleDateFormat dateFormat;
 	
-	public RandomDateParameter( String name, Calendar begin, Calendar end, SimpleDateFormat dateFormat ){
+	public RDParameter( String name, Calendar begin, Calendar end, SimpleDateFormat dateFormat ){
 		this.name = name;
 		this.begin = begin;
 		this.end = end;
