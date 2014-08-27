@@ -9,14 +9,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import hu.akoel.grawit.core.parameter.ElementParameter;
 import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
 import hu.akoel.grawit.enums.IdentificationType;
 import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.exceptions.ElementException;
 
 public class FieldOperation implements ElementOperationInterface{
-	private ElementParameter parameter;
+	private VariableElementDataModel parameter;
 	
-	public FieldOperation( ElementParameter parameter ){
+	public FieldOperation( VariableElementDataModel parameter ){
 		this.parameter = parameter;
 	}
 	
@@ -73,4 +74,10 @@ public class FieldOperation implements ElementOperationInterface{
 		
 		}
 	}
+
+	@Override
+	public VariableElementDataModel getVariableElement() {
+		return parameter;
+	}
+	
 }

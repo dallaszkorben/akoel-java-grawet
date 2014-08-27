@@ -1,6 +1,8 @@
 package hu.akoel.grawit.gui.editor;
 
 import java.awt.Component;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
@@ -9,15 +11,16 @@ import hu.akoel.grawit.core.operations.ButtonOperation;
 import hu.akoel.grawit.core.operations.CheckboxOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
-import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
 import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.pages.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
 import hu.akoel.grawit.gui.editor.component.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
+import hu.akoel.grawit.gui.editor.component.ParameterElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -39,6 +42,12 @@ public class ParamElementEditor extends DataEditor{
 	private ComboBoxComponent<String> fieldOperation;
 	private JLabel labelPageBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
+	private JLabel labelParameterElementSelector;
+	private ParameterElementTreeSelectorComponent fieldParameterElementSelector;
+	
+	private Operation operation;
+	
+	private VariableRootDataModel rootDataModel;
 	
 	/**
 	 *  Uj ParamPageElement rogzitese - Insert
@@ -46,12 +55,13 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
-	public ParamElementEditor( Tree tree, ParamPageDataModel selectedPage ){
+	public ParamElementEditor( Tree tree, ParamPageDataModel selectedPage, VariableRootDataModel rootDataModel ){
 		//super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
 		super( ParamElementDataModel.getModelNameToShowStatic());
-
+		
 		this.tree = tree;
 		this.nodeForCapture = selectedPage;
+		this.rootDataModel = rootDataModel;
 		this.mode = null;
 
 		commonPre();
@@ -63,9 +73,11 @@ public class ParamElementEditor extends DataEditor{
 		BasePageDataModel basePage = selectedPage.getBasePage();
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage ); 
 
+		operation = Operation.LINK;
     	//Variable
-		fieldOperation.setSelectedIndex( 0 );
-		
+//		fieldOperation.setSelectedIndex( 0 );
+
+		//fieldParameterElementSelector = new ParameterElementTreeSelectorComponent(rootDataModel);
 		commonPost();
 	}
 		
@@ -76,7 +88,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param selectedElement
 	 * @param mode
 	 */
-	public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, EditMode mode ){		
+	public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, VariableRootDataModel rootDataModel, EditMode mode ){		
 		//super( mode, CommonOperations.getTranslation("tree.nodetype.paramelement") );
 		super( mode, selectedElement.getModelNameToShow());
 
@@ -84,21 +96,26 @@ public class ParamElementEditor extends DataEditor{
 		this.nodeForModify = selectedElement;
 		this.mode = mode;
 	
-		BaseElementDataModel baseElement = selectedElement.getBaseElement();
-		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();
-		
+
 		commonPre();
 		
 		//Name
 		fieldName.setText( selectedElement.getName() );
 
 		//Selector az elem valasztashoz - A root a basePage (nem latszik)
+		BaseElementDataModel baseElement = selectedElement.getBaseElement();
+		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();		
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
 		
 		//Operation
-		Operation op = selectedElement.getElementOperation().getOperation();
-		fieldOperation.setSelectedIndex( op.getIndex() );
-	
+		operation = selectedElement.getElementOperation().getOperation();
+//		fieldOperation.setSelectedIndex( op.getIndex() );
+		
+
+//TODO ki kell majd javitani
+		//selectedElement
+		//fieldParameterElementSelector = new ParameterElementTreeSelectorComponent(rootDataModel);
+		
 		commonPost();
 		
 	}
@@ -115,7 +132,60 @@ public class ParamElementEditor extends DataEditor{
 		fieldOperation.addItem( Operation.getOperationByIndex(2).getTranslatedName() );
 		fieldOperation.addItem( Operation.getOperationByIndex(3).getTranslatedName() );
 		fieldOperation.addItem( Operation.getOperationByIndex(4).getTranslatedName() );
-		
+		fieldOperation.addItemListener( new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+
+				int index = fieldOperation.getSelectedIndex();					
+
+				//Ha megvaltoztattam a tipust
+				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
+					
+					 operation = Operation.getOperationByIndex(index);
+					 
+						//STRING_PARAMETER
+						if( operation.equals( Operation.FIELD ) ){
+
+							//Nem ez az elso valtoztatas
+							if( null != fieldParameterElementSelector ){
+								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+								fieldParameterElementSelector = new ParameterElementTreeSelectorComponent( rootDataModel );
+							}else{
+								//Modositas volt
+								if( null != nodeForModify ){
+									fieldParameterElementSelector = new ParameterElementTreeSelectorComponent( rootDataModel, nodeForModify.getElementOperation().getVariableElement() );
+								}else{
+									fieldParameterElementSelector = new ParameterElementTreeSelectorComponent( rootDataModel );
+								}
+							}
+							
+						}else if( operation.equals( Operation.BUTTON ) ){
+							if( null != fieldParameterElementSelector ){
+								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+							}
+						
+						}else if( operation.equals( Operation.CHECKBOX ) ){
+							if( null != fieldParameterElementSelector ){
+								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+							}
+						
+						}else if( operation.equals( Operation.RADIOBUTTON ) ){
+							if( null != fieldParameterElementSelector ){
+								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+							}
+						
+						}else if( operation.equals( Operation.LINK ) ){
+							if( null != fieldParameterElementSelector ){
+								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+							}					
+						}
+						
+						ParamElementEditor.this.add( labelParameterElementSelector, fieldParameterElementSelector );
+						ParamElementEditor.this.revalidate();
+				}
+			}
+		});
 	}
 	
 	private void commonPost(){
@@ -123,11 +193,17 @@ public class ParamElementEditor extends DataEditor{
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
 		labelOperation = new JLabel( CommonOperations.getTranslation("editor.title.operation") + ": ");
 		labelPageBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.title.baseelement") + ": " );
+		labelParameterElementSelector = new JLabel( "Valassz aprametert" );
 		
 		this.add( labelName, fieldName );
 		this.add( labelPageBaseElementSelector, fieldBaseElementSelector );
 		this.add( labelOperation, fieldOperation );
+		//this.add( labelParameterElementSelector, fieldParameterElementSelector );
 
+		//Arra kenyszeritem, hogy az elso igazi valasztas is kivaltson egy esemenyt
+		fieldOperation.setSelectedIndex(-1);		
+		fieldOperation.setSelectedIndex( operation.getIndex() );	
+		
 	}
 		
 	@Override
@@ -237,7 +313,7 @@ public class ParamElementEditor extends DataEditor{
 			ElementOperationInterface elementOperation = null;
 			Operation operation = Operation.getOperationByIndex( fieldOperation.getSelectedIndex() );
 			if( operation.equals( Operation.FIELD ) ){
-//TODO folytatni
+//TODO folytatni ---
 //Utanna nezni, hogy miert van ez a ParamElementDataModel-nel is				
 //				elementOperation = new FieldOperation( new SParameter("param1", "111" ) );
 			}else if( operation.equals( Operation.LINK ) ){

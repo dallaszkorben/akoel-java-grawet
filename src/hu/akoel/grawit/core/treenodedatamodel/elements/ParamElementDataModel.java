@@ -42,8 +42,7 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 	private String name;
 	private ElementOperationInterface elementOperation;
 	private BaseElementDataModel baseElement;	
-	private String variableValue = "";
-	
+	private String variableValue = "";	
 
 	public ParamElementDataModel( String name, BaseElementDataModel baseElement, ElementOperationInterface operation){
 		this.name = name;
@@ -70,8 +69,9 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		}else if( Operation.CHECKBOX.name().equals(operatorString) ){
 			this.elementOperation = new CheckboxOperation();
 		}else if( Operation.FIELD.name().equals( operatorString ) ){
-			//TODO folytatni
-			//this.elementOperation = new FieldOperation( new VariableElementDataModel(nameString, type, parameters));
+//TODO folytatni ----
+//this.elementOperation = new FieldOperation( new VariableElementDataModel(nameString, type, parameters));
+this.elementOperation = new LinkOperation();
 		}else if( Operation.LINK.name().equals( operatorString ) ){
 			this.elementOperation = new LinkOperation();
 		}else if( Operation.RADIOBUTTON.name().equals( operatorString ) ){

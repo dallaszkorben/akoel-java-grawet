@@ -1,5 +1,6 @@
 package hu.akoel.grawit.gui.editor.component;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.VariableType;
 
 import java.awt.Component;
@@ -17,10 +18,11 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 	
 	private static final long serialVersionUID = -5111211582850994473L;
 	
-	private static final String DEFALULT_SAMPLE = "";
+	private static final String DEFAULT_VALUE = "";
+	
+	private static final int PARAMETERORDER_VALUE = 0;
 	
 	private JTextField fieldString;
-	private VariableType type;
 	
 	private ArrayList<Object> parameterList;
 
@@ -34,7 +36,7 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
 		this.parameterList = new ArrayList<>();
-		this.parameterList.add( DEFALULT_SAMPLE );
+		this.parameterList.add( DEFAULT_VALUE );
 		
 		common( type );
 		
@@ -59,16 +61,15 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 	}
 	
 	private void common( VariableType type ){
-		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
 		
 //		JLabel labelString = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.string.string") );
 		
 		//Mezo feltoltese
-		fieldString = new JTextField( parameterList.get(0).toString());
-		
-		fieldString.setInputVerifier(new InputVerifier() {
+		fieldString = new JTextField( parameterList.get(PARAMETERORDER_VALUE).toString());
+		fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );
+		/*fieldString.setInputVerifier(new InputVerifier() {
 			String goodValue = "";
 			
 			@Override
@@ -88,7 +89,7 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 				}				
 				return true;
 			}
-		});
+		});*/
 		
 		int gridY = 0;
 		GridBagConstraints c = new GridBagConstraints();		

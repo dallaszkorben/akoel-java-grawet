@@ -1,23 +1,23 @@
 package hu.akoel.grawit;
 
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.VariableType;
 
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -193,87 +193,39 @@ public class CommonOperations {
 		 return null;
 	 }	 
 	 
-	 /**
-	  * 
-	  * BasePage alapjan megkeresi a PageBaseRoot-on a hozza tartozo BasePagePageDataModel-t
-	  *  
-	  * @param basePageRootDataModel
-	  * @param selectedBasePage
-	  * @return
-	  */
-/*	 public static BasePagePageDataModel getBasePagePageDataModelByBasePage( BasePageRootDataModel basePageRootDataModel, BasePage selectedBasePage ){
+	 public static class ValueVerifier extends InputVerifier{
+			private ArrayList<Object> parameterList;
+			private String defaultValue;
+			private int parameterOrder;
+			private VariableType type;
 			
-		 //Vegig megyek a PAGEBASE fan
-		 @SuppressWarnings("unchecked")
-		 Enumeration<BaseDataModelInterface> e = basePageRootDataModel.depthFirstEnumeration();
-	   
-		 while (e.hasMoreElements()) {
-			 BaseDataModelInterface node = e.nextElement();
-	    	
-			 //Ha a vizsgalt node PAGEBASEPAGE
-			 if( node instanceof BasePagePageDataModel ){
-	    		
-				 //Akkor megnezem, hogy azonos-e a keresettel
-				 if( ((BasePagePageDataModel)node).getBasePage().equals( selectedBasePage ) ){
-						
-					 return (BasePagePageDataModel)node;    			
-				 }	
-			 }	
-		 }
-		 return null;
-	 }
-*/	 
-/*	 public static BasePageDataModel getBasePagePageDataModelByBaseElement( BaseRootDataModel baseRoot, BaseElementDataModel selectedBaseElement ){
+			String goodValue = defaultValue;
 			
-		 //Vegig megyek a PAGEBASE fan
-		 @SuppressWarnings("unchecked")
-		 Enumeration<BaseDataModelInterface> e = baseRoot.depthFirstEnumeration();
-	   
-		 while (e.hasMoreElements()) {
-			 BaseDataModelInterface node = e.nextElement();
-	    	
-			 //Ha a vizsgalt node PAGEBASEPAGE
-			 if( node instanceof BaseElementDataModel ){
-	    		
-				 //Akkor megnezem, hogy azonos-e a keresettel
-				 if( ((BaseElementDataModel)node).equals( selectedBaseElement ) ){
-						
-					 
-					 return (BasePageDataModel)(node.getParent());    			
-				 }	
-			 }	
-		 }
-		 return null;
-	 }
-*/
-	 /**
-	  * BaseElement alapjan megkeresi a PageBasePage-en a hozza tartozo BasePageElementDataModel-t
-	  * @param basePagePageDataModel
-	  * @param selectedBaseElement
-	  * @return
-	  */
-/*	 public static BasePageElementDataModel getBasePageElementDataModelByBaseElement( BasePagePageDataModel basePagePageDataModel, BaseElement selectedBaseElement ){
+			public ValueVerifier( ArrayList<Object> parameterList, VariableType type, String defaultValue, int parameterOrder ){
+				this.parameterList = parameterList;
+				this.defaultValue = defaultValue;
+				this.parameterOrder = parameterOrder;
+				this.type = type;
 			
-		 //Vegig megyek a PAGEBASE fan
-		 @SuppressWarnings("unchecked")
-		 Enumeration<BaseDataModelInterface> e = basePagePageDataModel.depthFirstEnumeration();
-	   
-		 while (e.hasMoreElements()) {
-			 BaseDataModelInterface node = e.nextElement();
-	    	
-			 //Ha a vizsgalt node PAGEBASEELEMENT
-			 if( node instanceof BasePageElementDataModel ){
-	    		
-				 //Akkor megnezem, hogy azonos-e a keresettel
-				 if( ((BasePageElementDataModel)node).getBaseElement().equals( selectedBaseElement ) ){
-						
-					 return (BasePageElementDataModel)node;    			
-				 }	
-			 }	
-		 }
-		 return null;
-	 }	
-*/	 
-	 
-	 
+				goodValue = defaultValue;
+			}	
+			
+			@Override
+			public boolean verify(JComponent input) {
+				JTextField text = (JTextField)input;
+				String possibleValue = text.getText();
+
+				try {
+					//Kiprobalja, hogy konvertalhato-e
+					Object value = type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
+					parameterList.set( parameterOrder, value );
+					goodValue = possibleValue;
+					
+				} catch (Exception e) {
+					text.setText( goodValue );
+					return false;
+				}				
+				return true;
+			}
+	 } 	 
 }
