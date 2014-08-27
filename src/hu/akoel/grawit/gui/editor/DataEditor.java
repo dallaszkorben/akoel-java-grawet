@@ -174,6 +174,10 @@ public abstract class DataEditor extends JPanel{
 		
 	}
 	
+	public void remove( Component c ){
+		dataSection.remove( c );
+	}
+	
 	/**
 	 * Az osztaly leszarmazottaiban mar nem engedelyezem a Component, Object paros hozzaadasat
 	 * Csak abban az esetben ha ez első parameter Component, a masodik pedig EditorComponentInterface leszarmazottja

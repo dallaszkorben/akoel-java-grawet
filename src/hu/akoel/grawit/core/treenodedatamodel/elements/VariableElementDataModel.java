@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import com.gargoylesoftware.htmlunit.javascript.host.NodeList;
+import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.parameter.ElementParameter;
@@ -68,11 +68,11 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		}
 		
 		parameters = new ArrayList<Object>();
-		NodeList paramNodeList = (NodeList) element.getChildNodes();
+		NodeList paramNodeList = element.getChildNodes();
 		int nodeListLength = paramNodeList.getLength();
 		for( int index = 0; index < nodeListLength; index++ ){
 			Element e = (Element)paramNodeList.item( index );
-			if( !e.getTagName().equals( TAG_PARAMETER )){
+			if( !e.getTagName().equals( TAG_PARAMETER.getName() )){
 				throw new XMLMissingTagPharseException(getRootTag().getName(), getTag().getName(), name, TAG_PARAMETER.getName() );
 			}
 			if( !e.hasAttribute( ATTR_VALUE ) ){
@@ -96,13 +96,25 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		return type;
 	}
 	
+	public void setType( VariableType type ){
+		this.type = type;
+	}
+	
 	public ArrayList<Object> getParameters(){
 		return parameters;
 	}
 	
+	public void setParameters( ArrayList<Object> parameters ){
+		this.parameters = new ArrayList<Object>(parameters);
+	}
+	
+	public static String  getModelNameToShowStatic(){
+		return CommonOperations.getTranslation( "tree.nodetype.variableelement" );
+	}
+	
 	@Override
-	public String getModelNameToShow() {
-		return CommonOperations.getTranslation( "tree.nodetype.paramelement" );
+	public String getModelNameToShow(){
+		return getModelNameToShowStatic();
 	}
 
 	public static Tag getTagStatic(){
@@ -125,6 +137,10 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		return name;
 	}
 
+	public void setName( String name ){
+		this.name = name;
+	}
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
@@ -155,6 +171,8 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		return elementElement;	
 	}
 
-
+	@Override
+	public void add(VariableDataModelInterface node) {
+	}
 
 }

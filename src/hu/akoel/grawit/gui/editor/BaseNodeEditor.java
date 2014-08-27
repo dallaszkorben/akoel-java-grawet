@@ -28,7 +28,8 @@ public class BaseNodeEditor extends DataEditor{
 
 	//Itt biztos beszuras van
 	public BaseNodeEditor( Tree tree, BaseNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.nodetype.node") );
+		//super( CommonOperations.getTranslation("tree.nodetype.node") );
+		super( BaseNodeDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -46,7 +47,8 @@ public class BaseNodeEditor extends DataEditor{
 	
 	//Itt modisitas van
 	public BaseNodeEditor( Tree baseTree, BaseNodeDataModel selectedNode, EditMode mode ){		
-		super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
+		//super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
+		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = baseTree;
 		this.nodeForModify = selectedNode;

@@ -170,10 +170,15 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 	
-	public String getModelNameToShow(){
+	public static String  getModelNameToShowStatic(){
 		return CommonOperations.getTranslation( "tree.nodetype.baseelement");
 	}
-
+	
+	@Override
+	public String getModelNameToShow(){
+		return getModelNameToShowStatic();
+	}
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;

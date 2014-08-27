@@ -4,18 +4,16 @@ import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.elements.VEDModel;
 import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
 import hu.akoel.grawit.enums.VariableType;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editor.component.VTComp;
 import hu.akoel.grawit.gui.editor.component.VariableParametersComponentInterface;
+import hu.akoel.grawit.gui.editor.component.VariableParametersRandomStringComponent;
 import hu.akoel.grawit.gui.editor.component.VariableParametersStringComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -31,7 +29,6 @@ public class VariableElementEditor extends DataEditor{
 	private VariableNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
-//	private ArrayList<Object> parameters;
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelVariableType;
@@ -48,7 +45,8 @@ public class VariableElementEditor extends DataEditor{
 	 * @param selectedNode
 	 */
 	public VariableElementEditor( Tree tree, VariableNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation( "tree.nodetype.variableelement" ) );
+		//super( CommonOperations.getTranslation( "tree.nodetype.variableelement" ) );
+		super( VariableElementDataModel.getModelNameToShowStatic());
 
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -60,11 +58,13 @@ public class VariableElementEditor extends DataEditor{
 		fieldName.setText( "" );
 		
 		//Type - String
-		type = VariableType.STRING_PARAMETER;
-		
-		fieldVariableType.setSelectedIndex( type.getIndex() );
-		
-		commonPost();
+		type = VariableType.STRING_PARAMETER;		
+				
+		//Parameters
+		//fieldVariableParameters = new VariableParametersStringComponent(type);				
+				
+		commonPost( );
+				
 	}
 		
 	/**
@@ -76,7 +76,8 @@ public class VariableElementEditor extends DataEditor{
 	 * @param mode
 	 */
 	public VariableElementEditor( Tree tree, VariableElementDataModel selectedElement, EditMode mode ){		
-		super( mode, CommonOperations.getTranslation("tree.nodetype.variableelement") );
+		//super( mode, CommonOperations.getTranslation("tree.nodetype.variableelement") );
+		super( mode, selectedElement.getModelNameToShow() );
 
 		this.tree = tree;
 		this.nodeForModify = selectedElement;
@@ -86,14 +87,14 @@ public class VariableElementEditor extends DataEditor{
 		
 		//Name
 		fieldName.setText( selectedElement.getName() );
-		
+
+		//Variable Type
 		type = selectedElement.getType();
 		
-		//Variable Type
-		//Tipus beallitas 		
-		fieldVariableType.setSelectedIndex( type.getIndex() );	
+		//Parameters
+		//fieldVariableParameters = new VariableParametersStringComponent(type, selectedElement.getParameters() );
 		
-		commonPost();
+		commonPost( );		
 		
 	}
 
@@ -112,11 +113,57 @@ public class VariableElementEditor extends DataEditor{
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-			
+
+				int index = fieldVariableType.getSelectedIndex();					
+
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
-				
-					int index = fieldVariableType.getSelectedIndex();
+					
+					type = VariableType.getVariableParameterTypeByIndex(index);
+					
+					//STRING_PARAMETER
+					if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.STRING_PARAMETER ) ){
+
+						//Nem ez az elso valtoztatas
+						if( null != fieldVariableParameters ){
+							VariableElementEditor.this.remove(fieldVariableParameters.getComponent());
+							fieldVariableParameters = new VariableParametersStringComponent(type);
+						}else{
+							//Modositas volt
+							if( null != nodeForModify ){
+								fieldVariableParameters = new VariableParametersStringComponent(type, nodeForModify.getParameters() );
+							}else{
+								fieldVariableParameters = new VariableParametersStringComponent(type);
+							}
+						}
+						
+						VariableElementEditor.this.add( labelVariableParameters, fieldVariableParameters );
+						VariableElementEditor.this.revalidate();
+
+					//RANDOM_STRING_PARAMETER	
+					}else if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.RANDOM_STRING_PARAMETER ) ){
+						
+						//Nem ez az elso valtoztatas
+						if( null != fieldVariableParameters ){
+							VariableElementEditor.this.remove(fieldVariableParameters.getComponent());
+							fieldVariableParameters = new VariableParametersRandomStringComponent(type);
+						}else{
+							//Modositas volt
+							if( null != nodeForModify ){
+								fieldVariableParameters = new VariableParametersRandomStringComponent(type, nodeForModify.getParameters() );
+							}else{
+								fieldVariableParameters = new VariableParametersRandomStringComponent(type);
+							}
+						}
+						
+						VariableElementEditor.this.add( labelVariableParameters, fieldVariableParameters );
+						VariableElementEditor.this.revalidate();
+						
+					}else if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.RANDOM_INTEGER_PARAMETER ) ){
+						
+					}else if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.RANDOM_DECIMAL_PARAMETER ) ){
+						
+					}
 				}
 			}
 		});		
@@ -124,19 +171,17 @@ public class VariableElementEditor extends DataEditor{
 	
 	private void commonPost(){
 		
-		//Parameters
-		fieldVariableParameters = new VariableParametersStringComponent(type);
-		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
 		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.title.variabletype") + ": ");
 		labelVariableParameters = new JLabel("");
 		
 		this.add( labelName, fieldName );
 		this.add( labelVariableType, fieldVariableType );
-		this.add( labelVariableParameters, fieldVariableParameters );
-		
-		//fieldVariableType.revalidate();
+//		this.add( labelVariableParameters, fieldVariableParameters );
 
+		//Arra kenyszeritem, hogy az elso igazi valasztas is kivaltson egy esemenyt
+		fieldVariableType.setSelectedIndex(-1);		
+		fieldVariableType.setSelectedIndex( type.getIndex() );	
 	}
 		
 	@Override
@@ -181,10 +226,10 @@ public class VariableElementEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof VEDModel ){
+				if( levelNode instanceof VariableElementDataModel ){
 					
 					//Ha azonos a nev
-					if( ((VEDModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((VariableElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -225,9 +270,9 @@ public class VariableElementEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
-//				nodeForModify.setName( fieldName.getText() );
-//				nodeForModify.setOperation( elementOperation );
-//				nodeForModify.setBaseElement(baseElement);
+				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setType( type );
+				nodeForModify.setParameters( fieldVariableParameters.getParameters() );
 				
 			}
 			

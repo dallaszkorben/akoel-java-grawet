@@ -39,7 +39,8 @@ public class BaseElementEditor extends DataEditor{
 	
 	//Insert
 	public BaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.nodetype.baseelement") );
+		//super( CommonOperations.getTranslation("tree.nodetype.baseelement") );
+		super( BaseElementDataModel.getModelNameToShowStatic());
 
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -69,7 +70,8 @@ public class BaseElementEditor extends DataEditor{
 	
 	//Modositas vagy View
 	public BaseElementEditor( Tree tree, BaseElementDataModel selectedNode, EditMode mode ){		
-		super( mode, CommonOperations.getTranslation("tree.nodetype.baseelement") );
+		//super( mode, CommonOperations.getTranslation("tree.nodetype.baseelement") );
+		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;
