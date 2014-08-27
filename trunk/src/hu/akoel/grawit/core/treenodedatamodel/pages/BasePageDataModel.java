@@ -102,8 +102,13 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 
-	public String getModelNameToShow(){
+	public static String  getModelNameToShowStatic(){
 		return CommonOperations.getTranslation( "tree.nodetype.basepage");
+	}
+	
+	@Override
+	public String getModelNameToShow(){
+		return getModelNameToShowStatic();
 	}
 
 	@Override

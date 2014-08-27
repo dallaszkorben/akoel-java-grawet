@@ -75,9 +75,13 @@ public class VariableTree extends Tree{
 		
 		if( selectedNode instanceof VariableNodeDataModel ){
 			
-			VariableNodeEditor pageBaseNodePanel = new VariableNodeEditor( VariableTree.this, (VariableNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( pageBaseNodePanel);								
+			VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( variableNodeEditor);								
 			
+		}else if( selectedNode instanceof VariableElementDataModel ){
+			
+			VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( variableElementEditor);	
 		}
 	}
 
@@ -147,7 +151,7 @@ public class VariableTree extends Tree{
 					};
 					
 					int n = JOptionPane.showOptionDialog(guiFrame,
-							"Valóban torolni kívánod a(z) " + selectedNode.getTag() + " nevü " + selectedNode.getModelNameToShow() + "-t ?",
+							"Valóban torolni kívánod a(z) " + selectedNode.getName() + " nevü " + selectedNode.getModelNameToShow() + "-t ?",
 							CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 							JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE,

@@ -5,7 +5,7 @@ import javax.swing.tree.MutableTreeNode;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.VDMInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.elements.VEDModel;
+import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class VariableNodeDataModel extends VDMInterface{
+public class VariableNodeDataModel extends VariableDataModelInterface{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	
@@ -62,7 +62,7 @@ public class VariableNodeDataModel extends VDMInterface{
 				
 				//Ha VARIABLEELEMENT van alatta
 				if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() )){
-					this.add(new VEDModel(variableElement));
+					this.add(new VariableElementDataModel(variableElement));
 				
 				//Ha ujabb VARIABLEELEMENT van alatta
 				}else if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() )){
@@ -78,13 +78,17 @@ public class VariableNodeDataModel extends VDMInterface{
 	}
 
 	@Override
-	public void add(VDMInterface node) {
+	public void add(VariableDataModelInterface node) {
 		super.add( (MutableTreeNode)node );
+	}
+	
+	public static String  getModelNameToShowStatic(){
+		return CommonOperations.getTranslation( "tree.nodetype.node");
 	}
 	
 	@Override
 	public String getModelNameToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.node");
+		return getModelNameToShowStatic();
 	}
 	
 	@Override

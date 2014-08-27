@@ -172,11 +172,15 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		super.add( (MutableTreeNode)node );
 	}
 	
-	@Override
-	public String getModelNameToShow(){
+	public static String  getModelNameToShowStatic(){
 		return CommonOperations.getTranslation( "tree.nodetype.parampage");
 	}
 	
+	@Override
+	public String getModelNameToShow(){
+		return getModelNameToShowStatic();
+	}
+
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;

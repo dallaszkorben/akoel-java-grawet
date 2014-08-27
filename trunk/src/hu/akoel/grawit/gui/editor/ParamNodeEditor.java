@@ -27,22 +27,10 @@ public class ParamNodeEditor extends DataEditor{
 	private TextFieldComponent fieldName;
 	private TextAreaComponent fieldDetails;
 
-	private void common(){
-		
-		//Name
-		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
-
-		//Details
-		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.title.details") + ": ");		
-		this.add( labelName, fieldName );
-		this.add( labelDetails, fieldDetails );
-
-		
-	}
-	
 	//Itt biztos beszuras van
 	public ParamNodeEditor( Tree tree, ParamNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.nodetype.node") );
+		//super( CommonOperations.getTranslation("tree.nodetype.node") );
+		super( ParamNodeDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -60,7 +48,8 @@ public class ParamNodeEditor extends DataEditor{
 	
 	//Itt modisitas van
 	public ParamNodeEditor( Tree pageBaseTree, ParamNodeDataModel selectedNode, EditMode mode ){		
-		super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
+		//super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
+		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = pageBaseTree;
 		this.nodeForModify = selectedNode;
@@ -74,6 +63,18 @@ public class ParamNodeEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
 		common();
+	}
+	
+	private void common(){
+		
+		//Name
+		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
+
+		//Details
+		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.title.details") + ": ");		
+		this.add( labelName, fieldName );
+		this.add( labelDetails, fieldDetails );
+		
 	}
 	
 	@Override

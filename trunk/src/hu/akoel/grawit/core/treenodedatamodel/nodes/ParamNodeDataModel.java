@@ -83,9 +83,13 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 		super.add( (MutableTreeNode)node );
 	}
 	
+	public static String  getModelNameToShowStatic(){
+		return CommonOperations.getTranslation( "tree.nodetype.node");
+	}
+	
 	@Override
 	public String getModelNameToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.node");
+		return getModelNameToShowStatic();
 	}
 	
 	@Override

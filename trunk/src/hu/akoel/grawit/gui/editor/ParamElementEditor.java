@@ -48,7 +48,8 @@ public class ParamElementEditor extends DataEditor{
 	 * @param selectedPage
 	 */
 	public ParamElementEditor( Tree tree, ParamPageDataModel selectedPage ){
-		super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
+		//super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
+		super( ParamElementDataModel.getModelNameToShowStatic());
 
 		this.tree = tree;
 		this.nodeForCapture = selectedPage;
@@ -77,7 +78,8 @@ public class ParamElementEditor extends DataEditor{
 	 * @param mode
 	 */
 	public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, EditMode mode ){		
-		super( mode, CommonOperations.getTranslation("tree.nodetype.paramelement") );
+		//super( mode, CommonOperations.getTranslation("tree.nodetype.paramelement") );
+		super( mode, selectedElement.getModelNameToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedElement;

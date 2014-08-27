@@ -17,28 +17,57 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 	
 	private static final long serialVersionUID = -5111211582850994473L;
 	
+	private static final String DEFALULT_SAMPLE = "";
+	
 	private JTextField fieldString;
 	private VariableType type;
 	
 	private ArrayList<Object> parameterList;
 
+	/**
+	 * Uj lista
+	 * 
+	 * @param type
+	 */
 	public VariableParametersStringComponent( VariableType type ){
 		super();
+
+		//parameter lista letrehozasa es feltoltese default ertekekkel
+		this.parameterList = new ArrayList<>();
+		this.parameterList.add( DEFALULT_SAMPLE );
 		
 		common( type );
+		
+		
+	}
+	
+	/**
+	 * Letezo lista
+	 * 
+	 * @param type
+	 * @param parameterList
+	 */
+	public VariableParametersStringComponent( VariableType type, ArrayList<Object> parameterList ){
+		super();
+		
+		//Parameter lista feltoltese a letezo ertekekkel
+		this.parameterList = parameterList;
+		
+		common( type );
+		
+		
 	}
 	
 	private void common( VariableType type ){
 		this.type = type;
-
-		parameterList = new ArrayList<>();	
 		
 		this.setLayout( new GridBagLayout() );
 		
 //		JLabel labelString = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.string.string") );
 		
-		fieldString = new JTextField("");
-		parameterList.add("");
+		//Mezo feltoltese
+		fieldString = new JTextField( parameterList.get(0).toString());
+		
 		fieldString.setInputVerifier(new InputVerifier() {
 			String goodValue = "";
 			
@@ -83,8 +112,7 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 		c.weightx = 1;
 		c.anchor = GridBagConstraints.WEST;
 		this.add( fieldString, c );
-		
-	}
+	}	
 	
 	@Override
 	public void setEnableModify(boolean enable) {

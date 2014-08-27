@@ -192,9 +192,13 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		return getTagStatic();
 	}
 	
+	public static String  getModelNameToShowStatic(){
+		return CommonOperations.getTranslation( "tree.nodetype.paramelement");
+	}
+	
 	@Override
 	public String getModelNameToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.paramelement");
+		return getModelNameToShowStatic();
 	}
 	
 	@Override

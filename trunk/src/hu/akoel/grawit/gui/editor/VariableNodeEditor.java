@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.nodes.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
 import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
@@ -42,7 +41,8 @@ public class VariableNodeEditor extends DataEditor{
 	
 	//Itt biztos beszuras van
 	public VariableNodeEditor( VariableTree tree, VariableNodeDataModel selectedNode ){
-		super( CommonOperations.getTranslation("tree.nodetype.node") );
+		//super( CommonOperations.getTranslation("tree.nodetype.node") );
+		super( VariableNodeDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -60,7 +60,8 @@ public class VariableNodeEditor extends DataEditor{
 	
 	//Itt modisitas van
 	public VariableNodeEditor( VariableTree variableTree, VariableNodeDataModel selectedNode, EditMode mode ){		
-		super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
+		//super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
+		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = variableTree;
 		this.nodeForModify = selectedNode;
