@@ -15,17 +15,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VariableParametersRandomStringComponent extends JPanel implements VariableParametersComponentInterface{
+public class VariableParametersRandomIntegerComponent extends JPanel implements VariableParametersComponentInterface{
 
-	private static final long serialVersionUID = -9146846149045859640L;
+	private static final long serialVersionUID = 9007331207402054910L;
 	
-	private static final String DEFAULT_SAMPLE = "abcdefghijklmnopqrstuvwxyz0123456789";
-	private static final String DEFAULT_LENGTH = "15";
-	private static final int PARAMETERORDER_SAMPLE = 0;
-	private static final int PARAMETERORDER_LENGTH = 1;
+	private static final String DEFAULT_FROM = "1";
+	private static final String DEFAULT_TO = "100";
+	private static final int PARAMETERORDER_FROM = 0;
+	private static final int PARAMETERORDER_TO = 1;
 	
-	private JTextField fieldSample;
-	private JTextField fieldLength;
+	private JTextField fieldFrom;
+	private JTextField fieldTo;
 	private VariableType type;
 	
 	private ArrayList<Object> parameterList;
@@ -35,13 +35,13 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomStringComponent( VariableType type ){
+	public VariableParametersRandomIntegerComponent( VariableType type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
 		this.parameterList = new ArrayList<>();
-		this.parameterList.add( DEFAULT_SAMPLE );
-		this.parameterList.add( DEFAULT_LENGTH );
+		this.parameterList.add( DEFAULT_FROM );
+		this.parameterList.add( DEFAULT_TO );
 		
 		common( type );		
 		
@@ -53,7 +53,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomStringComponent( VariableType type, ArrayList<Object> parameterList ){
+	public VariableParametersRandomIntegerComponent( VariableType type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -72,12 +72,12 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		// Sample field
 		//
 		
-		JLabel labelSample = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomstring.samplestring") );
+		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randominteger.from") );
 		
-		fieldSample = new JTextField( parameterList.get(PARAMETERORDER_SAMPLE).toString());
-		
-		fieldSample.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_SAMPLE;
+		fieldFrom = new JTextField( parameterList.get(PARAMETERORDER_FROM).toString());
+		fieldFrom.setColumns(5);
+		fieldFrom.setInputVerifier(new InputVerifier() {
+			String goodValue = DEFAULT_FROM;
 			
 			@Override
 			public boolean verify(JComponent input) {
@@ -86,8 +86,8 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersRandomStringComponent.this.type.getParameterClass(PARAMETERORDER_SAMPLE).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( PARAMETERORDER_SAMPLE, value );
+					Object value = VariableParametersRandomIntegerComponent.this.type.getParameterClass(PARAMETERORDER_FROM).getConstructor(String.class).newInstance(possibleValue);
+					parameterList.set( PARAMETERORDER_FROM, value );
 					goodValue = possibleValue;
 					
 				} catch (Exception e) {
@@ -107,9 +107,9 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
+		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelSample, c );
+		this.add( labelFrom, c );
 		
 		gridY++;
 		c.gridy = 1;
@@ -117,19 +117,19 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
+		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( fieldSample, c );		
+		this.add( fieldFrom, c );		
 
 		//
 		// Length field
 		//
-		JLabel labelLength = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomstring.length") );
+		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randominteger.to") );
 
-		fieldLength = new JTextField( parameterList.get(PARAMETERORDER_LENGTH).toString());
-		fieldLength.setColumns(5);
-		fieldLength.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_LENGTH;
+		fieldTo = new JTextField( parameterList.get(PARAMETERORDER_TO).toString());
+		fieldTo.setColumns(5);
+		fieldTo.setInputVerifier(new InputVerifier() {
+			String goodValue = DEFAULT_TO;
 			
 			@Override
 			public boolean verify(JComponent input) {
@@ -138,8 +138,8 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersRandomStringComponent.this.type.getParameterClass(PARAMETERORDER_LENGTH).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( PARAMETERORDER_LENGTH, value );
+					Object value = VariableParametersRandomIntegerComponent.this.type.getParameterClass(PARAMETERORDER_TO).getConstructor(String.class).newInstance(possibleValue);
+					parameterList.set( PARAMETERORDER_TO, value );
 					goodValue = possibleValue;
 					
 				} catch (Exception e) {
@@ -161,7 +161,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelLength, c );
+		this.add( labelTo, c );
 		
 		gridY++;
 		c.gridy = 1;
@@ -171,14 +171,25 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( fieldLength, c );
+		this.add( fieldTo, c );
+		
+		//Kitolto
+		gridY++;
+		c.gridy = 1;
+		c.gridx = 2;
+		c.gridwidth = 1;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.anchor = GridBagConstraints.WEST;
+		this.add( new JLabel(), c );
 		
 	}	
 	
 	@Override
 	public void setEnableModify(boolean enable) {
-		fieldSample.setEditable( enable );		
-		fieldLength.setEditable( enable );
+		fieldFrom.setEditable( enable );		
+		fieldTo.setEditable( enable );
 	}
 
 	@Override
