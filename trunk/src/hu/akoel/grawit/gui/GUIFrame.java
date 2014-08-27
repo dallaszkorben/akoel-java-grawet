@@ -643,7 +643,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamTree tree = new ParamTree( GUIFrame.this, paramRootDataModel, baseRootDataModel );
+			ParamTree tree = new ParamTree( GUIFrame.this, paramRootDataModel, baseRootDataModel, variableRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

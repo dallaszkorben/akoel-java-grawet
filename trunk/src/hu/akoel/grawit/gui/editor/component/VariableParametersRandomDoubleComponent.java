@@ -9,24 +9,25 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VariableParametersRandomIntegerComponent extends JPanel implements VariableParametersComponentInterface{
+public class VariableParametersRandomDoubleComponent extends JPanel implements VariableParametersComponentInterface{
 
-	private static final long serialVersionUID = 9007331207402054910L;
+	private static final long serialVersionUID = 3522710006727176792L;
 	
 	private static final String DEFAULT_FROM = "1";
 	private static final String DEFAULT_TO = "100";
+	private static final String DEFAULT_DECIMALLENGTH = "2";
 	private static final int PARAMETERORDER_FROM = 0;
 	private static final int PARAMETERORDER_TO = 1;
+	private static final int PARAMETERORDER_DECIMALLENGTH = 2;
 	
 	private JTextField fieldFrom;
 	private JTextField fieldTo;
-	private VariableType type;
+	private JTextField fieldDecimalLength;
+//	private VariableType type;
 	
 	private ArrayList<Object> parameterList;
 
@@ -35,13 +36,14 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomIntegerComponent( VariableType type ){
+	public VariableParametersRandomDoubleComponent( VariableType type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
 		this.parameterList = new ArrayList<>();
 		this.parameterList.add( DEFAULT_FROM );
 		this.parameterList.add( DEFAULT_TO );
+		this.parameterList.add( DEFAULT_DECIMALLENGTH );
 		
 		common( type );		
 		
@@ -53,7 +55,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomIntegerComponent( VariableType type, ArrayList<Object> parameterList ){
+	public VariableParametersRandomDoubleComponent( VariableType type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -64,7 +66,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	}
 	
 	private void common( VariableType type ){
-		this.type = type;
+//		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
 		
@@ -72,7 +74,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		// From field
 		//
 		
-		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randominteger.from") );
+		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomdouble.from") );
 		
 		fieldFrom = new JTextField( parameterList.get(PARAMETERORDER_FROM).toString());
 		fieldFrom.setColumns(5);
@@ -87,7 +89,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersRandomIntegerComponent.this.type.getParameterClass(PARAMETERORDER_FROM).getConstructor(String.class).newInstance(possibleValue);
+					Object value = VariableParametersRandomDoubleComponent.this.type.getParameterClass(PARAMETERORDER_FROM).getConstructor(String.class).newInstance(possibleValue);
 					parameterList.set( PARAMETERORDER_FROM, value );
 					goodValue = possibleValue;
 					
@@ -125,7 +127,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		//
 		// To field
 		//
-		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randominteger.to") );
+		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomdouble.to") );
 
 		fieldTo = new JTextField( parameterList.get(PARAMETERORDER_TO).toString());
 		fieldTo.setColumns(5);
@@ -140,7 +142,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersRandomIntegerComponent.this.type.getParameterClass(PARAMETERORDER_TO).getConstructor(String.class).newInstance(possibleValue);
+					Object value = VariableParametersRandomDoubleComponent.this.type.getParameterClass(PARAMETERORDER_TO).getConstructor(String.class).newInstance(possibleValue);
 					parameterList.set( PARAMETERORDER_TO, value );
 					goodValue = possibleValue;
 					
@@ -153,9 +155,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		});*/
 		
 		gridY=0;
-		//c = new GridBagConstraints();		
-		//c.insets = new Insets(0,0,0,0);
-		
+
 		c.gridy = 0;
 		c.gridx = 1;
 		c.gridwidth = 1;
@@ -175,10 +175,65 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		c.anchor = GridBagConstraints.WEST;
 		this.add( fieldTo, c );
 		
-		//Kitolto
+		//
+		// Decimal length field
+		//
+		JLabel labelDecimalLength = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomdouble.decimallength") );
+
+		fieldDecimalLength = new JTextField( parameterList.get(PARAMETERORDER_DECIMALLENGTH).toString());
+		fieldDecimalLength.setColumns(5);
+		fieldDecimalLength.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_DECIMALLENGTH, PARAMETERORDER_DECIMALLENGTH ) );
+		/*fieldDecimalLength.setInputVerifier(new InputVerifier() {
+			String goodValue = DEFAULT_DECIMALLENGTH;
+			
+			@Override
+			public boolean verify(JComponent input) {
+				JTextField text = (JTextField)input;
+				String possibleValue = text.getText();
+
+				try {
+					//Kiprobalja, hogy konvertalhato-e
+					Object value = VariableParametersRandomDoubleComponent.this.type.getParameterClass(PARAMETERORDER_DECIMALLENGTH).getConstructor(String.class).newInstance(possibleValue);
+					parameterList.set( PARAMETERORDER_DECIMALLENGTH, value );
+					goodValue = possibleValue;
+					
+				} catch (Exception e) {
+					text.setText( goodValue );
+					return false;
+				}				
+				return true;
+			}
+		});*/
+		
+		gridY=0;
+		
+		c.gridy = 0;
+		c.gridx = 2;
+		c.gridwidth = 1;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0;
+		c.anchor = GridBagConstraints.WEST;
+		this.add( labelDecimalLength, c );
+		
 		gridY++;
 		c.gridy = 1;
 		c.gridx = 2;
+		c.gridwidth = 1;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0;
+		c.anchor = GridBagConstraints.WEST;
+		this.add( fieldDecimalLength, c );
+				
+		
+		
+		//
+		//Kitolto
+		//
+		gridY++;
+		c.gridy = 1;
+		c.gridx = 3;
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;

@@ -13,6 +13,7 @@ import hu.akoel.grawit.enums.VariableType;
 import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editor.component.VariableParametersComponentInterface;
+import hu.akoel.grawit.gui.editor.component.VariableParametersRandomDoubleComponent;
 import hu.akoel.grawit.gui.editor.component.VariableParametersRandomIntegerComponent;
 import hu.akoel.grawit.gui.editor.component.VariableParametersRandomStringComponent;
 import hu.akoel.grawit.gui.editor.component.VariableParametersStringComponent;
@@ -138,8 +139,7 @@ public class VariableElementEditor extends DataEditor{
 							}
 						}
 						
-						VariableElementEditor.this.add( labelVariableParameters, fieldVariableParameters );
-						VariableElementEditor.this.revalidate();
+						
 
 					//RANDOM_STRING_PARAMETER	
 					}else if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.RANDOM_STRING_PARAMETER ) ){
@@ -157,8 +157,7 @@ public class VariableElementEditor extends DataEditor{
 							}
 						}
 						
-						VariableElementEditor.this.add( labelVariableParameters, fieldVariableParameters );
-						VariableElementEditor.this.revalidate();
+						
 					
 					//RANDOM_INTEGER_PARAMETER
 					}else if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.RANDOM_INTEGER_PARAMETER ) ){
@@ -176,13 +175,29 @@ public class VariableElementEditor extends DataEditor{
 							}
 						}
 						
-						VariableElementEditor.this.add( labelVariableParameters, fieldVariableParameters );
-						VariableElementEditor.this.revalidate();
+						
 						
 					//RANDOM_DECIMAL_PARAMETER	
 					}else if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.RANDOM_DOUBLE_PARAMETER ) ){
 						
+						//Nem ez az elso valtoztatas
+						if( null != fieldVariableParameters ){
+							VariableElementEditor.this.remove(fieldVariableParameters.getComponent());
+							fieldVariableParameters = new VariableParametersRandomDoubleComponent(type);
+						}else{
+							//Modositas volt
+							if( null != nodeForModify ){
+								fieldVariableParameters = new VariableParametersRandomDoubleComponent(type, nodeForModify.getParameters() );
+							}else{
+								fieldVariableParameters = new VariableParametersRandomDoubleComponent(type);
+							}
+						}
+						
+						
 					}
+					
+					VariableElementEditor.this.add( labelVariableParameters, fieldVariableParameters );
+					VariableElementEditor.this.revalidate();
 				}
 			}
 		});		

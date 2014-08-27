@@ -7,8 +7,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import hu.akoel.grawit.core.parameter.ElementParameter;
 import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
 import hu.akoel.grawit.enums.IdentificationType;
 
 public class LinkOperation implements ElementOperationInterface{
@@ -52,5 +54,10 @@ public class LinkOperation implements ElementOperationInterface{
 		JavascriptExecutor executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].click();", webElement);
 		
+	}
+
+	@Override
+	public VariableElementDataModel getVariableElement() {
+		return null;
 	}
 }

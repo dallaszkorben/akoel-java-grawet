@@ -123,7 +123,7 @@ public class BaseTree extends Tree{
 				
 				}
 			});
-			this.add ( insertNodeMenu );
+			popupMenu.add ( insertNodeMenu );
 
 			//Insert Page
 			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.page") );
