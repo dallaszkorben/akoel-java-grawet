@@ -8,6 +8,7 @@ import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Enumeration;
@@ -18,6 +19,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -83,18 +85,12 @@ public class CommonOperations {
 		return String.valueOf( rnd.nextInt( from + to ) + from );
 	}
 	
-	public static String getRandomStringDecimal(int intLength, int decimalLength) {
-		StringBuilder sb = new StringBuilder(intLength);
-		for (int i = 0; i < intLength; i++)
-			sb.append( NUMLIST.charAt( rnd.nextInt( NUMLIST.length() ) ) );
+	public static String getRandomStringDouble( double from, double to, int decimalSize ) {
 		
-		if( decimalLength != 0){
-			sb.append('.');
-			
-			for (int i = 0; i < decimalLength; i++)
-				sb.append( NUMLIST.charAt( rnd.nextInt( NUMLIST.length() ) ) );		
-		}
-		return sb.toString();
+		double randomValue = from + (to - from) * rnd.nextDouble();		
+		DecimalFormat df = new DecimalFormat( StringUtils.rightPad("#.", decimalSize, "#") );
+		
+		return df.format( randomValue );
 	}
 	
 	public static String getRandomStringDate( Calendar begin, Calendar end, SimpleDateFormat dateFormat ){

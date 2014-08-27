@@ -62,8 +62,8 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		}else if( VariableType.RANDOM_INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = VariableType.RANDOM_INTEGER_PARAMETER;
 			
-		}else if( VariableType.RANDOM_DECIMAL_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableType.RANDOM_DECIMAL_PARAMETER;
+		}else if( VariableType.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = VariableType.RANDOM_DOUBLE_PARAMETER;
 			
 		}
 		
@@ -108,7 +108,7 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		this.parameters = new ArrayList<Object>(parameters);
 	}
 	
-	public static String  getModelNameToShowStatic(){
+	public static String getModelNameToShowStatic(){
 		return CommonOperations.getTranslation( "tree.nodetype.variableelement" );
 	}
 	
