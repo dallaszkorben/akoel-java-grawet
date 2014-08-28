@@ -2,7 +2,7 @@ package hu.akoel.grawit.core.treenodedatamodel.roots;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.VDMInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -83,9 +83,9 @@ public class VariableRootDataModel extends VariableNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof VDMInterface ){
+			if( !object.equals(this) && object instanceof VariableDataModelInterface ){
 				
-				Element element = ((VDMInterface)object).getXMLElement( document );
+				Element element = ((VariableDataModelInterface)object).getXMLElement( document );
 				paramPageElement.appendChild( element );		    		
 		    	
 			}

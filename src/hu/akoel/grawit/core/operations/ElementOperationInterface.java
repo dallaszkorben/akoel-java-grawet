@@ -48,6 +48,10 @@ public interface ElementOperationInterface {
 	
 	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException;
 	
+	/**
+	 * Visszaadja a muveletet
+	 * @return
+	 */
 	public Operation getOperation();
 	
 	public VariableElementDataModel getVariableElement();
