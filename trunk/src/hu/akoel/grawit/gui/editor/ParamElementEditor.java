@@ -11,6 +11,7 @@ import hu.akoel.grawit.core.operations.ButtonOperation;
 import hu.akoel.grawit.core.operations.CheckboxOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
+import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
 import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
@@ -47,7 +48,7 @@ public class ParamElementEditor extends DataEditor{
 	
 	private Operation operation;
 	
-	private VariableRootDataModel rootDataModel;
+	//private VariableRootDataModel rootDataModel;
 	
 	/**
 	 *  Uj ParamPageElement rogzitese - Insert
@@ -61,10 +62,9 @@ public class ParamElementEditor extends DataEditor{
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedPage;
-		this.rootDataModel = rootDataModel;
 		this.mode = null;
 
-		commonPre();
+		commonPre( rootDataModel );
 		
 		//Name
 		fieldName.setText( "" );
@@ -97,7 +97,7 @@ public class ParamElementEditor extends DataEditor{
 		this.mode = mode;
 	
 
-		commonPre();
+		commonPre( rootDataModel );
 		
 		//Name
 		fieldName.setText( selectedElement.getName() );
@@ -120,7 +120,9 @@ public class ParamElementEditor extends DataEditor{
 		
 	}
 
-	private void commonPre(){
+	private void commonPre( final VariableRootDataModel rootDataModel){
+		
+		//this.rootDataModel = rootDataModel;
 		
 		//Name
 		fieldName = new TextFieldComponent();
@@ -134,6 +136,8 @@ public class ParamElementEditor extends DataEditor{
 		fieldOperation.addItem( Operation.getOperationByIndex(4).getTranslatedName() );
 		fieldOperation.addItemListener( new ItemListener() {
 			
+			private boolean hasBeenHere = false;
+			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 
@@ -144,46 +148,54 @@ public class ParamElementEditor extends DataEditor{
 					
 					 operation = Operation.getOperationByIndex(index);
 					 
-						//STRING_PARAMETER
-						if( operation.equals( Operation.FIELD ) ){
+					 //STRING_PARAMETER
+					 if( operation.equals( Operation.FIELD ) ){
 
-							//Nem ez az elso valtoztatas
-							if( null != fieldParameterElementSelector ){
-								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-								fieldParameterElementSelector = new ParameterElementTreeSelectorComponent( rootDataModel );
-							}else{
-								//Modositas volt
-								if( null != nodeForModify ){
-									fieldParameterElementSelector = new ParameterElementTreeSelectorComponent( rootDataModel, nodeForModify.getElementOperation().getVariableElement() );
-								}else{
-									fieldParameterElementSelector = new ParameterElementTreeSelectorComponent( rootDataModel );
-								}
-							}
+						 //Mindenkeppen torolni kell, ha letezett
+						 if( null != fieldParameterElementSelector ){
+							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+							 ParamElementEditor.this.remove(labelParameterElementSelector);
+						 }
+							 
+						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
+						 if( hasBeenHere || null == nodeForModify ){
+							 
+							 //Akkor uresen kell kapnom a mezot
+							 fieldParameterElementSelector = new ParameterElementTreeSelectorComponent( rootDataModel );
+						 
+						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
+						 }else{
+							 
+							 //akkor latnom kell a kivalasztott tartalmat
+							 fieldParameterElementSelector = new ParameterElementTreeSelectorComponent( rootDataModel, nodeForModify.getElementOperation().getVariableElement() );
+						 }
 							
-						}else if( operation.equals( Operation.BUTTON ) ){
-							if( null != fieldParameterElementSelector ){
-								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-							}
+						 ParamElementEditor.this.add( labelParameterElementSelector, fieldParameterElementSelector );
+						 ParamElementEditor.this.revalidate();
+							
+					 }else if( operation.equals( Operation.BUTTON ) ){
+						 if( null != fieldParameterElementSelector ){
+							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+						 }
 						
-						}else if( operation.equals( Operation.CHECKBOX ) ){
-							if( null != fieldParameterElementSelector ){
-								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-							}
+					 }else if( operation.equals( Operation.CHECKBOX ) ){
+						 if( null != fieldParameterElementSelector ){
+							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+						 }
 						
-						}else if( operation.equals( Operation.RADIOBUTTON ) ){
-							if( null != fieldParameterElementSelector ){
-								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-							}
+					 }else if( operation.equals( Operation.RADIOBUTTON ) ){
+						 if( null != fieldParameterElementSelector ){
+							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+						 }
 						
-						}else if( operation.equals( Operation.LINK ) ){
-							if( null != fieldParameterElementSelector ){
-								ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-							}					
-						}
+					 }else if( operation.equals( Operation.LINK ) ){
+						 if( null != fieldParameterElementSelector ){
+							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+						 }					
+					 }
 						
-						ParamElementEditor.this.add( labelParameterElementSelector, fieldParameterElementSelector );
-						ParamElementEditor.this.revalidate();
 				}
+				hasBeenHere = true;
 			}
 		});
 	}
@@ -316,6 +328,8 @@ public class ParamElementEditor extends DataEditor{
 //TODO folytatni ---
 //Utanna nezni, hogy miert van ez a ParamElementDataModel-nel is				
 //				elementOperation = new FieldOperation( new SParameter("param1", "111" ) );
+				
+				elementOperation = new FieldOperation( oper))
 			}else if( operation.equals( Operation.LINK ) ){
 				elementOperation = new LinkOperation();
 			}else if( operation.equals( Operation.BUTTON ) ){

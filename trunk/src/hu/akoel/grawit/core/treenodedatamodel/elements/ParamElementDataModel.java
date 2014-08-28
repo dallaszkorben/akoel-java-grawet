@@ -22,6 +22,7 @@ import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -35,9 +36,9 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 
 	private static Tag TAG = Tag.PARAMELEMENT;
 	
-//	private static final String ATTR_NAME = "name";
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementpath";
 	private static final String ATTR_OPERATION = "operation";
+	private static final String ATTR_VARIABLE_ELEMENT_PATH = "variableelementpath";
 	
 	private String name;
 	private ElementOperationInterface elementOperation;
@@ -220,9 +221,20 @@ this.elementOperation = new LinkOperation();
 		attr.setValue( baseElement.getOpenTag() + baseElement.getCloseTag() );
 		elementElement.setAttributeNode(attr);
 
+		//Operation
 		attr = document.createAttribute( ATTR_OPERATION );
 		attr.setValue( getElementOperation().getOperation().name() );
 		elementElement.setAttributeNode(attr);
+		
+		//VariableElementPath
+		attr = document.createAttribute( ATTR_VARIABLE_ELEMENT_PATH );
+		VariableDataModelInterface variableDataModel = elementOperation.getVariableElement();
+		if( null == variableDataModel ){
+			attr.setValue("");
+		}else{
+			attr.setValue( variableDataModel.getPathTag() );
+		}
+		
 		
 		return elementElement;	
 	}
