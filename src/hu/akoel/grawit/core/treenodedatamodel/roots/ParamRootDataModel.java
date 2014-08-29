@@ -24,7 +24,7 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 		super( "", "" );
 	}
 	
-	public ParamRootDataModel( Document doc, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public ParamRootDataModel( Document doc, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -49,7 +49,7 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 					//Ha ujabb PARAMNODE van alatta
 					//if( paramElement.getTagName().equals( ParamNodeDataModel.getTagStatic() ) ){
 					if( paramElement.getTagName().equals( Tag.PARAMNODE.getName() ) ){						
-						this.add(new ParamNodeDataModel(paramElement, baseRootDataModel ));
+						this.add(new ParamNodeDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 					}
 				}
 			}

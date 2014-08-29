@@ -20,8 +20,8 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 
 	private static final long serialVersionUID = 598870035128239461L;
 	
-	private static Tag TAG = Tag.VARIABLEELEMENT; 				//element
-	private static Tag TAG_PARAMETER = Tag.VARIABLEPARAMETER;	//parameter
+	public static Tag TAG = Tag.VARIABLEELEMENT; 				//element
+	public static Tag TAG_PARAMETER = Tag.VARIABLEPARAMETER;	//parameter
 	
 	private static String ATTR_TYPE = "type";
 	private static String ATTR_VALUE = "value";

@@ -128,7 +128,7 @@ public class VariableElementEditor extends DataEditor{
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
-							VariableElementEditor.this.remove(fieldVariableParameters.getComponent());
+							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
 							fieldVariableParameters = new VariableParametersStringComponent(type);
 						}else{
 							//Modositas volt
@@ -146,7 +146,7 @@ public class VariableElementEditor extends DataEditor{
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
-							VariableElementEditor.this.remove(fieldVariableParameters.getComponent());
+							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
 							fieldVariableParameters = new VariableParametersRandomStringComponent(type);
 						}else{
 							//Modositas volt
@@ -164,7 +164,7 @@ public class VariableElementEditor extends DataEditor{
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
-							VariableElementEditor.this.remove(fieldVariableParameters.getComponent());
+							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
 							fieldVariableParameters = new VariableParametersRandomIntegerComponent(type);
 						}else{
 							//Modositas volt
@@ -182,7 +182,7 @@ public class VariableElementEditor extends DataEditor{
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
-							VariableElementEditor.this.remove(fieldVariableParameters.getComponent());
+							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
 							fieldVariableParameters = new VariableParametersRandomDoubleComponent(type);
 						}else{
 							//Modositas volt
@@ -206,7 +206,7 @@ public class VariableElementEditor extends DataEditor{
 	private void commonPost(){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.label.variablesampletype") + ": ");
+		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.label.variabletype") + ": ");
 		labelVariableParameters = new JLabel("");
 		
 		this.add( labelName, fieldName );
