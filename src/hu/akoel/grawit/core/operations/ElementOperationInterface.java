@@ -11,11 +11,11 @@ import hu.akoel.grawit.exceptions.ElementException;
 public interface ElementOperationInterface {
 
 	public static enum Operation{		
-		FIELD( 0, CommonOperations.getTranslation( "editor.title.operation.field") ),
-		LINK( 1, CommonOperations.getTranslation( "editor.title.operation.link") ),
-		BUTTON( 2, CommonOperations.getTranslation( "editor.title.operation.button") ),
-		RADIOBUTTON( 3, CommonOperations.getTranslation( "editor.title.operation.radiobutton") ),
-		CHECKBOX( 4, CommonOperations.getTranslation( "editor.title.operation.checkbox") );
+		FIELD( 0, CommonOperations.getTranslation( "editor.label.operation.field") ),
+		LINK( 1, CommonOperations.getTranslation( "editor.label.operation.link") ),
+		BUTTON( 2, CommonOperations.getTranslation( "editor.label.operation.button") ),
+		RADIOBUTTON( 3, CommonOperations.getTranslation( "editor.label.operation.radiobutton") ),
+		CHECKBOX( 4, CommonOperations.getTranslation( "editor.label.operation.checkbox") );
 		
 		private String translatedName;
 		private int index;

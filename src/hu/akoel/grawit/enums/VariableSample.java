@@ -3,9 +3,9 @@ package hu.akoel.grawit.enums;
 import hu.akoel.grawit.CommonOperations;
 
 public enum VariableSample {
-	NO(0, CommonOperations.getTranslation( "editor.title.variable.no") ),
-	PRE(1, CommonOperations.getTranslation( "editor.title.variable.pre") ),
-	POST(2, CommonOperations.getTranslation( "editor.title.variable.post") );
+	NO(0, CommonOperations.getTranslation( "editor.label.variablesample.no") ),
+	PRE(1, CommonOperations.getTranslation( "editor.label.variablesample.pre") ),
+	POST(2, CommonOperations.getTranslation( "editor.label.variablesample.post") );
 	
 	private int index;
 	private String translatedName;

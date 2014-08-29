@@ -72,7 +72,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		// Sample field
 		//
 		
-		JLabel labelSample = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomstring.samplestring") );
+		JLabel labelSample = new JLabel( CommonOperations.getTranslation("editor.label.variablesampletype.randomstring.samplestring") );
 		
 		fieldSample = new JTextField( parameterList.get(PARAMETERORDER_SAMPLE).toString());
 		
@@ -124,7 +124,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		//
 		// Length field
 		//
-		JLabel labelLength = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomstring.length") );
+		JLabel labelLength = new JLabel( CommonOperations.getTranslation("editor.label.variablesampletype.randomstring.length") );
 
 		fieldLength = new JTextField( parameterList.get(PARAMETERORDER_LENGTH).toString());
 		fieldLength.setColumns(5);

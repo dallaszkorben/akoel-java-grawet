@@ -67,10 +67,10 @@ public class BaseNodeEditor extends DataEditor{
 	private void common(){
 		
 		//Name
-		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
+		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 
 		//Details
-		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.title.details") + ": ");
+		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");
 
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );

@@ -205,8 +205,8 @@ public class VariableElementEditor extends DataEditor{
 	
 	private void commonPost(){
 		
-		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
-		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.title.variabletype") + ": ");
+		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
+		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.label.variablesampletype") + ": ");
 		labelVariableParameters = new JLabel("");
 		
 		this.add( labelName, fieldName );

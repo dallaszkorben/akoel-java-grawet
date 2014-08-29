@@ -73,8 +73,8 @@ public class ParamPageEditor extends DataEditor{
 	
 	private void common( BaseRootDataModel baseRootDataModel ){
 		
-		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
-		labelBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.title.basepage") + ": ");
+		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
+		labelBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.label.basepage") + ": ");
 		
 		this.add( labelName, fieldName );		
 		this.add( labelBasePageSelector, fieldBasePageSelector );

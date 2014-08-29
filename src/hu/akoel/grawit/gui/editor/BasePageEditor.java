@@ -67,8 +67,8 @@ public class BasePageEditor extends DataEditor{
 	}
 	
 	private void common(){
-		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
-		labelDetails = new JLabel( CommonOperations.getTranslation("editor.title.details") + ": ");
+		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
+		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");
 		
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );
