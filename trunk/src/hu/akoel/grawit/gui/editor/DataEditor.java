@@ -36,12 +36,12 @@ public abstract class DataEditor extends JPanel{
 	}
 	
 	private final static int POS_NULL = 0;
-	private final static int POS_TITLE = 0;
+	private final static int POS_LABEL = 0;
 	private final static int POS_VALUE = 1;
 	private final static int POS_SAVEBUTTON = 1;
 	private final static int POS_STATISICON = 2;
 	
-	private JPanel titleSection;
+	private JPanel labelSection;
 	private JPanel dataSection = new JPanel();
 	private GridBagConstraints c;
 	private int gridY = 0;
@@ -82,10 +82,10 @@ public abstract class DataEditor extends JPanel{
 		//
 		// Cim szekcio
 		//
-		titleSection = new JPanel();
-		titleSection.setBackground( Color.white );
+		labelSection = new JPanel();
+		labelSection.setBackground( Color.white );
 		if( null == mode || !mode.equals(EditMode.NO)){
-			headlinePanel.add( titleSection, BorderLayout.CENTER );
+			headlinePanel.add( labelSection, BorderLayout.CENTER );
 		}
 		
 		//
@@ -111,20 +111,20 @@ public abstract class DataEditor extends JPanel{
 		operationSection.setIcon( pageIcon );
 		
 		
-		JLabel title = new JLabel( element );		
+		JLabel label = new JLabel( element );		
 		//CAPTURE
 		if( null == mode ) {
-			title.setText( element );
+			label.setText( element );
 		//MODIFY
 		}else if( mode.equals( EditMode.MODIFY)){
-			title.setText( element );
+			label.setText( element );
 		//VIEW
 		}else if( mode.equals( EditMode.VIEW )){
-			title.setText( element );		
+			label.setText( element );		
 		}
-		titleSection.add( title );
+		labelSection.add( label );
 
-		title.setFont(new Font( title.getFont().getName(), Font.BOLD, 20 ));
+		label.setFont(new Font( label.getFont().getName(), Font.BOLD, 20 ));
 
 		//
 		// Adat szekcio
@@ -174,8 +174,14 @@ public abstract class DataEditor extends JPanel{
 		
 	}
 	
-	public void remove( Component c ){
-		dataSection.remove( c );
+//	public void remove( Component c ){
+//		dataSection.remove( c );
+//	}
+	
+	public void remove( Component labelComponent, Component dataComponent ){
+		dataSection.remove( labelComponent );
+		dataSection.remove( dataComponent );
+		dataSection.revalidate();
 	}
 	
 	/**
@@ -189,10 +195,10 @@ public abstract class DataEditor extends JPanel{
 	/**
 	 * Hozza ad egy cim-adat parost az oldalhoz
 	 * 
-	 * @param titleComponent
+	 * @param labelComponent
 	 * @param valueComponent
 	 */
-	public void add( Component titleComponent, EditorComponentInterface valueComponent ){
+	public void add( Component labelComponent, EditorComponentInterface valueComponent ){
 	
 		//Ha csak megjelenitesrol van szo, akkor
 		if( null != mode && mode.equals( EditMode.VIEW ) ){
@@ -207,16 +213,16 @@ public abstract class DataEditor extends JPanel{
 		//Eltavolitom az elozo ADD funkcio utan az elhelyezett SAVE gombot (ha volt)
 		dataSection.remove( saveButton );
 		
-		//Title elem
+		//Label elem
 		c.insets = new Insets(0,0,0,0);
 		c.gridy = gridY;
-		c.gridx = POS_TITLE;
+		c.gridx = POS_LABEL;
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.NONE;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		dataSection.add( titleComponent, c );
+		dataSection.add( labelComponent, c );
 	
 		//Value elem
 		c.gridx = POS_VALUE;
@@ -268,6 +274,7 @@ public abstract class DataEditor extends JPanel{
 			gridY--;
 		}
 		
+		dataSection.revalidate();
 	}
 	
 	/**

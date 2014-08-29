@@ -74,7 +74,7 @@ public class VariableParametersRandomDoubleComponent extends JPanel implements V
 		// From field
 		//
 		
-		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomdouble.from") );
+		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.variablesampletype.randomdouble.from") );
 		
 		fieldFrom = new JTextField( parameterList.get(PARAMETERORDER_FROM).toString());
 		fieldFrom.setColumns(5);
@@ -127,7 +127,7 @@ public class VariableParametersRandomDoubleComponent extends JPanel implements V
 		//
 		// To field
 		//
-		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomdouble.to") );
+		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.variablesampletype.randomdouble.to") );
 
 		fieldTo = new JTextField( parameterList.get(PARAMETERORDER_TO).toString());
 		fieldTo.setColumns(5);
@@ -178,7 +178,7 @@ public class VariableParametersRandomDoubleComponent extends JPanel implements V
 		//
 		// Decimal length field
 		//
-		JLabel labelDecimalLength = new JLabel( CommonOperations.getTranslation("editor.title.variabletype.randomdouble.decimallength") );
+		JLabel labelDecimalLength = new JLabel( CommonOperations.getTranslation("editor.label.variablesampletype.randomdouble.decimallength") );
 
 		fieldDecimalLength = new JTextField( parameterList.get(PARAMETERORDER_DECIMALLENGTH).toString());
 		fieldDecimalLength.setColumns(5);

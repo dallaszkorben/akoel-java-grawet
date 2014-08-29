@@ -16,6 +16,7 @@ import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
 import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.pages.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
@@ -102,7 +103,7 @@ public class ParamElementEditor extends DataEditor{
 		//Name
 		fieldName.setText( selectedElement.getName() );
 
-		//Selector az elem valasztashoz - A root a basePage (nem latszik)
+		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModel baseElement = selectedElement.getBaseElement();
 		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();		
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
@@ -148,14 +149,14 @@ public class ParamElementEditor extends DataEditor{
 					
 					 operation = Operation.getOperationByIndex(index);
 					 
+					 //Mindenkeppen torolni kell, ha letezett
+					 if( null != fieldParameterElementSelector ){
+						 ParamElementEditor.this.remove( labelParameterElementSelector, fieldParameterElementSelector.getComponent() );
+						 ParamElementEditor.this.repaint();
+					 }
+					 
 					 //STRING_PARAMETER
 					 if( operation.equals( Operation.FIELD ) ){
-
-						 //Mindenkeppen torolni kell, ha letezett
-						 if( null != fieldParameterElementSelector ){
-							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-							 ParamElementEditor.this.remove(labelParameterElementSelector);
-						 }
 							 
 						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
 						 if( hasBeenHere || null == nodeForModify ){
@@ -171,41 +172,40 @@ public class ParamElementEditor extends DataEditor{
 						 }
 							
 						 ParamElementEditor.this.add( labelParameterElementSelector, fieldParameterElementSelector );
-						 ParamElementEditor.this.revalidate();
+//						 ParamElementEditor.this.revalidate();
 							
 					 }else if( operation.equals( Operation.BUTTON ) ){
-						 if( null != fieldParameterElementSelector ){
+/*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }
-						
+*/						
 					 }else if( operation.equals( Operation.CHECKBOX ) ){
-						 if( null != fieldParameterElementSelector ){
+/*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }
-						
+*/						
 					 }else if( operation.equals( Operation.RADIOBUTTON ) ){
-						 if( null != fieldParameterElementSelector ){
+/*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }
-						
+*/						
 					 }else if( operation.equals( Operation.LINK ) ){
-						 if( null != fieldParameterElementSelector ){
+/*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }					
-					 }
-						
-				}
-				hasBeenHere = true;
+*/					 }
+					 hasBeenHere = true;						
+				}				
 			}
 		});
 	}
 	
 	private void commonPost(){
 		
-		labelName = new JLabel( CommonOperations.getTranslation("editor.title.name") + ": ");
-		labelOperation = new JLabel( CommonOperations.getTranslation("editor.title.operation") + ": ");
-		labelPageBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.title.baseelement") + ": " );
-		labelParameterElementSelector = new JLabel( "Valassz aprametert" );
+		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
+		labelOperation = new JLabel( CommonOperations.getTranslation("editor.label.operation") + ": ");
+		labelPageBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.baseelement") + ": " );
+		labelParameterElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.variable" ) + ": " );
 		
 		this.add( labelName, fieldName );
 		this.add( labelPageBaseElementSelector, fieldBaseElementSelector );
@@ -325,11 +325,8 @@ public class ParamElementEditor extends DataEditor{
 			ElementOperationInterface elementOperation = null;
 			Operation operation = Operation.getOperationByIndex( fieldOperation.getSelectedIndex() );
 			if( operation.equals( Operation.FIELD ) ){
-//TODO folytatni ---
-//Utanna nezni, hogy miert van ez a ParamElementDataModel-nel is				
-//				elementOperation = new FieldOperation( new SParameter("param1", "111" ) );
-				
-				elementOperation = new FieldOperation( oper))
+				VariableElementDataModel variableElementDataModel = fieldParameterElementSelector.getSelectedDataModel();			
+				elementOperation = new FieldOperation( variableElementDataModel );
 			}else if( operation.equals( Operation.LINK ) ){
 				elementOperation = new LinkOperation();
 			}else if( operation.equals( Operation.BUTTON ) ){
