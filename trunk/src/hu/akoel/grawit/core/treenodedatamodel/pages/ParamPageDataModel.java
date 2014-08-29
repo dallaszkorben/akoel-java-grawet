@@ -25,6 +25,7 @@ import hu.akoel.grawit.core.pages.ExecutablePageInterface;
 import hu.akoel.grawit.core.pages.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.BaseNodeDataModel;
@@ -64,7 +65,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	 * @param element
 	 * @throws XMLPharseException
 	 */
-	public ParamPageDataModel( Element element, BaseDataModelInterface baseDataModel ) throws XMLPharseException{
+	public ParamPageDataModel( Element element, BaseDataModelInterface baseDataModel, VariableDataModelInterface variableDataModel ) throws XMLPharseException{
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
@@ -149,7 +150,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 				Element paramElement = (Element)node;
 				//if( paramElement.getTagName().equals( ParamElementDataModel.getTagStatic().getName() )){
 				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
-					this.add(new ParamElementDataModel(paramElement, basePage ));
+					this.add(new ParamElementDataModel(paramElement, basePage, variableDataModel ));
 				}
 			}
 		}		

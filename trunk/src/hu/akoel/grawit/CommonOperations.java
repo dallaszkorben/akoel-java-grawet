@@ -175,8 +175,8 @@ public class CommonOperations {
 	 }
 
 	 /**
-	  * Megkeresi a parameterkent megadott baseDataModelInterface aktualis szintjen a name nevu node-ot
-	  * Ha nem talalja, akkor null-t ad vissza, ha megtalalja, akkor pedig a node-ot mint BaseDataModelInterface
+	  * Megkeresi a parameterkent megadott DataModelInterface aktualis szintjen a name nevu es tag Tag-u node-ot
+	  * Ha nem talalja, akkor null-t ad vissza, ha megtalalja, akkor pedig a node-ot
 	  * 
 	  * @param actualBaseDataModel
 	  * @param name

@@ -6,6 +6,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.pages.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -34,7 +35,7 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 		this.details = details;
 	}
 	
-	public ParamNodeDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public ParamNodeDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( ParamNodeDataModel.getRootTag(), Tag.PARAMNODE, ATTR_NAME );			
@@ -57,12 +58,12 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 				//Ha BASEPAGE van alatta
 				//if( baseElement.getTagName().equals( ParamPageDataModel.getTagStatic().getName() )){
 				if( baseElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
-					this.add(new ParamPageDataModel(baseElement, baseRootDataModel) );
+					this.add(new ParamPageDataModel(baseElement, baseRootDataModel, variableRootDataModel ) );
 				
 				//Ha ujabb BASENODE van alatta
 				//}else if( baseElement.getTagName().equals( ParamNodeDataModel.getTagStatic() )){
 				}else if( baseElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
-					this.add(new ParamNodeDataModel(baseElement, baseRootDataModel ) );
+					this.add(new ParamNodeDataModel(baseElement, baseRootDataModel, variableRootDataModel ) );
 				}
 			}
 		}

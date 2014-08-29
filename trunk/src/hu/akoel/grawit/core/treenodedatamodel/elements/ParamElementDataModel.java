@@ -17,12 +17,17 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ButtonOperation;
 import hu.akoel.grawit.core.operations.CheckboxOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -51,16 +56,20 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		this.elementOperation = operation;
 	}
 	
-	public ParamElementDataModel( Element element, BaseDataModelInterface baseDataModel ) throws XMLPharseException{
+	public ParamElementDataModel( Element element, BaseDataModelInterface baseDataModel, VariableDataModelInterface variableDataModel ) throws XMLPharseException{
 
-		//name
+		//
+		// Name
+		//
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
-		//Operation
+		//
+		// Operation
+		//
 		if( !element.hasAttribute( ATTR_OPERATION ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPERATION );			
 		}
@@ -70,9 +79,66 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 		}else if( Operation.CHECKBOX.name().equals(operatorString) ){
 			this.elementOperation = new CheckboxOperation();
 		}else if( Operation.FIELD.name().equals( operatorString ) ){
+			
+			String variableElementPathString = element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH);				
+			variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
+		    DocumentBuilder builder;
+		    Document document = null;
+		    try{  
+		        builder = factory.newDocumentBuilder();  
+		        document = builder.parse( new InputSource( new StringReader( variableElementPathString ) ) );  
+		    } catch (Exception e) {  
+		    
+		    	//Nem sikerult az atalakitas
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH), e );
+		    } 
+
+		    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
+		    Node actualNode = document;
+		    while( actualNode.hasChildNodes() ){
+			
+		    	actualNode = actualNode.getFirstChild();
+		    	Element actualElement = (Element)actualNode;
+		    	String tagName = actualElement.getTagName();
+		    	String attrName = null;
+		    	
+		    	//Ha VARIABLENODE
+		    	if( tagName.equals( VariableNodeDataModel.TAG.getName() ) ){
+		    		attrName = actualElement.getAttribute(VariableNodeDataModel.ATTR_NAME);	    		
+		    		variableDataModel = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModel, Tag.VARIABLENODE, attrName );
+
+		    		if( null == variableDataModel ){
+
+		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH) );
+		    		}
+		    		
+		    	//Ha VARIABLEELEMENT
+		    	}else if( tagName.equals( VariableElementDataModel.TAG.getName() ) ){
+		    		attrName = actualElement.getAttribute(VariableElementDataModel.ATTR_NAME);
+
+		    		variableDataModel = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModel, Tag.VARIABLEELEMENT, attrName );
+		    		
+//		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH ) );	    		
+		    	}else{
+		    		
+		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH) );	    		
+		    	}
+		    }	    
+		    try{
+		    	
+		    	this.elementOperation = new FieldOperation( (VariableElementDataModel)variableDataModel );
+		    	
+		    }catch(ClassCastException e){
+
+		    	//Nem sikerult az utvonalat megtalalni
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH ), e );
+		    }
+		    
+			
 //TODO folytatni ----
-//this.elementOperation = new FieldOperation( new VariableElementDataModel(nameString, type, parameters));
-this.elementOperation = new LinkOperation();
+
+//this.elementOperation = new LinkOperation();
 		}else if( Operation.LINK.name().equals( operatorString ) ){
 			this.elementOperation = new LinkOperation();
 		}else if( Operation.RADIOBUTTON.name().equals( operatorString ) ){
@@ -81,7 +147,9 @@ this.elementOperation = new LinkOperation();
 			throw new XMLWrongAttributePharseException(getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPERATION, operatorString );
 		}
 
-		//BaseElement
+		//
+		// BaseElement
+		//
 		if( !element.hasAttribute( ATTR_BASE_ELEMENT_PATH ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH );			
 		}	
@@ -234,6 +302,7 @@ this.elementOperation = new LinkOperation();
 		}else{
 			attr.setValue( variableDataModel.getPathTag() );
 		}
+		elementElement.setAttributeNode( attr );
 		
 		
 		return elementElement;	
