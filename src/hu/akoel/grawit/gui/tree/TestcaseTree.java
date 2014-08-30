@@ -14,8 +14,6 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
@@ -25,9 +23,6 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.param.ParamElementEditor;
-import hu.akoel.grawit.gui.editor.param.ParamNodeEditor;
-import hu.akoel.grawit.gui.editor.param.ParamPageEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcasePageEditor;
@@ -36,15 +31,13 @@ public class TestcaseTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;
-	private VariableRootDataModel variableRootDataModel;
 	private BaseRootDataModel baseRootDataModel;
 	private ParamRootDataModel paramRootDataModel;
 	
-	public TestcaseTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, TestcaseRootDataModel rootDataModel ) {
+	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, TestcaseRootDataModel rootDataModel ) {
 		super(guiFrame, rootDataModel);
 		
 		this.guiFrame = guiFrame;
-		this.variableRootDataModel = variableRootDataModel;
 		this.baseRootDataModel = baseRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
 		
@@ -91,7 +84,7 @@ public class TestcaseTree extends Tree {
 			guiFrame.showEditorPanel( testcaseCaseEditor);				
 							
 		}else if( selectedNode instanceof TestcasePageDataModel ){
-			TestcasePageEditor testcasePageEditor = new TestcasePageEditor( this, (TestcasePageDataModel)selectedNode, EditMode.VIEW );	
+			TestcasePageEditor testcasePageEditor = new TestcasePageEditor( this, (TestcasePageDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( testcasePageEditor);									
 			
 		}
@@ -113,7 +106,7 @@ public class TestcaseTree extends Tree {
 				
 		}else if( selectedNode instanceof ParamElementDataModel ){
 
-			TestcasePageEditor testcasePageEditor = new TestcasePageEditor( this, (TestcasePageDataModel)selectedNode, EditMode.MODIFY );
+			TestcasePageEditor testcasePageEditor = new TestcasePageEditor( this, (TestcasePageDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcasePageEditor);		
 				
 		}		
@@ -172,7 +165,7 @@ public class TestcaseTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcasePageEditor testcasePageEditor = new TestcasePageEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode );								
+					TestcasePageEditor testcasePageEditor = new TestcasePageEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
 					guiFrame.showEditorPanel( testcasePageEditor);								
 				
 				}
@@ -184,7 +177,7 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
-	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelInterface selectedNode, final int selectedRow,	final DefaultTreeModel totalTreeModel) {
+	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelInterface selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
 	
 		if( selectedNode.getChildCount() == 0 ){
 			

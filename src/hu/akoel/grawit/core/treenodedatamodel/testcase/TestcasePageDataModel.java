@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -21,11 +22,13 @@ public class TestcasePageDataModel extends TestcaseDataModelInterface{
 	
 	private String name;
 	private String details;
+	private ParamPageDataModel paramPage;
 	
-	public TestcasePageDataModel( String name, String details ){
+	public TestcasePageDataModel( String name, String details, ParamPageDataModel paramPage ){
 		super( );
 		this.name = name;
 		this.details = details;
+		this.paramPage = paramPage;
 	}
 	
 	/**
@@ -94,6 +97,14 @@ public class TestcasePageDataModel extends TestcaseDataModelInterface{
 		return name;
 	}
 
+	public void setParamPage( ParamPageDataModel paramPage ){
+		this.paramPage = paramPage;		
+	}
+	
+	public ParamPageDataModel getParamPage(){
+		return paramPage;
+	}
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;

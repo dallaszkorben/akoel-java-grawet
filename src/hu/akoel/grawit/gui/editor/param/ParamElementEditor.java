@@ -21,7 +21,6 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editors.component.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.ParameterElementTreeSelectorComponent;
@@ -44,7 +43,7 @@ public class ParamElementEditor extends DataEditor{
 	private TextFieldComponent fieldName;
 	private JLabel labelOperation;
 	private ComboBoxComponent<String> fieldOperation;
-	private JLabel labelPageBaseElementSelector;
+	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	private JLabel labelParameterElementSelector;
 	private ParameterElementTreeSelectorComponent fieldParameterElementSelector;
@@ -60,7 +59,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param selectedPage
 	 */
 	public ParamElementEditor( Tree tree, ParamPageDataModel selectedPage, VariableRootDataModel rootDataModel ){
-		//super( CommonOperations.getTranslation("tree.nodetype.paramelement") );
+
 		super( ParamElementDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
@@ -92,7 +91,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param mode
 	 */
 	public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, VariableRootDataModel rootDataModel, EditMode mode ){		
-		//super( mode, CommonOperations.getTranslation("tree.nodetype.paramelement") );
+
 		super( mode, selectedElement.getModelNameToShow());
 
 		this.tree = tree;
@@ -206,11 +205,11 @@ public class ParamElementEditor extends DataEditor{
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		labelOperation = new JLabel( CommonOperations.getTranslation("editor.label.operation") + ": ");
-		labelPageBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.baseelement") + ": " );
+		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.baseelement") + ": " );
 		labelParameterElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.variable" ) + ": " );
 		
 		this.add( labelName, fieldName );
-		this.add( labelPageBaseElementSelector, fieldBaseElementSelector );
+		this.add( labelBaseElementSelector, fieldBaseElementSelector );
 		this.add( labelOperation, fieldOperation );
 		//this.add( labelParameterElementSelector, fieldParameterElementSelector );
 
@@ -234,6 +233,8 @@ public class ParamElementEditor extends DataEditor{
 		
 		//fieldName
 		LinkedHashMap<Component, String> errorList = new LinkedHashMap<Component, String>();
+		
+		//Nincs nev megadva
 		if( fieldName.getText().length() == 0 ){
 			errorList.put( 
 					fieldName,
@@ -242,6 +243,16 @@ public class ParamElementEditor extends DataEditor{
 							"'"+labelName.getText()+"'"
 					)
 			);
+		
+		//Nincs BaseElement kivalasztva
+		}else if( null == fieldBaseElementSelector.getSelectedDataModel()){
+			errorList.put( 
+					fieldBaseElementSelector,
+					MessageFormat.format(
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
+							"'"+labelBaseElementSelector.getText()+"'"
+					)
+			);			
 		}else{
 
 			TreeNode nodeForSearch = null;
