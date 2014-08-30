@@ -38,10 +38,10 @@ public class BaseTree extends Tree{
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
 
-    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/pagebase-page-icon.png");
-    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/pagebase-element-icon.png");
-    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/node-closed-icon.png");
-    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
+    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
+    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
+    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
+    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
   
     	//Iconja a NODE-nak
     	if( actualNode instanceof BasePageDataModel){

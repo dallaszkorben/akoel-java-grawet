@@ -19,6 +19,7 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -29,6 +30,7 @@ import hu.akoel.grawit.gui.editor.param.ParamNodeEditor;
 import hu.akoel.grawit.gui.editor.param.ParamPageEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor;
+import hu.akoel.grawit.gui.editor.testcase.TestcasePageEditor;
 
 public class TestcaseTree extends Tree {
 
@@ -51,18 +53,17 @@ public class TestcaseTree extends Tree {
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
 
-    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/pagebase-page-icon.png");
-    	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/pagebase-element-icon.png");
-    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/node-closed-icon.png");
-    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
+    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-icon.png");
+    	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
+    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/testcase-node-closed-icon.png");
+    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/testcase-node-open-icon.png");
     	
     	//Iconja a NODE-nak
-//    	if( actualNode instanceof TestcaseCaseDataModel){
-//            return caseIcon;
-//    	}else if( actualNode instanceof TestcasePageDataModel ){
-//            return pageIcon;
-//    	}else 
-    	if( actualNode instanceof TestcaseNodeDataModel){
+    	if( actualNode instanceof TestcaseCaseDataModel){
+            return caseIcon;
+    	}else if( actualNode instanceof TestcasePageDataModel ){
+            return pageIcon;
+    	}else if( actualNode instanceof TestcaseNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
@@ -88,11 +89,11 @@ public class TestcaseTree extends Tree {
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
 			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( testcaseCaseEditor);				
-/*							
-		}else if( selectedNode instanceof ParamElementDataModel ){
-			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, variableRootDataModel, EditMode.VIEW );	
-			guiFrame.showEditorPanel( pageBaseElementEditor);									
-*/			
+							
+		}else if( selectedNode instanceof TestcasePageDataModel ){
+			TestcasePageEditor testcasePageEditor = new TestcasePageEditor( this, (TestcasePageDataModel)selectedNode, EditMode.VIEW );	
+			guiFrame.showEditorPanel( testcasePageEditor);									
+			
 		}
 		
 	}
@@ -109,12 +110,12 @@ public class TestcaseTree extends Tree {
 			
 			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( testcaseCaseEditor);		
-/*				
+				
 		}else if( selectedNode instanceof ParamElementDataModel ){
 
-			ParamElementEditor paramElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, variableRootDataModel, EditMode.MODIFY );
-			guiFrame.showEditorPanel( paramElementEditor);		
-*/				
+			TestcasePageEditor testcasePageEditor = new TestcasePageEditor( this, (TestcasePageDataModel)selectedNode, EditMode.MODIFY );
+			guiFrame.showEditorPanel( testcasePageEditor);		
+				
 		}		
 	}
 
@@ -159,25 +160,25 @@ public class TestcaseTree extends Tree {
 		}		
 		
 		//
-		// Page eseten
+		// Case eseten
 		//
-		if( selectedNode instanceof ParamPageDataModel ){
+		if( selectedNode instanceof TestcaseCaseDataModel ){
 
 			//Insert Element
-/*			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.element") );
+			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.casepage") );
 			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertElementMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( TestcaseTree.this, (ParamPageDataModel)selectedNode, variableRootDataModel );								
-					guiFrame.showEditorPanel( paramPageNodeEditor);								
+					TestcasePageEditor testcasePageEditor = new TestcasePageEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode );								
+					guiFrame.showEditorPanel( testcasePageEditor);								
 				
 				}
 			});
 			popupMenu.add ( insertElementMenu );
-*/		
+		
 		}
 		
 	}
