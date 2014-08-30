@@ -35,10 +35,10 @@ public class ParameterElementTreeSelectorComponent extends TreeSelectorComponent
 	
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded ) {
-		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/pagebase-page-icon.png");
-		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/pagebase-element-icon.png");
-		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/node-closed-icon.png");
-		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
+		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/variable-page-icon.png");
+		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/variable-element-icon.png");
+		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/variable-node-closed-icon.png");
+		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/variable-node-open-icon.png");
 
 		//Iconja a NODE-nak
 		if( actualNode instanceof VariableElementDataModel ){

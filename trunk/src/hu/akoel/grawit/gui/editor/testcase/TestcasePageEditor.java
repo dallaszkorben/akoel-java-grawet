@@ -5,10 +5,12 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editors.component.ParamPageTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -27,10 +29,13 @@ public class TestcasePageEditor extends DataEditor{
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
+	private JLabel labelDetails;
 	private TextAreaComponent fieldDetails;
+	private JLabel labelParamPageTreeSelector;
+	private ParamPageTreeSelectorComponent fieldParamPageTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcasePageEditor( Tree tree, TestcaseCaseDataModel selectedNode ){
+	public TestcasePageEditor( Tree tree, TestcaseCaseDataModel selectedNode, ParamDataModelInterface paramDataModel ){
 		super( TestcasePageDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
@@ -43,12 +48,15 @@ public class TestcasePageEditor extends DataEditor{
 		//Details
 		fieldDetails = new TextAreaComponent( "", 5, 15);
 		
+		//ParamPageTreeSelector
+		fieldParamPageTreeSelector = new ParamPageTreeSelectorComponent(paramDataModel);
+		
 		common();
 		
 	}
 	
 	//Itt modositas van
-	public TestcasePageEditor( Tree testcaseTree, TestcasePageDataModel selectedNode, EditMode mode ){		
+	public TestcasePageEditor( Tree testcaseTree, TestcasePageDataModel selectedNode, ParamDataModelInterface paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = testcaseTree;
@@ -61,6 +69,9 @@ public class TestcasePageEditor extends DataEditor{
 		//Details
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
+		//ParamPageTreeSelector
+		fieldParamPageTreeSelector = new ParamPageTreeSelectorComponent( paramDataModel, selectedNode.getParamPage() );
+				
 		common();
 	}
 	
@@ -70,10 +81,15 @@ public class TestcasePageEditor extends DataEditor{
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 
 		//Details
-		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
+		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
+		
+		//Param Page
+		labelParamPageTreeSelector = new JLabel("Page");
+		
 		
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );
+		this.add( labelParamPageTreeSelector, fieldParamPageTreeSelector );
 		
 	}
 	
@@ -88,12 +104,24 @@ public class TestcasePageEditor extends DataEditor{
 		//Hibak eseten a hibas mezok osszegyujtese
 		//		
 		LinkedHashMap<Component, String> errorList = new LinkedHashMap<Component, String>();		
+		
+		//Ha nincs nev megadva
 		if( fieldName.getText().length() == 0 ){
 			errorList.put( 
 					fieldName,
 					MessageFormat.format(
 							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
 							"'"+labelName.getText()+"'"
+					)
+			);
+			
+		//Ha nincs ParamPage kivalasztva
+		}else if( null == fieldParamPageTreeSelector.getSelectedDataModel() ){
+			errorList.put( 
+					fieldParamPageTreeSelector,
+					MessageFormat.format(
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
+							"'"+labelParamPageTreeSelector.getText()+"'"
 					)
 			);
 		}else{
@@ -151,12 +179,13 @@ public class TestcasePageEditor extends DataEditor{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 
-			//TreePath pathToOpen = null;
+			//A kivalasztott paramPage
+			ParamPageDataModel paramPage = fieldParamPageTreeSelector.getSelectedDataModel();			
 			
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcasePageDataModel newTestcasePage = new TestcasePageDataModel( fieldName.getText(), fieldDetails.getText() );				
+				TestcasePageDataModel newTestcasePage = new TestcasePageDataModel( fieldName.getText(), fieldDetails.getText(), paramPage );				
 				nodeForCapture.add( newTestcasePage );
 				
 			//Modositas eseten
@@ -165,6 +194,7 @@ public class TestcasePageEditor extends DataEditor{
 				//Modositja a valtozok erteket
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
+				nodeForModify.setParamPage(paramPage);
 			
 			}			
 			
