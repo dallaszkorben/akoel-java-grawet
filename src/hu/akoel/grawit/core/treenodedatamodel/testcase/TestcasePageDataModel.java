@@ -10,61 +10,44 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
+public class TestcasePageDataModel extends TestcaseDataModelInterface{
 
-	private static final long serialVersionUID = -2139557326147525999L;
+	private static final long serialVersionUID = 5313170692938571481L;
 
-	public static final Tag TAG = Tag.TESTCASECASE;
+	public static final Tag TAG = Tag.TESTCASEPAGE;
 	
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name;
 	private String details;
 	
-	public TestcaseCaseDataModel( String name, String details ){
+	public TestcasePageDataModel( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;
 	}
 	
 	/**
-	 * XML alapjan legyartja a TESTCASECASE-ot es az alatta elofordulo 
-	 * TESTCASECASE-okat, illetve TESTCASEPAGE-eket
+	 * XML alapjan legyartja a TESTCASEPAGE-et es az alatta elofordulo 
 	 * 
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCaseDataModel( Element element ) throws XMLPharseException{
+	public TestcasePageDataModel( Element element ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcaseCaseDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( TestcasePageDataModel.getRootTag(), Tag.TESTCASEPAGE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcaseCaseDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( TestcasePageDataModel.getRootTag(), Tag.TESTCASEPAGE, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
-		
-		NodeList nodelist = element.getChildNodes();
-		for( int i = 0; i < nodelist.getLength(); i++ ){
-			Node node = nodelist.item( i );
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element testcaseElement = (Element)node;
-				
-				//Ha TESTCASEPAGE van alatta
-				if( testcaseElement.getTagName().equals( Tag.TESTCASEPAGE.getName() )){
-					
-					this.add(new TestcasePageDataModel(testcaseElement));
-				
-				}
-			}
-		}
+
 	}
 	
 	public static Tag getTagStatic(){
@@ -82,7 +65,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.case");
+		return CommonOperations.getTranslation( "tree.nodetype.casepage");
 	}
 	
 	@Override
@@ -116,7 +99,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( TestcaseCaseDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( TestcasePageDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
@@ -124,20 +107,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	
-	
-		int childrens = this.getChildCount();
-		for( int i = 0; i < childrens; i++ ){
 			
-			Object object = this.getChildAt( i );
-			
-			if( !object.equals(this) && object instanceof TestcaseDataModelInterface ){
-				
-				Element element = ((TestcaseDataModelInterface)object).getXMLElement( document );
-				nodeElement.appendChild( element );		    		
-		    	
-			}
-		}
-	
 		return nodeElement;		
 	}
 

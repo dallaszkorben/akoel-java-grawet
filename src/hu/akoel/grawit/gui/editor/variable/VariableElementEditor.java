@@ -11,7 +11,6 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.enums.VariableType;
 import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.VariableParametersComponentInterface;
@@ -49,7 +48,7 @@ public class VariableElementEditor extends DataEditor{
 	 * @param selectedNode
 	 */
 	public VariableElementEditor( Tree tree, VariableNodeDataModel selectedNode ){
-		//super( CommonOperations.getTranslation( "tree.nodetype.variableelement" ) );
+
 		super( VariableElementDataModel.getModelNameToShowStatic());
 
 		this.tree = tree;
@@ -80,7 +79,7 @@ public class VariableElementEditor extends DataEditor{
 	 * @param mode
 	 */
 	public VariableElementEditor( Tree tree, VariableElementDataModel selectedElement, EditMode mode ){		
-		//super( mode, CommonOperations.getTranslation("tree.nodetype.variableelement") );
+
 		super( mode, selectedElement.getModelNameToShow() );
 
 		this.tree = tree;
