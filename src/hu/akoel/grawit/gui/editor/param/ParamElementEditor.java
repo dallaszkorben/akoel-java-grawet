@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editor;
+package hu.akoel.grawit.gui.editor.param;
 
 import java.awt.Component;
 import java.awt.event.ItemEvent;
@@ -14,16 +14,18 @@ import hu.akoel.grawit.core.operations.ElementOperationInterface.Operation;
 import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
-import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.pages.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
-import hu.akoel.grawit.gui.editor.component.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
-import hu.akoel.grawit.gui.editor.component.ParameterElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editors.component.BaseElementTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
+import hu.akoel.grawit.gui.editors.component.ParameterElementTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;

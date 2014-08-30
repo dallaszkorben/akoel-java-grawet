@@ -12,14 +12,14 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editor.VariableElementEditor;
-import hu.akoel.grawit.gui.editor.VariableNodeEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editor.variable.VariableElementEditor;
+import hu.akoel.grawit.gui.editor.variable.VariableNodeEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
 public class VariableTree extends Tree{

@@ -4,8 +4,8 @@ import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.parameter.ElementParameter;
-import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.exceptions.ElementException;
 
 public interface ElementOperationInterface {

@@ -17,6 +17,9 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -24,36 +27,42 @@ import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.param.ParamElementEditor;
 import hu.akoel.grawit.gui.editor.param.ParamNodeEditor;
 import hu.akoel.grawit.gui.editor.param.ParamPageEditor;
+import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
+import hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor;
 
-public class ParamTree extends Tree {
+public class TestcaseTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
-	private GUIFrame guiFrame;	
+	private GUIFrame guiFrame;
 	private VariableRootDataModel variableRootDataModel;
 	private BaseRootDataModel baseRootDataModel;
+	private ParamRootDataModel paramRootDataModel;
 	
-	public ParamTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel rootDataModel ) {
+	public TestcaseTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, TestcaseRootDataModel rootDataModel ) {
 		super(guiFrame, rootDataModel);
 		
 		this.guiFrame = guiFrame;
-		this.baseRootDataModel = baseRootDataModel;
 		this.variableRootDataModel = variableRootDataModel;
+		this.baseRootDataModel = baseRootDataModel;
+		this.paramRootDataModel = paramRootDataModel;
+		
 	}
 
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
 
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/pagebase-page-icon.png");
-    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/pagebase-element-icon.png");
+    	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/pagebase-element-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/node-open-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamPageDataModel){
-            return pageIcon;
-    	}else if( actualNode instanceof ParamElementDataModel ){
-            return elementIcon;
-    	}else if( actualNode instanceof ParamNodeDataModel){
+//    	if( actualNode instanceof TestcaseCaseDataModel){
+//            return caseIcon;
+//    	}else if( actualNode instanceof TestcasePageDataModel ){
+//            return pageIcon;
+//    	}else 
+    	if( actualNode instanceof TestcaseNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
@@ -68,43 +77,44 @@ public class ParamTree extends Tree {
 	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
 		
 		//Ha a root-ot valasztottam
-		if( selectedNode instanceof ParamRootDataModel ){
+		if( selectedNode instanceof TestcaseRootDataModel ){
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 			
-		}else if( selectedNode instanceof ParamNodeDataModel ){
-			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.VIEW);
-			guiFrame.showEditorPanel( paramNodeEditor);								
-			
-		}else if( selectedNode instanceof ParamPageDataModel ){
-			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamPageDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( paramPageEditor);				
-							
+		}else if( selectedNode instanceof TestcaseNodeDataModel ){
+			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.VIEW);
+			guiFrame.showEditorPanel( testcaseNodeEditor);								
+		
+		}else if( selectedNode instanceof TestcaseCaseDataModel ){
+			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( testcaseCaseEditor);				
+/*							
 		}else if( selectedNode instanceof ParamElementDataModel ){
 			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, variableRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( pageBaseElementEditor);									
-			
+*/			
 		}
 		
 	}
 
 	@Override
 	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
-		if( selectedNode instanceof ParamNodeDataModel ){
+		
+		if( selectedNode instanceof TestcaseNodeDataModel ){
 			
-			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.MODIFY );								
-			guiFrame.showEditorPanel( paramNodeEditor);								
+			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.MODIFY );								
+			guiFrame.showEditorPanel( testcaseNodeEditor);								
 				
-		}else if( selectedNode instanceof ParamPageDataModel ){
+		}else if( selectedNode instanceof TestcaseCaseDataModel ){
 			
-			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamPageDataModel)selectedNode, EditMode.MODIFY );							                                            
-			guiFrame.showEditorPanel( paramPageEditor);		
-				
+			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, EditMode.MODIFY );							                                            
+			guiFrame.showEditorPanel( testcaseCaseEditor);		
+/*				
 		}else if( selectedNode instanceof ParamElementDataModel ){
 
 			ParamElementEditor paramElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, variableRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( paramElementEditor);		
-				
+*/				
 		}		
 	}
 
@@ -114,7 +124,7 @@ public class ParamTree extends Tree {
 		//
 		// Csomopont eseten
 		//
-		if( selectedNode instanceof ParamNodeDataModel ){
+		if( selectedNode instanceof TestcaseNodeDataModel ){
 
 			//Insert Node
 			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
@@ -124,22 +134,23 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (ParamNodeDataModel)selectedNode );								
+					TestcaseNodeEditor paramNodeEditor = new TestcaseNodeEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( paramNodeEditor);								
 				
 				}
 			});
 			popupMenu.add ( insertNodeMenu );
 
-			//Insert Page
-			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.page") );
+			//Insert Case
+			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.case") );
 			insertPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertPageMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ParamPageEditor paramPageEditor = new ParamPageEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
-					guiFrame.showEditorPanel( paramPageEditor);								
+					
+					TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( testcaseCaseEditor);								
 				
 				}
 			});
@@ -153,20 +164,20 @@ public class ParamTree extends Tree {
 		if( selectedNode instanceof ParamPageDataModel ){
 
 			//Insert Element
-			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.element") );
+/*			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.element") );
 			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertElementMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (ParamPageDataModel)selectedNode, variableRootDataModel );								
+					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( TestcaseTree.this, (ParamPageDataModel)selectedNode, variableRootDataModel );								
 					guiFrame.showEditorPanel( paramPageNodeEditor);								
 				
 				}
 			});
 			popupMenu.add ( insertElementMenu );
-		
+*/		
 		}
 		
 	}
@@ -201,7 +212,7 @@ public class ParamTree extends Tree {
 
 					if( n == 1 ){
 						totalTreeModel.removeNodeFromParent( selectedNode);
-						ParamTree.this.setSelectionRow(selectedRow - 1);
+						TestcaseTree.this.setSelectionRow(selectedRow - 1);
 					}							
 				}
 			});
@@ -221,7 +232,7 @@ public class ParamTree extends Tree {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (ParamNodeDataModel)selectedNode );								
+				TestcaseNodeEditor paramNodeEditor = new TestcaseNodeEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( paramNodeEditor);								
 			
 			}

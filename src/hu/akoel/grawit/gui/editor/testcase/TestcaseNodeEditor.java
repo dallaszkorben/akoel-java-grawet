@@ -1,48 +1,36 @@
-package hu.akoel.grawit.gui.editor;
+package hu.akoel.grawit.gui.editor.testcase;
 
 import java.awt.Component;
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
-import hu.akoel.grawit.gui.editor.component.TextAreaComponent;
-import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.tree.VariableTree;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
+import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
+import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class VariableNodeEditor extends DataEditor{
+public class TestcaseNodeEditor extends DataEditor{
 
-	private static final long serialVersionUID = -6272133454002585188L;
+	private static final long serialVersionUID = 2644128362590221646L;
 	
-	private VariableTree tree;
-	private VariableNodeDataModel nodeForModify;
-	private VariableNodeDataModel nodeForCapture;
+	private Tree tree;
+	private TestcaseNodeDataModel nodeForModify;
+	private TestcaseNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private TextAreaComponent fieldDetails;
 
-	private void common(){
-		
-		//Name
-		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-
-		//Details
-		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");		
-		this.add( labelName, fieldName );
-		this.add( labelDetails, fieldDetails );
-
-		
-	}
-	
 	//Itt biztos beszuras van
-	public VariableNodeEditor( VariableTree tree, VariableNodeDataModel selectedNode ){
-		//super( CommonOperations.getTranslation("tree.nodetype.node") );
-		super( VariableNodeDataModel.getModelNameToShowStatic());
+	public TestcaseNodeEditor( Tree tree, TestcaseNodeDataModel selectedNode ){
+		super( TestcaseNodeDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -59,13 +47,13 @@ public class VariableNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public VariableNodeEditor( VariableTree variableTree, VariableNodeDataModel selectedNode, EditMode mode ){		
-		//super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
+	public TestcaseNodeEditor( Tree testcaseTree, TestcaseNodeDataModel selectedNode, EditMode mode ){		
 		super( mode, selectedNode.getModelNameToShow());
 
-		this.tree = variableTree;
+		this.tree = testcaseTree;
 		this.nodeForModify = selectedNode;
-		this.mode = mode;		
+		this.mode = mode;
+		
 		
 		//Name
 		fieldName = new TextFieldComponent( selectedNode.getName());
@@ -74,6 +62,18 @@ public class VariableNodeEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
 		common();
+	}
+	
+	private void common(){
+		
+		//Name
+		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
+
+		//Details
+		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");		
+		this.add( labelName, fieldName );
+		this.add( labelDetails, fieldDetails );
+		
 	}
 	
 	@Override
@@ -115,10 +115,10 @@ public class VariableNodeEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Node-rol van szo
-				if( levelNode instanceof VariableNodeDataModel ){
+				if( levelNode instanceof TestcaseNodeDataModel ){
 					
 					//Ha azonos a nev
-					if( ((VariableNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((TestcaseNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -153,8 +153,8 @@ public class VariableNodeEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				VariableNodeDataModel newVariableNode = new VariableNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
-				nodeForCapture.add( newVariableNode );
+				TestcaseNodeDataModel newTestcaseNode = new TestcaseNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				nodeForCapture.add( newTestcaseNode );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -163,8 +163,6 @@ public class VariableNodeEditor extends DataEditor{
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
 			
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(nodeForModify.getPath());
 			}			
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)

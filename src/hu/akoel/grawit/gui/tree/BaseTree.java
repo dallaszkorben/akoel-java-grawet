@@ -13,16 +13,16 @@ import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.nodes.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
-import hu.akoel.grawit.gui.editor.BaseElementEditor;
-import hu.akoel.grawit.gui.editor.BaseNodeEditor;
-import hu.akoel.grawit.gui.editor.BasePageEditor;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editor.base.BaseElementEditor;
+import hu.akoel.grawit.gui.editor.base.BaseNodeEditor;
+import hu.akoel.grawit.gui.editor.base.BasePageEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
 public class BaseTree extends Tree{

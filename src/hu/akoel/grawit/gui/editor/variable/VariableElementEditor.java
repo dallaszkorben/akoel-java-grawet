@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editor;
+package hu.akoel.grawit.gui.editor.variable;
 
 import java.awt.Component;
 import java.awt.event.ItemEvent;
@@ -7,16 +7,18 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.enums.VariableType;
-import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
-import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editor.component.VariableParametersComponentInterface;
-import hu.akoel.grawit.gui.editor.component.VariableParametersRandomDoubleComponent;
-import hu.akoel.grawit.gui.editor.component.VariableParametersRandomIntegerComponent;
-import hu.akoel.grawit.gui.editor.component.VariableParametersRandomStringComponent;
-import hu.akoel.grawit.gui.editor.component.VariableParametersStringComponent;
+import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
+import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.VariableParametersComponentInterface;
+import hu.akoel.grawit.gui.editors.component.VariableParametersRandomDoubleComponent;
+import hu.akoel.grawit.gui.editors.component.VariableParametersRandomIntegerComponent;
+import hu.akoel.grawit.gui.editors.component.VariableParametersRandomStringComponent;
+import hu.akoel.grawit.gui.editors.component.VariableParametersStringComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
