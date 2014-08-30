@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.roots;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.nodes.VariableNodeDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -51,6 +52,10 @@ public class VariableRootDataModel extends VariableNodeDataModel{
 					//Ha ujabb PARAMNODE van alatta
 					if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() ) ){						
 						this.add(new VariableNodeDataModel( variableElement ));
+					
+					//Ha rogton a rootban van elhelyezve egy elem
+					}else if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() ) ){
+						this.add(new VariableElementDataModel(variableElement));
 					}
 				}
 			}

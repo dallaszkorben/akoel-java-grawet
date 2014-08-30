@@ -135,7 +135,7 @@ public class ParamPageEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Page-rol van szo (Lehetne meg NODE is)
-				if( levelNode instanceof BasePageDataModel ){
+				if( levelNode instanceof ParamPageDataModel ){
 					
 					//Ha azonos a nev
 					if( ((ParamPageDataModel) levelNode).getName().equals( fieldName.getText() ) ){

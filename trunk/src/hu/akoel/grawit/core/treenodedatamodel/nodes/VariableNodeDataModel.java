@@ -63,7 +63,7 @@ public class VariableNodeDataModel extends VariableDataModelInterface{
 				if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() )){
 					this.add(new VariableElementDataModel(variableElement));
 				
-				//Ha ujabb VARIABLEELEMENT van alatta
+				//Ha ujabb VARIABLENODE van alatta
 				}else if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() )){
 					this.add(new VariableNodeDataModel(variableElement));
 				}

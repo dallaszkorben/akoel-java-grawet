@@ -116,10 +116,10 @@ public class ParamNodeEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Node-rol van szo
-				if( levelNode instanceof BaseNodeDataModel ){
+				if( levelNode instanceof ParamNodeDataModel ){
 					
 					//Ha azonos a nev
-					if( ((BaseNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((ParamNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
