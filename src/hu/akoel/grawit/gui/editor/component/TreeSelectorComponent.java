@@ -39,7 +39,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	public TreeSelectorComponent( Class<F> classF, DataModelInterface rootDataModel ){
 		super();
 	
-		common( classF, rootDataModel );		
+		common( classF, rootDataModel, null );		
 	}
 	
 	/**
@@ -51,13 +51,13 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	public TreeSelectorComponent( Class<F> classF, DataModelInterface rootDataModel, F selectedDataModel ){
 		super();
 	
-		common( classF, rootDataModel );
+		common( classF, rootDataModel, selectedDataModel );
 
 		setSelectedDataModelToField( selectedDataModel );
 		
 	}
 	
-	private void common( Class<F> classF, final DataModelInterface rootDataModel ){	
+	private void common( Class<F> classF, final DataModelInterface rootDataModel, final F selectedDataModel ){	
 		
 		this.classF = classF;
 		
@@ -73,7 +73,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 			public void actionPerformed(ActionEvent e) {
 				
 				//Akkor megnyitja a Dialogus ablakot a Page valasztashoz
-				new SelectorDialog( TreeSelectorComponent.this, rootDataModel );
+				new SelectorDialog( TreeSelectorComponent.this, rootDataModel, selectedDataModel );
 			}
 		} );
 
@@ -95,8 +95,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	public F getSelectedDataModel(){
 		if( null == selectedDataModel ){
 			return null;
-		}
-		return selectedDataModel;
+		}		return selectedDataModel;
 	}
 	
 	/**
@@ -151,7 +150,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 
 		private static final long serialVersionUID = 1607956458285776550L;
 	
-		public SelectorDialog( TreeSelectorComponent<F> treeSelectorComponent, DataModelInterface rootDataModel ){
+		public SelectorDialog( TreeSelectorComponent<F> treeSelectorComponent, DataModelInterface rootDataModel, F selectedDataModel ){
 
 			super( );
 
@@ -165,6 +164,10 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 
 			//Elkesziti a BasePage faszerkezetet
 			TreeForSelect pageBaseTree = new TreeForSelect( rootDataModel );
+			
+			if( null != selectedDataModel ){
+				pageBaseTree.setSelectionPath( new TreePath( selectedDataModel.getPath() ) );
+			}			
 		
 			//Becsomagolom a BasePage faszerkezetet hogy scroll-ozhato legyen
 			JScrollPane scrolledPageBaseTree = new JScrollPane( pageBaseTree );

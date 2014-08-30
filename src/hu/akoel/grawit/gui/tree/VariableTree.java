@@ -27,8 +27,8 @@ public class VariableTree extends Tree{
 	private static final long serialVersionUID = 6810815920672285062L;
 	private GUIFrame guiFrame;
 	
-	public VariableTree(GUIFrame guiFrame, VariableRootDataModel rootDataModel) {
-		super(guiFrame, rootDataModel);
+	public VariableTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel) {
+		super(guiFrame, variableRootDataModel);
 		this.guiFrame = guiFrame;
 	}
 
@@ -53,7 +53,7 @@ public class VariableTree extends Tree{
 
 	@Override
 	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
-//TODO 	
+	
 		//Ha egyaltalan valamilyen egergombot benyomtam
 		if( selectedNode instanceof VariableRootDataModel ){
 			EmptyEditor emptyPanel = new EmptyEditor();								
@@ -115,7 +115,7 @@ public class VariableTree extends Tree{
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
-//TODO befejezni							
+							
 					VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableElementEditor);								
 				
@@ -189,6 +189,21 @@ public class VariableTree extends Tree{
 		});
 		popupMenu.add ( insertNodeMenu );
 		
+		
+		//Insert Element
+		JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.variable") );
+		insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
+		insertElementMenu.addActionListener( new ActionListener() {
+		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+							
+				VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
+				guiFrame.showEditorPanel( variableElementEditor);								
+			
+			}
+		});
+		popupMenu.add ( insertElementMenu );
 		
 	}
 

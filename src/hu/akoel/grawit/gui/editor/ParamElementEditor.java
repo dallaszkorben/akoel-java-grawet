@@ -260,10 +260,10 @@ public class ParamElementEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof BaseElementDataModel ){
+				if( levelNode instanceof ParamElementDataModel ){
 					
-					//Ha azonos a nev
-					if( ((BaseElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					//Ha azonos a nev azzal amit most mentenek
+					if( ((ParamElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -273,7 +273,7 @@ public class ParamElementEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.baseelement") 
+										CommonOperations.getTranslation("tree.nodetype.paramelement") 
 								) 
 							);
 							break;
@@ -282,7 +282,7 @@ public class ParamElementEditor extends DataEditor{
 				}
 			}
 			
-			//Megnezik hogy van-e masik azonos BaseElement
+/*			//Megnezik hogy van-e masik azonos BaseElement
 			childrenCount = nodeForSearch.getChildCount();
 			for( int i = 0; i < childrenCount; i++ ){
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
@@ -308,7 +308,8 @@ public class ParamElementEditor extends DataEditor{
 						}
 					}
 				}
-			}			
+			}
+*/
 		}
 
 		//Operation

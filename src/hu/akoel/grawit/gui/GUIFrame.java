@@ -197,9 +197,8 @@ public class GUIFrame extends JFrame{
         editVariableActionListener = new EditVariableActionListener();
         editVariableMenuItem.addActionListener( editVariableActionListener );
         editVariableMenuItem.setEnabled( false );
-        menu.add(editVariableMenuItem);
+        menu.add(editVariableMenuItem);        
         
-        //Edit menu almenui
         //Edit Base
         editBaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.basepage") );
         editBaseMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.basepage") ).getKeyCode()); // KeyEvent.VK_B);
@@ -207,6 +206,8 @@ public class GUIFrame extends JFrame{
         editBaseMenuItem.addActionListener( editBaseActionListener );
         editBaseMenuItem.setEnabled( false );
         menu.add(editBaseMenuItem);
+
+        menu.addSeparator();
 
         //Edit Param      
         editParamMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.parampage") );
@@ -296,7 +297,7 @@ public class GUIFrame extends JFrame{
 		editVariableMenuItem.setEnabled( true );
 		editParamMenuItem.setEnabled( true );
 		editBaseMenuItem.setEnabled( true );
-		editTestCaseMenuItem.setEnabled( true );
+		editTestCaseMenuItem.setEnabled( false );
 	}
 	
 	private void saveTestSuit( File file ) throws ParserConfigurationException, TransformerException{
