@@ -11,12 +11,16 @@ public enum Tag{
 	PARAMPAGE("page"),
 	PARAMELEMENT("element"),
 	
-	VARIABLEROOT("variablepage"),
+	VARIABLEROOT("variable"),
 	VARIABLENODE("node"),
 	VARIABLEELEMENT("element"),
+	VARIABLEPARAMETER("parameter"),		
+
+	TESTCASEROOT("testcase"),
+	TESTCASENODE("node"),
+	TESTCASECASE("case"),
+	TESTCASEPAGE("page"),
 	
-//	VARIABLETYPE("variabletype"),
-	VARIABLEPARAMETER("parameter"),	
 	;
 	private String name;
 	

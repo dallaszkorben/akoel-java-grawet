@@ -1,17 +1,19 @@
-package hu.akoel.grawit.gui.editor;
+package hu.akoel.grawit.gui.editor.base;
 
 import java.awt.Component;
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.enums.IdentificationType;
 import hu.akoel.grawit.enums.VariableSample;
-import hu.akoel.grawit.gui.editor.component.ComboBoxComponent;
-import hu.akoel.grawit.gui.editor.component.RadioButtonComponent;
-import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
+import hu.akoel.grawit.gui.editors.component.RadioButtonComponent;
+import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.ButtonGroup;

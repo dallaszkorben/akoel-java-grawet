@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editor;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.gui.editor.component.EditorComponentInterface;
+import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

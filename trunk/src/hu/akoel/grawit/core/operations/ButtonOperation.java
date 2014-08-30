@@ -8,9 +8,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawit.core.parameter.ElementParameter;
-import hu.akoel.grawit.core.treenodedatamodel.elements.BaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.elements.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.elements.VariableElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.IdentificationType;
 
 public class ButtonOperation implements ElementOperationInterface{

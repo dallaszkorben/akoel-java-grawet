@@ -10,14 +10,16 @@ import java.io.File;
 import java.io.IOException;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.roots.ParamRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.roots.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BaseTree;
 import hu.akoel.grawit.gui.tree.ParamTree;
+import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.VariableTree;
 
 import javax.swing.BorderFactory;
@@ -68,9 +70,10 @@ public class GUIFrame extends JFrame{
 	private EditorPanel editorPanel;
 	private AssistantPanel assistantPanel;
 	
-	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
-	private ParamRootDataModel paramRootDataModel = new ParamRootDataModel();
 	private VariableRootDataModel variableRootDataModel = new VariableRootDataModel();
+	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
+	private ParamRootDataModel paramRootDataModel = new ParamRootDataModel();	
+	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
 	
 	private File usedDirectory = null;
 	
@@ -82,6 +85,7 @@ public class GUIFrame extends JFrame{
 	private EditVariableActionListener editVariableActionListener;
 	private EditBaseActionListener editBaseActionListener;
 	private EditParamActionListener editParamActionListener;
+	private EditTestcaseActionListener editTestcaseActionListener;
     
 	public GUIFrame( String appNameAndVersion, int frameWidth, int frameHeight ){
 		super( appNameAndVersion );
@@ -220,6 +224,8 @@ public class GUIFrame extends JFrame{
         //Edit Test Cases
         editTestCaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.testcase") );
         editTestCaseMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.testcase") ).getKeyCode() ); //KeyEvent.VK_T;
+        editTestcaseActionListener = new EditTestcaseActionListener();
+        editTestCaseMenuItem.addActionListener( editTestcaseActionListener );
         editTestCaseMenuItem.setEnabled( false );
         menu.add(editTestCaseMenuItem);
 
@@ -297,7 +303,7 @@ public class GUIFrame extends JFrame{
 		editVariableMenuItem.setEnabled( true );
 		editParamMenuItem.setEnabled( true );
 		editBaseMenuItem.setEnabled( true );
-		editTestCaseMenuItem.setEnabled( false );
+		editTestCaseMenuItem.setEnabled( true );
 	}
 	
 	private void saveTestSuit( File file ) throws ParserConfigurationException, TransformerException{
@@ -321,7 +327,12 @@ public class GUIFrame extends JFrame{
 		//PARAMROOT PAGE mentese
 		Element paramRootElement = paramRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( paramRootElement );
-						
+				
+		//TESTCASE mentese
+		Element testcaseRootElement = testcaseRootDataModel.getXMLElement(doc);	
+		rootElement.appendChild( testcaseRootElement );
+		
+		
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(doc);
@@ -558,8 +569,11 @@ public class GUIFrame extends JFrame{
 					baseRootDataModel = new BaseRootDataModel(doc);
 					
 					// PARAMROOT
-					paramRootDataModel = new ParamRootDataModel(doc, baseRootDataModel, variableRootDataModel );
+					paramRootDataModel = new ParamRootDataModel(doc, variableRootDataModel, baseRootDataModel );
 						
+					// TESTCASE
+					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, baseRootDataModel, paramRootDataModel );
+					
 					setTitle( appNameAndVersion + " :: " + file.getName());
 
 					usedDirectory = file;
@@ -598,7 +612,7 @@ public class GUIFrame extends JFrame{
 			editParamMenuItem.setEnabled( true );
 
 			//Bekapcsolom a TESTCASE szerkesztesi menut
-			editTestCaseMenuItem.setEnabled( false );
+			editTestCaseMenuItem.setEnabled( true );
 	
 		}
 	}
@@ -644,7 +658,22 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamTree tree = new ParamTree( GUIFrame.this, paramRootDataModel, baseRootDataModel, variableRootDataModel );
+			ParamTree tree = new ParamTree( GUIFrame.this, variableRootDataModel, baseRootDataModel, paramRootDataModel );
+			
+			treePanel.hide();
+			treePanel.show( tree );
+			
+		}
+		
+	}
+	
+	class EditTestcaseActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+						
+			//Legyartja a JTREE-t a modell alapjan
+			TestcaseTree tree = new TestcaseTree( GUIFrame.this, variableRootDataModel, baseRootDataModel, paramRootDataModel, testcaseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

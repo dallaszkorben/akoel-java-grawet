@@ -1,16 +1,18 @@
-package hu.akoel.grawit.gui.editor;
+package hu.akoel.grawit.gui.editor.param;
 
 import java.awt.Component;
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.nodes.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.pages.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.pages.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.roots.BaseRootDataModel;
-import hu.akoel.grawit.gui.editor.component.BasePageTreeSelectorComponent;
-import hu.akoel.grawit.gui.editor.component.TextFieldComponent;
+import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
+import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editors.component.BasePageTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
