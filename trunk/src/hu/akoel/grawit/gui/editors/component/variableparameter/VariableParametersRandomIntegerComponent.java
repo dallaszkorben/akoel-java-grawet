@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.VariableType;
+import hu.akoel.grawit.enums.ParameterType;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -24,7 +24,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	
 	private JTextField fieldFrom;
 	private JTextField fieldTo;
-	private VariableType type;
+	private ParameterType type;
 	
 	private ArrayList<Object> parameterList;
 
@@ -33,7 +33,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomIntegerComponent( VariableType type ){
+	public VariableParametersRandomIntegerComponent( ParameterType type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
@@ -51,7 +51,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomIntegerComponent( VariableType type, ArrayList<Object> parameterList ){
+	public VariableParametersRandomIntegerComponent( ParameterType type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -61,7 +61,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		
 	}
 	
-	private void common( VariableType type ){
+	private void common( ParameterType type ){
 		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
@@ -70,7 +70,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		// From field
 		//
 		
-		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.variabletype.randominteger.from") );
+		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.parametertype.randominteger.from") );
 		
 		fieldFrom = new JTextField( parameterList.get(PARAMETERORDER_FROM).toString());
 		fieldFrom.setColumns(5);
@@ -123,7 +123,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		//
 		// To field
 		//
-		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.variabletype.randominteger.to") );
+		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.parametertype.randominteger.to") );
 
 		fieldTo = new JTextField( parameterList.get(PARAMETERORDER_TO).toString());
 		fieldTo.setColumns(5);

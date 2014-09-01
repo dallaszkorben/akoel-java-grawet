@@ -7,16 +7,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import torlendo.ElementParameter;
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.parameter.ElementParameter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.VariableType;
+import hu.akoel.grawit.enums.ParameterType;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
 
-public class VariableElementDataModel extends VariableDataModelInterface implements ElementParameter{
+public class VariableElementDataModel extends VariableDataModelInterface{// implements ElementParameter{
 
 	private static final long serialVersionUID = 598870035128239461L;
 	
@@ -27,10 +27,10 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 	private static String ATTR_VALUE = "value";
 	
 	private String name;
-	private VariableType type;
+	private ParameterType type;
 	private ArrayList<Object> parameters;	
 	
-	public VariableElementDataModel( String name, VariableType type, ArrayList<Object> parameters){
+	public VariableElementDataModel( String name, ParameterType type, ArrayList<Object> parameters){
 		this.name = name;
 		this.type = type;
 		this.parameters = parameters;
@@ -53,17 +53,17 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		if( !element.hasAttribute( ATTR_TYPE ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_TYPE );			
 		}
-		if( VariableType.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableType.STRING_PARAMETER;
+		if( ParameterType.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ParameterType.STRING_PARAMETER;
 		
-		}else if( VariableType.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableType.RANDOM_STRING_PARAMETER;
+		}else if( ParameterType.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ParameterType.RANDOM_STRING_PARAMETER;
 			
-		}else if( VariableType.RANDOM_INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableType.RANDOM_INTEGER_PARAMETER;
+		}else if( ParameterType.RANDOM_INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ParameterType.RANDOM_INTEGER_PARAMETER;
 			
-		}else if( VariableType.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableType.RANDOM_DOUBLE_PARAMETER;
+		}else if( ParameterType.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ParameterType.RANDOM_DOUBLE_PARAMETER;
 			
 		}
 		
@@ -92,11 +92,11 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		
 	}
 	
-	public VariableType getType(){
+	public ParameterType getType(){
 		return type;
 	}
 	
-	public void setType( VariableType type ){
+	public void setType( ParameterType type ){
 		this.type = type;
 	}
 	
@@ -126,7 +126,7 @@ public class VariableElementDataModel extends VariableDataModelInterface impleme
 		return getTagStatic();
 	}
 
-	@Override
+//	@Override
 	public String getValue() {
 		return type.getValue(parameters);
 	}

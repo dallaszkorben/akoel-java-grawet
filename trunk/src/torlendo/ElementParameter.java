@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.parameter;
+package torlendo;
 
 public interface ElementParameter {
 

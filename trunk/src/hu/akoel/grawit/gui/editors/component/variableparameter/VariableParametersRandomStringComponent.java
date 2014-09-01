@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.VariableType;
+import hu.akoel.grawit.enums.ParameterType;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -26,7 +26,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 	
 	private JTextField fieldSample;
 	private JTextField fieldLength;
-	private VariableType type;
+	private ParameterType type;
 	
 	private ArrayList<Object> parameterList;
 
@@ -35,7 +35,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomStringComponent( VariableType type ){
+	public VariableParametersRandomStringComponent( ParameterType type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
@@ -53,7 +53,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomStringComponent( VariableType type, ArrayList<Object> parameterList ){
+	public VariableParametersRandomStringComponent( ParameterType type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -63,7 +63,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		
 	}
 	
-	private void common( VariableType type ){
+	private void common( ParameterType type ){
 		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
@@ -72,7 +72,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		// Sample field
 		//
 		
-		JLabel labelSample = new JLabel( CommonOperations.getTranslation("editor.label.variabletype.randomstring.samplestring") );
+		JLabel labelSample = new JLabel( CommonOperations.getTranslation("editor.label.parametertype.randomstring.samplestring") );
 		
 		fieldSample = new JTextField( parameterList.get(PARAMETERORDER_SAMPLE).toString());
 		
@@ -124,7 +124,7 @@ public class VariableParametersRandomStringComponent extends JPanel implements V
 		//
 		// Length field
 		//
-		JLabel labelLength = new JLabel( CommonOperations.getTranslation("editor.label.variabletype.randomstring.length") );
+		JLabel labelLength = new JLabel( CommonOperations.getTranslation("editor.label.parametertype.randomstring.length") );
 
 		fieldLength = new JTextField( parameterList.get(PARAMETERORDER_LENGTH).toString());
 		fieldLength.setColumns(5);

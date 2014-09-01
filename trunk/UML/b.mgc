@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="hu.akoel.grawit.core.pages.PageProgressInterface"
+        x="206" y="646">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawit.core.pages.JavaSourceFromString"
+        x="815" y="459">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawit.core.pages.OpenPage" x="85" y="414">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.pages.ExecutablePageInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.pages.PageProgressInterface"
+            endpointName="pageProgressInterface" kind="Simple"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"
+        x="-137" y="415">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.pages.ExecutablePageInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.pages.PageProgressInterface"
+            endpointName="pageProgressInterface" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.pages.CustomPageInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+    </Class>
+    <Class name="hu.akoel.grawit.core.pages.CustomPageInterface" x="524" y="278">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.pages.ExecutablePageInterface"/>
+    </Class>
+    <Class name="hu.akoel.grawit.core.pages.ExecutablePageInterface"
+        x="168" y="163">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"
+        x="-149" y="651">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="hu.akoel.grawit.core.pages.TestCasedPage" x="586" y="168">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.pages.TestCasedPage"
+            endpointName="after" kind="Simple">
+            <Point x="677" y="258"/>
+        </Association>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.pages.TestCasedPage"
+            endpointName="before" kind="Simple">
+            <Point x="793" y="195"/>
+        </Association>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.pages.ExecutablePageInterface"
+            endpointName="executablePageInterface" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.pages.PageProgressInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.pages.ExecutablePageInterface"/>
+    </Class>
+    <Class name="hu.akoel.grawit.core.pages.ClosePage" x="259" y="419">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.pages.ExecutablePageInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.pages.PageProgressInterface"
+            endpointName="pageProgressInterface" kind="Simple"/>
+    </Class>
+    <Class name="hu.akoel.grawit.core.pages.CustomPage" x="443" y="420">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.pages.CustomPageInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.pages.JavaSourceFromString"
+            endpointName="javaFile" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.pages.PageProgressInterface"
+            endpointName="pageProgressInterface" kind="Simple"/>
+    </Class>
+</ClassDiagram>

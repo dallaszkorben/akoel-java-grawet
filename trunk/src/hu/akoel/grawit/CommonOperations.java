@@ -2,7 +2,7 @@ package hu.akoel.grawit;
 
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.VariableType;
+import hu.akoel.grawit.enums.ParameterType;
 
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -197,11 +197,11 @@ public class CommonOperations {
 			private ArrayList<Object> parameterList;
 			private String defaultValue;
 			private int parameterOrder;
-			private VariableType type;
+			private ParameterType type;
 			
 			String goodValue = defaultValue;
 			
-			public ValueVerifier( ArrayList<Object> parameterList, VariableType type, String defaultValue, int parameterOrder ){
+			public ValueVerifier( ArrayList<Object> parameterList, ParameterType type, String defaultValue, int parameterOrder ){
 				this.parameterList = parameterList;
 				this.defaultValue = defaultValue;
 				this.parameterOrder = parameterOrder;

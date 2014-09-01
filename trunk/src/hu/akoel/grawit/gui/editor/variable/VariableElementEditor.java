@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
-import hu.akoel.grawit.enums.VariableType;
+import hu.akoel.grawit.enums.ParameterType;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -39,7 +39,7 @@ public class VariableElementEditor extends DataEditor{
 	private JLabel labelVariableParameters;
 	private VariableParametersComponentInterface fieldVariableParameters;
 	
-	private VariableType type;
+	private ParameterType type;
 	
 	/**
 	 *  Uj VariableElement rogzitese - Insert
@@ -61,7 +61,7 @@ public class VariableElementEditor extends DataEditor{
 		fieldName.setText( "" );
 		
 		//Type - String
-		type = VariableType.STRING_PARAMETER;		
+		type = ParameterType.STRING_PARAMETER;		
 				
 		//Parameters
 		//fieldVariableParameters = new VariableParametersStringComponent(type);				
@@ -108,10 +108,10 @@ public class VariableElementEditor extends DataEditor{
 	
 		//VariableTypeSelector		
 		fieldVariableType = new ComboBoxComponent<>();
-		fieldVariableType.addItem( VariableType.getVariableParameterTypeByIndex(0).getTranslatedName() );
-		fieldVariableType.addItem( VariableType.getVariableParameterTypeByIndex(1).getTranslatedName() );
-		fieldVariableType.addItem( VariableType.getVariableParameterTypeByIndex(2).getTranslatedName() );
-		fieldVariableType.addItem( VariableType.getVariableParameterTypeByIndex(3).getTranslatedName() );
+		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(0).getTranslatedName() );
+		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(1).getTranslatedName() );
+		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(2).getTranslatedName() );
+		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(3).getTranslatedName() );
 		fieldVariableType.addItemListener( new ItemListener() {
 			
 			@Override
@@ -122,10 +122,10 @@ public class VariableElementEditor extends DataEditor{
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					type = VariableType.getVariableParameterTypeByIndex(index);
+					type = ParameterType.getVariableParameterTypeByIndex(index);
 					
 					//STRING_PARAMETER
-					if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.STRING_PARAMETER ) ){
+					if( ParameterType.getVariableParameterTypeByIndex(index).equals(ParameterType.STRING_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -143,7 +143,7 @@ public class VariableElementEditor extends DataEditor{
 						
 
 					//RANDOM_STRING_PARAMETER	
-					}else if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.RANDOM_STRING_PARAMETER ) ){
+					}else if( ParameterType.getVariableParameterTypeByIndex(index).equals(ParameterType.RANDOM_STRING_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -161,7 +161,7 @@ public class VariableElementEditor extends DataEditor{
 						
 					
 					//RANDOM_INTEGER_PARAMETER
-					}else if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.RANDOM_INTEGER_PARAMETER ) ){
+					}else if( ParameterType.getVariableParameterTypeByIndex(index).equals(ParameterType.RANDOM_INTEGER_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -179,7 +179,7 @@ public class VariableElementEditor extends DataEditor{
 						
 						
 					//RANDOM_DECIMAL_PARAMETER	
-					}else if( VariableType.getVariableParameterTypeByIndex(index).equals(VariableType.RANDOM_DOUBLE_PARAMETER ) ){
+					}else if( ParameterType.getVariableParameterTypeByIndex(index).equals(ParameterType.RANDOM_DOUBLE_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -207,7 +207,7 @@ public class VariableElementEditor extends DataEditor{
 	private void commonPost(){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.label.variabletype") + ": ");
+		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.label.parametertype") + ": ");
 		labelVariableParameters = new JLabel("");
 		
 		this.add( labelName, fieldName );

@@ -5,18 +5,18 @@ import java.util.Arrays;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum VariableType {	
+public enum ParameterType {	
 	
-	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.variabletype.string"), new Class<?>[]{String.class}),
-	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.variabletype.randomstring"), new Class<?>[]{String.class, Integer.class}),
-	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.label.variabletype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
-	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.variabletype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class});
+	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.parametertype.string"), new Class<?>[]{String.class}),
+	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),
+	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.label.parametertype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
+	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class});
 	
 	private int index;
 	private String translatedName;
 	private ArrayList<Class<?>> parameterClassList;
 	
-	private VariableType( int index, String translatedName, Class<?>[] parameterClassList ){
+	private ParameterType( int index, String translatedName, Class<?>[] parameterClassList ){
 		this.index = index;
 		this.translatedName = translatedName;	
 		this.parameterClassList = new ArrayList<Class<?>>(Arrays.asList(parameterClassList));
@@ -30,6 +30,12 @@ public enum VariableType {
 		return translatedName;
 	}
 	
+	/** 
+	 * A parameterkent megadott parameter lista alapjan legyartja a tipusnak megfelelo valtozot
+	 * 
+	 * @param parameters
+	 * @return
+	 */
 	public String getValue( ArrayList<Object> parameters ){
 		
 		if( this.equals( STRING_PARAMETER ) ){
@@ -62,7 +68,7 @@ public enum VariableType {
 		return parameterClassList.size();
 	}
 	
-	public static VariableType getVariableParameterTypeByIndex( int index ){
+	public static ParameterType getVariableParameterTypeByIndex( int index ){
 		switch(index){
 		case 0: return STRING_PARAMETER;
 		case 1: return RANDOM_STRING_PARAMETER;
