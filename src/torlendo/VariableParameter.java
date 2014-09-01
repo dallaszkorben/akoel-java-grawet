@@ -1,8 +1,8 @@
-package hu.akoel.grawit.core.parameter;
+package torlendo;
 
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 
-public class VariableParameter implements ElementParameter{
+public class VariableParameter{// implements ElementParameter{
 	String name;
 	ParamElementDataModel element;
 
@@ -11,7 +11,7 @@ public class VariableParameter implements ElementParameter{
 		this.element = element;
 	}
 	
-	@Override
+/*	@Override
 	public String getName() {		
 		return name;
 	}
@@ -20,5 +20,5 @@ public class VariableParameter implements ElementParameter{
 	public String getValue() {
 		return element.getVariableValue();
 	}
-
+*/
 }

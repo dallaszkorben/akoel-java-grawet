@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.VariableType;
+import hu.akoel.grawit.enums.ParameterType;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -31,7 +31,7 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 	 * 
 	 * @param type
 	 */
-	public VariableParametersStringComponent( VariableType type ){
+	public VariableParametersStringComponent( ParameterType type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
@@ -49,7 +49,7 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersStringComponent( VariableType type, ArrayList<Object> parameterList ){
+	public VariableParametersStringComponent( ParameterType type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -60,11 +60,11 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 		
 	}
 	
-	private void common( VariableType type ){
+	private void common( ParameterType type ){
 		
 		this.setLayout( new GridBagLayout() );
 		
-//		JLabel labelString = new JLabel( CommonOperations.getTranslation("editor.label.variabletypestring.string") );
+//		JLabel labelString = new JLabel( CommonOperations.getTranslation("editor.label.parametertypestring.string") );
 		
 		//Mezo feltoltese
 		fieldString = new JTextField( parameterList.get(PARAMETERORDER_VALUE).toString());
