@@ -20,9 +20,8 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
-	private static final Tag TAG = Tag.PARAMNODE;
+	public static final Tag TAG = Tag.PARAMNODE;
 	
-//	private static final String ATTR_NAME = "name";
 	private static final String ATTR_DETAILS = "details";
 		
 	private String name;

@@ -19,7 +19,6 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
@@ -31,14 +30,12 @@ public class TestcaseTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;
-	private BaseRootDataModel baseRootDataModel;
 	private ParamRootDataModel paramRootDataModel;
 	
 	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, TestcaseRootDataModel rootDataModel ) {
 		super(guiFrame, rootDataModel);
 		
 		this.guiFrame = guiFrame;
-		this.baseRootDataModel = baseRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
 		
 	}
@@ -104,7 +101,7 @@ public class TestcaseTree extends Tree {
 			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( testcaseCaseEditor);		
 				
-		}else if( selectedNode instanceof ParamElementDataModel ){
+		}else if( selectedNode instanceof TestcasePageDataModel ){
 
 			TestcasePageEditor testcasePageEditor = new TestcasePageEditor( this, (TestcasePageDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcasePageEditor);		

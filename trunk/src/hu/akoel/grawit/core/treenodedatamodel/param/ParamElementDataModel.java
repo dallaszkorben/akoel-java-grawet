@@ -41,7 +41,7 @@ public class ParamElementDataModel extends ParamDataModelInterface{
 	
 	private static final long serialVersionUID = -8916078747948054716L;
 
-	private static Tag TAG = Tag.PARAMELEMENT;
+	public static Tag TAG = Tag.PARAMELEMENT;
 	
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementpath";
 	private static final String ATTR_OPERATION = "operation";

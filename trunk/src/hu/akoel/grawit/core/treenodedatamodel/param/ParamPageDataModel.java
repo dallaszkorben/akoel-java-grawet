@@ -41,7 +41,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
-	private static final Tag TAG = Tag.PARAMPAGE;
+	public static final Tag TAG = Tag.PARAMPAGE;
 	
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
 	

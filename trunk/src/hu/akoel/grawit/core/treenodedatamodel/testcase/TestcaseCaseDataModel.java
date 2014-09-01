@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -37,7 +38,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCaseDataModel( Element element ) throws XMLPharseException{
+	public TestcaseCaseDataModel( Element element, ParamDataModelInterface paramDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseCaseDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
@@ -60,7 +61,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 				//Ha TESTCASEPAGE van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASEPAGE.getName() )){
 					
-					this.add(new TestcasePageDataModel(testcaseElement));
+					this.add(new TestcasePageDataModel(testcaseElement, paramDataModel ));
 				
 				}
 			}
