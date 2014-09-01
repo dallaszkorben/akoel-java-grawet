@@ -21,10 +21,10 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editors.component.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
-import hu.akoel.grawit.gui.editors.component.ParameterElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.selector.BaseElementTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.selector.ParameterElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;

@@ -13,11 +13,11 @@ import hu.akoel.grawit.enums.VariableType;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.VariableParametersComponentInterface;
-import hu.akoel.grawit.gui.editors.component.VariableParametersRandomDoubleComponent;
-import hu.akoel.grawit.gui.editors.component.VariableParametersRandomIntegerComponent;
-import hu.akoel.grawit.gui.editors.component.VariableParametersRandomStringComponent;
-import hu.akoel.grawit.gui.editors.component.VariableParametersStringComponent;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersComponentInterface;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomDoubleComponent;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomIntegerComponent;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomStringComponent;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersStringComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;

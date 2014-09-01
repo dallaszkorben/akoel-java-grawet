@@ -1,6 +1,7 @@
-package hu.akoel.grawit.gui.editors.component;
+package hu.akoel.grawit.gui.editors.component.selector;
 
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

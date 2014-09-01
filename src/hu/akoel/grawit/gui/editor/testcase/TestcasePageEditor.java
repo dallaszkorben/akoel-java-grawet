@@ -10,9 +10,9 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editors.component.ParamPageTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.selector.ParamPageTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;

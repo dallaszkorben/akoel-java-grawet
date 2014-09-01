@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editors.component;
+package hu.akoel.grawit.gui.editors.component.selector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
@@ -8,43 +8,30 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 
 import javax.swing.ImageIcon;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BasePageDataModel>{
-	private static final long serialVersionUID = 1194717514083971251L;
+public class BaseElementTreeSelectorComponent extends TreeSelectorComponent<BaseElementDataModel>{
 
-	public BasePageTreeSelectorComponent( BaseDataModelInterface rootDataModel ) {
-		super(BasePageDataModel.class, rootDataModel);
+	private static final long serialVersionUID = -5178610032767904794L;
+
+	public BaseElementTreeSelectorComponent( BaseDataModelInterface rootDataModel ) {
+		super(BaseElementDataModel.class, rootDataModel);
 	}
 
-	public BasePageTreeSelectorComponent( BaseDataModelInterface rootDataModel, BasePageDataModel selectedBasePageDataModel ) {
-		super(BasePageDataModel.class, rootDataModel, selectedBasePageDataModel);
+	public BaseElementTreeSelectorComponent( BaseDataModelInterface rootDataModel, BaseElementDataModel selectedBaseElementDataModel ) {
+		super(BaseElementDataModel.class, rootDataModel, selectedBaseElementDataModel);
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( BasePageDataModel selectedDataModel) {
+	public String getSelectedDataModelToString( BaseElementDataModel selectedDataModel) {
 		StringBuffer out = new StringBuffer();
-		boolean hasHyphen = false;
-		for( TreeNode node: selectedDataModel.getPath() ){
-			
-			DataModelInterface dataModel = (DataModelInterface)node;
-
-			if( !dataModel.isRoot() ){
-				if( !hasHyphen ){
-					hasHyphen = true;
-				}else{
-					out.append("-");
-				}
-				out.append( dataModel.getName() );
-			}			
-		}
+		out.append( selectedDataModel.getName() );
 		return out.toString();
 	}
 
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
-		return !( path.getLastPathComponent() instanceof BasePageDataModel );
+		return true;
 	}
 	
 	@Override
@@ -68,7 +55,6 @@ public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BasePag
 		}
 		return null;
 	}
-
-
 	
 }
+
