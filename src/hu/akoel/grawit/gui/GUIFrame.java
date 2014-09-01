@@ -572,7 +572,7 @@ public class GUIFrame extends JFrame{
 					paramRootDataModel = new ParamRootDataModel(doc, variableRootDataModel, baseRootDataModel );
 						
 					// TESTCASE
-					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, baseRootDataModel, paramRootDataModel );
+					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel );
 					
 					setTitle( appNameAndVersion + " :: " + file.getName());
 

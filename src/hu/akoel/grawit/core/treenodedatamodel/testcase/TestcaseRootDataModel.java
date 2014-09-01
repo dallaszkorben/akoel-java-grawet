@@ -27,7 +27,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 		super( "", "" );
 	}
 	
-	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel ) throws XMLPharseException{
+	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel ) throws XMLPharseException{
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -51,7 +51,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 					
 					//Ha ujabb TESTCASENODE van alatta
 					if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() ) ){
-						this.add(new TestcaseNodeDataModel(testcaseElement));
+						this.add(new TestcaseNodeDataModel(testcaseElement, paramRootDataModel ));
 					}
 				}
 			}
