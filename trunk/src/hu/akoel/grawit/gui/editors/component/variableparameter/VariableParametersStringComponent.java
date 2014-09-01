@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editors.component;
+package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.VariableType;
