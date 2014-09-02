@@ -12,6 +12,7 @@ import java.io.IOException;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -19,6 +20,7 @@ import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BaseTree;
 import hu.akoel.grawit.gui.tree.ParamTree;
+import hu.akoel.grawit.gui.tree.SpecialTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.VariableTree;
 
@@ -61,6 +63,7 @@ public class GUIFrame extends JFrame{
 	
 	//Ki/be kapcsolhato menuelemeek
 	private JMenuItem editBaseMenuItem;
+	private JMenuItem editSpecialMenuItem;
 	private JMenuItem editParamMenuItem;
 	private JMenuItem editVariableMenuItem;
 	private JMenuItem editTestCaseMenuItem;
@@ -74,6 +77,8 @@ public class GUIFrame extends JFrame{
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
 	private ParamRootDataModel paramRootDataModel = new ParamRootDataModel();	
 	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
+	private SpecialRootDataModel specialRootDataModel = new SpecialRootDataModel();
+	
 	
 	private File usedDirectory = null;
 	
@@ -86,7 +91,8 @@ public class GUIFrame extends JFrame{
 	private EditBaseActionListener editBaseActionListener;
 	private EditParamActionListener editParamActionListener;
 	private EditTestcaseActionListener editTestcaseActionListener;
-    
+	private EditSpecialActionListener editSpecialActionListener;
+	
 	public GUIFrame( String appNameAndVersion, int frameWidth, int frameHeight ){
 		super( appNameAndVersion );
 		
@@ -116,12 +122,11 @@ public class GUIFrame extends JFrame{
                 }                
             }
 
-			//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException| IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 			System.exit( -1 );
 		}
-
         
         //---------
         //
@@ -213,6 +218,16 @@ public class GUIFrame extends JFrame{
 
         menu.addSeparator();
 
+        //Special
+        editSpecialMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.special") );
+        editSpecialMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.special") ).getKeyCode()); // KeyEvent.VK_S);
+        editSpecialActionListener = new EditSpecialActionListener();
+        editSpecialMenuItem.addActionListener( editSpecialActionListener );
+        editSpecialMenuItem.setEnabled( false );
+        menu.add(editSpecialMenuItem);
+
+        menu.addSeparator();
+        
         //Edit Param      
         editParamMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.parampage") );
         editParamMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.parampage") ).getKeyCode() ); //KeyEvent.VK_P);
@@ -285,6 +300,7 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( false );
 		editBaseMenuItem.setEnabled( false );
 		editTestCaseMenuItem.setEnabled( false );
+		editSpecialMenuItem.setEnabled( false );
 		
 		//Ablak cimenek beallitasa
 		setTitle( appNameAndVersion );
@@ -304,6 +320,7 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( true );
 		editBaseMenuItem.setEnabled( true );
 		editTestCaseMenuItem.setEnabled( true );
+		editSpecialMenuItem.setEnabled( true );
 	}
 	
 	private void saveTestSuit( File file ) throws ParserConfigurationException, TransformerException{
@@ -324,6 +341,10 @@ public class GUIFrame extends JFrame{
 		Element baseRootElement = baseRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( baseRootElement );
 		
+		//SPECIALROOT mentese
+		Element specialRootElement = specialRootDataModel.getXMLElement(doc);	
+		rootElement.appendChild( specialRootElement );
+				
 		//PARAMROOT PAGE mentese
 		Element paramRootElement = paramRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( paramRootElement );
@@ -568,6 +589,9 @@ public class GUIFrame extends JFrame{
 					// BASEROOT
 					baseRootDataModel = new BaseRootDataModel(doc);
 					
+					// SPECIALROOT
+					specialRootDataModel = new SpecialRootDataModel(doc);
+					
 					// PARAMROOT
 					paramRootDataModel = new ParamRootDataModel(doc, variableRootDataModel, baseRootDataModel );
 						
@@ -674,6 +698,21 @@ public class GUIFrame extends JFrame{
 						
 			//Legyartja a JTREE-t a modell alapjan
 			TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, paramRootDataModel, testcaseRootDataModel );
+			
+			treePanel.hide();
+			treePanel.show( tree );
+			
+		}
+		
+	}
+	
+	class EditSpecialActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+						
+			//Legyartja a JTREE-t a modell alapjan
+			SpecialTree tree = new SpecialTree( GUIFrame.this, specialRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

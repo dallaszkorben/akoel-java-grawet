@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editor.base;
+package hu.akoel.grawit.gui.editor.special;
 
 import java.awt.Component;
 import java.text.MessageFormat;
@@ -6,8 +6,9 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseOpenDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
@@ -17,24 +18,22 @@ import hu.akoel.grawit.gui.tree.Tree;
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class BaseOpenEditor extends DataEditor{
+public class SpecialCloseEditor extends DataEditor{
 
-	private static final long serialVersionUID = 788757736294718359L;
+	private static final long serialVersionUID = 4729312611640321880L;
 	
 	private Tree tree; 
-	private BaseOpenDataModel nodeForModify;
-	private BaseNodeDataModel nodeForCapture;
+	private SpecialCloseDataModel nodeForModify;
+	private SpecialNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
-	private JLabel labelURL;
-	private TextFieldComponent fieldURL;
 	
 	//Itt biztos beszuras van
-	public BaseOpenEditor( Tree tree, BaseNodeDataModel selectedNode ){
+	public SpecialCloseEditor( Tree tree, SpecialNodeDataModel selectedNode ){
 
-		super( BaseOpenDataModel.getModelNameToShowStatic());
+		super( SpecialCloseDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -42,16 +41,13 @@ public class BaseOpenEditor extends DataEditor{
 		
 		//Name
 		fieldName = new TextFieldComponent( "" );
-		
-		//Details
-		fieldURL = new TextFieldComponent( "" );
 
 		common();
 		
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public BaseOpenEditor( Tree tree, BaseOpenDataModel selectedNode, EditMode mode ){
+	public SpecialCloseEditor( Tree tree, SpecialCloseDataModel selectedNode, EditMode mode ){
 
 		super( mode, selectedNode.getModelNameToShow());
 
@@ -61,9 +57,6 @@ public class BaseOpenEditor extends DataEditor{
 		
 		//Name		
 		fieldName = new TextFieldComponent( selectedNode.getName());
-			
-		//Details
-		fieldURL = new TextFieldComponent( selectedNode.getURL() );
 		
 		common();
 		
@@ -71,10 +64,9 @@ public class BaseOpenEditor extends DataEditor{
 	
 	private void common(){
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelURL = new JLabel( CommonOperations.getTranslation("editor.label.url") + ": ");
 		
 		this.add( labelName, fieldName );
-		this.add( labelURL, fieldURL );
+
 	}
 	
 	
@@ -83,7 +75,6 @@ public class BaseOpenEditor extends DataEditor{
 		
 		//Ertekek trimmelese
 		fieldName.setText( fieldName.getText().trim() );
-		fieldURL.setText( fieldURL.getText().trim() );
 		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
@@ -97,16 +88,7 @@ public class BaseOpenEditor extends DataEditor{
 							"'"+labelName.getText()+"'"
 					)
 			);
-			
-		}else if( fieldURL.getText().length() == 0 ){
-			errorList.put( 
-					fieldURL,
-					MessageFormat.format(
-							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelName.getText()+"'"
-					)
-			);
-			
+				
 		}else{
 
 			TreeNode nodeForSearch = null;
@@ -128,11 +110,11 @@ public class BaseOpenEditor extends DataEditor{
 			for( int i = 0; i < childrenCount; i++ ){
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
-				//Ha Open-rol van szo (Lehetne meg Nod/Page is) TODO 
-				if( levelNode instanceof BaseOpenDataModel ){
+				//Ha Close-rol van szo (Lehetne meg Node/Page/Close is) TODO 
+				if( levelNode instanceof SpecialCloseDataModel ){
 					
 					//Ha azonos a nev
-					if( ((BaseOpenDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((SpecialCloseDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -142,7 +124,7 @@ public class BaseOpenEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.baseopen") 
+										CommonOperations.getTranslation("tree.nodetype.specialopen") 
 								) 
 							);
 							break;
@@ -161,17 +143,21 @@ public class BaseOpenEditor extends DataEditor{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 			
+			//TreePath pathToClose = null;
+			
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				BaseOpenDataModel newBasePage = new BaseOpenDataModel( fieldName.getText(), fieldURL.getText() );				
-				nodeForCapture.add( newBasePage );
+				SpecialCloseDataModel newSpecial = new SpecialCloseDataModel( fieldName.getText() );				
+				nodeForCapture.add( newSpecial );
+
+				//Ebbe a nodba kell majd visszaallni
+				//pathToClose = new TreePath(newPageBasePage.getPath());
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
 				nodeForModify.setName( fieldName.getText() );
-				nodeForModify.setURL( fieldURL.getText() );
 			
 			}			
 			

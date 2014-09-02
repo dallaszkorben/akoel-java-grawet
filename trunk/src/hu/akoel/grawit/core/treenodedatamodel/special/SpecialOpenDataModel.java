@@ -1,43 +1,43 @@
-package hu.akoel.grawit.core.treenodedatamodel.base;
+package hu.akoel.grawit.core.treenodedatamodel.special;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class BaseOpenDataModel extends BaseDataModelInterface{
+public class SpecialOpenDataModel extends SpecialDataModelInterface{
 
 	private static final long serialVersionUID = 4021264120677994929L;
 
-	public static Tag TAG = Tag.BASEOPEN;
+	public static Tag TAG = Tag.SPECIALOPEN;
 	
 	public static final String ATTR_URL = "url";
 	
 	private String name;
 	private String url;
 
-	public BaseOpenDataModel(String name, String url ){
+	public SpecialOpenDataModel(String name, String url ){
 		common( name, url );	
 	}
 
-	public BaseOpenDataModel( BaseOpenDataModel element ){
+	public SpecialOpenDataModel( SpecialOpenDataModel element ){
 		this.name = element.getName();
 		this.url = element.getURL();
 
 	}
 
 	/**
-	 * XML alapjan gyartja le a BASEOPEN-t
+	 * XML alapjan gyartja le a SPECIALOPEN-t
 	 * 
 	 * @param element
 	 * @throws XMLPharseException 
 	 */
-	public BaseOpenDataModel( Element element ) throws XMLPharseException{
+	public SpecialOpenDataModel( Element element ) throws XMLPharseException{
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
@@ -87,11 +87,11 @@ public class BaseOpenDataModel extends BaseDataModelInterface{
 	}
 	
 	@Override
-	public void add(BaseDataModelInterface node) {
+	public void add(SpecialDataModelInterface node) {
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.baseopen");
+		return CommonOperations.getTranslation( "tree.nodetype.specialopen");
 	}
 	
 	@Override
@@ -104,7 +104,7 @@ public class BaseOpenDataModel extends BaseDataModelInterface{
 		Attr attr;
 
 		//Node element
-		Element elementElement = document.createElement( BaseOpenDataModel.this.getTag().getName() );
+		Element elementElement = document.createElement( SpecialOpenDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		elementElement.setAttributeNode(attr);	
