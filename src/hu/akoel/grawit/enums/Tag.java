@@ -5,6 +5,8 @@ public enum Tag{
 	BASENODE("node"),
 	BASEPAGE("page"),
 	BASEELEMENT("element"),
+	BASEOPEN("open"),
+	BASECLOSE("close"),
 	
 	PARAMROOT("parampage"),
 	PARAMNODE("node"),

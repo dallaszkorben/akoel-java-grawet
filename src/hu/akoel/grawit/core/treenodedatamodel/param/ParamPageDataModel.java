@@ -19,7 +19,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.BasePageChangeListener;
 import hu.akoel.grawit.core.pages.CustomPageInterface;
 import hu.akoel.grawit.core.pages.ExecutablePageInterface;
 import hu.akoel.grawit.core.pages.PageProgressInterface;
@@ -37,7 +36,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class ParamPageDataModel  extends ParamDataModelInterface implements ExecutablePageInterface, BasePageChangeListener{
+public class ParamPageDataModel  extends ParamDataModelInterface implements ExecutablePageInterface{//, BasePageChangeListener{
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
@@ -216,12 +215,12 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		return pageElement;	
 	}
 
-	@Override
+/*	@Override
 	public void removeBaseElement(BaseElementDataModel element) {
 		// TODO Auto-generated method stub Megoldani!!!!
 		
 	}
-
+*/
 	@Override
 	public String getName() {		
 		return name;
