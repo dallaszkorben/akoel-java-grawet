@@ -44,8 +44,8 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 
 	public BaseElementDataModel( BaseElementDataModel element ){
 		this.name = element.getName();
-		this.identifier = getIdentifier();
-		this.identificationType = getIdentificationType();
+		this.identifier = element.getIdentifier();
+		this.identificationType = element.getIdentificationType();
 		this.variableSample = element.getVariableSample();
 	}
 
