@@ -6,10 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
@@ -68,8 +67,6 @@ public abstract class Tree extends JTree{
 		    	return c;
 		    }
 		});
-		
-
 		
 		/**
 		 * A eger benyomasara reagalok
@@ -207,8 +204,7 @@ public abstract class Tree extends JTree{
 		@Override
 		public void mouseExited(MouseEvent e) {
 		}	 
-	}
-	
+	}	
 	
 	/**
 	 * A jobb-eger gomb hatasara megjeleno menu
@@ -286,7 +282,6 @@ public abstract class Tree extends JTree{
 						}
 					});
 					this.add ( upMenu );
-
 					
 				}
 				
@@ -330,8 +325,7 @@ public abstract class Tree extends JTree{
 				editMenu.addActionListener( new ActionListener() {
 					
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						
+					public void actionPerformed(ActionEvent e) {					
 
 						doModifyWithPopupEdit( selectedNode );
 						
@@ -342,8 +336,6 @@ public abstract class Tree extends JTree{
 				doPopupInsert( this, selectedNode );
 				
 				doPopupDelete( this, selectedNode, selectedRow, totalTreeModel );
-				
-
 				
 			//ROOT volt kivalasztva
 			}else{

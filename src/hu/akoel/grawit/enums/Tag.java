@@ -5,9 +5,7 @@ public enum Tag{
 	BASENODE("node"),
 	BASEPAGE("page"),
 	BASEELEMENT("element"),
-	BASEOPEN("open"),
-	BASECLOSE("close"),
-	
+		
 	PARAMROOT("parampage"),
 	PARAMNODE("node"),
 	PARAMPAGE("page"),
@@ -22,6 +20,11 @@ public enum Tag{
 	TESTCASENODE("node"),
 	TESTCASECASE("case"),
 	TESTCASEPAGE("page"),
+	
+	SPECIALROOT("special"),
+	SPECIALNODE("node"),
+	SPECIALOPEN("open"),
+	SPECIALCLOSE("close"),
 	
 	;
 	private String name;

@@ -1,39 +1,39 @@
-package hu.akoel.grawit.core.treenodedatamodel.base;
+package hu.akoel.grawit.core.treenodedatamodel.special;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class BaseCloseDataModel extends BaseDataModelInterface{
+public class SpecialCloseDataModel extends SpecialDataModelInterface{
 
 	private static final long serialVersionUID = 8332341626236756322L;
 
-	public static Tag TAG = Tag.BASEOPEN;
+	public static Tag TAG = Tag.SPECIALCLOSE;
 	
 	private String name;
 
-	public BaseCloseDataModel(String name ){
+	public SpecialCloseDataModel(String name ){
 		common( name );	
 	}
 
-	public BaseCloseDataModel( BaseCloseDataModel element ){
+	public SpecialCloseDataModel( SpecialCloseDataModel element ){
 		this.name = element.getName();
 
 	}
 
 	/**
-	 * XML alapjan gyartja le a BASEOPEN-t
+	 * XML alapjan gyartja le a SPECIALCLOSE-t
 	 * 
 	 * @param element
 	 * @throws XMLPharseException 
 	 */
-	public BaseCloseDataModel( Element element ) throws XMLPharseException{
+	public SpecialCloseDataModel( Element element ) throws XMLPharseException{
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
@@ -67,11 +67,11 @@ public class BaseCloseDataModel extends BaseDataModelInterface{
 	}
 	
 	@Override
-	public void add(BaseDataModelInterface node) {
+	public void add(SpecialDataModelInterface node) {
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.baseclose");
+		return CommonOperations.getTranslation( "tree.nodetype.specialclose");
 	}
 	
 	@Override
@@ -84,7 +84,7 @@ public class BaseCloseDataModel extends BaseDataModelInterface{
 		Attr attr;
 
 		//Node element
-		Element elementElement = document.createElement( BaseCloseDataModel.this.getTag().getName() );
+		Element elementElement = document.createElement( SpecialCloseDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		elementElement.setAttributeNode(attr);	
