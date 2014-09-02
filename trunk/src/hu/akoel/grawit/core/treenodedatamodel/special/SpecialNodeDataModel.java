@@ -74,14 +74,13 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 		}
 	}
 	
-/*	public static Tag getTagStatic(){
+	public static Tag getTagStatic(){
 		return TAG;
 	}
-*/
+
 	@Override
 	public Tag getTag() {
-		return TAG;
-		//return getTagStatic();
+		return getTagStatic();
 	}
 
 	@Override

@@ -12,8 +12,10 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
@@ -22,8 +24,10 @@ import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editor.special.SpecialOpenEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor;
+import hu.akoel.grawit.gui.editor.testcase.TestcaseSpecialEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcasePageEditor;
 
 public class TestcaseTree extends Tree {
@@ -31,11 +35,13 @@ public class TestcaseTree extends Tree {
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;
 	private ParamRootDataModel paramRootDataModel;
+	private SpecialRootDataModel specialRootDataModel;
 	
-	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, TestcaseRootDataModel rootDataModel ) {
+	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, TestcaseRootDataModel rootDataModel ) {
 		super(guiFrame, rootDataModel);
 		
 		this.guiFrame = guiFrame;
+		this.specialRootDataModel = specialRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
 		
 	}
@@ -169,6 +175,21 @@ public class TestcaseTree extends Tree {
 			});
 			popupMenu.add ( insertElementMenu );
 		
+			//Insert Special Page
+			JMenuItem insertSpecialMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.special") );
+			insertSpecialMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertSpecialMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					TestcaseSpecialEditor testcaseSpecialEditor = new TestcaseSpecialEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel );								
+					guiFrame.showEditorPanel( testcaseSpecialEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertSpecialMenu );
+			
 		}
 		
 	}
