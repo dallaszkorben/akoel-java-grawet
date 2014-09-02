@@ -11,17 +11,20 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.ActionCommand;
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseOpenDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCloseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editor.base.BaseCloseEditor;
 import hu.akoel.grawit.gui.editor.base.BaseElementEditor;
 import hu.akoel.grawit.gui.editor.base.BaseNodeEditor;
+import hu.akoel.grawit.gui.editor.base.BaseOpenEditor;
 import hu.akoel.grawit.gui.editor.base.BasePageEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
@@ -38,6 +41,8 @@ public class BaseTree extends Tree{
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
 
+		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/base-close-icon.png");
+		ImageIcon openIcon = CommonOperations.createImageIcon("tree/base-open-icon.png");
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
     	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
@@ -48,6 +53,10 @@ public class BaseTree extends Tree{
             return pageIcon;
     	}else if( actualNode instanceof BaseElementDataModel ){
             return elementIcon;
+    	}else if( actualNode instanceof BaseOpenDataModel ){
+            return openIcon;
+    	}else if( actualNode instanceof BaseCloseDataModel ){
+            return closeIcon;
     	}else if( actualNode instanceof BaseNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
@@ -78,7 +87,15 @@ public class BaseTree extends Tree{
 			BaseElementEditor baseElementEditor = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( baseElementEditor);		
 								
-		}		
+		}else if( selectedNode instanceof BaseOpenDataModel ){
+			BaseOpenEditor baseOpenEditor = new BaseOpenEditor( this, (BaseOpenDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( baseOpenEditor);		
+								
+		}else if( selectedNode instanceof BaseCloseDataModel ){
+			BaseCloseEditor baseCloseEditor = new BaseCloseEditor( this, (BaseCloseDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( baseCloseEditor);		
+								
+		}				
 	}
 
 	@Override
@@ -99,7 +116,17 @@ public class BaseTree extends Tree{
 			BaseElementEditor baseElementEditor = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( baseElementEditor);		
 								
-		}	
+		}else if( selectedNode instanceof BaseOpenDataModel ){
+
+			BaseOpenEditor baseOpenEditor = new BaseOpenEditor( this, (BaseOpenDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( baseOpenEditor);		
+								
+		}else if( selectedNode instanceof BaseCloseDataModel ){
+
+			BaseCloseEditor baseCloseEditor = new BaseCloseEditor( this, (BaseCloseDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( baseCloseEditor);		
+								
+		}		
 	}
 
 	@Override
@@ -139,6 +166,36 @@ public class BaseTree extends Tree{
 				}
 			});
 			popupMenu.add ( insertPageMenu );
+			
+			//Insert Open
+			JMenuItem insertCloseMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.open") );
+			insertCloseMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertCloseMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					BaseOpenEditor baseOpenEditor = new BaseOpenEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( baseOpenEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertCloseMenu );
+			
+			//Insert Close
+			JMenuItem insertOpenMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.close") );
+			insertOpenMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertOpenMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					BaseCloseEditor baseCloseEditor = new BaseCloseEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( baseCloseEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertOpenMenu );
 			
 		}		
 		
@@ -192,7 +249,7 @@ public class BaseTree extends Tree{
 					};
 					
 					int n = JOptionPane.showOptionDialog(guiFrame,
-							"Valóban torolni kívánod a(z) " + selectedNode.getTag() + " nevü " + selectedNode.getModelNameToShow() + "-t ?",
+							"Valóban torolni kívánod a(z) " + selectedNode.getTag().getName() + " nevü " + selectedNode.getModelNameToShow() + "-t ?",
 							CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 							JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE,
