@@ -6,6 +6,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -41,7 +42,7 @@ public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseNodeDataModel( Element element, ParamRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public TestcaseNodeDataModel( Element element, SpecialRootDataModel specialRootDataModel, ParamRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseNodeDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
@@ -63,11 +64,11 @@ public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
 				
 				//Ha TESTCASECASE van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASECASE.getName() )){
-					this.add(new TestcaseCaseDataModel(testcaseElement, baseRootDataModel));
+					this.add(new TestcaseCaseDataModel(testcaseElement, specialRootDataModel, baseRootDataModel));
 				
 				//Ha ujabb TESTCASENODE van alatta
 				}else if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() )){
-					this.add(new TestcaseNodeDataModel(testcaseElement, baseRootDataModel));
+					this.add(new TestcaseNodeDataModel(testcaseElement, specialRootDataModel, baseRootDataModel));
 				}
 			}
 		}
@@ -89,7 +90,7 @@ public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.node");
+		return CommonOperations.getTranslation( "tree.nodetype.testcase.node");
 	}
 	
 	@Override

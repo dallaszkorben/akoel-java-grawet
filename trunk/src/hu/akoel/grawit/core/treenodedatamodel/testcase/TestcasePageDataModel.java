@@ -161,7 +161,7 @@ public class TestcasePageDataModel extends TestcaseDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.casepage");
+		return CommonOperations.getTranslation( "tree.nodetype.testcase.page");
 	}
 	
 	@Override

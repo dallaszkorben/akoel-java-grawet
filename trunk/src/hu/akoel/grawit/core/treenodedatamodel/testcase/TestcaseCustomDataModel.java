@@ -22,12 +22,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
-public class TestcaseSpecialDataModel extends TestcaseDataModelInterface{
+//TODO csak atneveztem. meg kell szerkeszteni
+public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 
 	private static final long serialVersionUID = 5313170692938571481L;
 
-	public static final Tag TAG = Tag.TESTCASPECIAL;
+	public static final Tag TAG = Tag.TESTCASECUSTOM;
 	
 	public static final String ATTR_DETAILS = "details";
 	public static final String ATTR_SPECIAL_PAGE_PATH = "specialpagepath";
@@ -36,7 +36,7 @@ public class TestcaseSpecialDataModel extends TestcaseDataModelInterface{
 	private String details;
 	private SpecialDataModelInterface specialPage;
 	
-	public TestcaseSpecialDataModel( String name, String details, SpecialDataModelInterface specialPage ){
+	public TestcaseCustomDataModel( String name, String details, SpecialDataModelInterface specialPage ){
 		super( );
 		this.name = name;
 		this.details = details;
@@ -49,16 +49,16 @@ public class TestcaseSpecialDataModel extends TestcaseDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseSpecialDataModel( Element element, SpecialDataModelInterface specialDataModel ) throws XMLPharseException{
+	public TestcaseCustomDataModel( Element element, SpecialDataModelInterface specialDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcaseSpecialDataModel.getRootTag(), Tag.TESTCASPECIAL, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( TestcaseCustomDataModel.getRootTag(), Tag.TESTCASECUSTOM, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcaseSpecialDataModel.getRootTag(), Tag.TESTCASPECIAL, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( TestcaseCustomDataModel.getRootTag(), Tag.TESTCASECUSTOM, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -158,7 +158,7 @@ public class TestcaseSpecialDataModel extends TestcaseDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.casepage");
+		return CommonOperations.getTranslation( "tree.nodetype.testcase.special");
 	}
 	
 	@Override
@@ -200,7 +200,7 @@ public class TestcaseSpecialDataModel extends TestcaseDataModelInterface{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( TestcaseSpecialDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( TestcaseCustomDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	

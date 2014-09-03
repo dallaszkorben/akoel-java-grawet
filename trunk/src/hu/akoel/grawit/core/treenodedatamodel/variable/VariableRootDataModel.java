@@ -72,7 +72,7 @@ public class VariableRootDataModel extends VariableNodeDataModel{
 
 	@Override
 	public String getModelNameToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.root");
+		return CommonOperations.getTranslation( "tree.nodetype.variable.root");
 	}
 	
 	@Override

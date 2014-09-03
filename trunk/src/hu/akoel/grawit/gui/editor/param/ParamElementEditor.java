@@ -286,7 +286,7 @@ public class ParamElementEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.paramelement") 
+										CommonOperations.getTranslation("tree.nodetype.param.element") 
 								) 
 							);
 							break;
@@ -314,7 +314,7 @@ public class ParamElementEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.baseelement") 
+										CommonOperations.getTranslation("tree.nodetype.base.element") 
 								) 
 							);
 							break;

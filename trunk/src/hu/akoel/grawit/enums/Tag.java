@@ -20,7 +20,7 @@ public enum Tag{
 	TESTCASENODE("node"),
 	TESTCASECASE("case"),
 	TESTCASEPAGE("page"),
-	TESTCASPECIAL("special"),
+	TESTCASECUSTOM("special"),
 	
 	SPECIALROOT("special"),
 	SPECIALNODE("node"),

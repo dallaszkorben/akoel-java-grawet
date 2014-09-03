@@ -109,7 +109,7 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 	}
 	
 	public static String getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.variableelement" );
+		return CommonOperations.getTranslation( "tree.nodetype.variable.element" );
 	}
 	
 	@Override

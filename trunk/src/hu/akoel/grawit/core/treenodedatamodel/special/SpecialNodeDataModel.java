@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.special;
 
+import java.util.Vector;
+
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
@@ -89,7 +91,7 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.node");
+		return CommonOperations.getTranslation( "tree.nodetype.special.node");
 	}
 	
 	@Override
@@ -148,4 +150,14 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 		return nodeElement;		
 	}
 
+	@Override
+	public Object clone(){
+		
+		SpecialNodeDataModel cloned = (SpecialNodeDataModel)super.clone();
+	
+		cloned.children = (Vector) this.children.clone();
+		
+		return cloned;
+		
+	}
 }

@@ -22,10 +22,9 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface{
 		common( name );	
 	}
 
-	public SpecialCloseDataModel( SpecialCloseDataModel element ){
-		this.name = element.getName();
-
-	}
+//	public SpecialCloseDataModel( SpecialCloseDataModel element ){
+//		this.name = element.getName();
+//	}
 
 	/**
 	 * XML alapjan gyartja le a SPECIALCLOSE-t
@@ -71,7 +70,7 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.specialclose");
+		return CommonOperations.getTranslation( "tree.nodetype.special.close");
 	}
 	
 	@Override
@@ -92,5 +91,13 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface{
 		return elementElement;	
 	}
 
+	@Override
+	public Object clone(){
+		
+		SpecialCloseDataModel cloned = (SpecialCloseDataModel)super.clone();
+	
+		return cloned;
+		
+	}
 
 }

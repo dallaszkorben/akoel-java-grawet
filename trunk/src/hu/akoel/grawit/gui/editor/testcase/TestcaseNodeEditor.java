@@ -129,7 +129,7 @@ public class TestcaseNodeEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.node") 
+										CommonOperations.getTranslation("tree.nodetype.testcase.node") 
 								) 
 							);	
 							break;

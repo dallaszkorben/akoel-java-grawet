@@ -173,7 +173,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.parampage");
+		return CommonOperations.getTranslation( "tree.nodetype.param.page");
 	}
 	
 	@Override

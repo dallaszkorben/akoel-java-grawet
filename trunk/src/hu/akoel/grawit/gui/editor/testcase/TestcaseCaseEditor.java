@@ -5,11 +5,16 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.pages.OpenPage;
+import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.selector.SpecialCloseTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.selector.SpecialOpenTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.selector.SpecialTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -27,9 +32,15 @@ public class TestcaseCaseEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private TextAreaComponent fieldDetails;
+	
+	private JLabel labelOpenSpecialTreeSelector;
+	private SpecialOpenTreeSelectorComponent fieldOpenTreeSelector;
+	private JLabel labelCloseSpecialTreeSelector;
+	private SpecialCloseTreeSelectorComponent fieldCloseTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode ){
+	public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode, SpecialDataModelInterface specialDataModel ){
+		
 		super( TestcaseCaseDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
@@ -42,15 +53,22 @@ public class TestcaseCaseEditor extends DataEditor{
 		//Details
 		fieldDetails = new TextAreaComponent( "", 5, 15);
 		
+		//SpecialOpenTreeSelector
+		fieldOpenTreeSelector = new SpecialOpenTreeSelectorComponent(specialDataModel);
+		
+		//SpecialCloseTreeSelector
+		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent(specialDataModel);
+				
 		common();
 		
 	}
 	
 	//Itt modositas van
-	public TestcaseCaseEditor( Tree testcaseTree, TestcaseCaseDataModel selectedNode, EditMode mode ){		
+	public TestcaseCaseEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface paramDataModel, EditMode mode ){		
+		
 		super( mode, selectedNode.getModelNameToShow());
 
-		this.tree = testcaseTree;
+		this.tree = tree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;		
 		
@@ -59,7 +77,13 @@ public class TestcaseCaseEditor extends DataEditor{
 		
 		//Details
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
+//TODO lehetne-e inkabb a selectedNode-bol kivenni a masodik parametert?
+		//SpecialOpenTreeSelector
+		fieldOpenTreeSelector = new SpecialOpenTreeSelectorComponent( paramDataModel, selectedNode.getOpenPage() );
 		
+		//SpecialOpenTreeSelector
+		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent( paramDataModel, selectedNode.getClosePage() );
+				
 		common();
 	}
 	
@@ -67,11 +91,16 @@ public class TestcaseCaseEditor extends DataEditor{
 		
 		//Name
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
+		
+		labelOpenSpecialTreeSelector = new JLabel( "Open..." );
+		labelCloseSpecialTreeSelector = new JLabel( "Close..." );
 
 		//Details
 		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");		
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );
+		this.add( labelOpenSpecialTreeSelector, fieldOpenTreeSelector );
+		this.add( labelCloseSpecialTreeSelector, fieldCloseTreeSelector );
 		
 	}
 	
@@ -130,7 +159,7 @@ public class TestcaseCaseEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.case") 
+										CommonOperations.getTranslation("tree.nodetype.testcase.case") 
 								) 
 							);	
 							break;
@@ -154,7 +183,7 @@ public class TestcaseCaseEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcaseCaseDataModel newTestcaseCase = new TestcaseCaseDataModel( fieldName.getText(), fieldDetails.getText() );				
+				TestcaseCaseDataModel newTestcaseCase = new TestcaseCaseDataModel( fieldName.getText(), fieldDetails.getText(), fieldOpenTreeSelector.getSelectedDataModel(), fieldCloseTreeSelector.getSelectedDataModel() );				
 				nodeForCapture.add( newTestcaseCase );
 				
 			//Modositas eseten
@@ -163,6 +192,8 @@ public class TestcaseCaseEditor extends DataEditor{
 				//Modositja a valtozok erteket
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
+				nodeForModify.setSpecialOpenDataModel( fieldOpenTreeSelector.getSelectedDataModel() );
+				nodeForModify.setSpecialCloseDataModel( fieldCloseTreeSelector.getSelectedDataModel() );
 			
 			}			
 			

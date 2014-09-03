@@ -131,7 +131,7 @@ public class SpecialNodeEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.node") 
+										CommonOperations.getTranslation("tree.nodetype.special.node") 
 								) 
 							);	
 							break;

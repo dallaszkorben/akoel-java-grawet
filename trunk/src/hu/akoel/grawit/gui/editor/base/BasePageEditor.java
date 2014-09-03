@@ -32,7 +32,7 @@ public class BasePageEditor extends DataEditor{
 	
 	//Itt biztos beszuras van
 	public BasePageEditor( Tree tree, BaseNodeDataModel selectedNode ){
-		//super( CommonOperations.getTranslation("tree.nodetype.basepage") );
+
 		super( BasePageDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
@@ -51,7 +51,7 @@ public class BasePageEditor extends DataEditor{
 	
 	//Itt lehet hogy modositas vagy megtekintes van
 	public BasePageEditor( Tree tree, BasePageDataModel selectedNode, EditMode mode ){
-		//super( mode, CommonOperations.getTranslation("tree.nodetype.basepage") );
+
 		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = tree;
@@ -131,7 +131,7 @@ public class BasePageEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.basepage") 
+										CommonOperations.getTranslation("tree.nodetype.base.page") 
 								) 
 							);
 							break;
