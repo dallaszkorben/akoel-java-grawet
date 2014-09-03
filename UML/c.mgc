@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClassDiagram>
+    <Class name="hu.akoel.grawit.gui.editor.special.SpecialCloseEditor"
+        x="702" y="350">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel"
+            endpointName="nodeForModify" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel"
+            endpointName="nodeForCapture" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editor.testcase.TestcaseSpecialEditor"
+        x="441" y="184">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface"
+            endpointName="nodeForModify" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"
+            endpointName="nodeForCapture" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"/>
+    </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"
-        x="731" y="211">
+        x="447" y="-256">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -13,8 +50,22 @@
         <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
     </Class>
     <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel"
+        x="9" y="51">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"/>
+    </Class>
+    <Class
         name="hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel"
-        x="1081" y="347">
+        x="980" y="176">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -25,32 +76,9 @@
         <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface"/>
     </Class>
-    <Class name="hu.akoel.grawit.core.operations.LinkOperation" x="240" y="739">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface"
-        x="398" y="207">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
-    </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"
-        x="551" y="36">
+        x="472" y="-343">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -59,9 +87,8 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface"
-        x="-90" y="204">
+    <Class name="hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor"
+        x="26" y="181">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -69,23 +96,18 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
-    </Class>
-    <Class name="hu.akoel.grawit.core.operations.CheckboxOperation"
-        x="-93" y="680">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"
+            endpointName="nodeForModify" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"
+            endpointName="nodeForCapture" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface"
-        x="1075" y="209">
+        x="978" y="-80">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -95,8 +117,8 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
     </Class>
-    <Class name="hu.akoel.grawit.core.operations.RadioButtonOperation"
-        x="232" y="680">
+    <Class name="hu.akoel.grawit.gui.editor.special.SpecialNodeEditor"
+        x="1142" y="341">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -104,29 +126,17 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel"
-        x="900" y="348">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"/>
         <Association
-            destinationClassName="hu.akoel.grawit.enums.ParameterType"
-            endpointName="type" kind="Simple"/>
-        <Communication destinationClassName="hu.akoel.grawit.enums.ParameterType"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"/>
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel"
+            endpointName="nodeForModify" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel"
+            endpointName="nodeForCapture" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.base.BaseCloseDataModel"
-        x="-238" y="329">
+        name="hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel"
+        x="1119" y="169">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -134,11 +144,13 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface"/>
     </Class>
-    <Class name="hu.akoel.grawit.core.operations.ButtonOperation"
-        x="-82" y="743">
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseSpecialDataModel"
+        x="774" y="-87">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -146,12 +158,15 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface"
+            endpointName="specialPage" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"
-        x="443" y="336">
+        x="530" y="24">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -159,13 +174,10 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
     </Class>
-    <Class name="hu.akoel.grawit.enums.ParameterType" x="861" y="537">
+    <Class name="hu.akoel.grawit.gui.editor.special.SpecialOpenEditor"
+        x="943" y="337">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -173,60 +185,18 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel"
-        x="13" y="321">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.core.operations.ElementOperationInterface"
-        x="233" y="514">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"
-        x="910" y="210">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
-    </Class>
-    <Class name="hu.akoel.grawit.core.operations.FieldOperation" x="551" y="683">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
         <Association
-            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel"
-            endpointName="parameter" kind="Simple"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel"
+            endpointName="nodeForModify" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel"
+            endpointName="nodeForCapture" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel"
-        x="754" y="343">
+        x="545" y="-92">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -240,9 +210,8 @@
             endpointName="paramPage" kind="Simple"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
     </Class>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"
-        x="290" y="335">
+    <Class name="hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor"
+        x="225" y="184">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -250,19 +219,17 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface"/>
         <Association
-            destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"
-            endpointName="elementOperation" kind="Simple"/>
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"
+            endpointName="nodeForModify" kind="Simple"/>
         <Association
-            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel"
-            endpointName="baseElement" kind="Simple"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"
+            endpointName="nodeForCapture" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.base.BaseOpenDataModel"
-        x="-110" y="330">
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"
+        x="387" y="-89">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -270,12 +237,27 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"
+        x="108" y="-87">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.DataModelInterface"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel"
-        x="1207" y="347">
+        x="855" y="178">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>

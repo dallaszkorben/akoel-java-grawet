@@ -5,16 +5,12 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseSpecialDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.selector.ParamPageTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.selector.SpecialTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -26,7 +22,7 @@ public class TestcaseSpecialEditor extends DataEditor{
 	private static final long serialVersionUID = -8169618880309437186L;
 	
 	private Tree tree;
-	private SpecialDataModelInterface nodeForModify;
+	private TestcaseSpecialDataModel nodeForModify;
 	private TestcaseCaseDataModel nodeForCapture;
 	private EditMode mode;
 	
@@ -49,8 +45,8 @@ public class TestcaseSpecialEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent( "" );
 		
-//		//Details
-//		fieldDetails = new TextAreaComponent( "", 5, 15);
+		//Details
+		fieldDetails = new TextAreaComponent( "", 5, 15);
 		
 		//ParamPageTreeSelector
 		specialTreeSelector = new SpecialTreeSelectorComponent(specialDataModel);
@@ -60,7 +56,7 @@ public class TestcaseSpecialEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcaseSpecialEditor( Tree tree, SpecialDataModelInterface selectedNode, SpecialDataModelInterface paramDataModel, EditMode mode ){		
+	public TestcaseSpecialEditor( Tree tree, TestcaseSpecialDataModel selectedNode, SpecialDataModelInterface paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = tree;
@@ -70,11 +66,11 @@ public class TestcaseSpecialEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent( selectedNode.getName());
 		
-//		//Details
-//		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
+		//Details
+		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
 		//ParamPageTreeSelector
-		specialTreeSelector = new SpecialTreeSelectorComponent( paramDataModel, selectedNode );
+		specialTreeSelector = new SpecialTreeSelectorComponent( paramDataModel, selectedNode.getSpecialPage() );
 				
 		common();
 	}
@@ -85,14 +81,14 @@ public class TestcaseSpecialEditor extends DataEditor{
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 
 		//Details
-//		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
+		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
 		
 		//Param Page
 		labelSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.specialpage") + ": ");
 		
 		
 		this.add( labelName, fieldName );
-//		this.add( labelDetails, fieldDetails );
+		this.add( labelDetails, fieldDetails );
 		this.add( labelSpecialTreeSelector, specialTreeSelector );
 		
 	}
@@ -102,7 +98,7 @@ public class TestcaseSpecialEditor extends DataEditor{
 
 		//Ertekek trimmelese
 		fieldName.setText( fieldName.getText().trim() );
-//		fieldDetails.setText( fieldDetails.getText().trim() );
+		fieldDetails.setText( fieldDetails.getText().trim() );
 		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
@@ -196,9 +192,9 @@ public class TestcaseSpecialEditor extends DataEditor{
 			}else if( mode.equals(EditMode.MODIFY ) ){
 
 				//Modositja a valtozok erteket
-//				nodeForModify.setName( fieldName.getText() );
-//				nodeForModify.setDetails( fieldDetails.getText() );
-//				nodeForModify.setParamPage(specialPage);
+				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setDetails( fieldDetails.getText() );
+				nodeForModify.setSpecialPage(specialPage);
 			
 			}			
 			
