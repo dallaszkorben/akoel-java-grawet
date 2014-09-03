@@ -38,10 +38,10 @@ public class SpecialTree extends Tree{
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
 
-		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/base-close-icon.png");
-		ImageIcon openIcon = CommonOperations.createImageIcon("tree/base-open-icon.png");
-    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
-    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
+		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/special-close-icon.png");
+		ImageIcon openIcon = CommonOperations.createImageIcon("tree/special-open-icon.png");
+    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/special-node-closed-icon.png");
+    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/special-node-open-icon.png");
   
     	//Iconja a NODE-nak
     	if( actualNode instanceof SpecialOpenDataModel ){
