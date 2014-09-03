@@ -89,7 +89,7 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.node");
+		return CommonOperations.getTranslation( "tree.nodetype.base.node");
 	}
 	
 	@Override

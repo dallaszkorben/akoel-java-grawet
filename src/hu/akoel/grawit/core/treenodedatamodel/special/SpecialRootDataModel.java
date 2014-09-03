@@ -71,7 +71,7 @@ public class SpecialRootDataModel extends SpecialNodeDataModel{
 	
 	@Override
 	public String getModelNameToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.root");
+		return CommonOperations.getTranslation( "tree.nodetype.special.root");
 	}
 	
 	@Override

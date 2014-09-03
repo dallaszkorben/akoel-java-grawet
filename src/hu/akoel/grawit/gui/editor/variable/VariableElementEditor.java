@@ -274,7 +274,7 @@ public class VariableElementEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.variableelement") 
+										CommonOperations.getTranslation("tree.nodetype.variable.element") 
 								) 
 							);
 							break;

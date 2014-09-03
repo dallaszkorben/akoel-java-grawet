@@ -91,7 +91,7 @@ public class SpecialOpenDataModel extends SpecialDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.specialopen");
+		return CommonOperations.getTranslation( "tree.nodetype.special.open");
 	}
 	
 	@Override
@@ -117,4 +117,12 @@ public class SpecialOpenDataModel extends SpecialDataModelInterface{
 	}
 
 
+	@Override
+	public Object clone(){
+		
+		SpecialOpenDataModel cloned = (SpecialOpenDataModel)super.clone();
+	
+		return cloned;
+		
+	}
 }

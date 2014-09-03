@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseSpecialDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -17,12 +17,14 @@ import hu.akoel.grawit.gui.tree.Tree;
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class TestcaseSpecialEditor extends DataEditor{
+//TODO custom editort meg kell szerkesztenem. nem is nyultam meg hozza
+
+public class TestcaseCustomEditor extends DataEditor{
 
 	private static final long serialVersionUID = -8169618880309437186L;
 	
 	private Tree tree;
-	private TestcaseSpecialDataModel nodeForModify;
+	private TestcaseCustomDataModel nodeForModify;
 	private TestcaseCaseDataModel nodeForCapture;
 	private EditMode mode;
 	
@@ -34,9 +36,9 @@ public class TestcaseSpecialEditor extends DataEditor{
 	private SpecialTreeSelectorComponent specialTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcaseSpecialEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface specialDataModel ){
+	public TestcaseCustomEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface specialDataModel ){
 
-		super("hello");
+		super( TestcaseCustomDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -56,7 +58,7 @@ public class TestcaseSpecialEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcaseSpecialEditor( Tree tree, TestcaseSpecialDataModel selectedNode, SpecialDataModelInterface paramDataModel, EditMode mode ){		
+	public TestcaseCustomEditor( Tree tree, TestcaseCustomDataModel selectedNode, SpecialDataModelInterface paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = tree;
@@ -160,7 +162,7 @@ public class TestcaseSpecialEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.case") 
+										CommonOperations.getTranslation("tree.nodetype.testcase.special") 
 								) 
 							);	
 							break;
@@ -185,7 +187,7 @@ public class TestcaseSpecialEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcaseSpecialDataModel newTestcasePage = new TestcaseSpecialDataModel( fieldName.getText(), fieldDetails.getText(), specialPage );				
+				TestcaseCustomDataModel newTestcasePage = new TestcaseCustomDataModel( fieldName.getText(), fieldDetails.getText(), specialPage );				
 				nodeForCapture.add( newTestcasePage );
 				
 			//Modositas eseten

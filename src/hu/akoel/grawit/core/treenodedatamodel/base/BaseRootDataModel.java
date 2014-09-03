@@ -72,7 +72,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 	
 	@Override
 	public String getModelNameToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.root");
+		return CommonOperations.getTranslation( "tree.nodetype.base.root");
 	}
 	
 	@Override

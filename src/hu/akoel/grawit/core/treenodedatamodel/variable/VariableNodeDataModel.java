@@ -81,7 +81,7 @@ public class VariableNodeDataModel extends VariableDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.node");
+		return CommonOperations.getTranslation( "tree.nodetype.variable.node");
 	}
 	
 	@Override

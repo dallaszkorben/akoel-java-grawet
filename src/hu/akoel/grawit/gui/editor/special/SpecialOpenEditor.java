@@ -139,7 +139,7 @@ public class SpecialOpenEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.specialopen") 
+										CommonOperations.getTranslation("tree.nodetype.special.open") 
 								) 
 							);
 							break;

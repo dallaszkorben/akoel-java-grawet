@@ -83,7 +83,7 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.node");
+		return CommonOperations.getTranslation( "tree.nodetype.param.node");
 	}
 	
 	@Override

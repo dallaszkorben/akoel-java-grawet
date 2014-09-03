@@ -34,7 +34,7 @@ public class ParamPageEditor extends DataEditor{
 	
 	//Itt biztos beszuras van
 	public ParamPageEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
-		//super( CommonOperations.getTranslation("tree.nodetype.parampage") );
+
 		super( ParamPageDataModel.getModelNameToShowStatic());
 				
 		this.tree = tree;
@@ -53,7 +53,7 @@ public class ParamPageEditor extends DataEditor{
 	
 	//Itt lehet hogy modositas vagy megtekintes van
 	public ParamPageEditor( Tree tree, ParamPageDataModel selectedPage, EditMode mode ){
-		//super( mode, CommonOperations.getTranslation( "tree.nodetype.parampage" ) );
+
 		super( mode, selectedPage.getModelNameToShow());
 
 		this.tree = tree;
@@ -150,7 +150,7 @@ public class ParamPageEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.parampage") 
+										CommonOperations.getTranslation("tree.nodetype.param.page") 
 								) 
 							);
 							break;

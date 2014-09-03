@@ -3,35 +3,27 @@ package hu.akoel.grawit.gui.editors.component.selector;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel;
-
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class SpecialTreeSelectorComponent extends TreeSelectorComponent<SpecialDataModelInterface>{
+public class SpecialCloseTreeSelectorComponent extends TreeSelectorComponent<SpecialCloseDataModel>{
 
 	private static final long serialVersionUID = -3698310168899684818L;
 
-	public SpecialTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
-		super(SpecialDataModelInterface.class, rootDataModel);
+	public SpecialCloseTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
+		super(SpecialCloseDataModel.class, rootDataModel);
 	}
 
-	public SpecialTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialDataModelInterface selectedSpecialDataModel ) {
-		super(SpecialDataModelInterface.class, rootDataModel, selectedSpecialDataModel);
+	public SpecialCloseTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialCloseDataModel selectedCloseDataModel ) {
+		super(SpecialCloseDataModel.class, rootDataModel, selectedCloseDataModel);
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( SpecialDataModelInterface selectedDataModel ) {
+	public String getSelectedDataModelToString( SpecialCloseDataModel selectedDataModel ) {
 		StringBuffer out = new StringBuffer();
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){

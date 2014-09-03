@@ -102,7 +102,7 @@ public class BasePageDataModel extends BaseDataModelInterface{
 	}
 
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.basepage");
+		return CommonOperations.getTranslation( "tree.nodetype.base.page");
 	}
 	
 	@Override

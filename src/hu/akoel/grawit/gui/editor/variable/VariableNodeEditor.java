@@ -43,7 +43,7 @@ public class VariableNodeEditor extends DataEditor{
 	
 	//Itt biztos beszuras van
 	public VariableNodeEditor( VariableTree tree, VariableNodeDataModel selectedNode ){
-		//super( CommonOperations.getTranslation("tree.nodetype.node") );
+
 		super( VariableNodeDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
@@ -62,7 +62,7 @@ public class VariableNodeEditor extends DataEditor{
 	
 	//Itt modisitas van
 	public VariableNodeEditor( VariableTree variableTree, VariableNodeDataModel selectedNode, EditMode mode ){		
-		//super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
+
 		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = variableTree;
@@ -131,7 +131,7 @@ public class VariableNodeEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.node") 
+										CommonOperations.getTranslation("tree.nodetype.variable.node") 
 								) 
 							);	
 							break;

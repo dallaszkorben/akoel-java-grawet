@@ -171,7 +171,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.baseelement");
+		return CommonOperations.getTranslation( "tree.nodetype.base.element");
 	}
 	
 	@Override

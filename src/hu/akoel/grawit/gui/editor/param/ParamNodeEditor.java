@@ -31,7 +31,7 @@ public class ParamNodeEditor extends DataEditor{
 
 	//Itt biztos beszuras van
 	public ParamNodeEditor( Tree tree, ParamNodeDataModel selectedNode ){
-		//super( CommonOperations.getTranslation("tree.nodetype.node") );
+
 		super( ParamNodeDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
@@ -50,7 +50,7 @@ public class ParamNodeEditor extends DataEditor{
 	
 	//Itt modisitas van
 	public ParamNodeEditor( Tree pageBaseTree, ParamNodeDataModel selectedNode, EditMode mode ){		
-		//super( mode, CommonOperations.getTranslation("tree.nodetype.node") );
+
 		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = pageBaseTree;
@@ -132,7 +132,7 @@ public class ParamNodeEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.node") 
+										CommonOperations.getTranslation("tree.nodetype.param.node") 
 								) 
 							);	
 							break;
