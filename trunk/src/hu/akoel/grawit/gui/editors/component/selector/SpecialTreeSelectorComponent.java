@@ -6,6 +6,13 @@ import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseSpecialDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
@@ -45,29 +52,33 @@ public class SpecialTreeSelectorComponent extends TreeSelectorComponent<SpecialD
 
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
-		return !( path.getLastPathComponent() instanceof ParamPageDataModel );
+		return true;
+		//return !( path.getLastPathComponent() instanceof SpecialDataModelInterface );
 	}
 	
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded ) {
 	
-		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-icon.png");
-    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/param-element-icon.png");
-    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-node-closed-icon.png");
-    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/param-node-open-icon.png");
-    	
-    	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamPageDataModel){
-            return pageIcon;
-    	}else if( actualNode instanceof ParamElementDataModel ){
-            return elementIcon;
-    	}else if( actualNode instanceof ParamNodeDataModel){
+		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/special-close-icon.png");
+		ImageIcon openIcon = CommonOperations.createImageIcon("tree/special-open-icon.png");
+    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/special-node-closed-icon.png");
+    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/special-node-open-icon.png");
+       	
+       	//Iconja a NODE-nak
+    	if( actualNode instanceof SpecialOpenDataModel ){
+    			return openIcon;
+   		}else if( actualNode instanceof SpecialCloseDataModel ){
+    			return closeIcon;
+    	}else if( actualNode instanceof SpecialOpenDataModel ){
+            return openIcon;
+    	}else if( actualNode instanceof SpecialNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
     			return nodeClosedIcon;
     		}
         }
+    	
 		return null;
 	}
 
