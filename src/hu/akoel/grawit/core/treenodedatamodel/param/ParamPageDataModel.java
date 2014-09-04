@@ -19,7 +19,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.CustomPageInterface;
+import hu.akoel.grawit.core.pages.torlendo_CustomPageInterface;
 import hu.akoel.grawit.core.pages.ExecutablePageInterface;
 import hu.akoel.grawit.core.pages.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
@@ -238,10 +238,10 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 //		}
 
 		//Ha implementalta a Custom Page Interface-t, akkor a forraskodot kell vegrehajtania
-		if( this instanceof CustomPageInterface ){
+		if( this instanceof torlendo_CustomPageInterface ){
 			
 			//Megszerzi a forraskodot
-			String script = ((CustomPageInterface)this).getSurce();
+			String script = ((torlendo_CustomPageInterface)this).getSurce();
 			
 			//TODO megcsinalni a futasidoben a forditast es futtatast			
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();

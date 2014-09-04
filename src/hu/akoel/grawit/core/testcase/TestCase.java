@@ -1,7 +1,7 @@
 package hu.akoel.grawit.core.testcase;
 
 import hu.akoel.grawit.core.pages.ExecutablePageInterface;
-import hu.akoel.grawit.core.pages.OpenPage;
+import hu.akoel.grawit.core.pages.torlendo_OpenPage;
 import hu.akoel.grawit.core.pages.TestCasedPage;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -37,7 +37,7 @@ public class TestCase {
 	public void doAction( WebDriver driver ){
 		TestCasedPage actualTestCasedPage = null;
 		for( TestCasedPage testCasedPage: pageSet ){
-			if( testCasedPage.getExecutablePageInterface() instanceof OpenPage ){
+			if( testCasedPage.getExecutablePageInterface() instanceof torlendo_OpenPage ){
 				actualTestCasedPage = testCasedPage;
 				break;
 			}
