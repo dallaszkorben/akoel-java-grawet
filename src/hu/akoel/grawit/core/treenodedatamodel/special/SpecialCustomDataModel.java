@@ -42,6 +42,15 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 	
 	public static final String ATTR_SCRIPT = "script";
 	
+	private static final String codePre = 
+			"import org.openqa.selenium.WebDriver;\n" +
+			"public class CustomClass {\n" +		
+			"	public CustomClass() {}\n" +		
+			"  	public void doAction(WebDriver driver) throws hu.akoel.grawit.exceptions.PageException{\n";
+	private static final String codePost = 
+			"  	}\n" +
+			"}\n";
+	
 	private String name;
 	private String script;
 	
@@ -176,14 +185,15 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 		//Legyartom a kodot
 		StringWriter writer = new StringWriter();
 		PrintWriter out = new PrintWriter(writer);
-		out.println("import org.openqa.selenium.WebDriver;");
-		out.println("public class CustomClass {");		
-		out.println("	public CustomClass() {");
-		out.println("  	}");		
-		out.println("  	public void doAction(WebDriver driver) throws hu.akoel.grawit.exceptions.PageException{");
-		out.println( source );    
-		out.println("  	}");
-		out.println("}");
+		//out.println("import org.openqa.selenium.WebDriver;\n");
+		//out.println("public class CustomClass {\n");		
+		//out.println("	public CustomClass() {}\n");		
+		//out.println("  	public void doAction(WebDriver driver) throws hu.akoel.grawit.exceptions.PageException{\n");
+		out.println( codePre );
+		out.println( source );
+		out.println( codePost );
+		//out.println("  	}\n");
+		//out.println("}\n");
 		out.close();
 		
 		javaFile = new JavaSourceFromString( customClassName, writer.toString() );
@@ -249,6 +259,14 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 
 	public List<Diagnostic<? extends JavaFileObject>> getDiagnostic(){
 		return diagnostics.getDiagnostics();
+	}
+	
+	public static String getCodePre(){
+		return codePre;
+	}
+	
+	public static String getCodePost(){
+		return codePost;
 	}
 	
 	@Override

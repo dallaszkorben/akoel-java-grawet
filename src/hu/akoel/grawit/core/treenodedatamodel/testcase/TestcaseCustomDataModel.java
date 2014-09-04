@@ -2,16 +2,14 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
 
-import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -22,25 +20,25 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-//TODO csak atneveztem. meg kell szerkeszteni
+
 public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 
 	private static final long serialVersionUID = 5313170692938571481L;
 
-	public static final Tag TAG = Tag.TESTCASECUSTOM;
+	public static final Tag TAG = Tag.TESTCASECUSTOMPAGE;
 	
 	public static final String ATTR_DETAILS = "details";
-	public static final String ATTR_SPECIAL_PAGE_PATH = "specialpagepath";
+	public static final String ATTR_CUSTOM_PAGE_PATH = "custompagepath";
 	
 	private String name;
 	private String details;
-	private SpecialDataModelInterface specialPage;
+	private SpecialCustomDataModel customPage;
 	
-	public TestcaseCustomDataModel( String name, String details, SpecialDataModelInterface specialPage ){
+	public TestcaseCustomDataModel( String name, String details, SpecialCustomDataModel customPage ){
 		super( );
 		this.name = name;
 		this.details = details;
-		this.specialPage = specialPage;
+		this.customPage = customPage;
 	}
 	
 	/**
@@ -49,16 +47,16 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCustomDataModel( Element element, SpecialDataModelInterface specialDataModel ) throws XMLPharseException{
+	public TestcaseCustomDataModel( Element element, SpecialCustomDataModel customDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcaseCustomDataModel.getRootTag(), Tag.TESTCASECUSTOM, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( TestcaseCustomDataModel.getRootTag(), Tag.TESTCASECUSTOMPAGE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcaseCustomDataModel.getRootTag(), Tag.TESTCASECUSTOM, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( TestcaseCustomDataModel.getRootTag(), Tag.TESTCASECUSTOMPAGE, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -73,10 +71,10 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 		
 		
 		
-		if( !element.hasAttribute( ATTR_SPECIAL_PAGE_PATH ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_SPECIAL_PAGE_PATH );			
+		if( !element.hasAttribute( ATTR_CUSTOM_PAGE_PATH ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_CUSTOM_PAGE_PATH );			
 		}	
-		String paramElementPathString = element.getAttribute(ATTR_SPECIAL_PAGE_PATH);				
+		String paramElementPathString = element.getAttribute(ATTR_CUSTOM_PAGE_PATH);				
 		paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -88,11 +86,11 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_SPECIAL_PAGE_PATH, element.getAttribute(ATTR_SPECIAL_PAGE_PATH), e );
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_CUSTOM_PAGE_PATH, element.getAttribute(ATTR_CUSTOM_PAGE_PATH), e );
 	    } 
 	    
 	    
-	    //Megkeresem a SPECIALROOT-ben a SPECIAL-hez vezeto utat
+	    //Megkeresem a SPECIALROOT-ben a CUSTOMER-hez vezeto utat
 	    Node actualNode = document;
 	    while( actualNode.hasChildNodes() ){
 		
@@ -104,40 +102,33 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 	    	//Ha SPECIALNODE
 	    	if( tagName.equals( SpecialNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ParamNodeDataModel.ATTR_NAME);	    		
-	    		specialDataModel = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModel, Tag.SPECIALNODE, attrName );
+	    		customDataModel = (SpecialCustomDataModel) CommonOperations.getDataModelByNameInLevel( customDataModel, Tag.SPECIALNODE, attrName );
 
-	    		if( null == specialDataModel ){
+	    		if( null == customDataModel ){
 
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_SPECIAL_PAGE_PATH, element.getAttribute(ATTR_SPECIAL_PAGE_PATH) );
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_CUSTOM_PAGE_PATH, element.getAttribute(ATTR_CUSTOM_PAGE_PATH) );
 	    		}
 	    		
-	    	//Ha PARAMOPEN
-	    	}else if( tagName.equals( SpecialOpenDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(SpecialOpenDataModel.ATTR_NAME);
-	    		specialDataModel = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModel, Tag.SPECIALOPEN, attrName );
+	    	//Ha PARAMCUSTOM
+	    	}else if( tagName.equals( SpecialCustomDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(SpecialCustomDataModel.ATTR_NAME);
+	    		customDataModel = (SpecialCustomDataModel) CommonOperations.getDataModelByNameInLevel( customDataModel, Tag.SPECIALCUSTOM, attrName );
 	    		
-	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_SPECIAL_PAGE_PATH, element.getAttribute(ATTR_SPECIAL_PAGE_PATH) );
+	    		if( null == customDataModel ){
+	    			
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_CUSTOM_PAGE_PATH, element.getAttribute(ATTR_CUSTOM_PAGE_PATH) );
+	    		}
 	    		
-	    	//Ha PARAMCLOSE
-	    	}else if( tagName.equals( SpecialCloseDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(SpecialCloseDataModel.ATTR_NAME);
-	    		specialDataModel = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModel, Tag.SPECIALCLOSE, attrName );
-	    		
-	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_SPECIAL_PAGE_PATH, element.getAttribute(ATTR_SPECIAL_PAGE_PATH) );
-	    		
-	    	}else{
-	    		
-	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_SPECIAL_PAGE_PATH, element.getAttribute(ATTR_SPECIAL_PAGE_PATH) );	    		
 	    	}
 	    }	    
 	    try{
 	    	
-	    	specialPage = (SpecialDataModelInterface)specialDataModel;
+	    	customPage = (SpecialCustomDataModel)customDataModel;
 	    	
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_SPECIAL_PAGE_PATH, element.getAttribute(ATTR_SPECIAL_PAGE_PATH), e );
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_CUSTOM_PAGE_PATH, element.getAttribute(ATTR_CUSTOM_PAGE_PATH), e );
 	    } 
 	    
 
@@ -154,11 +145,11 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 
 	@Override
 	public void add(TestcaseDataModelInterface node) {
-		super.add( (MutableTreeNode)node );
+		//TODO delete super.add( (MutableTreeNode)node );
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.testcase.special");
+		return CommonOperations.getTranslation( "tree.nodetype.testcase.custom");
 	}
 	
 	@Override
@@ -187,12 +178,12 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 		return name;
 	}
 
-	public void setSpecialPage( SpecialDataModelInterface specialPage ){
-		this.specialPage = specialPage;		
+	public void setCustomPage( SpecialCustomDataModel customPage ){
+		this.customPage = customPage;		
 	}
 	
-	public SpecialDataModelInterface getSpecialPage(){
-		return specialPage;
+	public SpecialCustomDataModel getCustomPage(){
+		return customPage;
 	}
 	
 	@Override
@@ -209,8 +200,8 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	
 		
-		attr = document.createAttribute( ATTR_SPECIAL_PAGE_PATH );
-		attr.setValue( specialPage.getPathTag() );
+		attr = document.createAttribute( ATTR_CUSTOM_PAGE_PATH );
+		attr.setValue( customPage.getPathTag() );
 		nodeElement.setAttributeNode( attr );
 			
 		return nodeElement;		

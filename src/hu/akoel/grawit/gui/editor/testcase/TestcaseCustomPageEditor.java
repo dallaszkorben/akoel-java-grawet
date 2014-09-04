@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -19,7 +20,7 @@ import javax.swing.tree.TreeNode;
 
 //TODO custom editort meg kell szerkesztenem. nem is nyultam meg hozza
 
-public class TestcaseCustomEditor extends DataEditor{
+public class TestcaseCustomPageEditor extends DataEditor{
 
 	private static final long serialVersionUID = -8169618880309437186L;
 	
@@ -33,10 +34,10 @@ public class TestcaseCustomEditor extends DataEditor{
 	private JLabel labelDetails;
 	private TextAreaComponent fieldDetails;
 	private JLabel labelSpecialTreeSelector;
-	private SpecialCustomTreeSelectorComponent specialTreeSelector;	
+	private SpecialCustomTreeSelectorComponent specialCustomTreeSelector;
 
 	//Itt biztos beszuras van
-	public TestcaseCustomEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface specialDataModel ){
+	public TestcaseCustomPageEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface specialDataModel ){
 
 		super( TestcaseCustomDataModel.getModelNameToShowStatic() );
 		
@@ -51,14 +52,14 @@ public class TestcaseCustomEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( "", 5, 15);
 		
 		//ParamPageTreeSelector
-		specialTreeSelector = new SpecialCustomTreeSelectorComponent(specialDataModel);
+		specialCustomTreeSelector = new SpecialCustomTreeSelectorComponent(specialDataModel);
 		
 		common();
 		
 	}
 	
 	//Itt modositas van
-	public TestcaseCustomEditor( Tree tree, TestcaseCustomDataModel selectedNode, SpecialDataModelInterface paramDataModel, EditMode mode ){		
+	public TestcaseCustomPageEditor( Tree tree, TestcaseCustomDataModel selectedNode, SpecialDataModelInterface paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = tree;
@@ -72,7 +73,7 @@ public class TestcaseCustomEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
 		//ParamPageTreeSelector
-//		specialTreeSelector = new SpecialCustomTreeSelectorComponent( paramDataModel, selectedNode.getSpecialPage() );
+		specialCustomTreeSelector = new SpecialCustomTreeSelectorComponent( paramDataModel, selectedNode.getCustomPage() );
 				
 		common();
 	}
@@ -86,12 +87,12 @@ public class TestcaseCustomEditor extends DataEditor{
 		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
 		
 		//Param Page
-		labelSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.specialpage") + ": ");
+		labelSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.custompage") + ": ");
 		
 		
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );
-		this.add( labelSpecialTreeSelector, specialTreeSelector );
+		this.add( labelSpecialTreeSelector, specialCustomTreeSelector );
 		
 	}
 	
@@ -118,9 +119,9 @@ public class TestcaseCustomEditor extends DataEditor{
 			);
 			
 		//Ha nincs ParamPage kivalasztva
-		}else if( null == specialTreeSelector.getSelectedDataModel() ){
+		}else if( null == specialCustomTreeSelector.getSelectedDataModel() ){
 			errorList.put( 
-					specialTreeSelector,
+					specialCustomTreeSelector,
 					MessageFormat.format(
 							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
 							"'"+labelSpecialTreeSelector.getText()+"'"
@@ -162,7 +163,7 @@ public class TestcaseCustomEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.testcase.special") 
+										CommonOperations.getTranslation(TestcaseCustomDataModel.getModelNameToShowStatic() ) 
 								) 
 							);	
 							break;
@@ -182,12 +183,12 @@ public class TestcaseCustomEditor extends DataEditor{
 		}else{
 
 			//A kivalasztott Special page
-			SpecialDataModelInterface specialPage = specialTreeSelector.getSelectedDataModel();			
+			SpecialCustomDataModel specialCustomPage = specialCustomTreeSelector.getSelectedDataModel();			
 			
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcaseCustomDataModel newTestcasePage = new TestcaseCustomDataModel( fieldName.getText(), fieldDetails.getText(), specialPage );				
+				TestcaseCustomDataModel newTestcasePage = new TestcaseCustomDataModel( fieldName.getText(), fieldDetails.getText(), specialCustomPage );				
 				nodeForCapture.add( newTestcasePage );
 				
 			//Modositas eseten
@@ -196,7 +197,7 @@ public class TestcaseCustomEditor extends DataEditor{
 				//Modositja a valtozok erteket
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
-				nodeForModify.setSpecialPage(specialPage);
+				nodeForModify.setCustomPage(specialCustomPage);
 			
 			}			
 			

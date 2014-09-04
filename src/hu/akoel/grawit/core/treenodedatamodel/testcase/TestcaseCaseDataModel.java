@@ -249,9 +249,9 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 				Element testcaseElement = (Element)node;
 				
 				//Ha TESTCASEPAGE van alatta
-				if( testcaseElement.getTagName().equals( Tag.TESTCASEPAGE.getName() )){
+				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMPAGE.getName() )){
 					
-					this.add(new TestcasePageDataModel(testcaseElement, paramDataModel ));
+					this.add(new TestcaseParamPageDataModel(testcaseElement, paramDataModel ));
 				
 				}
 			}
