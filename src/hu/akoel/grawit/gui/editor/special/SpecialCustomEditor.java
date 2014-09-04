@@ -8,6 +8,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editors.component.ScriptComponent;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -21,7 +22,7 @@ public class SpecialCustomEditor extends DataEditor{
 	private static final long serialVersionUID = 157539958460178584L;
 	
 	private static final int ROWS = 10;
-	private static final int COLUMNS = 20;
+	private static final int COLUMNS = 15;
 
 	private Tree tree; 
 	private SpecialCustomDataModel nodeForModify;
@@ -32,13 +33,8 @@ public class SpecialCustomEditor extends DataEditor{
 	private TextFieldComponent fieldName;
 	
 	private JLabel labelScript;
-	private TextAreaComponent fieldScript;
-	
-	private JLabel labelCodePre;
-	private TextAreaComponent fieldCodePre;
-	private JLabel labelCodePost;
-	private TextAreaComponent fieldCodePost;
-	
+	private ScriptComponent fieldScript;
+		
 	//Itt biztos beszuras van
 	public SpecialCustomEditor( Tree tree, SpecialNodeDataModel selectedNode ){
 
@@ -51,10 +47,7 @@ public class SpecialCustomEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent( "" );
 		
-		//Script
-		fieldScript = new TextAreaComponent( "", ROWS, COLUMNS );
-		
-		common();
+		common( "" );
 		
 	}
 	
@@ -70,32 +63,21 @@ public class SpecialCustomEditor extends DataEditor{
 		//Name		
 		fieldName = new TextFieldComponent( selectedNode.getName());
 		
-		//Script
-		fieldScript = new TextAreaComponent( selectedNode.getScript(), ROWS, COLUMNS );		
-		
-		common();
+		common( selectedNode.getScript() );
 		
 	}
 	
-	private void common(){
+	private void common( String script ){
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		labelScript = new JLabel( CommonOperations.getTranslation("editor.label.special.script") + ": ");
 	
-		labelCodePre = new JLabel();
-		labelCodePost = new JLabel();
-		
-		fieldCodePre = new TextAreaComponent( SpecialCustomDataModel.getCodePre() );
-		fieldCodePre.setEnableModify(false);		
-		fieldCodePost = new TextAreaComponent( SpecialCustomDataModel.getCodePost() );
-		fieldCodePost.setEnableModify(false);
-		
+		//Script
+		fieldScript = new ScriptComponent( SpecialCustomDataModel.getCodePre(), script, SpecialCustomDataModel.getCodePost() );	
+	
 		this.add( labelName, fieldName );
-		this.add( labelCodePre, fieldCodePre );
 		this.add( labelScript, fieldScript );
-		this.add( labelCodePost, fieldCodePost );
 
 	}
-	
 	
 	@Override
 	public void save() {
@@ -116,7 +98,7 @@ public class SpecialCustomEditor extends DataEditor{
 					)
 			);
 				
-		}else if( fieldScript.getText().length() == 0 ){
+		}else if( fieldScript.getScript().length() == 0 ){
 			errorList.put( 
 					fieldScript,
 					MessageFormat.format(
@@ -180,7 +162,7 @@ public class SpecialCustomEditor extends DataEditor{
 		}else{
 			
 			//Akkor eloszor a kod szintaktikai ellenorzese kovetkezik
-			SpecialCustomDataModel customDataModel = new SpecialCustomDataModel( fieldName.getText(), fieldScript.getText() );				
+			SpecialCustomDataModel customDataModel = new SpecialCustomDataModel( fieldName.getText(), fieldScript.getScript() );				
 			
 			//Kod legyartasa
 			CompilationTask task = customDataModel.generateTheCode();
@@ -195,7 +177,7 @@ public class SpecialCustomEditor extends DataEditor{
 						MessageFormat.format( 
 								CommonOperations.getTranslation("editor.errormessage.formaterrorcustomscript") + "\n\n" + 
 								customDataModel.getDiagnostic(), 
-								fieldScript.getText(), 
+								fieldScript.getScript(), 
 								CommonOperations.getTranslation("tree.nodetype.special.custom") 
 						) 
 				);
@@ -216,7 +198,7 @@ public class SpecialCustomEditor extends DataEditor{
 				}else if( mode.equals(EditMode.MODIFY ) ){
 				
 					nodeForModify.setName( fieldName.getText() );
-					nodeForModify.setScript( fieldScript.getText() );
+					nodeForModify.setScript( fieldScript.getScript() );
 			
 				}			
 			

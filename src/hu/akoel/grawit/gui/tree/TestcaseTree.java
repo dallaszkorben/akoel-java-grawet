@@ -163,7 +163,7 @@ public class TestcaseTree extends Tree {
 			popupMenu.add ( insertNodeMenu );
 
 			//Insert Case
-			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.case") );
+			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.case") );
 			insertPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertPageMenu.addActionListener( new ActionListener() {
 			
@@ -185,7 +185,7 @@ public class TestcaseTree extends Tree {
 		if( selectedNode instanceof TestcaseCaseDataModel ){
 
 			//Insert Page
-			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.casepage") );
+			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.parampage") );
 			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertElementMenu.addActionListener( new ActionListener() {
 			
@@ -200,7 +200,7 @@ public class TestcaseTree extends Tree {
 			popupMenu.add ( insertElementMenu );
 		
 			//Insert Custom
-			JMenuItem insertSpecialMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.casecustom") );
+			JMenuItem insertSpecialMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.custompage") );
 			insertSpecialMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertSpecialMenu.addActionListener( new ActionListener() {
 			

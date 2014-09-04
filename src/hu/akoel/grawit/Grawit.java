@@ -12,7 +12,7 @@ public class Grawit {
 	private static final String title = "Grawit";
 	private static final String version = "1.0.0";
 	
-	private static int frameWidth = 700;
+	private static int frameWidth = 800;
 	private static int frameHeight = 400;
 	
 	WebDriver driver;
@@ -38,7 +38,7 @@ public class Grawit {
 		//
 		// Window
 		//		
-		GUIFrame frame = new GUIFrame( title + " " + version, frameWidth, frameHeight );
+		GUIFrame frame = new GUIFrame( title, version, frameWidth, frameHeight );
        
        
 /*		

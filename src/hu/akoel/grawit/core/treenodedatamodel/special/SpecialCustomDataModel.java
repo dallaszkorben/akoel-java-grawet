@@ -45,10 +45,10 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 	private static final String codePre = 
 			"import org.openqa.selenium.WebDriver;\n" +
 			"public class CustomClass {\n" +		
-			"	public CustomClass() {}\n" +		
-			"  	public void doAction(WebDriver driver) throws hu.akoel.grawit.exceptions.PageException{\n";
+			"   public CustomClass() {}\n" +		
+			"   public void doAction(WebDriver driver) throws hu.akoel.grawit.exceptions.PageException{\n";
 	private static final String codePost = 
-			"  	}\n" +
+			"\n   }\n" +
 			"}\n";
 	
 	private String name;
