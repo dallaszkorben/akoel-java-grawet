@@ -50,6 +50,10 @@ public class CommonOperations {
 		OPERA		
 	}
 	
+	public static Locale getLocale(){
+		return locale;
+	}
+	
 	public static void setLocal( Locale l ){
 		locale = l;
 	}
