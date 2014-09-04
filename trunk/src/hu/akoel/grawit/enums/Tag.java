@@ -19,8 +19,8 @@ public enum Tag{
 	TESTCASEROOT("testcase"),
 	TESTCASENODE("node"),
 	TESTCASECASE("case"),
-	TESTCASEPAGE("page"),
-	TESTCASECUSTOM("special"),
+	TESTCASEPARAMPAGE("param"),
+	TESTCASECUSTOMPAGE("custom"),
 	
 	SPECIALROOT("special"),
 	SPECIALNODE("node"),

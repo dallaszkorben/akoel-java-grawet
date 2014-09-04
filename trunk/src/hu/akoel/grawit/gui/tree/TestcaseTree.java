@@ -11,27 +11,22 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.special.SpecialOpenEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
+import hu.akoel.grawit.gui.editor.testcase.TestcaseCustomPageEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor;
-import hu.akoel.grawit.gui.editor.testcase.TestcaseCustomEditor;
-import hu.akoel.grawit.gui.editor.testcase.TestcasePageEditor;
+import hu.akoel.grawit.gui.editor.testcase.TestcaseParamPageEditor;
 
 public class TestcaseTree extends Tree {
 
@@ -54,6 +49,7 @@ public class TestcaseTree extends Tree {
 
 //		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/testcase-close-icon.png");
 //		ImageIcon openIcon = CommonOperations.createImageIcon("tree/testcase-open-icon.png");
+		ImageIcon customIcon = CommonOperations.createImageIcon("tree/testcase-custom-icon.png");
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-icon.png");
     	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/testcase-node-closed-icon.png");
@@ -71,8 +67,10 @@ public class TestcaseTree extends Tree {
 */   	
     	if( actualNode instanceof TestcaseCaseDataModel){
             return caseIcon;
-    	}else if( actualNode instanceof TestcasePageDataModel ){
+    	}else if( actualNode instanceof TestcaseParamPageDataModel ){
             return pageIcon;
+    	}else if( actualNode instanceof TestcaseCustomDataModel ){
+            return customIcon;            
     	}else if( actualNode instanceof TestcaseNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
@@ -103,15 +101,15 @@ public class TestcaseTree extends Tree {
 			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel, EditMode.VIEW );								
 			guiFrame.showEditorPanel( testcaseCaseEditor);				
 							
-		}else if( selectedNode instanceof TestcasePageDataModel ){
-			TestcasePageEditor testcasePageEditor = new TestcasePageEditor( this, (TestcasePageDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
+		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
+			TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( this, (TestcaseParamPageDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( testcasePageEditor);									
 			
-/*		}else if( selectedNode instanceof TestcaseSpecialDataModel ){
-			TestcaseSpecialEditor testcaseSpecialEditor = new TestcaseSpecialEditor( this, (TestcaseSpecialDataModel)selectedNode, specialRootDataModel, EditMode.VIEW );	
-			guiFrame.showEditorPanel( testcaseSpecialEditor);
-TODO ide jon a custom page									
-*/			
+		}else if( selectedNode instanceof TestcaseCustomDataModel ){
+			TestcaseCustomPageEditor testcaseCustomEditor = new TestcaseCustomPageEditor( this, (TestcaseCustomDataModel)selectedNode, specialRootDataModel, EditMode.VIEW );	
+			guiFrame.showEditorPanel( testcaseCustomEditor);
+					
+			
 		}
 		
 	}
@@ -129,16 +127,15 @@ TODO ide jon a custom page
 			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( testcaseCaseEditor);		
 				
-		}else if( selectedNode instanceof TestcasePageDataModel ){
+		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
 
-			TestcasePageEditor testcasePageEditor = new TestcasePageEditor( this, (TestcasePageDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
+			TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( this, (TestcaseParamPageDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcasePageEditor);		
 				
-/*		}else if( selectedNode instanceof TestcaseSpecialDataModel ){
-			TestcaseSpecialEditor testcaseSpecialEditor = new TestcaseSpecialEditor( this, (TestcaseSpecialDataModel)selectedNode, specialRootDataModel, EditMode.MODIFY );	
-			guiFrame.showEditorPanel( testcaseSpecialEditor);
-TODO ide jon a custom page	
-*/			
+		}else if( selectedNode instanceof TestcaseCustomDataModel ){
+			TestcaseCustomPageEditor testcaseCustomEditor = new TestcaseCustomPageEditor( this, (TestcaseCustomDataModel)selectedNode, specialRootDataModel, EditMode.MODIFY );	
+			guiFrame.showEditorPanel( testcaseCustomEditor);
+			
 		}		
 	}
 
@@ -187,7 +184,7 @@ TODO ide jon a custom page
 		//
 		if( selectedNode instanceof TestcaseCaseDataModel ){
 
-			//Insert Element
+			//Insert Page
 			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.casepage") );
 			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertElementMenu.addActionListener( new ActionListener() {
@@ -195,29 +192,31 @@ TODO ide jon a custom page
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcasePageEditor testcasePageEditor = new TestcasePageEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
+					TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
 					guiFrame.showEditorPanel( testcasePageEditor);								
 				
 				}
 			});
 			popupMenu.add ( insertElementMenu );
 		
-/*			//Insert Special Page
-			JMenuItem insertSpecialMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.special") );
+			//Insert Custom
+			JMenuItem insertSpecialMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.casecustom") );
 			insertSpecialMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertSpecialMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcaseSpecialEditor testcaseSpecialEditor = new TestcaseSpecialEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel );								
-					guiFrame.showEditorPanel( testcaseSpecialEditor);								
+					TestcaseCustomPageEditor testcaseCustomEditor = new TestcaseCustomPageEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel );
+					guiFrame.showEditorPanel( testcaseCustomEditor);								
 				
 				}
 			});
 			popupMenu.add ( insertSpecialMenu );
-TODO ide jon a custom page				
-*/		
+		
+			
+				
+
 		}
 		
 	}

@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -35,6 +34,11 @@ public class SpecialCustomEditor extends DataEditor{
 	private JLabel labelScript;
 	private TextAreaComponent fieldScript;
 	
+	private JLabel labelCodePre;
+	private TextAreaComponent fieldCodePre;
+	private JLabel labelCodePost;
+	private TextAreaComponent fieldCodePost;
+	
 	//Itt biztos beszuras van
 	public SpecialCustomEditor( Tree tree, SpecialNodeDataModel selectedNode ){
 
@@ -49,7 +53,7 @@ public class SpecialCustomEditor extends DataEditor{
 		
 		//Script
 		fieldScript = new TextAreaComponent( "", ROWS, COLUMNS );
-
+		
 		common();
 		
 	}
@@ -67,7 +71,7 @@ public class SpecialCustomEditor extends DataEditor{
 		fieldName = new TextFieldComponent( selectedNode.getName());
 		
 		//Script
-		fieldScript = new TextAreaComponent( selectedNode.getScript(), ROWS, COLUMNS );
+		fieldScript = new TextAreaComponent( selectedNode.getScript(), ROWS, COLUMNS );		
 		
 		common();
 		
@@ -76,9 +80,19 @@ public class SpecialCustomEditor extends DataEditor{
 	private void common(){
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		labelScript = new JLabel( CommonOperations.getTranslation("editor.label.special.script") + ": ");
+	
+		labelCodePre = new JLabel();
+		labelCodePost = new JLabel();
+		
+		fieldCodePre = new TextAreaComponent( SpecialCustomDataModel.getCodePre() );
+		fieldCodePre.setEnableModify(false);		
+		fieldCodePost = new TextAreaComponent( SpecialCustomDataModel.getCodePost() );
+		fieldCodePost.setEnableModify(false);
 		
 		this.add( labelName, fieldName );
+		this.add( labelCodePre, fieldCodePre );
 		this.add( labelScript, fieldScript );
+		this.add( labelCodePost, fieldCodePost );
 
 	}
 	

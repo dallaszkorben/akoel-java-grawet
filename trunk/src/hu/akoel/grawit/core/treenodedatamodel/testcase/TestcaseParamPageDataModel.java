@@ -26,11 +26,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-public class TestcasePageDataModel extends TestcaseDataModelInterface{
+public class TestcaseParamPageDataModel extends TestcaseDataModelInterface{
 
 	private static final long serialVersionUID = 5313170692938571481L;
 
-	public static final Tag TAG = Tag.TESTCASEPAGE;
+	public static final Tag TAG = Tag.TESTCASEPARAMPAGE;
 	
 	public static final String ATTR_DETAILS = "details";
 	public static final String ATTR_PARAM_PAGE_PATH = "parampagepath";
@@ -39,7 +39,7 @@ public class TestcasePageDataModel extends TestcaseDataModelInterface{
 	private String details;
 	private ParamPageDataModel paramPage;
 	
-	public TestcasePageDataModel( String name, String details, ParamPageDataModel paramPage ){
+	public TestcaseParamPageDataModel( String name, String details, ParamPageDataModel paramPage ){
 		super( );
 		this.name = name;
 		this.details = details;
@@ -52,16 +52,16 @@ public class TestcasePageDataModel extends TestcaseDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcasePageDataModel( Element element, ParamDataModelInterface paramDataModel ) throws XMLPharseException{
+	public TestcaseParamPageDataModel( Element element, ParamDataModelInterface paramDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcasePageDataModel.getRootTag(), Tag.TESTCASEPAGE, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( TestcaseParamPageDataModel.getRootTag(), Tag.TESTCASEPARAMPAGE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcasePageDataModel.getRootTag(), Tag.TESTCASEPAGE, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( TestcaseParamPageDataModel.getRootTag(), Tag.TESTCASEPARAMPAGE, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -203,7 +203,7 @@ public class TestcasePageDataModel extends TestcaseDataModelInterface{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( TestcasePageDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( TestcaseParamPageDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	

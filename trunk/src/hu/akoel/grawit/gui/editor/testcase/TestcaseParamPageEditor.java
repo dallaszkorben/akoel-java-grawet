@@ -8,7 +8,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -18,12 +18,12 @@ import hu.akoel.grawit.gui.tree.Tree;
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class TestcasePageEditor extends DataEditor{
+public class TestcaseParamPageEditor extends DataEditor{
 
 	private static final long serialVersionUID = -8169618880309437186L;
 	
 	private Tree tree;
-	private TestcasePageDataModel nodeForModify;
+	private TestcaseParamPageDataModel nodeForModify;
 	private TestcaseCaseDataModel nodeForCapture;
 	private EditMode mode;
 	
@@ -35,8 +35,8 @@ public class TestcasePageEditor extends DataEditor{
 	private ParamPageTreeSelectorComponent fieldParamPageTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcasePageEditor( Tree tree, TestcaseCaseDataModel selectedNode, ParamDataModelInterface paramDataModel ){
-		super( TestcasePageDataModel.getModelNameToShowStatic() );
+	public TestcaseParamPageEditor( Tree tree, TestcaseCaseDataModel selectedNode, ParamDataModelInterface paramDataModel ){
+		super( TestcaseParamPageDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -56,7 +56,7 @@ public class TestcasePageEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcasePageEditor( Tree testcaseTree, TestcasePageDataModel selectedNode, ParamDataModelInterface paramDataModel, EditMode mode ){		
+	public TestcaseParamPageEditor( Tree testcaseTree, TestcaseParamPageDataModel selectedNode, ParamDataModelInterface paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getModelNameToShow());
 
 		this.tree = testcaseTree;
@@ -146,10 +146,10 @@ public class TestcasePageEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Case-rol van szo
-				if( levelNode instanceof TestcasePageDataModel ){
+				if( levelNode instanceof TestcaseParamPageDataModel ){
 					
 					//Ha azonos a nev
-					if( ((TestcasePageDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((TestcaseParamPageDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -185,7 +185,7 @@ public class TestcasePageEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcasePageDataModel newTestcasePage = new TestcasePageDataModel( fieldName.getText(), fieldDetails.getText(), paramPage );				
+				TestcaseParamPageDataModel newTestcasePage = new TestcaseParamPageDataModel( fieldName.getText(), fieldDetails.getText(), paramPage );				
 				nodeForCapture.add( newTestcasePage );
 				
 			//Modositas eseten
