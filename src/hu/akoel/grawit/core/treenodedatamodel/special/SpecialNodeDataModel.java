@@ -155,7 +155,9 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 		
 		SpecialNodeDataModel cloned = (SpecialNodeDataModel)super.clone();
 	
-		cloned.children = (Vector) this.children.clone();
+		if( null != this.children ){
+			cloned.children = (Vector<?>) this.children.clone();
+		}
 		
 		return cloned;
 		

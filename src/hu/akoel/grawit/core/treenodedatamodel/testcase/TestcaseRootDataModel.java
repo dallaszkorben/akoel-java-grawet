@@ -33,30 +33,32 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
 		
-		//Ha nem pontosan 1 db basepage tag van, akkor az gaz
-		if( nList.getLength() != 1 ){
+		//Ha tobb mint  1 db basepage tag van, akkor az gaz
+		if( nList.getLength() > 1 ){
 			
 			throw new XMLExtraRootTagPharseException( TAG );
-		}
+			
+		}else if( nList.getLength() == 1 ){
 		
-		Node testcaseRootNode = nList.item(0);
-		if (testcaseRootNode.getNodeType() == Node.ELEMENT_NODE) {
+			Node testcaseRootNode = nList.item(0);
+			if (testcaseRootNode.getNodeType() == Node.ELEMENT_NODE) {
 			
-			NodeList nodeList = testcaseRootNode.getChildNodes();
-			for( int i = 0; i < nodeList.getLength(); i++ ){
+				NodeList nodeList = testcaseRootNode.getChildNodes();
+				for( int i = 0; i < nodeList.getLength(); i++ ){
 			
-				Node testcaseNode = nodeList.item( i );
+					Node testcaseNode = nodeList.item( i );
 				
-				if (testcaseNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element testcaseElement = (Element)testcaseNode;
+					if (testcaseNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element testcaseElement = (Element)testcaseNode;
 					
-					//Ha ujabb TESTCASENODE van alatta
-					if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() ) ){
-						this.add(new TestcaseNodeDataModel(testcaseElement, specialRootDataModel, paramRootDataModel ));
+						//Ha ujabb TESTCASENODE van alatta
+						if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() ) ){
+							this.add(new TestcaseNodeDataModel(testcaseElement, specialRootDataModel, paramRootDataModel ));
+						}
 					}
 				}
 			}
-		}		
+		}
 	}
 	
 	public static Tag getTagStatic(){

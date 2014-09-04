@@ -30,27 +30,28 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
 		
-		//Ha nem pontosan 1 db parampage tag van, akkor az gaz
-		if( nList.getLength() != 1 ){
-			
-			throw new XMLExtraRootTagPharseException( TAG );
-		}
-		
-		Node paramPageNode = nList.item(0);
-		if (paramPageNode.getNodeType() == Node.ELEMENT_NODE) {
-			
-			NodeList nodeList = paramPageNode.getChildNodes();
-			for( int i = 0; i < nodeList.getLength(); i++ ){
-			
-				Node paramNode = nodeList.item( i );
-				
-				if (paramNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element paramElement = (Element)paramNode;
+		//Ha tobb mint  1 db basepage tag van, akkor az gaz
+		if( nList.getLength() > 1 ){
 					
-					//Ha ujabb PARAMNODE van alatta
-					//if( paramElement.getTagName().equals( ParamNodeDataModel.getTagStatic() ) ){
-					if( paramElement.getTagName().equals( Tag.PARAMNODE.getName() ) ){						
-						this.add(new ParamNodeDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+			throw new XMLExtraRootTagPharseException( TAG );
+					
+		}else if( nList.getLength() == 1 ){
+		
+			Node paramPageNode = nList.item(0);
+			if (paramPageNode.getNodeType() == Node.ELEMENT_NODE) {
+			
+				NodeList nodeList = paramPageNode.getChildNodes();
+				for( int i = 0; i < nodeList.getLength(); i++ ){
+			
+					Node paramNode = nodeList.item( i );
+				
+					if (paramNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element paramElement = (Element)paramNode;
+					
+						//Ha ujabb PARAMNODE van alatta
+						if( paramElement.getTagName().equals( Tag.PARAMNODE.getName() ) ){						
+							this.add(new ParamNodeDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+						}
 					}
 				}
 			}

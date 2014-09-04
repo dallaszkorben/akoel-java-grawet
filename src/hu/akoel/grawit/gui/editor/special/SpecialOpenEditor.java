@@ -68,7 +68,7 @@ public class SpecialOpenEditor extends DataEditor{
 	
 	private void common(){
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelURL = new JLabel( CommonOperations.getTranslation("editor.label.url") + ": ");
+		labelURL = new JLabel( CommonOperations.getTranslation("editor.label.special.url") + ": ");
 		
 		this.add( labelName, fieldName );
 		this.add( labelURL, fieldURL );

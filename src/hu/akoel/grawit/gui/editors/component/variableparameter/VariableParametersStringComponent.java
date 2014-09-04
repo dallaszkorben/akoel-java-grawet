@@ -64,8 +64,6 @@ public class VariableParametersStringComponent extends JPanel implements Variabl
 		
 		this.setLayout( new GridBagLayout() );
 		
-//		JLabel labelString = new JLabel( CommonOperations.getTranslation("editor.label.parametertypestring.string") );
-		
 		//Mezo feltoltese
 		fieldString = new JTextField( parameterList.get(PARAMETERORDER_VALUE).toString());
 		fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );

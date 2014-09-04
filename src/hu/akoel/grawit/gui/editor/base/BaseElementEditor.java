@@ -108,8 +108,8 @@ public class BaseElementEditor extends DataEditor{
 	private void commonPre(){
 		
 		//Identifier tipus
-		buttonID = new RadioButtonComponent( CommonOperations.getTranslation("editor.label.identifiertype.id") );
-		buttonCSS = new RadioButtonComponent( CommonOperations.getTranslation("editor.label.identifiertype.css") );
+		buttonID = new RadioButtonComponent( CommonOperations.getTranslation("editor.label.base.identifiertype.id") );
+		buttonCSS = new RadioButtonComponent( CommonOperations.getTranslation("editor.label.base.identifiertype.css") );
 		ButtonGroup group = new ButtonGroup();
 		group.add(buttonID);
 		group.add(buttonCSS);
@@ -125,10 +125,10 @@ public class BaseElementEditor extends DataEditor{
 	private void commonPost(){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelFrame = new JLabel( CommonOperations.getTranslation("editor.label.frame") + ": ");
-		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.label.identifier") + ": ");
-		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.label.identifiertype") + ": ");
-		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("editor.label.variablesample") + ": " );
+		labelFrame = new JLabel( CommonOperations.getTranslation("editor.label.base.frame") + ": ");
+		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.label.base.identifier") + ": ");
+		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.label.base.identifiertype") + ": ");
+		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("editor.label.base.variablesample") + ": " );
 		
 		this.add( labelName, fieldName );
 		this.add( labelFrame, fieldFrame );

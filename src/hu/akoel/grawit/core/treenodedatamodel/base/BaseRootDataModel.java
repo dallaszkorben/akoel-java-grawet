@@ -28,27 +28,28 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
 		
-		//Ha nem pontosan 1 db basepage tag van, akkor az gaz
-		if( nList.getLength() != 1 ){
-			
-			throw new XMLExtraRootTagPharseException( TAG );
-		}
-		
-		Node basePageNode = nList.item(0);
-		if (basePageNode.getNodeType() == Node.ELEMENT_NODE) {
-			
-			NodeList nodeList = basePageNode.getChildNodes();
-			for( int i = 0; i < nodeList.getLength(); i++ ){
-			
-				Node baseNode = nodeList.item( i );
-				
-				if (baseNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element baseElement = (Element)baseNode;
+		//Ha tobb mint  1 db basepage tag van, akkor az gaz
+		if( nList.getLength() > 1 ){
 					
-					//Ha ujabb BASENODE van alatta
-					//if( baseElement.getTagName().equals( TestcaseNodeDataModel.getTagStatic().getName() ) ){
-					if( baseElement.getTagName().equals( Tag.BASENODE.getName() ) ){
-						this.add(new BaseNodeDataModel(baseElement));
+			throw new XMLExtraRootTagPharseException( TAG );
+					
+		}else if( nList.getLength() == 1 ){
+		
+			Node basePageNode = nList.item(0);
+			if (basePageNode.getNodeType() == Node.ELEMENT_NODE) {
+			
+				NodeList nodeList = basePageNode.getChildNodes();
+				for( int i = 0; i < nodeList.getLength(); i++ ){
+			
+					Node baseNode = nodeList.item( i );
+				
+					if (baseNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element baseElement = (Element)baseNode;
+					
+						//Ha ujabb BASENODE van alatta
+						if( baseElement.getTagName().equals( Tag.BASENODE.getName() ) ){
+							this.add(new BaseNodeDataModel(baseElement));
+						}
 					}
 				}
 			}
