@@ -67,6 +67,10 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 				//Ha SPECIALCLOSE van alatta
 				}else if( baseElement.getTagName().equals( Tag.SPECIALCLOSE.getName() )){
 					this.add(new SpecialCloseDataModel(baseElement));
+					
+				//Ha SPECIALCUSTOM van alatta
+				}else if( baseElement.getTagName().equals( Tag.SPECIALCUSTOM.getName() )){
+					this.add(new SpecialCustomDataModel(baseElement));
 						
 				//Ha ujabb BASENODE van alatta
 				}else if( baseElement.getTagName().equals( Tag.SPECIALNODE.getName() )){

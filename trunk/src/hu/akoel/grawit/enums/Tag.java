@@ -26,6 +26,7 @@ public enum Tag{
 	SPECIALNODE("node"),
 	SPECIALOPEN("open"),
 	SPECIALCLOSE("close"),
+	SPECIALCUSTOM("custom")
 	
 	;
 	private String name;

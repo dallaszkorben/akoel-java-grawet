@@ -11,6 +11,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
@@ -20,6 +21,7 @@ import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.special.SpecialCloseEditor;
+import hu.akoel.grawit.gui.editor.special.SpecialCustomEditor;
 import hu.akoel.grawit.gui.editor.special.SpecialNodeEditor;
 import hu.akoel.grawit.gui.editor.special.SpecialOpenEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -40,14 +42,18 @@ public class SpecialTree extends Tree{
 
 		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/special-close-icon.png");
 		ImageIcon openIcon = CommonOperations.createImageIcon("tree/special-open-icon.png");
+		ImageIcon customIcon = CommonOperations.createImageIcon("tree/special-custom-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/special-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/special-node-open-icon.png");
+    	
   
     	//Iconja a NODE-nak
     	if( actualNode instanceof SpecialOpenDataModel ){
             return openIcon;
     	}else if( actualNode instanceof SpecialCloseDataModel ){
             return closeIcon;
+    	}else if( actualNode instanceof SpecialCustomDataModel ){
+            return customIcon;
     	}else if( actualNode instanceof SpecialNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
@@ -70,6 +76,10 @@ public class SpecialTree extends Tree{
 			SpecialNodeEditor specialNodeEditor = new SpecialNodeEditor(this, (SpecialNodeDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( specialNodeEditor);								
 					
+		}else if( selectedNode instanceof SpecialCustomDataModel ){
+			SpecialCustomEditor specialCustomEditor = new SpecialCustomEditor( this, (SpecialCustomDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( specialCustomEditor);		
+			
 		}else if( selectedNode instanceof SpecialOpenDataModel ){
 			SpecialOpenEditor specialOpenEditor = new SpecialOpenEditor( this, (SpecialOpenDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( specialOpenEditor);		
@@ -88,7 +98,12 @@ public class SpecialTree extends Tree{
 							
 			SpecialNodeEditor specialNodeEditor = new SpecialNodeEditor( this, (SpecialNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( specialNodeEditor);								
-							
+					
+		}else if( selectedNode instanceof SpecialCustomDataModel ){
+
+			SpecialCustomEditor specialCustomEditor = new SpecialCustomEditor( this, (SpecialCustomDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( specialCustomEditor);	
+			
 		}else if( selectedNode instanceof SpecialOpenDataModel ){
 
 			SpecialOpenEditor specialOpenEditor = new SpecialOpenEditor( this, (SpecialOpenDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
@@ -155,7 +170,21 @@ public class SpecialTree extends Tree{
 			});
 			popupMenu.add ( insertOpenMenu );
 
-//TODO itt rakjuk be a custom page-et			
+			//Insert Custom
+			JMenuItem insertCustomMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.specialcustom") );
+			insertCustomMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertCustomMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					SpecialCustomEditor specialCloseEditor = new SpecialCustomEditor( SpecialTree.this, (SpecialNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( specialCloseEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertCustomMenu );
+			
 		}		
 		
 	}
