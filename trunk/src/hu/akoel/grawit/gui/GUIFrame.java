@@ -57,7 +57,8 @@ import org.xml.sax.SAXException;
 public class GUIFrame extends JFrame{
 	private static final long serialVersionUID = 5462215116385991087L;
 	
-	private String appNameAndVersion;
+	private String appName;
+	private String appVersion;
 	
 	private static int treePanelStartWidth = 200;
 	
@@ -93,10 +94,11 @@ public class GUIFrame extends JFrame{
 	private EditTestcaseActionListener editTestcaseActionListener;
 	private EditSpecialActionListener editSpecialActionListener;
 	
-	public GUIFrame( String appNameAndVersion, int frameWidth, int frameHeight ){
-		super( appNameAndVersion );
+	public GUIFrame( String appName, String appVersion, int frameWidth, int frameHeight ){
+		super( appName );
 		
-		this.appNameAndVersion = appNameAndVersion;
+		this.appName = appName;
+		this.appVersion = appVersion;
 		
 		//make sure the program exits when the frame closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -303,7 +305,7 @@ public class GUIFrame extends JFrame{
 		editSpecialMenuItem.setEnabled( false );
 		
 		//Ablak cimenek beallitasa
-		setTitle( appNameAndVersion );
+		setTitle( getWindowTitle() );
 		
 		baseRootDataModel.removeAllChildren();
 		paramRootDataModel.removeAllChildren();
@@ -502,12 +504,12 @@ public class GUIFrame extends JFrame{
 					// Iras
 					transformer.transform(source, result);
 */
-					//Ablak cimenek allitasa
-					setTitle( appNameAndVersion + " :: " + file.getName());
-
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
 
+					//Ablak cimenek allitasa
+					setTitle( getWindowTitle() );
+					
 					//Tajekoztatas a sikeres metesrol
 					JOptionPane.showMessageDialog( GUIFrame.this, CommonOperations.getTranslation("mesage.information.savesuccessful"));
 
@@ -607,10 +609,10 @@ public class GUIFrame extends JFrame{
 					// TESTCASE
 					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel );
 					
-					setTitle( appNameAndVersion + " :: " + file.getName());
-
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
+					
+					setTitle( getWindowTitle() );
 
 				} catch (ParserConfigurationException | SAXException | IOException e1) {
 
@@ -894,6 +896,13 @@ public class GUIFrame extends JFrame{
 			
 		}
 
+	}
+	
+	private String getWindowTitle(){
+		if( null == usedDirectory ){
+			return appName;
+		}
+		return usedDirectory.getName() + " - " + appName;
 	}
 
 }

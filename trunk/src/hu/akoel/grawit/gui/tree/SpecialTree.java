@@ -141,7 +141,7 @@ public class SpecialTree extends Tree{
 			popupMenu.add ( insertNodeMenu );
 		
 			//Insert Open
-			JMenuItem insertCloseMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.open") );
+			JMenuItem insertCloseMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.special.openpage") );
 			insertCloseMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertCloseMenu.addActionListener( new ActionListener() {
 			
@@ -156,7 +156,7 @@ public class SpecialTree extends Tree{
 			popupMenu.add ( insertCloseMenu );
 			
 			//Insert Close
-			JMenuItem insertOpenMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.close") );
+			JMenuItem insertOpenMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.special.closepage") );
 			insertOpenMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertOpenMenu.addActionListener( new ActionListener() {
 			
@@ -171,7 +171,7 @@ public class SpecialTree extends Tree{
 			popupMenu.add ( insertOpenMenu );
 
 			//Insert Custom
-			JMenuItem insertCustomMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.specialcustom") );
+			JMenuItem insertCustomMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.special.custompage") );
 			insertCustomMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertCustomMenu.addActionListener( new ActionListener() {
 			

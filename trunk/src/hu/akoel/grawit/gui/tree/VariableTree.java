@@ -112,7 +112,7 @@ public class VariableTree extends Tree{
 			popupMenu.add ( insertNodeMenu );
 
 			//Insert Element
-			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.variable") );
+			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.variable.element") );
 			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertElementMenu.addActionListener( new ActionListener() {
 			
@@ -194,7 +194,7 @@ public class VariableTree extends Tree{
 		
 		
 		//Insert Element
-		JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.variable") );
+		JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.variable.element" ) );
 		insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 		insertElementMenu.addActionListener( new ActionListener() {
 		

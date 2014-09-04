@@ -132,7 +132,7 @@ public class ParamTree extends Tree {
 			popupMenu.add ( insertNodeMenu );
 
 			//Insert Page
-			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.page") );
+			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.page") );
 			insertPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertPageMenu.addActionListener( new ActionListener() {
 			
@@ -153,7 +153,7 @@ public class ParamTree extends Tree {
 		if( selectedNode instanceof ParamPageDataModel ){
 
 			//Insert Element
-			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.element") );
+			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
 			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertElementMenu.addActionListener( new ActionListener() {
 			
