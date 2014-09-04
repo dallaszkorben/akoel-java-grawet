@@ -32,7 +32,7 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 	
 	private String name;
 	private String details;
-	private SpecialCustomDataModel customPage;
+	private SpecialDataModelInterface customPage;
 	
 	public TestcaseCustomDataModel( String name, String details, SpecialCustomDataModel customPage ){
 		super( );
@@ -47,7 +47,7 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCustomDataModel( Element element, SpecialCustomDataModel customDataModel ) throws XMLPharseException{
+	public TestcaseCustomDataModel( Element element, SpecialDataModelInterface customDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseCustomDataModel.getRootTag(), Tag.TESTCASECUSTOMPAGE, ATTR_NAME );			
@@ -102,7 +102,7 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 	    	//Ha SPECIALNODE
 	    	if( tagName.equals( SpecialNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ParamNodeDataModel.ATTR_NAME);	    		
-	    		customDataModel = (SpecialCustomDataModel) CommonOperations.getDataModelByNameInLevel( customDataModel, Tag.SPECIALNODE, attrName );
+	    		customDataModel = (SpecialDataModelInterface)CommonOperations.getDataModelByNameInLevel( customDataModel, Tag.SPECIALNODE, attrName );
 
 	    		if( null == customDataModel ){
 
@@ -112,7 +112,7 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 	    	//Ha PARAMCUSTOM
 	    	}else if( tagName.equals( SpecialCustomDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(SpecialCustomDataModel.ATTR_NAME);
-	    		customDataModel = (SpecialCustomDataModel) CommonOperations.getDataModelByNameInLevel( customDataModel, Tag.SPECIALCUSTOM, attrName );
+	    		customDataModel = (SpecialDataModelInterface)CommonOperations.getDataModelByNameInLevel( customDataModel, Tag.SPECIALCUSTOM, attrName );
 	    		
 	    		if( null == customDataModel ){
 	    			
@@ -183,7 +183,7 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 	}
 	
 	public SpecialCustomDataModel getCustomPage(){
-		return customPage;
+		return (SpecialCustomDataModel)customPage;
 	}
 	
 	@Override

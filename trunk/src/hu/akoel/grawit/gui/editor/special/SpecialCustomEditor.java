@@ -204,8 +204,7 @@ public class SpecialCustomEditor extends DataEditor{
 				this.errorAt( errorList );
 			
 			//Hibatlan minden szempontbol
-			}else{
-			
+			}else{			
 			
 				//Uj rogzites eseten
 				if( null == mode ){
