@@ -178,7 +178,7 @@ public class SpecialCustomEditor extends DataEditor{
 				errorList.put( 
 						fieldScript, 
 						MessageFormat.format( 
-								CommonOperations.getTranslation("editor.errormessage.syntaxerrorcustomscript") + "\n\n" + 
+								CommonOperations.getTranslation("editor.errormessage.formaterrorcustomscript") + "\n\n" + 
 								customDataModel.getDiagnostic(), 
 								fieldScript.getText(), 
 								CommonOperations.getTranslation("tree.nodetype.special.custom") 
