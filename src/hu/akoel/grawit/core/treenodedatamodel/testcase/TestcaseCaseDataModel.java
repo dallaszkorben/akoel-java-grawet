@@ -229,29 +229,23 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element testcaseElement = (Element)node;
 				
-				//Ha TESTCASEPAGE van alatta
+				//Ha TESTCASEPARAM van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMPAGE.getName() )){
 					
 					this.add(new TestcaseParamPageDataModel(testcaseElement, paramDataModel ));
+				
+				}
+				
+				//Ha TESTCASECUSTOM van alatta
+				if( testcaseElement.getTagName().equals( Tag.TESTCASECUSTOMPAGE.getName() )){
+					
+					this.add(new TestcaseCustomDataModel(testcaseElement, specialDataModel ));
 				
 				}
 			}
