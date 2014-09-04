@@ -1,16 +1,20 @@
 package hu.akoel.grawit.core.treenodedatamodel.special;
 
+import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.pages.ExecutablePageInterface;
+import hu.akoel.grawit.core.pages.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class SpecialOpenDataModel extends SpecialDataModelInterface{
+public class SpecialOpenDataModel extends SpecialDataModelInterface implements ExecutablePageInterface{
 
 	private static final long serialVersionUID = 4021264120677994929L;
 
@@ -20,6 +24,8 @@ public class SpecialOpenDataModel extends SpecialDataModelInterface{
 	
 	private String name;
 	private String url;
+	
+	private PageProgressInterface pageProgressInterface = null;
 
 	public SpecialOpenDataModel(String name, String url ){
 		common( name, url );	
@@ -85,6 +91,41 @@ public class SpecialOpenDataModel extends SpecialDataModelInterface{
 	public void setURL(String url) {
 		this.url = url;
 	}
+	
+	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ) {
+		this.pageProgressInterface = pageProgressInterface;		
+	}
+	
+	@Override
+	public PageProgressInterface getPageProgressInterface() {
+		return this.pageProgressInterface;
+	}
+	
+	@Override
+	public void doAction( WebDriver driver ) throws PageException {
+
+//		//Jelzi, hogy elindult az oldal feldolgozasa
+//		if( null != getPageProgressInterface() ){
+//			getPageProgressInterface().pageStarted( getName() );
+//		}	
+		
+//		try{		
+
+		//Megnyitja az oldalt
+		driver.get(url);			
+			
+		//Ha valamilyen problema tortent az oldal kezelese soran
+//		}catch(Exception e){
+			
+//			throw new PageException(this.getName(), "Unable to open page: " + url, e );
+//		}
+			
+		//Jelzi, hogy befejezodott az oldal feldolgozasa
+//		if( null != getPageProgressInterface() ){
+//			getPageProgressInterface().pageEnded( getName() );
+//		}
+	}
+	
 	
 	@Override
 	public void add(SpecialDataModelInterface node) {

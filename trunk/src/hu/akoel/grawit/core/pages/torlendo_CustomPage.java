@@ -23,7 +23,7 @@ import javax.tools.JavaCompiler.CompilationTask;
 
 import org.openqa.selenium.WebDriver;
 
-public class CustomPage implements CustomPageInterface {
+public class torlendo_CustomPage implements torlendo_CustomPageInterface {
 	private String name;
 	private String source;
 	
@@ -37,7 +37,7 @@ public class CustomPage implements CustomPageInterface {
 	private String customClassName = "CustomClass";
 	private String customMethodName = "doAction";
 	
-	public CustomPage( String name, String source ){
+	public torlendo_CustomPage( String name, String source ){
 		this.name = name;
 		this.source = source;
 	}

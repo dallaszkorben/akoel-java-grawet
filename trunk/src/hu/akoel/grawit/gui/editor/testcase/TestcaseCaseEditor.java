@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.OpenPage;
+import hu.akoel.grawit.core.pages.torlendo_OpenPage;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
@@ -14,7 +14,7 @@ import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.selector.SpecialCloseTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.selector.SpecialOpenTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.selector.SpecialTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.selector.SpecialCustomTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;

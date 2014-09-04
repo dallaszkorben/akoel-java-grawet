@@ -4,11 +4,11 @@ import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.exceptions.PageException;
 
-public class ClosePage implements ExecutablePageInterface{
+public class torlendo_ClosePage implements ExecutablePageInterface{
 	private String name;
 	private PageProgressInterface pageProgressInterface = null;
 	
-	public ClosePage( String name ){
+	public torlendo_ClosePage( String name ){
 		this.name = name;
 	}
 

@@ -1,16 +1,20 @@
 package hu.akoel.grawit.core.treenodedatamodel.special;
 
+import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.pages.ExecutablePageInterface;
+import hu.akoel.grawit.core.pages.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class SpecialCloseDataModel extends SpecialDataModelInterface{
+public class SpecialCloseDataModel extends SpecialDataModelInterface implements ExecutablePageInterface{
 
 	private static final long serialVersionUID = 8332341626236756322L;
 
@@ -18,6 +22,8 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface{
 	
 	private String name;
 
+	private PageProgressInterface pageProgressInterface = null;
+	
 	public SpecialCloseDataModel(String name ){
 		common( name );	
 	}
@@ -76,6 +82,39 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface{
 	@Override
 	public String getModelNameToShow(){
 		return getModelNameToShowStatic();
+	}
+	
+	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ){
+		this.pageProgressInterface = pageProgressInterface;
+	}
+	
+	@Override
+	public PageProgressInterface getPageProgressInterface() {
+		return this.pageProgressInterface;
+	}
+	
+	@Override
+	public void doAction(WebDriver driver) throws PageException {
+
+//		//Jelzi, hogy elindult az oldal feldolgozasa
+//		if( null != getPageProgressInterface() ){
+//			getPageProgressInterface().pageStarted( getName() );
+//		}
+		
+		driver.close();
+		
+		//Az osszes nyitott ablakot bezarja
+		driver.quit();
+		
+		//Csak az aktualis ablakot zarja be
+		//driver.close();
+		
+		driver = null;
+
+//		//Jelzi, hogy befejezodott az oldal feldolgozasa
+//		if( null != getPageProgressInterface() ){
+//			getPageProgressInterface().pageEnded( getName() );
+//		}
 	}
 	
 	@Override

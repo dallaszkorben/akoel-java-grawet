@@ -4,12 +4,12 @@ import hu.akoel.grawit.exceptions.PageException;
 
 import org.openqa.selenium.WebDriver;
 
-public class OpenPage implements ExecutablePageInterface{
+public class torlendo_OpenPage implements ExecutablePageInterface{
 	private String name;
 	private String url;
 	private PageProgressInterface pageProgressInterface = null;
 	
-	public OpenPage( String name, String url ){
+	public torlendo_OpenPage( String name, String url ){
 		this.name = name;
 		this.url = url;
 	}

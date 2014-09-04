@@ -11,7 +11,7 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.selector.SpecialTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.selector.SpecialCustomTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -33,7 +33,7 @@ public class TestcaseCustomEditor extends DataEditor{
 	private JLabel labelDetails;
 	private TextAreaComponent fieldDetails;
 	private JLabel labelSpecialTreeSelector;
-	private SpecialTreeSelectorComponent specialTreeSelector;	
+	private SpecialCustomTreeSelectorComponent specialTreeSelector;	
 
 	//Itt biztos beszuras van
 	public TestcaseCustomEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface specialDataModel ){
@@ -51,7 +51,7 @@ public class TestcaseCustomEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( "", 5, 15);
 		
 		//ParamPageTreeSelector
-		specialTreeSelector = new SpecialTreeSelectorComponent(specialDataModel);
+		specialTreeSelector = new SpecialCustomTreeSelectorComponent(specialDataModel);
 		
 		common();
 		
@@ -72,7 +72,7 @@ public class TestcaseCustomEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
 		//ParamPageTreeSelector
-		specialTreeSelector = new SpecialTreeSelectorComponent( paramDataModel, selectedNode.getSpecialPage() );
+//		specialTreeSelector = new SpecialCustomTreeSelectorComponent( paramDataModel, selectedNode.getSpecialPage() );
 				
 		common();
 	}
