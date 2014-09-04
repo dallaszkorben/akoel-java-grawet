@@ -47,7 +47,7 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 	
 	private PageProgressInterface pageProgressInterface = null;
 
-	private CompilationTask task;
+	//private CompilationTask task;
 	private JavaSourceFromString javaFile;
 	private DiagnosticCollector<JavaFileObject> diagnostics;
 	private String classOutputFolder = "";
@@ -141,10 +141,10 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 	public void doAction( WebDriver driver ) throws PageException, CompilationException {
 		
 		//Kod legyartasa
-		generateTheCode( getScript() );
+		CompilationTask task = generateTheCode();
 		
 		//Kod forditasa
-		boolean success = compileTheCode();
+		boolean success = compileTheCode( task );
 
 		//Ha sikerult a forditas
 		if( success ){
@@ -165,7 +165,11 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 		}	
 	}
 	
-	private void generateTheCode( String source ){
+	public  CompilationTask generateTheCode( ){
+		return generateTheCode( getScript() );
+	}
+	
+	private CompilationTask generateTheCode( String source ){
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		diagnostics = new DiagnosticCollector<JavaFileObject>();
 				
@@ -185,10 +189,12 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 		javaFile = new JavaSourceFromString( customClassName, writer.toString() );
 		 
 	    Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(javaFile);
-	    task = compiler.getTask(null, null, diagnostics, null, null, compilationUnits);
+	    CompilationTask task = compiler.getTask(null, null, diagnostics, null, null, compilationUnits);
+	    
+	    return task;
 	}
 	
-	private boolean compileTheCode(){
+	public boolean compileTheCode( CompilationTask task ){
 		boolean success = task.call();
 		return success;
 	}

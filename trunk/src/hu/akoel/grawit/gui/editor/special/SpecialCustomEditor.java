@@ -15,6 +15,7 @@ import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
+import javax.tools.JavaCompiler.CompilationTask;
 
 public class SpecialCustomEditor extends DataEditor{
 
@@ -132,10 +133,10 @@ public class SpecialCustomEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Close-rol van szo (Lehetne meg Node/Page/Close is) TODO 
-				if( levelNode instanceof SpecialCloseDataModel ){
+				if( levelNode instanceof SpecialCustomDataModel ){
 					
 					//Ha azonos a nev
-					if( ((SpecialCloseDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((SpecialCustomDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -164,6 +165,31 @@ public class SpecialCustomEditor extends DataEditor{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 			
+			SpecialCustomDataModel customDataModel = new SpecialCustomDataModel( fieldName.getText(), fieldScript.getText() );				
+			
+			//Kod legyartasa
+			CompilationTask task = customDataModel.generateTheCode();
+			
+			//Kod forditasa
+			boolean success = customDataModel.compileTheCode( task );
+
+			//Ha NEM sikerult a forditas
+			if( !success ){
+				errorList.put( 
+						fieldScript, 
+						MessageFormat.format( 
+								CommonOperations.getTranslation("editor.errormessage.syntaxerrorcustomscript") + "\n\n" + 
+								customDataModel.getDiagnostic(), 
+								fieldScript.getText(), 
+								CommonOperations.getTranslation("tree.nodetype.special.custom") 
+						) 
+				);
+				
+				//Hibajelzes
+				this.errorAt( errorList );
+				return;
+			}					
+			
 			//Uj rogzites eseten
 			if( null == mode ){
 			
@@ -178,6 +204,10 @@ public class SpecialCustomEditor extends DataEditor{
 				nodeForModify.setScript( fieldScript.getText() );
 			
 			}			
+			
+			//Ellenorzom, hogy jo-e a kod
+			
+			
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
 			tree.changed();
