@@ -3,11 +3,11 @@ package hu.akoel.grawit.enums;
 import hu.akoel.grawit.CommonOperations;
 
 public enum Operation{		
-	FIELD( 0, CommonOperations.getTranslation( "editor.label.operation.field") ),
-	LINK( 1, CommonOperations.getTranslation( "editor.label.operation.link") ),
-	BUTTON( 2, CommonOperations.getTranslation( "editor.label.operation.button") ),
-	RADIOBUTTON( 3, CommonOperations.getTranslation( "editor.label.operation.radiobutton") ),
-	CHECKBOX( 4, CommonOperations.getTranslation( "editor.label.operation.checkbox") );
+	FIELD( 0, CommonOperations.getTranslation( "editor.label.param.operation.field") ),
+	LINK( 1, CommonOperations.getTranslation( "editor.label.param.operation.link") ),
+	BUTTON( 2, CommonOperations.getTranslation( "editor.label.param.operation.button") ),
+	RADIOBUTTON( 3, CommonOperations.getTranslation( "editor.label.param.operation.radiobutton") ),
+	CHECKBOX( 4, CommonOperations.getTranslation( "editor.label.param.operation.checkbox") );
 	
 	private String translatedName;
 	private int index;

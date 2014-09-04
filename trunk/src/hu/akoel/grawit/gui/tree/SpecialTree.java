@@ -154,7 +154,8 @@ public class SpecialTree extends Tree{
 				}
 			});
 			popupMenu.add ( insertOpenMenu );
-			
+
+//TODO itt rakjuk be a custom page-et			
 		}		
 		
 	}

@@ -30,30 +30,32 @@ public class VariableRootDataModel extends VariableNodeDataModel{
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
 		
-		//Ha nem pontosan 1 db variableroot tag van, akkor az gaz
-		if( nList.getLength() != 1 ){
-			
+		//Ha tobb mint  1 db basepage tag van, akkor az gaz
+		if( nList.getLength() > 1 ){
+					
 			throw new XMLExtraRootTagPharseException( TAG );
-		}
+					
+		}else if( nList.getLength() == 1 ){
 		
-		Node variablePageNode = nList.item(0);
-		if (variablePageNode.getNodeType() == Node.ELEMENT_NODE) {
+			Node variablePageNode = nList.item(0);
+			if (variablePageNode.getNodeType() == Node.ELEMENT_NODE) {
 			
-			NodeList nodeList = variablePageNode.getChildNodes();
-			for( int i = 0; i < nodeList.getLength(); i++ ){
+				NodeList nodeList = variablePageNode.getChildNodes();
+				for( int i = 0; i < nodeList.getLength(); i++ ){
 			
-				Node variableNode = nodeList.item( i );
+					Node variableNode = nodeList.item( i );
 				
-				if (variableNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element variableElement = (Element)variableNode;
+					if (variableNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element variableElement = (Element)variableNode;
 					
-					//Ha ujabb PARAMNODE van alatta
-					if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() ) ){						
-						this.add(new VariableNodeDataModel( variableElement ));
+						//Ha ujabb PARAMNODE van alatta
+						if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() ) ){						
+							this.add(new VariableNodeDataModel( variableElement ));
 					
-					//Ha rogton a rootban van elhelyezve egy elem
-					}else if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() ) ){
-						this.add(new VariableElementDataModel(variableElement));
+							//Ha rogton a rootban van elhelyezve egy elem
+						}else if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() ) ){
+							this.add(new VariableElementDataModel(variableElement));
+						}
 					}
 				}
 			}

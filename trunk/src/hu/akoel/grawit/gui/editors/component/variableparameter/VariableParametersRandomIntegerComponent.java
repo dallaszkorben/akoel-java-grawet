@@ -70,7 +70,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		// From field
 		//
 		
-		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.parametertype.randominteger.from") );
+		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger.from") );
 		
 		fieldFrom = new JTextField( parameterList.get(PARAMETERORDER_FROM).toString());
 		fieldFrom.setColumns(5);
@@ -123,7 +123,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		//
 		// To field
 		//
-		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.parametertype.randominteger.to") );
+		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger.to") );
 
 		fieldTo = new JTextField( parameterList.get(PARAMETERORDER_TO).toString());
 		fieldTo.setColumns(5);

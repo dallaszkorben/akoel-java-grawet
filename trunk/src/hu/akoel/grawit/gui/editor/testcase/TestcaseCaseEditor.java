@@ -92,11 +92,15 @@ public class TestcaseCaseEditor extends DataEditor{
 		//Name
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		
-		labelOpenSpecialTreeSelector = new JLabel( "Open..." );
-		labelCloseSpecialTreeSelector = new JLabel( "Close..." );
+		//Open page
+		labelOpenSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.openpage") + ": ");
+		
+		//Close page
+		labelCloseSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.closepage") + ": ");
 
 		//Details
-		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");		
+		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
+		
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );
 		this.add( labelOpenSpecialTreeSelector, fieldOpenTreeSelector );
@@ -123,6 +127,25 @@ public class TestcaseCaseEditor extends DataEditor{
 							"'"+labelName.getText()+"'"
 					)
 			);
+		
+		}else if( null == fieldOpenTreeSelector.getSelectedDataModel() ){
+			errorList.put( 
+					fieldOpenTreeSelector,
+					MessageFormat.format(
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
+							"'"+labelOpenSpecialTreeSelector.getText()+"'"
+					)
+			);			
+			
+		}else if( null == fieldCloseTreeSelector.getSelectedDataModel() ){
+			errorList.put( 
+					fieldCloseTreeSelector,
+					MessageFormat.format(
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
+							"'"+labelCloseSpecialTreeSelector.getText()+"'"
+					)
+			);			
+			
 		}else{
 
 			TreeNode nodeForSearch = null;

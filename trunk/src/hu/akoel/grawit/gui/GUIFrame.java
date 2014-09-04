@@ -307,6 +307,9 @@ public class GUIFrame extends JFrame{
 		
 		baseRootDataModel.removeAllChildren();
 		paramRootDataModel.removeAllChildren();
+		specialRootDataModel.removeAllChildren();
+		variableRootDataModel.removeAllChildren();
+		testcaseRootDataModel.removeAllChildren();
 				
 		JTree tree = treePanel.getTree();
 		if ( null != tree ){
@@ -369,7 +372,27 @@ public class GUIFrame extends JFrame{
 		
 	}
 	
+	/**
+	 * 
+	 * New
+	 * 
+	 * @author akoel
+	 *
+	 */
+	class NewActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			makeNewTestSuit();
+		}		
+	}
 	
+	/**
+	 * 
+	 * Save 
+	 * 
+	 * @author akoel
+	 *
+	 */
 	class SaveActionListener implements ActionListener{
 
 		@Override
@@ -392,20 +415,6 @@ public class GUIFrame extends JFrame{
 					fileSaveMenuItem.setEnabled(false);
 				}	
 			}			
-		}		
-	}
-	
-	/**
-	 * 
-	 * New
-	 * 
-	 * @author akoel
-	 *
-	 */
-	class NewActionListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {			
-			makeNewTestSuit();
 		}		
 	}
 	
@@ -641,6 +650,13 @@ public class GUIFrame extends JFrame{
 		}
 	}
 	
+	/**
+	 * 
+	 * Edit Variable menu selection listener
+	 * 
+	 * @author akoel
+	 *
+	 */
 	class EditVariableActionListener implements ActionListener{
 
 		@Override
@@ -676,6 +692,12 @@ public class GUIFrame extends JFrame{
 		}		
 	}
 	
+	/**
+	 * 
+	 * Edit Param menu selection listener 
+	 * @author akoel
+	 *
+	 */
 	class EditParamActionListener implements ActionListener{
 
 		@Override
@@ -691,6 +713,13 @@ public class GUIFrame extends JFrame{
 		
 	}
 	
+	/**
+	 * 
+	 * Edit Testcase menu selection listener
+	 * 
+	 * @author akoel
+	 *
+	 */
 	class EditTestcaseActionListener implements ActionListener{
 
 		@Override
@@ -706,6 +735,13 @@ public class GUIFrame extends JFrame{
 		
 	}
 	
+	/**
+	 * 
+	 * Edit Special menu selection listener 
+	 * 
+	 * @author akoel
+	 *
+	 */
 	class EditSpecialActionListener implements ActionListener{
 
 		@Override

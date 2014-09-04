@@ -7,10 +7,10 @@ import hu.akoel.grawit.CommonOperations;
 
 public enum ParameterType {	
 	
-	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.parametertype.string"), new Class<?>[]{String.class}),
-	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),
-	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.label.parametertype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
-	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class});
+	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.variable.parametertype.string"), new Class<?>[]{String.class}),
+	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),
+	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
+	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class});
 	
 	private int index;
 	private String translatedName;

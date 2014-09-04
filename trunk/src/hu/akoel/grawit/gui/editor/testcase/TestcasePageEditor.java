@@ -84,7 +84,7 @@ public class TestcasePageEditor extends DataEditor{
 		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
 		
 		//Param Page
-		labelParamPageTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.parampage") + ": ");
+		labelParamPageTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.parampage") + ": ");
 		
 		
 		this.add( labelName, fieldName );

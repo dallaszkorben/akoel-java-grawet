@@ -204,9 +204,9 @@ public class ParamElementEditor extends DataEditor{
 	private void commonPost(){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelOperation = new JLabel( CommonOperations.getTranslation("editor.label.operation") + ": ");
-		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.baseelement") + ": " );
-		labelParameterElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.variable" ) + ": " );
+		labelOperation = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
+		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": " );
+		labelParameterElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable" ) + ": " );
 		
 		this.add( labelName, fieldName );
 		this.add( labelBaseElementSelector, fieldBaseElementSelector );

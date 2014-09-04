@@ -86,7 +86,7 @@ public class TestcaseCustomEditor extends DataEditor{
 		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
 		
 		//Param Page
-		labelSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.specialpage") + ": ");
+		labelSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.specialpage") + ": ");
 		
 		
 		this.add( labelName, fieldName );
