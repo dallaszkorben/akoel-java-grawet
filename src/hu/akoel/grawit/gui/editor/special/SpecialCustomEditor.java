@@ -162,9 +162,10 @@ public class SpecialCustomEditor extends DataEditor{
 			//Hibajelzes
 			this.errorAt( errorList );
 		
-		//Ha nem volt hiba akkor a valtozok veglegesitese
+		//Ha nem volt hiba
 		}else{
 			
+			//Akkor eloszor a kod szintaktikai ellenorzese kovetkezik
 			SpecialCustomDataModel customDataModel = new SpecialCustomDataModel( fieldName.getText(), fieldScript.getText() );				
 			
 			//Kod legyartasa
@@ -184,33 +185,31 @@ public class SpecialCustomEditor extends DataEditor{
 								CommonOperations.getTranslation("tree.nodetype.special.custom") 
 						) 
 				);
-				
+			
 				//Hibajelzes
 				this.errorAt( errorList );
-				return;
-			}					
 			
-			//Uj rogzites eseten
-			if( null == mode ){
+			//Hibatlan minden szempontbol
+			}else{
 			
-				SpecialCustomDataModel newSpecial = new SpecialCustomDataModel( fieldName.getText(), fieldScript.getText() );				
-				nodeForCapture.add( newSpecial );
-
+			
+				//Uj rogzites eseten
+				if( null == mode ){
+			
+					//SpecialCustomDataModel newSpecial = new SpecialCustomDataModel( fieldName.getText(), fieldScript.getText() );				
+					nodeForCapture.add( customDataModel );
 				
-			//Modositas eseten
-			}else if( mode.equals(EditMode.MODIFY ) ){
+					//Modositas eseten
+				}else if( mode.equals(EditMode.MODIFY ) ){
 				
-				nodeForModify.setName( fieldName.getText() );
-				nodeForModify.setScript( fieldScript.getText() );
+					nodeForModify.setName( fieldName.getText() );
+					nodeForModify.setScript( fieldScript.getText() );
 			
-			}			
+				}			
 			
-			//Ellenorzom, hogy jo-e a kod
-			
-			
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.changed();
+				//A fa-ban is modositja a nevet (ha az valtozott)
+				tree.changed();
+			}
 		}
 	}
 }
