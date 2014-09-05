@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.pages;
 
+import hu.akoel.grawit.JavaSourceFromString;
+import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 

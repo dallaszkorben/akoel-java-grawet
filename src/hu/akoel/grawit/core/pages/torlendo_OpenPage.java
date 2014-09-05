@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.pages;
 
+import hu.akoel.grawit.ExecutablePageInterface;
+import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.exceptions.PageException;
 
 import org.openqa.selenium.WebDriver;

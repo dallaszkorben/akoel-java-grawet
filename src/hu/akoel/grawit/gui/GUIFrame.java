@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
@@ -19,6 +20,7 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BaseTree;
+import hu.akoel.grawit.gui.tree.DriverTree;
 import hu.akoel.grawit.gui.tree.ParamTree;
 import hu.akoel.grawit.gui.tree.SpecialTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
@@ -63,6 +65,7 @@ public class GUIFrame extends JFrame{
 	private static int treePanelStartWidth = 200;
 	
 	//Ki/be kapcsolhato menuelemeek
+	private JMenuItem editDriverMenuItem;
 	private JMenuItem editBaseMenuItem;
 	private JMenuItem editSpecialMenuItem;
 	private JMenuItem editParamMenuItem;
@@ -79,7 +82,7 @@ public class GUIFrame extends JFrame{
 	private ParamRootDataModel paramRootDataModel = new ParamRootDataModel();	
 	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
 	private SpecialRootDataModel specialRootDataModel = new SpecialRootDataModel();
-	
+	private DriverRootDataModel driverRootDataModel = new DriverRootDataModel();	
 	
 	private File usedDirectory = null;
 	
@@ -93,6 +96,7 @@ public class GUIFrame extends JFrame{
 	private EditParamActionListener editParamActionListener;
 	private EditTestcaseActionListener editTestcaseActionListener;
 	private EditSpecialActionListener editSpecialActionListener;
+	private EditDriverActionListener editDriverActionListener;
 	
 	public GUIFrame( String appName, String appVersion, int frameWidth, int frameHeight ){
 		super( appName );
@@ -202,6 +206,14 @@ public class GUIFrame extends JFrame{
         //menu.getAccessibleContext().setAccessibleDescription("This menu does nothing");
         menuBar.add(menu);
 
+        //Edit Driver      
+        editDriverMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.driver") );
+        editDriverMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.driver") ).getKeyCode() ); //KeyEvent.VK_P);
+        editDriverActionListener = new EditDriverActionListener();
+        editDriverMenuItem.addActionListener( editDriverActionListener );
+        editDriverMenuItem.setEnabled( false );
+        menu.add(editDriverMenuItem);  
+        
         //Edit Variable Parameter      
         editVariableMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.variable") );
         editVariableMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.variable") ).getKeyCode() ); //KeyEvent.VK_P);
@@ -217,8 +229,6 @@ public class GUIFrame extends JFrame{
         editBaseMenuItem.addActionListener( editBaseActionListener );
         editBaseMenuItem.setEnabled( false );
         menu.add(editBaseMenuItem);
-
-        menu.addSeparator();
 
         //Special
         editSpecialMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.special") );
@@ -237,6 +247,8 @@ public class GUIFrame extends JFrame{
         editParamMenuItem.addActionListener( editParamActionListener );
         editParamMenuItem.setEnabled( false );
         menu.add(editParamMenuItem);
+        
+        menu.addSeparator();
         
         //Edit Test Cases
         editTestCaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.testcase") );
@@ -298,6 +310,7 @@ public class GUIFrame extends JFrame{
 	
 	private void makeNewTestSuit(){
 		//Kikapcsolom a PAGEBASE szerkesztesi menut
+		editDriverMenuItem.setEnabled( false );
 		editVariableMenuItem.setEnabled( false );
 		editParamMenuItem.setEnabled( false );
 		editBaseMenuItem.setEnabled( false );
@@ -321,6 +334,7 @@ public class GUIFrame extends JFrame{
 		editorPanel.hide();
 		
 		//Bekapcsolom a PAGEBASE szerkesztesi menut
+		editDriverMenuItem.setEnabled( true );
 		editVariableMenuItem.setEnabled( true );
 		editParamMenuItem.setEnabled( true );
 		editBaseMenuItem.setEnabled( true );
@@ -338,6 +352,10 @@ public class GUIFrame extends JFrame{
 		Element rootElement = doc.createElement("grawit");
 		doc.appendChild(rootElement);
 			
+		//DRIVER mentese
+		Element driverRootElement = driverRootDataModel.getXMLElement(doc);	
+		rootElement.appendChild( driverRootElement );
+		
 		//VARIABLE PARAMETER mentese
 		Element variableRootElement = variableRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( variableRootElement );
@@ -356,8 +374,7 @@ public class GUIFrame extends JFrame{
 				
 		//TESTCASE mentese
 		Element testcaseRootElement = testcaseRootDataModel.getXMLElement(doc);	
-		rootElement.appendChild( testcaseRootElement );
-		
+		rootElement.appendChild( testcaseRootElement );		
 		
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
@@ -542,6 +559,7 @@ public class GUIFrame extends JFrame{
 			//
 			// Menuk tiltasa
 			//
+			editDriverMenuItem.setEnabled( false );
 			
 			editVariableMenuItem.setEnabled( false );
 			
@@ -594,6 +612,9 @@ public class GUIFrame extends JFrame{
 					// Root element = "grawit"
 					// doc.getDocumentElement().getNodeName();
 
+					// DRIVERS
+					driverRootDataModel = new DriverRootDataModel(doc);
+					
 					// VARIABLEPARAMETER
 					variableRootDataModel = new VariableRootDataModel(doc);
 					
@@ -638,6 +659,8 @@ public class GUIFrame extends JFrame{
 			// Menuk engedelyezese
 			//
 			
+			editDriverMenuItem.setEnabled( true );
+			
 			editVariableMenuItem.setEnabled( true );
 			
 			//Bekapcsolom a PAGEBASE szerkesztesi menut
@@ -650,6 +673,27 @@ public class GUIFrame extends JFrame{
 			editTestCaseMenuItem.setEnabled( true );
 	
 		}
+	}
+	
+	/**
+	 * 
+	 * Edit Driver menu selection listener
+	 * 
+	 * @author afoldvarszky
+	 *
+	 */
+	class EditDriverActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+	
+			//Legyartja a JTREE-t a modell alapjan
+			DriverTree tree = new DriverTree( GUIFrame.this, driverRootDataModel );
+			
+			treePanel.hide();
+			treePanel.show( tree );
+			
+		}		
 	}
 	
 	/**

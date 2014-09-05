@@ -19,9 +19,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ExecutablePageInterface;
+import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.pages.torlendo_CustomPageInterface;
-import hu.akoel.grawit.core.pages.ExecutablePageInterface;
-import hu.akoel.grawit.core.pages.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;

@@ -28,12 +28,15 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
 		
-		//Ha tobb mint  1 db basepage tag van, akkor az gaz
-		if( nList.getLength() > 1 ){
+//		//Ha tobb mint  1 db basepage tag van, akkor az gaz
+//		if( nList.getLength() > 1 ){
 					
-			throw new XMLExtraRootTagPharseException( TAG );
+//			throw new XMLExtraRootTagPharseException( TAG );
 					
-		}else if( nList.getLength() == 1 ){
+//		}else 
+		
+		//Ha pontosan 1 db root van definialva
+		if( nList.getLength() == 1 ){
 		
 			Node basePageNode = nList.item(0);
 			if (basePageNode.getNodeType() == Node.ELEMENT_NODE) {
