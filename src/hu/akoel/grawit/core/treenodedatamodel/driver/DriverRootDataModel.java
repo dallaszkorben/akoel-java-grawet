@@ -2,8 +2,6 @@ package hu.akoel.grawit.core.treenodedatamodel.driver;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -12,7 +10,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DriverRootDataModel extends VariableNodeDataModel{
+public class DriverRootDataModel extends DriverNodeDataModel{
 
 	private static final long serialVersionUID = -7771576293637635927L;
 
@@ -45,7 +43,7 @@ public class DriverRootDataModel extends VariableNodeDataModel{
 							
 						//Ha ujabb DRIVERNODE van alatta
 						if( element.getTagName().equals( Tag.DRIVERNODE.getName() ) ){
-							this.add(new BaseNodeDataModel(element));
+							this.add(new DriverNodeDataModel(element));
 						}
 					}
 				}
