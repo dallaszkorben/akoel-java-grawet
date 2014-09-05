@@ -24,9 +24,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.ExecutablePageInterface;
-import hu.akoel.grawit.core.pages.JavaSourceFromString;
-import hu.akoel.grawit.core.pages.PageProgressInterface;
+import hu.akoel.grawit.ExecutablePageInterface;
+import hu.akoel.grawit.JavaSourceFromString;
+import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;

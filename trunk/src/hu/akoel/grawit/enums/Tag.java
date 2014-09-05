@@ -26,7 +26,12 @@ public enum Tag{
 	SPECIALNODE("node"),
 	SPECIALOPEN("open"),
 	SPECIALCLOSE("close"),
-	SPECIALCUSTOM("custom")
+	SPECIALCUSTOM("custom"),
+		
+	DRIVERROOT("driver"),
+	DRIVERNODE("node"),
+	DRIVEREXPLORER("explorer"),
+	DRIVERFIREFOX("firefox"),
 	
 	;
 	private String name;

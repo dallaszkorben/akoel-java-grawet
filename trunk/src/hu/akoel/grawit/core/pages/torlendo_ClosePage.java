@@ -2,6 +2,8 @@ package hu.akoel.grawit.core.pages;
 
 import org.openqa.selenium.WebDriver;
 
+import hu.akoel.grawit.ExecutablePageInterface;
+import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.exceptions.PageException;
 
 public class torlendo_ClosePage implements ExecutablePageInterface{

@@ -4,6 +4,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 
 	private static final long serialVersionUID = 2246129334894062585L;
 	
+	private static final Color FIELD_BACKGROUND = new Color(209,224,224);
 	private JButton button;
 	private JTextField field = new JTextField();
 	private F selectedDataModel;
@@ -65,6 +67,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 		this.setLayout(new BorderLayout());
 		
 		field.setEditable( false );
+		field.setBackground(FIELD_BACKGROUND);
 		button = new JButton("...");
 		
 		//Ha benyomom a gombot

@@ -2,6 +2,7 @@ package hu.akoel.grawit.core.pages;
 
 import org.openqa.selenium.WebDriver;
 
+import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 

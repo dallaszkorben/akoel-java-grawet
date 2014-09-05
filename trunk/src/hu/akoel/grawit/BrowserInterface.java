@@ -1,5 +1,11 @@
 package hu.akoel.grawit;
 
+import java.io.File;
+
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
 public interface BrowserInterface {
 
 	public enum BrowserType{
@@ -10,15 +16,16 @@ public interface BrowserInterface {
 	
 	public void open();
 
-	
-/*	if( name.equals("E")){
+/*	
+	if( name.equals("E")){
 		
-		file = new File("c:/Programs/webdrivers/IEDriverServer.exe");
+		File file = new File("c:/Programs/webdrivers/IEDriverServer.exe");
 		System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
 		DesiredCapabilities iecaps = DesiredCapabilities.internetExplorer();
 		iecaps.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-
-		return new InternetExplorerDriver();
+		
+		InternetExplorerDriver driver = new InternetExplorerDriver(iecaps);
+		return driver;
 		
 	}else if( name.equals("F")){
 		
@@ -46,5 +53,6 @@ public interface BrowserInterface {
 	}else{
 		return null;
 	}
-*/	
+*/
+	
 }

@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.pages;
+package hu.akoel.grawit;
 
 import java.net.URI;
 
