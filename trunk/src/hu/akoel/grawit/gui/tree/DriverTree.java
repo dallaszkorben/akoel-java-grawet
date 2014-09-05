@@ -5,25 +5,23 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.base.BaseElementEditor;
-import hu.akoel.grawit.gui.editor.base.BaseNodeEditor;
-import hu.akoel.grawit.gui.editor.base.BasePageEditor;
+import hu.akoel.grawit.gui.editor.driver.DriverExplorerEditor;
+import hu.akoel.grawit.gui.editor.driver.DriverFirefoxEditor;
+import hu.akoel.grawit.gui.editor.driver.DriverNodeEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
 public class DriverTree extends Tree{
@@ -40,9 +38,11 @@ public class DriverTree extends Tree{
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
 
-    	ImageIcon nodeIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
+    	ImageIcon nodeIcon = CommonOperations.createImageIcon("tree/driver-root-open-icon.png");
     	ImageIcon explorerIcon = CommonOperations.createImageIcon("tree/driver-explorer-icon.png");
     	ImageIcon firefoxIcon = CommonOperations.createImageIcon("tree/driver-firefox-icon.png");
+    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/driver-node-closed-icon.png");
+    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/driver-node-open-icon.png");
   
     	//Iconja a NODE-nak
     	if( actualNode instanceof DriverRootDataModel){
@@ -51,7 +51,13 @@ public class DriverTree extends Tree{
             return explorerIcon;
     	}else if( actualNode instanceof DriverFirefoxDataModel ){
     		return firefoxIcon;
-        }
+    	}else if( actualNode instanceof DriverNodeDataModel){
+    		if( expanded ){
+    			return nodeOpenIcon;
+    		}else{
+    			return nodeClosedIcon;
+    		}
+    	}
     	
     	return null;
 	}
@@ -60,21 +66,21 @@ public class DriverTree extends Tree{
 	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
 	
 		//Ha egyaltalan valamilyen egergombot benyomtam
-		if( selectedNode instanceof BaseRootDataModel ){
+		if( selectedNode instanceof DriverRootDataModel ){
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 		
-		}else if( selectedNode instanceof BaseNodeDataModel ){
-			BaseNodeEditor baseNodeEditor = new BaseNodeEditor(this, (BaseNodeDataModel)selectedNode, EditMode.VIEW);
-			guiFrame.showEditorPanel( baseNodeEditor);								
+		}else if( selectedNode instanceof DriverNodeDataModel ){
+			DriverNodeEditor driverNodeEditor = new DriverNodeEditor(this, (DriverNodeDataModel)selectedNode, EditMode.VIEW);
+			guiFrame.showEditorPanel( driverNodeEditor);								
 		
-		}else if( selectedNode instanceof BasePageDataModel ){
-			BasePageEditor basePageEditor = new BasePageEditor( this, (BasePageDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( basePageEditor);				
+		}else if( selectedNode instanceof DriverExplorerDataModel ){
+			DriverExplorerEditor driverExplorerEditor = new DriverExplorerEditor( this, (DriverExplorerDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( driverExplorerEditor);				
 						
-		}else if( selectedNode instanceof BaseElementDataModel ){
-			BaseElementEditor baseElementEditor = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( baseElementEditor);		
+		}else if( selectedNode instanceof DriverFirefoxDataModel ){
+			DriverFirefoxEditor driverFirefoxEditor = new DriverFirefoxEditor( this, (DriverFirefoxDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( driverFirefoxEditor);		
 								
 		}			
 	}
@@ -82,31 +88,31 @@ public class DriverTree extends Tree{
 	@Override
 	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
 		
-		if( selectedNode instanceof BaseNodeDataModel ){
+		if( selectedNode instanceof DriverNodeDataModel ){
 							
-			BaseNodeEditor baseNodeEditor = new BaseNodeEditor( this, (BaseNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( baseNodeEditor);								
+			DriverNodeEditor driverNodeEditor = new DriverNodeEditor( this, (DriverNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( driverNodeEditor);								
 								
-		}else if( selectedNode instanceof BasePageDataModel ){
+		}else if( selectedNode instanceof DriverExplorerDataModel ){
 								
-			BasePageEditor basePageEditor = new BasePageEditor( this, (BasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( basePageEditor);		
+			DriverExplorerEditor driverExplorerEditor = new DriverExplorerEditor( this, (DriverExplorerDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( driverExplorerEditor);		
 								
-		}else if( selectedNode instanceof BaseElementDataModel ){
+		}else if( selectedNode instanceof DriverFirefoxDataModel ){
 
-			BaseElementEditor baseElementEditor = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( baseElementEditor);		
+			DriverFirefoxEditor driverFirefoxEditor = new DriverFirefoxEditor( this, (DriverFirefoxDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( driverFirefoxEditor);		
 								
 		}	
 	}
 
 	@Override
 	public void doPopupInsert( final JPopupMenu popupMenu, final DataModelInterface selectedNode) {
-/*
+
 		//
 		// Csomopont eseten
 		//
-		if( selectedNode instanceof BaseNodeDataModel ){
+		if( selectedNode instanceof DriverNodeDataModel ){
 
 			//Insert Node
 			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
@@ -116,31 +122,45 @@ public class DriverTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					BaseNodeEditor baseNodeEditor = new BaseNodeEditor( DriverTree.this, (BaseNodeDataModel)selectedNode );								
-					guiFrame.showEditorPanel( baseNodeEditor);								
+					DriverNodeEditor driverNodeEditor = new DriverNodeEditor( DriverTree.this, (DriverNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( driverNodeEditor);								
 				
 				}
 			});
 			popupMenu.add ( insertNodeMenu );
 
-			//Insert Page
-			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.page") );
-			insertPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
-			insertPageMenu.addActionListener( new ActionListener() {
+			//Insert Explorer
+			JMenuItem insertExplorerMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.driver.explorer") );
+			insertExplorerMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertExplorerMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					BasePageEditor baseNodeEditor = new BasePageEditor( DriverTree.this, (BaseNodeDataModel)selectedNode );								
+					DriverExplorerEditor driverExplorerEditor = new DriverExplorerEditor( DriverTree.this, (DriverNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( driverExplorerEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertExplorerMenu );
+			
+			//Insert Firefox
+			JMenuItem insertFirefoxMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.driver.firefox") );
+			insertFirefoxMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertFirefoxMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					DriverFirefoxEditor baseNodeEditor = new DriverFirefoxEditor( DriverTree.this, (DriverNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
 			});
-			popupMenu.add ( insertPageMenu );
-			
+			popupMenu.add ( insertFirefoxMenu );
 		}		
 		
-		
+/*		
 		//
 		// Page eseten
 		//
@@ -169,7 +189,7 @@ public class DriverTree extends Tree{
 
 	@Override
 	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelInterface selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel ) {
-/*	
+	
 		// Torles
 		// Ha nincs alatta ujabb elem
 		//
@@ -207,7 +227,7 @@ public class DriverTree extends Tree{
 			popupMenu.add ( deleteMenu );
 			
 		}	
-*/		
+		
 	}
 
 	@Override
@@ -220,10 +240,9 @@ public class DriverTree extends Tree{
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				BaseNodeEditor baseNodeEditor = new BaseNodeEditor( DriverTree.this, (BaseNodeDataModel)selectedNode );								
-				guiFrame.showEditorPanel( baseNodeEditor);								
+					
+				DriverNodeEditor driverNodeEditor = new DriverNodeEditor( DriverTree.this, (DriverNodeDataModel)selectedNode );								
+				guiFrame.showEditorPanel( driverNodeEditor);								
 			
 			}
 		});

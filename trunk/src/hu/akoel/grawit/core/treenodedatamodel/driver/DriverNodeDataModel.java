@@ -141,9 +141,9 @@ public class DriverNodeDataModel extends DriverDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof BaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof DriverDataModelInterface ){
 				
-				Element element = ((BaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((DriverDataModelInterface)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}

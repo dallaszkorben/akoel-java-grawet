@@ -6,6 +6,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
@@ -21,14 +22,13 @@ public class DriverExplorerDataModel extends DriverDataModelInterface{
 
 	public static final String ATTR_DETAILS = "details";
 	
-	public static final String NAME = "Explorer";
-	
 	private String name;
 	private String details;
 	
-	public DriverExplorerDataModel(){
-		this.name = NAME;
-
+	public DriverExplorerDataModel( String name, String details ){
+		super( );
+		this.name = name;
+		this.details = details;
 	}
 	
 	public DriverExplorerDataModel( Element element ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
