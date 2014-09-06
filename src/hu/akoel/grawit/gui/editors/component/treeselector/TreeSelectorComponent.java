@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editors.component.selector;
+package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;

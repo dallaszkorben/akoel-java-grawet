@@ -1,30 +1,29 @@
-package hu.akoel.grawit.gui.editors.component.selector;
+package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class SpecialCustomTreeSelectorComponent extends TreeSelectorComponent<SpecialCustomDataModel>{
+public class SpecialOpenTreeSelectorComponent extends TreeSelectorComponent<SpecialOpenDataModel>{
 
 	private static final long serialVersionUID = -3698310168899684818L;
 
-	public SpecialCustomTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
-		super(SpecialCustomDataModel.class, rootDataModel);
+	public SpecialOpenTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
+		super(SpecialOpenDataModel.class, rootDataModel);
 	}
 
-	public SpecialCustomTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialCustomDataModel selectedSpecialDataModel ) {
-		super(SpecialCustomDataModel.class, rootDataModel, selectedSpecialDataModel);
+	public SpecialOpenTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialOpenDataModel selectedOpenDataModel ) {
+		super(SpecialOpenDataModel.class, rootDataModel, selectedOpenDataModel);
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( SpecialCustomDataModel selectedDataModel ) {
+	public String getSelectedDataModelToString( SpecialOpenDataModel selectedDataModel ) {
 		StringBuffer out = new StringBuffer();
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){
@@ -46,12 +45,12 @@ public class SpecialCustomTreeSelectorComponent extends TreeSelectorComponent<Sp
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
 		return true;
+		//return !( path.getLastPathComponent() instanceof SpecialDataModelInterface );
 	}
 	
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded ) {
 	
-		ImageIcon customIcon = CommonOperations.createImageIcon("tree/special-custom-icon.png");
 		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/special-close-icon.png");
 		ImageIcon openIcon = CommonOperations.createImageIcon("tree/special-open-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/special-node-closed-icon.png");
@@ -62,9 +61,7 @@ public class SpecialCustomTreeSelectorComponent extends TreeSelectorComponent<Sp
     			return openIcon;
    		}else if( actualNode instanceof SpecialCloseDataModel ){
     			return closeIcon;
-   		}else if( actualNode instanceof SpecialCustomDataModel ){
-            return customIcon;
-   		}else if( actualNode instanceof SpecialOpenDataModel ){
+    	}else if( actualNode instanceof SpecialOpenDataModel ){
             return openIcon;
     	}else if( actualNode instanceof SpecialNodeDataModel){
     		if( expanded ){

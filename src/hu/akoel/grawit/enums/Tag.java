@@ -32,6 +32,8 @@ public enum Tag{
 	DRIVERNODE("node"),
 	DRIVEREXPLORER("explorer"),
 	DRIVERFIREFOX("firefox"),
+	DRIVERFIREFOXPROPERTY("property"),
+	DRIVEREXPLORERCAPABILITY("capability"),
 	
 	;
 	private String name;

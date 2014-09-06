@@ -6,19 +6,22 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.fileselector.FileSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.TreeNode;
 
 public class DriverExplorerEditor extends DataEditor{
 
 	private static final long serialVersionUID = 5823748025740682822L;
+	
+	private static final FileNameExtensionFilter fileExtention = null;//new FileNameExtensionFilter("exe", "exe");
 	
 	private Tree tree; 
 	private DriverExplorerDataModel nodeForModify;
@@ -29,6 +32,8 @@ public class DriverExplorerEditor extends DataEditor{
 	private TextFieldComponent fieldName;
 	private JLabel labelDetails;
 	private TextAreaComponent fieldDetails;
+	private JLabel labelWebDriverPath;
+	private FileSelectorComponent fieldWebDriverPath;
 	
 	//Itt biztos beszuras van
 	public DriverExplorerEditor( Tree tree, DriverNodeDataModel selectedNode ){
@@ -44,6 +49,9 @@ public class DriverExplorerEditor extends DataEditor{
 		
 		//Details
 		fieldDetails = new TextAreaComponent( "", 5, 15);
+		
+		//Web Driver Path
+		fieldWebDriverPath = new FileSelectorComponent( fileExtention );
 
 		common();
 		
@@ -64,6 +72,9 @@ public class DriverExplorerEditor extends DataEditor{
 		//Details
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
+		//Web Driver Path
+		fieldWebDriverPath = new FileSelectorComponent( fileExtention, selectedNode.getWebDriverPath() );
+		
 		common();
 		
 	}
@@ -71,9 +82,11 @@ public class DriverExplorerEditor extends DataEditor{
 	private void common(){
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");
+		labelWebDriverPath = new JLabel( CommonOperations.getTranslation("editor.label.webdrivepath") + ": ");
 		
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );
+		this.add( labelWebDriverPath, fieldWebDriverPath );
 	}
 	
 	
@@ -96,6 +109,16 @@ public class DriverExplorerEditor extends DataEditor{
 							"'"+labelName.getText()+"'"
 					)
 			);
+		
+		}else if( null == fieldWebDriverPath.getSelectedFile() ){	
+			errorList.put( 
+					fieldWebDriverPath,
+					MessageFormat.format(
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
+							"'"+labelWebDriverPath.getText()+"'"
+					)
+			);			
+			
 		}else{
 
 			TreeNode nodeForSearch = null;
@@ -153,7 +176,7 @@ public class DriverExplorerEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				DriverExplorerDataModel newExplorerDataModel = new DriverExplorerDataModel( fieldName.getText(), fieldDetails.getText() );				
+				DriverExplorerDataModel newExplorerDataModel = new DriverExplorerDataModel( fieldName.getText(), fieldDetails.getText(), fieldWebDriverPath.getSelectedFile() );				
 				nodeForCapture.add( newExplorerDataModel );
 				
 			//Modositas eseten
@@ -161,6 +184,7 @@ public class DriverExplorerEditor extends DataEditor{
 				
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
+				nodeForModify.setWebDriverFile( fieldWebDriverPath.getSelectedFile() );
 			
 			}			
 			
