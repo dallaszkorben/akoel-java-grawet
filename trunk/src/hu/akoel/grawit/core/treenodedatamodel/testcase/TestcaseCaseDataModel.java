@@ -3,21 +3,30 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 import java.io.StringReader;
 
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.CompilationException;
+import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
+import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,18 +43,21 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	public static final String ATTR_DETAILS = "details";
 	public static final String ATTR_OPEN_PAGE_PATH = "openpagepath";
 	public static final String ATTR_CLOSE_PAGE_PATH = "closepagepath";
+	public static final String ATTR_DRIVER_PATH = "driverpath";
 	
 	private String name;
 	private String details;
 	private SpecialOpenDataModel openPage;
 	private SpecialCloseDataModel closePage;
+	private DriverBrowserDataModelInterface driver;
 	
-	public TestcaseCaseDataModel( String name, String details, SpecialOpenDataModel openPage, SpecialCloseDataModel closePage ){
+	public TestcaseCaseDataModel( String name, String details, SpecialOpenDataModel openPage, SpecialCloseDataModel closePage, DriverBrowserDataModelInterface driver ){
 		super( );
 		this.name = name;
 		this.details = details;
 		this.openPage = openPage;
 		this.closePage = closePage;
+		this.driver = driver;
 		
 	}
 	
@@ -56,7 +68,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCaseDataModel( Element element, SpecialDataModelInterface specialDataModel, ParamDataModelInterface paramDataModel ) throws XMLPharseException{
+	public TestcaseCaseDataModel( Element element, SpecialDataModelInterface specialDataModel, ParamDataModelInterface paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseCaseDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
@@ -72,6 +84,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		
 		SpecialDataModelInterface specialDataModelForOpen = (SpecialDataModelInterface)specialDataModel.clone();
 		SpecialDataModelInterface specialDataModelForClose = (SpecialDataModelInterface)specialDataModel.clone();
+		//DriverDataModelInterface driverDataModel = (DriverDataModelInterface)driverDataModel.clone();
 		
 		//
 		//closePage
@@ -105,7 +118,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	    	
 	    	//Ha SPECIALNODE
 	    	if( tagName.equals( SpecialNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamNodeDataModel.ATTR_NAME);	    		
+	    		attrName = actualElement.getAttribute(SpecialNodeDataModel.ATTR_NAME);	    		
 	    		specialDataModelForClose = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModelForClose, Tag.SPECIALNODE, attrName );
 
 	    		if( null == specialDataModelForClose ){
@@ -180,7 +193,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	    	
 	    	//Ha SPECIALNODE
 	    	if( tagName.equals( SpecialNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamNodeDataModel.ATTR_NAME);	    		
+	    		attrName = actualElement.getAttribute(SpecialNodeDataModel.ATTR_NAME);	    		
 	    		specialDataModelForOpen = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModelForOpen, Tag.SPECIALNODE, attrName );
 
 	    		if( null == specialDataModelForOpen ){
@@ -223,12 +236,80 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH), e );
 	    }
 		
+		//
+		// Driver
+		//
+		if( !element.hasAttribute( ATTR_DRIVER_PATH ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH );			
+		}	
+		String driverPathString = element.getAttribute(ATTR_DRIVER_PATH );				
+		driverPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + driverPathString;  
+		factory = DocumentBuilderFactory.newInstance();  
+	    try  
+	    {  
+	        builder = factory.newDocumentBuilder();  
+	        document = builder.parse( new InputSource( new StringReader( driverPathString ) ) );  
+	    } catch (Exception e) {  
+	    
+	    	//Nem sikerult az atalakitas
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH ), e );
+	    } 	    
+	    
+	    //Megkeresem a DRIVERROOT-ben az DRIVER-hez vezeto utat
+	    //Node 
+	    actualNode = document;
+	    while( actualNode.hasChildNodes() ){
+		
+	    	actualNode = actualNode.getFirstChild();
+	    	Element actualElement = (Element)actualNode;
+	    	String tagName = actualElement.getTagName();
+	    	String attrName = null;
+	    	
+	    	//Ha DRIVERNODE
+	    	if( tagName.equals( DriverNodeDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(DriverNodeDataModel.ATTR_NAME);	    		
+	    		driverDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( driverDataModel, Tag.DRIVERNODE, attrName );
 
-		
-		
-		
-		
-		
+	    		if( null == driverDataModel ){
+
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH ) );
+	    		}
+	    		
+	    	//Ha DRIVERFIREFOX
+	    	}else if( tagName.equals( DriverFirefoxDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(DriverFirefoxDataModel.ATTR_NAME);
+	    		driverDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( driverDataModel, Tag.DRIVERFIREFOX, attrName );
+	    		
+	    		if( null == driverDataModel ){
+	    		
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH) );
+	    		}
+	    		
+	    	//Ha DRIVERFIREFOXPROPERY
+	    	}else if( tagName.equals( DriverFirefoxPropertyDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(DriverFirefoxPropertyDataModel.ATTR_NAME);
+	    		driverDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( driverDataModel, Tag.DRIVERFIREFOXPROPERTY, attrName );
+	    		
+	    		if( null == specialDataModelForOpen ){
+	    			
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH) );
+	    		}
+	    		
+	    	//}else{
+	    		
+	    	//	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );	    		
+	    	}
+	    }	    
+	    try{
+	    	
+	    	driver = (DriverBrowserDataModelInterface)driverDataModel;
+	    	
+	    }catch(ClassCastException e){
+
+	    	//Nem sikerult az utvonalat megtalalni
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH), e );
+	    }
+				
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
@@ -249,6 +330,39 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 				
 				}
 			}
+		}
+	}
+	
+	/**
+	 * !!!!!!!!!!!!!!!!!!!!!1
+	 */
+	public void doAction(){
+		WebDriver driver = this.getDriverDataModel().getDriver();
+		
+		SpecialOpenDataModel openDataModel = this.getOpenPage();
+		
+		try {
+			openDataModel.doAction(driver);
+		
+			int childCount = this.getChildCount();
+			for( int i = 0; i < childCount; i++ ){
+			
+				TreeNode treeNode = this.getChildAt(i);
+			
+				if( treeNode instanceof TestcaseParamPageDataModel ){
+					
+					((TestcaseParamPageDataModel)treeNode).getParamPage().doAction(driver);
+					
+				}else if( treeNode instanceof TestcaseCustomDataModel ){
+					
+				}
+			}
+			
+			SpecialCloseDataModel closeDataModel = this.getClosePage();
+			//closeDataModel.doAction( driver );
+			
+		} catch (PageException | CompilationException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -292,6 +406,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		this.name = name;
 	}
 	
+	
 	public String toString(){
 		return name;
 	}
@@ -316,6 +431,10 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 
 		attr = document.createAttribute( ATTR_CLOSE_PAGE_PATH );
 		attr.setValue( closePage.getPathTag() );
+		nodeElement.setAttributeNode(attr);	
+		
+		attr = document.createAttribute( ATTR_DRIVER_PATH );
+		attr.setValue( driver.getPathTag() );
 		nodeElement.setAttributeNode(attr);	
 	
 		int childrens = this.getChildCount();
@@ -350,4 +469,11 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		return closePage;
 	}
 
+	public void setDriverDataModel( DriverBrowserDataModelInterface driver ){
+		this.driver = driver;
+	}
+	
+	public DriverBrowserDataModelInterface getDriverDataModel(){
+		return driver;
+	}
 }

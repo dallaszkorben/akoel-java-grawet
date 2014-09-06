@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.driver;
 
 import java.io.File;
+import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
@@ -20,7 +21,7 @@ import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
 
-public class DriverExplorerDataModel extends DriverDataModelInterface{
+public class DriverExplorerDataModel extends DriverBrowserDataModelInterface{
 
 	private static final long serialVersionUID = 598870035128239461L;
 	
@@ -184,4 +185,16 @@ public class DriverExplorerDataModel extends DriverDataModelInterface{
 		return new InternetExplorerDriver(capabilities);
 	}
 
+	@Override
+	public Object clone(){
+		
+		DriverExplorerDataModel cloned = (DriverExplorerDataModel)super.clone();
+	
+		if( null != this.children ){
+			cloned.children = (Vector<?>) this.children.clone();
+		}
+		
+		return cloned;
+		
+	}
 }

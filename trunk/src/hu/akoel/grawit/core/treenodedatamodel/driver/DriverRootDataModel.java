@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.driver;
 
+import java.util.Vector;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
@@ -88,4 +90,16 @@ public class DriverRootDataModel extends DriverNodeDataModel{
 		return paramPageElement;		
 	}
 	
+	@Override
+	public Object clone(){
+		
+		DriverRootDataModel cloned = (DriverRootDataModel)super.clone();
+	
+		if( null != this.children ){
+			cloned.children = (Vector<?>) this.children.clone();
+		}
+		
+		return cloned;
+		
+	}
 }
