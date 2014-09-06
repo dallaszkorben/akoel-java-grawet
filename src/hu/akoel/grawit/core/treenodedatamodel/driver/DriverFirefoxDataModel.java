@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.driver;
 
+import java.util.Vector;
+
 import javax.swing.tree.MutableTreeNode;
 
 import org.openqa.selenium.WebDriver;
@@ -18,7 +20,7 @@ import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
 
-public class DriverFirefoxDataModel extends DriverDataModelInterface{
+public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface{
 
 	private static final long serialVersionUID = 598870035128239461L;
 	
@@ -155,4 +157,17 @@ public class DriverFirefoxDataModel extends DriverDataModelInterface{
 		return new FirefoxDriver(profile);
 	}
 
+	@Override
+	public Object clone(){
+		
+		DriverFirefoxDataModel cloned = (DriverFirefoxDataModel)super.clone();
+	
+		if( null != this.children ){
+			cloned.children = (Vector<?>) this.children.clone();
+		}
+		
+		return cloned;
+		
+	}
+	
 }

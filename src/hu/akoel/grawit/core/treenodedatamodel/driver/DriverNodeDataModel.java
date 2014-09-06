@@ -1,10 +1,13 @@
 package hu.akoel.grawit.core.treenodedatamodel.driver;
 
+import java.util.Vector;
+
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -153,8 +156,15 @@ public class DriverNodeDataModel extends DriverDataModelInterface{
 	}
 
 	@Override
-	public WebDriver getDriver() {
-		return null;
+	public Object clone(){
+		
+		DriverNodeDataModel cloned = (DriverNodeDataModel)super.clone();
+	
+		if( null != this.children ){
+			cloned.children = (Vector<?>) this.children.clone();
+		}
+		
+		return cloned;
+		
 	}
-
 }

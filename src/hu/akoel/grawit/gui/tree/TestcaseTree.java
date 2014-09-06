@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
@@ -32,15 +33,20 @@ public class TestcaseTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;
+	
+	private TestcaseRootDataModel testcaseRootDataModel;
 	private ParamRootDataModel paramRootDataModel;
 	private SpecialRootDataModel specialRootDataModel;
+	private DriverRootDataModel driverRootDataModel;
 	
-	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, TestcaseRootDataModel rootDataModel ) {
-		super(guiFrame, rootDataModel);
+	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
+		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
+		this.testcaseRootDataModel = testcaseRootDataModel;
 		this.specialRootDataModel = specialRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
+		this.driverRootDataModel = driverRootDataModel;
 		
 	}
 
@@ -98,7 +104,7 @@ public class TestcaseTree extends Tree {
 			guiFrame.showEditorPanel( testcaseNodeEditor);								
 		
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
-			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel, EditMode.VIEW );								
+			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel, driverRootDataModel, EditMode.VIEW );								
 			guiFrame.showEditorPanel( testcaseCaseEditor);				
 							
 		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
@@ -124,7 +130,7 @@ public class TestcaseTree extends Tree {
 				
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
 			
-			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel, EditMode.MODIFY );							                                            
+			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel, driverRootDataModel, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( testcaseCaseEditor);		
 				
 		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
@@ -170,7 +176,7 @@ public class TestcaseTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode, specialRootDataModel );								
+					TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode, specialRootDataModel, driverRootDataModel );								
 					guiFrame.showEditorPanel( testcaseCaseEditor);								
 				
 				}
@@ -214,6 +220,22 @@ public class TestcaseTree extends Tree {
 			});
 			popupMenu.add ( insertSpecialMenu );
 		
+			
+			
+			
+//Insert Run
+JMenuItem insertRun = new JMenuItem("Run"); //JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.custompage") );
+insertRun.setActionCommand( ActionCommand.CAPTURE.name());
+insertRun.addActionListener( new ActionListener() {
+			
+	@Override
+	public void actionPerformed(ActionEvent e) {
+				
+		((TestcaseCaseDataModel)selectedNode).doAction();
+				
+	}
+});
+popupMenu.add ( insertRun );
 			
 				
 

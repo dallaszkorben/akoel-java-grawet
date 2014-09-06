@@ -1,7 +1,5 @@
 package hu.akoel.grawit.core.treenodedatamodel;
 
-import org.openqa.selenium.WebDriver;
-
 import hu.akoel.grawit.enums.Tag;
 
 public abstract class DriverDataModelInterface extends DataModelInterface{
@@ -13,7 +11,5 @@ public abstract class DriverDataModelInterface extends DataModelInterface{
 	public static Tag getRootTag(){
 		return Tag.DRIVERROOT;
 	}
-	
-	public abstract WebDriver getDriver();
 
 }

@@ -5,15 +5,15 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.pages.torlendo_OpenPage;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.DriverTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.SpecialCloseTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.SpecialCustomTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.SpecialOpenTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -37,9 +37,11 @@ public class TestcaseCaseEditor extends DataEditor{
 	private SpecialOpenTreeSelectorComponent fieldOpenTreeSelector;
 	private JLabel labelCloseSpecialTreeSelector;
 	private SpecialCloseTreeSelectorComponent fieldCloseTreeSelector;	
+	private JLabel labelDriverTreeSelector;
+	private DriverTreeSelectorComponent fieldDriverTreeSelector;
 
 	//Itt biztos beszuras van
-	public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode, SpecialDataModelInterface specialDataModel ){
+	public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode, SpecialDataModelInterface specialDataModel, DriverDataModelInterface driverDataModel ){
 		
 		super( TestcaseCaseDataModel.getModelNameToShowStatic() );
 		
@@ -58,13 +60,16 @@ public class TestcaseCaseEditor extends DataEditor{
 		
 		//SpecialCloseTreeSelector
 		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent(specialDataModel);
-				
+			
+		//DriverTreeSelector
+		fieldDriverTreeSelector = new DriverTreeSelectorComponent(driverDataModel);
+		
 		common();
 		
 	}
 	
 	//Itt modositas van
-	public TestcaseCaseEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface paramDataModel, EditMode mode ){		
+	public TestcaseCaseEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface specialDataModel, DriverDataModelInterface driverDataModel, EditMode mode ){		
 		
 		super( mode, selectedNode.getModelNameToShow());
 
@@ -79,10 +84,13 @@ public class TestcaseCaseEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 //TODO lehetne-e inkabb a selectedNode-bol kivenni a masodik parametert?
 		//SpecialOpenTreeSelector
-		fieldOpenTreeSelector = new SpecialOpenTreeSelectorComponent( paramDataModel, selectedNode.getOpenPage() );
+		fieldOpenTreeSelector = new SpecialOpenTreeSelectorComponent( specialDataModel, selectedNode.getOpenPage() );
 		
 		//SpecialOpenTreeSelector
-		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent( paramDataModel, selectedNode.getClosePage() );
+		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent( specialDataModel, selectedNode.getClosePage() );
+				
+		//DriverTreeSelector
+		fieldDriverTreeSelector = new DriverTreeSelectorComponent( driverDataModel, selectedNode.getDriverDataModel() );
 				
 		common();
 	}
@@ -98,6 +106,9 @@ public class TestcaseCaseEditor extends DataEditor{
 		//Close page
 		labelCloseSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.closepage") + ": ");
 
+		//WebDriver
+		labelDriverTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.driver") + ": ");
+		
 		//Details
 		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
 		
@@ -105,6 +116,7 @@ public class TestcaseCaseEditor extends DataEditor{
 		this.add( labelDetails, fieldDetails );
 		this.add( labelOpenSpecialTreeSelector, fieldOpenTreeSelector );
 		this.add( labelCloseSpecialTreeSelector, fieldCloseTreeSelector );
+		this.add( labelDriverTreeSelector, fieldDriverTreeSelector );
 		
 	}
 	
@@ -145,6 +157,15 @@ public class TestcaseCaseEditor extends DataEditor{
 							"'"+labelCloseSpecialTreeSelector.getText()+"'"
 					)
 			);			
+			
+		}else if( null == fieldDriverTreeSelector.getSelectedDataModel() ){
+			errorList.put( 
+					fieldDriverTreeSelector,
+					MessageFormat.format(
+							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
+							"'"+labelDriverTreeSelector.getText()+"'"
+					)
+			);	
 			
 		}else{
 
@@ -206,7 +227,7 @@ public class TestcaseCaseEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcaseCaseDataModel newTestcaseCase = new TestcaseCaseDataModel( fieldName.getText(), fieldDetails.getText(), fieldOpenTreeSelector.getSelectedDataModel(), fieldCloseTreeSelector.getSelectedDataModel() );				
+				TestcaseCaseDataModel newTestcaseCase = new TestcaseCaseDataModel( fieldName.getText(), fieldDetails.getText(), fieldOpenTreeSelector.getSelectedDataModel(), fieldCloseTreeSelector.getSelectedDataModel(), fieldDriverTreeSelector.getSelectedDataModel() );				
 				nodeForCapture.add( newTestcaseCase );
 				
 			//Modositas eseten
@@ -217,6 +238,7 @@ public class TestcaseCaseEditor extends DataEditor{
 				nodeForModify.setDetails( fieldDetails.getText() );
 				nodeForModify.setSpecialOpenDataModel( fieldOpenTreeSelector.getSelectedDataModel() );
 				nodeForModify.setSpecialCloseDataModel( fieldCloseTreeSelector.getSelectedDataModel() );
+				nodeForModify.setDriverDataModel( fieldDriverTreeSelector.getSelectedDataModel() );
 			
 			}			
 			

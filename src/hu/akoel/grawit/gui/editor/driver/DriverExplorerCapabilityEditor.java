@@ -59,7 +59,7 @@ public class DriverExplorerCapabilityEditor extends DataEditor{
 		this.mode = mode;
 		
 		//Key		
-		fieldKey = new TextFieldComponent( selectedNode.getKey() );
+		fieldKey = new TextFieldComponent( selectedNode.getName() );
 			
 		//Value
 		fieldValue = new TextFieldComponent( selectedNode.getValue() );
@@ -159,7 +159,7 @@ public class DriverExplorerCapabilityEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
-				nodeForModify.setKey( fieldKey.getText() );
+				nodeForModify.setName( fieldKey.getText() );
 				nodeForModify.setValue( fieldValue.getText() );
 			
 			}			

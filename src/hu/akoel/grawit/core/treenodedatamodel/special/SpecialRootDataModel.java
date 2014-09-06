@@ -1,8 +1,11 @@
 package hu.akoel.grawit.core.treenodedatamodel.special;
 
+import java.util.Vector;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLExtraRootTagPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -98,4 +101,16 @@ public class SpecialRootDataModel extends SpecialNodeDataModel{
 		return specialElement;		
 	}
 	
+	@Override
+	public Object clone(){
+		
+		SpecialRootDataModel cloned = (SpecialRootDataModel)super.clone();
+	
+		if( null != this.children ){
+			cloned.children = (Vector<?>) this.children.clone();
+		}
+		
+		return cloned;
+		
+	}
 }

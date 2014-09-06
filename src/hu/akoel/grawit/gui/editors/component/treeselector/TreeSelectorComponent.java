@@ -32,17 +32,17 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	private JButton button;
 	private JTextField field = new JTextField();
 	private F selectedDataModel;
-	private Class<F> classF;
+	private Class<F> classForSelect;
 	
 	/**
 	 * Uj rogzites
 	 * 
 	 * @param rootDataModel
 	 */
-	public TreeSelectorComponent( Class<F> classF, DataModelInterface rootDataModel ){
+	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel ){
 		super();
 	
-		common( classF, rootDataModel, null );		
+		common( classForSelect, rootDataModel, null );		
 	}
 	
 	/**
@@ -51,18 +51,18 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	 * @param rootDataModel
 	 * @param selectedDataModel
 	 */
-	public TreeSelectorComponent( Class<F> classF, DataModelInterface rootDataModel, F selectedDataModel ){
+	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel, F selectedDataModel ){
 		super();
 	
-		common( classF, rootDataModel, selectedDataModel );
+		common( classForSelect, rootDataModel, selectedDataModel );
 
 		setSelectedDataModelToField( selectedDataModel );
 		
 	}
 	
-	private void common( Class<F> classF, final DataModelInterface rootDataModel, final F selectedDataModel ){	
+	private void common( Class<F> classForSelect, final DataModelInterface rootDataModel, final F selectedDataModel ){	
 		
-		this.classF = classF;
+		this.classForSelect = classForSelect;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -258,7 +258,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 							DataModelInterface selectedNode = (DataModelInterface)TreeForSelect.this.getLastSelectedPathComponent();
 
 							//Ha megfelelo tipusu elemet valasztottam
-							if( classF.isInstance( selectedNode )){							
+							if( classForSelect.isInstance( selectedNode )){							
 							
 								//A kivalasztott NODE			
 								TreeSelectorComponent.this.setSelectedDataModelToField( ((F)selectedNode) );

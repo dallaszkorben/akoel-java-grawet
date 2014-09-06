@@ -628,7 +628,7 @@ public class GUIFrame extends JFrame{
 					paramRootDataModel = new ParamRootDataModel(doc, variableRootDataModel, baseRootDataModel );
 						
 					// TESTCASE
-					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel );
+					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel, driverRootDataModel );
 					
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
@@ -772,7 +772,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, specialRootDataModel, paramRootDataModel, testcaseRootDataModel );
+			TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, specialRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

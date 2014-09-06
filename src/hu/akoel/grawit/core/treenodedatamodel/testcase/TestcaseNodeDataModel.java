@@ -5,6 +5,7 @@ import javax.swing.tree.MutableTreeNode;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -42,7 +43,7 @@ public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseNodeDataModel( Element element, SpecialRootDataModel specialRootDataModel, ParamRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public TestcaseNodeDataModel( Element element, SpecialRootDataModel specialRootDataModel, ParamRootDataModel baseRootDataModel, DriverRootDataModel driverRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseNodeDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
@@ -64,11 +65,11 @@ public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
 				
 				//Ha TESTCASECASE van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASECASE.getName() )){
-					this.add(new TestcaseCaseDataModel(testcaseElement, specialRootDataModel, baseRootDataModel));
+					this.add(new TestcaseCaseDataModel(testcaseElement, specialRootDataModel, baseRootDataModel, driverRootDataModel ));
 				
 				//Ha ujabb TESTCASENODE van alatta
 				}else if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() )){
-					this.add(new TestcaseNodeDataModel(testcaseElement, specialRootDataModel, baseRootDataModel));
+					this.add(new TestcaseNodeDataModel(testcaseElement, specialRootDataModel, baseRootDataModel, driverRootDataModel ));
 				}
 			}
 		}

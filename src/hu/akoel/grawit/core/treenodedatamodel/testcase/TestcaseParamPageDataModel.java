@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 import java.io.StringReader;
 
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -12,10 +13,14 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.CompilationException;
+import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
+import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -61,15 +66,7 @@ public class TestcaseParamPageDataModel extends TestcaseDataModelInterface{
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		
 		if( !element.hasAttribute( ATTR_PARAM_PAGE_PATH ) ){
@@ -214,5 +211,5 @@ public class TestcaseParamPageDataModel extends TestcaseDataModelInterface{
 			
 		return nodeElement;		
 	}
-
+	
 }
