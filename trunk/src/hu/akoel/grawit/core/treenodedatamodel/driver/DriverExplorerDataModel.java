@@ -1,11 +1,17 @@
 package hu.akoel.grawit.core.treenodedatamodel.driver;
 
+import java.io.File;
+
+import javax.swing.tree.MutableTreeNode;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
@@ -21,19 +27,22 @@ public class DriverExplorerDataModel extends DriverDataModelInterface{
 	public static Tag TAG = Tag.DRIVEREXPLORER;
 
 	public static final String ATTR_DETAILS = "details";
+	public static final String ATTR_WEBDRIVERPATH = "webdriverpath";
 	
 	private String name;
 	private String details;
+	private File webDriverPath;
 	
-	public DriverExplorerDataModel( String name, String details ){
+	public DriverExplorerDataModel( String name, String details, File webDriverPath ){
 		super( );
 		this.name = name;
 		this.details = details;
+		this.webDriverPath = webDriverPath;
 	}
 	
 	public DriverExplorerDataModel( Element element ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
 		
-		//tag
+		//Tag
 		if( !element.getTagName().equals( TAG.getName() ) ){
 			Element parentElement = (Element)element.getParentNode();
 			throw new XMLMissingTagPharseException( getRootTag().getName(), parentElement.getTagName(), parentElement.getAttribute( ATTR_NAME ), TAG.getName() );
@@ -47,10 +56,32 @@ public class DriverExplorerDataModel extends DriverDataModelInterface{
 		
 		//Details
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVERNODE, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVEREXPLORER, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		this.details = element.getAttribute( ATTR_DETAILS );	
 		
+		//WebDriver file
+		if( !element.hasAttribute( ATTR_WEBDRIVERPATH ) ){
+			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVEREXPLORER, ATTR_NAME, getName(), ATTR_WEBDRIVERPATH );			
+		}
+				
+		String stringFile = element.getAttribute( ATTR_WEBDRIVERPATH );		
+		this.webDriverPath = new File( stringFile );
+		
+		NodeList nodelist = element.getChildNodes();
+		for( int i = 0; i < nodelist.getLength(); i++ ){
+			Node node = nodelist.item( i );
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element driverElement = (Element)node;
+				
+				//Ha DRIVEREXPLORERPCAPABILITY van alatta
+				if( driverElement.getTagName().equals( Tag.DRIVEREXPLORERCAPABILITY.getName() )){
+
+					this.add(new DriverExplorerCapabilityDataModel(driverElement));
+
+				}
+			}
+		}
 	}
 	
 	public static String getModelNameToShowStatic(){
@@ -88,6 +119,14 @@ public class DriverExplorerDataModel extends DriverDataModelInterface{
 		this.details = details;
 	}
 	
+	public File getWebDriverPath(){
+		return this.webDriverPath;
+	}
+	
+	public void setWebDriverFile( File webDriverFile ){
+		this.webDriverPath = webDriverFile;
+	}
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
@@ -95,23 +134,42 @@ public class DriverExplorerDataModel extends DriverDataModelInterface{
 		//
 		//Node element
 		//
-		Element elementElement = document.createElement( TAG.getName() );
+		Element elementExplorer = document.createElement( TAG.getName() );
 		
 		//Name
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
-		elementElement.setAttributeNode(attr);	
+		elementExplorer.setAttributeNode(attr);	
 		
 		//Details
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
-		elementElement.setAttributeNode(attr);	
+		elementExplorer.setAttributeNode(attr);	
+		
+		//Webdriver path
+		attr = document.createAttribute( ATTR_WEBDRIVERPATH );
+		attr.setValue( getWebDriverPath().getAbsolutePath() );
+		elementExplorer.setAttributeNode(attr);	
+		
+		int childrens = this.getChildCount();
+		for( int i = 0; i < childrens; i++ ){
+			
+			Object object = this.getChildAt( i );
+			
+			if( !object.equals(this) && object instanceof DriverDataModelInterface ){
 				
-		return elementElement;	
+				Element elementCapability = ((DriverDataModelInterface)object).getXMLElement( document );
+				elementExplorer.appendChild( elementCapability );		    		
+		    	
+			}
+		}
+		
+		return elementExplorer;	
 	}
 
 	@Override
 	public void add( DriverDataModelInterface node ) {
+		super.add( (MutableTreeNode)node );
 	}
 
 	@Override

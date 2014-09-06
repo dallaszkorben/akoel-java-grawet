@@ -11,16 +11,20 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
+import hu.akoel.grawit.gui.editor.driver.DriverExplorerCapabilityEditor;
 import hu.akoel.grawit.gui.editor.driver.DriverExplorerEditor;
 import hu.akoel.grawit.gui.editor.driver.DriverFirefoxEditor;
+import hu.akoel.grawit.gui.editor.driver.DriverFirefoxPropertyEditor;
 import hu.akoel.grawit.gui.editor.driver.DriverNodeEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
@@ -37,20 +41,27 @@ public class DriverTree extends Tree{
 
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
-
+		
     	ImageIcon nodeIcon = CommonOperations.createImageIcon("tree/driver-root-open-icon.png");
     	ImageIcon explorerIcon = CommonOperations.createImageIcon("tree/driver-explorer-icon.png");
+    	ImageIcon explorerCapabilityIcon = CommonOperations.createImageIcon("tree/driver-explorer-capability-icon.png");
     	ImageIcon firefoxIcon = CommonOperations.createImageIcon("tree/driver-firefox-icon.png");
+    	ImageIcon firefoxPropertyIcon = CommonOperations.createImageIcon("tree/driver-firefox-property-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/driver-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/driver-node-open-icon.png");
   
     	//Iconja a NODE-nak
     	if( actualNode instanceof DriverRootDataModel){
             return nodeIcon;
+    	}else if( actualNode instanceof DriverFirefoxPropertyDataModel ){
+    		return firefoxPropertyIcon;
+    	}else if( actualNode instanceof DriverExplorerCapabilityDataModel ){
+    		return explorerCapabilityIcon;            
     	}else if( actualNode instanceof DriverExplorerDataModel ){
             return explorerIcon;
     	}else if( actualNode instanceof DriverFirefoxDataModel ){
     		return firefoxIcon;
+    	
     	}else if( actualNode instanceof DriverNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
@@ -62,6 +73,9 @@ public class DriverTree extends Tree{
     	return null;
 	}
 
+	/**
+	 * VIEW
+	 */
 	@Override
 	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
 	
@@ -81,10 +95,21 @@ public class DriverTree extends Tree{
 		}else if( selectedNode instanceof DriverFirefoxDataModel ){
 			DriverFirefoxEditor driverFirefoxEditor = new DriverFirefoxEditor( this, (DriverFirefoxDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( driverFirefoxEditor);		
-								
+			
+		}else if( selectedNode instanceof DriverFirefoxPropertyDataModel ){
+			DriverFirefoxPropertyEditor driverFirefoxPropertyEditor = new DriverFirefoxPropertyEditor( this, (DriverFirefoxPropertyDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( driverFirefoxPropertyEditor);		
+
+		}else if( selectedNode instanceof DriverExplorerCapabilityDataModel ){
+			DriverExplorerCapabilityEditor driverExplorerCapabilityEditor = new DriverExplorerCapabilityEditor( this, (DriverExplorerCapabilityDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( driverExplorerCapabilityEditor);		
+
 		}			
 	}
 
+	/**
+	 * MODIFY
+	 */
 	@Override
 	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
 		
@@ -102,6 +127,14 @@ public class DriverTree extends Tree{
 
 			DriverFirefoxEditor driverFirefoxEditor = new DriverFirefoxEditor( this, (DriverFirefoxDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( driverFirefoxEditor);		
+
+		}else if( selectedNode instanceof DriverFirefoxPropertyDataModel ){
+			DriverFirefoxPropertyEditor driverFirefoxPropertyEditor = new DriverFirefoxPropertyEditor( this, (DriverFirefoxPropertyDataModel)selectedNode, EditMode.MODIFY );								
+			guiFrame.showEditorPanel( driverFirefoxPropertyEditor);		
+
+		}else if( selectedNode instanceof DriverExplorerCapabilityDataModel ){
+			DriverExplorerCapabilityEditor driverExplorerCapabilityEditor = new DriverExplorerCapabilityEditor( this, (DriverExplorerCapabilityDataModel)selectedNode, EditMode.MODIFY );								
+			guiFrame.showEditorPanel( driverExplorerCapabilityEditor);		
 								
 		}	
 	}
@@ -160,30 +193,49 @@ public class DriverTree extends Tree{
 			popupMenu.add ( insertFirefoxMenu );
 		}		
 		
-/*		
 		//
-		// Page eseten
-		//
-		
-		if( selectedNode instanceof BasePageDataModel ){
+		// Firefox eseten
+		//		
+		if( selectedNode instanceof DriverFirefoxDataModel ){
 
-			//Insert Element
-			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.element") );
+			//Insert Property
+			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.driver.firefox.property") );
 			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertElementMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					BaseElementEditor baseNodeEditor = new BaseElementEditor( DriverTree.this, (BasePageDataModel)selectedNode );								
-					guiFrame.showEditorPanel( baseNodeEditor);								
+					DriverFirefoxPropertyEditor driverFirefoxPropertyEditor = new DriverFirefoxPropertyEditor( DriverTree.this, (DriverFirefoxDataModel)selectedNode );								
+					guiFrame.showEditorPanel( driverFirefoxPropertyEditor);								
 				
 				}
 			});
 			popupMenu.add ( insertElementMenu );
 		
 		}
-*/	
+		
+		//
+		// Explorer eseten
+		//		
+		if( selectedNode instanceof DriverExplorerDataModel ){
+
+			//Insert Capability
+			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.driver.explorer.capability") );
+			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertElementMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					DriverExplorerCapabilityEditor driverExplorerCapabilityEditor = new DriverExplorerCapabilityEditor( DriverTree.this, (DriverExplorerDataModel)selectedNode );								
+					guiFrame.showEditorPanel( driverExplorerCapabilityEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertElementMenu );
+		
+		}
 		
 	}
 

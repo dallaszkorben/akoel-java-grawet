@@ -1,11 +1,16 @@
 package hu.akoel.grawit.core.treenodedatamodel.driver;
 
+import javax.swing.tree.MutableTreeNode;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
@@ -50,6 +55,20 @@ public class DriverFirefoxDataModel extends DriverDataModelInterface{
 		}		
 		this.details = element.getAttribute( ATTR_DETAILS );		
 
+		NodeList nodelist = element.getChildNodes();
+		for( int i = 0; i < nodelist.getLength(); i++ ){
+			Node node = nodelist.item( i );
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element driverElement = (Element)node;
+				
+				//Ha DRIVERFIREFOXPROPERTY van alatta
+				if( driverElement.getTagName().equals( Tag.DRIVERFIREFOXPROPERTY.getName() )){
+
+					this.add(new DriverFirefoxPropertyDataModel(driverElement));
+
+				}
+			}
+		}
 	}
 	
 	public static String getModelNameToShowStatic(){
@@ -94,23 +113,37 @@ public class DriverFirefoxDataModel extends DriverDataModelInterface{
 		//
 		//Node element
 		//
-		Element elementElement = document.createElement( TAG.getName() );
+		Element elementFirefox = document.createElement( TAG.getName() );
 		
 		//Name
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
-		elementElement.setAttributeNode(attr);	
+		elementFirefox.setAttributeNode(attr);	
 		
 		//Details
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
-		elementElement.setAttributeNode(attr);	
+		elementFirefox.setAttributeNode(attr);	
 		
-		return elementElement;	
+		int childrens = this.getChildCount();
+		for( int i = 0; i < childrens; i++ ){
+			
+			Object object = this.getChildAt( i );
+			
+			if( !object.equals(this) && object instanceof DriverDataModelInterface ){
+				
+				Element elementProperty = ((DriverDataModelInterface)object).getXMLElement( document );
+				elementFirefox.appendChild( elementProperty );		    		
+		    	
+			}
+		}
+		
+		return elementFirefox;	
 	}
 
 	@Override
 	public void add( DriverDataModelInterface node ) {
+		super.add( (MutableTreeNode)node );
 	}
 
 	@Override

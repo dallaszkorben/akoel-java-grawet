@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editors.component.selector;
+package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
@@ -10,20 +10,20 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class SpecialOpenTreeSelectorComponent extends TreeSelectorComponent<SpecialOpenDataModel>{
+public class SpecialCloseTreeSelectorComponent extends TreeSelectorComponent<SpecialCloseDataModel>{
 
 	private static final long serialVersionUID = -3698310168899684818L;
 
-	public SpecialOpenTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
-		super(SpecialOpenDataModel.class, rootDataModel);
+	public SpecialCloseTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
+		super(SpecialCloseDataModel.class, rootDataModel);
 	}
 
-	public SpecialOpenTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialOpenDataModel selectedOpenDataModel ) {
-		super(SpecialOpenDataModel.class, rootDataModel, selectedOpenDataModel);
+	public SpecialCloseTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialCloseDataModel selectedCloseDataModel ) {
+		super(SpecialCloseDataModel.class, rootDataModel, selectedCloseDataModel);
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( SpecialOpenDataModel selectedDataModel ) {
+	public String getSelectedDataModelToString( SpecialCloseDataModel selectedDataModel ) {
 		StringBuffer out = new StringBuffer();
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){

@@ -12,9 +12,9 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.selector.SpecialCloseTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.selector.SpecialOpenTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.selector.SpecialCustomTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.SpecialCloseTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.SpecialCustomTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.SpecialOpenTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
