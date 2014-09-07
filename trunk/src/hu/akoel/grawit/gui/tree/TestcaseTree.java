@@ -230,11 +230,12 @@ insertRun.addActionListener( new ActionListener() {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-//		SwingUtilities.invokeLater(new Runnable() {
-//		    public void run() {
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
 		    	((TestcaseCaseDataModel)selectedNode).doAction();     
-//		    }
-//		});		
+		    }
+		});
+		System.err.println("tovabbment");
 	}
 });
 popupMenu.add ( insertRun );
