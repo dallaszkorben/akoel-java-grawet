@@ -7,22 +7,21 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 public class KeyValuePairComponent extends JPanel implements EditorComponentInterface{
 
 	private static final long serialVersionUID = -6108131072338954554L;
 
-	private JComboBox<KeyValuePairValueTypeInterface<?>> fieldValueType;
-	private JComponent fieldValue;
+	private JComboBox<KeyValuePairValueTypeInterface> fieldValueType;
 	private JTextField fieldKey;
 	
 	private JPanel valueContainer;
@@ -32,7 +31,7 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 	}
 	
 	public Object getValue(){
-		return ((KeyValuePairValueTypeInterface<?>)valueContainer.getComponent(0)).getValue();
+		return ((KeyValuePairValueTypeInterface)valueContainer.getComponent(0)).getValue();
 	}
 	
 	/**
@@ -42,7 +41,7 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 	public KeyValuePairComponent( ){
 		super();
 
-		common( "ez.a.key", Boolean.FALSE );
+		common( "", "" );
 		
 	}
 	
@@ -77,7 +76,7 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 		fieldKey = new JTextField( key );
 		
 		//Value Type feltoltese
-		fieldValueType = new JComboBox<KeyValuePairValueTypeInterface<?>>();
+		fieldValueType = new JComboBox<KeyValuePairValueTypeInterface>();
 		
 		fieldValueType.addItemListener( new ItemListener() {
 			
@@ -90,10 +89,10 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
 					if( fieldValueType.getItemAt(index).equals( stringElement ) ){
-						setValueContainer( stringElement.getComponent() );
+						setValueContainer( stringElement );
 						
 					}else if( fieldValueType.getItemAt(index).equals( booleanElement ) ){
-						setValueContainer( booleanElement.getComponent() );
+						setValueContainer( booleanElement );
 						
 					}		
 				}				
@@ -112,6 +111,8 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 			fieldValueType.setSelectedItem( stringElement );
 		}
 		
+		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
+		fieldValueType.setRenderer(new MyRenderer());
 		
 		//fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );
 		/*fieldString.setInputVerifier(new InputVerifier() {
@@ -156,7 +157,7 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.3;
+		c.weightx = 0.2;
 		c.anchor = GridBagConstraints.WEST;
 		this.add( valueContainer, c );
 		
@@ -166,7 +167,7 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.2;
+		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
 		this.add( fieldValueType, c );
 
@@ -175,8 +176,13 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 	@Override
 	public void setEnableModify(boolean enable) {
 		fieldKey.setEditable( enable );		
-//		fieldValue.setEditable( enable );
-		fieldKey.setEditable( enable );
+		
+		fieldValueType.setEnabled( enable );
+		fieldValueType.setEditable( false );		
+		
+		stringElement.setEnableModify(enable);
+		booleanElement.setEnableModify(enable);
+
 	}
 
 	@Override
@@ -189,6 +195,19 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 		this.valueContainer.add( component, BorderLayout.CENTER );
 		this.revalidate();
 		this.repaint();
+	}
+	
+	class MyRenderer extends BasicComboBoxRenderer {
+
+		private static final long serialVersionUID = -4562181616721578685L;
+
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
+
+			Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+			return c;
+		}
 	}
 
 }

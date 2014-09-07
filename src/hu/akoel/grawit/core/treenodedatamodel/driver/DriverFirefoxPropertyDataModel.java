@@ -44,17 +44,24 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 		this.key = element.getAttribute( ATTR_NAME );		
 		
 		//Type
-/*		if( !element.hasAttribute( ATTR_TYPE ) ){
+		if( !element.hasAttribute( ATTR_TYPE ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_TYPE );			
 		}
-		this.key = element.getAttribute( ATTR_TYPE );		
-*/		
+		String stringType = element.getAttribute( ATTR_TYPE );
+		
 		//Value
 		if( !element.hasAttribute( ATTR_VALUE ) ){
 			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVERFIREFOXPROPERTY, ATTR_NAME, getName(), ATTR_VALUE );			
 		}		
-		this.value = element.getAttribute( ATTR_VALUE );		
-
+		String stringValue = element.getAttribute( ATTR_VALUE );	
+		//String
+		if( stringType.equals( String.class.getSimpleName() ) ){
+			this.value = stringValue;
+		//Boolean
+		}else if( stringType.equals( Boolean.class.getSimpleName() ) ){
+			this.value = new Boolean( stringValue );
+		}
+		
 	}
 	
 	public static String getModelNameToShowStatic(){
