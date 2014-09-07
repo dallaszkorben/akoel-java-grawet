@@ -101,6 +101,8 @@ public class GUIFrame extends JFrame{
 	public GUIFrame( String appName, String appVersion, int frameWidth, int frameHeight ){
 		super( appName );
 		
+		this.setAlwaysOnTop(true);
+		
 		this.appName = appName;
 		this.appVersion = appVersion;
 		
