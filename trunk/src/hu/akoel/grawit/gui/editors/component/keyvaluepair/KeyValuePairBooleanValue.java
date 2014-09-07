@@ -1,107 +1,104 @@
 package hu.akoel.grawit.gui.editors.component.keyvaluepair;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairComponent.MyRenderer;
+
+import java.awt.Component;
 
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-public class KeyValuePairBooleanValue implements KeyValuePairValueTypeInterface<Boolean>{
-	
+public class KeyValuePairBooleanValue extends JComboBox<Content> implements KeyValuePairValueTypeInterface{ //<Boolean>{
+
+	private static final long serialVersionUID = -3161681018641274455L;
+
 	private static final String NAME = "Boolean";
 	
-	private JComboBox<Content> field;
-	
-	private enum Content{
-		
-		TRUE( 0, true, "True" ),
-		FALSE( 1, false, "False" ),
-		;
-		
-		private int index;
-		private Boolean value;
-		private String label;
-		
-		private Content( int index, Boolean value, String label ){
-			this.index = index;
-			this.value = value;
-			this.label = label;
-		}
-		
-		public Boolean getValue(){
-			return value;
-		}
-		
-		public String toString(){
-			return label;
-		}
-		
-		public int getIndex(){
-			return index;
-		}
-		
-		public static Content getContentByIndex( int index ){
-			switch (index){
-			case 0:	return TRUE;
-			case 1: return FALSE;
-			default: return FALSE;
-			}
-		}
-	}
-	
-	
 	public KeyValuePairBooleanValue( ){
-		this.field = new JComboBox<>();		
+		super();
 		
-/*		field.addItemListener( new ItemListener() {
-			
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-
-				int index = field.getSelectedIndex();					
-
-				//Ha megvaltoztattam a tipust
-				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
-					
-					Content content = Content.getContentByIndex(index);
-					setValue( content.getValue() );
-					KeyValuePairBooleanValue.this.parent.setValueContainer( field );
+		setRenderer(new MyRenderer());
 		
-				}				
-			}
-		});	
-*/		
-		field.addItem( Content.TRUE );
-		field.addItem( Content.FALSE );
-		
-		
+		addItem( Content.TRUE );
+		addItem( Content.FALSE );
+				
 	}
 	
+	@Override
 	public String toString(){
 		return NAME;
 	}
 	
 	@Override
-	public JComponent getComponent() {
-		return field;
-	}
-
-	@Override
-	public void setValue(Boolean value) {
+	public void setValue(Object value) {
 		
-		if( value ){
-			field.setSelectedItem( Content.TRUE );
+		if( value instanceof Boolean && (Boolean)value ){
+			setSelectedItem( Content.TRUE );
 		}else{
-			field.setSelectedItem( Content.FALSE );
+			setSelectedItem( Content.FALSE );
 		}
 		
 	}
 
 	@Override
-	public Boolean getValue() {
-		return ((Content)field.getSelectedItem()).getValue();
+	public Object getValue() {
+		return ((Content)getSelectedItem()).getValue();
 	}
 
+	@Override
+	public void setEnableModify(boolean enable) {
+		this.setEnabled( enable );
+		this.setEditable( false );		
+		
+	}
+	
+	class MyRenderer extends BasicComboBoxRenderer {
 
+		private static final long serialVersionUID = -4562181616721578685L;
 
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
+
+			Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+			return c;
+		}
+	}
+}
+
+enum Content{
+	
+	TRUE( 0, true, "True" ),
+	FALSE( 1, false, "False" ),
+	;
+	
+	private int index;
+	private Boolean value;
+	private String label;
+	
+	private Content( int index, Boolean value, String label ){
+		this.index = index;
+		this.value = value;
+		this.label = label;
+	}
+	
+	public Boolean getValue(){
+		return value;
+	}
+	
+	public String toString(){
+		return label;
+	}
+	
+	public int getIndex(){
+		return index;
+	}
+	
+	public static Content getContentByIndex( int index ){
+		switch (index){
+		case 0:	return TRUE;
+		case 1: return FALSE;
+		default: return FALSE;
+		}
+	}
 }
