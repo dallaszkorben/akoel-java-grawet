@@ -1,8 +1,5 @@
 package hu.akoel.grawit.core.treenodedatamodel.driver;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,13 +17,13 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 
 	public static Tag TAG = Tag.DRIVERFIREFOXPROPERTY;
 	
-//	public static final String ATTR_KEY = "key";
 	public static final String ATTR_VALUE = "value";
+	public static final String ATTR_TYPE = "type";
 	
 	private String key;
-	private String value;
+	private Object value;
 	
-	public DriverFirefoxPropertyDataModel( String name, String value ){
+	public DriverFirefoxPropertyDataModel( String name, Object value ){
 		super( );
 		this.key = name;
 		this.value = value;
@@ -34,7 +31,7 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 	
 	public DriverFirefoxPropertyDataModel( Element element ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
 		
-		//tag
+		//Tag
 		if( !element.getTagName().equals( TAG.getName() ) ){
 			Element parentElement = (Element)element.getParentNode();
 			throw new XMLMissingTagPharseException( getRootTag().getName(), parentElement.getTagName(), parentElement.getAttribute( ATTR_NAME ), TAG.getName() );
@@ -46,6 +43,12 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 		}
 		this.key = element.getAttribute( ATTR_NAME );		
 		
+		//Type
+/*		if( !element.hasAttribute( ATTR_TYPE ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_TYPE );			
+		}
+		this.key = element.getAttribute( ATTR_TYPE );		
+*/		
 		//Value
 		if( !element.hasAttribute( ATTR_VALUE ) ){
 			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVERFIREFOXPROPERTY, ATTR_NAME, getName(), ATTR_VALUE );			
@@ -90,11 +93,11 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 		this.key = key;
 	}
 */
-	public String getValue(){
+	public Object getValue(){
 		return value;
 	}
 	
-	public void setValue( String value ){
+	public void setValue( Object value ){
 		this.value = value;
 	}
 
@@ -114,8 +117,13 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 		
 		//Value
 		attr = document.createAttribute( ATTR_VALUE );
-		attr.setValue( getValue() );
+		attr.setValue( getValue().toString() );
 		elementElement.setAttributeNode(attr);	
+		
+		//Type
+		attr = document.createAttribute( ATTR_TYPE );
+		attr.setValue( getValue().getClass().getSimpleName() );
+		elementElement.setAttributeNode(attr);						
 		
 		return elementElement;	
 	}
