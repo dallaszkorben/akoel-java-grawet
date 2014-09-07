@@ -21,13 +21,13 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
-import hu.akoel.grawit.core.pages.torlendo_CustomPageInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -238,10 +238,10 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 //		}
 
 		//Ha implementalta a Custom Page Interface-t, akkor a forraskodot kell vegrehajtania
-		if( this instanceof torlendo_CustomPageInterface ){
+		if( this instanceof SpecialCustomDataModel ){
 			
 			//Megszerzi a forraskodot
-			String script = ((torlendo_CustomPageInterface)this).getSurce();
+			String script = ((SpecialCustomDataModel)this).getSurce();
 			
 			//TODO megcsinalni a futasidoben a forditast es futtatast			
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
