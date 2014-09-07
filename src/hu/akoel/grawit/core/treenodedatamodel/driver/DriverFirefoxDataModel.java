@@ -20,7 +20,7 @@ import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
 
-public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface{
+public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<DriverFirefoxPropertyDataModel>{
 
 	private static final long serialVersionUID = 598870035128239461L;
 	
@@ -144,7 +144,8 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface{
 	}
 
 	@Override
-	public void add( DriverDataModelInterface node ) {
+//	public void add( DriverDataModelInterface node ) {
+	public void add( DriverFirefoxPropertyDataModel node ) {	
 		super.add( (MutableTreeNode)node );
 	}
 
@@ -152,6 +153,19 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface{
 	public WebDriver getDriver() {
 		FirefoxProfile profile = new FirefoxProfile();
 
+		int childCount = getChildCount();
+		for( int index = 0; index < childCount; index++ ){
+			String key = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getName();
+			Object value = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getValue();
+			if( value instanceof String ){
+				profile.setPreference(key, (String)value );
+			}else if( value instanceof Boolean ){
+				profile.setPreference(key, (Boolean)value );
+			}else if( value instanceof Integer ){
+				profile.setPreference(key, (Integer)value );
+			}
+		}		
+		
 //TODO ide jonnek a profilok		
 		
 		return new FirefoxDriver(profile);

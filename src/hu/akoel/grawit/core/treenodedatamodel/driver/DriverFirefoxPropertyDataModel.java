@@ -19,14 +19,17 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 	
 	public static final String ATTR_VALUE = "value";
 	public static final String ATTR_TYPE = "type";
+	public static final String ATTR_DETAILS = "details";
 	
 	private String key;
 	private Object value;
+	private String details;
 	
-	public DriverFirefoxPropertyDataModel( String name, Object value ){
+	public DriverFirefoxPropertyDataModel( String name, Object value, String details ){
 		super( );
 		this.key = name;
 		this.value = value;
+		this.details = details;
 	}
 	
 	public DriverFirefoxPropertyDataModel( Element element ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
@@ -60,7 +63,16 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 		//Boolean
 		}else if( stringType.equals( Boolean.class.getSimpleName() ) ){
 			this.value = new Boolean( stringValue );
+		//Integer
+		}else if( stringType.equals( Integer.class.getSimpleName() ) ){
+			this.value = new Integer( stringValue );
 		}
+		
+		//Details
+		if( !element.hasAttribute( ATTR_DETAILS ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_DETAILS );			
+		}
+		this.details = element.getAttribute( ATTR_DETAILS );
 		
 	}
 	
@@ -91,15 +103,14 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 		this.key = name;
 	}
 	
-/*
-	public String getKey(){
-		return key;
+	public void setDetails( String details ){
+		this.details = details;
 	}
 	
-	public void setKey( String key ){
-		this.key = key;
+	public String getDetails(){
+		return this.details;
 	}
-*/
+	
 	public Object getValue(){
 		return value;
 	}
@@ -130,7 +141,12 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelInterface{
 		//Type
 		attr = document.createAttribute( ATTR_TYPE );
 		attr.setValue( getValue().getClass().getSimpleName() );
-		elementElement.setAttributeNode(attr);						
+		elementElement.setAttributeNode(attr);			
+		
+		//Details
+		attr = document.createAttribute( ATTR_DETAILS );
+		attr.setValue( getDetails() );
+		elementElement.setAttributeNode(attr);			
 		
 		return elementElement;	
 	}

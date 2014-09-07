@@ -21,7 +21,7 @@ import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
 
-public class DriverExplorerDataModel extends DriverBrowserDataModelInterface{
+public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<DriverExplorerCapabilityDataModel>{
 
 	private static final long serialVersionUID = 598870035128239461L;
 	
@@ -129,6 +129,11 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface{
 	}
 	
 	@Override
+	public void add(DriverExplorerCapabilityDataModel node) {
+		super.add( (MutableTreeNode)node );
+	}
+	
+	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
 		
@@ -168,19 +173,20 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface{
 		return elementExplorer;	
 	}
 
-	@Override
-	public void add( DriverDataModelInterface node ) {
-		super.add( (MutableTreeNode)node );
-	}
+
 
 	@Override
 	public WebDriver getDriver() {
 		
 		DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
-		
-//TODO ide jonnek a capabilities-ek		
-//		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 
+		int childCount = getChildCount();
+		for( int index = 0; index < childCount; index++ ){
+			String key = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getName();
+			Object value = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getValue();
+			capabilities.setCapability(key, value);
+		}		
 		
 		return new InternetExplorerDriver(capabilities);
 	}
@@ -197,4 +203,5 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface{
 		return cloned;
 		
 	}
+
 }

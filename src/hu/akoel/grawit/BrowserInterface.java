@@ -1,11 +1,5 @@
 package hu.akoel.grawit;
 
-import java.io.File;
-
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-
 public interface BrowserInterface {
 
 	public enum BrowserType{
