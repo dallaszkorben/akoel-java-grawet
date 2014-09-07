@@ -9,6 +9,7 @@ import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -23,10 +24,13 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 	private DriverFirefoxDataModel nodeForCapture;
 	private EditMode mode;
 	
-	private JLabel labelKey;
+/*	private JLabel labelKey;
 	private TextFieldComponent fieldKey;
 	private JLabel labelValue;
 	private TextFieldComponent fieldValue;
+*/
+	
+	private KeyValuePairComponent fieldKeyValuePair;
 	
 	//Itt biztos beszuras van
 	public DriverFirefoxPropertyEditor( Tree tree, DriverFirefoxDataModel selectedNode ){
@@ -37,11 +41,7 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 		this.nodeForCapture = selectedNode;
 		this.mode = null;
 		
-		//Value
-		fieldKey = new TextFieldComponent( "" );
-		
-		//Value
-		fieldValue = new TextFieldComponent( "" );
+		fieldKeyValuePair = new KeyValuePairComponent();
 
 		common();
 		
@@ -56,22 +56,16 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
-		//Key		
-		fieldKey = new TextFieldComponent( selectedNode.getName() );
-			
-		//Value
-		fieldValue = new TextFieldComponent( selectedNode.getValue() );
+		fieldKeyValuePair = new KeyValuePairComponent( selectedNode.getName(), selectedNode.getValue() );
 		
 		common();
 		
 	}
 	
 	private void common(){
-		labelKey = new JLabel( CommonOperations.getTranslation("editor.label.key") + ": ");
-		labelValue = new JLabel( CommonOperations.getTranslation("editor.label.value") + ": ");
+		JLabel label = new JLabel( "");
 		
-		this.add( labelKey, fieldKey );
-		this.add( labelValue, fieldValue );
+		this.add( label, fieldKeyValuePair );
 	}
 	
 	
@@ -79,22 +73,22 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 	public void save() {
 		
 		//Ertekek trimmelese
-		fieldKey.setText( fieldKey.getText().trim() );
-		fieldValue.setText( fieldValue.getText().trim() );
+//		fieldKey.setText( fieldKey.getText().trim() );
+//		fieldValue.setText( fieldValue.getText().trim() );
 		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
 		//
 		LinkedHashMap<Component, String> errorList = new LinkedHashMap<Component, String>();		
-		if( fieldKey.getText().length() == 0 ){
-			errorList.put( 
+		if( false ){//fieldKey.getText().length() == 0 ){
+/*			errorList.put( 
 					fieldKey,
 					MessageFormat.format(
 							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
 							"'"+labelKey.getText()+"'"
 					)
 			);
-		}else{
+*/		}else{
 
 			TreeNode nodeForSearch = null;
 
@@ -111,7 +105,7 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 			}
 			
 			//Megnezi, hogy van-e masik azonos nevu key
-			int childrenCount = nodeForSearch.getChildCount();
+/*			int childrenCount = nodeForSearch.getChildCount();
 			for( int i = 0; i < childrenCount; i++ ){
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
@@ -137,6 +131,7 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 					}
 				}
 			}
+*/			
 		}
 		
 		//Volt hiba
@@ -151,14 +146,14 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				DriverFirefoxPropertyDataModel newFirefoxPropertyDataModel = new DriverFirefoxPropertyDataModel( fieldKey.getText(), fieldValue.getText() );				
+				DriverFirefoxPropertyDataModel newFirefoxPropertyDataModel = new DriverFirefoxPropertyDataModel( fieldKeyValuePair.getKey(), fieldKeyValuePair.getValue() );				
 				nodeForCapture.add( newFirefoxPropertyDataModel );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
-				nodeForModify.setName( fieldKey.getText() );
-				nodeForModify.setValue( fieldValue.getText() );
+				nodeForModify.setName( fieldKeyValuePair.getKey() );
+				nodeForModify.setValue( fieldKeyValuePair.getValue() );
 			
 			}			
 			
