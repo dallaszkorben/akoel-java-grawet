@@ -1,5 +1,6 @@
 package hu.akoel.grawit.gui.editors.component.keyvaluepair;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
 
 import java.awt.BorderLayout;
@@ -12,6 +13,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -24,10 +26,21 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 	private JComboBox<KeyValuePairValueTypeInterface> fieldValueType;
 	private JTextField fieldKey;
 	
+	private JLabel labelKey;
+	private JLabel labelValue;	
+	private JLabel labelValueType;
 	private JPanel valueContainer;
 
 	public String getKey(){
-		return fieldKey.getText();
+		return fieldKey.getText().trim();
+	}
+	
+	public String getLabelKeyText(){
+		return labelKey.getText();
+	}
+	
+	public String getLabelValueText(){
+		return labelValue.getText();
 	}
 	
 	public Object getValue(){
@@ -61,8 +74,13 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 	
 	KeyValuePairStringValue stringElement;
 	KeyValuePairBooleanValue booleanElement;
+	KeyValuePairIntegerValue integerElement;
 		
 	private void common( String key, Object value ){
+		
+		labelKey = new JLabel( CommonOperations.getTranslation("editor.label.key"));
+		labelValue = new JLabel( CommonOperations.getTranslation("editor.label.value"));
+		labelValueType = new JLabel( CommonOperations.getTranslation("editor.label.valuetype"));
 		
 		valueContainer = new JPanel();
 		valueContainer.setLayout( new BorderLayout() );
@@ -71,6 +89,7 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 			
 		stringElement = new KeyValuePairStringValue( );
 		booleanElement = new KeyValuePairBooleanValue( );
+		integerElement = new KeyValuePairIntegerValue( );
 		
 		//Key feltoltese
 		fieldKey = new JTextField( key );
@@ -94,14 +113,18 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 					}else if( fieldValueType.getItemAt(index).equals( booleanElement ) ){
 						setValueContainer( booleanElement );
 						
+					}else if( fieldValueType.getItemAt(index).equals( integerElement ) ){
+						setValueContainer( integerElement );
+						
 					}		
 				}				
 			}
 		});	
 		fieldValueType.addItem( stringElement );
-		fieldValueType.addItem( booleanElement );	
+		fieldValueType.addItem( booleanElement );
+		fieldValueType.addItem( integerElement );
 		
-		//Kegyszeritem, hogy a kovetkezo setSelectedItem() hatasara vegrehajtsa a az itemStateChanged() metodust
+		//Kenyszeritem, hogy a kovetkezo setSelectedItem() hatasara vegrehajtsa a az itemStateChanged() metodust
 		fieldValueType.setSelectedIndex(-1);
 		if( value instanceof Boolean ){
 			booleanElement.setValue((Boolean)value);
@@ -109,6 +132,9 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 		}else if( value instanceof String ){
 			stringElement.setValue((String)value);
 			fieldValueType.setSelectedItem( stringElement );
+		}else if( value instanceof Integer ){
+			integerElement.setValue((Integer)value);
+			fieldValueType.setSelectedItem( integerElement );
 		}
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
@@ -137,11 +163,12 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 			}
 		});*/
 		
-		int gridY = 0;
+		int gridY = 1;
 		int gridX = 0;
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);
-		
+
+		//Key
 		c.gridy = gridY;
 		c.gridx = gridX;
 		c.gridwidth = 1;
@@ -151,6 +178,11 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 		c.anchor = GridBagConstraints.WEST;
 		this.add( fieldKey, c );
 		
+		c.gridy = 0;
+		this.add( labelKey, c );
+		c.gridy = 1;
+		
+		//Value
 		gridX++;
 		c.gridy = gridY;
 		c.gridx = gridX;
@@ -161,6 +193,11 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 		c.anchor = GridBagConstraints.WEST;
 		this.add( valueContainer, c );
 		
+		c.gridy = 0;
+		this.add( labelValue, c );
+		c.gridy = 1;
+		
+		//Type
 		gridX++;
 		c.gridy = gridY;
 		c.gridx = gridX;
@@ -170,6 +207,10 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
 		this.add( fieldValueType, c );
+		
+		c.gridy = 0;
+		this.add( labelValueType, c );
+		c.gridy = 1;
 
 	}	
 	

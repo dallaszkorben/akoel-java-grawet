@@ -1,7 +1,5 @@
 package hu.akoel.grawit.gui.editors.component.keyvaluepair;
 
-import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairComponent.MyRenderer;
-
 import java.awt.Component;
 
 import javax.swing.JComboBox;

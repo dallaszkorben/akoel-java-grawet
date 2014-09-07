@@ -2,6 +2,7 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
 
+import javax.swing.SwingUtilities;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.xml.parsers.DocumentBuilder;
@@ -337,17 +338,21 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	 * !!!!!!!!!!!!!!!!!!!!!1
 	 */
 	public void doAction(){
-		WebDriver driver = this.getDriverDataModel().getDriver();
+//		SwingUtilities.invokeLater(new Runnable() {
+//		    public void run() {
+		        
 		
-		SpecialOpenDataModel openDataModel = this.getOpenPage();
+		WebDriver driver = TestcaseCaseDataModel.this.getDriverDataModel().getDriver();
+		
+		SpecialOpenDataModel openDataModel = TestcaseCaseDataModel.this.getOpenPage();
 		
 		try {
 			openDataModel.doAction(driver);
 		
-			int childCount = this.getChildCount();
+			int childCount = TestcaseCaseDataModel.this.getChildCount();
 			for( int i = 0; i < childCount; i++ ){
 			
-				TreeNode treeNode = this.getChildAt(i);
+				TreeNode treeNode = TestcaseCaseDataModel.this.getChildAt(i);
 			
 				if( treeNode instanceof TestcaseParamPageDataModel ){
 					
@@ -358,12 +363,18 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 				}
 			}
 			
-			SpecialCloseDataModel closeDataModel = this.getClosePage();
+			SpecialCloseDataModel closeDataModel = TestcaseCaseDataModel.this.getClosePage();
 			//closeDataModel.doAction( driver );
 			
 		} catch (PageException | CompilationException e) {
 			e.printStackTrace();
 		}
+
+
+//		    }
+//		});
+		
+		
 	}
 	
 	public static Tag getTagStatic(){

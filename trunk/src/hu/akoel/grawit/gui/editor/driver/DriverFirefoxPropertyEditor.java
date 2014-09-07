@@ -8,7 +8,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -24,13 +24,11 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 	private DriverFirefoxDataModel nodeForCapture;
 	private EditMode mode;
 	
-/*	private JLabel labelKey;
-	private TextFieldComponent fieldKey;
-	private JLabel labelValue;
-	private TextFieldComponent fieldValue;
-*/
-	
+	private JLabel labelKeyValuePair;
 	private KeyValuePairComponent fieldKeyValuePair;
+	
+	private JLabel labelDetails;
+	private TextAreaComponent fieldDetails;
 	
 	//Itt biztos beszuras van
 	public DriverFirefoxPropertyEditor( Tree tree, DriverFirefoxDataModel selectedNode ){
@@ -40,8 +38,12 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
 		this.mode = null;
-		
+
+		//Key-Value pair
 		fieldKeyValuePair = new KeyValuePairComponent();
+
+		//Details
+		fieldDetails = new TextAreaComponent( "", 5, 15);
 
 		common();
 		
@@ -56,16 +58,23 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 		this.nodeForModify = selectedNode;
 		this.mode = mode;
 		
+		//Key-Value pair
 		fieldKeyValuePair = new KeyValuePairComponent( selectedNode.getName(), selectedNode.getValue() );
+		
+		//Details
+		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 		
 		common();
 		
 	}
 	
 	private void common(){
-		JLabel label = new JLabel( "");
+		labelKeyValuePair = new JLabel( "");
+		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");
 		
-		this.add( label, fieldKeyValuePair );
+		this.add( labelKeyValuePair, fieldKeyValuePair );
+		this.add( labelDetails, fieldDetails );
+		
 	}
 	
 	
@@ -73,6 +82,7 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 	public void save() {
 		
 		//Ertekek trimmelese
+
 //		fieldKey.setText( fieldKey.getText().trim() );
 //		fieldValue.setText( fieldValue.getText().trim() );
 		
@@ -80,15 +90,17 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 		//Hibak eseten a hibas mezok osszegyujtese
 		//
 		LinkedHashMap<Component, String> errorList = new LinkedHashMap<Component, String>();		
-		if( false ){//fieldKey.getText().length() == 0 ){
-/*			errorList.put( 
-					fieldKey,
+		
+		//Empty Key
+		if( fieldKeyValuePair.getKey().length() == 0 ){
+			errorList.put( 
+					fieldKeyValuePair,
 					MessageFormat.format(
 							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelKey.getText()+"'"
+							"'"+fieldKeyValuePair.getLabelKeyText()+"'"
 					)
 			);
-*/		}else{
+		}else{
 
 			TreeNode nodeForSearch = null;
 
@@ -105,24 +117,24 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 			}
 			
 			//Megnezi, hogy van-e masik azonos nevu key
-/*			int childrenCount = nodeForSearch.getChildCount();
+			int childrenCount = nodeForSearch.getChildCount();
 			for( int i = 0; i < childrenCount; i++ ){
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
-				//Ha Page-rol van szo (Lehetne meg NODE is)
+				//Ha Property-rol van szo (Lehetne meg NODE is)
 				if( levelNode instanceof DriverFirefoxPropertyDataModel ){
 					
 					//Ha azonos a nev
-					if( ((DriverFirefoxPropertyDataModel) levelNode).getName().equals( fieldKey.getText() ) ){
+					if( ((DriverFirefoxPropertyDataModel) levelNode).getName().equals( fieldKeyValuePair.getKey() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
 										
 							errorList.put( 
-								fieldKey, 
+								fieldKeyValuePair, 
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
-										fieldKey.getText(), 
+										fieldKeyValuePair.getKey(), 
 										CommonOperations.getTranslation("tree.nodetype.driver.firefox.property") 
 								) 
 							);
@@ -130,8 +142,7 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 						}
 					}
 				}
-			}
-*/			
+			}			
 		}
 		
 		//Volt hiba
@@ -146,7 +157,7 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				DriverFirefoxPropertyDataModel newFirefoxPropertyDataModel = new DriverFirefoxPropertyDataModel( fieldKeyValuePair.getKey(), fieldKeyValuePair.getValue() );				
+				DriverFirefoxPropertyDataModel newFirefoxPropertyDataModel = new DriverFirefoxPropertyDataModel( fieldKeyValuePair.getKey(), fieldKeyValuePair.getValue(), fieldDetails.getText() );				
 				nodeForCapture.add( newFirefoxPropertyDataModel );
 				
 			//Modositas eseten
@@ -154,6 +165,7 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 				
 				nodeForModify.setName( fieldKeyValuePair.getKey() );
 				nodeForModify.setValue( fieldKeyValuePair.getValue() );
+				nodeForModify.setDetails( fieldDetails.getText() );
 			
 			}			
 			

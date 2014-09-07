@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
@@ -34,7 +35,7 @@ public class TestcaseTree extends Tree {
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;
 	
-	private TestcaseRootDataModel testcaseRootDataModel;
+//	private TestcaseRootDataModel testcaseRootDataModel;
 	private ParamRootDataModel paramRootDataModel;
 	private SpecialRootDataModel specialRootDataModel;
 	private DriverRootDataModel driverRootDataModel;
@@ -43,7 +44,7 @@ public class TestcaseTree extends Tree {
 		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
-		this.testcaseRootDataModel = testcaseRootDataModel;
+//		this.testcaseRootDataModel = testcaseRootDataModel;
 		this.specialRootDataModel = specialRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
 		this.driverRootDataModel = driverRootDataModel;
@@ -114,10 +115,8 @@ public class TestcaseTree extends Tree {
 		}else if( selectedNode instanceof TestcaseCustomDataModel ){
 			TestcaseCustomPageEditor testcaseCustomEditor = new TestcaseCustomPageEditor( this, (TestcaseCustomDataModel)selectedNode, specialRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( testcaseCustomEditor);
-					
 			
 		}
-		
 	}
 
 	@Override
@@ -230,9 +229,12 @@ insertRun.addActionListener( new ActionListener() {
 			
 	@Override
 	public void actionPerformed(ActionEvent e) {
-				
-		((TestcaseCaseDataModel)selectedNode).doAction();
-				
+		
+//		SwingUtilities.invokeLater(new Runnable() {
+//		    public void run() {
+		    	((TestcaseCaseDataModel)selectedNode).doAction();     
+//		    }
+//		});		
 	}
 });
 popupMenu.add ( insertRun );

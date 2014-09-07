@@ -1,8 +1,5 @@
 package hu.akoel.grawit.core.treenodedatamodel.driver;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,16 +17,19 @@ public class DriverExplorerCapabilityDataModel extends DriverDataModelInterface{
 
 	public static Tag TAG = Tag.DRIVEREXPLORERCAPABILITY;
 	
-//	public static final String ATTR_KEY = "key";
 	public static final String ATTR_VALUE = "value";
+	public static final String ATTR_TYPE = "type";
+	public static final String ATTR_DETAILS = "details";
 	
 	private String key;
-	private String value;
+	private Object value;
+	private String details;
 	
-	public DriverExplorerCapabilityDataModel( String name, String value ){
+	public DriverExplorerCapabilityDataModel( String name, Object value, String details ){
 		super( );
 		this.key = name;
 		this.value = value;
+		this.details = details;
 	}
 	
 	public DriverExplorerCapabilityDataModel( Element element ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
@@ -46,11 +46,33 @@ public class DriverExplorerCapabilityDataModel extends DriverDataModelInterface{
 		}
 		this.key = element.getAttribute( ATTR_NAME );		
 		
+		//Type
+		if( !element.hasAttribute( ATTR_TYPE ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_TYPE );			
+		}
+		String stringType = element.getAttribute( ATTR_TYPE );
+				
 		//Value
 		if( !element.hasAttribute( ATTR_VALUE ) ){
 			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVERFIREFOXPROPERTY, ATTR_NAME, getName(), ATTR_VALUE );			
 		}		
-		this.value = element.getAttribute( ATTR_VALUE );		
+		String stringValue = element.getAttribute( ATTR_VALUE );	
+		//String
+		if( stringType.equals( String.class.getSimpleName() ) ){
+			this.value = stringValue;
+		//Boolean
+		}else if( stringType.equals( Boolean.class.getSimpleName() ) ){
+			this.value = new Boolean( stringValue );
+		//Integer
+		}else if( stringType.equals( Integer.class.getSimpleName() ) ){
+			this.value = new Integer( stringValue );
+		}	
+		
+		//Details
+		if( !element.hasAttribute( ATTR_DETAILS ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_DETAILS );			
+		}
+		this.details = element.getAttribute( ATTR_DETAILS );
 
 	}
 	
@@ -80,22 +102,23 @@ public class DriverExplorerCapabilityDataModel extends DriverDataModelInterface{
 	public void setName( String name ){
 		this.key = name;
 	}
-/*	public String getKey(){
-		return key;
-	}
-	
-	public void setKey( String key ){
-		this.key = key;
-	}
-*/
-	public String getValue(){
+
+	public Object getValue(){
 		return value;
 	}
 	
-	public void setValue( String value ){
+	public void setValue( Object value ){
 		this.value = value;
 	}
 
+	public void setDetails( String details ){
+		this.details = details;
+	}
+	
+	public String getDetails(){
+		return this.details;
+	}
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
@@ -112,7 +135,17 @@ public class DriverExplorerCapabilityDataModel extends DriverDataModelInterface{
 		
 		//Value
 		attr = document.createAttribute( ATTR_VALUE );
-		attr.setValue( getValue() );
+		attr.setValue( getValue().toString() );
+		elementElement.setAttributeNode(attr);	
+		
+		//Type
+		attr = document.createAttribute( ATTR_TYPE );
+		attr.setValue( getValue().getClass().getSimpleName() );
+		elementElement.setAttributeNode(attr);	
+		
+		//Details
+		attr = document.createAttribute( ATTR_DETAILS );
+		attr.setValue( getDetails() );
 		elementElement.setAttributeNode(attr);	
 		
 		return elementElement;	

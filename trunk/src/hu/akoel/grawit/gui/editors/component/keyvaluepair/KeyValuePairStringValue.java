@@ -26,7 +26,7 @@ public class KeyValuePairStringValue extends JTextField implements KeyValuePairV
 
 	@Override
 	public Object getValue() {		
-		return getText();
+		return getText().trim();
 	}
 
 	@Override
