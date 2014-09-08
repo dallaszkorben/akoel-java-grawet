@@ -24,7 +24,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -43,7 +42,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 
 	private BasePageDataModel basePage;	
 	
-	private PageProgressInterface pageProgressInterface = null;	
+//	private PageProgressInterface pageProgressInterface = null;	
 	
 	public ParamPageDataModel( String name, BasePageDataModel basePage  ){
 		super();
@@ -81,7 +80,8 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	    {  
 	    	//attributum-kent tarolt utvonal atalakitasa Documentum-ma
 	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( paramPagePathString ) ) );  
+	        document = builder.parse( new InputSource( new StringReader( paramPagePathString ) ) ); 
+	        
 	    } catch (Exception e) { 
 	    	
 	    	//Nem sikerult az atalakitas
@@ -210,12 +210,6 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		return pageElement;	
 	}
 
-/*	@Override
-	public void removeBaseElement(BaseElementDataModel element) {
-		// TODO Auto-generated method stub Megoldani!!!!
-		
-	}
-*/
 	@Override
 	public String getName() {		
 		return name;
@@ -226,11 +220,12 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	}
 
 	@Override
-	public void doAction(WebDriver driver) throws PageException {
-//		//Jelzi, hogy elindult az oldal feldolgozasa
-//		if( null != pageProgressInterface ){
-//			pageProgressInterface.pageStarted( getName() );
-//		}
+	public void doAction( WebDriver driver, PageProgressInterface pageProgress ) throws PageException {
+		
+		//Jelzi, hogy elindult az oldal feldolgozasa
+		if( null != pageProgress ){
+			pageProgress.pageStarted( getName(), getModelNameToShow() );
+		}	
 
 		int childrenCount = this.getChildCount();
 		for( int i = 0; i < childrenCount; i++ ){
@@ -240,7 +235,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 			String frame = parameterElement.getBaseElement().getFrame();
 			if( null != frame && frame.trim().length() > 0 ){
 				driver.switchTo().defaultContent();
-				driver.switchTo().frame("menuFrame");		
+				driver.switchTo().frame( frame );		
 			}
 				
 			try{			
@@ -251,13 +246,13 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 				
 		}
 		
-//		//Jelzi, hogy befejezodott az oldal feldolgozasa
-//		if( null != pageProgressInterface ){
-//			pageProgressInterface.pageEnded( getName() );
-//		}
+		//Jelzi, hogy befejezodott az oldal feldolgozasa
+		if( null != pageProgress ){
+			pageProgress.pageEnded( getName(), getModelNameToShow() );
+		}
 		
 	}
-
+/*
 	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ){
 		this.pageProgressInterface = pageProgressInterface;
 	}
@@ -266,5 +261,5 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	public PageProgressInterface getPageProgressInterface() {		
 		return this.pageProgressInterface;
 	}
-
+*/
 }

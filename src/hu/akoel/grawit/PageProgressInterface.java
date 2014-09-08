@@ -2,7 +2,7 @@ package hu.akoel.grawit;
 
 public interface PageProgressInterface {
 
-	public void pageStarted( String name );
+	public void pageStarted( String idName, String modelName  );
 	
-	public void pageEnded( String name );
+	public void pageEnded( String idName, String modelName );
 }

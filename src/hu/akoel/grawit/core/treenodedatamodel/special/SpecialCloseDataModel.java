@@ -13,7 +13,7 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class SpecialCloseDataModel extends SpecialDataModelInterface implements ExecutablePageInterface{
+public class SpecialCloseDataModel extends SpecialPageModelInterface{
 
 	private static final long serialVersionUID = 8332341626236756322L;
 
@@ -21,7 +21,7 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface implements 
 	
 	private String name;
 
-	private PageProgressInterface pageProgressInterface = null;
+//	private PageProgressInterface pageProgressInterface = null;
 	
 	public SpecialCloseDataModel(String name ){
 		common( name );	
@@ -82,7 +82,7 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface implements 
 	public String getModelNameToShow(){
 		return getModelNameToShowStatic();
 	}
-	
+/*	
 	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ){
 		this.pageProgressInterface = pageProgressInterface;
 	}
@@ -91,14 +91,14 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface implements 
 	public PageProgressInterface getPageProgressInterface() {
 		return this.pageProgressInterface;
 	}
-	
+*/	
 	@Override
-	public void doAction(WebDriver driver) {
+	public void doAction(WebDriver driver, PageProgressInterface pageProgress ) {
 
-//		//Jelzi, hogy elindult az oldal feldolgozasa
-//		if( null != getPageProgressInterface() ){
-//			getPageProgressInterface().pageStarted( getName() );
-//		}
+		//Jelzi, hogy elindult az oldal feldolgozasa
+		if( null != pageProgress ){
+			pageProgress.pageStarted( getName(), getModelNameToShow() );
+		}	
 		
 		driver.close();
 		
@@ -110,10 +110,10 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface implements 
 		
 		driver = null;
 
-//		//Jelzi, hogy befejezodott az oldal feldolgozasa
-//		if( null != getPageProgressInterface() ){
-//			getPageProgressInterface().pageEnded( getName() );
-//		}
+		//Jelzi, hogy befejezodott az oldal feldolgozasa
+		if( null != pageProgress ){
+			pageProgress.pageEnded( getName(), getModelNameToShow() );
+		}
 	}
 	
 	@Override

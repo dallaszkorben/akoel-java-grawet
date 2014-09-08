@@ -6,23 +6,28 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialPageModelInterface;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.CompilationException;
+import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
+import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
+public class TestcaseCustomDataModel extends TestcasePageModelInterface{
 
 	private static final long serialVersionUID = 5313170692938571481L;
 
@@ -33,7 +38,7 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 	
 	private String name;
 	private String details;
-	private SpecialDataModelInterface customPage;
+	private SpecialPageModelInterface customPage;
 	
 	public TestcaseCustomDataModel( String name, String details, SpecialCustomDataModel customPage ){
 		super( );
@@ -206,6 +211,13 @@ public class TestcaseCustomDataModel extends TestcaseDataModelInterface{
 		nodeElement.setAttributeNode( attr );
 			
 		return nodeElement;		
+	}
+
+	@Override
+	public void doAction(WebDriver driver, PageProgressInterface pageProgress ) throws PageException, CompilationException {
+		
+		customPage.doAction(driver, pageProgress );
+		
 	}
 
 }

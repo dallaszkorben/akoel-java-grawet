@@ -3,11 +3,11 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 import java.io.StringReader;
 
 import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -15,7 +15,6 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
-import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -28,7 +27,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-public class TestcaseParamPageDataModel extends TestcaseDataModelInterface{
+public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 
 	private static final long serialVersionUID = 5313170692938571481L;
 
@@ -211,6 +210,11 @@ public class TestcaseParamPageDataModel extends TestcaseDataModelInterface{
 		nodeElement.setAttributeNode( attr );
 			
 		return nodeElement;		
+	}
+
+	@Override
+	public void doAction(WebDriver driver, PageProgressInterface pageProgress ) throws PageException, CompilationException {
+		paramPage.doAction(driver, pageProgress);		
 	}
 	
 }

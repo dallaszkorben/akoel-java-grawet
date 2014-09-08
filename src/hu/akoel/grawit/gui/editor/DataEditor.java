@@ -25,7 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public abstract class DataEditor extends JPanel{
+public abstract class DataEditor extends BaseEditor{
 
 	private static final long serialVersionUID = -6084357053425935174L;
 
@@ -41,8 +41,8 @@ public abstract class DataEditor extends JPanel{
 	private final static int POS_SAVEBUTTON = 1;
 	private final static int POS_STATISICON = 2;
 	
-	private JPanel labelSection;
-	private JPanel dataSection = new JPanel();
+//	private JPanel labelSection;
+//	private JPanel dataSection = new JPanel();
 	private GridBagConstraints c;
 	private int gridY = 0;
 	private JLabel filler = new JLabel();
@@ -52,12 +52,16 @@ public abstract class DataEditor extends JPanel{
 	private LinkedHashMap<Component, Component> statusIconList = new LinkedHashMap<>();
 	
 	public DataEditor( String element ){
+		super( element );
+		
 		this.mode = null;
 		
 		common( element );
 	}
 	
 	public DataEditor( EditMode mode, String element ){
+		super( element );
+		
 		this.mode = mode;
 		
 		common( element );
@@ -66,37 +70,37 @@ public abstract class DataEditor extends JPanel{
 	
 	private void common(  String element ){
 		
-		this.setLayout( new BorderLayout() );
+//		this.setLayout( new BorderLayout() );
 		//this.setBackground(Color.cyan);
-		this.setBorder( BorderFactory.createLoweredBevelBorder());
+//		this.setBorder( BorderFactory.createLoweredBevelBorder());
 
 		//
 		// Headline terulet
 		//
-		JPanel headlinePanel = new JPanel();
+/*		JPanel headlinePanel = new JPanel();
 		headlinePanel.setBackground( Color.white );
 		headlinePanel.setLayout( new BorderLayout());
 	
 		super.add( headlinePanel, BorderLayout.NORTH );
-		
+*/		
 		//
 		// Cim szekcio
 		//
-		labelSection = new JPanel();
+/*		labelSection = new JPanel();
 		labelSection.setBackground( Color.white );
 		if( null == mode || !mode.equals(EditMode.NO)){
 			headlinePanel.add( labelSection, BorderLayout.CENTER );
 		}
-		
+*/		
 		//
 		// Operation icon section
 		//
-		JLabel operationSection = new JLabel();
+/*		JLabel operationSection = new JLabel();
 		operationSection.setBorder( BorderFactory.createEmptyBorder(7, 10, 7, 10));
 		if( null == mode || !mode.equals(EditMode.NO)){
 			headlinePanel.add( operationSection, BorderLayout.WEST );
 		}
-		
+*/		
 		ImageIcon pageIcon = null;
 		//CAPTURE
 		if( null == mode ) {
@@ -108,9 +112,10 @@ public abstract class DataEditor extends JPanel{
 		}else if( mode.equals( EditMode.VIEW )){
 			pageIcon = CommonOperations.createImageIcon("headline/operation-view.png");
 		}
-		operationSection.setIcon( pageIcon );
+		//operationSection.setIcon( pageIcon );
+		getOperationSection().setIcon( pageIcon );
 		
-		
+/*		
 		JLabel label = new JLabel( element );		
 		//CAPTURE
 		if( null == mode ) {
@@ -125,17 +130,17 @@ public abstract class DataEditor extends JPanel{
 		labelSection.add( label );
 
 		label.setFont(new Font( label.getFont().getName(), Font.BOLD, 20 ));
-
+*/
 		//
 		// Adat szekcio
 		//
 		//dataSection.setBackground( Color.green );
-		dataSection.setLayout( new GridBagLayout() );
+/*		dataSection.setLayout( new GridBagLayout() );		
 		dataSection.setBorder( BorderFactory.createEmptyBorder( 20, 10, 10, 10 ) );
+		super.add( dataSection, BorderLayout.CENTER );
+*/
 		c = new GridBagConstraints();
 		
-		super.add( dataSection, BorderLayout.CENTER );
-	
 		//Mentes gomb
 		saveButton = new JButton( CommonOperations.getTranslation( "button.save" ) );
 		
@@ -179,9 +184,9 @@ public abstract class DataEditor extends JPanel{
 //	}
 	
 	public void remove( Component labelComponent, Component dataComponent ){
-		dataSection.remove( labelComponent );
-		dataSection.remove( dataComponent );
-		dataSection.revalidate();
+		getDataSection().remove( labelComponent );
+		getDataSection().remove( dataComponent );
+		getDataSection().revalidate();
 	}
 	
 	/**
@@ -200,6 +205,8 @@ public abstract class DataEditor extends JPanel{
 	 */
 	public void add( Component labelComponent, EditorComponentInterface valueComponent ){
 	
+		JPanel dataSection = getDataSection();
+		
 		//Ha csak megjelenitesrol van szo, akkor
 		if( null != mode && mode.equals( EditMode.VIEW ) ){
 			

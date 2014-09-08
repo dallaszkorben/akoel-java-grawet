@@ -110,14 +110,4 @@ public class Grawit {
 	}
 }
 
-class PageProgress implements PageProgressInterface {
-	@Override
-	public void pageStarted(String name) {
-		System.err.println(name + " page started");
-	}
 
-	@Override
-	public void pageEnded(String name) {
-		System.err.println(name + " page ended");
-	}
-}
