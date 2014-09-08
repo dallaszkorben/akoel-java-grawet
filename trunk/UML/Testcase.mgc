@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClassDiagram>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel"
-        x="896" y="180">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"
-        x="531" y="26">
+    <Class name="hu.akoel.grawit.ExecutablePageInterface" x="1391" y="103">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -39,7 +24,7 @@
     </Class>
     <Class
         name="hu.akoel.grawit.gui.editor.testcase.TestcaseCustomPageEditor"
-        x="537" y="447">
+        x="650" y="448">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -57,7 +42,7 @@
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel"/>
     </Class>
     <Class name="hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor"
-        x="192" y="446">
+        x="221" y="450">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -71,8 +56,68 @@
         <Association
             destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"
             endpointName="nodeForCapture" kind="Simple"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editor.testcase.TestcaseParamPageEditor"
+        x="1177" y="445">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel"
+            endpointName="nodeForModify" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"
+            endpointName="nodeForCapture" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface"
+        x="980" y="66">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel"
+        x="1069" y="189">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"
+            endpointName="paramPage" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"
+        x="1310" y="284">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.ExecutablePageInterface"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"
@@ -84,8 +129,8 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"
@@ -97,8 +142,8 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface"/>
     </Class>
     <Class name="hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor"
         x="-9" y="447">
@@ -122,8 +167,8 @@
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.gui.editor.testcase.TestcaseParamPageEditor"
-        x="919" y="447">
+        name="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface"
+        x="525" y="-17">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -131,18 +176,10 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Association
-            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel"
-            endpointName="nodeForModify" kind="Simple"/>
-        <Association
-            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"
-            endpointName="nodeForCapture" kind="Simple"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel"
-        x="592" y="173">
+        x="721" y="180">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -150,7 +187,8 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelInterface"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.ExecutablePageInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface"/>
     </Class>
 </ClassDiagram>

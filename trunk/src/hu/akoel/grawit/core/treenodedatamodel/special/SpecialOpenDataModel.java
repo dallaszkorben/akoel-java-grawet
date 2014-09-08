@@ -6,14 +6,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class SpecialOpenDataModel extends SpecialDataModelInterface implements ExecutablePageInterface{
+public class SpecialOpenDataModel extends SpecialPageModelInterface{
 
 	private static final long serialVersionUID = 4021264120677994929L;
 
@@ -24,7 +23,7 @@ public class SpecialOpenDataModel extends SpecialDataModelInterface implements E
 	private String name;
 	private String url;
 	
-	private PageProgressInterface pageProgressInterface = null;
+	//private PageProgressInterface pageProgressInterface = null;
 
 	public SpecialOpenDataModel(String name, String url ){
 		common( name, url );	
@@ -91,22 +90,22 @@ public class SpecialOpenDataModel extends SpecialDataModelInterface implements E
 		this.url = url;
 	}
 	
-	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ) {
-		this.pageProgressInterface = pageProgressInterface;		
-	}
+//	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ) {
+//		this.pageProgressInterface = pageProgressInterface;		
+//	}
+	
+//	@Override
+//	public PageProgressInterface getPageProgressInterface() {
+//		return this.pageProgressInterface;
+//	}
 	
 	@Override
-	public PageProgressInterface getPageProgressInterface() {
-		return this.pageProgressInterface;
-	}
-	
-	@Override
-	public void doAction( WebDriver driver ) {
+	public void doAction( WebDriver driver, PageProgressInterface pageProgress ) {
 
-//		//Jelzi, hogy elindult az oldal feldolgozasa
-//		if( null != getPageProgressInterface() ){
-//			getPageProgressInterface().pageStarted( getName() );
-//		}	
+		//Jelzi, hogy elindult az oldal feldolgozasa
+		if( null != pageProgress ){
+			pageProgress.pageStarted( getName(), getModelNameToShow() );
+		}	
 		
 //		try{		
 
@@ -120,9 +119,9 @@ public class SpecialOpenDataModel extends SpecialDataModelInterface implements E
 //		}
 			
 		//Jelzi, hogy befejezodott az oldal feldolgozasa
-//		if( null != getPageProgressInterface() ){
-//			getPageProgressInterface().pageEnded( getName() );
-//		}
+		if( null != pageProgress ){
+			pageProgress.pageEnded( getName(), getModelNameToShow() );
+		}
 	}
 	
 	

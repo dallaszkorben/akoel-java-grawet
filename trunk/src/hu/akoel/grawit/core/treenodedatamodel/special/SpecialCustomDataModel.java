@@ -24,7 +24,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.JavaSourceFromString;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
@@ -34,7 +33,7 @@ import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class SpecialCustomDataModel extends SpecialDataModelInterface implements ExecutablePageInterface{
+public class SpecialCustomDataModel extends SpecialPageModelInterface{
 
 	private static final long serialVersionUID = -4450434610253862372L;
 
@@ -54,7 +53,7 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 	private String name;
 	private String script;
 	
-	private PageProgressInterface pageProgressInterface = null;
+//	private PageProgressInterface pageProgressInterface = null;
 
 	//private CompilationTask task;
 	private JavaSourceFromString javaFile;
@@ -136,7 +135,7 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 	public String getModelNameToShow(){
 		return getModelNameToShowStatic();
 	}
-	
+/*	
 	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ) {
 		this.pageProgressInterface = pageProgressInterface;		
 	}
@@ -145,9 +144,14 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 	public PageProgressInterface getPageProgressInterface() {
 		return this.pageProgressInterface;
 	}
-	
+*/	
 	@Override
-	public void doAction( WebDriver driver ) throws CompilationException, PageException {
+	public void doAction( WebDriver driver, PageProgressInterface pageProgress ) throws CompilationException, PageException {
+		
+		//Jelzi, hogy elindult az oldal feldolgozasa
+		if( null != pageProgress ){
+			pageProgress.pageStarted( getName(), getModelNameToShow() );
+		}	
 		
 		//Kod legyartasa
 		CompilationTask task = generateTheCode();
@@ -172,6 +176,12 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 				throw new CompilationException( this.getName(), javaFile, diagList.get( 0 ) );
 			}
 		}	
+		
+		//Jelzi, hogy befejezodott az oldal feldolgozasa
+		if( null != pageProgress ){
+			pageProgress.pageEnded( getName(), getModelNameToShow() );
+		}
+		
 	}
 	
 	public  CompilationTask generateTheCode( ){

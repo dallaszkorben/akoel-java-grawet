@@ -17,6 +17,7 @@ import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
+import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BaseTree;
@@ -333,7 +334,7 @@ public class GUIFrame extends JFrame{
 		treePanel.hide();
 	}
 	
-	public void showEditorPanel( DataEditor panel ){
+	public void showEditorPanel( BaseEditor panel ){
 		editorPanel.hide();
 		editorPanel.show( panel );
 	}
@@ -940,7 +941,7 @@ public class GUIFrame extends JFrame{
 			this.setBackground( Color.red);		
 		}
 
-		public void show( DataEditor panel ){
+		public void show( BaseEditor panel ){
 
 			//Ha volt valamilyen mas EditorPanel az ablakban akkor azt eltavolitom
 			if( null != panelToView ){

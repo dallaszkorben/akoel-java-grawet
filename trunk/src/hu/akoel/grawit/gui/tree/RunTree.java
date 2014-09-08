@@ -13,6 +13,7 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
+import hu.akoel.grawit.gui.editor.run.RunTestcaseEditor;
 
 public class RunTree extends Tree {
 
@@ -76,8 +77,8 @@ public class RunTree extends Tree {
 //			guiFrame.showEditorPanel( testcaseNodeEditor);								
 		
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
-//			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel, driverRootDataModel, EditMode.VIEW );								
-//			guiFrame.showEditorPanel( testcaseCaseEditor);				
+			RunTestcaseEditor testcaseCaseEditor = new RunTestcaseEditor( this, (TestcaseCaseDataModel)selectedNode );								
+			guiFrame.showEditorPanel( testcaseCaseEditor);				
 							
 /*		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
 			TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( this, (TestcaseParamPageDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	

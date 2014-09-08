@@ -23,7 +23,6 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -433,11 +432,11 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		return closePage;
 	}
 
-	public void setDriverDataModel( DriverBrowserDataModelInterface driver ){
+	public void setDriverDataModel( DriverBrowserDataModelInterface<?> driver ){
 		this.driver = driver;
 	}
 	
-	public DriverBrowserDataModelInterface getDriverDataModel(){
+	public DriverBrowserDataModelInterface<?> getDriverDataModel(){
 		return driver;
 	}
 }

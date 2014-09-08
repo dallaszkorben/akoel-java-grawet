@@ -9,8 +9,8 @@ public interface ExecutablePageInterface {
 
 	public String getName();
 	
-	public void doAction(WebDriver driver) throws PageException, CompilationException;
+	public void doAction(WebDriver driver, PageProgressInterface pageProgress ) throws PageException, CompilationException;
 	
-	public PageProgressInterface getPageProgressInterface();
+	//public PageProgressInterface getPageProgressInterface();
 	
 }
