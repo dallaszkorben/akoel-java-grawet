@@ -147,7 +147,7 @@ public class SpecialCustomDataModel extends SpecialDataModelInterface implements
 	}
 	
 	@Override
-	public void doAction( WebDriver driver ) throws PageException, CompilationException {
+	public void doAction( WebDriver driver ) throws CompilationException, PageException {
 		
 		//Kod legyartasa
 		CompilationTask task = generateTheCode();

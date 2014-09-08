@@ -1,6 +1,5 @@
-package hu.akoel.grawit.core.treenodedatamodel.testcase;
+package hu.akoel.grawit.core.treenodedatamodel;
 
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 
 

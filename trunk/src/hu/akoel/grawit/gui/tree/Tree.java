@@ -32,6 +32,12 @@ public abstract class Tree extends JTree{
 	private GUIFrame guiFrame;
 	
 	private DataModelInterface selectedNode;
+	
+	private TreeMouseListener treeMouseListener;
+	
+	private boolean needPopupUp = true;
+	private boolean needPopupDown = true;
+	private boolean needPopupModify = true;
 
 	public Tree( GUIFrame guiFrame, DataModelInterface rootDataModel ){
 	
@@ -67,11 +73,12 @@ public abstract class Tree extends JTree{
 		    	return c;
 		    }
 		});
-		
+					
 		/**
 		 * A eger benyomasara reagalok
 		 */
-		this.addMouseListener( new TreeMouseListener() );
+		treeMouseListener = new TreeMouseListener();
+		this.addMouseListener( treeMouseListener );
 		this.addTreeSelectionListener( new SelectionChangedListener() );
 	
 	}
@@ -120,6 +127,28 @@ public abstract class Tree extends JTree{
 		}
 		
 	}
+	
+	public void removePopupModify(){
+		needPopupModify = false;
+	}
+	
+	public void removePopupUp(){
+		needPopupUp = false;
+	}
+	
+	public void removePopupDown(){
+		needPopupDown = false;
+	}
+	
+/*	public void setEnablePopupMenuEdit( boolean enable ){
+		
+		this.removeMouseListener( treeMouseListener );
+		
+		if( enable ){
+			this.addMouseListener(treeMouseListener );
+		}
+	}
+*/
 	
 	/**
 	 * Azt figyeli, hogy barmi miatt megvaltozott-e a kivalasztott elem.
@@ -258,7 +287,7 @@ public abstract class Tree extends JTree{
 				// Felfele mozgat
 				// Ha nem a legelso elem
 				//
-				if( selectedIndexInTheNode >= 1 ){
+				if( needPopupUp && selectedIndexInTheNode >= 1 ){
 					
 					//Akkor mozoghat felfele, letrehozhatom a fel menuelemet
 					JMenuItem upMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.up") );
@@ -289,7 +318,7 @@ public abstract class Tree extends JTree{
 				// Lefele mozgat
 				// Ha nem a legutolso elem
 				//
-				if( selectedIndexInTheNode < elementsInTheNode - 1 ){
+				if( needPopupDown && selectedIndexInTheNode < elementsInTheNode - 1 ){
 					
 					//Akkor mozoghat lefele, letrehozhatom a le nemuelement
 					JMenuItem downMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.down")  );
@@ -320,18 +349,21 @@ public abstract class Tree extends JTree{
 				//
 				//Szerkesztes
 				//
-				JMenuItem editMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.edit") );
-				editMenu.setActionCommand( ActionCommand.EDIT.name());
-				editMenu.addActionListener( new ActionListener() {
+				if( needPopupModify ){
+				
+					JMenuItem editMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.edit") );
+					editMenu.setActionCommand( ActionCommand.EDIT.name());
+					editMenu.addActionListener( new ActionListener() {
 					
-					@Override
-					public void actionPerformed(ActionEvent e) {					
+						@Override
+						public void actionPerformed(ActionEvent e) {					
 
-						doModifyWithPopupEdit( selectedNode );
+							doModifyWithPopupEdit( selectedNode );
 						
-					}
-				});
-				this.add ( editMenu );
+						}
+					});
+					this.add ( editMenu );
+				}
 				
 				doPopupInsert( this, selectedNode );
 				

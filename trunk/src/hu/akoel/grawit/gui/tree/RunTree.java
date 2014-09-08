@@ -1,93 +1,64 @@
 package hu.akoel.grawit.gui.tree;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
-import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
-import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
-import hu.akoel.grawit.gui.editor.testcase.TestcaseCustomPageEditor;
-import hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor;
-import hu.akoel.grawit.gui.editor.testcase.TestcaseParamPageEditor;
 
-public class TestcaseTree extends Tree {
+public class RunTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;
 	
-//	private TestcaseRootDataModel testcaseRootDataModel;
-	private ParamRootDataModel paramRootDataModel;
-	private SpecialRootDataModel specialRootDataModel;
-	private DriverRootDataModel driverRootDataModel;
+//	private ParamRootDataModel paramRootDataModel;
+//	private SpecialRootDataModel specialRootDataModel;
+//	private DriverRootDataModel driverRootDataModel;
 	
-	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
+	//public RunTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
+	public RunTree(GUIFrame guiFrame, TestcaseRootDataModel testcaseRootDataModel ) {		
 		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
-//		this.testcaseRootDataModel = testcaseRootDataModel;
-		this.specialRootDataModel = specialRootDataModel;
-		this.paramRootDataModel = paramRootDataModel;
-		this.driverRootDataModel = driverRootDataModel;
+//		this.specialRootDataModel = specialRootDataModel;
+//		this.paramRootDataModel = paramRootDataModel;
+//		this.driverRootDataModel = driverRootDataModel;
 		
+		this.removePopupUp();
+		this.removePopupDown();
+		this.removePopupModify();
 	}
-
+	
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
 
-//		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/testcase-close-icon.png");
-//		ImageIcon openIcon = CommonOperations.createImageIcon("tree/testcase-open-icon.png");
-		ImageIcon customIcon = CommonOperations.createImageIcon("tree/testcase-custom-icon.png");
-    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-icon.png");
+//		ImageIcon customIcon = CommonOperations.createImageIcon("tree/testcase-custom-icon.png");
+//    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-icon.png");
     	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/testcase-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/testcase-node-open-icon.png");
-    	
-    	//Iconja a NODE-nak
-/*    	if( actualNode instanceof TestcaseSpecialDataModel){
-    		if( ((TestcaseSpecialDataModel)actualNode).getSpecialPage() instanceof SpecialOpenDataModel ){
-    			return openIcon;
-    		}else if( ((TestcaseSpecialDataModel)actualNode).getSpecialPage() instanceof SpecialCloseDataModel ){
-    			return closeIcon;
-    		} 
-    		
-            return null;
-*/   	
+    	  	
     	if( actualNode instanceof TestcaseCaseDataModel){
             return caseIcon;
-    	}else if( actualNode instanceof TestcaseParamPageDataModel ){
+/*    	}else if( actualNode instanceof TestcaseParamPageDataModel ){
             return pageIcon;
     	}else if( actualNode instanceof TestcaseCustomDataModel ){
             return customIcon;            
-    	}else if( actualNode instanceof TestcaseNodeDataModel){
+*/    	}else if( actualNode instanceof TestcaseNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
     			return nodeClosedIcon;
     		}
         }
-    	
-    	//TODO ide jon meg a custom page is
-    	//else if( actualNode instanceof TestcaseCustomDataModel)
     	
 		return null;
 	}
@@ -101,24 +72,55 @@ public class TestcaseTree extends Tree {
 			guiFrame.showEditorPanel( emptyPanel );
 			
 		}else if( selectedNode instanceof TestcaseNodeDataModel ){
-			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.VIEW);
-			guiFrame.showEditorPanel( testcaseNodeEditor);								
+//			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.VIEW);
+//			guiFrame.showEditorPanel( testcaseNodeEditor);								
 		
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
-			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel, driverRootDataModel, EditMode.VIEW );								
-			guiFrame.showEditorPanel( testcaseCaseEditor);				
+//			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel, driverRootDataModel, EditMode.VIEW );								
+//			guiFrame.showEditorPanel( testcaseCaseEditor);				
 							
-		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
+/*		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
 			TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( this, (TestcaseParamPageDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( testcasePageEditor);									
 			
 		}else if( selectedNode instanceof TestcaseCustomDataModel ){
 			TestcaseCustomPageEditor testcaseCustomEditor = new TestcaseCustomPageEditor( this, (TestcaseCustomDataModel)selectedNode, specialRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( testcaseCustomEditor);
-			
+*/			
 		}
 	}
 
+	@Override
+	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
+	}
+
+	@Override
+	public void doPopupInsert(JPopupMenu popupMenu,	DataModelInterface selectedNode) {
+	}
+
+	@Override
+	public void doPopupDelete(JPopupMenu popupMenu, DataModelInterface selectedNode, int selectedRow, DefaultTreeModel totalTreeModel) {
+	}
+
+	@Override
+	public void doPopupRootInsert(JPopupMenu popupMenu, DataModelInterface selectedNode) {
+	}
+
+	/**
+	 * 
+	 * Megakadalyozza a teszteset kinyitasat
+	 * 
+	 */
+	protected void setExpandedState(TreePath path, boolean state) {
+	       
+		if( !( path.getLastPathComponent() instanceof TestcaseCaseDataModel ) ){
+				
+			super.setExpandedState(path, state);
+		}
+	}
+
+	
+/*	
 	@Override
 	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
 		
@@ -143,7 +145,9 @@ public class TestcaseTree extends Tree {
 			
 		}		
 	}
-
+*/
+	
+/*	
 	@Override
 	public void doPopupInsert( JPopupMenu popupMenu, final DataModelInterface selectedNode) {
 		
@@ -160,7 +164,7 @@ public class TestcaseTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcaseNodeEditor paramNodeEditor = new TestcaseNodeEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode );								
+					TestcaseNodeEditor paramNodeEditor = new TestcaseNodeEditor( RunTree.this, (TestcaseNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( paramNodeEditor);								
 				
 				}
@@ -175,7 +179,7 @@ public class TestcaseTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode, specialRootDataModel, driverRootDataModel );								
+					TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( RunTree.this, (TestcaseNodeDataModel)selectedNode, specialRootDataModel, driverRootDataModel );								
 					guiFrame.showEditorPanel( testcaseCaseEditor);								
 				
 				}
@@ -197,7 +201,7 @@ public class TestcaseTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
+					TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( RunTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
 					guiFrame.showEditorPanel( testcasePageEditor);								
 				
 				}
@@ -212,14 +216,14 @@ public class TestcaseTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcaseCustomPageEditor testcaseCustomEditor = new TestcaseCustomPageEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel );
+					TestcaseCustomPageEditor testcaseCustomEditor = new TestcaseCustomPageEditor( RunTree.this, (TestcaseCaseDataModel)selectedNode, specialRootDataModel );
 					guiFrame.showEditorPanel( testcaseCustomEditor);								
 				
 				}
 			});
 			popupMenu.add ( insertSpecialMenu );
 		
-			
+*/			
 			
 /*			
 //Insert Run
@@ -242,10 +246,12 @@ popupMenu.add ( insertRun );
 			
 */				
 
-		}
+//		}
 		
-	}
+//	}
 
+
+/*
 	@Override
 	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelInterface selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
 	
@@ -276,7 +282,7 @@ popupMenu.add ( insertRun );
 
 					if( n == 1 ){
 						totalTreeModel.removeNodeFromParent( selectedNode);
-						TestcaseTree.this.setSelectionRow(selectedRow - 1);
+						RunTree.this.setSelectionRow(selectedRow - 1);
 					}							
 				}
 			});
@@ -285,6 +291,9 @@ popupMenu.add ( insertRun );
 		}		
 	}
 
+*/
+
+/*	
 	@Override
 	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelInterface selectedNode ) {
 		
@@ -296,7 +305,7 @@ popupMenu.add ( insertRun );
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				TestcaseNodeEditor paramNodeEditor = new TestcaseNodeEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode );								
+				TestcaseNodeEditor paramNodeEditor = new TestcaseNodeEditor( RunTree.this, (TestcaseNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( paramNodeEditor);								
 			
 			}
@@ -304,5 +313,5 @@ popupMenu.add ( insertRun );
 		popupMenu.add ( insertNodeMenu );
 		
 	}
-
+*/
 }
