@@ -10,7 +10,6 @@ import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -94,7 +93,7 @@ public class SpecialCloseDataModel extends SpecialDataModelInterface implements 
 	}
 	
 	@Override
-	public void doAction(WebDriver driver) throws PageException {
+	public void doAction(WebDriver driver) {
 
 //		//Jelzi, hogy elindult az oldal feldolgozasa
 //		if( null != getPageProgressInterface() ){

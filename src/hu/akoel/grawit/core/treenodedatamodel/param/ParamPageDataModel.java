@@ -1,12 +1,8 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
-import java.io.IOException;
 import java.io.StringReader;
 
 import javax.swing.tree.MutableTreeNode;
-import javax.tools.JavaCompiler;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -27,7 +23,6 @@ import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -231,55 +226,29 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	}
 
 	@Override
-	public void doAction(WebDriver driver) throws PageException, CompilationException {
+	public void doAction(WebDriver driver) throws PageException {
 //		//Jelzi, hogy elindult az oldal feldolgozasa
 //		if( null != pageProgressInterface ){
 //			pageProgressInterface.pageStarted( getName() );
 //		}
 
-		//Ha implementalta a Custom Page Interface-t, akkor a forraskodot kell vegrehajtania
-		if( this instanceof SpecialCustomDataModel ){
+		int childrenCount = this.getChildCount();
+		for( int i = 0; i < childrenCount; i++ ){
+			ParamElementDataModel parameterElement = (ParamElementDataModel)this.getChildAt( i );
 			
-			//Megszerzi a forraskodot
-			String script = ((SpecialCustomDataModel)this).getSurce();
-			
-			//TODO megcsinalni a futasidoben a forditast es futtatast			
-			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-			StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
-			
-			//File javaFile = new File("c:/src/com/juixe/Entity.java");
-			// getJavaFileObjects’ param is a vararg
-			Iterable fileObjects = fileManager.getJavaFileObjects(script);
-			compiler.getTask(null, fileManager, null, null, null, fileObjects).call();
-			// Add more compilation tasks
-			try {
-				fileManager.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-			
-		//Kulonben normal ParamPage-kent az ParamElement-eken hajtja vegre sorban az ElementOperationInterface-okat
-		}else{
-
-			int childrenCount = this.getChildCount();
-			for( int i = 0; i < childrenCount; i++ ){
-				ParamElementDataModel parameterElement = (ParamElementDataModel)this.getChildAt( i );
-			
-				// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
-				String frame = parameterElement.getBaseElement().getFrame();
-				if( null != frame && frame.trim().length() > 0 ){
-					driver.switchTo().defaultContent();
-					driver.switchTo().frame("menuFrame");		
-				}
-				
-				try{			
-					parameterElement.doAction( driver );
-				}catch (ElementException e){
-					throw new PageException( this.getName(), e.getElementName(), e.getElementId(), e);
-				}
-				
+			// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
+			String frame = parameterElement.getBaseElement().getFrame();
+			if( null != frame && frame.trim().length() > 0 ){
+				driver.switchTo().defaultContent();
+				driver.switchTo().frame("menuFrame");		
 			}
+				
+			try{			
+				parameterElement.doAction( driver );
+			}catch (ElementException e){
+				throw new PageException( this.getName(), e.getElementName(), e.getElementId(), e);
+			}
+				
 		}
 		
 //		//Jelzi, hogy befejezodott az oldal feldolgozasa

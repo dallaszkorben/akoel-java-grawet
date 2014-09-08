@@ -2,9 +2,7 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
 
-import javax.swing.SwingUtilities;
 import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -12,6 +10,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
@@ -20,9 +19,6 @@ import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.exceptions.CompilationException;
-import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -50,9 +46,9 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	private String details;
 	private SpecialOpenDataModel openPage;
 	private SpecialCloseDataModel closePage;
-	private DriverBrowserDataModelInterface driver;
+	private DriverBrowserDataModelInterface<?> driver;
 	
-	public TestcaseCaseDataModel( String name, String details, SpecialOpenDataModel openPage, SpecialCloseDataModel closePage, DriverBrowserDataModelInterface driver ){
+	public TestcaseCaseDataModel( String name, String details, SpecialOpenDataModel openPage, SpecialCloseDataModel closePage, DriverBrowserDataModelInterface<?> driver ){
 		super( );
 		this.name = name;
 		this.details = details;
@@ -334,49 +330,6 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		}
 	}
 	
-	/**
-	 * !!!!!!!!!!!!!!!!!!!!!1
-	 */
-	public void doAction(){
-//		SwingUtilities.invokeLater(new Runnable() {
-//		    public void run() {
-		        
-		
-		WebDriver driver = TestcaseCaseDataModel.this.getDriverDataModel().getDriver();
-		
-		SpecialOpenDataModel openDataModel = TestcaseCaseDataModel.this.getOpenPage();
-		
-		try {
-			openDataModel.doAction(driver);
-		
-			int childCount = TestcaseCaseDataModel.this.getChildCount();
-			for( int i = 0; i < childCount; i++ ){
-			
-				TreeNode treeNode = TestcaseCaseDataModel.this.getChildAt(i);
-			
-				if( treeNode instanceof TestcaseParamPageDataModel ){
-					
-					((TestcaseParamPageDataModel)treeNode).getParamPage().doAction(driver);
-					
-				}else if( treeNode instanceof TestcaseCustomDataModel ){
-					
-				}
-			}
-			
-			SpecialCloseDataModel closeDataModel = TestcaseCaseDataModel.this.getClosePage();
-			//closeDataModel.doAction( driver );
-			
-		} catch (PageException | CompilationException e) {
-			e.printStackTrace();
-		}
-
-
-//		    }
-//		});
-		
-		
-	}
-	
 	public static Tag getTagStatic(){
 		return TAG;
 	}
@@ -421,7 +374,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	public String toString(){
 		return name;
 	}
-
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;

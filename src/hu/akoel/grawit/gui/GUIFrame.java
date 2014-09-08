@@ -22,6 +22,7 @@ import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BaseTree;
 import hu.akoel.grawit.gui.tree.DriverTree;
 import hu.akoel.grawit.gui.tree.ParamTree;
+import hu.akoel.grawit.gui.tree.RunTree;
 import hu.akoel.grawit.gui.tree.SpecialTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.VariableTree;
@@ -65,17 +66,18 @@ public class GUIFrame extends JFrame{
 	private static int treePanelStartWidth = 200;
 	
 	//Ki/be kapcsolhato menuelemeek
+	private JMenuItem fileSaveMenuItem;
 	private JMenuItem editDriverMenuItem;
 	private JMenuItem editBaseMenuItem;
 	private JMenuItem editSpecialMenuItem;
 	private JMenuItem editParamMenuItem;
 	private JMenuItem editVariableMenuItem;
 	private JMenuItem editTestCaseMenuItem;
-	private JMenuItem fileSaveMenuItem;
+	private JMenuItem runRunMenuItem;
 	
 	private TreePanel treePanel;
 	private EditorPanel editorPanel;
-	private AssistantPanel assistantPanel;
+	//private AssistantPanel assistantPanel;
 	
 	private VariableRootDataModel variableRootDataModel = new VariableRootDataModel();
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
@@ -97,6 +99,7 @@ public class GUIFrame extends JFrame{
 	private EditTestcaseActionListener editTestcaseActionListener;
 	private EditSpecialActionListener editSpecialActionListener;
 	private EditDriverActionListener editDriverActionListener;
+	private RunRunActionListener runRunActionListener;
 	
 	public GUIFrame( String appName, String appVersion, int frameWidth, int frameHeight ){
 		super( appName );
@@ -112,6 +115,7 @@ public class GUIFrame extends JFrame{
       
         //This will center the JFrame in the middle of the screen
         this.setLocationRelativeTo(null);
+        
         //this.setDefaultLookAndFeelDecorated(false);
         
         try {
@@ -189,16 +193,17 @@ public class GUIFrame extends JFrame{
         menu.add(menuItem);
         
         //a group of check box menu items
-        menu.addSeparator();
+//        menu.addSeparator();
       
         //Submenu
-        JMenu submenu = new JMenu("Submenu");
+/*        JMenu submenu = new JMenu("Submenu");
 //      submenu.setMnemonic(KeyEvent.VK_S);
         menuItem = new JMenuItem("Submemu eleme");
 //      menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
         submenu.add(menuItem);
         menu.add(submenu);
-
+*/
+        
         //
         //Edit fomenu
         //
@@ -260,7 +265,30 @@ public class GUIFrame extends JFrame{
         editTestCaseMenuItem.setEnabled( false );
         menu.add(editTestCaseMenuItem);
 
+        
+        //
+        //Run fomenu
+        //
+        
+        menu = new JMenu( CommonOperations.getTranslation("menu.element.run") );
+        menu.setMnemonic( KeyStroke.getKeyStroke( CommonOperations.getTranslation("menu.mnemonic.run") ).getKeyCode()); // KeyEvent.VK_E);
+        menuBar.add(menu);
+
+        //Run      
+        runRunMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.run.run") );
+        runRunMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.run.run") ).getKeyCode() ); //KeyEvent.VK_P);
+        runRunActionListener = new RunRunActionListener();
+        runRunMenuItem.addActionListener( runRunActionListener );
+        runRunMenuItem.setEnabled( false );
+        menu.add(runRunMenuItem);  
+        
+        
+        
         this.setJMenuBar(menuBar);
+      
+        
+        
+        
         
         //--------
         //
@@ -275,7 +303,7 @@ public class GUIFrame extends JFrame{
         this.add( new StatusPanel(), BorderLayout.SOUTH);        
         treePanel = new TreePanel();        
         editorPanel = new EditorPanel();        
-        assistantPanel = new AssistantPanel();
+        //assistantPanel = new AssistantPanel();
         
         JSplitPane splitPaneLeft = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treePanel, editorPanel);
         splitPaneLeft.setOneTouchExpandable(false);
@@ -289,7 +317,7 @@ public class GUIFrame extends JFrame{
         //splitPaneRight.setDividerLocation(300);
         
         //this.add( splitPaneRight, BorderLayout.CENTER);
-        this.add( assistantPanel, BorderLayout.EAST );
+       // this.add( assistantPanel, BorderLayout.EAST );
                 
 		//make sure the JFrame is visible
         this.setVisible(true);
@@ -318,6 +346,7 @@ public class GUIFrame extends JFrame{
 		editBaseMenuItem.setEnabled( false );
 		editTestCaseMenuItem.setEnabled( false );
 		editSpecialMenuItem.setEnabled( false );
+		runRunMenuItem.setEnabled( false );
 		
 		//Ablak cimenek beallitasa
 		setTitle( getWindowTitle() );
@@ -342,6 +371,7 @@ public class GUIFrame extends JFrame{
 		editBaseMenuItem.setEnabled( true );
 		editTestCaseMenuItem.setEnabled( true );
 		editSpecialMenuItem.setEnabled( true );
+		runRunMenuItem.setEnabled( true );
 	}
 	
 	private void saveTestSuit( File file ) throws ParserConfigurationException, TransformerException{
@@ -574,6 +604,9 @@ public class GUIFrame extends JFrame{
 			//Kikapcsolom a TESTCASE szerkesztesi menut
 			editTestCaseMenuItem.setEnabled( false );
 			
+			//Bekapcsolom a Run menut
+			runRunMenuItem.setEnabled( false );
+			
 			JFileChooser fc;
 			if (null == usedDirectory) {
 				fc = new JFileChooser(System.getProperty("user.dir"));
@@ -673,6 +706,9 @@ public class GUIFrame extends JFrame{
 
 			//Bekapcsolom a TESTCASE szerkesztesi menut
 			editTestCaseMenuItem.setEnabled( true );
+			
+			//Bekapcsolom a Run menut
+			runRunMenuItem.setEnabled( true );
 	
 		}
 	}
@@ -807,6 +843,28 @@ public class GUIFrame extends JFrame{
 	
 	/**
 	 * 
+	 * Run Run menu selection listener 
+	 * 
+	 * @author akoel
+	 *
+	 */
+	class RunRunActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+						
+			//Legyartja a JTREE-t a modell alapjan
+			RunTree tree = new RunTree( GUIFrame.this, testcaseRootDataModel );
+			
+			treePanel.hide();
+			treePanel.show( tree );
+			
+		}
+		
+	}
+	
+	/**
+	 * 
 	 * A TREE megjelenitesenek helye
 	 * 
 	 * @author afoldvarszky
@@ -922,13 +980,14 @@ public class GUIFrame extends JFrame{
 	 * @author afoldvarszky
 	 *
 	 */
-	class AssistantPanel extends JPanel{
+/*	class AssistantPanel extends JPanel{
 		
 		public AssistantPanel(){
 			this.setBackground(Color.blue);
 		}
 
 	}
+*/
 	
 	/**
 	 * 
