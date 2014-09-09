@@ -94,7 +94,7 @@ public class RunTestcaseEditor extends BaseEditor{
 				    			pageToRun.doAction(webDriver, pageProgress );
 				    		}					
 				
-				    		closePage.doAction( webDriver, pageProgress );
+//				    		closePage.doAction( webDriver, pageProgress );
 				
 				    	}catch( CompilationException compillationException ){
 				    		
