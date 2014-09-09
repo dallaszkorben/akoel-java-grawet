@@ -51,17 +51,15 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element baseElement = (Element)node;
+				Element pageElement = (Element)node;
 				
-				//Ha BASEPAGE van alatta
-				//if( baseElement.getTagName().equals( ParamPageDataModel.getTagStatic().getName() )){
-				if( baseElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
-					this.add(new ParamPageDataModel(baseElement, baseRootDataModel, variableRootDataModel ) );
+				//Ha PARAMPAGE van alatta
+				if( pageElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
+					this.add(new ParamPageDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 				
 				//Ha ujabb BASENODE van alatta
-				//}else if( baseElement.getTagName().equals( ParamNodeDataModel.getTagStatic() )){
-				}else if( baseElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
-					this.add(new ParamNodeDataModel(baseElement, baseRootDataModel, variableRootDataModel ) );
+				}else if( pageElement.getTagName().equals( Tag.PARAMNODE.getName() )){					
+					this.add(new ParamNodeDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 				}
 			}
 		}

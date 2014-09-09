@@ -48,6 +48,14 @@ public class CheckboxOperation implements ElementOperationInterface{
 		
 		WebElement webElement = null;
 		
+		//Varakozik az elem megjeleneseig, de max 10 mp-ig
+		try{
+			wait.until(ExpectedConditions.elementToBeClickable( by ) );
+				
+		}catch( org.openqa.selenium.TimeoutException timeOutException ){
+			throw new ElementTimeoutException( element.getName(), baseElement.getIdentifier(), timeOutException );
+		}
+				
 		try{
 			webElement = driver.findElement( by );
 		}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
@@ -60,13 +68,6 @@ public class CheckboxOperation implements ElementOperationInterface{
 			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), new Exception() );
 		}
 		
-		try{
-			wait.until(ExpectedConditions.elementToBeClickable( by ) );
-		
-		}catch( org.openqa.selenium.TimeoutException timeOutException ){
-			throw new ElementTimeoutException( element.getName(), baseElement.getIdentifier(), timeOutException );
-		}
-
 		//Sajnos csak a javascipt hivassal mukodik. a webElement.click() hatasara nem tortenik semmi
 		//Feltehetoleg idozitesi problema, mert debug-kor mukodik
 		JavascriptExecutor executor = (JavascriptExecutor)driver;
