@@ -12,7 +12,10 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.IdentificationType;
 import hu.akoel.grawit.enums.Operation;
 import hu.akoel.grawit.enums.VariableSample;
+import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundException;
+import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
 public class FieldOperation implements ElementOperationInterface{
 	private VariableElementDataModel parameter;
@@ -32,7 +35,7 @@ public class FieldOperation implements ElementOperationInterface{
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementNotFoundException{
+	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException{
 		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
@@ -48,9 +51,26 @@ public class FieldOperation implements ElementOperationInterface{
 			by = By.cssSelector( baseElement.getIdentifier() );
 		}
 		
-		wait.until(ExpectedConditions.elementToBeClickable( by ) );		
-
-		WebElement webElement = driver.findElement( by );
+		WebElement webElement = null;
+		
+		try{
+			webElement = driver.findElement( by );
+		}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
+			throw new ElementInvalidSelectorException(element.getName(), baseElement.getIdentifier(), invalidSelectorException );
+		}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
+			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), noSuchElementException );
+		}
+		
+		if( null == webElement ){
+			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), new Exception() );
+		}
+		
+		try{
+			wait.until(ExpectedConditions.elementToBeClickable( by ) );
+		
+		}catch( org.openqa.selenium.TimeoutException timeOutException ){
+			throw new ElementTimeoutException( element.getName(), baseElement.getIdentifier(), timeOutException );
+		}
 		
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
