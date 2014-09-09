@@ -12,6 +12,8 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.IdentificationType;
 import hu.akoel.grawit.enums.Operation;
+import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
+import hu.akoel.grawit.exceptions.ElementNotFoundException;
 
 public class LinkOperation implements ElementOperationInterface{
 
@@ -23,10 +25,13 @@ public class LinkOperation implements ElementOperationInterface{
 	/**
 	 * 
 	 * Executes a Click action on the WebElement (Link)
+	 * @throws ElementNotFoundException 
+	 * @throws ElementInvalidSelectorException 
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParamElementDataModel element ) {
+	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementNotFoundException, ElementInvalidSelectorException {
+		
 		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
@@ -42,9 +47,22 @@ public class LinkOperation implements ElementOperationInterface{
 			by = By.cssSelector( baseElement.getIdentifier() );
 		}
 		
+		WebElement webElement = null;
+		
+		try{
+			webElement = driver.findElement( by );
+		}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
+			throw new ElementInvalidSelectorException(element.getName(), baseElement.getIdentifier(), invalidSelectorException );
+		}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
+			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), new Exception() );
+		}
+		
+		if( null == webElement ){
+			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), new Exception() );
+		}
+		
 		wait.until(ExpectedConditions.elementToBeClickable( by ) );		
 
-		WebElement webElement = driver.findElement( by );
 
 		//Execute the operation
 		//element.getDriver().findElement(element.getBy()).click();

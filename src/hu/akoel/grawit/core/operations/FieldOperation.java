@@ -12,7 +12,7 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.IdentificationType;
 import hu.akoel.grawit.enums.Operation;
 import hu.akoel.grawit.enums.VariableSample;
-import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.ElementNotFoundException;
 
 public class FieldOperation implements ElementOperationInterface{
 	private VariableElementDataModel parameter;
@@ -32,7 +32,7 @@ public class FieldOperation implements ElementOperationInterface{
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException{
+	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementNotFoundException{
 		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it

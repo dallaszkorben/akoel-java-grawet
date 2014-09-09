@@ -77,8 +77,10 @@ public class RunTree extends Tree {
 //			guiFrame.showEditorPanel( testcaseNodeEditor);								
 		
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
-			RunTestcaseEditor testcaseCaseEditor = new RunTestcaseEditor( this, (TestcaseCaseDataModel)selectedNode );								
-			guiFrame.showEditorPanel( testcaseCaseEditor);				
+			
+			//RunTestcaseEditor testcaseCaseEditor = new RunTestcaseEditor( this, (TestcaseCaseDataModel)selectedNode );
+			
+			guiFrame.showEditorPanel( RunTestcaseEditor.getInstance( this, (TestcaseCaseDataModel)selectedNode ) );				
 							
 /*		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
 			TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( this, (TestcaseParamPageDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	

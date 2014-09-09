@@ -1,22 +1,14 @@
 package hu.akoel.grawit.exceptions;
 
-public class ElementException extends Exception{
-	private String elementName;
-	private String elementId;
+public abstract class ElementException extends Exception{
 
-	private static final long serialVersionUID = 3601836630818056477L;
+	private static final long serialVersionUID = -7365125686038678803L;
 
-	public ElementException( String elementName, String elementId, Exception e ){
-		super( "Unable to find element: \nElement name: " + elementName + "\nElement id: " + elementId, e );
-		this.elementName = elementName;
-		this.elementId = elementId;
+	public ElementException( String message, Throwable exception ){
+		super( message, exception );
 	}
-	
-	public String getElementName() {
-		return elementName;
-	}
+	public abstract String getElementName();
 
-	public String getElementId() {
-		return elementId;
-	}
+	public abstract String getElementSelector();
+
 }
