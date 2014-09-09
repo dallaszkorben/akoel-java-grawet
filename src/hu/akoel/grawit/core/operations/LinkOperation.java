@@ -12,8 +12,10 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.IdentificationType;
 import hu.akoel.grawit.enums.Operation;
+import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundException;
+import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
 public class LinkOperation implements ElementOperationInterface{
 
@@ -27,10 +29,11 @@ public class LinkOperation implements ElementOperationInterface{
 	 * Executes a Click action on the WebElement (Link)
 	 * @throws ElementNotFoundException 
 	 * @throws ElementInvalidSelectorException 
+	 * @throws ElementTimeoutException 
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementNotFoundException, ElementInvalidSelectorException {
+	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException {
 		
 		BaseElementDataModel baseElement = element.getBaseElement();
 		
@@ -54,15 +57,19 @@ public class LinkOperation implements ElementOperationInterface{
 		}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
 			throw new ElementInvalidSelectorException(element.getName(), baseElement.getIdentifier(), invalidSelectorException );
 		}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
-			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), new Exception() );
+			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), noSuchElementException );
 		}
 		
 		if( null == webElement ){
 			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), new Exception() );
 		}
 		
-		wait.until(ExpectedConditions.elementToBeClickable( by ) );		
-
+		try{
+			wait.until(ExpectedConditions.elementToBeClickable( by ) );
+		
+		}catch( org.openqa.selenium.TimeoutException timeOutException ){
+			throw new ElementTimeoutException( element.getName(), baseElement.getIdentifier(), timeOutException );
+		}
 
 		//Execute the operation
 		//element.getDriver().findElement(element.getBy()).click();
