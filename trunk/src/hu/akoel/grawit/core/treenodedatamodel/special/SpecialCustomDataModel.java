@@ -259,7 +259,11 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 				//Hogy kezelni tudjam a nem megtalalt elemet
 				//A tobbi hiba mind programozasi hiba, tehat Error
 				//TODO valszeg le kell zarnom a program futasat a tobbi esetben 
-				throw new PageException( this.getName(), ((PageException)e.getCause()).getElementName(), ((PageException)e.getCause()).getElementId(), ((PageException)e.getCause()).getCause() );				
+				throw new PageException( 
+						this.getName(), 
+						((PageException)e.getCause()).getElementName(), 
+						((PageException)e.getCause()).getElementId(), 
+						((PageException)e.getCause()).getElementException() );				
 			}else{
 				System.err.println("Invocation target Exception: " + e.getCause());
 				throw new Error(e);
