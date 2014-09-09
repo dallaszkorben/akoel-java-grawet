@@ -235,6 +235,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 			
 			// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
 			String frame = parameterElement.getBaseElement().getFrame();
+			//driver.switchTo().defaultContent();
 			if( null != frame && frame.trim().length() > 0 ){
 				driver.switchTo().defaultContent();
 				driver.switchTo().frame( frame );		

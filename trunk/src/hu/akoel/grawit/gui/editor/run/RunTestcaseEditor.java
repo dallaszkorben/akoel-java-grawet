@@ -2,6 +2,7 @@ package hu.akoel.grawit.gui.editor.run;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -14,7 +15,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 import org.openqa.selenium.WebDriver;
 
@@ -40,7 +48,11 @@ public class RunTestcaseEditor extends BaseEditor{
 	private static RunTestcaseEditor instance = null;
 	
 	private JButton runButton;
-	private JTextArea errorList;
+	//private JTextArea reportList;
+	private JTextPane reportList;
+	private DefaultStyledDocument reportDocument;
+	private SimpleAttributeSet attributeError;
+	private SimpleAttributeSet attributePageFinished;
 	private JTextArea pageList;	
 	
 	public static RunTestcaseEditor getInstance( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){
@@ -52,7 +64,7 @@ public class RunTestcaseEditor extends BaseEditor{
 	
 	private RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){		
 
-		super( "Teszteset futtatása" );
+		super( "Teszteset futtatГЎsa" );
 
 		this.selectedTestcase = testcaseCaseElement;
 		
@@ -76,7 +88,8 @@ public class RunTestcaseEditor extends BaseEditor{
 						RunTestcaseEditor.this.runButton.setEnabled( false );
 						
 						pageList.setText("");
-						errorList.setText("");
+						reportList.setText("");
+						
 						
 				    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
 						
@@ -98,13 +111,25 @@ public class RunTestcaseEditor extends BaseEditor{
 				
 				    	}catch( CompilationException compillationException ){
 				    		
-				    		errorList.append( compillationException.getMessage() + "\n\n" );
+				    		//reportList.append( compillationException.getMessage() + "\n\n" );
+				    		try {
+								reportDocument.insertString(reportDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
+							} catch (BadLocationException e) {e.printStackTrace();}
 				    		
 				    	}catch( PageException pageException ){
 				    		
-				    		errorList.append( pageException.getMessage() +  "\n\n" );
+				    		//reportList.append( pageException.getMessage() +  "\n\n" );
+				    		try {
+								reportDocument.insertString(reportDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
+							} catch (BadLocationException e) {e.printStackTrace();}
 				    	
-//				    	}catch( Exception exception ){
+				    	//Nem kezbentartott hiba
+				    	}catch( Exception exception ){
+				    		
+				    		try {
+								reportDocument.insertString(reportDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
+							} catch (BadLocationException e) {e.printStackTrace();}
+				    	
 				    		
 /*				    	}catch( org.openqa.selenium.TimeoutException timeOutException ){
 				    		timeoutException.
@@ -130,15 +155,50 @@ public class RunTestcaseEditor extends BaseEditor{
 		controlPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
 		
 		//Error list panel		
-		errorList = new JTextArea( 4, 11);
-		errorList.setBorder(BorderFactory.createEmptyBorder());
-		errorList.setForeground(Color.red);
-		JScrollPane spForErrorList = new JScrollPane(errorList);
+		//reportList = new JTextArea( 4, 11);
+		
+		 StyleContext sc = new StyleContext();
+		 reportDocument = new DefaultStyledDocument(sc);
+		 reportList = new JTextPane(reportDocument);
+		 
+		 //Error attribute
+		 attributeError = new SimpleAttributeSet();
+		 StyleConstants.setForeground( attributeError, Color.RED );
+		 StyleConstants.setBold( attributeError, true);
+		 
+		 //Page finished attribute
+		 attributePageFinished = new SimpleAttributeSet();
+		 StyleConstants.setForeground( attributePageFinished, Color.GREEN );
+		
+		 //Automatic scroll
+		 DefaultCaret reportListCaret = (DefaultCaret)reportList.getCaret();
+		 reportListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		 
+		 //Scroll panel
+		 JScrollPane scrollPaneForReportList = new JScrollPane(reportList);
+		 scrollPaneForReportList.setPreferredSize(new Dimension(10,100));
+		 
+		 this.add( scrollPaneForReportList, BorderLayout.SOUTH );
+		 scrollPaneForReportList.setAutoscrolls(true);
+		 
+		 
+		    
+		
+/*		reportList = new JTextPane();
+		reportList.setBorder(BorderFactory.createEmptyBorder());
+		reportList.setForeground(Color.red);
+		//Automatikus scroll
+		DefaultCaret reportListCaret = (DefaultCaret)reportList.getCaret();
+		reportListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		JScrollPane spForErrorList = new JScrollPane(reportList);
 		this.add( spForErrorList, BorderLayout.SOUTH );
+*/		
 		
 		//Page list
 		pageList = new JTextArea(2, 15);
 		pageList.setEditable(false);
+		DefaultCaret pageListCaret = (DefaultCaret)pageList.getCaret();
+		pageListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		JScrollPane spForPageList = new JScrollPane(pageList);
 		
 		c.gridy = 0;
@@ -174,7 +234,10 @@ public class RunTestcaseEditor extends BaseEditor{
 
 		@Override
 		public void pageStarted(String idName, String modelName) {
-			RunTestcaseEditor.this.pageList.append( idName + " started\n");
+			//RunTestcaseEditor.this.reportList.( "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal ELINDULT\n" );
+			try {
+				reportDocument.insertString(reportDocument.getLength(), "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal ELINDULT\n", null );
+			} catch (BadLocationException e) {e.printStackTrace();}
 			
 			//System.err.println( "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal ELINDULT" );
 			
@@ -182,9 +245,15 @@ public class RunTestcaseEditor extends BaseEditor{
 
 		@Override
 		public void pageEnded(String idName, String modelName) {
-			//System.err.println( "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal BEFEJEZŐDÖTT" );
+			//System.err.println( "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal BEFEJEZЕZŐDÖTT" );
 			
-			RunTestcaseEditor.this.pageList.append( idName + " ended\n");
+			try {
+				reportDocument.insertString(reportDocument.getLength(), "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal BEFEJEZ{D)TT\n", attributePageFinished );
+			} catch (BadLocationException e) {e.printStackTrace();}
+			
+			//RunTestcaseEditor.this.reportList.append(  "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal BEFEJEZЕZŐDÖTT\n");
+			RunTestcaseEditor.this.pageList.append( idName + " OK\n");
+			
 		}
 		
 	}

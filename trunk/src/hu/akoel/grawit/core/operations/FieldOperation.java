@@ -2,6 +2,7 @@ package hu.akoel.grawit.core.operations;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,6 +14,7 @@ import hu.akoel.grawit.enums.IdentificationType;
 import hu.akoel.grawit.enums.Operation;
 import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
@@ -37,25 +39,24 @@ public class FieldOperation implements ElementOperationInterface{
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException{
 		BaseElementDataModel baseElement = element.getBaseElement();
+		By by = null;
+		WebElement webElement = null;
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		
-		By by = null;
-		
-		//ID
+						
+		//Selector meszerzese
 		if( baseElement.getIdentificationType().equals(IdentificationType.ID)){
 			by = By.id( baseElement.getIdentifier() );
 		//CSS
 		}else if( baseElement.getIdentificationType().equals(IdentificationType.CSS)){
 			by = By.cssSelector( baseElement.getIdentifier() );
 		}
-		
-		WebElement webElement = null;
-		
+						
 		//Varakozik az elem megjeleneseig, de max 10 mp-ig
 		try{
-			wait.until(ExpectedConditions.elementToBeClickable( by ) );
+			wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
+			//wait.until(ExpectedConditions.elementToBeClickable( by ) );
 		
 		}catch( org.openqa.selenium.TimeoutException timeOutException ){
 			throw new ElementTimeoutException( element.getName(), baseElement.getIdentifier(), timeOutException );
@@ -72,9 +73,13 @@ public class FieldOperation implements ElementOperationInterface{
 		if( null == webElement ){
 			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), new Exception() );
 		}
-		
-
-		
+/*		
+		while( !webElement.isDisplayed() ){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {}
+		}	
+*/		
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
 		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
@@ -84,9 +89,13 @@ public class FieldOperation implements ElementOperationInterface{
 			element.setVariableValue( webElement.getText() );
 		}
 		
-		//Execute the operation
-		webElement.clear();
-		webElement.sendKeys( parameter.getValue() );
+		try{
+			//Execute the operation
+			webElement.clear();
+			webElement.sendKeys( parameter.getValue() );
+		}catch (WebDriverException webDriverException){
+			throw new ElementInvalidOperationException( getOperation(), element.getName(), baseElement.getIdentifier(), webDriverException );
+		}
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
 		if( baseElement.getVariableSample().equals( VariableSample.POST ) ){
