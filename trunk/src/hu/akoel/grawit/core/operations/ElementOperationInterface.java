@@ -5,12 +5,11 @@ import org.openqa.selenium.WebDriver;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.Operation;
-import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
-import hu.akoel.grawit.exceptions.ElementNotFoundException;
+import hu.akoel.grawit.exceptions.ElementException;
 
 public interface ElementOperationInterface {
 	
-	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementNotFoundException, ElementInvalidSelectorException;
+	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException;
 	
 	/**
 	 * Visszaadja a muveletet

@@ -28,8 +28,10 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.enums.Operation;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundException;
+import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -206,10 +208,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	/**
 	 * 
 	 * Executes the defined Operation with the defined Parameter
-	 * @throws ElementNotFoundException 
+	 * @throws ElementException 
 	 * 
 	 */
-	public void doAction( WebDriver driver ) throws ElementNotFoundException, ElementInvalidSelectorException{
+	public void doAction( WebDriver driver ) throws ElementException{
 		this.getElementOperation().doAction( driver, this );
 	}
 	
