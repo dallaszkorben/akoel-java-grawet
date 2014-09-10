@@ -14,6 +14,7 @@ import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.ListOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
+import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -144,6 +145,7 @@ public class ParamElementEditor extends DataEditor{
 		fieldOperation.addItem( Operation.getOperationByIndex(3).getTranslatedName() );
 		fieldOperation.addItem( Operation.getOperationByIndex(4).getTranslatedName() );
 		fieldOperation.addItem( Operation.getOperationByIndex(5).getTranslatedName() );
+		fieldOperation.addItem( Operation.getOperationByIndex(6).getTranslatedName() );
 		fieldOperation.addItemListener( new ItemListener() {
 			
 			private boolean hasBeenHere = false;
@@ -223,7 +225,12 @@ public class ParamElementEditor extends DataEditor{
 /*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }					
-*/					 }
+*/				 
+					}else if( operation.equals( Operation.TAB ) ){
+/*						 if( null != fieldParameterElementSelector ){
+						 	ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
+						 }					
+					*/					 }
 					 hasBeenHere = true;						
 				}				
 			}
@@ -368,6 +375,8 @@ public class ParamElementEditor extends DataEditor{
 				elementOperation = new CheckboxOperation();
 			}else if( operation.equals( Operation.RADIOBUTTON ) ){
 				elementOperation = new RadioButtonOperation();
+			}else if( operation.equals( Operation.TAB ) ){
+				elementOperation = new TabOperation();
 			}else {
 				elementOperation = new LinkOperation();
 			}
