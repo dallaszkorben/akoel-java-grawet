@@ -1,7 +1,8 @@
-package hu.akoel.grawit.gui.editors.component.variableparameter;
+package hu.akoel.grawit.gui.editors.component.dateinterval;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.ParameterType;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersComponentInterface;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -13,9 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VariableParametersRandomIntegerComponent extends JPanel implements VariableParametersComponentInterface{
+public class DateIntervalComponent extends JPanel implements VariableParametersComponentInterface{
 
-	private static final long serialVersionUID = 9007331207402054910L;
+	private static final long serialVersionUID = -3266616532152280622L;
 	
 	private static final String DEFAULT_FROM = "1";
 	private static final String DEFAULT_TO = "100";
@@ -33,7 +34,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomIntegerComponent( ParameterType type ){
+	public DateIntervalComponent( ParameterType type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
@@ -51,7 +52,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomIntegerComponent( ParameterType type, ArrayList<Object> parameterList ){
+	public DateIntervalComponent( ParameterType type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel

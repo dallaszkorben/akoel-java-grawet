@@ -1,7 +1,9 @@
 package hu.akoel.grawit.enums;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import hu.akoel.grawit.CommonOperations;
 
@@ -12,6 +14,7 @@ public enum ParameterType {
 	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
 	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class}),
 	INTEGER_PARAMETER( 4, CommonOperations.getTranslation("editor.label.variable.parametertype.integer"), new Class<?>[]{Integer.class}),
+	RANDOM_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate"), new Class<?>[]{Integer.class}),
 	;
 	
 	private int index;
@@ -58,7 +61,11 @@ public enum ParameterType {
 			
 		}else if( this.equals( RANDOM_DOUBLE_PARAMETER ) ){
 			
-			return CommonOperations.getRandomStringDouble( (Double)parameters.get(0), (Double)parameters.get(0), (Integer)parameters.get(0));
+			return CommonOperations.getRandomStringDouble( (Double)parameters.get(0), (Double)parameters.get(1), (Integer)parameters.get(2));
+			
+		}else if( this.equals( RANDOM_DATE_PARAMETER ) ){
+			
+			return CommonOperations.getRandomStringDate( (Calendar)parameters.get(0), (Calendar)parameters.get(1), (SimpleDateFormat)parameters.get(2));
 		}
 
 //TODO ne felejtsd el folytatni		
