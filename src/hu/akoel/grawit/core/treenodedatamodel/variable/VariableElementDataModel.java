@@ -27,8 +27,8 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 	
 	private String name;
 	private ParameterType type;
-	private ArrayList<Object> parameters;	
-	
+	private ArrayList<Object> parameters;
+		
 	public VariableElementDataModel( String name, ParameterType type, ArrayList<Object> parameters){
 		this.name = name;
 		this.type = type;
@@ -54,7 +54,10 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		}
 		if( ParameterType.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = ParameterType.STRING_PARAMETER;
-		
+			
+		}else if( ParameterType.INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ParameterType.INTEGER_PARAMETER;
+			
 		}else if( ParameterType.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = ParameterType.RANDOM_STRING_PARAMETER;
 			

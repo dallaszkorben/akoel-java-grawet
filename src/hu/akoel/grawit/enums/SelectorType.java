@@ -1,6 +1,6 @@
 package hu.akoel.grawit.enums;
 
-public enum IdentificationType {
+public enum SelectorType {
 	ID,
 	CSS
 }

@@ -8,7 +8,7 @@ import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
-import hu.akoel.grawit.enums.IdentificationType;
+import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -30,22 +30,22 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	private VariableSample variableSample;
 	private String frame;
 	private String identifier;
-	private IdentificationType identificationType;
+	private SelectorType identificationType;
 
 
 
-	public BaseElementDataModel(String name, String identifier, IdentificationType identificationType, VariableSample variableSample, String frame){
+	public BaseElementDataModel(String name, String identifier, SelectorType identificationType, VariableSample variableSample, String frame){
 		common( name, identifier, identificationType, variableSample, frame );	
 	}
 
-	public BaseElementDataModel( String name, String identifier, IdentificationType identificationType, VariableSample variableSample ){
+	public BaseElementDataModel( String name, String identifier, SelectorType identificationType, VariableSample variableSample ){
 		common( name, identifier, identificationType, variableSample, null );
 	}
 
 	public BaseElementDataModel( BaseElementDataModel element ){
 		this.name = element.getName();
-		this.identifier = element.getIdentifier();
-		this.identificationType = element.getIdentificationType();
+		this.identifier = element.getSelector();
+		this.identificationType = element.getSelectorType();
 		this.variableSample = element.getVariableSample();
 	}
 
@@ -83,10 +83,10 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE );
 		}
 		String identificationTypeString = element.getAttribute( ATTR_IDENTIFICATION_TYPE );
-		if( IdentificationType.ID.name().equals( identificationTypeString ) ){
-			identificationType = IdentificationType.ID;
-		}else if( IdentificationType.CSS.name().equals( identificationTypeString ) ){
-			identificationType = IdentificationType.CSS;
+		if( SelectorType.ID.name().equals( identificationTypeString ) ){
+			identificationType = SelectorType.ID;
+		}else if( SelectorType.CSS.name().equals( identificationTypeString ) ){
+			identificationType = SelectorType.CSS;
 		}else{			
 			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
 		}
@@ -107,7 +107,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}		
 	}
 	
-	private void common( String name, String identifier, IdentificationType identificationType, VariableSample variableSample, String frame ){		
+	private void common( String name, String identifier, SelectorType identificationType, VariableSample variableSample, String frame ){		
 		this.name = name;
 		this.identifier = identifier;
 		this.identificationType = identificationType;
@@ -133,7 +133,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.name = name;
 	}
 
-	public String getIdentifier() {
+	public String getSelector() {
 		return identifier;
 	}
 
@@ -141,11 +141,11 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.identifier = identifier;
 	}
 
-	public IdentificationType getIdentificationType() {
+	public SelectorType getSelectorType() {
 		return identificationType;
 	}
 
-	public void setIdentificationType(IdentificationType identificationType) {
+	public void setIdentificationType(SelectorType identificationType) {
 		this.identificationType = identificationType;
 	}
 
@@ -198,11 +198,11 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		elementElement.setAttributeNode(attr);
 		
 		attr = document.createAttribute( ATTR_IDENTIFIER );
-		attr.setValue( getIdentifier() );
+		attr.setValue( getSelector() );
 		elementElement.setAttributeNode(attr);	
 
 		attr = document.createAttribute( ATTR_IDENTIFICATION_TYPE );
-		attr.setValue( getIdentificationType().name() );
+		attr.setValue( getSelectorType().name() );
 		elementElement.setAttributeNode(attr);	
 
 		return elementElement;	

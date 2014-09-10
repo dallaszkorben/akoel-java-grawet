@@ -20,9 +20,6 @@ import javax.tools.JavaCompiler.CompilationTask;
 public class SpecialCustomEditor extends DataEditor{
 
 	private static final long serialVersionUID = 157539958460178584L;
-	
-	private static final int ROWS = 10;
-	private static final int COLUMNS = 15;
 
 	private Tree tree; 
 	private SpecialCustomDataModel nodeForModify;
@@ -174,12 +171,13 @@ public class SpecialCustomEditor extends DataEditor{
 			if( !success ){
 				errorList.put( 
 						fieldScript, 
-						MessageFormat.format( 
+						//MessageFormat.format( 
 								CommonOperations.getTranslation("editor.errormessage.formaterrorcustomscript") + "\n\n" + 
-								customDataModel.getDiagnostic(), 
+								customDataModel.getDiagnostic()
+								/*, 
 								fieldScript.getScript(), 
-								CommonOperations.getTranslation("tree.nodetype.special.custom") 
-						) 
+								CommonOperations.getTranslation("tree.nodetype.special.custom")*/ 
+						//) 
 				);
 			
 				//Hibajelzes

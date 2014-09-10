@@ -10,11 +10,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.enums.IdentificationType;
+import hu.akoel.grawit.enums.SelectorType;
+import hu.akoel.grawit.enums.ListSelectionType;
 import hu.akoel.grawit.enums.Operation;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
-import hu.akoel.grawit.exceptions.ElementNotFoundException;
+import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
 public class RadioButtonOperation implements ElementOperationInterface{
@@ -39,10 +40,10 @@ public class RadioButtonOperation implements ElementOperationInterface{
 		By by = null;
 		
 		//ID
-		if( baseElement.getIdentificationType().equals(IdentificationType.ID)){
-			by = By.id( baseElement.getIdentifier() );
-		}else if( baseElement.getIdentificationType().equals(IdentificationType.CSS)){
-			by = By.cssSelector( baseElement.getIdentifier() );
+		if( baseElement.getSelectorType().equals(SelectorType.ID)){
+			by = By.id( baseElement.getSelector() );
+		}else if( baseElement.getSelectorType().equals(SelectorType.CSS)){
+			by = By.cssSelector( baseElement.getSelector() );
 		}
 		
 		WebElement webElement = null;
@@ -52,19 +53,19 @@ public class RadioButtonOperation implements ElementOperationInterface{
 			wait.until(ExpectedConditions.elementToBeClickable( by ) );
 				
 		}catch( org.openqa.selenium.TimeoutException timeOutException ){
-			throw new ElementTimeoutException( element.getName(), baseElement.getIdentifier(), timeOutException );
+			throw new ElementTimeoutException( element.getName(), baseElement.getSelector(), timeOutException );
 		}
 				
 		try{
 			webElement = driver.findElement( by );
 		}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
-			throw new ElementInvalidSelectorException(element.getName(), baseElement.getIdentifier(), invalidSelectorException );
+			throw new ElementInvalidSelectorException(element.getName(), baseElement.getSelector(), invalidSelectorException );
 		}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
-			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), noSuchElementException );
+			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), noSuchElementException );
 		}
 		
 		if( null == webElement ){
-			throw new ElementNotFoundException( element.getName(), baseElement.getIdentifier(), new Exception() );
+			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
 		}
 		
 		//Execute the operation
@@ -79,7 +80,11 @@ public class RadioButtonOperation implements ElementOperationInterface{
 
 	@Override
 	public VariableElementDataModel getVariableElement() {
-		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ListSelectionType getListSelectionType() {
 		return null;
 	}
 }
