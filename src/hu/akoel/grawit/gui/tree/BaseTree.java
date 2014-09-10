@@ -32,6 +32,7 @@ public class BaseTree extends Tree{
 	public BaseTree(GUIFrame guiFrame, BaseRootDataModel rootDataModel) {
 		super(guiFrame, rootDataModel);
 		this.guiFrame = guiFrame;
+		this.setDragEnabled(true);
 	}
 
 	@Override
