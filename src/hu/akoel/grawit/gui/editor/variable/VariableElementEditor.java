@@ -226,6 +226,8 @@ public class VariableElementEditor extends DataEditor{
 		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype") + ": ");
 		labelVariableParameters = new JLabel("");
 		
+		//this.add( labelName, fieldName );
+		//jx
 		this.add( labelName, fieldName );
 		this.add( labelVariableType, fieldVariableType );
 //		this.add( labelVariableParameters, fieldVariableParameters );

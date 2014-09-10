@@ -175,7 +175,8 @@ public class ParamElementEditor extends DataEditor{
 							 
 							 //Akkor uresen kell kapnom a mezot
 							 fieldVariableSelector = new ParameterElementTreeSelectorComponent( rootDataModel );
-						 
+							 fieldListSelectionType.setSelectedIndex( ListSelectionType.BYVISIBLETEXT.getIndex() );
+							 
 						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
 						 }else{
 							 

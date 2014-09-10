@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="hu.akoel.grawit.CommonOperations.ValueVerifier"
+        x="1059" y="74">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.enums.ParameterType"
+            endpointName="type" kind="Simple"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editor.variable.VariableElementEditor"
+        x="377" y="70">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel"
+            endpointName="nodeForModify" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.enums.ParameterType"
+            endpointName="type" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel"/>
+    </Class>
+    <Class name="hu.akoel.grawit.enums.ParameterType" x="619" y="417">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel"
+        x="292" y="465">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.enums.ParameterType"
+            endpointName="type" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.enums.ParameterType"/>
+    </Class>
+</ClassDiagram>
