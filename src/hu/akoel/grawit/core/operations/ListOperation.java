@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.common.base.Function;
+
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
@@ -31,7 +33,7 @@ public class ListOperation implements ElementOperationInterface{
 		this.listSelectionType = listSelectionType;
 		this.parameter = parameter;
 	}
-//TODO meg kell csinalni !!!!!!!!!!!!!!!!!!!	
+	
 	@Override
 	public Operation getOperation() {
 		return Operation.LIST;
@@ -61,8 +63,15 @@ public class ListOperation implements ElementOperationInterface{
 						
 		//Varakozik az elem megjeleneseig, de max 10 mp-ig
 		try{
-			//wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
-			wait.until(ExpectedConditions.elementToBeClickable( by ) );
+			wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
+			//wait.until(ExpectedConditions.elementToBeClickable( by ) );
+			//wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy( by ) );
+			/*WebElement foo = wait.until(new Function<WebDriver, WebElement>() {
+		        public WebElement apply(WebDriver driver) {
+		            return driver.findElement(by);
+		        }
+		    });*/
+			
 		
 		}catch( org.openqa.selenium.TimeoutException timeOutException ){
 			throw new ElementTimeoutException( element.getName(), baseElement.getSelector(), timeOutException );
@@ -95,6 +104,7 @@ public class ListOperation implements ElementOperationInterface{
 		}catch (UnexpectedTagNameException e){
 			throw new ElementInvalidOperationException( getOperation(), element.getName(), baseElement.getSelector(), e );			
 		}
+		
 		
 		try{
 

@@ -21,16 +21,15 @@ import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
-public class FieldOperation implements ElementOperationInterface{
-	private VariableElementDataModel parameter;
+public class TabOperation implements ElementOperationInterface{
 	
-	public FieldOperation( VariableElementDataModel parameter ){
-		this.parameter = parameter;
+	public TabOperation( ){
+
 	}
 	
 	@Override
 	public Operation getOperation() {
-		return Operation.FIELD;
+		return Operation.TAB;
 	}
 	
 	/**
@@ -95,8 +94,8 @@ public class FieldOperation implements ElementOperationInterface{
 		
 		try{
 			//Execute the operation
-			webElement.clear();
-			webElement.sendKeys( parameter.getValue() );
+			//webElement.clear();
+			//webElement.sendKeys( parameter.getValue() );
 			webElement.sendKeys(Keys.TAB);
 		}catch (WebDriverException webDriverException){
 			throw new ElementInvalidOperationException( getOperation(), element.getName(), baseElement.getSelector(), webDriverException );
@@ -114,7 +113,7 @@ public class FieldOperation implements ElementOperationInterface{
 
 	@Override
 	public VariableElementDataModel getVariableElement() {
-		return parameter;
+		return null;
 	}
 
 	@Override

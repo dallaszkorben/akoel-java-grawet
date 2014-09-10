@@ -21,6 +21,7 @@ import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.ListOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
+import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
@@ -157,6 +158,8 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			this.elementOperation = new LinkOperation();
 		}else if( Operation.RADIOBUTTON.name().equals( operatorString ) ){
 			this.elementOperation = new RadioButtonOperation();
+		}else if( Operation.TAB.name().equals( operatorString ) ){
+			this.elementOperation = new TabOperation();
 		}else{
 			throw new XMLWrongAttributePharseException(getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPERATION, operatorString );
 		}
