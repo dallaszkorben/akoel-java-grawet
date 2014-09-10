@@ -13,6 +13,7 @@ import hu.akoel.grawit.enums.ParameterType;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersIntegerComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersComponentInterface;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomDoubleComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomIntegerComponent;
@@ -112,6 +113,7 @@ public class VariableElementEditor extends DataEditor{
 		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(1).getTranslatedName() );
 		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(2).getTranslatedName() );
 		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(3).getTranslatedName() );
+		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(4).getTranslatedName() );
 		fieldVariableType.addItemListener( new ItemListener() {
 			
 			@Override
@@ -141,7 +143,21 @@ public class VariableElementEditor extends DataEditor{
 						}
 						
 						
+					}else if( ParameterType.getVariableParameterTypeByIndex(index).equals(ParameterType.INTEGER_PARAMETER ) ){
 
+						//Nem ez az elso valtoztatas
+						if( null != fieldVariableParameters ){
+							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
+							fieldVariableParameters = new VariableParametersIntegerComponent(type);
+						}else{
+							//Modositas volt
+							if( null != nodeForModify ){
+								fieldVariableParameters = new VariableParametersIntegerComponent(type, nodeForModify.getParameters() );
+							}else{
+								fieldVariableParameters = new VariableParametersIntegerComponent(type);
+							}
+						}
+						
 					//RANDOM_STRING_PARAMETER	
 					}else if( ParameterType.getVariableParameterTypeByIndex(index).equals(ParameterType.RANDOM_STRING_PARAMETER ) ){
 						

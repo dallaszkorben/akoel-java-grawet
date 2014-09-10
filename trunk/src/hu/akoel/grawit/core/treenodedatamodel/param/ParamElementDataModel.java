@@ -19,6 +19,7 @@ import hu.akoel.grawit.core.operations.CheckboxOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
+import hu.akoel.grawit.core.operations.ListOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
@@ -26,12 +27,10 @@ import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
+import hu.akoel.grawit.enums.ListSelectionType;
 import hu.akoel.grawit.enums.Operation;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
-import hu.akoel.grawit.exceptions.ElementNotFoundException;
-import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -45,7 +44,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementpath";
 	private static final String ATTR_OPERATION = "operation";
+	
 	private static final String ATTR_VARIABLE_ELEMENT_PATH = "variableelementpath";
+	private static final String ATTR_LIST_SELECTION_TYPE = "listselectiontype";
 	
 	private String name;
 	private ElementOperationInterface elementOperation;
@@ -55,7 +56,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	public ParamElementDataModel( String name, BaseElementDataModel baseElement, ElementOperationInterface operation){
 		this.name = name;
 		this.baseElement = baseElement;
-		this.elementOperation = operation;
+		this.elementOperation = operation;		
 	}
 	
 	public ParamElementDataModel( Element element, BaseDataModelInterface baseDataModel, VariableDataModelInterface variableDataModel ) throws XMLPharseException{
@@ -80,7 +81,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			this.elementOperation = new ButtonOperation();
 		}else if( Operation.CHECKBOX.name().equals(operatorString) ){
 			this.elementOperation = new CheckboxOperation();
-		}else if( Operation.FIELD.name().equals( operatorString ) ){
+		}else if( Operation.FIELD.name().equals( operatorString ) || Operation.LIST.name().equals( operatorString ) ){
 			
 			String variableElementPathString = element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH);				
 			variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
@@ -129,7 +130,18 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    }	    
 		    try{
 		    	
-		    	this.elementOperation = new FieldOperation( (VariableElementDataModel)variableDataModel );
+		    	if( Operation.FIELD.name().equals(operatorString ) ){
+		    		this.elementOperation = new FieldOperation( (VariableElementDataModel)variableDataModel );
+		    	}else{
+		    		
+		    		if( !element.hasAttribute( ATTR_LIST_SELECTION_TYPE ) ){
+		    			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_LIST_SELECTION_TYPE );
+		    		}
+		    		String listSelectionTypeString = element.getAttribute( ATTR_LIST_SELECTION_TYPE );		
+		    		ListSelectionType listSelectionType = ListSelectionType.valueOf(listSelectionTypeString );
+		    				    		
+		    		this.elementOperation = new ListOperation(listSelectionType, (VariableElementDataModel)variableDataModel);
+		    	}
 		    	
 		    }catch(ClassCastException e){
 
@@ -295,18 +307,34 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		attr = document.createAttribute( ATTR_OPERATION );
 		attr.setValue( getElementOperation().getOperation().name() );
 		elementElement.setAttributeNode(attr);
+
+		//Ha FIELD/LIST, akkor biztos hogy kell VariableElementPath parameter
+		if( getElementOperation().getOperation().equals( Operation.FIELD ) || getElementOperation().getOperation().equals( Operation.LIST ) ){
 		
-		//VariableElementPath
-		attr = document.createAttribute( ATTR_VARIABLE_ELEMENT_PATH );
-		VariableDataModelInterface variableDataModel = elementOperation.getVariableElement();
-		if( null == variableDataModel ){
-			attr.setValue("");
-		}else{
-			attr.setValue( variableDataModel.getPathTag() );
+			//VariableElementPath
+			attr = document.createAttribute( ATTR_VARIABLE_ELEMENT_PATH );
+			VariableDataModelInterface variableDataModel = elementOperation.getVariableElement();
+			if( null == variableDataModel ){ //Ez nem lehet
+				attr.setValue(""); 
+			}else{
+				attr.setValue( variableDataModel.getPathTag() );
+			}
+			elementElement.setAttributeNode( attr );
 		}
-		elementElement.setAttributeNode( attr );
-		
-		
+			
+		if( getElementOperation().getOperation().equals( Operation.LIST ) ){
+			
+			//List selectionType
+			attr = document.createAttribute( ATTR_LIST_SELECTION_TYPE );
+			ListSelectionType listSelectionType = elementOperation.getListSelectionType();
+			if( null == listSelectionType ){ //Ez nem lehet
+				attr.setValue("");
+			}else{
+				attr.setValue( listSelectionType.name() );
+			}
+			elementElement.setAttributeNode( attr );
+		}
+				
 		return elementElement;	
 	}
 	

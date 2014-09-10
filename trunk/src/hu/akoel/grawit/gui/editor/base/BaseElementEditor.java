@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
-import hu.akoel.grawit.enums.IdentificationType;
+import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
@@ -88,13 +88,13 @@ public class BaseElementEditor extends DataEditor{
 		fieldFrame = new TextFieldComponent( selectedNode.getFrame() );
 				
 		//Identifier
-		fieldIdentifier = new TextFieldComponent( selectedNode.getIdentifier() );
+		fieldIdentifier = new TextFieldComponent( selectedNode.getSelector() );
 	
 		//Identifier type
-	    IdentificationType idType = selectedNode.getIdentificationType();	    
-	   	if( idType.equals( IdentificationType.ID ) ){
+	    SelectorType idType = selectedNode.getSelectorType();	    
+	   	if( idType.equals( SelectorType.ID ) ){
 	   		buttonID.setSelected(true);
-	   	}else if( idType.equals( IdentificationType.CSS ) ){
+	   	}else if( idType.equals( SelectorType.CSS ) ){
 	   		buttonCSS.setSelected(true);
 	   	}
 			
@@ -235,11 +235,11 @@ public class BaseElementEditor extends DataEditor{
 				variableSample = VariableSample.POST;
 			} 
 			
-			IdentificationType identificationType = null;
+			SelectorType identificationType = null;
 			if( buttonID.isSelected() ){
-				identificationType = IdentificationType.ID;
+				identificationType = SelectorType.ID;
 			}else if( buttonCSS.isSelected() ){
-				identificationType = IdentificationType.CSS;
+				identificationType = SelectorType.CSS;
 			}
 			
 			//TreePath pathToOpen = null;
