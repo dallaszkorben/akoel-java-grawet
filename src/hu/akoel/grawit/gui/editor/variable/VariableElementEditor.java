@@ -15,6 +15,7 @@ import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersIntegerComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersComponentInterface;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomDateComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomDoubleComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomIntegerComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomStringComponent;
@@ -114,6 +115,7 @@ public class VariableElementEditor extends DataEditor{
 		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(2).getTranslatedName() );
 		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(3).getTranslatedName() );
 		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(4).getTranslatedName() );
+		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(5).getTranslatedName() );
 		fieldVariableType.addItemListener( new ItemListener() {
 			
 			@Override
@@ -209,7 +211,22 @@ public class VariableElementEditor extends DataEditor{
 								fieldVariableParameters = new VariableParametersRandomDoubleComponent(type);
 							}
 						}
+										
+					//RANDOM_DATE_PARAMETER
+					}else if( ParameterType.getVariableParameterTypeByIndex(index).equals(ParameterType.RANDOM_DATE_PARAMETER ) ){
 						
+						//Nem ez az elso valtoztatas
+						if( null != fieldVariableParameters ){
+							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
+							fieldVariableParameters = new VariableParametersRandomDateComponent(type);
+						}else{
+							//Modositas volt
+							if( null != nodeForModify ){
+								fieldVariableParameters = new VariableParametersRandomDateComponent(type, nodeForModify.getParameters() );
+							}else{
+								fieldVariableParameters = new VariableParametersRandomDateComponent(type);
+							}
+						}										
 						
 					}
 					
