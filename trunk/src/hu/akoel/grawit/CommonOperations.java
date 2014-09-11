@@ -5,6 +5,7 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.ParameterType;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,13 +36,13 @@ public class CommonOperations {
 	
 	private static Random rnd = new Random();
 	
-	private static final String NUMLIST = "1234567890";
+	//private static final String NUMLIST = "1234567890";
 	
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private static SimpleDateFormat yearMonthFormat = new SimpleDateFormat("MM/yyyy");
 	private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
-	private static Calendar calendarBegin = new GregorianCalendar(1970, 01, 01 );
-	private static Calendar calendarEnd = new GregorianCalendar(1994, 01, 01 );
+//	private static Calendar calendarBegin = new GregorianCalendar(1970, 01, 01 );
+//	private static Calendar calendarEnd = new GregorianCalendar(1994, 01, 01 );
 
 	public static enum Browser{
 		FIREFOX,
@@ -66,8 +67,9 @@ public class CommonOperations {
 		return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Grawet", locale ).getString( code );
 	}
 	
-	public static SimpleDateFormat getDateFormat(){
-		return dateFormat;
+	public static DateFormat getDateFormat(){
+		return DateFormat.getDateInstance(DateFormat.SHORT, getLocale() );
+//		return dateFormat;
 	}
 
 	public static SimpleDateFormat getYearFormat(){
