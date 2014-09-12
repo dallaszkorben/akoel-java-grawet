@@ -4,6 +4,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.ParameterType;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -223,7 +224,7 @@ public class CommonOperations {
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
+					Object value = tryToConvert(possibleValue);//type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
 					parameterList.set( parameterOrder, value );
 					goodValue = possibleValue;
 					
@@ -232,6 +233,10 @@ public class CommonOperations {
 					return false;
 				}				
 				return true;
+			}
+			
+			public Object tryToConvert( String possibleValue ) throws Exception{
+				return type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
 			}
 	 } 	 
 }
