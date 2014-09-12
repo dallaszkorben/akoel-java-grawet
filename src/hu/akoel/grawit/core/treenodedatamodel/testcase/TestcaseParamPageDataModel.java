@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
@@ -158,7 +159,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 	
@@ -213,8 +214,8 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	}
 
 	@Override
-	public void doAction(WebDriver driver, PageProgressInterface pageProgress ) throws PageException, CompilationException {
-		paramPage.doAction(driver, pageProgress);		
+	public void doAction(WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException {
+		paramPage.doAction( driver, pageProgress, elementProgress );		
 	}
 	
 }

@@ -85,7 +85,7 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 	

@@ -14,8 +14,10 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.operations.ButtonOperation;
 import hu.akoel.grawit.core.operations.CheckboxOperation;
+import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.FieldOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
@@ -162,6 +164,8 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			this.elementOperation = new RadioButtonOperation();
 		}else if( Operation.TAB.name().equals( operatorString ) ){
 			this.elementOperation = new TabOperation();
+		}else if( Operation.CLEAR.name().equals( operatorString ) ){
+			this.elementOperation = new ClearOperation();
 		}else{
 			throw new XMLWrongAttributePharseException(getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPERATION, operatorString );
 		}
@@ -228,8 +232,8 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	 * @throws ElementException 
 	 * 
 	 */
-	public void doAction( WebDriver driver ) throws ElementException{
-		this.getElementOperation().doAction( driver, this );
+	public void doAction( WebDriver driver, ElementProgressInterface elementProgress ) throws ElementException{
+		this.getElementOperation().doAction( driver, this, elementProgress );
 	}
 	
 	public void setName( String name ){
@@ -284,7 +288,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 	

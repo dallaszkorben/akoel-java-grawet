@@ -26,6 +26,7 @@ import javax.swing.text.StyleContext;
 
 import org.openqa.selenium.WebDriver;
 
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
@@ -44,6 +45,7 @@ public class RunTestcaseEditor extends BaseEditor{
 	private TestcaseCaseDataModel selectedTestcase;
 	
 	private PageProgress pageProgress;
+	private ElementProgress elementProgress;
 	
 	private static RunTestcaseEditor instance = null;
 	
@@ -53,6 +55,8 @@ public class RunTestcaseEditor extends BaseEditor{
 	private DefaultStyledDocument reportDocument;
 	private SimpleAttributeSet attributeError;
 	private SimpleAttributeSet attributePageFinished;
+	private SimpleAttributeSet attributeElementFinished;
+	
 	private JTextArea pageList;	
 	
 	public static RunTestcaseEditor getInstance( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){
@@ -71,8 +75,7 @@ public class RunTestcaseEditor extends BaseEditor{
 //		this.tree = tree;	
 		
 		pageProgress = new PageProgress();
-		
-		
+		elementProgress = new ElementProgress();		
 		
 		runButton = new JButton( "Run" );
 		runButton.addActionListener(new ActionListener(){
@@ -99,15 +102,15 @@ public class RunTestcaseEditor extends BaseEditor{
 			
 				    	try{				
 			
-				    		openPage.doAction( webDriver, pageProgress );
+				    		openPage.doAction( webDriver, pageProgress, elementProgress );
 				
 				    		int childCount = selectedTestcase.getChildCount();
 				    		for( int index = 0; index < childCount; index++ ){
 				    			TestcasePageModelInterface pageToRun = (TestcasePageModelInterface)selectedTestcase.getChildAt(index);
-				    			pageToRun.doAction(webDriver, pageProgress );
+				    			pageToRun.doAction(webDriver, pageProgress, elementProgress );
 				    		}					
 				
-//				    		closePage.doAction( webDriver, pageProgress );
+//				    		closePage.doAction( webDriver, pageProgress, elementProgress );
 				
 				    	}catch( CompilationException compillationException ){
 				    		
@@ -168,7 +171,11 @@ public class RunTestcaseEditor extends BaseEditor{
 		 
 		 //Page finished attribute
 		 attributePageFinished = new SimpleAttributeSet();
-		 StyleConstants.setForeground( attributePageFinished, Color.GREEN );
+		 StyleConstants.setForeground( attributePageFinished, Color.BLACK );
+		 
+		 //Element finished attribute
+		 attributeElementFinished = new SimpleAttributeSet();
+		 StyleConstants.setForeground( attributeElementFinished, Color.BLACK );
 		
 		 //Automatic scroll
 		 DefaultCaret reportListCaret = (DefaultCaret)reportList.getCaret();
@@ -233,26 +240,40 @@ public class RunTestcaseEditor extends BaseEditor{
 	class PageProgress implements PageProgressInterface{
 
 		@Override
-		public void pageStarted(String idName, String modelName) {
-			//RunTestcaseEditor.this.reportList.( "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal ELINDULT\n" );
+		public void pageStarted(String pageName, String nodeType) {			
 			try {
-				reportDocument.insertString(reportDocument.getLength(), "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal ELINDULT\n", null );
+				reportDocument.insertString(reportDocument.getLength(), "'" + pageName + "' azonosítójú '" +  nodeType + "' típusú oldal ELINDULT\n", null );
 			} catch (BadLocationException e) {e.printStackTrace();}
-			
-			//System.err.println( "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal ELINDULT" );
 			
 		}
 
 		@Override
 		public void pageEnded(String idName, String modelName) {
-			//System.err.println( "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal BEFEJEZЕZŐDÖTT" );
-			
+		
 			try {
 				reportDocument.insertString(reportDocument.getLength(), "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal BEFEJEZ{D)TT\n", attributePageFinished );
 			} catch (BadLocationException e) {e.printStackTrace();}
 			
-			//RunTestcaseEditor.this.reportList.append(  "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal BEFEJEZЕZŐDÖTT\n");
 			RunTestcaseEditor.this.pageList.append( idName + " OK\n");
+			
+		}		
+	}
+	
+	class ElementProgress implements ElementProgressInterface{
+
+		@Override
+		public void elementStarted(String name) {
+			try {
+				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem  azonosítása ELINDULT\n", null );
+			} catch (BadLocationException e) {e.printStackTrace();}
+			
+		}
+
+		@Override
+		public void elementEnded(String name) {
+			try {
+				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem BEFEJEZ{D)TT\n", attributeElementFinished );
+			} catch (BadLocationException e) {e.printStackTrace();}		
 			
 		}
 		

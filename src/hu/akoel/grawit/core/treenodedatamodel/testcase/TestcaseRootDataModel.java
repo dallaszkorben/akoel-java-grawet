@@ -79,7 +79,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.testcase.root");
 	}
 	

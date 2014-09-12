@@ -81,7 +81,7 @@ public class DriverExplorerCapabilityDataModel extends DriverDataModelInterface{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 

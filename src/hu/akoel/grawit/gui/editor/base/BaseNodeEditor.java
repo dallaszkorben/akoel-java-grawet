@@ -50,7 +50,7 @@ public class BaseNodeEditor extends DataEditor{
 	//Itt modisitas van
 	public BaseNodeEditor( Tree baseTree, BaseNodeDataModel selectedNode, EditMode mode ){		
 
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = baseTree;
 		this.nodeForModify = selectedNode;

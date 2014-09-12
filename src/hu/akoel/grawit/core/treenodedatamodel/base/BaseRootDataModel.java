@@ -75,7 +75,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.base.root");
 	}
 	

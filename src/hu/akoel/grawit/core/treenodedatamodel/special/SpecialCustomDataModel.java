@@ -24,6 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.JavaSourceFromString;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
@@ -132,7 +133,7 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 /*	
@@ -146,11 +147,11 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 	}
 */	
 	@Override
-	public void doAction( WebDriver driver, PageProgressInterface pageProgress ) throws CompilationException, PageException {
+	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws CompilationException, PageException {
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
-			pageProgress.pageStarted( getName(), getModelNameToShow() );
+			pageProgress.pageStarted( getName(), getNodeTypeToShow() );
 		}	
 		
 		//Kod legyartasa
@@ -162,7 +163,7 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 		//Ha sikerult a forditas
 		if( success ){
 			
-			//Akkor futtatja a kodit
+			//Akkor futtatja a kodot
 			runTheCode( driver );
 
 		//Forditas alatt hiba tortent
@@ -179,7 +180,7 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 		
 		//Jelzi, hogy befejezodott az oldal feldolgozasa
 		if( null != pageProgress ){
-			pageProgress.pageEnded( getName(), getModelNameToShow() );
+			pageProgress.pageEnded( getName(), getNodeTypeToShow() );
 		}
 		
 	}

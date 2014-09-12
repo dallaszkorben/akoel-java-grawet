@@ -63,7 +63,7 @@ public class VariableNodeEditor extends DataEditor{
 	//Itt modisitas van
 	public VariableNodeEditor( VariableTree variableTree, VariableNodeDataModel selectedNode, EditMode mode ){		
 
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = variableTree;
 		this.nodeForModify = selectedNode;

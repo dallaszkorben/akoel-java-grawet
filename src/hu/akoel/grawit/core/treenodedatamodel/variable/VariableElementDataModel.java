@@ -117,7 +117,7 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 

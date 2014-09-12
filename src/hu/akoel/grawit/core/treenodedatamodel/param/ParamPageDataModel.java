@@ -15,6 +15,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
@@ -43,6 +44,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	private String name;
 
 	private BasePageDataModel basePage;	
+	private ParamElementDataModel parameterElement;
 	
 //	private PageProgressInterface pageProgressInterface = null;	
 	
@@ -169,13 +171,13 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		super.add( (MutableTreeNode)node );
 	}
 	
-	public static String  getModelNameToShowStatic(){
+	public static String  getNodeTypeToShowStatic(){
 		return CommonOperations.getTranslation( "tree.nodetype.param.page");
 	}
 	
 	@Override
-	public String getModelNameToShow(){
-		return getModelNameToShowStatic();
+	public String getNodeTypeToShow(){
+		return getNodeTypeToShowStatic();
 	}
 
 	@Override
@@ -222,16 +224,17 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	}
 
 	@Override
-	public void doAction( WebDriver driver, PageProgressInterface pageProgress ) throws PageException {
+	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException {
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
-			pageProgress.pageStarted( getName(), getModelNameToShow() );
+			pageProgress.pageStarted( getName(), getNodeTypeToShow() );
 		}	
 
 		int childrenCount = this.getChildCount();
 		for( int i = 0; i < childrenCount; i++ ){
-			ParamElementDataModel parameterElement = (ParamElementDataModel)this.getChildAt( i );
+			//ParamElementDataModel parameterElement = (ParamElementDataModel)this.getChildAt( i );
+			parameterElement = (ParamElementDataModel)this.getChildAt( i );
 			
 			// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
 			String frame = parameterElement.getBaseElement().getFrame();
@@ -242,7 +245,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 			}
 				
 			try{			
-				parameterElement.doAction( driver );
+				parameterElement.doAction( driver, elementProgress );
 			
 			}catch (ElementException e){
 				throw new PageException( this.getName(), e.getElementName(), e.getElementSelector(), e);
@@ -253,7 +256,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		
 		//Jelzi, hogy befejezodott az oldal feldolgozasa
 		if( null != pageProgress ){
-			pageProgress.pageEnded( getName(), getModelNameToShow() );
+			pageProgress.pageEnded( getName(), getNodeTypeToShow() );
 		}
 		
 	}

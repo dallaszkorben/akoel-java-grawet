@@ -90,7 +90,7 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 

@@ -71,7 +71,7 @@ public class TestcaseCaseEditor extends DataEditor{
 	//Itt modositas van
 	public TestcaseCaseEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface specialDataModel, DriverDataModelInterface driverDataModel, EditMode mode ){		
 		
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;

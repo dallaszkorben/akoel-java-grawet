@@ -60,7 +60,7 @@ public class TestcaseCustomPageEditor extends DataEditor{
 	
 	//Itt modositas van
 	public TestcaseCustomPageEditor( Tree tree, TestcaseCustomDataModel selectedNode, SpecialDataModelInterface paramDataModel, EditMode mode ){		
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;

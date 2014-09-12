@@ -11,8 +11,8 @@ public class Grawit {
 	private static final String title = "Grawit";
 	private static final String version = "1.0.0";
 	
-	private static int frameWidth = 800;
-	private static int frameHeight = 400;
+	private static int frameWidth = 1000;
+	private static int frameHeight = 600;
 	
 	WebDriver driver;
 

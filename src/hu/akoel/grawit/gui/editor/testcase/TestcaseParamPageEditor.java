@@ -57,7 +57,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 	
 	//Itt modositas van
 	public TestcaseParamPageEditor( Tree testcaseTree, TestcaseParamPageDataModel selectedNode, ParamDataModelInterface paramDataModel, EditMode mode ){		
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = testcaseTree;
 		this.nodeForModify = selectedNode;

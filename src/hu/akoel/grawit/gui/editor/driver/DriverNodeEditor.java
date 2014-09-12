@@ -50,7 +50,7 @@ public class DriverNodeEditor extends DataEditor{
 	//Itt modisitas van
 	public DriverNodeEditor( Tree baseTree, DriverNodeDataModel selectedNode, EditMode mode ){		
 
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = baseTree;
 		this.nodeForModify = selectedNode;

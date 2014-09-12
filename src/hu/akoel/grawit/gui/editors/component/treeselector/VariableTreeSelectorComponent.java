@@ -9,15 +9,15 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreePath;
 
-public class ParameterElementTreeSelectorComponent extends TreeSelectorComponent<VariableElementDataModel>{
+public class VariableTreeSelectorComponent extends TreeSelectorComponent<VariableElementDataModel>{
 
 	private static final long serialVersionUID = 5692189257383238770L;
 
-	public ParameterElementTreeSelectorComponent( VariableDataModelInterface rootDataModel ) {
+	public VariableTreeSelectorComponent( VariableDataModelInterface rootDataModel ) {
 		super(VariableElementDataModel.class, rootDataModel);
 	}
 
-	public ParameterElementTreeSelectorComponent( VariableDataModelInterface rootDataModel, VariableElementDataModel selectedVariableElementDataModel ) {
+	public VariableTreeSelectorComponent( VariableDataModelInterface rootDataModel, VariableElementDataModel selectedVariableElementDataModel ) {
 		super(VariableElementDataModel.class, rootDataModel, selectedVariableElementDataModel);
 	}
 	
@@ -31,6 +31,7 @@ public class ParameterElementTreeSelectorComponent extends TreeSelectorComponent
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
 		return true;
+		//return !( path.getLastPathComponent() instanceof VariableElementDataModel );
 	}
 	
 	@Override

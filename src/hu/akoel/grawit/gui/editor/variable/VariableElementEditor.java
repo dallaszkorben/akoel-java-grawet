@@ -82,7 +82,7 @@ public class VariableElementEditor extends DataEditor{
 	 */
 	public VariableElementEditor( Tree tree, VariableElementDataModel selectedElement, EditMode mode ){		
 
-		super( mode, selectedElement.getModelNameToShow() );
+		super( mode, selectedElement.getNodeTypeToShow() );
 
 		this.tree = tree;
 		this.nodeForModify = selectedElement;

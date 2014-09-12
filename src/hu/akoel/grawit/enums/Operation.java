@@ -10,6 +10,7 @@ public enum Operation{
 	RADIOBUTTON( 4, CommonOperations.getTranslation( "editor.label.param.operation.radiobutton") ),
 	CHECKBOX( 5, CommonOperations.getTranslation( "editor.label.param.operation.checkbox") ),	
 	TAB( 6, CommonOperations.getTranslation( "editor.label.param.operation.tab") ),
+	CLEAR( 7, CommonOperations.getTranslation( "editor.label.param.operation.clear") ),
 	;
 	
 	private String translatedName;
@@ -24,6 +25,10 @@ public enum Operation{
 	public String getTranslatedName(){
 		return translatedName;
 	}	
+	
+	public static int getSize(){
+		return Operation.values().length;
+	}
 	
 	public int getIndex(){
 		return index;

@@ -52,7 +52,7 @@ public class BasePageEditor extends DataEditor{
 	//Itt lehet hogy modositas vagy megtekintes van
 	public BasePageEditor( Tree tree, BasePageDataModel selectedNode, EditMode mode ){
 
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;

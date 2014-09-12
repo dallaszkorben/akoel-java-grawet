@@ -69,7 +69,7 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 	}
 
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.param.root");
 	}
 	

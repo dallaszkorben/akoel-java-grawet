@@ -60,7 +60,7 @@ public class DriverExplorerEditor extends DataEditor{
 	//Itt lehet hogy modositas vagy megtekintes van
 	public DriverExplorerEditor( Tree tree, DriverExplorerDataModel selectedNode, EditMode mode ){
 
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;

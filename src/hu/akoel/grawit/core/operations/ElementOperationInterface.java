@@ -2,6 +2,7 @@ package hu.akoel.grawit.core.operations;
 
 import org.openqa.selenium.WebDriver;
 
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.ListSelectionType;
@@ -10,7 +11,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 
 public interface ElementOperationInterface {
 	
-	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException;
+	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException;
 	
 	/**
 	 * Visszaadja a muveletet
