@@ -35,7 +35,7 @@ public class ParamPageEditor extends DataEditor{
 	//Itt biztos beszuras van
 	public ParamPageEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 
-		super( ParamPageDataModel.getModelNameToShowStatic());
+		super( ParamPageDataModel.getNodeTypeToShowStatic());
 				
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -54,7 +54,7 @@ public class ParamPageEditor extends DataEditor{
 	//Itt lehet hogy modositas vagy megtekintes van
 	public ParamPageEditor( Tree tree, ParamPageDataModel selectedPage, EditMode mode ){
 
-		super( mode, selectedPage.getModelNameToShow());
+		super( mode, selectedPage.getNodeTypeToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedPage;

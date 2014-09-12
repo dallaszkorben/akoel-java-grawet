@@ -73,7 +73,7 @@ public class BaseElementEditor extends DataEditor{
 	//Modositas vagy View
 	public BaseElementEditor( Tree tree, BaseElementDataModel selectedNode, EditMode mode ){		
 
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;

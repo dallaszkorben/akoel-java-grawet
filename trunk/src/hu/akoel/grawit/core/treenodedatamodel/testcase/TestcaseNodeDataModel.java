@@ -96,7 +96,7 @@ public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 	

@@ -85,7 +85,7 @@ public class VariableNodeDataModel extends VariableDataModelInterface{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 	

@@ -19,7 +19,7 @@ public abstract class DataModelInterface extends DefaultMutableTreeNode{
 	 * 
 	 * @return
 	 */
-	public abstract String getModelNameToShow();
+	public abstract String getNodeTypeToShow();
 	
 	/**
 	 * Az adatmodel tag-je (basepage, parampage, page, node, element)

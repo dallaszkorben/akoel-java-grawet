@@ -175,7 +175,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 	

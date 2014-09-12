@@ -78,7 +78,7 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<Driv
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 

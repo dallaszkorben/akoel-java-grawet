@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
@@ -79,7 +80,7 @@ public class SpecialCloseDataModel extends SpecialPageModelInterface{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 /*	
@@ -93,11 +94,11 @@ public class SpecialCloseDataModel extends SpecialPageModelInterface{
 	}
 */	
 	@Override
-	public void doAction(WebDriver driver, PageProgressInterface pageProgress ) {
+	public void doAction(WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) {
 
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
-			pageProgress.pageStarted( getName(), getModelNameToShow() );
+			pageProgress.pageStarted( getName(), getNodeTypeToShow() );
 		}	
 		
 		driver.close();
@@ -112,7 +113,7 @@ public class SpecialCloseDataModel extends SpecialPageModelInterface{
 
 		//Jelzi, hogy befejezodott az oldal feldolgozasa
 		if( null != pageProgress ){
-			pageProgress.pageEnded( getName(), getModelNameToShow() );
+			pageProgress.pageEnded( getName(), getNodeTypeToShow() );
 		}
 	}
 	

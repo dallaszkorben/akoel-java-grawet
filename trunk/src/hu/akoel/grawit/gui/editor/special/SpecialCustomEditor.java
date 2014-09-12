@@ -51,7 +51,7 @@ public class SpecialCustomEditor extends DataEditor{
 	//Itt lehet hogy modositas vagy megtekintes van
 	public SpecialCustomEditor( Tree tree, SpecialCustomDataModel selectedNode, EditMode mode ){
 
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;

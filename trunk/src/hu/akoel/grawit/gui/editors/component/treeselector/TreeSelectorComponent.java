@@ -181,7 +181,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 		
 			scrolledPageBaseTree.revalidate();
 		
-			this.setSize(200 , 200);
+			this.setSize(300 , 500);
 		
 			//this.pack();
 			this.setVisible( true );
@@ -299,6 +299,10 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 
 						super.setExpandedState(path, state);
 					}
+				}else{
+					
+					super.setExpandedState(path, state);
+					
 				}
 			}
 		}

@@ -53,7 +53,7 @@ public class DriverFirefoxEditor extends DataEditor{
 	//Itt lehet hogy modositas vagy megtekintes van
 	public DriverFirefoxEditor( Tree tree, DriverFirefoxDataModel selectedNode, EditMode mode ){
 
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedNode;

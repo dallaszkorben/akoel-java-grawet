@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
@@ -39,8 +40,11 @@ public class FieldOperation implements ElementOperationInterface{
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException{
+	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 	
+		if( null != elementProgress ){
+			elementProgress.elementStarted( element.getName() );
+		}
 		
 		BaseElementDataModel baseElement = element.getBaseElement();
 		By by = null;
@@ -107,8 +111,11 @@ public class FieldOperation implements ElementOperationInterface{
 				
 			//Elmenti az elem tartalmat a valtozoba
 			//webElement.sendKeys(Keys.TAB);
-			element.setVariableValue( webElement.getAttribute("value") );
+			element.setVariableValue( webElement.getAttribute("value") );		
+		}
 		
+		if( null != elementProgress ){
+			elementProgress.elementEnded( element.getName() );
 		}
 	}
 

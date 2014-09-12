@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
@@ -34,7 +35,12 @@ public class ButtonOperation implements ElementOperationInterface{
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException {
+	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException {
+		
+		if( null != elementProgress ){
+			elementProgress.elementStarted( element.getName() );
+		}
+		
 		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
@@ -80,6 +86,9 @@ public class ButtonOperation implements ElementOperationInterface{
 		JavascriptExecutor executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].click();", webElement);
 		
+		if( null != elementProgress ){
+			elementProgress.elementEnded( element.getName() );
+		}
 	}
 
 	@Override

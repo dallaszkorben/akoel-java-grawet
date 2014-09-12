@@ -2,6 +2,7 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import org.openqa.selenium.WebDriver;
 
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -11,6 +12,6 @@ public abstract class TestcasePageModelInterface extends TestcaseDataModelInterf
 
 	private static final long serialVersionUID = -3451125455593871748L;
 	
-	public abstract void doAction( WebDriver driver, PageProgressInterface pageProgress ) throws PageException, CompilationException;
+	public abstract void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException;
 
 }

@@ -51,7 +51,7 @@ public class ParamNodeEditor extends DataEditor{
 	//Itt modisitas van
 	public ParamNodeEditor( Tree pageBaseTree, ParamNodeDataModel selectedNode, EditMode mode ){		
 
-		super( mode, selectedNode.getModelNameToShow());
+		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = pageBaseTree;
 		this.nodeForModify = selectedNode;

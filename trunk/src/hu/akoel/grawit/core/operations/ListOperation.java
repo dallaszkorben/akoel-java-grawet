@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.base.Function;
 
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
@@ -45,7 +46,12 @@ public class ListOperation implements ElementOperationInterface{
 	 * 
 	 */
 	@Override
-	public void doAction( WebDriver driver, ParamElementDataModel element ) throws ElementException{
+	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
+		
+		if( null != elementProgress ){
+			elementProgress.elementStarted( element.getName() );
+		}
+		
 		BaseElementDataModel baseElement = element.getBaseElement();
 		By by = null;
 		WebElement webElement = null;
@@ -149,7 +155,9 @@ public class ListOperation implements ElementOperationInterface{
 			
 		}
 		
-
+		if( null != elementProgress ){
+			elementProgress.elementEnded( element.getName() );
+		}
 	}
 
 	@Override

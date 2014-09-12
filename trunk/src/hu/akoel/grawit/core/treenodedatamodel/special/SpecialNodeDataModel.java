@@ -99,7 +99,7 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 	}
 	
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
 	

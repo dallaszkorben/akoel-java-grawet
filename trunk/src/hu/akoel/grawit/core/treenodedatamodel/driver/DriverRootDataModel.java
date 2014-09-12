@@ -64,7 +64,7 @@ public class DriverRootDataModel extends DriverNodeDataModel{
 	}
 
 	@Override
-	public String getModelNameToShow(){
+	public String getNodeTypeToShow(){
 		return CommonOperations.getTranslation( "tree.nodetype.driver.root");
 	}
 	

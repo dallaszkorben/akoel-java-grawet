@@ -27,13 +27,11 @@ import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.ParameterElementTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
-
-import org.apache.james.mime4j.field.Fields;
 
 public class ParamElementEditor extends DataEditor{
 	
@@ -51,7 +49,7 @@ public class ParamElementEditor extends DataEditor{
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	private JLabel labelVariableSelector;
-	private ParameterElementTreeSelectorComponent fieldVariableSelector;
+	private VariableTreeSelectorComponent fieldVariableSelector;
 	private JLabel labelListSelectionType;
 	private ComboBoxComponent<String> fieldListSelectionType;
 	
@@ -96,7 +94,7 @@ public class ParamElementEditor extends DataEditor{
 	 */
 	public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, VariableRootDataModel rootDataModel, EditMode mode ){		
 
-		super( mode, selectedElement.getModelNameToShow());
+		super( mode, selectedElement.getNodeTypeToShow());
 
 		this.tree = tree;
 		this.nodeForModify = selectedElement;
@@ -139,13 +137,9 @@ public class ParamElementEditor extends DataEditor{
 		
 		//Operation
 		fieldOperation = new ComboBoxComponent<>();
-		fieldOperation.addItem( Operation.getOperationByIndex(0).getTranslatedName() );
-		fieldOperation.addItem( Operation.getOperationByIndex(1).getTranslatedName() );
-		fieldOperation.addItem( Operation.getOperationByIndex(2).getTranslatedName() );
-		fieldOperation.addItem( Operation.getOperationByIndex(3).getTranslatedName() );
-		fieldOperation.addItem( Operation.getOperationByIndex(4).getTranslatedName() );
-		fieldOperation.addItem( Operation.getOperationByIndex(5).getTranslatedName() );
-		fieldOperation.addItem( Operation.getOperationByIndex(6).getTranslatedName() );
+		for(int i = 0; i < Operation.getSize(); i++ ){
+			fieldOperation.addItem( Operation.getOperationByIndex(i).getTranslatedName() );
+		}
 		fieldOperation.addItemListener( new ItemListener() {
 			
 			private boolean hasBeenHere = false;
@@ -174,14 +168,14 @@ public class ParamElementEditor extends DataEditor{
 						 if( hasBeenHere || null == nodeForModify ){
 							 
 							 //Akkor uresen kell kapnom a mezot
-							 fieldVariableSelector = new ParameterElementTreeSelectorComponent( rootDataModel );
+							 fieldVariableSelector = new VariableTreeSelectorComponent( rootDataModel );
 							 fieldListSelectionType.setSelectedIndex( ListSelectionType.BYVISIBLETEXT.getIndex() );
 							 
 						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
 						 }else{
 							 
 							 //akkor latnom kell a kivalasztott tartalmat
-							 fieldVariableSelector = new ParameterElementTreeSelectorComponent( rootDataModel, nodeForModify.getElementOperation().getVariableElement() );
+							 fieldVariableSelector = new VariableTreeSelectorComponent( rootDataModel, nodeForModify.getElementOperation().getVariableElement() );
 							 fieldListSelectionType.setSelectedIndex(nodeForModify.getElementOperation().getListSelectionType().getIndex());
 						 }
 							
@@ -195,13 +189,13 @@ public class ParamElementEditor extends DataEditor{
 						 if( hasBeenHere || null == nodeForModify ){
 							 
 							 //Akkor uresen kell kapnom a mezot
-							 fieldVariableSelector = new ParameterElementTreeSelectorComponent( rootDataModel );
+							 fieldVariableSelector = new VariableTreeSelectorComponent( rootDataModel );
 						 
 						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
 						 }else{
 							 
 							 //akkor latnom kell a kivalasztott tartalmat
-							 fieldVariableSelector = new ParameterElementTreeSelectorComponent( rootDataModel, nodeForModify.getElementOperation().getVariableElement() );
+							 fieldVariableSelector = new VariableTreeSelectorComponent( rootDataModel, nodeForModify.getElementOperation().getVariableElement() );
 						 }
 							
 						 ParamElementEditor.this.add( labelVariableSelector, fieldVariableSelector );
