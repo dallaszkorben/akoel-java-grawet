@@ -13,6 +13,7 @@ import java.awt.event.ItemListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.text.DateFormat.Field;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -105,29 +106,15 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		fieldFrom = new JFormattedTextField( defautlFromMaskFormatter );		
 		fieldFrom.setText( ((DateFormat)parameterList.get(PARAMETERORDER_FORMAT)).format( ((Date)parameterList.get(PARAMETERORDER_FROM))) );
 		
-		fieldFrom.setColumns(6);
-		//fieldFrom.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_FROM, PARAMETERORDER_FROM) );
-		/*fieldFrom.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_FROM;
-			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
-
-				try {
-					//Kiprobalja, hogy konvertalhato-e
-					Object value = DateIntervalComponent.this.type.getParameterClass(PARAMETERORDER_FROM).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( PARAMETERORDER_FROM, value );
-					goodValue = possibleValue;
-					
-				} catch (Exception e) {
-					text.setText( goodValue );
-					return false;
-				}				
-				return true;
+		fieldFrom.setColumns(7);
+		fieldFrom.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_FROM, PARAMETERORDER_FROM){
+			public Object tryToConvert( String possibleValue ) throws Exception{		
+				DateFormat df = (DateFormat)parameterList.get(2);
+				df.setLenient(false);
+				Date param = df.parse( possibleValue ); 
+				return  df.format(param);
 			}
-		});*/
+		});
 		
 		int gridY = 0;
 		GridBagConstraints c = new GridBagConstraints();		
@@ -160,29 +147,15 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		fieldTo = new JFormattedTextField( defautlToMaskFormatter);
 		fieldTo.setText( ((DateFormat)parameterList.get(PARAMETERORDER_FORMAT)).format( ((Date)parameterList.get(PARAMETERORDER_TO))) );
 	
-		fieldTo.setColumns(6);
-		//fieldTo.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_TO, PARAMETERORDER_TO) );
-		/*fieldTo.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_TO;
-			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
-
-				try {
-					//Kiprobalja, hogy konvertalhato-e
-					Object value = DateIntervalComponent.this.type.getParameterClass(PARAMETERORDER_TO).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( PARAMETERORDER_TO, value );
-					goodValue = possibleValue;
-					
-				} catch (Exception e) {
-					text.setText( goodValue );
-					return false;
-				}				
-				return true;
+		fieldTo.setColumns(7);
+		fieldTo.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_FROM, PARAMETERORDER_TO){
+			public Object tryToConvert( String possibleValue ) throws Exception{		
+				DateFormat df = (DateFormat)parameterList.get(2);
+				df.setLenient(false);
+				Date param = df.parse( possibleValue ); 
+				return  df.format(param);
 			}
-		});*/
+		});
 		
 		gridY=0;
 		
@@ -240,9 +213,13 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 						fieldFrom.setFormatterFactory(fromFactory);
 						fieldTo.setFormatterFactory(toFactory);
 						
-						fieldTo.setText( newDateFormat.format( oldDateFormat.parse(oldToText) ).toString() );
-						fieldFrom.setText( newDateFormat.format( oldDateFormat.parse(oldFromText) ).toString() );
+						Date newFromDate = newDateFormat.parse( oldDateFormat.parse(oldToText).toString() );
+						Date newToDate = newDateFormat.parse( oldDateFormat.parse(oldFromText).toString() );
+						fieldTo.setText( newFromDate.toString() );
+						fieldFrom.setText( newToDate.toString() );
 						parameterList.set(PARAMETERORDER_FORMAT, newDateFormat );
+						parameterList.set(PARAMETERORDER_FROM, newFromDate );
+						parameterList.set(PARAMETERORDER_TO, newToDate );
 						
 					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
@@ -313,13 +290,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	}
 	
 	class FormDateComboBox extends JComboBox<FormDate>{
-				
-/*		public void actionPerformed(ActionEvent e) {
-			JComboBox cb = (JComboBox)e.getSource();
-			String petName = (String)cb.getSelectedItem();
-			FormDateComboBox.this.setupdateLabel(petName);
-		}
-*/
+
 		public FormDateComboBox(){
 			this.setRenderer(new MyRenderer());
 		}
@@ -332,10 +303,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 			public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
 								
 				Component c = super.getListCellRendererComponent(list, ((FormDate)value).getTranslatedName(), index, isSelected, cellHasFocus);
-				// DisableItem item = (DisableItem) value;
-				// if (!item.isEnabled ()) {
-				// c.setForeground (Color.GRAY);
-				// }
+
 				return this;
 			}
 		}		
