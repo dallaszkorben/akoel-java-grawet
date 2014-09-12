@@ -9,7 +9,11 @@ import javax.swing.text.MaskFormatter;
 public enum FormDate{		
 	ddMMyyyy_slash( 0, "dd/MM/yyyy", "dd/MM/yyyy", "##/##/####" ),
 	ddMMyyyy_hyphen( 1, "dd-MM-yyyy", "dd-MM-yyyy", "##-##-####" ),
-	ddMMyyyy_dot( 2, "dd.MM.yyyy", "dd.MM.yyyy", "##.##.####" ),	
+	ddMMyyyy_dot( 2, "dd.MM.yyyy", "dd.MM.yyyy", "##.##.####" ),
+	MMyyyy_slash( 3, "MM/yyyy", "MM/yyyy", "##/####" ),
+	MMyyyy_hyphen( 4, "MM-yyyy", "MM-yyyy", "##-####" ),
+	MMyyyy_dot( 5, "MM.yyyy", "MM.yyyy", "##.####" ),
+	yyyy( 6, "yyyy", "yyyy", "####" ),
 	;
 	
 	private String translatedName;
@@ -23,6 +27,10 @@ public enum FormDate{
 		this.translatedName = translatedName;
 		this.stringFormat = stringFormat;
 		this.stringMask = stringMask;
+	}
+	
+	public static int getSize(){
+		return FormDate.values().length;
 	}
 	
 	public String getTranslatedName(){
@@ -53,7 +61,11 @@ public enum FormDate{
 		switch (index){
 		case 0:	return ddMMyyyy_slash;
 		case 1: return ddMMyyyy_hyphen;
-		case 2: return ddMMyyyy_dot;
+		case 2: return ddMMyyyy_dot;	
+		case 3: return MMyyyy_slash;
+		case 4: return MMyyyy_hyphen;
+		case 5: return MMyyyy_dot;
+		case 6: return yyyy;		
 		default: return ddMMyyyy_slash;
 		}
 	}
