@@ -49,10 +49,12 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	private static final String ATTR_VARIABLE_ELEMENT_PATH = "variableelementpath";
 	private static final String ATTR_LIST_SELECTION_TYPE = "listselectiontype";
 	
+	//Adatmodel ---
 	private String name;
-	private ElementOperationInterface elementOperation;
 	private BaseElementDataModel baseElement;	
-	private String variableValue = "";	
+	private ElementOperationInterface elementOperation;
+	private String variableValue = "";
+	//----
 
 	public ParamElementDataModel( String name, BaseElementDataModel baseElement, ElementOperationInterface operation){
 		this.name = name;
