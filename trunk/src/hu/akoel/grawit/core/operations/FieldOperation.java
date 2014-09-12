@@ -95,7 +95,7 @@ public class FieldOperation implements ElementOperationInterface{
 		
 		try{
 			//Execute the operation
-			webElement.clear();
+//			webElement.clear();
 			webElement.sendKeys( parameter.getValue() );
 			webElement.sendKeys(Keys.TAB);
 		}catch (WebDriverException webDriverException){

@@ -67,6 +67,8 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		}else if( ParameterType.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = ParameterType.RANDOM_DOUBLE_PARAMETER;
 			
+		}else if( ParameterType.RANDOM_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ParameterType.RANDOM_DATE_PARAMETER;
 		}
 		
 		parameters = new ArrayList<Object>();

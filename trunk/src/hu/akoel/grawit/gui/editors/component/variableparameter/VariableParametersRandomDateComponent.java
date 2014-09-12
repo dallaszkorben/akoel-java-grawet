@@ -13,7 +13,6 @@ import java.awt.event.ItemListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.text.DateFormat.Field;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,7 +21,6 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
@@ -31,25 +29,26 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 
 	private static final long serialVersionUID = -3266616532152280622L;
 	
-	private static final String DEFAULT_FROM = "1980/01/01";
-	private static final String DEFAULT_TO = "2000/01/01";
+	private static final String DEFAULT_FROM = "01/01/1980";
+	private static final String DEFAULT_TO = "01/01/2000";
+	private static final String DEFAULT_FORMAT = "dd/mm/yyyy";
+	private static final String DEFAULT_MASK = "##/##/####";
 	private static final int PARAMETERORDER_FROM = 0;
 	private static final int PARAMETERORDER_TO = 1;
 	private static final int PARAMETERORDER_FORMAT = 2;	
+	private static final int PARAMETERORDER_MASK = 3;	
 	
-//	private JTextField fieldFrom;
-//	private JTextField fieldTo;
 	private JFormattedTextField fieldFrom;
 	private JFormattedTextField fieldTo;
 	private FormDateComboBox fieldFormatDate;
 	
+	DateFormat dateFormat;
+	MaskFormatter maskFormatterFrom;
+	MaskFormatter maskFormatterTo;
+	
 	private ParameterType type;
 	
 	private ArrayList<Object> parameterList;
-	
-	DateFormat defaultFormat = new SimpleDateFormat("yyyy/MM/dd");
-	MaskFormatter defautlFromMaskFormatter = null;
-	MaskFormatter defautlToMaskFormatter = null;
 
 	/**
 	 * Uj lista
@@ -59,19 +58,12 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	public VariableParametersRandomDateComponent( ParameterType type ){
 		super();
 		
-		try {
-			defautlFromMaskFormatter = new MaskFormatter("####/##/##");
-			defautlToMaskFormatter = new MaskFormatter("####/##/##");
-		} catch (ParseException e1) {}
 		this.parameterList = new ArrayList<>();
-		try {
-			this.parameterList.add( defaultFormat.parse(DEFAULT_FROM) );
-			this.parameterList.add( defaultFormat.parse(DEFAULT_TO) );
-			this.parameterList.add( defaultFormat );
-		} catch (ParseException e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}		
+
+		this.parameterList.add( DEFAULT_FROM );
+		this.parameterList.add( DEFAULT_TO );
+		this.parameterList.add( DEFAULT_FORMAT );
+		this.parameterList.add( DEFAULT_MASK );		
 		
 		common( type );		
 		
@@ -98,22 +90,34 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		
 		this.setLayout( new GridBagLayout() );
 		
+		dateFormat = new SimpleDateFormat((String)parameterList.get(PARAMETERORDER_FORMAT));
+		dateFormat.setLenient( false );
+		Date dateFrom = null;
+		Date dateTo = null;
+		try {
+			maskFormatterFrom = new MaskFormatter((String)parameterList.get(PARAMETERORDER_MASK));
+			maskFormatterTo = new MaskFormatter((String)parameterList.get(PARAMETERORDER_MASK));
+			dateFrom = dateFormat.parse( (String)parameterList.get(PARAMETERORDER_FROM) );
+			dateTo = dateFormat.parse( (String)parameterList.get(PARAMETERORDER_TO) );
+		} catch (ParseException e2) {
+			e2.printStackTrace();
+			//TODO kezelni valahogy
+		}
+		
 		//
 		// From field
 		//		
 		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate.from") );
 		
-		fieldFrom = new JFormattedTextField( defautlFromMaskFormatter );		
-		fieldFrom.setText( ((DateFormat)parameterList.get(PARAMETERORDER_FORMAT)).format( ((Date)parameterList.get(PARAMETERORDER_FROM))) );
+		fieldFrom = new JFormattedTextField( maskFormatterFrom );		
+		fieldFrom.setText( dateFormat.format( dateFrom ) );
 		
 		fieldFrom.setColumns(7);
 		fieldFrom.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_FROM, PARAMETERORDER_FROM){
-			public Object getConverted( String possibleValue ) throws Exception{		
-				DateFormat df = (DateFormat)parameterList.get(PARAMETERORDER_FORMAT);
-				df.setLenient(false);
-				Date param = df.parse( possibleValue ); 
-				df.format(param);
-				return param;
+			public Object getConverted( String possibleValue ) throws Exception{
+				dateFormat.setLenient(false);
+				Date param = dateFormat.parse( possibleValue ); 
+				return dateFormat.format(param);				
 			}
 		});
 		
@@ -144,18 +148,16 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		// To field
 		//
 		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate.to") );
-
-		fieldTo = new JFormattedTextField( defautlToMaskFormatter);
-		fieldTo.setText( ((DateFormat)parameterList.get(PARAMETERORDER_FORMAT)).format( ((Date)parameterList.get(PARAMETERORDER_TO))) );
+		
+		fieldTo = new JFormattedTextField( maskFormatterTo );		
+		fieldTo.setText( dateFormat.format( dateTo ) );
 	
 		fieldTo.setColumns(7);
-		fieldTo.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_FROM, PARAMETERORDER_TO){
-			public Object getConverted( String possibleValue ) throws Exception{		
-				DateFormat df = (DateFormat)parameterList.get(2);
-				df.setLenient(false);
-				Date param = df.parse( possibleValue ); 
-				df.format(param);
-				return param;
+		fieldTo.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_TO, PARAMETERORDER_TO){
+			public Object getConverted( String possibleValue ) throws Exception{	
+				dateFormat.setLenient(false);
+				Date param = dateFormat.parse( possibleValue ); 
+				return dateFormat.format(param);	
 			}
 		});
 		
@@ -188,7 +190,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		fieldFormatDate = new FormDateComboBox();
 		//Feltoltom a listat
 		for( int i = 0; i < FormDate.getSize(); i++ ){		
-			fieldFormatDate.addItem( FormDate.getFormatByIndex(i) );
+			fieldFormatDate.addItem( FormDate.getFormDateByIndex(i) );
 		}
 		fieldFormatDate.addItemListener( new ItemListener() {
 			
@@ -200,31 +202,37 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					DateFormat oldDateFormat = (DateFormat)parameterList.get(PARAMETERORDER_FORMAT);
-					DateFormat newDateFormat = FormDate.getFormatByIndex(index).getDateFormat();
+					//DateFormat oldDateFormat = (DateFormat)parameterList.get(PARAMETERORDER_FORMAT);
+					DateFormat newDateFormat = FormDate.getFormDateByIndex(index).getDateFormat();
 
 					String oldFromText = fieldFrom.getText();
 					String oldToText = fieldTo.getText();
 					
 					try {						
 						
-						MaskFormatter frommf = FormDate.getFormatByIndex(index).getMask();
-						MaskFormatter tomf = FormDate.getFormatByIndex(index).getMask();
-						DefaultFormatterFactory fromFactory = new DefaultFormatterFactory(frommf);		
-						DefaultFormatterFactory toFactory = new DefaultFormatterFactory(tomf);	
+						MaskFormatter newMaskFormatterFrom = FormDate.getFormDateByIndex(index).getMask();
+						MaskFormatter newMaskFormatterTo = FormDate.getFormDateByIndex(index).getMask();
+						DefaultFormatterFactory fromFactory = new DefaultFormatterFactory(newMaskFormatterFrom);		
+						DefaultFormatterFactory toFactory = new DefaultFormatterFactory(newMaskFormatterTo);	
 						fieldFrom.setFormatterFactory(fromFactory);
 						fieldTo.setFormatterFactory(toFactory);
 						
-						Date newFromDate = oldDateFormat.parse(oldFromText);
-						Date newToDate = oldDateFormat.parse(oldToText);
+						//Date newFromDate = oldDateFormat.parse(oldFromText);
+						//Date newToDate = oldDateFormat.parse(oldToText);
+						Date newDateFrom = dateFormat.parse(oldFromText);
+						Date newDateTo = dateFormat.parse(oldToText);
 						
-						fieldFrom.setValue( newDateFormat.format(newFromDate ) );
-						fieldTo.setValue( newDateFormat.format( newToDate ) );					
+						fieldFrom.setValue( newDateFormat.format(newDateFrom ) );
+						fieldTo.setValue( newDateFormat.format( newDateTo ) );					
 						
-						parameterList.set(PARAMETERORDER_FORMAT, newDateFormat );
-						
-						parameterList.set(PARAMETERORDER_FROM, newFromDate );
-						parameterList.set(PARAMETERORDER_TO, newToDate );
+						parameterList.set(PARAMETERORDER_FROM, newDateFormat.format(newDateFrom ) );
+						parameterList.set(PARAMETERORDER_TO, newDateFormat.format(newDateTo ) );
+						parameterList.set(PARAMETERORDER_FORMAT, FormDate.getFormDateByIndex(index).getStringDateFormat() );
+						parameterList.set(PARAMETERORDER_MASK, FormDate.getFormDateByIndex(index).getStringMask() );
+
+						dateFormat = newDateFormat;
+						maskFormatterFrom = newMaskFormatterFrom;
+						maskFormatterTo = newMaskFormatterTo;
 						
 					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
@@ -274,17 +282,18 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		this.add( new JLabel(), c );
 		
 		//Default dd/MM/yyy
-		fieldFormatDate.setSelectedIndex( FormDate.ddMMyyyy_dot.getIndex() );
+//		fieldFormatDate.setSelectedIndex( FormDate.ddMMyyyy_dot.getIndex() );
+	
 		
-		
-		
-		fieldFormatDate.setSelectedIndex( FormDate.ddMMyyyy_slash.getIndex() );	
+		FormDate fd = FormDate.getFormDateByMask( (String)parameterList.get(PARAMETERORDER_MASK) );
+		fieldFormatDate.setSelectedIndex( fd.getIndex() );	
 	}	
 	
 	@Override
 	public void setEnableModify(boolean enable) {
 		fieldFrom.setEditable( enable );		
 		fieldTo.setEditable( enable );
+		fieldFormatDate.setEnabled(enable);
 	}
 
 	@Override

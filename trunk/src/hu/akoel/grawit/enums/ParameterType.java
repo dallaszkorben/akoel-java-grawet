@@ -1,9 +1,11 @@
 package hu.akoel.grawit.enums;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 import hu.akoel.grawit.CommonOperations;
 
@@ -14,7 +16,7 @@ public enum ParameterType {
 	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
 	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class}),
 	INTEGER_PARAMETER( 4, CommonOperations.getTranslation("editor.label.variable.parametertype.integer"), new Class<?>[]{Integer.class}),
-	RANDOM_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate"), new Class<?>[]{Calendar.class, Calendar.class, SimpleDateFormat.class }),
+	RANDOM_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate"), new Class<?>[]{String.class, String.class, String.class, String.class }),
 	;
 	
 	private int index;
@@ -68,8 +70,21 @@ public enum ParameterType {
 			return CommonOperations.getRandomStringDouble( (Double)parameters.get(0), (Double)parameters.get(1), (Integer)parameters.get(2));
 			
 		}else if( this.equals( RANDOM_DATE_PARAMETER ) ){
+			SimpleDateFormat sdf = new SimpleDateFormat( (String)parameters.get(2) );
+			Calendar fromCalendar = Calendar.getInstance();
+			Calendar toCalendar = Calendar.getInstance();
+				
+				Date fromDate;
+				try {
+					fromDate = sdf.parse( (String)parameters.get(0) );
+					Date toDate = sdf.parse( (String)parameters.get(1));
+					fromCalendar.setTime(fromDate);
+					toCalendar.setTime(toDate);				
+				} catch (ParseException e) {
+					//e.printStackTrace();
+				}				
+				return CommonOperations.getRandomStringDate( fromCalendar, toCalendar, sdf );
 			
-			return CommonOperations.getRandomStringDate( (Calendar)parameters.get(0), (Calendar)parameters.get(1), (SimpleDateFormat)parameters.get(2));
 		}
 
 //TODO ne felejtsd el folytatni		

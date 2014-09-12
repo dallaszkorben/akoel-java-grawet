@@ -45,6 +45,14 @@ public enum FormDate{
 		return new SimpleDateFormat( stringFormat );
 	}
 	
+	public String getStringDateFormat(){
+		return stringFormat;
+	}
+	
+	public String getStringMask(){
+		return stringMask;
+	}
+	
 	public MaskFormatter getMask(){
 		
 		MaskFormatter formatter = null;
@@ -57,7 +65,19 @@ public enum FormDate{
 		return formatter;
 	}
 	
-	public static FormDate getFormatByIndex( int index ){
+	public static FormDate getFormDateByMask( String mask ){
+		
+		for( int i = 0; i < getSize(); i++ ){
+			if( getFormDateByIndex(i).stringMask.equals( mask ) ){
+				return getFormDateByIndex(i);
+			}
+		}
+		
+		return null;
+		
+	}
+	
+	public static FormDate getFormDateByIndex( int index ){
 		switch (index){
 		case 0:	return ddMMyyyy_slash;
 		case 1: return ddMMyyyy_hyphen;
