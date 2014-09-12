@@ -50,8 +50,7 @@ public abstract class Tree extends JTree{
 		//this.setRootVisible(false);
 		
 		//Csak egy elem lehet kivalasztva
-		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-		
+		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);		
 		
 		/**
 		 * Ikonokat helyezek el az egyes csomopontok ele
@@ -81,6 +80,7 @@ public abstract class Tree extends JTree{
 		this.addMouseListener( treeMouseListener );
 		this.addTreeSelectionListener( new SelectionChangedListener() );
 	
+		this.setDragEnabled( true );
 	}
 	
 	/**
