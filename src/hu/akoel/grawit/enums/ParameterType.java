@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import javax.swing.text.MaskFormatter;
-
 import hu.akoel.grawit.CommonOperations;
 
 public enum ParameterType {	
@@ -27,6 +25,10 @@ public enum ParameterType {
 		this.index = index;
 		this.translatedName = translatedName;	
 		this.parameterClassList = new ArrayList<Class<?>>(Arrays.asList(parameterClassList));
+	}
+	
+	public static int getSize(){
+		return ParameterType.values().length;
 	}
 	
 	public int getIndex(){

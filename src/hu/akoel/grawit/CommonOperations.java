@@ -224,7 +224,7 @@ public class CommonOperations {
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = tryToConvert(possibleValue);//type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
+					Object value = getConverted(possibleValue);//type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
 					parameterList.set( parameterOrder, value );
 					goodValue = possibleValue;
 					
@@ -235,7 +235,7 @@ public class CommonOperations {
 				return true;
 			}
 			
-			public Object tryToConvert( String possibleValue ) throws Exception{
+			public Object getConverted( String possibleValue ) throws Exception{
 				return type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
 			}
 	 } 	 

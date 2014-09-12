@@ -110,12 +110,9 @@ public class VariableElementEditor extends DataEditor{
 	
 		//VariableTypeSelector		
 		fieldVariableType = new ComboBoxComponent<>();
-		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(0).getTranslatedName() );
-		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(1).getTranslatedName() );
-		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(2).getTranslatedName() );
-		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(3).getTranslatedName() );
-		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(4).getTranslatedName() );
-		fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(5).getTranslatedName() );
+		for( int i = 0; i < ParameterType.getSize(); i++ ){
+			fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(i).getTranslatedName() );
+		}
 		fieldVariableType.addItemListener( new ItemListener() {
 			
 			@Override

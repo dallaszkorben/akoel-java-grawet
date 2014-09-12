@@ -165,7 +165,9 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		for( Object object: parameters ){
 			Element parameterElement = document.createElement( TAG_PARAMETER.getName() );
 			attr = document.createAttribute( ATTR_VALUE );
+			
 			attr.setValue( object.toString() );
+			
 			parameterElement.setAttributeNode( attr );
 			elementElement.appendChild( parameterElement );
 		}
