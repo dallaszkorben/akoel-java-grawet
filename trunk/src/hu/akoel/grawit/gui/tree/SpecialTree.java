@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
@@ -16,6 +17,7 @@ import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -251,6 +253,31 @@ public class SpecialTree extends Tree{
 		});
 		popupMenu.add ( insertNodeMenu );			
 		
+	}
+
+	@Override
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+
+		//Node elhelyezese Node-ba vagy Root-ba
+		if( draggedNode instanceof SpecialNodeDataModel && dropObject instanceof SpecialNodeDataModel ){
+			return true;
+		
+		//Open elhelyezese Node-ba de nem Root-ba
+		}if( draggedNode instanceof SpecialOpenDataModel && dropObject instanceof SpecialNodeDataModel && !( dropObject instanceof SpecialRootDataModel ) ){
+			return true;
+
+		//Close elhelyezese Node-ba de nem Root-ba
+		}if( draggedNode instanceof SpecialCloseDataModel && dropObject instanceof SpecialNodeDataModel && !( dropObject instanceof SpecialRootDataModel ) ){
+			return true;
+
+		//Custom elhelyezese Node-ba de nem Root-ba
+		}if( draggedNode instanceof SpecialCustomDataModel && dropObject instanceof SpecialNodeDataModel && !( dropObject instanceof SpecialRootDataModel ) ){
+			return true;
+			
+			
+		}
+			
+		return false;
 	}
 
 }

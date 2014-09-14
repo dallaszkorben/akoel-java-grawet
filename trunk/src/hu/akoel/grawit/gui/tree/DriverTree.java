@@ -7,10 +7,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
@@ -300,6 +303,34 @@ public class DriverTree extends Tree{
 		});
 		popupMenu.add ( insertNodeMenu );			
 		
+	}
+
+	@Override
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+
+		//Node elhelyezese Node-ba vagy Root-ba
+		if( draggedNode instanceof DriverNodeDataModel && dropObject instanceof DriverNodeDataModel ){
+			return true;
+		
+		//Firefox elhelyezese Node-ba de nem Root-ba
+		}else if( draggedNode instanceof DriverFirefoxDataModel && dropObject instanceof DriverNodeDataModel && !( dropObject instanceof DriverRootDataModel ) ){
+			return true;
+			
+		//Firefox property elhelyezese Firefox-ban
+		}else if( draggedNode instanceof DriverFirefoxPropertyDataModel && dropObject instanceof DriverFirefoxDataModel ){
+			return true;
+		
+		//Explorer elhelyezese Node-ba de nem Root-ba
+		}else if( draggedNode instanceof DriverExplorerDataModel && dropObject instanceof DriverNodeDataModel && !( dropObject instanceof DriverRootDataModel ) ){
+			return true;
+
+		//Explorer property elhelyezese Explorer-ben
+		}else if( draggedNode instanceof DriverExplorerCapabilityDataModel && dropObject instanceof DriverExplorerDataModel ){
+			return true;
+		
+		}
+					
+		return false;
 	}
 
 }
