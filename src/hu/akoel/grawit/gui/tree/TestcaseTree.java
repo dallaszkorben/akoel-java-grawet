@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
@@ -21,6 +22,7 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -303,6 +305,26 @@ popupMenu.add ( insertRun );
 		});
 		popupMenu.add ( insertNodeMenu );
 		
+	}
+
+	@Override
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+		
+		//Node elhelyezese Node-ba vagy Root-ba
+		if( draggedNode instanceof TestcaseNodeDataModel && dropObject instanceof TestcaseNodeDataModel ){
+			return true;
+		
+		//Case elhelyezese Node-ba, de nem Root-ba
+		}else if( draggedNode instanceof TestcaseCaseDataModel && dropObject instanceof TestcaseNodeDataModel && !( dropObject instanceof TestcaseRootDataModel ) ){
+			return true;
+		
+		//Page elhelyezese Case-ben
+		}else if( draggedNode instanceof TestcaseParamPageDataModel && dropObject instanceof TestcaseCaseDataModel ){
+			return true;
+		
+		}
+		
+		return false;
 	}
 
 }

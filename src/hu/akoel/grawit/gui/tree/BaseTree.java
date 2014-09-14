@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
@@ -15,6 +16,9 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -231,6 +235,25 @@ public class BaseTree extends Tree{
 		});
 		popupMenu.add ( insertNodeMenu );			
 		
+	}
+
+	@Override
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+
+		//Node elhelyezese Node-ba vagy Root-ba
+		if( draggedNode instanceof BaseNodeDataModel && dropObject instanceof BaseNodeDataModel ){
+			return true;
+
+		//Page elhelyezese Node-ba de nem Root-ba	
+		}else if( draggedNode instanceof BasePageDataModel && dropObject instanceof BaseNodeDataModel && !( dropObject instanceof BaseRootDataModel ) ){
+			return true;
+		
+		//Element elhelyezese Page-ben	
+		}else if( draggedNode instanceof BaseElementDataModel && dropObject instanceof BasePageDataModel ){
+			return true;
+		}
+		
+		return false;
 	}
 
 }

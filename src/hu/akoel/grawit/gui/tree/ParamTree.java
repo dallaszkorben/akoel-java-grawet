@@ -7,10 +7,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
@@ -228,6 +231,26 @@ public class ParamTree extends Tree {
 		});
 		popupMenu.add ( insertNodeMenu );
 		
+	}
+
+	@Override
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+
+		//Node elhelyezese Node-ba vagy Root-ba
+		if( draggedNode instanceof ParamNodeDataModel && dropObject instanceof ParamNodeDataModel ){
+			return true;
+
+		//Page elhelyezese Node-ba de nem Root-ba	
+		}else if( draggedNode instanceof ParamPageDataModel && dropObject instanceof ParamNodeDataModel && !( dropObject instanceof ParamRootDataModel ) ){
+			return true;
+			
+		//Elem elhelyezese Page-be	
+		}else if( draggedNode instanceof ParamElementDataModel && dropObject instanceof ParamPageDataModel ){
+			return true;
+			
+		}	
+		
+		return false;
 	}
 
 }
