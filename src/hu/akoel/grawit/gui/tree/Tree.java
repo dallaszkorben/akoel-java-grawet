@@ -707,13 +707,15 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
     }
     
     private final void paintImage(Point pt) {
-         tree.paintImmediately(rect2D.getBounds());
-         rect2D.setRect((int) pt.getX(),(int) pt.getY(),image.getWidth(),image.getHeight());
-         tree.getGraphics().drawImage(image,(int) pt.getX(),(int) pt.getY(),tree);
+//    	tree.repaint(rect2D.getBounds());
+    	tree.paintImmediately(rect2D.getBounds());
+    	rect2D.setRect((int) pt.getX(),(int) pt.getY(),image.getWidth(),image.getHeight());
+    	tree.getGraphics().drawImage(image,(int) pt.getX(),(int) pt.getY(),tree);
     }
 
     private final void clearImage() {
-         tree.paintImmediately(rect2D.getBounds());
+//    	tree.repaint(rect2D.getBounds());
+    	tree.paintImmediately(rect2D.getBounds());
     }
 
     public abstract boolean canPerformAction(Tree target, DefaultMutableTreeNode draggedNode, int action, Point location);
