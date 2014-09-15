@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
+import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
@@ -24,6 +25,8 @@ import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
@@ -62,7 +65,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	 * @param element
 	 * @throws XMLPharseException
 	 */
-	public ParamPageDataModel( Element element, BaseDataModelInterface baseDataModel, VariableDataModelInterface variableDataModel ) throws XMLPharseException{
+	public ParamPageDataModel( Element element, BaseDataModelInterface baseDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
@@ -148,7 +151,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 				Element paramElement = (Element)node;
 				//if( paramElement.getTagName().equals( ParamElementDataModel.getTagStatic().getName() )){
 				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
-					this.add(new ParamElementDataModel(paramElement, basePage, variableDataModel ));
+					this.add(new ParamElementDataModel(paramElement, basePage, paramRootDataModel, variableRootDataModel ));
 				}
 			}
 		}		
@@ -270,4 +273,17 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		return this.pageProgressInterface;
 	}
 */
+	@Override
+	public Object clone(){
+		
+		ParamPageDataModel cloned = (ParamPageDataModel)super.clone();
+	
+		if( null != this.children ){
+			cloned.children = (Vector<?>) this.children.clone();
+		}
+		
+		return cloned;
+		
+	}
+	
 }

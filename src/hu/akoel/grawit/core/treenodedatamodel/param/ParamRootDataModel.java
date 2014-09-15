@@ -1,8 +1,11 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
+import java.util.Vector;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLExtraRootTagPharseException;
@@ -50,7 +53,7 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 					
 						//Ha ujabb PARAMNODE van alatta
 						if( paramElement.getTagName().equals( Tag.PARAMNODE.getName() ) ){						
-							this.add(new ParamNodeDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+							this.add(new ParamNodeDataModel(paramElement, baseRootDataModel, this, variableRootDataModel ));
 						}
 					}
 				}
@@ -95,4 +98,16 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 		return paramPageElement;		
 	}
 	
+	@Override
+	public Object clone(){
+		
+		ParamRootDataModel cloned = (ParamRootDataModel)super.clone();
+	
+		if( null != this.children ){
+			cloned.children = (Vector<?>) this.children.clone();
+		}
+		
+		return cloned;
+		
+	}
 }

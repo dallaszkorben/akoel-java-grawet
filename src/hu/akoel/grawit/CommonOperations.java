@@ -37,8 +37,6 @@ public class CommonOperations {
 	
 	private static Random rnd = new Random();
 	
-	//private static final String NUMLIST = "1234567890";
-	
 //	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private static SimpleDateFormat yearMonthFormat = new SimpleDateFormat("MM/yyyy");
 	private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");

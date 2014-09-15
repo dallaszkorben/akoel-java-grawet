@@ -7,16 +7,12 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.TimeoutException;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultStyledDocument;
@@ -26,6 +22,7 @@ import javax.swing.text.StyleContext;
 
 import org.openqa.selenium.WebDriver;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
@@ -68,7 +65,7 @@ public class RunTestcaseEditor extends BaseEditor{
 	
 	private RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){		
 
-		super( "Teszteset futtatГЎsa" );
+		super( CommonOperations.getTranslation( "editor.label.runtest.windowtitle" ) );
 
 		this.selectedTestcase = testcaseCaseElement;
 		
@@ -77,7 +74,7 @@ public class RunTestcaseEditor extends BaseEditor{
 		pageProgress = new PageProgress();
 		elementProgress = new ElementProgress();		
 		
-		runButton = new JButton( "Run" );
+		runButton = new JButton( CommonOperations.getTranslation("editor.label.runtest.runbutton") );
 		runButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -92,8 +89,7 @@ public class RunTestcaseEditor extends BaseEditor{
 						
 						pageList.setText("");
 						reportList.setText("");
-						
-						
+												
 				    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
 						
 				    	ExecutablePageInterface openPage = selectedTestcase.getOpenPage();
@@ -202,7 +198,7 @@ public class RunTestcaseEditor extends BaseEditor{
 */		
 		
 		//Page list
-		pageList = new JTextArea(2, 15);
+		pageList = new JTextArea(2, 25);
 		pageList.setEditable(false);
 		DefaultCaret pageListCaret = (DefaultCaret)pageList.getCaret();
 		pageListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);

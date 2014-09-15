@@ -12,8 +12,6 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
@@ -34,13 +32,15 @@ public class ParamTree extends Tree {
 	private GUIFrame guiFrame;	
 	private VariableRootDataModel variableRootDataModel;
 	private BaseRootDataModel baseRootDataModel;
+	private ParamRootDataModel paramRootDataModel;
 	
-	public ParamTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel rootDataModel ) {
-		super(guiFrame, rootDataModel);
+	public ParamTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel ) {
+		super(guiFrame, paramRootDataModel);
 		
 		this.guiFrame = guiFrame;
 		this.baseRootDataModel = baseRootDataModel;
 		this.variableRootDataModel = variableRootDataModel;
+		this.paramRootDataModel = paramRootDataModel;
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class ParamTree extends Tree {
 			guiFrame.showEditorPanel( paramPageEditor);				
 							
 		}else if( selectedNode instanceof ParamElementDataModel ){
-			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, variableRootDataModel, EditMode.VIEW );	
+			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, paramRootDataModel, variableRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( pageBaseElementEditor);									
 			
 		}
@@ -105,7 +105,7 @@ public class ParamTree extends Tree {
 				
 		}else if( selectedNode instanceof ParamElementDataModel ){
 
-			ParamElementEditor paramElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, variableRootDataModel, EditMode.MODIFY );
+			ParamElementEditor paramElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, paramRootDataModel, variableRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( paramElementEditor);		
 				
 		}		
@@ -163,7 +163,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (ParamPageDataModel)selectedNode, variableRootDataModel );								
+					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (ParamPageDataModel)selectedNode, paramRootDataModel, variableRootDataModel );								
 					guiFrame.showEditorPanel( paramPageNodeEditor);								
 				
 				}
