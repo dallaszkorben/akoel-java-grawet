@@ -110,6 +110,10 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		return getModelNameToShowStatic();
 	}
 
+	public String toString(){
+		return name;
+	}
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
