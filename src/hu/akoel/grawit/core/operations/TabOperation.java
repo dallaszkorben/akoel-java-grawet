@@ -93,7 +93,7 @@ public class TabOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSample.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.setVariableValue( webElement.getText() );
+			element.getBaseElement().setVariableValue( webElement.getText() );
 		}
 		
 		try{
@@ -109,7 +109,8 @@ public class TabOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSample.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.setVariableValue( webElement.getAttribute("value") );
+			element.getBaseElement().setVariableValue( webElement.getAttribute("value") );
+			//element.getBaseElement().setVariableValue( webElement.getText() );
 		
 		}
 		

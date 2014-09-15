@@ -65,7 +65,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	 * @param element
 	 * @throws XMLPharseException
 	 */
-	public ParamPageDataModel( Element element, BaseDataModelInterface baseDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public ParamPageDataModel( Element element, BaseDataModelInterface baseDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
@@ -151,7 +151,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 				Element paramElement = (Element)node;
 				//if( paramElement.getTagName().equals( ParamElementDataModel.getTagStatic().getName() )){
 				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
-					this.add(new ParamElementDataModel(paramElement, basePage, paramRootDataModel, variableRootDataModel ));
+					this.add(new ParamElementDataModel(paramElement, basePage, variableRootDataModel ));
 				}
 			}
 		}		

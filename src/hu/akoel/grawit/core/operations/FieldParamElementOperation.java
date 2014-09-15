@@ -11,9 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.ListSelectionType;
 import hu.akoel.grawit.enums.Operation;
 import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -23,9 +21,9 @@ import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
 public class FieldParamElementOperation implements ElementOperationInterface{
-	private ParamElementDataModel parameter;
+	private BaseElementDataModel parameter;
 	
-	public FieldParamElementOperation( ParamElementDataModel parameter ){
+	public FieldParamElementOperation( BaseElementDataModel parameter ){
 		this.parameter = parameter;
 	}
 	
@@ -94,14 +92,16 @@ public class FieldParamElementOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSample.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.setVariableValue( webElement.getText() );
+			element.getBaseElement().setVariableValue( webElement.getText() );
 		}
 		
 		try{
+			
 			//Execute the operation
 //			webElement.clear();
 			webElement.sendKeys( parameter.getVariableValue() );
 			webElement.sendKeys(Keys.TAB);
+			
 		}catch (WebDriverException webDriverException){
 			throw new ElementInvalidOperationException( getOperation(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
@@ -111,7 +111,7 @@ public class FieldParamElementOperation implements ElementOperationInterface{
 				
 			//Elmenti az elem tartalmat a valtozoba
 			//webElement.sendKeys(Keys.TAB);
-			element.setVariableValue( webElement.getAttribute("value") );		
+			element.getBaseElement().setVariableValue( webElement.getAttribute("value") );		
 		}
 		
 		if( null != elementProgress ){
@@ -119,7 +119,7 @@ public class FieldParamElementOperation implements ElementOperationInterface{
 		}
 	}
 
-	public ParamElementDataModel getParamElement() {
+	public BaseElementDataModel getBaseElement() {
 		return parameter;
 	}
 

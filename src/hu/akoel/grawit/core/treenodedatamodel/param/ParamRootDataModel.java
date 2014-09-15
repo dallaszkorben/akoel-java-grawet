@@ -53,7 +53,7 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 					
 						//Ha ujabb PARAMNODE van alatta
 						if( paramElement.getTagName().equals( Tag.PARAMNODE.getName() ) ){						
-							this.add(new ParamNodeDataModel(paramElement, baseRootDataModel, this, variableRootDataModel ));
+							this.add(new ParamNodeDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 						}
 					}
 				}

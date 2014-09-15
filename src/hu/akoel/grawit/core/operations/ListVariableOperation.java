@@ -120,7 +120,7 @@ public class ListVariableOperation implements ElementOperationInterface{
 				if( baseElement.getVariableSample().equals( VariableSample.PRE ) ){
 					
 					//Elmenti az elem tartalmat a valtozoba
-					element.setVariableValue( select.getFirstSelectedOption().getAttribute("value") );
+					element.getBaseElement().setVariableValue( select.getFirstSelectedOption().getAttribute("value") );
 				}			
 			
 				select.selectByValue( parameter.getValue() );
@@ -130,7 +130,7 @@ public class ListVariableOperation implements ElementOperationInterface{
 					
 					//Elmenti az elem tartalmat a valtozoba
 					//webElement.sendKeys(Keys.TAB);
-					element.setVariableValue( webElement.getAttribute("value") );
+					element.getBaseElement().setVariableValue( webElement.getAttribute("value") );
 			
 				}
 			

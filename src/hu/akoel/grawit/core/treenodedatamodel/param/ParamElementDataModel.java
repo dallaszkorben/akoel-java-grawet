@@ -30,6 +30,8 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
@@ -52,15 +54,15 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementpath";
 	private static final String ATTR_OPERATION = "operation";
 	
-	private static final String ATTR_PARAM_ELEMENT_PATH = "paramelementpath";
-	private static final String ATTR_VARIABLE_ELEMENT_PATH = "variableelementpath";
+	private static final String ATTR_FIELD_BASE_ELEMENT_PATH = "fieldbaseelementpath";
+	private static final String ATTR_FIELD_VARIABLE_ELEMENT_PATH = "fieldvariableelementpath";
 	private static final String ATTR_LIST_SELECTION_TYPE = "listselectiontype";
 	
 	//Adatmodel ---
 	private String name;
 	private BaseElementDataModel baseElement;	
 	private ElementOperationInterface elementOperation;
-	private String variableValue = "";
+//	private String variableValue = "";
 	//----
 
 	/**
@@ -85,11 +87,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	 * @param variableDataModel
 	 * @throws XMLPharseException
 	 */
-	public ParamElementDataModel( Element element, BaseDataModelInterface baseDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public ParamElementDataModel( Element element, BaseDataModelInterface baseDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 
 		VariableDataModelInterface variableDataModel = (VariableDataModelInterface)variableRootDataModel;
-//		VariableDataModelInterface variableDataModel = (VariableDataModelInterface)variableRootDataModel.clone();
-		ParamDataModelInterface paramDataModel = (ParamDataModelInterface)paramRootDataModel.clone();
+		BaseDataModelInterface baseDataModelForFieldParamElement = (BaseDataModelInterface)baseDataModel.getRoot();;
 		
 		//
 		// Name
@@ -119,7 +120,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//FIELD_VARIABLE/LIST_VARIABLE
 		}else if( Operation.FIELD_VARIABLE.name().equals( operatorString ) || Operation.LIST_VARIABLE.name().equals( operatorString ) ){
 			
-			String variableElementPathString = element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH);				
+			String variableElementPathString = element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH);				
 			variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 		    DocumentBuilder builder;
@@ -130,7 +131,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    } catch (Exception e) {  
 		    
 		    	//Nem sikerult az atalakitas
-		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH), e );
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH), e );
 		    } 
 
 		    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
@@ -149,7 +150,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 
 		    		if( null == variableDataModel ){
 
-		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH) );
+		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH) );
 		    		}
 		    		
 		    	//Ha VARIABLEELEMENT
@@ -159,12 +160,12 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    		
 		    		if( null == variableDataModel ){
 
-		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH) );
+		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH) );
 		    		}
 		    		
 		    	}else{
 		    		
-		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH) );	    		
+		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH) );	    		
 		    	}
 		    }	    
 		    try{
@@ -185,13 +186,13 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    }catch(ClassCastException e){
 
 		    	//Nem sikerult az utvonalat megtalalni
-		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH ), e );
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH ), e );
 		    }
 
 		//FIELD_ELEMENT
 		}else if( Operation.FIELD_ELEMENT.name().equals( operatorString )){
 			
-			String paramElementPathString = element.getAttribute(ATTR_PARAM_ELEMENT_PATH);				
+			String paramElementPathString = element.getAttribute(ATTR_FIELD_BASE_ELEMENT_PATH);				
 			paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 		    DocumentBuilder builder;
@@ -202,7 +203,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    } catch (Exception e) {  
 		    
 		    	//Nem sikerult az atalakitas
-		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_ELEMENT_PATH, element.getAttribute(ATTR_PARAM_ELEMENT_PATH), e );
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_BASE_ELEMENT_PATH), e );
 		    } 
 
 		    //Megkeresem a PARAMELEMENTROOT-ben a PARAMELEMENT-hez vezeto utat
@@ -215,47 +216,47 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    	String tagName = actualElement.getTagName();
 		    	String attrName = null;
 		    	
-		    	//Ha PARAMELEMENTNODE
-		    	if( tagName.equals( ParamNodeDataModel.TAG.getName() ) ){
-		    		attrName = actualElement.getAttribute(ParamNodeDataModel.ATTR_NAME);	    		
-		    		paramDataModel = (ParamDataModelInterface) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNODE, attrName );
+		    	//Ha BASENODE
+		    	if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
+		    		attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	    		
+		    		baseDataModelForFieldParamElement = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForFieldParamElement, Tag.BASENODE, attrName );
 
-		    		if( null == paramDataModel ){
+		    		if( null == baseDataModelForFieldParamElement ){
 
-		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_ELEMENT_PATH, element.getAttribute(ATTR_PARAM_ELEMENT_PATH) );
+		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );
 		    		}
 		    		
-		    	//Ha PARAMELEMENT
-		    	}else if( tagName.equals( ParamElementDataModel.TAG.getName() ) ){
-		    		attrName = actualElement.getAttribute(ParamElementDataModel.ATTR_NAME);
-		    		paramDataModel = (ParamDataModelInterface) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMELEMENT, attrName );
+		    	//Ha BASEELEMENT
+		    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
+		    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
+		    		baseDataModelForFieldParamElement = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForFieldParamElement, Tag.BASEELEMENT, attrName );
 		
-		    		if( null == paramDataModel ){
+		    		if( null == baseDataModelForFieldParamElement ){
 
-		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_ELEMENT_PATH, element.getAttribute(ATTR_PARAM_ELEMENT_PATH) );
+		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );
 		    		}
 
 		    	
-		    	//Ha PARAMPAGE
-		    	}else if( tagName.equals( ParamPageDataModel.TAG.getName() ) ){
-		    		attrName = actualElement.getAttribute(ParamPageDataModel.ATTR_NAME);
-		    		paramDataModel = (ParamDataModelInterface) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGE, attrName );
+		    	//Ha BASEPAGE
+		    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
+		    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
+		    		baseDataModelForFieldParamElement = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForFieldParamElement, Tag.BASEPAGE, attrName );
 
-		    		if( null == paramDataModel ){
+		    		if( null == baseDataModelForFieldParamElement ){
 
-		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_ELEMENT_PATH, element.getAttribute(ATTR_PARAM_ELEMENT_PATH) );
+		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_BASE_ELEMENT_PATH) );
 		    		}
 		    	
 		    		
 		    	}else{
 		    		
-		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_ELEMENT_PATH, element.getAttribute(ATTR_PARAM_ELEMENT_PATH) );	    		
+		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_BASE_ELEMENT_PATH) );	    		
 		    	}
 		    }	    
 		    try{
 		    	
 		    	if( Operation.FIELD_ELEMENT.name().equals(operatorString ) ){
-		    		this.elementOperation = new FieldParamElementOperation( (ParamElementDataModel)paramDataModel );
+		    		this.elementOperation = new FieldParamElementOperation( (BaseElementDataModel)baseDataModelForFieldParamElement );
 /*		    	}else{
 		    		
 		    		if( !element.hasAttribute( ATTR_LIST_SELECTION_TYPE ) ){
@@ -270,7 +271,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    }catch(ClassCastException e){
 
 		    	//Nem sikerult az utvonalat megtalalni
-		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH ), e );
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH ), e );
 		    }
 		    
 						
@@ -377,7 +378,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	public void setOperation(ElementOperationInterface elementOperation) {
 		this.elementOperation = elementOperation;
 	}	
-	
+/*	
 	public String getVariableValue() {
 		return variableValue;
 	}
@@ -385,7 +386,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	public void setVariableValue(String variableValue) {
 		this.variableValue = variableValue;
 	}
-
+*/
 	public void setBaseElement( BaseElementDataModel baseElement ){
 		this.baseElement = baseElement;
 	}
@@ -446,7 +447,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		if( getElementOperation().getOperation().equals( Operation.FIELD_VARIABLE ) || getElementOperation().getOperation().equals( Operation.LIST_VARIABLE ) ){
 		
 			//VariableElementPath
-			attr = document.createAttribute( ATTR_VARIABLE_ELEMENT_PATH );
+			attr = document.createAttribute( ATTR_FIELD_VARIABLE_ELEMENT_PATH );
 			VariableDataModelInterface variableDataModel = null;
 			if( getElementOperation().getOperation().equals( Operation.FIELD_VARIABLE ) ){
 				
@@ -468,12 +469,12 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//Ha FIELD_ELEMENT, akkor kell ParamElementPath parameter	
 		}else if( getElementOperation().getOperation().equals( Operation.FIELD_ELEMENT ) ){
 			
-			//VariableElementPath
-			attr = document.createAttribute( ATTR_PARAM_ELEMENT_PATH );
-			ParamElementDataModel paramElementDataModel = null;
+			//BaseElementPath
+			attr = document.createAttribute( ATTR_FIELD_BASE_ELEMENT_PATH );
+			BaseElementDataModel baseElementDataModel = null;
 			if( getElementOperation().getOperation().equals( Operation.FIELD_ELEMENT ) ){
 				
-				paramElementDataModel = ((FieldParamElementOperation)getElementOperation()).getParamElement();
+				baseElementDataModel = ((FieldParamElementOperation)getElementOperation()).getBaseElement();
 				
 //			}else if( getElementOperation().getOperation().equals( Operation.LIST_VARIABLE ) ){
 				
@@ -481,10 +482,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 			}			
 			
-			if( null == paramElementDataModel ){ //Ez nem lehet
+			if( null == baseElementDataModel ){ //Ez nem lehet
 				attr.setValue(""); 
 			}else{
-				attr.setValue( paramElementDataModel.getPathTag() );
+				attr.setValue( baseElementDataModel.getPathTag() );
 			}
 			elementElement.setAttributeNode( attr );
 		}

@@ -32,7 +32,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	private String identifier;
 	private SelectorType identificationType;
 
-
+	private String variableValue = "";
 
 	public BaseElementDataModel(String name, String identifier, SelectorType identificationType, VariableSample variableSample, String frame){
 		common( name, identifier, identificationType, variableSample, frame );	
@@ -177,6 +177,14 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	@Override
 	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
+	}
+	
+	public String getVariableValue() {
+		return variableValue;
+	}
+
+	public void setVariableValue(String variableValue) {
+		this.variableValue = variableValue;
 	}
 	
 	@Override

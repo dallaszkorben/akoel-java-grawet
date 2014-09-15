@@ -36,7 +36,7 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 		this.details = details;
 	}
 	
-	public ParamNodeDataModel( Element element, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public ParamNodeDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( ParamNodeDataModel.getRootTag(), Tag.PARAMNODE, ATTR_NAME );			
@@ -58,11 +58,11 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 				
 				//Ha PARAMPAGE van alatta
 				if( pageElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
-					this.add(new ParamPageDataModel(pageElement, baseRootDataModel, paramRootDataModel, variableRootDataModel ) );
+					this.add(new ParamPageDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 				
 				//Ha ujabb BASENODE van alatta
 				}else if( pageElement.getTagName().equals( Tag.PARAMNODE.getName() )){					
-					this.add(new ParamNodeDataModel(pageElement, baseRootDataModel, paramRootDataModel, variableRootDataModel ) );
+					this.add(new ParamNodeDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 				}
 			}
 		}
