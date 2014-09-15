@@ -3,14 +3,16 @@ package hu.akoel.grawit.enums;
 import hu.akoel.grawit.CommonOperations;
 
 public enum Operation{		
-	FIELD( 0, CommonOperations.getTranslation( "editor.label.param.operation.field") ),
-	LIST( 1, CommonOperations.getTranslation( "editor.label.param.operation.list") ),
-	LINK( 2, CommonOperations.getTranslation( "editor.label.param.operation.link") ),
-	BUTTON( 3, CommonOperations.getTranslation( "editor.label.param.operation.button") ),
-	RADIOBUTTON( 4, CommonOperations.getTranslation( "editor.label.param.operation.radiobutton") ),
-	CHECKBOX( 5, CommonOperations.getTranslation( "editor.label.param.operation.checkbox") ),	
-	TAB( 6, CommonOperations.getTranslation( "editor.label.param.operation.tab") ),
-	CLEAR( 7, CommonOperations.getTranslation( "editor.label.param.operation.clear") ),
+	FIELD_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.operation.fillfieldwithvariable") ),
+	FIELD_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.param.operation.fillfieldwithelement") ),
+	FIELD_CLEAR( 2, CommonOperations.getTranslation( "editor.label.param.operation.clear") ),
+	LIST_VARIABLE( 3, CommonOperations.getTranslation( "editor.label.param.operation.list") ),
+	LINK( 4, CommonOperations.getTranslation( "editor.label.param.operation.link") ),
+	BUTTON( 5, CommonOperations.getTranslation( "editor.label.param.operation.button") ),
+	RADIOBUTTON( 6, CommonOperations.getTranslation( "editor.label.param.operation.radiobutton") ),
+	CHECKBOX( 7, CommonOperations.getTranslation( "editor.label.param.operation.checkbox") ),	
+	TAB( 8, CommonOperations.getTranslation( "editor.label.param.operation.tab") ),
+	
 	;
 	
 	private String translatedName;
@@ -36,13 +38,15 @@ public enum Operation{
 	
 	public static Operation getOperationByIndex( int index ){
 		switch (index){
-		case 0:	return FIELD;
-		case 1: return LIST;
-		case 2: return LINK;
-		case 3: return BUTTON;
-		case 4: return RADIOBUTTON;
-		case 5: return CHECKBOX;
-		case 6: return TAB;
+		case 0:	return FIELD_VARIABLE;
+		case 1:	return FIELD_ELEMENT;
+		case 2: return FIELD_CLEAR;
+		case 3: return LIST_VARIABLE;
+		case 4: return LINK;
+		case 5: return BUTTON;
+		case 6: return RADIOBUTTON;
+		case 7: return CHECKBOX;
+		case 8: return TAB;		
 		default: return LINK;
 		}
 	}

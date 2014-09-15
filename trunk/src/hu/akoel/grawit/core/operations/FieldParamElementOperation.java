@@ -22,15 +22,16 @@ import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
-public class TabOperation implements ElementOperationInterface{
+public class FieldParamElementOperation implements ElementOperationInterface{
+	private ParamElementDataModel parameter;
 	
-	public TabOperation( ){
-
+	public FieldParamElementOperation( ParamElementDataModel parameter ){
+		this.parameter = parameter;
 	}
 	
 	@Override
 	public Operation getOperation() {
-		return Operation.TAB;
+		return Operation.FIELD_ELEMENT;
 	}
 	
 	/**
@@ -98,8 +99,8 @@ public class TabOperation implements ElementOperationInterface{
 		
 		try{
 			//Execute the operation
-			//webElement.clear();
-			//webElement.sendKeys( parameter.getValue() );
+//			webElement.clear();
+			webElement.sendKeys( parameter.getVariableValue() );
 			webElement.sendKeys(Keys.TAB);
 		}catch (WebDriverException webDriverException){
 			throw new ElementInvalidOperationException( getOperation(), element.getName(), baseElement.getSelector(), webDriverException );
@@ -109,13 +110,17 @@ public class TabOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSample.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.setVariableValue( webElement.getAttribute("value") );
-		
+			//webElement.sendKeys(Keys.TAB);
+			element.setVariableValue( webElement.getAttribute("value") );		
 		}
 		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
-	
+
+	public ParamElementDataModel getParamElement() {
+		return parameter;
+	}
+
 }

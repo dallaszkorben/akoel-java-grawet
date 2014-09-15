@@ -30,7 +30,7 @@ public class ClearOperation implements ElementOperationInterface{
 	
 	@Override
 	public Operation getOperation() {
-		return Operation.CLEAR;
+		return Operation.FIELD_CLEAR;
 	}
 	
 	/**
@@ -114,16 +114,6 @@ public class ClearOperation implements ElementOperationInterface{
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
-	}
-
-	@Override
-	public VariableElementDataModel getVariableElement() {
-		return null;
-	}
-
-	@Override
-	public ListSelectionType getListSelectionType() {
-		return null;
 	}
 	
 }

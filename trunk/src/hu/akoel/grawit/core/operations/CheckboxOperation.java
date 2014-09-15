@@ -85,13 +85,4 @@ public class CheckboxOperation implements ElementOperationInterface{
 		}
 	}
 
-	@Override
-	public VariableElementDataModel getVariableElement() {
-		return null;
-	}
-
-	@Override
-	public ListSelectionType getListSelectionType() {
-		return null;
-	}
 }
