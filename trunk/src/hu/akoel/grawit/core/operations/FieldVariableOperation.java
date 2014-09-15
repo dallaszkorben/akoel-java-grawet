@@ -94,7 +94,7 @@ public class FieldVariableOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSample.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.setVariableValue( webElement.getText() );
+			element.getBaseElement().setVariableValue( webElement.getText() );
 		}
 		
 		try{
@@ -110,8 +110,7 @@ public class FieldVariableOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSample.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			//webElement.sendKeys(Keys.TAB);
-			element.setVariableValue( webElement.getAttribute("value") );		
+			element.getBaseElement().setVariableValue( webElement.getAttribute("value") );		
 		}
 		
 		if( null != elementProgress ){

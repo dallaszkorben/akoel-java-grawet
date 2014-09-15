@@ -93,12 +93,14 @@ public class ClearOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSample.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.setVariableValue( webElement.getText() );
+			element.getBaseElement().setVariableValue( webElement.getText() );
 		}
 		
 		try{
+			
 			//Execute the operation
 			webElement.clear();
+			
 		}catch (WebDriverException webDriverException){
 			throw new ElementInvalidOperationException( getOperation(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
@@ -107,7 +109,8 @@ public class ClearOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSample.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.setVariableValue( webElement.getAttribute("value") );
+			element.getBaseElement().setVariableValue( webElement.getAttribute("value") );
+			//element.getBaseElement().setVariableValue( webElement.getText() );
 		
 		}
 		
