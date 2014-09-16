@@ -22,6 +22,7 @@ import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.FieldParamElementOperation;
 import hu.akoel.grawit.core.operations.FieldVariableOperation;
+import hu.akoel.grawit.core.operations.GainTextPatternOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.ListVariableOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
@@ -54,9 +55,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementpath";
 	private static final String ATTR_OPERATION = "operation";
 	
-	private static final String ATTR_FIELD_BASE_ELEMENT_PATH = "fieldbaseelementpath";
-	private static final String ATTR_FIELD_VARIABLE_ELEMENT_PATH = "fieldvariableelementpath";
+	private static final String ATTR_FILL_BASE_ELEMENT_PATH = "fillbaseelementpath";
+	private static final String ATTR_FILL_VARIABLE_ELEMENT_PATH = "fillvariableelementpath";
 	private static final String ATTR_LIST_SELECTION_TYPE = "listselectiontype";
+	private static final String ATTR_GAIN_TEXT_PATTERN = "gaintextpattern";
 	
 	//Adatmodel ---
 	private String name;
@@ -120,7 +122,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//FIELD_VARIABLE/LIST_VARIABLE
 		}else if( Operation.FIELD_VARIABLE.name().equals( operatorString ) || Operation.LIST_VARIABLE.name().equals( operatorString ) ){
 			
-			String variableElementPathString = element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH);				
+			String variableElementPathString = element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH);				
 			variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 		    DocumentBuilder builder;
@@ -131,7 +133,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    } catch (Exception e) {  
 		    
 		    	//Nem sikerult az atalakitas
-		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH), e );
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH), e );
 		    } 
 
 		    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
@@ -150,7 +152,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 
 		    		if( null == variableDataModel ){
 
-		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH) );
+		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );
 		    		}
 		    		
 		    	//Ha VARIABLEELEMENT
@@ -160,12 +162,12 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    		
 		    		if( null == variableDataModel ){
 
-		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH) );
+		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );
 		    		}
 		    		
 		    	}else{
 		    		
-		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH) );	    		
+		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );	    		
 		    	}
 		    }	    
 		    try{
@@ -186,13 +188,13 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    }catch(ClassCastException e){
 
 		    	//Nem sikerult az utvonalat megtalalni
-		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH ), e );
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH ), e );
 		    }
 
 		//FIELD_ELEMENT
 		}else if( Operation.FIELD_ELEMENT.name().equals( operatorString )){
 			
-			String paramElementPathString = element.getAttribute(ATTR_FIELD_BASE_ELEMENT_PATH);				
+			String paramElementPathString = element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH);				
 			paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 		    DocumentBuilder builder;
@@ -203,7 +205,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    } catch (Exception e) {  
 		    
 		    	//Nem sikerult az atalakitas
-		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_BASE_ELEMENT_PATH), e );
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH), e );
 		    } 
 
 		    //Megkeresem a PARAMELEMENTROOT-ben a PARAMELEMENT-hez vezeto utat
@@ -244,13 +246,13 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 
 		    		if( null == baseDataModelForFieldParamElement ){
 
-		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_BASE_ELEMENT_PATH) );
+		    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
 		    		}
 		    	
 		    		
 		    	}else{
 		    		
-		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_BASE_ELEMENT_PATH) );	    		
+		    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );	    		
 		    	}
 		    }	    
 		    try{
@@ -271,9 +273,14 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    }catch(ClassCastException e){
 
 		    	//Nem sikerult az utvonalat megtalalni
-		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FIELD_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FIELD_VARIABLE_ELEMENT_PATH ), e );
+		    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH ), e );
 		    }
-		    
+		
+		//GAIN TEXT PATTERN
+		}else if( Operation.GAINTEXTPATTERN.name().equals( operatorString ) ){
+				
+			String stringPattern = element.getAttribute(ATTR_GAIN_TEXT_PATTERN );				
+			this.elementOperation = new GainTextPatternOperation(stringPattern);
 						
 		//LINK
 		}else if( Operation.LINK.name().equals( operatorString ) ){
@@ -447,7 +454,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		if( getElementOperation().getOperation().equals( Operation.FIELD_VARIABLE ) || getElementOperation().getOperation().equals( Operation.LIST_VARIABLE ) ){
 		
 			//VariableElementPath
-			attr = document.createAttribute( ATTR_FIELD_VARIABLE_ELEMENT_PATH );
+			attr = document.createAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH );
 			VariableDataModelInterface variableDataModel = null;
 			if( getElementOperation().getOperation().equals( Operation.FIELD_VARIABLE ) ){
 				
@@ -470,7 +477,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		}else if( getElementOperation().getOperation().equals( Operation.FIELD_ELEMENT ) ){
 			
 			//BaseElementPath
-			attr = document.createAttribute( ATTR_FIELD_BASE_ELEMENT_PATH );
+			attr = document.createAttribute( ATTR_FILL_BASE_ELEMENT_PATH );
 			BaseElementDataModel baseElementDataModel = null;
 			if( getElementOperation().getOperation().equals( Operation.FIELD_ELEMENT ) ){
 				
@@ -487,6 +494,17 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			}else{
 				attr.setValue( baseElementDataModel.getPathTag() );
 			}
+			elementElement.setAttributeNode( attr );
+		
+		//Ha GAIN TEXT	
+		}else if( getElementOperation().getOperation().equals( Operation.GAINTEXTPATTERN ) ){
+			
+			//Gain text pattern
+			attr = document.createAttribute( ATTR_GAIN_TEXT_PATTERN );
+			
+			String stringPattern = ((GainTextPatternOperation)getElementOperation()).getStringPattern();
+			
+			attr.setValue( stringPattern );			
 			elementElement.setAttributeNode( attr );
 		}
 			

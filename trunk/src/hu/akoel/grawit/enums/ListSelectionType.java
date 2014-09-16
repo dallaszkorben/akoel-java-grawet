@@ -25,6 +25,10 @@ public enum ListSelectionType{
 		return index;
 	}
 	
+	public static int getSize(){
+		return ListSelectionType.values().length;
+	}
+	
 	public static ListSelectionType getListSelectionTypeByOrder( int index ){
 		switch (index){
 		case 0:	return BYVALUE;
