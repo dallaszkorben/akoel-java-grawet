@@ -12,6 +12,7 @@ import hu.akoel.grawit.core.operations.CheckboxOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.FieldParamElementOperation;
 import hu.akoel.grawit.core.operations.FieldVariableOperation;
+import hu.akoel.grawit.core.operations.GainTextPatternOperation;
 import hu.akoel.grawit.core.operations.LinkOperation;
 import hu.akoel.grawit.core.operations.ListVariableOperation;
 import hu.akoel.grawit.core.operations.RadioButtonOperation;
@@ -30,7 +31,6 @@ import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.ParamElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -58,6 +58,8 @@ public class ParamElementEditor extends DataEditor{
 	private BaseElementTreeSelectorComponent fieldFieldBaseElementSelector;
 	private JLabel labelListSelectionType;
 	private ComboBoxComponent<String> fieldListSelectionType;
+	private JLabel labelPattern;
+	private TextFieldComponent fieldPattern;
 	
 	private Operation operation;
 	
@@ -128,26 +130,22 @@ public class ParamElementEditor extends DataEditor{
 //TODO ki kell majd javitani
 		//selectedElement
 		//fieldParameterElementSelector = new ParameterElementTreeSelectorComponent(rootDataModel);
-		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
-		
+		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();		
 		
 		commonPost();
 		
 	}
 
 	private void commonPre( final ParamRootDataModel paramRootDataModel, final VariableRootDataModel variableRootDataModel ){
-		
-		
-		//this.rootDataModel = rootDataModel;
-		
+			
 		//Name
 		fieldName = new TextFieldComponent();
 		
 		//List selection type
 		fieldListSelectionType = new ComboBoxComponent<>();
-		fieldListSelectionType.addItem( ListSelectionType.getListSelectionTypeByOrder(0).getTranslatedName());
-		fieldListSelectionType.addItem( ListSelectionType.getListSelectionTypeByOrder(1).getTranslatedName());
-		fieldListSelectionType.addItem( ListSelectionType.getListSelectionTypeByOrder(2).getTranslatedName());
+		for( int i = 0; i < ListSelectionType.getSize(); i++){
+			fieldListSelectionType.addItem( ListSelectionType.getListSelectionTypeByOrder(i).getTranslatedName());
+		}
 		
 		//Operation
 		fieldOperation = new ComboBoxComponent<>();
@@ -240,12 +238,36 @@ public class ParamElementEditor extends DataEditor{
 						 }
 								
 						 ParamElementEditor.this.add( labelFieldBaseElementSelector, fieldFieldBaseElementSelector );
+						 
+					 //GAIN TEXT
+					 }else if( operation.equals( Operation.GAINTEXTPATTERN ) ){
+								 
+						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
+						 if( hasBeenHere || null == nodeForModify ){
+								 
+							 //Akkor uresen kell kapnom a mezot
+							 fieldPattern = new TextFieldComponent( "" );
 							 
+						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
+						 }else{
+								 
+							 GainTextPatternOperation op = (GainTextPatternOperation)nodeForModify.getElementOperation();
+					 
+							 //akkor latnom kell a kivalasztott tartalmat
+							 fieldPattern = new TextFieldComponent( op.getStringPattern() );
+						 }
+								
+						 ParamElementEditor.this.add( labelPattern, fieldPattern );						 
+						 
+						 
+						 
 					 }else if( operation.equals( Operation.BUTTON ) ){
 /*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }
 */						
+						 
+						 
 					 }else if( operation.equals( Operation.CHECKBOX ) ){
 /*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
@@ -280,6 +302,7 @@ public class ParamElementEditor extends DataEditor{
 		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable" ) + ": " );
 		labelFieldBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.paramelement" ) + ": " );
 		labelListSelectionType = new JLabel( CommonOperations.getTranslation("editor.label.param.operation.list" ) + ": " );
+		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.operation.pattern" ) + ": " );
 		
 		this.add( labelName, fieldName );
 		this.add( labelBaseElementSelector, fieldBaseElementSelector );
@@ -406,19 +429,28 @@ public class ParamElementEditor extends DataEditor{
 				VariableElementDataModel variableElementDataModel = fieldVariableSelector.getSelectedDataModel();
 				ListSelectionType listSelectionType = ListSelectionType.getListSelectionTypeByOrder( fieldListSelectionType.getSelectedIndex() );
 				elementOperation = new ListVariableOperation( listSelectionType, variableElementDataModel );
+			
+			}else if( operation.equals( Operation.GAINTEXTPATTERN ) ){											
+				elementOperation = new GainTextPatternOperation(fieldPattern.getText());
 				
 			}else if( operation.equals( Operation.LINK ) ){
 				elementOperation = new LinkOperation();
+				
 			}else if( operation.equals( Operation.BUTTON ) ){
 				elementOperation = new ButtonOperation();
+				
 			}else if( operation.equals( Operation.CHECKBOX ) ){
 				elementOperation = new CheckboxOperation();
+				
 			}else if( operation.equals( Operation.RADIOBUTTON ) ){
 				elementOperation = new RadioButtonOperation();
+				
 			}else if( operation.equals( Operation.TAB ) ){
 				elementOperation = new TabOperation();
+				
 			}else {
 				elementOperation = new LinkOperation();
+				
 			}
 					
 			BaseElementDataModel baseElement = fieldBaseElementSelector.getSelectedDataModel();

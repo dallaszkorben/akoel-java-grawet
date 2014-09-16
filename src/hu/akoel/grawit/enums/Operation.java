@@ -12,7 +12,7 @@ public enum Operation{
 	RADIOBUTTON( 6, CommonOperations.getTranslation( "editor.label.param.operation.radiobutton") ),
 	CHECKBOX( 7, CommonOperations.getTranslation( "editor.label.param.operation.checkbox") ),	
 	TAB( 8, CommonOperations.getTranslation( "editor.label.param.operation.tab") ),
-	
+	GAINTEXTPATTERN( 9, CommonOperations.getTranslation( "editor.label.param.operation.gaintextpattern") ),	
 	;
 	
 	private String translatedName;
@@ -46,7 +46,8 @@ public enum Operation{
 		case 5: return BUTTON;
 		case 6: return RADIOBUTTON;
 		case 7: return CHECKBOX;
-		case 8: return TAB;		
+		case 8: return TAB;
+		case 9: return GAINTEXTPATTERN;	
 		default: return LINK;
 		}
 	}

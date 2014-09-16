@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.enums.Operation;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.VariableSample;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -116,10 +117,10 @@ public class BaseElementEditor extends DataEditor{
 		
 		//Variable
 		fieldVariable = new ComboBoxComponent<>();
-		fieldVariable.addItem( VariableSample.getVariableSampleByIndex(0).getTranslatedName() );
-		fieldVariable.addItem( VariableSample.getVariableSampleByIndex(1).getTranslatedName() );
-		fieldVariable.addItem( VariableSample.getVariableSampleByIndex(2).getTranslatedName() );
-		
+		for(int i = 0; i < VariableSample.getSize(); i++ ){
+			fieldVariable.addItem( VariableSample.getVariableSampleByIndex(i).getTranslatedName() );
+		}
+	
 	}
 
 	private void commonPost(){
@@ -227,13 +228,16 @@ public class BaseElementEditor extends DataEditor{
 			
 			VariableSample variableSample = null;
 			int selectedIndex = fieldVariable.getSelectedIndex();
-			if( selectedIndex == VariableSample.NO.getIndex() ){
-				variableSample = VariableSample.NO;
-			}else if( selectedIndex == VariableSample.PRE.getIndex() ){
+//			if( selectedIndex == VariableSample.NO.getIndex() ){
+//				variableSample = VariableSample.NO;
+//			}else
+			variableSample = VariableSample.getVariableSampleByIndex( selectedIndex );
+			/*if( selectedIndex == VariableSample.PRE.getIndex() ){
 				variableSample = VariableSample.PRE;
 			}else if( selectedIndex == VariableSample.POST.getIndex() ){
 				variableSample = VariableSample.POST;
 			} 
+			*/
 			
 			SelectorType identificationType = null;
 			if( buttonID.isSelected() ){

@@ -96,9 +96,11 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		if( nameString.isEmpty() ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_VARIABLE_SAMPLE );			
 		}		
-		if( VariableSample.NO.name().equals(variablesempleString)){
+/*		if( VariableSample.NO.name().equals(variablesempleString)){
 			variableSample = VariableSample.NO;
-		}else if( VariableSample.PRE.name().equals(variablesempleString)){
+		}else 
+*/
+		if( VariableSample.PRE.name().equals(variablesempleString)){
 			variableSample = VariableSample.PRE;
 		}else if( VariableSample.POST.name().equals(variablesempleString)){
 			variableSample = VariableSample.POST;
