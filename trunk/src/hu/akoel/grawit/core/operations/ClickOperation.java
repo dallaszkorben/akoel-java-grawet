@@ -7,28 +7,29 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.list.ListSelectionBy;
-import hu.akoel.grawit.enums.list.Operation;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
-public class LinkOperation implements ElementOperationInterface{
+public class ClickOperation implements ElementOperationInterface{
 
+	private static final String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.common.click");
+	
 	@Override
-	public Operation getOperation() {
-		return Operation.LINK;
+	public String getTranslatedName() {
+		return NAME;
 	}
 	
 	/**
 	 * 
-	 * Executes a Click action on the WebElement (Link)
+	 * Executes a Click action on the WebElement
+	 * 
 	 * @throws ElementNotFoundSelectorException 
 	 * @throws ElementInvalidSelectorException 
 	 * @throws ElementTimeoutException 
@@ -90,5 +91,7 @@ public class LinkOperation implements ElementOperationInterface{
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
+
+
 
 }

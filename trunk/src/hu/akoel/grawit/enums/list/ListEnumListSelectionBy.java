@@ -2,7 +2,7 @@ package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum ListSelectionBy implements ListEnumInterface{		
+public enum ListEnumListSelectionBy implements ListEnumInterface{		
 	BYVALUE( 0, CommonOperations.getTranslation( "editor.label.param.operation.list.byvalue") ),
 	BYINDEX( 1, CommonOperations.getTranslation( "editor.label.param.operation.list.byindex") ),
 	BYVISIBLETEXT( 2, CommonOperations.getTranslation( "editor.label.param.operation.list.byvisibletext") ),
@@ -11,7 +11,7 @@ public enum ListSelectionBy implements ListEnumInterface{
 	private String translatedName;
 	private int index;
 	
-	private ListSelectionBy( int index, String translatedName ){
+	private ListEnumListSelectionBy( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -28,10 +28,10 @@ public enum ListSelectionBy implements ListEnumInterface{
 	}
 	
 	public static int getSize(){
-		return ListSelectionBy.values().length;
+		return ListEnumListSelectionBy.values().length;
 	}
 	
-	public static ListSelectionBy getListSelectionTypeByOrder( int index ){
+	public static ListEnumListSelectionBy getListSelectionTypeByOrder( int index ){
 		switch (index){
 		case 0:	return BYVALUE;
 		case 1: return BYINDEX;

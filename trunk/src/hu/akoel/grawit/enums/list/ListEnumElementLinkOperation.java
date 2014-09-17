@@ -2,7 +2,7 @@ package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum ElementLinkOperation implements ListEnumInterface{		
+public enum ListEnumElementLinkOperation implements ListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.click") ),
 	GAINTEXTPATTERN( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintextpattern") ),	
 	;
@@ -10,7 +10,7 @@ public enum ElementLinkOperation implements ListEnumInterface{
 	private String translatedName;
 	private int index;
 	
-	private ElementLinkOperation( int index, String translatedName ){
+	private ListEnumElementLinkOperation( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -22,7 +22,7 @@ public enum ElementLinkOperation implements ListEnumInterface{
 	}	
 	
 	public static int getSize(){
-		return ElementLinkOperation.values().length;
+		return ListEnumElementLinkOperation.values().length;
 	}
 	
 	@Override
@@ -30,7 +30,7 @@ public enum ElementLinkOperation implements ListEnumInterface{
 		return index;
 	}
 	
-	public static ElementLinkOperation getElementFieldOperationByIndex( int index ){
+	public static ListEnumElementLinkOperation getElementFieldOperationByIndex( int index ){
 		switch (index){
 		case 0:	return CLICK;
 		case 1:	return GAINTEXTPATTERN;

@@ -1,17 +1,17 @@
 package hu.akoel.grawit.exceptions;
 
-import hu.akoel.grawit.enums.list.Operation;
+import hu.akoel.grawit.enums.list.Torlendo_Operation;
 
 public class ElementInvalidOperationException extends ElementException{
-	private Operation operation;
+	private String operation;
 	private String elementName;
 	private String elementId;
 
 	private static final long serialVersionUID = 3601836630818056477L;
 
-	public ElementInvalidOperationException( Operation operation, String elementName, String elementSelector, Exception e ){
-		super( "Invalid operation:\n   Operation: " + operation.getTranslatedName() + "\n   Element name: '" + elementName + "'\n   Element selector: " + elementSelector, e );
-		this.operation = operation;
+	public ElementInvalidOperationException( String operationString, String elementName, String elementSelector, Exception e ){
+		super( "Invalid operation:\n   Operation: " + operationString + "\n   Element name: '" + elementName + "'\n   Element selector: " + elementSelector, e );
+		this.operation = operationString;
 		this.elementName = elementName;
 		this.elementId = elementSelector;
 	}
@@ -24,7 +24,7 @@ public class ElementInvalidOperationException extends ElementException{
 		return elementId;
 	}
 	
-	public Operation getOperation(){
+	public String getOperation(){
 		return operation;
 	}
 }

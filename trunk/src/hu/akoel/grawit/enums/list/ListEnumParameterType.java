@@ -9,7 +9,7 @@ import java.util.Date;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum ParameterType implements ListEnumInterface{	
+public enum ListEnumParameterType implements ListEnumInterface{	
 	
 	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.variable.parametertype.string"), new Class<?>[]{String.class}),
 	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),
@@ -23,14 +23,14 @@ public enum ParameterType implements ListEnumInterface{
 	private String translatedName;
 	private ArrayList<Class<?>> parameterClassList;
 	
-	private ParameterType( int index, String translatedName, Class<?>[] parameterClassList ){
+	private ListEnumParameterType( int index, String translatedName, Class<?>[] parameterClassList ){
 		this.index = index;
 		this.translatedName = translatedName;	
 		this.parameterClassList = new ArrayList<Class<?>>(Arrays.asList(parameterClassList));
 	}
 	
 	public static int getSize(){
-		return ParameterType.values().length;
+		return ListEnumParameterType.values().length;
 	}
 	
 	@Override
@@ -102,7 +102,7 @@ public enum ParameterType implements ListEnumInterface{
 		return parameterClassList.size();
 	}
 	
-	public static ParameterType getVariableParameterTypeByIndex( int index ){
+	public static ListEnumParameterType getVariableParameterTypeByIndex( int index ){
 		switch(index){
 		case 0: return STRING_PARAMETER;		
 		case 1: return RANDOM_STRING_PARAMETER;

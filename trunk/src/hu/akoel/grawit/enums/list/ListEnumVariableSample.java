@@ -2,7 +2,7 @@ package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum VariableSample implements ListEnumInterface{
+public enum ListEnumVariableSample implements ListEnumInterface{
 	//NO(0, CommonOperations.getTranslation( "editor.label.base.variablesample.no") ),
 	PRE(0, CommonOperations.getTranslation( "editor.label.base.variablesample.pre") ),
 	POST(1, CommonOperations.getTranslation( "editor.label.base.variablesample.post") );
@@ -10,7 +10,7 @@ public enum VariableSample implements ListEnumInterface{
 	private int index;
 	private String translatedName;
 	
-	private VariableSample( int index, String translatedName ){
+	private ListEnumVariableSample( int index, String translatedName ){
 		this.index = index;
 		this.translatedName = translatedName;
 	}
@@ -21,7 +21,7 @@ public enum VariableSample implements ListEnumInterface{
 	}
 	
 	public static int getSize(){
-		return VariableSample.values().length;
+		return ListEnumVariableSample.values().length;
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public enum VariableSample implements ListEnumInterface{
 		return translatedName;
 	}
 	
-	public static VariableSample getVariableSampleByIndex( int index ){
+	public static ListEnumVariableSample getVariableSampleByIndex( int index ){
 		switch(index){
 //		case 0: return NO;
 		case 0: return PRE;

@@ -8,28 +8,30 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.list.Operation;
-import hu.akoel.grawit.enums.list.VariableSample;
+import hu.akoel.grawit.enums.list.ListEnumVariableSample;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
-public class FieldParamElementOperation implements ElementOperationInterface{
+public class FillElementOperation implements ElementOperationInterface{
+	
+	private static final String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.field.fillelement");
 	private BaseElementDataModel parameter;
 	
-	public FieldParamElementOperation( BaseElementDataModel parameter ){
+	public FillElementOperation( BaseElementDataModel parameter ){
 		this.parameter = parameter;
 	}
-	
+
 	@Override
-	public Operation getOperation() {
-		return Operation.FIELD_ELEMENT;
+	public String getTranslatedName() {		
+		return NAME;
 	}
 	
 	/**
@@ -89,7 +91,7 @@ public class FieldParamElementOperation implements ElementOperationInterface{
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
 		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-		if( baseElement.getVariableSample().equals( VariableSample.PRE ) ){
+		if( baseElement.getVariableSample().equals( ListEnumVariableSample.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			element.getBaseElement().setVariableValue( webElement.getText() );
@@ -98,16 +100,16 @@ public class FieldParamElementOperation implements ElementOperationInterface{
 		try{
 			
 			//Execute the operation
-//			webElement.clear();
+			//webElement.clear();
 			webElement.sendKeys( parameter.getVariableValue() );
 			webElement.sendKeys(Keys.TAB);
 			
 		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getOperation(), element.getName(), baseElement.getSelector(), webDriverException );
+			throw new ElementInvalidOperationException( getTranslatedName(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-		if( baseElement.getVariableSample().equals( VariableSample.POST ) ){
+		if( baseElement.getVariableSample().equals( ListEnumVariableSample.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			//webElement.sendKeys(Keys.TAB);

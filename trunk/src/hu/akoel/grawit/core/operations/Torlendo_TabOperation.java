@@ -8,11 +8,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
+import hu.akoel.grawit.enums.list.ListEnumListSelectionBy;
+import hu.akoel.grawit.enums.list.Torlendo_Operation;
 import hu.akoel.grawit.enums.list.ListEnumVariableSample;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
@@ -20,13 +22,15 @@ import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
-public class TabOperation implements ElementOperationInterface{
+public class Torlendo_TabOperation implements Torlendo_ElementOperationInterface{
 	
-	private final static String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.common.tab");
+	public Torlendo_TabOperation( ){
+
+	}
 	
 	@Override
-	public String getTranslatedName() {		
-		return NAME;
+	public Torlendo_Operation getOperation() {
+		return Torlendo_Operation.TAB;
 	}
 	
 	/**
@@ -98,7 +102,7 @@ public class TabOperation implements ElementOperationInterface{
 			//webElement.sendKeys( parameter.getValue() );
 			webElement.sendKeys(Keys.TAB);
 		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getTranslatedName(), element.getName(), baseElement.getSelector(), webDriverException );
+			throw new ElementInvalidOperationException( getOperation().getTranslatedName(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
@@ -114,9 +118,5 @@ public class TabOperation implements ElementOperationInterface{
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
-
-
-
-
 	
 }

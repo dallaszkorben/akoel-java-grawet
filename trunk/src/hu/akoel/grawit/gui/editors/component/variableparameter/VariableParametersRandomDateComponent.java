@@ -1,8 +1,8 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.FormDate;
-import hu.akoel.grawit.enums.list.ParameterType;
+import hu.akoel.grawit.enums.list.ListEnumFormDate;
+import hu.akoel.grawit.enums.list.ListEnumParameterType;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -46,7 +46,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	MaskFormatter maskFormatterFrom;
 	MaskFormatter maskFormatterTo;
 	
-	private ParameterType type;
+	private ListEnumParameterType type;
 	
 	private ArrayList<Object> parameterList;
 
@@ -55,7 +55,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomDateComponent( ParameterType type ){
+	public VariableParametersRandomDateComponent( ListEnumParameterType type ){
 		super();
 		
 		this.parameterList = new ArrayList<>();
@@ -75,7 +75,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomDateComponent( ParameterType type, ArrayList<Object> parameterList ){
+	public VariableParametersRandomDateComponent( ListEnumParameterType type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -85,7 +85,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		
 	}
 	
-	private void common( ParameterType type ){
+	private void common( ListEnumParameterType type ){
 		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
@@ -189,8 +189,8 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		
 		fieldFormatDate = new FormDateComboBox();
 		//Feltoltom a listat
-		for( int i = 0; i < FormDate.getSize(); i++ ){		
-			fieldFormatDate.addItem( FormDate.getFormDateByIndex(i) );
+		for( int i = 0; i < ListEnumFormDate.getSize(); i++ ){		
+			fieldFormatDate.addItem( ListEnumFormDate.getFormDateByIndex(i) );
 		}
 		fieldFormatDate.addItemListener( new ItemListener() {
 			
@@ -203,15 +203,15 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
 					//DateFormat oldDateFormat = (DateFormat)parameterList.get(PARAMETERORDER_FORMAT);
-					DateFormat newDateFormat = FormDate.getFormDateByIndex(index).getDateFormat();
+					DateFormat newDateFormat = ListEnumFormDate.getFormDateByIndex(index).getDateFormat();
 
 					String oldFromText = fieldFrom.getText();
 					String oldToText = fieldTo.getText();
 					
 					try {						
 						
-						MaskFormatter newMaskFormatterFrom = FormDate.getFormDateByIndex(index).getMask();
-						MaskFormatter newMaskFormatterTo = FormDate.getFormDateByIndex(index).getMask();
+						MaskFormatter newMaskFormatterFrom = ListEnumFormDate.getFormDateByIndex(index).getMask();
+						MaskFormatter newMaskFormatterTo = ListEnumFormDate.getFormDateByIndex(index).getMask();
 						DefaultFormatterFactory fromFactory = new DefaultFormatterFactory(newMaskFormatterFrom);		
 						DefaultFormatterFactory toFactory = new DefaultFormatterFactory(newMaskFormatterTo);	
 						fieldFrom.setFormatterFactory(fromFactory);
@@ -227,8 +227,8 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 						
 						parameterList.set(PARAMETERORDER_FROM, newDateFormat.format(newDateFrom ) );
 						parameterList.set(PARAMETERORDER_TO, newDateFormat.format(newDateTo ) );
-						parameterList.set(PARAMETERORDER_FORMAT, FormDate.getFormDateByIndex(index).getStringDateFormat() );
-						parameterList.set(PARAMETERORDER_MASK, FormDate.getFormDateByIndex(index).getStringMask() );
+						parameterList.set(PARAMETERORDER_FORMAT, ListEnumFormDate.getFormDateByIndex(index).getStringDateFormat() );
+						parameterList.set(PARAMETERORDER_MASK, ListEnumFormDate.getFormDateByIndex(index).getStringMask() );
 
 						dateFormat = newDateFormat;
 						maskFormatterFrom = newMaskFormatterFrom;
@@ -285,7 +285,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 //		fieldFormatDate.setSelectedIndex( FormDate.ddMMyyyy_dot.getIndex() );
 	
 		
-		FormDate fd = FormDate.getFormDateByMask( (String)parameterList.get(PARAMETERORDER_MASK) );
+		ListEnumFormDate fd = ListEnumFormDate.getFormDateByMask( (String)parameterList.get(PARAMETERORDER_MASK) );
 		fieldFormatDate.setSelectedIndex( fd.getIndex() );	
 	}	
 	
@@ -306,7 +306,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		return parameterList;
 	}
 	
-	class FormDateComboBox extends JComboBox<FormDate>{
+	class FormDateComboBox extends JComboBox<ListEnumFormDate>{
 
 		public FormDateComboBox(){
 			this.setRenderer(new MyRenderer());
@@ -319,7 +319,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 			@Override
 			public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
 								
-				Component c = super.getListCellRendererComponent(list, ((FormDate)value).getTranslatedName(), index, isSelected, cellHasFocus);
+				Component c = super.getListCellRendererComponent(list, ((ListEnumFormDate)value).getTranslatedName(), index, isSelected, cellHasFocus);
 
 				return this;
 			}
