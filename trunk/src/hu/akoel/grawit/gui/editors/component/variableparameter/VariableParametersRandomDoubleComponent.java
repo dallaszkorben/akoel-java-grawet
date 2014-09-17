@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.ParameterType;
+import hu.akoel.grawit.enums.list.ParameterType;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;

@@ -1,8 +1,8 @@
-package hu.akoel.grawit.enums;
+package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum VariableSample {
+public enum VariableSample implements ListEnumInterface{
 	//NO(0, CommonOperations.getTranslation( "editor.label.base.variablesample.no") ),
 	PRE(0, CommonOperations.getTranslation( "editor.label.base.variablesample.pre") ),
 	POST(1, CommonOperations.getTranslation( "editor.label.base.variablesample.post") );
@@ -15,6 +15,7 @@ public enum VariableSample {
 		this.translatedName = translatedName;
 	}
 	
+	@Override
 	public int getIndex(){
 		return index;
 	}
@@ -23,6 +24,7 @@ public enum VariableSample {
 		return VariableSample.values().length;
 	}
 	
+	@Override
 	public String getTranslatedName(){
 		return translatedName;
 	}

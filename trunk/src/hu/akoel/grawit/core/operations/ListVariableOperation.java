@@ -16,9 +16,9 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.ListSelectionType;
-import hu.akoel.grawit.enums.Operation;
-import hu.akoel.grawit.enums.VariableSample;
+import hu.akoel.grawit.enums.list.ListSelectionBy;
+import hu.akoel.grawit.enums.list.Operation;
+import hu.akoel.grawit.enums.list.VariableSample;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
@@ -28,9 +28,9 @@ import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
 public class ListVariableOperation implements ElementOperationInterface{
 	private VariableElementDataModel parameter;
-	private ListSelectionType listSelectionType;
+	private ListSelectionBy listSelectionType;
 	
-	public ListVariableOperation( ListSelectionType listSelectionType, VariableElementDataModel parameter ){
+	public ListVariableOperation( ListSelectionBy listSelectionType, VariableElementDataModel parameter ){
 		this.listSelectionType = listSelectionType;
 		this.parameter = parameter;
 	}
@@ -114,7 +114,7 @@ public class ListVariableOperation implements ElementOperationInterface{
 		
 		try{
 
-			if(listSelectionType.equals( ListSelectionType.BYVALUE ) ){
+			if(listSelectionType.equals( ListSelectionBy.BYVALUE ) ){
 		
 				//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
 				if( baseElement.getVariableSample().equals( VariableSample.PRE ) ){
@@ -134,13 +134,13 @@ public class ListVariableOperation implements ElementOperationInterface{
 			
 				}
 			
-			}else if( listSelectionType.equals( ListSelectionType.BYINDEX ) ){
+			}else if( listSelectionType.equals( ListSelectionBy.BYINDEX ) ){
 			
 				//TODO ki kell talalni, hogy hogyan szerezheto meg a kivalasztott sorszama
 
 				select.selectByIndex( Integer.valueOf( parameter.getValue() ) );
 			
-			}else if( listSelectionType.equals( ListSelectionType.BYVISIBLETEXT ) ){
+			}else if( listSelectionType.equals( ListSelectionBy.BYVISIBLETEXT ) ){
 			
 				//TODO ki kell talalni, hogy hogyan szerezheto meg a kivalasztott szovege
 			
@@ -164,7 +164,7 @@ public class ListVariableOperation implements ElementOperationInterface{
 		return parameter;
 	}
 	
-	public ListSelectionType getListSelectionType() {
+	public ListSelectionBy getListSelectionType() {
 		return listSelectionType;
 	}
 	

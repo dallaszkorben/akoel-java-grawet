@@ -1,4 +1,5 @@
-package hu.akoel.grawit.enums;
+package hu.akoel.grawit.enums.list;
+
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -6,7 +7,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.text.MaskFormatter;
 
-public enum FormDate{		
+public enum FormDate implements ListEnumInterface{		
 	ddMMyyyy_slash( 0, "dd/MM/yyyy", "dd/MM/yyyy", "##/##/####" ),
 	ddMMyyyy_hyphen( 1, "dd-MM-yyyy", "dd-MM-yyyy", "##-##-####" ),
 	ddMMyyyy_dot( 2, "dd.MM.yyyy", "dd.MM.yyyy", "##.##.####" ),
@@ -33,10 +34,12 @@ public enum FormDate{
 		return FormDate.values().length;
 	}
 	
+	@Override
 	public String getTranslatedName(){
 		return translatedName;
 	}	
 	
+	@Override
 	public int getIndex(){
 		return index;
 	}

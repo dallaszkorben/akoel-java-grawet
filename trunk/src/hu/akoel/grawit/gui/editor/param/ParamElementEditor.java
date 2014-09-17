@@ -25,8 +25,8 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
-import hu.akoel.grawit.enums.ListSelectionType;
-import hu.akoel.grawit.enums.Operation;
+import hu.akoel.grawit.enums.list.ListSelectionBy;
+import hu.akoel.grawit.enums.list.Operation;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -49,7 +49,7 @@ public class ParamElementEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelOperation;
-	private ComboBoxComponent<String> fieldOperation;
+	private ComboBoxComponent<Operation> fieldOperation;
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	private JLabel labelVariableSelector;
@@ -57,7 +57,7 @@ public class ParamElementEditor extends DataEditor{
 	private JLabel labelFieldBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldFieldBaseElementSelector;
 	private JLabel labelListSelectionType;
-	private ComboBoxComponent<String> fieldListSelectionType;
+	private ComboBoxComponent<ListSelectionBy> fieldListSelectionType;
 	private JLabel labelPattern;
 	private TextFieldComponent fieldPattern;
 	
@@ -143,14 +143,14 @@ public class ParamElementEditor extends DataEditor{
 		
 		//List selection type
 		fieldListSelectionType = new ComboBoxComponent<>();
-		for( int i = 0; i < ListSelectionType.getSize(); i++){
-			fieldListSelectionType.addItem( ListSelectionType.getListSelectionTypeByOrder(i).getTranslatedName());
+		for( int i = 0; i < ListSelectionBy.getSize(); i++){
+			fieldListSelectionType.addItem( ListSelectionBy.getListSelectionTypeByOrder(i));
 		}
 		
 		//Operation
 		fieldOperation = new ComboBoxComponent<>();
 		for(int i = 0; i < Operation.getSize(); i++ ){
-			fieldOperation.addItem( Operation.getOperationByIndex(i).getTranslatedName() );
+			fieldOperation.addItem( Operation.getOperationByIndex(i) );
 		}
 		fieldOperation.addItemListener( new ItemListener() {
 			
@@ -184,7 +184,7 @@ public class ParamElementEditor extends DataEditor{
 							 
 							 //Akkor uresen kell kapnom a mezot
 							 fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
-							 fieldListSelectionType.setSelectedIndex( ListSelectionType.BYVISIBLETEXT.getIndex() );
+							 fieldListSelectionType.setSelectedIndex( ListSelectionBy.BYVISIBLETEXT.getIndex() );
 							 
 						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
 						 }else{
@@ -427,7 +427,7 @@ public class ParamElementEditor extends DataEditor{
 				
 			}else if( operation.equals( Operation.LIST_VARIABLE ) ){
 				VariableElementDataModel variableElementDataModel = fieldVariableSelector.getSelectedDataModel();
-				ListSelectionType listSelectionType = ListSelectionType.getListSelectionTypeByOrder( fieldListSelectionType.getSelectedIndex() );
+				ListSelectionBy listSelectionType = ListSelectionBy.getListSelectionTypeByOrder( fieldListSelectionType.getSelectedIndex() );
 				elementOperation = new ListVariableOperation( listSelectionType, variableElementDataModel );
 			
 			}else if( operation.equals( Operation.GAINTEXTPATTERN ) ){											

@@ -1,6 +1,6 @@
 package hu.akoel.grawit.exceptions;
 
-import hu.akoel.grawit.enums.Operation;
+import hu.akoel.grawit.enums.list.Operation;
 
 public class ElementInvalidOperationException extends ElementException{
 	private Operation operation;
