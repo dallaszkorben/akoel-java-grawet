@@ -10,7 +10,7 @@ import org.w3c.dom.NodeList;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ParameterType;
+import hu.akoel.grawit.enums.list.ListEnumParameterType;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
@@ -26,10 +26,10 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 	private static String ATTR_VALUE = "value";
 	
 	private String name;
-	private ParameterType type;
+	private ListEnumParameterType type;
 	private ArrayList<Object> parameters;
 		
-	public VariableElementDataModel( String name, ParameterType type, ArrayList<Object> parameters){
+	public VariableElementDataModel( String name, ListEnumParameterType type, ArrayList<Object> parameters){
 		this.name = name;
 		this.type = type;
 		this.parameters = parameters;
@@ -52,23 +52,23 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		if( !element.hasAttribute( ATTR_TYPE ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_TYPE );			
 		}
-		if( ParameterType.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterType.STRING_PARAMETER;
+		if( ListEnumParameterType.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ListEnumParameterType.STRING_PARAMETER;
 			
-		}else if( ParameterType.INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterType.INTEGER_PARAMETER;
+		}else if( ListEnumParameterType.INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ListEnumParameterType.INTEGER_PARAMETER;
 			
-		}else if( ParameterType.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterType.RANDOM_STRING_PARAMETER;
+		}else if( ListEnumParameterType.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ListEnumParameterType.RANDOM_STRING_PARAMETER;
 			
-		}else if( ParameterType.RANDOM_INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterType.RANDOM_INTEGER_PARAMETER;
+		}else if( ListEnumParameterType.RANDOM_INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ListEnumParameterType.RANDOM_INTEGER_PARAMETER;
 			
-		}else if( ParameterType.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterType.RANDOM_DOUBLE_PARAMETER;
+		}else if( ListEnumParameterType.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ListEnumParameterType.RANDOM_DOUBLE_PARAMETER;
 			
-		}else if( ParameterType.RANDOM_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterType.RANDOM_DATE_PARAMETER;
+		}else if( ListEnumParameterType.RANDOM_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ListEnumParameterType.RANDOM_DATE_PARAMETER;
 		}
 		
 		parameters = new ArrayList<Object>();
@@ -96,11 +96,11 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		
 	}
 	
-	public ParameterType getType(){
+	public ListEnumParameterType getType(){
 		return type;
 	}
 	
-	public void setType( ParameterType type ){
+	public void setType( ListEnumParameterType type ){
 		this.type = type;
 	}
 	

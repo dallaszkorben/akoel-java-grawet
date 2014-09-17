@@ -8,8 +8,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.list.ElementType;
-import hu.akoel.grawit.enums.list.VariableSample;
+import hu.akoel.grawit.enums.list.ListEnumElementType;
+import hu.akoel.grawit.enums.list.ListEnumVariableSample;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.RadioButtonComponent;
@@ -35,8 +35,8 @@ public class BaseElementEditor extends DataEditor{
 	private TextFieldComponent fieldFrame;
 	private JLabel labelIdentifier;
 	private TextFieldComponent fieldIdentifier;
-	private ComboBoxComponent<ElementType> comboElementType;
-	private ComboBoxComponent<VariableSample> comboVariable;
+	private ComboBoxComponent<ListEnumElementType> comboElementType;
+	private ComboBoxComponent<ListEnumVariableSample> comboVariable;
 	private RadioButtonComponent buttonID;
 	private RadioButtonComponent buttonCSS;
 	
@@ -123,14 +123,14 @@ public class BaseElementEditor extends DataEditor{
 		
 		//Element type
 		comboElementType = new ComboBoxComponent<>();
-		for(int i = 0; i < ElementType.getSize(); i++ ){
-			comboElementType.addItem( ElementType.getElementTypeByIndex(i) );
+		for(int i = 0; i < ListEnumElementType.getSize(); i++ ){
+			comboElementType.addItem( ListEnumElementType.getElementTypeByIndex(i) );
 		}
 		
 		//Variable
 		comboVariable = new ComboBoxComponent<>();
-		for(int i = 0; i < VariableSample.getSize(); i++ ){
-			comboVariable.addItem( VariableSample.getVariableSampleByIndex(i) );
+		for(int i = 0; i < ListEnumVariableSample.getSize(); i++ ){
+			comboVariable.addItem( ListEnumVariableSample.getVariableSampleByIndex(i) );
 		}
 	
 	}
@@ -241,14 +241,14 @@ public class BaseElementEditor extends DataEditor{
 		}else{
 
 			//Element type
-			ElementType elementType = null;
-			elementType = (ElementType)comboElementType.getSelectedItem();
+			ListEnumElementType elementType = null;
+			elementType = (ListEnumElementType)comboElementType.getSelectedItem();
 			
 			//Variable sample
-			VariableSample variableSample = null;
+			ListEnumVariableSample variableSample = null;
 			//int selectedIndex = comboVariable.getSelectedIndex();
 			//variableSample = VariableSample.getVariableSampleByIndex( selectedIndex );
-			variableSample = (VariableSample)comboVariable.getSelectedItem();
+			variableSample = (ListEnumVariableSample)comboVariable.getSelectedItem();
 			
 			SelectorType identificationType = null;
 			if( buttonID.isSelected() ){

@@ -20,12 +20,18 @@ import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
-public class TabOperation implements ElementOperationInterface{
+public class FillStringOperation implements ElementOperationInterface{
 	
-	private final static String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.common.tab");
+	private static final String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.field.fillvariable");
+	
+	private String stringToShow;
+	
+	public FillStringOperation( String stringToShow ){
+		this.stringToShow = stringToShow;
+	}
 	
 	@Override
-	public String getTranslatedName() {		
+	public String getTranslatedName() {
 		return NAME;
 	}
 	
@@ -94,8 +100,7 @@ public class TabOperation implements ElementOperationInterface{
 		
 		try{
 			//Execute the operation
-			//webElement.clear();
-			//webElement.sendKeys( parameter.getValue() );
+			webElement.sendKeys( stringToShow );
 			webElement.sendKeys(Keys.TAB);
 		}catch (WebDriverException webDriverException){
 			throw new ElementInvalidOperationException( getTranslatedName(), element.getName(), baseElement.getSelector(), webDriverException );
@@ -105,9 +110,7 @@ public class TabOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( ListEnumVariableSample.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.getBaseElement().setVariableValue( webElement.getAttribute("value") );
-			//element.getBaseElement().setVariableValue( webElement.getText() );
-		
+			element.getBaseElement().setVariableValue( webElement.getAttribute("value") );		
 		}
 		
 		if( null != elementProgress ){
@@ -115,8 +118,8 @@ public class TabOperation implements ElementOperationInterface{
 		}
 	}
 
+	public String getStringToShow() {
+		return stringToShow;
+	}
 
-
-
-	
 }

@@ -10,8 +10,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ElementType;
-import hu.akoel.grawit.enums.list.VariableSample;
+import hu.akoel.grawit.enums.list.ListEnumElementType;
+import hu.akoel.grawit.enums.list.ListEnumVariableSample;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
@@ -29,8 +29,8 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	
 	//Adatmodel ---
 	private String name;
-	private ElementType elementType;
-	private VariableSample variableSample;
+	private ListEnumElementType elementType;
+	private ListEnumVariableSample variableSample;
 	private String frame;
 	private String identifier;
 	private SelectorType identificationType;
@@ -52,7 +52,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	 * @param variableSample
 	 * @param frame
 	 */
-	public BaseElementDataModel(String name, ElementType elementType, String identifier, SelectorType identificationType, VariableSample variableSample, String frame){
+	public BaseElementDataModel(String name, ListEnumElementType elementType, String identifier, SelectorType identificationType, ListEnumVariableSample variableSample, String frame){
 		common( name, elementType, identifier, identificationType, variableSample, frame );	
 	}
 
@@ -92,7 +92,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_ELEMENT_TYPE );			
 		}
 		String elementTypeString = element.getAttribute( ATTR_ELEMENT_TYPE );
-		this.elementType = ElementType.valueOf( elementTypeString );
+		this.elementType = ListEnumElementType.valueOf( elementTypeString );
 		
 		//identificationtype
 		if( !element.hasAttribute( ATTR_IDENTIFICATION_TYPE ) ){
@@ -116,16 +116,16 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 			variableSample = VariableSample.NO;
 		}else 
 */
-		if( VariableSample.PRE.name().equals(variablesempleString)){
-			variableSample = VariableSample.PRE;
-		}else if( VariableSample.POST.name().equals(variablesempleString)){
-			variableSample = VariableSample.POST;
+		if( ListEnumVariableSample.PRE.name().equals(variablesempleString)){
+			variableSample = ListEnumVariableSample.PRE;
+		}else if( ListEnumVariableSample.POST.name().equals(variablesempleString)){
+			variableSample = ListEnumVariableSample.POST;
 		}else{
 			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_SAMPLE, variablesempleString );
 		}		
 	}
 	
-	private void common( String name, ElementType elementType, String identifier, SelectorType identificationType, VariableSample variableSample, String frame ){		
+	private void common( String name, ListEnumElementType elementType, String identifier, SelectorType identificationType, ListEnumVariableSample variableSample, String frame ){		
 		this.name = name;
 		this.elementType = elementType;
 		this.identifier = identifier;
@@ -152,11 +152,11 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.name = name;
 	}
 
-	public ElementType getElementType(){
+	public ListEnumElementType getElementType(){
 		return elementType;
 	}
 	
-	public void setElementType( ElementType elementType ){
+	public void setElementType( ListEnumElementType elementType ){
 		this.elementType = elementType;
 	}
 	
@@ -176,11 +176,11 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.identificationType = identificationType;
 	}
 
-	public VariableSample getVariableSample() {
+	public ListEnumVariableSample getVariableSample() {
 		return variableSample;
 	}
 
-	public void setVariableSample(VariableSample variableSample) {
+	public void setVariableSample(ListEnumVariableSample variableSample) {
 		this.variableSample = variableSample;
 	}
 

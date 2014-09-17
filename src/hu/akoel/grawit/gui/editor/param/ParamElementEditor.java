@@ -7,16 +7,16 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.ButtonOperation;
-import hu.akoel.grawit.core.operations.CheckboxOperation;
-import hu.akoel.grawit.core.operations.ElementOperationInterface;
-import hu.akoel.grawit.core.operations.FieldParamElementOperation;
-import hu.akoel.grawit.core.operations.FieldVariableOperation;
-import hu.akoel.grawit.core.operations.GainTextPatternOperation;
-import hu.akoel.grawit.core.operations.LinkOperation;
-import hu.akoel.grawit.core.operations.ListVariableOperation;
-import hu.akoel.grawit.core.operations.RadioButtonOperation;
-import hu.akoel.grawit.core.operations.TabOperation;
+import hu.akoel.grawit.core.operations.Torlendo_ButtonOperation;
+import hu.akoel.grawit.core.operations.Torlendo_CheckboxOperation;
+import hu.akoel.grawit.core.operations.Torlendo_ElementOperationInterface;
+import hu.akoel.grawit.core.operations.Torlendo_FieldParamElementOperation;
+import hu.akoel.grawit.core.operations.Torlendo_FieldVariableOperation;
+import hu.akoel.grawit.core.operations.Torlendo_GainTextPatternOperation;
+import hu.akoel.grawit.core.operations.Torlendo_LinkOperation;
+import hu.akoel.grawit.core.operations.Torlendo_ListVariableOperation;
+import hu.akoel.grawit.core.operations.Torlendo_RadioButtonOperation;
+import hu.akoel.grawit.core.operations.Torlendo_TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -25,8 +25,8 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
-import hu.akoel.grawit.enums.list.ListSelectionBy;
-import hu.akoel.grawit.enums.list.Operation;
+import hu.akoel.grawit.enums.list.ListEnumListSelectionBy;
+import hu.akoel.grawit.enums.list.Torlendo_Operation;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -49,7 +49,7 @@ public class ParamElementEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelOperation;
-	private ComboBoxComponent<Operation> fieldOperation;
+	private ComboBoxComponent<Torlendo_Operation> fieldOperation;
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	private JLabel labelVariableSelector;
@@ -57,11 +57,11 @@ public class ParamElementEditor extends DataEditor{
 	private JLabel labelFieldBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldFieldBaseElementSelector;
 	private JLabel labelListSelectionType;
-	private ComboBoxComponent<ListSelectionBy> fieldListSelectionType;
+	private ComboBoxComponent<ListEnumListSelectionBy> fieldListSelectionType;
 	private JLabel labelPattern;
 	private TextFieldComponent fieldPattern;
 	
-	private Operation operation;
+	private Torlendo_Operation operation;
 	
 	BaseRootDataModel baseRootDataModel;
 	
@@ -90,7 +90,7 @@ public class ParamElementEditor extends DataEditor{
 		BasePageDataModel basePage = selectedPage.getBasePage();
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage ); 
 
-		operation = Operation.LINK;
+		operation = Torlendo_Operation.LINK;
 
 		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 		
@@ -143,14 +143,14 @@ public class ParamElementEditor extends DataEditor{
 		
 		//List selection type
 		fieldListSelectionType = new ComboBoxComponent<>();
-		for( int i = 0; i < ListSelectionBy.getSize(); i++){
-			fieldListSelectionType.addItem( ListSelectionBy.getListSelectionTypeByOrder(i));
+		for( int i = 0; i < ListEnumListSelectionBy.getSize(); i++){
+			fieldListSelectionType.addItem( ListEnumListSelectionBy.getListSelectionTypeByOrder(i));
 		}
 		
 		//Operation
 		fieldOperation = new ComboBoxComponent<>();
-		for(int i = 0; i < Operation.getSize(); i++ ){
-			fieldOperation.addItem( Operation.getOperationByIndex(i) );
+		for(int i = 0; i < Torlendo_Operation.getSize(); i++ ){
+			fieldOperation.addItem( Torlendo_Operation.getOperationByIndex(i) );
 		}
 		fieldOperation.addItemListener( new ItemListener() {
 			
@@ -164,7 +164,7 @@ public class ParamElementEditor extends DataEditor{
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					 operation = Operation.getOperationByIndex(index);
+					 operation = Torlendo_Operation.getOperationByIndex(index);
 					 
 					 //Mindenkeppen torolni kell, ha letezett
 					 if( null != fieldVariableSelector ){
@@ -177,18 +177,18 @@ public class ParamElementEditor extends DataEditor{
 					 }
 					 
 					 //LIST
-					 if( operation.equals( Operation.LIST_VARIABLE ) ){
+					 if( operation.equals( Torlendo_Operation.LIST_VARIABLE ) ){
 						
 						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
 						 if( hasBeenHere || null == nodeForModify ){
 							 
 							 //Akkor uresen kell kapnom a mezot
 							 fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
-							 fieldListSelectionType.setSelectedIndex( ListSelectionBy.BYVISIBLETEXT.getIndex() );
+							 fieldListSelectionType.setSelectedIndex( ListEnumListSelectionBy.BYVISIBLETEXT.getIndex() );
 							 
 						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
 						 }else{
-							 ListVariableOperation op = (ListVariableOperation)nodeForModify.getElementOperation();
+							 Torlendo_ListVariableOperation op = (Torlendo_ListVariableOperation)nodeForModify.getElementOperation();
 							 
 							 //akkor latnom kell a kivalasztott tartalmat
 							 fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, op.getVariableElement() );
@@ -199,7 +199,7 @@ public class ParamElementEditor extends DataEditor{
 						 ParamElementEditor.this.add( labelVariableSelector, fieldVariableSelector ); 
 						 
 					 //FIELD_VARIABLE
-					 }else if( operation.equals( Operation.FIELD_VARIABLE ) ){
+					 }else if( operation.equals( Torlendo_Operation.FIELD_VARIABLE ) ){
 							 
 						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
 						 if( hasBeenHere || null == nodeForModify ){
@@ -210,7 +210,7 @@ public class ParamElementEditor extends DataEditor{
 						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
 						 }else{
 							 
-							 FieldVariableOperation op = (FieldVariableOperation)nodeForModify.getElementOperation();
+							 Torlendo_FieldVariableOperation op = (Torlendo_FieldVariableOperation)nodeForModify.getElementOperation();
 							 
 							 //akkor latnom kell a kivalasztott tartalmat
 							 fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, op.getVariableElement() );
@@ -220,7 +220,7 @@ public class ParamElementEditor extends DataEditor{
 //						 ParamElementEditor.this.revalidate();
 
 					 //FIELD_ELEMENT
-					 }else if( operation.equals( Operation.FIELD_ELEMENT ) ){
+					 }else if( operation.equals( Torlendo_Operation.FIELD_ELEMENT ) ){
 								 
 						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
 						 if( hasBeenHere || null == nodeForModify ){
@@ -231,7 +231,7 @@ public class ParamElementEditor extends DataEditor{
 						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
 						 }else{
 								 
-							 FieldParamElementOperation op = (FieldParamElementOperation)nodeForModify.getElementOperation();
+							 Torlendo_FieldParamElementOperation op = (Torlendo_FieldParamElementOperation)nodeForModify.getElementOperation();
 					 
 							 //akkor latnom kell a kivalasztott tartalmat
 							 fieldFieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, op.getBaseElement() );
@@ -240,7 +240,7 @@ public class ParamElementEditor extends DataEditor{
 						 ParamElementEditor.this.add( labelFieldBaseElementSelector, fieldFieldBaseElementSelector );
 						 
 					 //GAIN TEXT
-					 }else if( operation.equals( Operation.GAINTEXTPATTERN ) ){
+					 }else if( operation.equals( Torlendo_Operation.GAINTEXTPATTERN ) ){
 								 
 						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
 						 if( hasBeenHere || null == nodeForModify ){
@@ -251,7 +251,7 @@ public class ParamElementEditor extends DataEditor{
 						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
 						 }else{
 								 
-							 GainTextPatternOperation op = (GainTextPatternOperation)nodeForModify.getElementOperation();
+							 Torlendo_GainTextPatternOperation op = (Torlendo_GainTextPatternOperation)nodeForModify.getElementOperation();
 					 
 							 //akkor latnom kell a kivalasztott tartalmat
 							 fieldPattern = new TextFieldComponent( op.getStringPattern() );
@@ -261,29 +261,29 @@ public class ParamElementEditor extends DataEditor{
 						 
 						 
 						 
-					 }else if( operation.equals( Operation.BUTTON ) ){
+					 }else if( operation.equals( Torlendo_Operation.BUTTON ) ){
 /*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }
 */						
 						 
 						 
-					 }else if( operation.equals( Operation.CHECKBOX ) ){
+					 }else if( operation.equals( Torlendo_Operation.CHECKBOX ) ){
 /*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }
 */						
-					 }else if( operation.equals( Operation.RADIOBUTTON ) ){
+					 }else if( operation.equals( Torlendo_Operation.RADIOBUTTON ) ){
 /*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }
 */						
-					 }else if( operation.equals( Operation.LINK ) ){
+					 }else if( operation.equals( Torlendo_Operation.LINK ) ){
 /*						 if( null != fieldParameterElementSelector ){
 							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }					
 */				 
-					}else if( operation.equals( Operation.TAB ) ){
+					}else if( operation.equals( Torlendo_Operation.TAB ) ){
 /*						 if( null != fieldParameterElementSelector ){
 						 	ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
 						 }					
@@ -351,7 +351,7 @@ public class ParamElementEditor extends DataEditor{
 			);	
 			
 		//Van lista valasztas, de nincs valtozo
-		}else if( operation.equals(Operation.LIST_VARIABLE) && null == fieldVariableSelector.getSelectedDataModel() ){
+		}else if( operation.equals(Torlendo_Operation.LIST_VARIABLE) && null == fieldVariableSelector.getSelectedDataModel() ){
 			errorList.put( 
 					fieldVariableSelector,
 					MessageFormat.format(
@@ -414,42 +414,42 @@ public class ParamElementEditor extends DataEditor{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 			
-			ElementOperationInterface elementOperation = null;
-			Operation operation = Operation.getOperationByIndex( fieldOperation.getSelectedIndex() );
+			Torlendo_ElementOperationInterface elementOperation = null;
+			Torlendo_Operation operation = Torlendo_Operation.getOperationByIndex( fieldOperation.getSelectedIndex() );
 			
-			if( operation.equals( Operation.FIELD_VARIABLE ) ){
+			if( operation.equals( Torlendo_Operation.FIELD_VARIABLE ) ){
 				VariableElementDataModel variableElementDataModel = fieldVariableSelector.getSelectedDataModel();			
-				elementOperation = new FieldVariableOperation( variableElementDataModel );
+				elementOperation = new Torlendo_FieldVariableOperation( variableElementDataModel );
 			
-			}else if( operation.equals( Operation.FIELD_ELEMENT ) ){
+			}else if( operation.equals( Torlendo_Operation.FIELD_ELEMENT ) ){
 				BaseElementDataModel paramElementDataModel = fieldFieldBaseElementSelector.getSelectedDataModel();			
-				elementOperation = new FieldParamElementOperation( paramElementDataModel );
+				elementOperation = new Torlendo_FieldParamElementOperation( paramElementDataModel );
 				
-			}else if( operation.equals( Operation.LIST_VARIABLE ) ){
+			}else if( operation.equals( Torlendo_Operation.LIST_VARIABLE ) ){
 				VariableElementDataModel variableElementDataModel = fieldVariableSelector.getSelectedDataModel();
-				ListSelectionBy listSelectionType = ListSelectionBy.getListSelectionTypeByOrder( fieldListSelectionType.getSelectedIndex() );
-				elementOperation = new ListVariableOperation( listSelectionType, variableElementDataModel );
+				ListEnumListSelectionBy listSelectionType = ListEnumListSelectionBy.getListSelectionTypeByOrder( fieldListSelectionType.getSelectedIndex() );
+				elementOperation = new Torlendo_ListVariableOperation( listSelectionType, variableElementDataModel );
 			
-			}else if( operation.equals( Operation.GAINTEXTPATTERN ) ){											
-				elementOperation = new GainTextPatternOperation(fieldPattern.getText());
+			}else if( operation.equals( Torlendo_Operation.GAINTEXTPATTERN ) ){											
+				elementOperation = new Torlendo_GainTextPatternOperation(fieldPattern.getText());
 				
-			}else if( operation.equals( Operation.LINK ) ){
-				elementOperation = new LinkOperation();
+			}else if( operation.equals( Torlendo_Operation.LINK ) ){
+				elementOperation = new Torlendo_LinkOperation();
 				
-			}else if( operation.equals( Operation.BUTTON ) ){
-				elementOperation = new ButtonOperation();
+			}else if( operation.equals( Torlendo_Operation.BUTTON ) ){
+				elementOperation = new Torlendo_ButtonOperation();
 				
-			}else if( operation.equals( Operation.CHECKBOX ) ){
-				elementOperation = new CheckboxOperation();
+			}else if( operation.equals( Torlendo_Operation.CHECKBOX ) ){
+				elementOperation = new Torlendo_CheckboxOperation();
 				
-			}else if( operation.equals( Operation.RADIOBUTTON ) ){
-				elementOperation = new RadioButtonOperation();
+			}else if( operation.equals( Torlendo_Operation.RADIOBUTTON ) ){
+				elementOperation = new Torlendo_RadioButtonOperation();
 				
-			}else if( operation.equals( Operation.TAB ) ){
-				elementOperation = new TabOperation();
+			}else if( operation.equals( Torlendo_Operation.TAB ) ){
+				elementOperation = new Torlendo_TabOperation();
 				
 			}else {
-				elementOperation = new LinkOperation();
+				elementOperation = new Torlendo_LinkOperation();
 				
 			}
 					

@@ -12,23 +12,26 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.list.ListSelectionBy;
-import hu.akoel.grawit.enums.list.Operation;
+import hu.akoel.grawit.enums.list.ListEnumListSelectionBy;
+import hu.akoel.grawit.enums.list.Torlendo_Operation;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
-public class RadioButtonOperation implements ElementOperationInterface{
+public class Torlendo_ButtonOperation implements Torlendo_ElementOperationInterface{
 
 	@Override
-	public Operation getOperation() {
-		return Operation.RADIOBUTTON;
+	public Torlendo_Operation getOperation() {
+		return Torlendo_Operation.BUTTON;
 	}
 	
 	/**
 	 * 
-	 * Executes a Click action on the WebElement (RadioButon)
+	 * Executes a Click action on the WebElement (Buton)
+	 * @throws ElementInvalidSelectorException 
+	 * @throws ElementNotFoundSelectorException 
+	 * @throws ElementTimeoutException 
 	 * 
 	 */
 	@Override
@@ -41,13 +44,14 @@ public class RadioButtonOperation implements ElementOperationInterface{
 		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
-		WebDriverWait wait = new WebDriverWait(driver, 10);		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		
 		By by = null;
 		
 		//ID
 		if( baseElement.getSelectorType().equals(SelectorType.ID)){
 			by = By.id( baseElement.getSelector() );
+		//CSS	
 		}else if( baseElement.getSelectorType().equals(SelectorType.CSS)){
 			by = By.cssSelector( baseElement.getSelector() );
 		}

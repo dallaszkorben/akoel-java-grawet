@@ -2,7 +2,7 @@ package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum ElementFieldOperation implements ListEnumInterface{		
+public enum ListEnumElementFieldOperation implements ListEnumInterface{		
 	FILL_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillvariable") ),
 	FILL_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillelement") ),
 	FILL_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillstring") ),
@@ -14,7 +14,7 @@ public enum ElementFieldOperation implements ListEnumInterface{
 	private String translatedName;
 	private int index;
 	
-	private ElementFieldOperation( int index, String translatedName ){
+	private ListEnumElementFieldOperation( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -26,7 +26,7 @@ public enum ElementFieldOperation implements ListEnumInterface{
 	}	
 	
 	public static int getSize(){
-		return ElementFieldOperation.values().length;
+		return ListEnumElementFieldOperation.values().length;
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public enum ElementFieldOperation implements ListEnumInterface{
 		return index;
 	}
 	
-	public static ElementFieldOperation getElementFieldOperationByIndex( int index ){
+	public static ListEnumElementFieldOperation getElementFieldOperationByIndex( int index ){
 		switch (index){
 		case 0:	return FILL_VARIABLE;
 		case 1:	return FILL_ELEMENT;

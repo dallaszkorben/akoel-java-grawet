@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.text.MaskFormatter;
 
-public enum FormDate implements ListEnumInterface{		
+public enum ListEnumFormDate implements ListEnumInterface{		
 	ddMMyyyy_slash( 0, "dd/MM/yyyy", "dd/MM/yyyy", "##/##/####" ),
 	ddMMyyyy_hyphen( 1, "dd-MM-yyyy", "dd-MM-yyyy", "##-##-####" ),
 	ddMMyyyy_dot( 2, "dd.MM.yyyy", "dd.MM.yyyy", "##.##.####" ),
@@ -22,7 +22,7 @@ public enum FormDate implements ListEnumInterface{
 	private String stringFormat;
 	private String stringMask;
 	
-	private FormDate( int index, String translatedName, String stringFormat, String stringMask ){
+	private ListEnumFormDate( int index, String translatedName, String stringFormat, String stringMask ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -31,7 +31,7 @@ public enum FormDate implements ListEnumInterface{
 	}
 	
 	public static int getSize(){
-		return FormDate.values().length;
+		return ListEnumFormDate.values().length;
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ public enum FormDate implements ListEnumInterface{
 		return formatter;
 	}
 	
-	public static FormDate getFormDateByMask( String mask ){
+	public static ListEnumFormDate getFormDateByMask( String mask ){
 		
 		for( int i = 0; i < getSize(); i++ ){
 			if( getFormDateByIndex(i).stringMask.equals( mask ) ){
@@ -80,7 +80,7 @@ public enum FormDate implements ListEnumInterface{
 		
 	}
 	
-	public static FormDate getFormDateByIndex( int index ){
+	public static ListEnumFormDate getFormDateByIndex( int index ){
 		switch (index){
 		case 0:	return ddMMyyyy_slash;
 		case 1: return ddMMyyyy_hyphen;

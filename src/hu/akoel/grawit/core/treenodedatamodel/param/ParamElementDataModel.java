@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
+import java.lang.annotation.ElementType;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
@@ -16,17 +17,18 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.core.operations.ButtonOperation;
-import hu.akoel.grawit.core.operations.CheckboxOperation;
-import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
-import hu.akoel.grawit.core.operations.FieldParamElementOperation;
-import hu.akoel.grawit.core.operations.FieldVariableOperation;
-import hu.akoel.grawit.core.operations.GainTextPatternOperation;
-import hu.akoel.grawit.core.operations.LinkOperation;
-import hu.akoel.grawit.core.operations.ListVariableOperation;
-import hu.akoel.grawit.core.operations.RadioButtonOperation;
-import hu.akoel.grawit.core.operations.TabOperation;
+import hu.akoel.grawit.core.operations.Torlendo_ButtonOperation;
+import hu.akoel.grawit.core.operations.Torlendo_CheckboxOperation;
+import hu.akoel.grawit.core.operations.Torlendo_ClearOperation;
+import hu.akoel.grawit.core.operations.Torlendo_ElementOperationInterface;
+import hu.akoel.grawit.core.operations.Torlendo_FieldParamElementOperation;
+import hu.akoel.grawit.core.operations.Torlendo_FieldVariableOperation;
+import hu.akoel.grawit.core.operations.Torlendo_GainTextPatternOperation;
+import hu.akoel.grawit.core.operations.Torlendo_LinkOperation;
+import hu.akoel.grawit.core.operations.Torlendo_ListVariableOperation;
+import hu.akoel.grawit.core.operations.Torlendo_RadioButtonOperation;
+import hu.akoel.grawit.core.operations.Torlendo_TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
@@ -38,8 +40,15 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ListSelectionBy;
-import hu.akoel.grawit.enums.list.Operation;
+import hu.akoel.grawit.enums.list.ListEnumElementButtonOperation;
+import hu.akoel.grawit.enums.list.ListEnumElementCheckboxOperation;
+import hu.akoel.grawit.enums.list.ListEnumElementFieldOperation;
+import hu.akoel.grawit.enums.list.ListEnumElementLinkOperation;
+import hu.akoel.grawit.enums.list.ListEnumElementRadiobuttonOperation;
+import hu.akoel.grawit.enums.list.ListEnumElementTextOperation;
+import hu.akoel.grawit.enums.list.ListEnumElementType;
+import hu.akoel.grawit.enums.list.ListEnumListSelectionBy;
+import hu.akoel.grawit.enums.list.Torlendo_Operation;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -62,8 +71,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	
 	//Adatmodel ---
 	private String name;
-	private BaseElementDataModel baseElement;	
+	private BaseElementDataModel baseElement;
 	private ElementOperationInterface elementOperation;
+	//private Torlendo_ElementOperationInterface elementOperation;
 	//----
 
 	/**
@@ -108,20 +118,114 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		// Operation
 		//
 		if( !element.hasAttribute( ATTR_OPERATION ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_OPERATION );			
+		}
+		String operationString = element.getAttribute( ATTR_OPERATION );		
+				
+		// Link		
+		if( baseElement.getElementType().equals( ListEnumElementType.LINK ) ){
+			
+			if( operationString.equals( ListEnumElementLinkOperation.CLICK ) ){
+				
+				
+			}else if( operationString.equals( ListEnumElementLinkOperation.GAINTEXTPATTERN ) ){
+				
+				
+			//Ha nem a tipusnak megfelelo az muvelet
+			}else{
+				
+				
+			}
+			
+		// Button
+		}else if( baseElement.getElementType().equals(ListEnumElementType.BUTTON)){
+			
+			if( operationString.equals( ListEnumElementButtonOperation.CLICK ) ){
+
+			//Ha nem a tipusnak megfelelo az muvelet
+			}else{
+					
+				
+			}
+			
+		// Checkbox
+		}else if( baseElement.getElementType().equals( ListEnumElementType.CHECKBOX) ){
+			
+			if( operationString.equals( ListEnumElementCheckboxOperation.CLICK ) ){
+				
+			//Ha nem a tipusnak megfelelo az muvelet
+			}else{
+				
+			}
+			
+		// Radio button
+		}else if( baseElement.getElementType().equals( ListEnumElementType.RADIOBUTTON ) ){
+			
+			if( operationString.equals( ListEnumElementRadiobuttonOperation.CLICK ) ){
+				
+			//Ha nem a tipusnak megfelelo az muvelet
+			}else{
+					
+			}
+			
+		// Field
+		}else if( baseElement.getElementType().equals( ListEnumElementType.FIELD ) ){
+			
+			if( operationString.equals( ListEnumElementFieldOperation.CLEAR ) ){
+			
+			}else if( operationString.equals( ListEnumElementFieldOperation.CLICK ) ){
+				
+			}else if( operationString.equals( ListEnumElementFieldOperation.TAB ) ){
+				
+			}else if( operationString.equals( ListEnumElementFieldOperation.FILL_VARIABLE ) ){
+				
+			}else if( operationString.equals( ListEnumElementFieldOperation.FILL_ELEMENT ) ){
+				
+			}else if( operationString.equals( ListEnumElementFieldOperation.FILL_STRING ) ){
+				
+			//Ha nem a tipusnak megfelelo az muvelet
+			}else{
+					
+			}
+			
+		// Text
+		}else if( baseElement.getElementType().equals( ListEnumElementType.TEXT ) ){
+			
+			if( operationString.equals( ListEnumElementTextOperation.GAINTEXTPATTERN ) ){
+				
+			//Ha nem a tipusnak megfelelo az muvelet
+			}else{
+					
+			}
+			
+		//Minden egyeb esetben error
+		}else{
+			throw new XMLWrongAttributePharseException( baseElement.getRootTag(), baseElement.TAG, baseElement.ATTR_NAME, baseElement.getName(), baseElement.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
+		}
+		
+		
+		
+		
+		
+		
+		//
+		// Operation
+		//
+		if( !element.hasAttribute( ATTR_OPERATION ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPERATION );			
 		}
 		String operatorString = element.getAttribute( ATTR_OPERATION );
 		
 		//BUTTON
-		if( Operation.BUTTON.name().equals(operatorString ) ){
-			this.elementOperation = new ButtonOperation();
+		if( Torlendo_Operation.BUTTON.name().equals(operatorString ) ){
+			this.elementOperation = new Torlendo_ButtonOperation();
 		
 		//CHECKBOX
-		}else if( Operation.CHECKBOX.name().equals(operatorString) ){
-			this.elementOperation = new CheckboxOperation();
+		}else if( Torlendo_Operation.CHECKBOX.name().equals(operatorString) ){
+			this.elementOperation = new Torlendo_CheckboxOperation();
 		
 		//FIELD_VARIABLE/LIST_VARIABLE
-		}else if( Operation.FIELD_VARIABLE.name().equals( operatorString ) || Operation.LIST_VARIABLE.name().equals( operatorString ) ){
+		}else if( Torlendo_Operation.FIELD_VARIABLE.name().equals( operatorString ) || Torlendo_Operation.LIST_VARIABLE.name().equals( operatorString ) ){
 			
 			String variableElementPathString = element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH);				
 			variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
@@ -173,17 +277,17 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    }	    
 		    try{
 		    	
-		    	if( Operation.FIELD_VARIABLE.name().equals(operatorString ) ){
-		    		this.elementOperation = new FieldVariableOperation( (VariableElementDataModel)variableDataModel );
+		    	if( Torlendo_Operation.FIELD_VARIABLE.name().equals(operatorString ) ){
+		    		this.elementOperation = new Torlendo_FieldVariableOperation( (VariableElementDataModel)variableDataModel );
 		    	}else{
 		    		
 		    		if( !element.hasAttribute( ATTR_LIST_SELECTION_TYPE ) ){
 		    			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_LIST_SELECTION_TYPE );
 		    		}
 		    		String listSelectionTypeString = element.getAttribute( ATTR_LIST_SELECTION_TYPE );		
-		    		ListSelectionBy listSelectionType = ListSelectionBy.valueOf(listSelectionTypeString );
+		    		ListEnumListSelectionBy listSelectionType = ListEnumListSelectionBy.valueOf(listSelectionTypeString );
 		    				    		
-		    		this.elementOperation = new ListVariableOperation(listSelectionType, (VariableElementDataModel)variableDataModel);
+		    		this.elementOperation = new Torlendo_ListVariableOperation(listSelectionType, (VariableElementDataModel)variableDataModel);
 		    	}
 		    	
 		    }catch(ClassCastException e){
@@ -193,7 +297,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    }
 
 		//FIELD_ELEMENT
-		}else if( Operation.FIELD_ELEMENT.name().equals( operatorString )){
+		}else if( Torlendo_Operation.FIELD_ELEMENT.name().equals( operatorString )){
 			
 			String paramElementPathString = element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH);				
 			paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
@@ -258,8 +362,8 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    }	    
 		    try{
 		    	
-		    	if( Operation.FIELD_ELEMENT.name().equals(operatorString ) ){
-		    		this.elementOperation = new FieldParamElementOperation( (BaseElementDataModel)baseDataModelForFieldParamElement );
+		    	if( Torlendo_Operation.FIELD_ELEMENT.name().equals(operatorString ) ){
+		    		this.elementOperation = new Torlendo_FieldParamElementOperation( (BaseElementDataModel)baseDataModelForFieldParamElement );
 /*		    	}else{
 		    		
 		    		if( !element.hasAttribute( ATTR_LIST_SELECTION_TYPE ) ){
@@ -278,26 +382,26 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    }
 		
 		//GAIN TEXT PATTERN
-		}else if( Operation.GAINTEXTPATTERN.name().equals( operatorString ) ){
+		}else if( Torlendo_Operation.GAINTEXTPATTERN.name().equals( operatorString ) ){
 				
 			String stringPattern = element.getAttribute(ATTR_GAIN_TEXT_PATTERN );				
-			this.elementOperation = new GainTextPatternOperation(stringPattern);
+			this.elementOperation = new Torlendo_GainTextPatternOperation(stringPattern);
 						
 		//LINK
-		}else if( Operation.LINK.name().equals( operatorString ) ){
-			this.elementOperation = new LinkOperation();
+		}else if( Torlendo_Operation.LINK.name().equals( operatorString ) ){
+			this.elementOperation = new Torlendo_LinkOperation();
 			
 		//RADIOBUTTON
-		}else if( Operation.RADIOBUTTON.name().equals( operatorString ) ){
-			this.elementOperation = new RadioButtonOperation();
+		}else if( Torlendo_Operation.RADIOBUTTON.name().equals( operatorString ) ){
+			this.elementOperation = new Torlendo_RadioButtonOperation();
 			
 		//TAB
-		}else if( Operation.TAB.name().equals( operatorString ) ){
-			this.elementOperation = new TabOperation();
+		}else if( Torlendo_Operation.TAB.name().equals( operatorString ) ){
+			this.elementOperation = new Torlendo_TabOperation();
 			
 		//CLEAR
-		}else if( Operation.FIELD_CLEAR.name().equals( operatorString ) ){
-			this.elementOperation = new ClearOperation();
+		}else if( Torlendo_Operation.FIELD_CLEAR.name().equals( operatorString ) ){
+			this.elementOperation = new Torlendo_ClearOperation();
 
 		//Minden egyeb esetben error
 		}else{
@@ -379,11 +483,11 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		return this.name;
 	}
 	
-	public ElementOperationInterface getElementOperation() {
+	public Torlendo_ElementOperationInterface getElementOperation() {
 		return elementOperation;
 	}
 
-	public void setOperation(ElementOperationInterface elementOperation) {
+	public void setOperation(Torlendo_ElementOperationInterface elementOperation) {
 		this.elementOperation = elementOperation;
 	}	
 /*	
@@ -452,18 +556,18 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		elementElement.setAttributeNode(attr);
 
 		//Ha FIELD_VARIABLE/LIST_VARIABLE, akkor biztos hogy kell VariableElementPath parameter
-		if( getElementOperation().getOperation().equals( Operation.FIELD_VARIABLE ) || getElementOperation().getOperation().equals( Operation.LIST_VARIABLE ) ){
+		if( getElementOperation().getOperation().equals( Torlendo_Operation.FIELD_VARIABLE ) || getElementOperation().getOperation().equals( Torlendo_Operation.LIST_VARIABLE ) ){
 		
 			//VariableElementPath
 			attr = document.createAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH );
 			VariableDataModelInterface variableDataModel = null;
-			if( getElementOperation().getOperation().equals( Operation.FIELD_VARIABLE ) ){
+			if( getElementOperation().getOperation().equals( Torlendo_Operation.FIELD_VARIABLE ) ){
 				
-				variableDataModel = ((FieldVariableOperation)getElementOperation()).getVariableElement();
+				variableDataModel = ((Torlendo_FieldVariableOperation)getElementOperation()).getVariableElement();
 				
-			}else if( getElementOperation().getOperation().equals( Operation.LIST_VARIABLE ) ){
+			}else if( getElementOperation().getOperation().equals( Torlendo_Operation.LIST_VARIABLE ) ){
 				
-				variableDataModel = ((ListVariableOperation)getElementOperation()).getVariableElement();
+				variableDataModel = ((Torlendo_ListVariableOperation)getElementOperation()).getVariableElement();
 				
 			}			
 			
@@ -475,14 +579,14 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			elementElement.setAttributeNode( attr );
 		
 		//Ha FIELD_ELEMENT, akkor kell ParamElementPath parameter	
-		}else if( getElementOperation().getOperation().equals( Operation.FIELD_ELEMENT ) ){
+		}else if( getElementOperation().getOperation().equals( Torlendo_Operation.FIELD_ELEMENT ) ){
 			
 			//BaseElementPath
 			attr = document.createAttribute( ATTR_FILL_BASE_ELEMENT_PATH );
 			BaseElementDataModel baseElementDataModel = null;
-			if( getElementOperation().getOperation().equals( Operation.FIELD_ELEMENT ) ){
+			if( getElementOperation().getOperation().equals( Torlendo_Operation.FIELD_ELEMENT ) ){
 				
-				baseElementDataModel = ((FieldParamElementOperation)getElementOperation()).getBaseElement();
+				baseElementDataModel = ((Torlendo_FieldParamElementOperation)getElementOperation()).getBaseElement();
 				
 //			}else if( getElementOperation().getOperation().equals( Operation.LIST_VARIABLE ) ){
 				
@@ -498,22 +602,22 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			elementElement.setAttributeNode( attr );
 		
 		//Ha GAIN TEXT	
-		}else if( getElementOperation().getOperation().equals( Operation.GAINTEXTPATTERN ) ){
+		}else if( getElementOperation().getOperation().equals( Torlendo_Operation.GAINTEXTPATTERN ) ){
 			
 			//Gain text pattern
 			attr = document.createAttribute( ATTR_GAIN_TEXT_PATTERN );
 			
-			String stringPattern = ((GainTextPatternOperation)getElementOperation()).getStringPattern();
+			String stringPattern = ((Torlendo_GainTextPatternOperation)getElementOperation()).getStringPattern();
 			
 			attr.setValue( stringPattern );			
 			elementElement.setAttributeNode( attr );
 		}
 			
-		if( getElementOperation().getOperation().equals( Operation.LIST_VARIABLE ) ){
+		if( getElementOperation().getOperation().equals( Torlendo_Operation.LIST_VARIABLE ) ){
 			
 			//List selectionType
 			attr = document.createAttribute( ATTR_LIST_SELECTION_TYPE );
-			ListSelectionBy listSelectionType = ((ListVariableOperation)getElementOperation()).getListSelectionType();
+			ListEnumListSelectionBy listSelectionType = ((Torlendo_ListVariableOperation)getElementOperation()).getListSelectionType();
 			if( null == listSelectionType ){ //Ez nem lehet
 				attr.setValue("");
 			}else{

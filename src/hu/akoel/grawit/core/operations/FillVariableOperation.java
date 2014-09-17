@@ -1,53 +1,49 @@
 package hu.akoel.grawit.core.operations;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.google.common.base.Function;
-
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.list.ListSelectionBy;
-import hu.akoel.grawit.enums.list.Operation;
-import hu.akoel.grawit.enums.list.VariableSample;
+import hu.akoel.grawit.enums.list.ListEnumVariableSample;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
-import hu.akoel.grawit.exceptions.ElementNotFoundComponentException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
-public class ListVariableOperation implements ElementOperationInterface{
-	private VariableElementDataModel parameter;
-	private ListSelectionBy listSelectionType;
+public class FillVariableOperation implements ElementOperationInterface{
 	
-	public ListVariableOperation( ListSelectionBy listSelectionType, VariableElementDataModel parameter ){
-		this.listSelectionType = listSelectionType;
+	private static final String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.field.fillvariable");
+	
+	private VariableElementDataModel parameter;
+	
+	public FillVariableOperation( VariableElementDataModel parameter ){
 		this.parameter = parameter;
 	}
 	
 	@Override
-	public Operation getOperation() {
-		return Operation.LIST_VARIABLE;
+	public String getTranslatedName() {
+		return NAME;
 	}
 	
 	/**
 	 * 
-	 * Executes the action on the WebElement (List)
+	 * Executes the action on the WebElement (Field)
 	 * 
 	 */
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
-		
+	
 		if( null != elementProgress ){
 			elementProgress.elementStarted( element.getName() );
 		}
@@ -71,26 +67,19 @@ public class ListVariableOperation implements ElementOperationInterface{
 		try{
 			wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
 			//wait.until(ExpectedConditions.elementToBeClickable( by ) );
-			//wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy( by ) );
-			/*WebElement foo = wait.until(new Function<WebDriver, WebElement>() {
-		        public WebElement apply(WebDriver driver) {
-		            return driver.findElement(by);
-		        }
-		    });*/
-			
 		
 		}catch( org.openqa.selenium.TimeoutException timeOutException ){
 			throw new ElementTimeoutException( element.getName(), baseElement.getSelector(), timeOutException );
 		}
 		
-		//Megkeresi az elemet es letrehozza a WebElement-et belole
 		try{
 			webElement = driver.findElement( by );
 		}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
 			throw new ElementInvalidSelectorException(element.getName(), baseElement.getSelector(), invalidSelectorException );
 		}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), noSuchElementException );
-		}		
+		}
+		
 		if( null == webElement ){
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
 		}
@@ -103,56 +92,26 @@ public class ListVariableOperation implements ElementOperationInterface{
 */		
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
-		
-		Select select = null;
-		try{
-			select = new Select(webElement);
-		}catch (UnexpectedTagNameException e){
-			throw new ElementInvalidOperationException( getOperation(), element.getName(), baseElement.getSelector(), e );			
+		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
+		if( baseElement.getVariableSample().equals( ListEnumVariableSample.PRE ) ){
+				
+			//Elmenti az elem tartalmat a valtozoba
+			element.getBaseElement().setVariableValue( webElement.getText() );
 		}
 		
-		
 		try{
-
-			if(listSelectionType.equals( ListSelectionBy.BYVALUE ) ){
+			//Execute the operation
+			webElement.sendKeys( parameter.getValue() );
+			webElement.sendKeys(Keys.TAB);
+		}catch (WebDriverException webDriverException){
+			throw new ElementInvalidOperationException( getTranslatedName(), element.getName(), baseElement.getSelector(), webDriverException );
+		}
 		
-				//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-				if( baseElement.getVariableSample().equals( VariableSample.PRE ) ){
-					
-					//Elmenti az elem tartalmat a valtozoba
-					element.getBaseElement().setVariableValue( select.getFirstSelectedOption().getAttribute("value") );
-				}			
-			
-				select.selectByValue( parameter.getValue() );
-			
-				//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-				if( baseElement.getVariableSample().equals( VariableSample.POST ) ){
-					
-					//Elmenti az elem tartalmat a valtozoba
-					//webElement.sendKeys(Keys.TAB);
-					element.getBaseElement().setVariableValue( webElement.getAttribute("value") );
-			
-				}
-			
-			}else if( listSelectionType.equals( ListSelectionBy.BYINDEX ) ){
-			
-				//TODO ki kell talalni, hogy hogyan szerezheto meg a kivalasztott sorszama
-
-				select.selectByIndex( Integer.valueOf( parameter.getValue() ) );
-			
-			}else if( listSelectionType.equals( ListSelectionBy.BYVISIBLETEXT ) ){
-			
-				//TODO ki kell talalni, hogy hogyan szerezheto meg a kivalasztott szovege
-			
-				select.selectByVisibleText( parameter.getValue() );
-			}
-			
-		}catch(NoSuchElementException e ){
-			
-			throw new ElementNotFoundComponentException( parameter.getValue(), listSelectionType, element.getName(), baseElement.getSelector(), e );
-
-		}catch (Exception e ){
-			
+		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
+		if( baseElement.getVariableSample().equals( ListEnumVariableSample.POST ) ){
+				
+			//Elmenti az elem tartalmat a valtozoba
+			element.getBaseElement().setVariableValue( webElement.getAttribute("value") );		
 		}
 		
 		if( null != elementProgress ){
@@ -163,9 +122,5 @@ public class ListVariableOperation implements ElementOperationInterface{
 	public VariableElementDataModel getVariableElement() {
 		return parameter;
 	}
-	
-	public ListSelectionBy getListSelectionType() {
-		return listSelectionType;
-	}
-	
+
 }
