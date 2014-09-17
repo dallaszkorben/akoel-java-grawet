@@ -37,9 +37,9 @@ import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
-import hu.akoel.grawit.enums.ListSelectionType;
-import hu.akoel.grawit.enums.Operation;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.ListSelectionBy;
+import hu.akoel.grawit.enums.list.Operation;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -64,7 +64,6 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	private String name;
 	private BaseElementDataModel baseElement;	
 	private ElementOperationInterface elementOperation;
-//	private String variableValue = "";
 	//----
 
 	/**
@@ -83,6 +82,8 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	
 	/**
 	 * Capture new
+	 * 
+	 * XML alapjan gyartja le a PARAMELEMENT-et
 	 * 
 	 * @param element
 	 * @param baseDataModel
@@ -180,7 +181,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		    			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_LIST_SELECTION_TYPE );
 		    		}
 		    		String listSelectionTypeString = element.getAttribute( ATTR_LIST_SELECTION_TYPE );		
-		    		ListSelectionType listSelectionType = ListSelectionType.valueOf(listSelectionTypeString );
+		    		ListSelectionBy listSelectionType = ListSelectionBy.valueOf(listSelectionTypeString );
 		    				    		
 		    		this.elementOperation = new ListVariableOperation(listSelectionType, (VariableElementDataModel)variableDataModel);
 		    	}
@@ -512,7 +513,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			
 			//List selectionType
 			attr = document.createAttribute( ATTR_LIST_SELECTION_TYPE );
-			ListSelectionType listSelectionType = ((ListVariableOperation)getElementOperation()).getListSelectionType();
+			ListSelectionBy listSelectionType = ((ListVariableOperation)getElementOperation()).getListSelectionType();
 			if( null == listSelectionType ){ //Ez nem lehet
 				attr.setValue("");
 			}else{

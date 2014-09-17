@@ -10,7 +10,7 @@ import org.w3c.dom.NodeList;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.ParameterType;
+import hu.akoel.grawit.enums.list.ParameterType;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;

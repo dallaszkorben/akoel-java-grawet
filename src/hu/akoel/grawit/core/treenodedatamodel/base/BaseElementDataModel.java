@@ -10,7 +10,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.VariableSample;
+import hu.akoel.grawit.enums.list.ElementType;
+import hu.akoel.grawit.enums.list.VariableSample;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
@@ -20,36 +21,44 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 
 	public static Tag TAG = Tag.BASEELEMENT;
 	
-//	public static final String ATTR_NAME = "name";
+	public static final String ATTR_ELEMENT_TYPE="elementtype";
 	public static final String ATTR_IDENTIFIER = "identifier";
 	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
 	public static final String ATTR_FRAME = "frame";
-	public static final String ATTR_VARIABLE_SAMPLE = "variablesample";
+	public static final String ATTR_VARIABLE_SAMPLE = "variablesample";	
 	
+	//Adatmodel ---
 	private String name;
+	private ElementType elementType;
 	private VariableSample variableSample;
 	private String frame;
 	private String identifier;
 	private SelectorType identificationType;
-
+	//Ide menti az erre a mezore hivatkozo ParamElement Mezo mentett erteket
 	private String variableValue = "";
+	//---
 
-	public BaseElementDataModel(String name, String identifier, SelectorType identificationType, VariableSample variableSample, String frame){
-		common( name, identifier, identificationType, variableSample, frame );	
-	}
+	
+	
 
-	public BaseElementDataModel( String name, String identifier, SelectorType identificationType, VariableSample variableSample ){
-		common( name, identifier, identificationType, variableSample, null );
-	}
-
-	public BaseElementDataModel( BaseElementDataModel element ){
-		this.name = element.getName();
-		this.identifier = element.getSelector();
-		this.identificationType = element.getSelectorType();
-		this.variableSample = element.getVariableSample();
+	/**
+	 * 
+	 * Modify
+	 * 
+	 * @param name
+	 * @param elementType
+	 * @param identifier
+	 * @param identificationType
+	 * @param variableSample
+	 * @param frame
+	 */
+	public BaseElementDataModel(String name, ElementType elementType, String identifier, SelectorType identificationType, VariableSample variableSample, String frame){
+		common( name, elementType, identifier, identificationType, variableSample, frame );	
 	}
 
 	/**
+	 * Capture new
+	 * 
 	 * XML alapjan gyartja le a BASEELEMENT-et
 	 * 
 	 * @param element
@@ -77,6 +86,13 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}
 		String identifierString = element.getAttribute( ATTR_IDENTIFIER );
 		this.identifier = identifierString;
+		
+		//element type             
+		if( !element.hasAttribute( ATTR_ELEMENT_TYPE ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_ELEMENT_TYPE );			
+		}
+		String elementTypeString = element.getAttribute( ATTR_ELEMENT_TYPE );
+		this.elementType = ElementType.valueOf( elementTypeString );
 		
 		//identificationtype
 		if( !element.hasAttribute( ATTR_IDENTIFICATION_TYPE ) ){
@@ -109,8 +125,9 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		}		
 	}
 	
-	private void common( String name, String identifier, SelectorType identificationType, VariableSample variableSample, String frame ){		
+	private void common( String name, ElementType elementType, String identifier, SelectorType identificationType, VariableSample variableSample, String frame ){		
 		this.name = name;
+		this.elementType = elementType;
 		this.identifier = identifier;
 		this.identificationType = identificationType;
 		this.variableSample = variableSample;
@@ -135,6 +152,14 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.name = name;
 	}
 
+	public ElementType getElementType(){
+		return elementType;
+	}
+	
+	public void setElementType( ElementType elementType ){
+		this.elementType = elementType;
+	}
+	
 	public String getSelector() {
 		return identifier;
 	}
@@ -209,6 +234,10 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		
 		attr = document.createAttribute( ATTR_IDENTIFIER );
 		attr.setValue( getSelector() );
+		elementElement.setAttributeNode(attr);	
+		
+		attr = document.createAttribute( ATTR_ELEMENT_TYPE );
+		attr.setValue( getElementType().name() );
 		elementElement.setAttributeNode(attr);	
 
 		attr = document.createAttribute( ATTR_IDENTIFICATION_TYPE );

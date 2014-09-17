@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.enums.Operation;
+import hu.akoel.grawit.enums.list.Operation;
 import hu.akoel.grawit.exceptions.ElementException;
 
 public interface ElementOperationInterface {

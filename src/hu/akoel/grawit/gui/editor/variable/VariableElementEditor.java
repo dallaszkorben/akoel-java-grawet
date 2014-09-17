@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
-import hu.akoel.grawit.enums.ParameterType;
+import hu.akoel.grawit.enums.list.ParameterType;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -37,7 +37,7 @@ public class VariableElementEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelVariableType;
-	private ComboBoxComponent<String> fieldVariableType;
+	private ComboBoxComponent<ParameterType> fieldVariableType;
 	private JLabel labelVariableParameters;
 	private VariableParametersComponentInterface fieldVariableParameters;
 	
@@ -111,7 +111,7 @@ public class VariableElementEditor extends DataEditor{
 		//VariableTypeSelector		
 		fieldVariableType = new ComboBoxComponent<>();
 		for( int i = 0; i < ParameterType.getSize(); i++ ){
-			fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(i).getTranslatedName() );
+			fieldVariableType.addItem( ParameterType.getVariableParameterTypeByIndex(i) );
 		}
 		fieldVariableType.addItemListener( new ItemListener() {
 			

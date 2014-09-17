@@ -1,4 +1,4 @@
-package hu.akoel.grawit.enums;
+package hu.akoel.grawit.enums.list;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +9,7 @@ import java.util.Date;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum ParameterType {	
+public enum ParameterType implements ListEnumInterface{	
 	
 	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.variable.parametertype.string"), new Class<?>[]{String.class}),
 	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),
@@ -33,10 +33,12 @@ public enum ParameterType {
 		return ParameterType.values().length;
 	}
 	
+	@Override
 	public int getIndex(){
 		return index;
 	}
 	
+	@Override
 	public String getTranslatedName(){
 		return translatedName;
 	}

@@ -2,7 +2,7 @@ package hu.akoel.grawit;
 
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.ParameterType;
+import hu.akoel.grawit.enums.list.ParameterType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;

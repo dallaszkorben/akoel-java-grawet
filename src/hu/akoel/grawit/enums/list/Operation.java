@@ -1,8 +1,8 @@
-package hu.akoel.grawit.enums;
+package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum Operation{		
+public enum Operation implements ListEnumInterface{		
 	FIELD_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.operation.fillfieldwithvariable") ),
 	FIELD_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.param.operation.fillfieldwithelement") ),
 	FIELD_CLEAR( 2, CommonOperations.getTranslation( "editor.label.param.operation.clear") ),
@@ -24,6 +24,7 @@ public enum Operation{
 		this.translatedName = translatedName;
 	}
 	
+	@Override
 	public String getTranslatedName(){
 		return translatedName;
 	}	
@@ -32,6 +33,7 @@ public enum Operation{
 		return Operation.values().length;
 	}
 	
+	@Override
 	public int getIndex(){
 		return index;
 	}
