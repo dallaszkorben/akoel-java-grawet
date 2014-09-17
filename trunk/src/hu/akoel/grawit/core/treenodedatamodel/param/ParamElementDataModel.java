@@ -17,7 +17,9 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
+import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.GainTextPatternOperation;
 import hu.akoel.grawit.core.operations.Torlendo_ButtonOperation;
 import hu.akoel.grawit.core.operations.Torlendo_CheckboxOperation;
 import hu.akoel.grawit.core.operations.Torlendo_ClearOperation;
@@ -127,9 +129,11 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			
 			if( operationString.equals( ListEnumElementLinkOperation.CLICK ) ){
 				
+				elementOperation = new ClickOperation();
 				
 			}else if( operationString.equals( ListEnumElementLinkOperation.GAINTEXTPATTERN ) ){
 				
+				elementOperation = new GainTextPatternOperation(stringPattern);
 				
 			//Ha nem a tipusnak megfelelo az muvelet
 			}else{
