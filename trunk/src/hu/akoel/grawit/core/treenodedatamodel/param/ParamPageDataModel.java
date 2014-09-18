@@ -149,20 +149,20 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element paramElement = (Element)node;
-				//if( paramElement.getTagName().equals( ParamElementDataModel.getTagStatic().getName() )){
 				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
 					this.add(new ParamElementDataModel(paramElement, basePage, variableRootDataModel ));
 				}
 			}
-		}		
+		}	
+	}
 
-
+	public static Tag getTagStatic(){
+		return TAG;
 	}
 
 	@Override
 	public Tag getTag() {
-		return TAG;
-		//return getTagStatic();
+		return getTagStatic();
 	}
 	
 	public BasePageDataModel getBasePage(){
