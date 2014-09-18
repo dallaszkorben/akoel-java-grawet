@@ -1,13 +1,15 @@
 package hu.akoel.grawit.enums.list;
 
 
+import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.text.MaskFormatter;
 
-public enum ListEnumFormDate implements ListEnumInterface{		
+public enum ListEnumFormDate implements OperationListEnumInterface{		
 	ddMMyyyy_slash( 0, "dd/MM/yyyy", "dd/MM/yyyy", "##/##/####" ),
 	ddMMyyyy_hyphen( 1, "dd-MM-yyyy", "dd-MM-yyyy", "##-##-####" ),
 	ddMMyyyy_dot( 2, "dd.MM.yyyy", "dd.MM.yyyy", "##.##.####" ),

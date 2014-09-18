@@ -1,8 +1,9 @@
 package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
 
-public enum ListEnumElementType implements ListEnumInterface{		
+public enum ListEnumElementType implements OperationListEnumInterface{		
 	FIELD( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.field") ),
 	TEXT( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text") ),
 	LINK( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.link") ),
