@@ -35,6 +35,7 @@ import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorCo
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.tree.TreeNode;
 
 public class ParamElementEditor extends DataEditor{
@@ -48,20 +49,29 @@ public class ParamElementEditor extends DataEditor{
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
+	private JPanel labelContainer;
+	private JPanel valueContainer;
+
+	private JLabel labelBaseElementSelector;
+	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
+	
+//	private JLabel labelFieldBaseElementSelector;
+//	private BaseElementTreeSelectorComponent fieldFieldBaseElementSelector;
+
+/*	
 	private JLabel labelOperation;
 	private ComboBoxComponent<Torlendo_Operation> fieldOperation;
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	private JLabel labelVariableSelector;
 	private VariableTreeSelectorComponent fieldVariableSelector;
-	private JLabel labelFieldBaseElementSelector;
-	private BaseElementTreeSelectorComponent fieldFieldBaseElementSelector;
+	
 	private JLabel labelListSelectionType;
 	private ComboBoxComponent<ListEnumListSelectionBy> fieldListSelectionType;
 	private JLabel labelPattern;
 	private TextFieldComponent fieldPattern;
-	
-	private Torlendo_Operation operation;
+*/	
+//	private Torlendo_Operation operation;
 	
 	BaseRootDataModel baseRootDataModel;
 	
@@ -90,7 +100,7 @@ public class ParamElementEditor extends DataEditor{
 		BasePageDataModel basePage = selectedPage.getBasePage();
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage ); 
 
-		operation = Torlendo_Operation.LINK;
+//		operation = Torlendo_Operation.LINK;
 
 		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 		
@@ -125,7 +135,7 @@ public class ParamElementEditor extends DataEditor{
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
 		
 		//Operation
-		operation = selectedElement.getElementOperation().getOperation();
+//		operation = selectedElement.getElementOperation().getOperation();
 		
 //TODO ki kell majd javitani
 		//selectedElement

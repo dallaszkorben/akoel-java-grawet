@@ -1,15 +1,15 @@
-package hu.akoel.grawit.enums.list;
+package hu.akoel.grawit.enums.list.operation;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum ListEnumElementRadiobuttonOperation implements ListEnumInterface{		
+public enum ButtonOperationListEnum implements OperationListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.click") ),	
 	;
 	
 	private String translatedName;
 	private int index;
 	
-	private ListEnumElementRadiobuttonOperation( int index, String translatedName ){
+	private ButtonOperationListEnum( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -21,7 +21,7 @@ public enum ListEnumElementRadiobuttonOperation implements ListEnumInterface{
 	}	
 	
 	public static int getSize(){
-		return ListEnumElementRadiobuttonOperation.values().length;
+		return ButtonOperationListEnum.values().length;
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public enum ListEnumElementRadiobuttonOperation implements ListEnumInterface{
 		return index;
 	}
 	
-	public static ListEnumElementRadiobuttonOperation getElementRadiobuttonOperationByIndex( int index ){
+	public static ButtonOperationListEnum getElementButtonOperationByIndex( int index ){
 		switch (index){
 		case 0:	return CLICK;
 		default: return CLICK;

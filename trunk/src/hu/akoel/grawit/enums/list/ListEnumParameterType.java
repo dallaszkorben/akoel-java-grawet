@@ -8,8 +8,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
 
-public enum ListEnumParameterType implements ListEnumInterface{	
+public enum ListEnumParameterType implements OperationListEnumInterface{	
 	
 	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.variable.parametertype.string"), new Class<?>[]{String.class}),
 	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),

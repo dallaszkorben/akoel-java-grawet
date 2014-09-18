@@ -1,6 +1,6 @@
 package hu.akoel.grawit.gui.editors.component;
 
-import hu.akoel.grawit.enums.list.ListEnumInterface;
+import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
 
 import java.awt.Component;
 
@@ -8,7 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-public class ComboBoxComponent<E extends ListEnumInterface> extends JComboBox<E> implements EditorComponentInterface {
+public class ComboBoxComponent<E extends OperationListEnumInterface> extends JComboBox<E> implements EditorComponentInterface {
 
 	private static final long serialVersionUID = -7942683931683851883L;
 
@@ -40,7 +40,7 @@ public class ComboBoxComponent<E extends ListEnumInterface> extends JComboBox<E>
 		public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
 
 			// DisableItem item = (DisableItem) value;			
-			Component c = super.getListCellRendererComponent(list, ((ListEnumInterface)value).getTranslatedName(), index, isSelected, cellHasFocus);
+			Component c = super.getListCellRendererComponent(list, ((OperationListEnumInterface)value).getTranslatedName(), index, isSelected, cellHasFocus);
 			// if (!item.isEnabled ()) {
 			// c.setForeground (Color.GRAY);
 			// }

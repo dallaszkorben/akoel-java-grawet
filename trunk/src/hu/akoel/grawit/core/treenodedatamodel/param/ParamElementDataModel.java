@@ -1,7 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
-import java.lang.annotation.ElementType;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
@@ -25,38 +24,19 @@ import hu.akoel.grawit.core.operations.FillStringOperation;
 import hu.akoel.grawit.core.operations.FillVariableOperation;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
-import hu.akoel.grawit.core.operations.Torlendo_ButtonOperation;
-import hu.akoel.grawit.core.operations.Torlendo_CheckboxOperation;
-import hu.akoel.grawit.core.operations.Torlendo_ClearOperation;
-import hu.akoel.grawit.core.operations.Torlendo_ElementOperationInterface;
-import hu.akoel.grawit.core.operations.Torlendo_FieldParamElementOperation;
-import hu.akoel.grawit.core.operations.Torlendo_FieldVariableOperation;
-import hu.akoel.grawit.core.operations.Torlendo_GainTextPatternOperation;
-import hu.akoel.grawit.core.operations.Torlendo_LinkOperation;
-import hu.akoel.grawit.core.operations.Torlendo_ListVariableOperation;
-import hu.akoel.grawit.core.operations.Torlendo_RadioButtonOperation;
-import hu.akoel.grawit.core.operations.Torlendo_TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ListEnumElementButtonOperation;
-import hu.akoel.grawit.enums.list.ListEnumElementCheckboxOperation;
-import hu.akoel.grawit.enums.list.ListEnumElementFieldOperation;
-import hu.akoel.grawit.enums.list.ListEnumElementLinkOperation;
-import hu.akoel.grawit.enums.list.ListEnumElementRadiobuttonOperation;
-import hu.akoel.grawit.enums.list.ListEnumElementTextOperation;
 import hu.akoel.grawit.enums.list.ListEnumElementType;
-import hu.akoel.grawit.enums.list.ListEnumListSelectionBy;
-import hu.akoel.grawit.enums.list.Torlendo_Operation;
+import hu.akoel.grawit.enums.list.operation.ButtonOperationListEnum;
+import hu.akoel.grawit.enums.list.operation.CheckboxOperationListEnum;
+import hu.akoel.grawit.enums.list.operation.FieldOperationListEnum;
+import hu.akoel.grawit.enums.list.operation.LinkOperationListEnum;
+import hu.akoel.grawit.enums.list.operation.RadiobuttonOperationListEnumElement;
+import hu.akoel.grawit.enums.list.operation.TextOperationListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -72,16 +52,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementpath";
 	private static final String ATTR_OPERATION = "operation";
 	
-/*	private static final String ATTR_FILL_BASE_ELEMENT_PATH = "fillbaseelementpath";
-	private static final String ATTR_FILL_VARIABLE_ELEMENT_PATH = "fillvariableelementpath";
-	private static final String ATTR_LIST_SELECTION_TYPE = "listselectiontype";
-	private static final String ATTR_GAIN_TEXT_PATTERN = "gaintextpattern";
-*/	
 	//Adatmodel ---
 	private String name;
 	private BaseElementDataModel baseElement;
 	private ElementOperationInterface elementOperation;
-	//private Torlendo_ElementOperationInterface elementOperation;
 	//----
 
 	/**
@@ -144,12 +118,12 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		if( baseElement.getElementType().equals( ListEnumElementType.LINK ) ){
 			
 			// Click az operation
-			if( operationString.equals( ListEnumElementLinkOperation.CLICK ) ){
+			if( operationString.equals( LinkOperationListEnum.CLICK ) ){
 				
 				elementOperation = new ClickOperation();
 				
 			// Gain text az operation
-			}else if( operationString.equals( ListEnumElementLinkOperation.GAINTEXTPATTERN ) ){
+			}else if( operationString.equals( LinkOperationListEnum.GAINTEXTPATTERN ) ){
 				
 				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
 				
@@ -165,7 +139,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		}else if( baseElement.getElementType().equals(ListEnumElementType.BUTTON)){
 			
 			//Click az operation
-			if( operationString.equals( ListEnumElementButtonOperation.CLICK ) ){
+			if( operationString.equals( ButtonOperationListEnum.CLICK ) ){
 
 				elementOperation = new ClickOperation();
 				
@@ -181,7 +155,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		}else if( baseElement.getElementType().equals( ListEnumElementType.CHECKBOX) ){
 			
 			//Click az operation
-			if( operationString.equals( ListEnumElementCheckboxOperation.CLICK ) ){
+			if( operationString.equals( CheckboxOperationListEnum.CLICK ) ){
 				
 				elementOperation = new ClickOperation();
 				
@@ -197,7 +171,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//---------------------
 		}else if( baseElement.getElementType().equals( ListEnumElementType.RADIOBUTTON ) ){
 			
-			if( operationString.equals( ListEnumElementRadiobuttonOperation.CLICK ) ){
+			if( operationString.equals( RadiobuttonOperationListEnumElement.CLICK ) ){
 				
 				elementOperation = new ClickOperation();
 				
@@ -213,27 +187,27 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//--------------
 		}else if( baseElement.getElementType().equals( ListEnumElementType.FIELD ) ){
 			
-			if( operationString.equals( ListEnumElementFieldOperation.CLEAR ) ){
+			if( operationString.equals( FieldOperationListEnum.CLEAR ) ){
 			
 				elementOperation = new ClearOperation();
 				
-			}else if( operationString.equals( ListEnumElementFieldOperation.CLICK ) ){
+			}else if( operationString.equals( FieldOperationListEnum.CLICK ) ){
 				
 				elementOperation = new ClickOperation();
 				
-			}else if( operationString.equals( ListEnumElementFieldOperation.TAB ) ){
+			}else if( operationString.equals( FieldOperationListEnum.TAB ) ){
 				
 				elementOperation = new TabOperation();
 				
-			}else if( operationString.equals( ListEnumElementFieldOperation.FILL_VARIABLE ) ){
+			}else if( operationString.equals( FieldOperationListEnum.FILL_VARIABLE ) ){
 				
 				elementOperation = new FillVariableOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
-			}else if( operationString.equals( ListEnumElementFieldOperation.FILL_ELEMENT ) ){
+			}else if( operationString.equals( FieldOperationListEnum.FILL_ELEMENT ) ){
 				
 				elementOperation = new FillElementOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
-			}else if( operationString.equals( ListEnumElementFieldOperation.FILL_STRING ) ){
+			}else if( operationString.equals( FieldOperationListEnum.FILL_STRING ) ){
 				
 				elementOperation = new FillStringOperation( element, getRootTag(), getTag() );
 				
@@ -246,7 +220,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		// Text
 		}else if( baseElement.getElementType().equals( ListEnumElementType.TEXT ) ){
 			
-			if( operationString.equals( ListEnumElementTextOperation.GAINTEXTPATTERN ) ){
+			if( operationString.equals( TextOperationListEnum.GAINTEXTPATTERN ) ){
 				
 				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
 				

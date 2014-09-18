@@ -1,15 +1,15 @@
-package hu.akoel.grawit.enums.list;
+package hu.akoel.grawit.enums.list.operation;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum ListEnumElementButtonOperation implements ListEnumInterface{		
+public enum CheckboxOperationListEnum implements OperationListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.click") ),	
 	;
 	
 	private String translatedName;
 	private int index;
 	
-	private ListEnumElementButtonOperation( int index, String translatedName ){
+	private CheckboxOperationListEnum( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -21,7 +21,7 @@ public enum ListEnumElementButtonOperation implements ListEnumInterface{
 	}	
 	
 	public static int getSize(){
-		return ListEnumElementButtonOperation.values().length;
+		return CheckboxOperationListEnum.values().length;
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public enum ListEnumElementButtonOperation implements ListEnumInterface{
 		return index;
 	}
 	
-	public static ListEnumElementButtonOperation getElementButtonOperationByIndex( int index ){
+	public static CheckboxOperationListEnum getElementCheckboxOperationByIndex( int index ){
 		switch (index){
 		case 0:	return CLICK;
 		default: return CLICK;
