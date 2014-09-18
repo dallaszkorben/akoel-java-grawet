@@ -8,20 +8,25 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
+import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
 public class GainTextPatternOperation implements ElementOperationInterface{
 	
-	private static final String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.common.gaintextpattern");
+	private static final String NAME = "GAINTEXT";
+	private static final String ATTR_PATTERN = "pattern";
 	
 	private String stringPattern;
 	private Pattern pattern;
@@ -34,8 +39,17 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 		pattern = Pattern.compile( stringPattern );
 	}
 	
+	public GainTextPatternOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+		
+		if( !element.hasAttribute( ATTR_PATTERN ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_PATTERN );			
+		}
+		stringPattern = element.getAttribute( ATTR_PATTERN );		
+
+	}
+	
 	@Override
-	public String getTranslatedName() {
+	public String getName() {
 		return NAME;
 	}
 	
@@ -112,7 +126,12 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 		return stringPattern;
 	}
 
-
+	@Override
+	public void setXMLAttribute(Document document, Element element) {
+		Attr attr = document.createAttribute( ATTR_PATTERN );
+		attr.setValue( stringPattern );
+		element.setAttributeNode(attr);		
+	}
 	
 }
 

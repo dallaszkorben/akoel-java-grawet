@@ -7,22 +7,27 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ListEnumVariableSample;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
+import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
 public class FillStringOperation implements ElementOperationInterface{
 	
-	private static final String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.field.fillvariable");
+	private static final String NAME = "FILLSTRING";
+	private static final String ATTR_STRING = "string";
 	
 	private String stringToShow;
 	
@@ -30,8 +35,16 @@ public class FillStringOperation implements ElementOperationInterface{
 		this.stringToShow = stringToShow;
 	}
 	
+	public FillStringOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+		
+		if( !element.hasAttribute( ATTR_STRING ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_STRING );			
+		}
+		stringToShow = element.getAttribute( ATTR_STRING );		
+	}
+	
 	@Override
-	public String getTranslatedName() {
+	public String getName() {
 		return NAME;
 	}
 	
@@ -103,7 +116,7 @@ public class FillStringOperation implements ElementOperationInterface{
 			webElement.sendKeys( stringToShow );
 			webElement.sendKeys(Keys.TAB);
 		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getTranslatedName(), element.getName(), baseElement.getSelector(), webDriverException );
+			throw new ElementInvalidOperationException( getName(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
@@ -120,6 +133,14 @@ public class FillStringOperation implements ElementOperationInterface{
 
 	public String getStringToShow() {
 		return stringToShow;
+	}
+
+
+	@Override
+	public void setXMLAttribute(Document document, Element element) {
+		Attr attr = document.createAttribute( ATTR_STRING );
+		attr.setValue( stringToShow );
+		element.setAttributeNode(attr);		
 	}
 
 }

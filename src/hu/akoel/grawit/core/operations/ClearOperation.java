@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
@@ -20,10 +23,10 @@ import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
 public class ClearOperation implements ElementOperationInterface{
-	private static final String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.common.click");
+	private static final String NAME = "CLEAR";
 	
 	@Override
-	public String getTranslatedName() {		
+	public String getName() {		
 		return NAME;
 	}
 	
@@ -96,7 +99,7 @@ public class ClearOperation implements ElementOperationInterface{
 			webElement.clear();
 			
 		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getTranslatedName(), element.getName(), baseElement.getSelector(), webDriverException );
+			throw new ElementInvalidOperationException( getName(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
@@ -111,6 +114,11 @@ public class ClearOperation implements ElementOperationInterface{
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
+	}
+
+	@Override
+	public void setXMLAttribute(Document document, Element element) {
+		//No parameter, no operation				
 	}
 
 

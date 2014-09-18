@@ -6,8 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -19,13 +21,18 @@ import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
 public class ClickOperation implements ElementOperationInterface{
 
-	private static final String NAME = CommonOperations.getTranslation("editor.label.param.elementtype.common.click");
+	private static final String NAME = "CLICK";
 	
 	@Override
-	public String getTranslatedName() {
+	public String getName() {
 		return NAME;
 	}
 	
+/*	@Override
+	public String getTranslatedName() {
+		return CommonOperations.getTranslation( NAME );
+	}
+*/	
 	/**
 	 * 
 	 * Executes a Click action on the WebElement
@@ -91,6 +98,13 @@ public class ClickOperation implements ElementOperationInterface{
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
+
+	@Override
+	public void setXMLAttribute(Document document, Element element) {
+		//No parameter, no operation			
+	}
+
+
 
 
 
