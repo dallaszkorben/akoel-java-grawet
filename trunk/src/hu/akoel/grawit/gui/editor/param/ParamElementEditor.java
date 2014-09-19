@@ -1,41 +1,31 @@
 package hu.akoel.grawit.gui.editor.param;
 
 import java.awt.Component;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.Torlendo_ButtonOperation;
-import hu.akoel.grawit.core.operations.Torlendo_CheckboxOperation;
-import hu.akoel.grawit.core.operations.Torlendo_ElementOperationInterface;
-import hu.akoel.grawit.core.operations.Torlendo_FieldParamElementOperation;
-import hu.akoel.grawit.core.operations.Torlendo_FieldVariableOperation;
-import hu.akoel.grawit.core.operations.Torlendo_GainTextPatternOperation;
-import hu.akoel.grawit.core.operations.Torlendo_LinkOperation;
-import hu.akoel.grawit.core.operations.Torlendo_ListVariableOperation;
-import hu.akoel.grawit.core.operations.Torlendo_RadioButtonOperation;
-import hu.akoel.grawit.core.operations.Torlendo_TabOperation;
+import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
-import hu.akoel.grawit.enums.list.ListEnumListSelectionBy;
-import hu.akoel.grawit.enums.list.Torlendo_Operation;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
+import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
+import hu.akoel.grawit.gui.editors.component.operation.EmptyOperationComponent;
+import hu.akoel.grawit.gui.editors.component.operation.LinkOperationComponent;
+import hu.akoel.grawit.gui.editors.component.operation.OperationComponentInterface;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.tree.TreeNode;
 
 public class ParamElementEditor extends DataEditor{
@@ -49,33 +39,14 @@ public class ParamElementEditor extends DataEditor{
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
-	private JPanel labelContainer;
-	private JPanel valueContainer;
 
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	
-//	private JLabel labelFieldBaseElementSelector;
-//	private BaseElementTreeSelectorComponent fieldFieldBaseElementSelector;
-
-/*	
-	private JLabel labelOperation;
-	private ComboBoxComponent<Torlendo_Operation> fieldOperation;
-	private JLabel labelBaseElementSelector;
-	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
-	private JLabel labelVariableSelector;
-	private VariableTreeSelectorComponent fieldVariableSelector;
-	
-	private JLabel labelListSelectionType;
-	private ComboBoxComponent<ListEnumListSelectionBy> fieldListSelectionType;
-	private JLabel labelPattern;
-	private TextFieldComponent fieldPattern;
-*/	
-//	private Torlendo_Operation operation;
+	private JLabel labelOperationSelector;
+	private EditorComponentInterface fieldOperationComponent;
 	
 	BaseRootDataModel baseRootDataModel;
-	
-	//private VariableRootDataModel rootDataModel;
 	
 	/**
 	 *  Uj ParamPageElement rogzitese - Insert
@@ -100,11 +71,11 @@ public class ParamElementEditor extends DataEditor{
 		BasePageDataModel basePage = selectedPage.getBasePage();
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage ); 
 
-//		operation = Torlendo_Operation.LINK;
+		//fieldOperationComponent = new EmptyOperationComponent();
 
 		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
-		
-		commonPost();
+			
+		commonPost( null );
 	}
 		
 	/**
@@ -121,8 +92,7 @@ public class ParamElementEditor extends DataEditor{
 
 		this.tree = tree;
 		this.nodeForModify = selectedElement;
-		this.mode = mode;
-	
+		this.mode = mode;	
 
 		commonPre( paramRootDataModel, variableRootDataModel );
 		
@@ -134,15 +104,9 @@ public class ParamElementEditor extends DataEditor{
 		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();		
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
 		
-		//Operation
-//		operation = selectedElement.getElementOperation().getOperation();
+		commonPost( baseElement );
 		
-//TODO ki kell majd javitani
-		//selectedElement
-		//fieldParameterElementSelector = new ParameterElementTreeSelectorComponent(rootDataModel);
-		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();		
-		
-		commonPost();
+		//changeOperation(baseElement);
 		
 	}
 
@@ -151,17 +115,8 @@ public class ParamElementEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent();
 		
-		//List selection type
-		fieldListSelectionType = new ComboBoxComponent<>();
-		for( int i = 0; i < ListEnumListSelectionBy.getSize(); i++){
-			fieldListSelectionType.addItem( ListEnumListSelectionBy.getListSelectionTypeByOrder(i));
-		}
 		
-		//Operation
-		fieldOperation = new ComboBoxComponent<>();
-		for(int i = 0; i < Torlendo_Operation.getSize(); i++ ){
-			fieldOperation.addItem( Torlendo_Operation.getOperationByIndex(i) );
-		}
+/*		
 		fieldOperation.addItemListener( new ItemListener() {
 			
 			private boolean hasBeenHere = false;
@@ -272,59 +227,113 @@ public class ParamElementEditor extends DataEditor{
 						 
 						 
 					 }else if( operation.equals( Torlendo_Operation.BUTTON ) ){
-/*						 if( null != fieldParameterElementSelector ){
-							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-						 }
-*/						
+					
 						 
 						 
 					 }else if( operation.equals( Torlendo_Operation.CHECKBOX ) ){
-/*						 if( null != fieldParameterElementSelector ){
-							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-						 }
-*/						
+						
 					 }else if( operation.equals( Torlendo_Operation.RADIOBUTTON ) ){
-/*						 if( null != fieldParameterElementSelector ){
-							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-						 }
-*/						
+						
 					 }else if( operation.equals( Torlendo_Operation.LINK ) ){
-/*						 if( null != fieldParameterElementSelector ){
-							 ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-						 }					
-*/				 
+				 
 					}else if( operation.equals( Torlendo_Operation.TAB ) ){
-/*						 if( null != fieldParameterElementSelector ){
-						 	ParamElementEditor.this.remove(fieldParameterElementSelector.getComponent());
-						 }					
-					*/					 }
+
 					 hasBeenHere = true;						
 				}				
 			}
 		});
+*/		
 	}
 	
-	private void commonPost(){
+	private void commonPost(BaseElementDataModel baseElement){
+		
+		fieldBaseElementSelector.getDocument().addDocumentListener( new DocumentListener(){
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				change();				
+			}
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				change();
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				change();
+			}			
+			private void change(){
+				BaseElementDataModel baseElement = ParamElementEditor.this.fieldBaseElementSelector.getSelectedDataModel();
+				changeOperation( baseElement );
+			}
+		});
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelOperation = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": " );
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable" ) + ": " );
-		labelFieldBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.paramelement" ) + ": " );
-		labelListSelectionType = new JLabel( CommonOperations.getTranslation("editor.label.param.operation.list" ) + ": " );
-		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.operation.pattern" ) + ": " );
+		labelOperationSelector = new JLabel( "");
 		
 		this.add( labelName, fieldName );
 		this.add( labelBaseElementSelector, fieldBaseElementSelector );
-		this.add( labelOperation, fieldOperation );
-		//this.add( labelParameterElementSelector, fieldParameterElementSelector );
-
-		//Arra kenyszeritem, hogy az elso igazi valasztas is kivaltson egy esemenyt
-		fieldOperation.setSelectedIndex(-1);		
-		fieldOperation.setSelectedIndex( operation.getIndex() );	
+//		this.add( labelOperationSelector, fieldOperationComponent );
+		
+		fieldOperationComponent = new EmptyOperationComponent();
+		changeOperation(baseElement);
 		
 	}
+	
+	private void changeOperation( BaseElementDataModel baseElement ){
+
+		//Eltavolitja az ott levot
+		ParamElementEditor.this.remove( labelOperationSelector, fieldOperationComponent.getComponent() );
 		
+		ElementOperationInterface elementOperation;
+		
+		//Uj
+		if( null == nodeForModify ){
+			elementOperation = null;
+		//Modositas
+		}else{
+			elementOperation = nodeForModify.getElementOperation();
+		}		
+		
+		//Ha uj es elso alkalom
+		if( null == baseElement ){		 
+		
+			fieldOperationComponent = new EmptyOperationComponent();
+			
+		//FIELD
+		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
+			
+			//fieldOperationComponent =  
+			
+		//TEXT
+		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
+
+		//LINK	
+		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LINK.name() ) ){
+
+			fieldOperationComponent = new LinkOperationComponent( baseElement.getElementType(), elementOperation );
+			
+		//LIST
+		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
+			
+		//BUTTON
+		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
+			
+		//RADIOBUTTON
+		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.RADIOBUTTON.name() ) ){
+
+		//CHECKBOX
+		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.CHECKBOX.name() ) ){
+			
+					
+		}		
+		
+		//Elhelyezi az ujat		
+		ParamElementEditor.this.add( labelOperationSelector, fieldOperationComponent.getComponent() );
+		ParamElementEditor.this.repaint();
+		
+	}
+	
+	
 	@Override
 	public void save() {
 		
@@ -360,15 +369,6 @@ public class ParamElementEditor extends DataEditor{
 					)
 			);	
 			
-		//Van lista valasztas, de nincs valtozo
-		}else if( operation.equals(Torlendo_Operation.LIST_VARIABLE) && null == fieldVariableSelector.getSelectedDataModel() ){
-			errorList.put( 
-					fieldVariableSelector,
-					MessageFormat.format(
-							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelVariableSelector.getText()+"'"
-							)
-			);	
 			
 		}else{
 
@@ -424,51 +424,13 @@ public class ParamElementEditor extends DataEditor{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 			
-			Torlendo_ElementOperationInterface elementOperation = null;
-			Torlendo_Operation operation = Torlendo_Operation.getOperationByIndex( fieldOperation.getSelectedIndex() );
-			
-			if( operation.equals( Torlendo_Operation.FIELD_VARIABLE ) ){
-				VariableElementDataModel variableElementDataModel = fieldVariableSelector.getSelectedDataModel();			
-				elementOperation = new Torlendo_FieldVariableOperation( variableElementDataModel );
-			
-			}else if( operation.equals( Torlendo_Operation.FIELD_ELEMENT ) ){
-				BaseElementDataModel paramElementDataModel = fieldFieldBaseElementSelector.getSelectedDataModel();			
-				elementOperation = new Torlendo_FieldParamElementOperation( paramElementDataModel );
-				
-			}else if( operation.equals( Torlendo_Operation.LIST_VARIABLE ) ){
-				VariableElementDataModel variableElementDataModel = fieldVariableSelector.getSelectedDataModel();
-				ListEnumListSelectionBy listSelectionType = ListEnumListSelectionBy.getListSelectionTypeByOrder( fieldListSelectionType.getSelectedIndex() );
-				elementOperation = new Torlendo_ListVariableOperation( listSelectionType, variableElementDataModel );
-			
-			}else if( operation.equals( Torlendo_Operation.GAINTEXTPATTERN ) ){											
-				elementOperation = new Torlendo_GainTextPatternOperation(fieldPattern.getText());
-				
-			}else if( operation.equals( Torlendo_Operation.LINK ) ){
-				elementOperation = new Torlendo_LinkOperation();
-				
-			}else if( operation.equals( Torlendo_Operation.BUTTON ) ){
-				elementOperation = new Torlendo_ButtonOperation();
-				
-			}else if( operation.equals( Torlendo_Operation.CHECKBOX ) ){
-				elementOperation = new Torlendo_CheckboxOperation();
-				
-			}else if( operation.equals( Torlendo_Operation.RADIOBUTTON ) ){
-				elementOperation = new Torlendo_RadioButtonOperation();
-				
-			}else if( operation.equals( Torlendo_Operation.TAB ) ){
-				elementOperation = new Torlendo_TabOperation();
-				
-			}else {
-				elementOperation = new Torlendo_LinkOperation();
-				
-			}
-					
 			BaseElementDataModel baseElement = fieldBaseElementSelector.getSelectedDataModel();
+			ElementOperationInterface elementOperation = ((OperationComponentInterface)fieldOperationComponent).getElementOperation();
 			
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				ParamElementDataModel newParamElement = new ParamElementDataModel( fieldName.getText(), baseElement, elementOperation  );			
+				ParamElementDataModel newParamElement = new ParamElementDataModel( fieldName.getText(), baseElement, elementOperation );			
 				
 				nodeForCapture.add( newParamElement );
 				
@@ -476,8 +438,8 @@ public class ParamElementEditor extends DataEditor{
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
 				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setBaseElement(baseElement);
 				nodeForModify.setOperation( elementOperation );
-				nodeForModify.setBaseElement(baseElement);			
 			}
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)

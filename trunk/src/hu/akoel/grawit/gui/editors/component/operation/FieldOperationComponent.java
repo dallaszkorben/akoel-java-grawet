@@ -1,9 +1,9 @@
 package hu.akoel.grawit.gui.editors.component.operation;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.ListEnumElementType;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.operation.LinkOperationListEnum;
-import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
+import hu.akoel.grawit.enums.list.operation.ListEnumInterface;
 import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
 import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairBooleanValue;
 import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairIntegerValue;
@@ -52,7 +52,7 @@ public class FieldOperationComponent extends JPanel implements EditorComponentIn
 	 * Uj
 	 * 
 	 */
-	public FieldOperationComponent( ListEnumElementType elementType ){
+	public FieldOperationComponent( ElementTypeListEnum elementType ){
 		super();
 
 		common( elementType, null );
@@ -66,14 +66,14 @@ public class FieldOperationComponent extends JPanel implements EditorComponentIn
 	 * @param key
 	 * @param value
 	 */
-	public FieldOperationComponent( ListEnumElementType elementType, OperationListEnumInterface operation ){
+	public FieldOperationComponent( ElementTypeListEnum elementType, ListEnumInterface operation ){
 		super();
 		
 		common( elementType, operation );		
 		
 	}
 	
-	private void common( ListEnumElementType elementType, OperationListEnumInterface operation ){
+	private void common( ElementTypeListEnum elementType, ListEnumInterface operation ){
 		
 		labelType = new JLabel("Tipus: ");
 		labelOperations = new JLabel("Operation: ");

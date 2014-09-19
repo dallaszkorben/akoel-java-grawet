@@ -30,7 +30,7 @@ import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ListEnumElementType;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.operation.ButtonOperationListEnum;
 import hu.akoel.grawit.enums.list.operation.CheckboxOperationListEnum;
 import hu.akoel.grawit.enums.list.operation.FieldOperationListEnum;
@@ -115,7 +115,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//-------------
 		// Link	a tipus
 		//-------------
-		if( baseElement.getElementType().equals( ListEnumElementType.LINK ) ){
+		if( baseElement.getElementType().equals( ElementTypeListEnum.LINK ) ){
 			
 			// Click az operation
 			if( operationString.equals( LinkOperationListEnum.CLICK ) ){
@@ -136,7 +136,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//---------------
 		// Button a tipus
 		//---------------
-		}else if( baseElement.getElementType().equals(ListEnumElementType.BUTTON)){
+		}else if( baseElement.getElementType().equals(ElementTypeListEnum.BUTTON)){
 			
 			//Click az operation
 			if( operationString.equals( ButtonOperationListEnum.CLICK ) ){
@@ -152,7 +152,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//-----------------
 		// Checkbox a tipus
 		//-----------------
-		}else if( baseElement.getElementType().equals( ListEnumElementType.CHECKBOX) ){
+		}else if( baseElement.getElementType().equals( ElementTypeListEnum.CHECKBOX) ){
 			
 			//Click az operation
 			if( operationString.equals( CheckboxOperationListEnum.CLICK ) ){
@@ -169,7 +169,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//---------------------
 		// Radio button a tipus
 		//---------------------
-		}else if( baseElement.getElementType().equals( ListEnumElementType.RADIOBUTTON ) ){
+		}else if( baseElement.getElementType().equals( ElementTypeListEnum.RADIOBUTTON ) ){
 			
 			if( operationString.equals( RadiobuttonOperationListEnumElement.CLICK ) ){
 				
@@ -185,7 +185,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//--------------
 		// Field a tipus
 		//--------------
-		}else if( baseElement.getElementType().equals( ListEnumElementType.FIELD ) ){
+		}else if( baseElement.getElementType().equals( ElementTypeListEnum.FIELD ) ){
 			
 			if( operationString.equals( FieldOperationListEnum.CLEAR ) ){
 			
@@ -218,7 +218,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			}
 			
 		// Text
-		}else if( baseElement.getElementType().equals( ListEnumElementType.TEXT ) ){
+		}else if( baseElement.getElementType().equals( ElementTypeListEnum.TEXT ) ){
 			
 			if( operationString.equals( TextOperationListEnum.GAINTEXTPATTERN ) ){
 				

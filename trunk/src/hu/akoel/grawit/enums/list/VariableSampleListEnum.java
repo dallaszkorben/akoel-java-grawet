@@ -1,9 +1,9 @@
 package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
+import hu.akoel.grawit.enums.list.operation.ListEnumInterface;
 
-public enum ListEnumVariableSample implements OperationListEnumInterface{
+public enum VariableSampleListEnum implements ListEnumInterface{
 	//NO(0, CommonOperations.getTranslation( "editor.label.base.variablesample.no") ),
 	PRE(0, CommonOperations.getTranslation( "editor.label.base.variablesample.pre") ),
 	POST(1, CommonOperations.getTranslation( "editor.label.base.variablesample.post") );
@@ -11,7 +11,7 @@ public enum ListEnumVariableSample implements OperationListEnumInterface{
 	private int index;
 	private String translatedName;
 	
-	private ListEnumVariableSample( int index, String translatedName ){
+	private VariableSampleListEnum( int index, String translatedName ){
 		this.index = index;
 		this.translatedName = translatedName;
 	}
@@ -22,7 +22,7 @@ public enum ListEnumVariableSample implements OperationListEnumInterface{
 	}
 	
 	public static int getSize(){
-		return ListEnumVariableSample.values().length;
+		return VariableSampleListEnum.values().length;
 	}
 	
 	@Override
@@ -30,7 +30,7 @@ public enum ListEnumVariableSample implements OperationListEnumInterface{
 		return translatedName;
 	}
 	
-	public static ListEnumVariableSample getVariableSampleByIndex( int index ){
+	public static VariableSampleListEnum getVariableSampleByIndex( int index ){
 		switch(index){
 //		case 0: return NO;
 		case 0: return PRE;

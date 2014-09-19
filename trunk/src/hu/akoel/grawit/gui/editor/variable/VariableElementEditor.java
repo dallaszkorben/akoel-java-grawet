@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
-import hu.akoel.grawit.enums.list.ListEnumParameterType;
+import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -37,11 +37,11 @@ public class VariableElementEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelVariableType;
-	private ComboBoxComponent<ListEnumParameterType> fieldVariableType;
+	private ComboBoxComponent<ParameterTypeListEnum> fieldVariableType;
 	private JLabel labelVariableParameters;
 	private VariableParametersComponentInterface fieldVariableParameters;
 	
-	private ListEnumParameterType type;
+	private ParameterTypeListEnum type;
 	
 	/**
 	 *  Uj VariableElement rogzitese - Insert
@@ -63,7 +63,7 @@ public class VariableElementEditor extends DataEditor{
 		fieldName.setText( "" );
 		
 		//Type - String
-		type = ListEnumParameterType.STRING_PARAMETER;		
+		type = ParameterTypeListEnum.STRING_PARAMETER;		
 				
 		//Parameters
 		//fieldVariableParameters = new VariableParametersStringComponent(type);				
@@ -110,8 +110,8 @@ public class VariableElementEditor extends DataEditor{
 	
 		//VariableTypeSelector		
 		fieldVariableType = new ComboBoxComponent<>();
-		for( int i = 0; i < ListEnumParameterType.getSize(); i++ ){
-			fieldVariableType.addItem( ListEnumParameterType.getVariableParameterTypeByIndex(i) );
+		for( int i = 0; i < ParameterTypeListEnum.getSize(); i++ ){
+			fieldVariableType.addItem( ParameterTypeListEnum.getVariableParameterTypeByIndex(i) );
 		}
 		fieldVariableType.addItemListener( new ItemListener() {
 			
@@ -123,10 +123,10 @@ public class VariableElementEditor extends DataEditor{
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					type = ListEnumParameterType.getVariableParameterTypeByIndex(index);
+					type = ParameterTypeListEnum.getVariableParameterTypeByIndex(index);
 					
 					//STRING_PARAMETER
-					if( ListEnumParameterType.getVariableParameterTypeByIndex(index).equals(ListEnumParameterType.STRING_PARAMETER ) ){
+					if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.STRING_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -142,7 +142,7 @@ public class VariableElementEditor extends DataEditor{
 						}
 						
 						
-					}else if( ListEnumParameterType.getVariableParameterTypeByIndex(index).equals(ListEnumParameterType.INTEGER_PARAMETER ) ){
+					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.INTEGER_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -158,7 +158,7 @@ public class VariableElementEditor extends DataEditor{
 						}
 						
 					//RANDOM_STRING_PARAMETER	
-					}else if( ListEnumParameterType.getVariableParameterTypeByIndex(index).equals(ListEnumParameterType.RANDOM_STRING_PARAMETER ) ){
+					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.RANDOM_STRING_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -176,7 +176,7 @@ public class VariableElementEditor extends DataEditor{
 						
 					
 					//RANDOM_INTEGER_PARAMETER
-					}else if( ListEnumParameterType.getVariableParameterTypeByIndex(index).equals(ListEnumParameterType.RANDOM_INTEGER_PARAMETER ) ){
+					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.RANDOM_INTEGER_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -194,7 +194,7 @@ public class VariableElementEditor extends DataEditor{
 						
 						
 					//RANDOM_DECIMAL_PARAMETER	
-					}else if( ListEnumParameterType.getVariableParameterTypeByIndex(index).equals(ListEnumParameterType.RANDOM_DOUBLE_PARAMETER ) ){
+					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.RANDOM_DOUBLE_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -210,7 +210,7 @@ public class VariableElementEditor extends DataEditor{
 						}
 										
 					//RANDOM_DATE_PARAMETER
-					}else if( ListEnumParameterType.getVariableParameterTypeByIndex(index).equals(ListEnumParameterType.RANDOM_DATE_PARAMETER ) ){
+					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.RANDOM_DATE_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){

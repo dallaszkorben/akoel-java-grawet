@@ -16,9 +16,9 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.list.ListEnumListSelectionBy;
+import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.enums.list.Torlendo_Operation;
-import hu.akoel.grawit.enums.list.ListEnumVariableSample;
+import hu.akoel.grawit.enums.list.VariableSampleListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
@@ -28,9 +28,9 @@ import hu.akoel.grawit.exceptions.ElementTimeoutException;
 
 public class Torlendo_ListVariableOperation implements Torlendo_ElementOperationInterface{
 	private VariableElementDataModel parameter;
-	private ListEnumListSelectionBy listSelectionType;
+	private ListSelectionByListEnum listSelectionType;
 	
-	public Torlendo_ListVariableOperation( ListEnumListSelectionBy listSelectionType, VariableElementDataModel parameter ){
+	public Torlendo_ListVariableOperation( ListSelectionByListEnum listSelectionType, VariableElementDataModel parameter ){
 		this.listSelectionType = listSelectionType;
 		this.parameter = parameter;
 	}
@@ -114,10 +114,10 @@ public class Torlendo_ListVariableOperation implements Torlendo_ElementOperation
 		
 		try{
 
-			if(listSelectionType.equals( ListEnumListSelectionBy.BYVALUE ) ){
+			if(listSelectionType.equals( ListSelectionByListEnum.BYVALUE ) ){
 		
 				//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-				if( baseElement.getVariableSample().equals( ListEnumVariableSample.PRE ) ){
+				if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
 					
 					//Elmenti az elem tartalmat a valtozoba
 					element.getBaseElement().setVariableValue( select.getFirstSelectedOption().getAttribute("value") );
@@ -126,7 +126,7 @@ public class Torlendo_ListVariableOperation implements Torlendo_ElementOperation
 				select.selectByValue( parameter.getValue() );
 			
 				//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-				if( baseElement.getVariableSample().equals( ListEnumVariableSample.POST ) ){
+				if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 					
 					//Elmenti az elem tartalmat a valtozoba
 					//webElement.sendKeys(Keys.TAB);
@@ -134,13 +134,13 @@ public class Torlendo_ListVariableOperation implements Torlendo_ElementOperation
 			
 				}
 			
-			}else if( listSelectionType.equals( ListEnumListSelectionBy.BYINDEX ) ){
+			}else if( listSelectionType.equals( ListSelectionByListEnum.BYINDEX ) ){
 			
 				//TODO ki kell talalni, hogy hogyan szerezheto meg a kivalasztott sorszama
 
 				select.selectByIndex( Integer.valueOf( parameter.getValue() ) );
 			
-			}else if( listSelectionType.equals( ListEnumListSelectionBy.BYVISIBLETEXT ) ){
+			}else if( listSelectionType.equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
 			
 				//TODO ki kell talalni, hogy hogyan szerezheto meg a kivalasztott szovege
 			
@@ -164,7 +164,7 @@ public class Torlendo_ListVariableOperation implements Torlendo_ElementOperation
 		return parameter;
 	}
 	
-	public ListEnumListSelectionBy getListSelectionType() {
+	public ListSelectionByListEnum getListSelectionType() {
 		return listSelectionType;
 	}
 	

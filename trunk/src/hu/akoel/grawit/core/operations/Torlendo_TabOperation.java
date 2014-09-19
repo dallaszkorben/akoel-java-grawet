@@ -13,9 +13,9 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.list.ListEnumListSelectionBy;
+import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.enums.list.Torlendo_Operation;
-import hu.akoel.grawit.enums.list.ListEnumVariableSample;
+import hu.akoel.grawit.enums.list.VariableSampleListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
@@ -90,7 +90,7 @@ public class Torlendo_TabOperation implements Torlendo_ElementOperationInterface
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
 		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-		if( baseElement.getVariableSample().equals( ListEnumVariableSample.PRE ) ){
+		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			element.getBaseElement().setVariableValue( webElement.getText() );
@@ -106,7 +106,7 @@ public class Torlendo_TabOperation implements Torlendo_ElementOperationInterface
 		}
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-		if( baseElement.getVariableSample().equals( ListEnumVariableSample.POST ) ){
+		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			element.getBaseElement().setVariableValue( webElement.getAttribute("value") );

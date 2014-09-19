@@ -1,9 +1,9 @@
 package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
+import hu.akoel.grawit.enums.list.operation.ListEnumInterface;
 
-public enum ListEnumElementType implements OperationListEnumInterface{		
+public enum ElementTypeListEnum implements ListEnumInterface{		
 	FIELD( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.field") ),
 	TEXT( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text") ),
 	LINK( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.link") ),
@@ -16,7 +16,7 @@ public enum ListEnumElementType implements OperationListEnumInterface{
 	private String translatedName;
 	private int index;
 	
-	private ListEnumElementType( int index, String translatedName ){
+	private ElementTypeListEnum( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -28,7 +28,7 @@ public enum ListEnumElementType implements OperationListEnumInterface{
 	}	
 	
 	public static int getSize(){
-		return ListEnumElementType.values().length;
+		return ElementTypeListEnum.values().length;
 	}
 	
 	@Override
@@ -36,7 +36,7 @@ public enum ListEnumElementType implements OperationListEnumInterface{
 		return index;
 	}
 	
-	public static ListEnumElementType getElementTypeByIndex( int index ){
+	public static ElementTypeListEnum getElementTypeByIndex( int index ){
 		switch (index){
 		case 0:	return FIELD;
 		case 1:	return TEXT;

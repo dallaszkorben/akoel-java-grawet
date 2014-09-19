@@ -1,16 +1,11 @@
 package hu.akoel.grawit.gui.editors.component.operation;
 
-import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.ListEnumElementType;
+import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.GainTextPatternOperation;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.operation.LinkOperationListEnum;
-import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
 import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
-import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairBooleanValue;
-import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairIntegerValue;
-import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairStringValue;
-import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairValueTypeInterface;
-
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,39 +14,31 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-public class LinkOperationComponent extends JPanel implements EditorComponentInterface{
+public class LinkOperationComponent extends JPanel implements EditorComponentInterface, OperationComponentInterface{
 
 	private static final long serialVersionUID = -6108131072338954554L;
 
 	private JTextField fieldType;
 	private JComboBox<LinkOperationListEnum> comboOperationList;
 	private JTextField fieldPattern;
-//	private JPanel parameterContainer;
 		
 	private JLabel labelType;
 	private JLabel labelOperations;	
 	private JLabel labelPattern;
 	
-	public LinkOperationListEnum getSelectedOperation(){
-		return(LinkOperationListEnum)comboOperationList.getSelectedItem();
-	}
-	
-	public String getPattern(){
-		return fieldPattern.getText();
-	}
+	private JLabel labelFiller;
 	
 	/**
 	 * Uj
 	 * 
 	 */
-	public LinkOperationComponent( ListEnumElementType elementType ){
+	public LinkOperationComponent( ElementTypeListEnum elementType ){
 		super();
 
 		common( elementType, null );
@@ -65,24 +52,24 @@ public class LinkOperationComponent extends JPanel implements EditorComponentInt
 	 * @param key
 	 * @param value
 	 */
-	public LinkOperationComponent( ListEnumElementType elementType, OperationListEnumInterface operation ){
+	public LinkOperationComponent( ElementTypeListEnum elementType , ElementOperationInterface elementOperation ){
 		super();
 		
-		common( elementType, operation );		
+		common( elementType, elementOperation );		
 		
 	}
 	
-	private void common( ListEnumElementType elementType, OperationListEnumInterface operation ){
-		
-//		parameterContainer = new JPanel();
-//		parameterContainer.setLayout( new BorderLayout() );
+	private void common( ElementTypeListEnum elementType, ElementOperationInterface elementOperation ){
 		
 		labelType = new JLabel("Tipus: ");
 		labelOperations = new JLabel("Operation: ");
 		labelPattern = new JLabel("Pattern: ");
+		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
 		fieldType.setEditable(false);
+		
+		fieldPattern = new JTextField();
 		
 		comboOperationList = new JComboBox<>();
 		for( int i = 0; i < LinkOperationListEnum.getSize(); i++ ){
@@ -112,37 +99,6 @@ public class LinkOperationComponent extends JPanel implements EditorComponentInt
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
 		comboOperationList.setRenderer(new MyRenderer());
-			
-		//Kenyszeritem, hogy a kovetkezo setSelectedItem() hatasara vegrehajtsa a az itemStateChanged() metodust
-		comboOperationList.setSelectedIndex(-1);
-		
-		//Kezdo ertek beallitasa
-		if( null == operation ){
-			comboOperationList.setSelectedIndex(LinkOperationListEnum.CLICK.getIndex());
-		}else{
-			
-			if( operation.equals( LinkOperationListEnum.CLICK ) ){
-				
-				
-			}else if( operation.equals( LinkOperationListEnum.GAINTEXTPATTERN ) ){
-				operation.g
-			}
-			comboOperationList.setSelectedItem( operation );
-		}
-		
-
-		if( value instanceof Boolean ){
-			booleanElement.setValue((Boolean)value);
-			operationList.setSelectedItem( booleanElement );
-		}else if( value instanceof String ){
-			stringElement.setValue((String)value);
-			operationList.setSelectedItem( stringElement );
-		}else if( value instanceof Integer ){
-			integerElement.setValue((Integer)value);
-			operationList.setSelectedItem( integerElement );
-		}
-		
-		
 		
 		//fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );
 		/*fieldString.setInputVerifier(new InputVerifier() {
@@ -167,44 +123,79 @@ public class LinkOperationComponent extends JPanel implements EditorComponentInt
 			}
 		});*/
 		
-		int gridY = 0;
-		int gridX = 0;
+		this.setLayout( new GridBagLayout() );
+		
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);
 
 		//Type
-		c.gridy = gridY;
-		c.gridx = gridX;
+		c.gridy = 0;
+		c.gridx = 0;
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.6;
+		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
 		this.add( labelType, c );
 		
 		c.gridx = 1;
+		c.weightx = 0;
 		this.add( fieldType, c );
 		
 		//Operation
-		gridY++;
-		gridX = 0;
-		c.gridy = gridY;
-		c.gridx = gridX;
+		c.gridy = 0;
+		c.gridx = 2;
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.2;
+		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
 		this.add( labelOperations, c );
 		
-		c.gridx = 1;
+		c.gridx = 3;
+		c.weightx = 0;
 		this.add( comboOperationList, c );
 		c.gridy = 1;
+	
+		//Filler
+/*		c.gridy = 0;
+		c.gridx = 4;
+		c.gridwidth = 1;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.anchor = GridBagConstraints.WEST;
+		this.add( labelFiller, c );
+*/
 		
-		//Pattern
-
+		//Kenyszeritem, hogy a kovetkezo setSelectedItem() hatasara vegrehajtsa a az itemStateChanged() metodust
+		comboOperationList.setSelectedIndex(-1);
+		
+		//Kezdo ertek beallitasa
+		if( null == elementOperation ){
+			comboOperationList.setSelectedIndex(LinkOperationListEnum.CLICK.getIndex());
+		}else{
+			
+			if( elementOperation instanceof ClickOperation  ){
+				
+				comboOperationList.setSelectedIndex(LinkOperationListEnum.CLICK.getIndex());
+				
+			}else if( elementOperation instanceof GainTextPatternOperation ){
+				
+				comboOperationList.setSelectedIndex(LinkOperationListEnum.GAINTEXTPATTERN.getIndex());
+				
+			}
+			
+		}
 	}	
 	
+	public LinkOperationListEnum getSelectedOperation( ElementTypeListEnum elementType ){
+		return(LinkOperationListEnum)comboOperationList.getSelectedItem();
+	}
+	
+	public String getPattern(){
+		return fieldPattern.getText();
+	}
 	
 	
 	@Override
@@ -222,15 +213,18 @@ public class LinkOperationComponent extends JPanel implements EditorComponentInt
 	}
 
 	private void setValueContainer( boolean show ){
+		
+		GridBagConstraints c = new GridBagConstraints();		
+		c.insets = new Insets(0,0,0,0);
+		
 		this.remove( labelPattern );
 		this.remove( fieldPattern );
+		this.remove( labelFiller );
 		
-		if( show ){
-			GridBagConstraints c = new GridBagConstraints();		
-			c.insets = new Insets(0,0,0,0);
+		if( show ){		
 		
-			c.gridy = 2;
-			c.gridx = 0;
+			c.gridy = 0;
+			c.gridx = 4;
 			c.gridwidth = 1;
 			c.weighty = 0;
 			c.fill = GridBagConstraints.HORIZONTAL;
@@ -238,9 +232,22 @@ public class LinkOperationComponent extends JPanel implements EditorComponentInt
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelPattern, c );
 		
-			c.gridx = 1;
-			this.add( comboOperationList, c );
-			c.gridy = 1;
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );
+			
+		}else{
+			
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );
+			
 		}
 		
 		this.revalidate();
@@ -258,6 +265,20 @@ public class LinkOperationComponent extends JPanel implements EditorComponentInt
 
 			return c;
 		}
+	}
+
+	@Override
+	public ElementOperationInterface getElementOperation() {
+		
+		//CLICK
+		if( comboOperationList.getSelectedIndex() == LinkOperationListEnum.CLICK.getIndex() ){
+			return new ClickOperation();
+		}else if( comboOperationList.getSelectedIndex() == LinkOperationListEnum.GAINTEXTPATTERN.getIndex() ){
+			return new GainTextPatternOperation( fieldPattern.getText() );			
+		}
+		
+		return null;
+	
 	}
 
 }
