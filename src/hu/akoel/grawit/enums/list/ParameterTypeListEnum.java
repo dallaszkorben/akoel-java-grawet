@@ -8,9 +8,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
+import hu.akoel.grawit.enums.list.operation.ListEnumInterface;
 
-public enum ListEnumParameterType implements OperationListEnumInterface{	
+public enum ParameterTypeListEnum implements ListEnumInterface{	
 	
 	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.variable.parametertype.string"), new Class<?>[]{String.class}),
 	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),
@@ -24,14 +24,14 @@ public enum ListEnumParameterType implements OperationListEnumInterface{
 	private String translatedName;
 	private ArrayList<Class<?>> parameterClassList;
 	
-	private ListEnumParameterType( int index, String translatedName, Class<?>[] parameterClassList ){
+	private ParameterTypeListEnum( int index, String translatedName, Class<?>[] parameterClassList ){
 		this.index = index;
 		this.translatedName = translatedName;	
 		this.parameterClassList = new ArrayList<Class<?>>(Arrays.asList(parameterClassList));
 	}
 	
 	public static int getSize(){
-		return ListEnumParameterType.values().length;
+		return ParameterTypeListEnum.values().length;
 	}
 	
 	@Override
@@ -103,7 +103,7 @@ public enum ListEnumParameterType implements OperationListEnumInterface{
 		return parameterClassList.size();
 	}
 	
-	public static ListEnumParameterType getVariableParameterTypeByIndex( int index ){
+	public static ParameterTypeListEnum getVariableParameterTypeByIndex( int index ){
 		switch(index){
 		case 0: return STRING_PARAMETER;		
 		case 1: return RANDOM_STRING_PARAMETER;

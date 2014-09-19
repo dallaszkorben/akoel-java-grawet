@@ -1,7 +1,7 @@
 package hu.akoel.grawit.enums.list;
 
 
-import hu.akoel.grawit.enums.list.operation.OperationListEnumInterface;
+import hu.akoel.grawit.enums.list.operation.ListEnumInterface;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.text.MaskFormatter;
 
-public enum ListEnumFormDate implements OperationListEnumInterface{		
+public enum FormDateListEnum implements ListEnumInterface{		
 	ddMMyyyy_slash( 0, "dd/MM/yyyy", "dd/MM/yyyy", "##/##/####" ),
 	ddMMyyyy_hyphen( 1, "dd-MM-yyyy", "dd-MM-yyyy", "##-##-####" ),
 	ddMMyyyy_dot( 2, "dd.MM.yyyy", "dd.MM.yyyy", "##.##.####" ),
@@ -24,7 +24,7 @@ public enum ListEnumFormDate implements OperationListEnumInterface{
 	private String stringFormat;
 	private String stringMask;
 	
-	private ListEnumFormDate( int index, String translatedName, String stringFormat, String stringMask ){
+	private FormDateListEnum( int index, String translatedName, String stringFormat, String stringMask ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -33,7 +33,7 @@ public enum ListEnumFormDate implements OperationListEnumInterface{
 	}
 	
 	public static int getSize(){
-		return ListEnumFormDate.values().length;
+		return FormDateListEnum.values().length;
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public enum ListEnumFormDate implements OperationListEnumInterface{
 		return formatter;
 	}
 	
-	public static ListEnumFormDate getFormDateByMask( String mask ){
+	public static FormDateListEnum getFormDateByMask( String mask ){
 		
 		for( int i = 0; i < getSize(); i++ ){
 			if( getFormDateByIndex(i).stringMask.equals( mask ) ){
@@ -82,7 +82,7 @@ public enum ListEnumFormDate implements OperationListEnumInterface{
 		
 	}
 	
-	public static ListEnumFormDate getFormDateByIndex( int index ){
+	public static FormDateListEnum getFormDateByIndex( int index ){
 		switch (index){
 		case 0:	return ddMMyyyy_slash;
 		case 1: return ddMMyyyy_hyphen;

@@ -8,8 +8,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +22,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -68,6 +74,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 		
 		field.setEditable( false );
 		field.setBackground(FIELD_BACKGROUND);
+				
 		button = new JButton("...");
 		
 		//Ha benyomom a gombot
@@ -85,6 +92,9 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 		this.add( button, BorderLayout.EAST );
 	}
 	
+	public Document getDocument(){
+		return field.getDocument();
+	}
 
 	@Override
 	public void setEnableModify(boolean enable) {

@@ -1,6 +1,6 @@
 package hu.akoel.grawit.enums.list.operation;
 
-public interface OperationListEnumInterface {
+public interface ListEnumInterface {
 
 	public String getTranslatedName();
 	

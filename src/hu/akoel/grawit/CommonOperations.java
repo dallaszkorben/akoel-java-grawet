@@ -2,7 +2,7 @@ package hu.akoel.grawit;
 
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ListEnumParameterType;
+import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
@@ -202,11 +202,11 @@ public class CommonOperations {
 			private ArrayList<Object> parameterList;
 			private String defaultValue;
 			private int parameterOrder;
-			private ListEnumParameterType type;
+			private ParameterTypeListEnum type;
 			
 			String goodValue = defaultValue;
 			
-			public ValueVerifier( ArrayList<Object> parameterList, ListEnumParameterType type, String defaultValue, int parameterOrder ){
+			public ValueVerifier( ArrayList<Object> parameterList, ParameterTypeListEnum type, String defaultValue, int parameterOrder ){
 				this.parameterList = parameterList;
 				this.defaultValue = defaultValue;
 				this.parameterOrder = parameterOrder;

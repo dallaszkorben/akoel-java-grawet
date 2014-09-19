@@ -2,7 +2,7 @@ package hu.akoel.grawit.enums.list.operation;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum ButtonOperationListEnum implements OperationListEnumInterface{		
+public enum ButtonOperationListEnum implements ListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.click") ),	
 	;
 	

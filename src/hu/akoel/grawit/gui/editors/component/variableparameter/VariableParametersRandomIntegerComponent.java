@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.ListEnumParameterType;
+import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -24,7 +24,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	
 	private JTextField fieldFrom;
 	private JTextField fieldTo;
-	private ListEnumParameterType type;
+	private ParameterTypeListEnum type;
 	
 	private ArrayList<Object> parameterList;
 
@@ -33,7 +33,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomIntegerComponent( ListEnumParameterType type ){
+	public VariableParametersRandomIntegerComponent( ParameterTypeListEnum type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
@@ -51,7 +51,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomIntegerComponent( ListEnumParameterType type, ArrayList<Object> parameterList ){
+	public VariableParametersRandomIntegerComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -61,7 +61,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		
 	}
 	
-	private void common( ListEnumParameterType type ){
+	private void common( ParameterTypeListEnum type ){
 		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
