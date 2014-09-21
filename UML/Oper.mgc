@@ -118,7 +118,7 @@
     </Class>
     <Class
         name="hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface"
-        x="330" y="476">
+        x="334" y="442">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -129,7 +129,7 @@
         <Extension destinationClassName="hu.akoel.grawit.gui.editors.component.EditorComponentInterface"/>
     </Class>
     <Class name="hu.akoel.grawit.gui.editor.param.ParamElementEditor"
-        x="-137" y="45">
+        x="-133" y="37">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -140,11 +140,7 @@
         <Association
             destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"
             endpointName="nodeForModify" kind="Simple"/>
-        <Association
-            destinationClassName="hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface"
-            endpointName="elementTypeComponent" kind="Simple"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
-        <Communication destinationClassName="hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface"/>
     </Class>
     <Class name="hu.akoel.grawit.core.operations.ClickOperation"
         x="1118" y="279">
