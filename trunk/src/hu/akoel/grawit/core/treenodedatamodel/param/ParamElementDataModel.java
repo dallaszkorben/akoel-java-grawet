@@ -28,6 +28,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -260,11 +261,11 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 			}else if( operationString.equals( FillVariableOperation.getStaticName() ) ){
 				
-				elementOperation = new FillVariableOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new FillVariableOperation( variableRootDataModel, element, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			}else if( operationString.equals( FillElementOperation.getStaticName() ) ){
 				
-				elementOperation = new FillElementOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new FillElementOperation( (BaseRootDataModel)baseElement.getRoot(), element, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			}else if( operationString.equals( FillStringOperation.getStaticName() ) ){
 				

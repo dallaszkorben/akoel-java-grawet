@@ -17,6 +17,8 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ButtonElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.CheckboxElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
+import hu.akoel.grawit.enums.list.elementtypeoperations.FieldElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.RadiobuttonElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
@@ -26,6 +28,7 @@ import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.ButtonElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.CheckboxElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.EmptyElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.FieldElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.LinkElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface;
 import hu.akoel.grawit.gui.editors.component.elementtype.RadiobuttonElementTypeComponent;
@@ -53,10 +56,11 @@ public class ParamElementEditor extends DataEditor{
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	
-	private JLabel labelOperationSelector;
-	private ElementTypeComponentInterface elementTypeComponent;
+	private JLabel labelElementTypeSelector;
+	private ElementTypeComponentInterface<?> elementTypeComponent;
 	
 	BaseRootDataModel baseRootDataModel;
+	VariableRootDataModel variableRootDataModel;
 	
 	/**
 	 *  Uj ParamPageElement rogzitese - Insert
@@ -83,9 +87,9 @@ public class ParamElementEditor extends DataEditor{
 
 		//fieldOperationComponent = new EmptyElementTypeComponent();
 
-		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
+		//baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 			
-		commonPost( null );
+		commonPost( null, basePage );
 	}
 		
 	/**
@@ -114,7 +118,7 @@ public class ParamElementEditor extends DataEditor{
 		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();		
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
 		
-		commonPost( baseElement );
+		commonPost( baseElement, basePage );
 		
 		//changeOperation(baseElement);
 		
@@ -124,6 +128,8 @@ public class ParamElementEditor extends DataEditor{
 			
 		//Name
 		fieldName = new TextFieldComponent();
+		
+		this.variableRootDataModel = variableRootDataModel;
 		
 		
 /*		
@@ -255,7 +261,9 @@ public class ParamElementEditor extends DataEditor{
 */		
 	}
 	
-	private void commonPost(BaseElementDataModel baseElement){
+	private void commonPost(BaseElementDataModel baseElement, BasePageDataModel basePage ){
+		
+		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 		
 		fieldBaseElementSelector.getDocument().addDocumentListener( new DocumentListener(){
 			@Override
@@ -278,11 +286,11 @@ public class ParamElementEditor extends DataEditor{
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": " );
-		labelOperationSelector = new JLabel( "");
+		labelElementTypeSelector = new JLabel( "");
 		
 		this.add( labelName, fieldName );
 		this.add( labelBaseElementSelector, fieldBaseElementSelector );
-//		this.add( labelOperationSelector, fieldOperationComponent );
+//		this.add( labelElementTypeSelector, fieldOperationComponent );
 		
 		
 //!!!!Na itt a hiba		
@@ -301,7 +309,7 @@ public class ParamElementEditor extends DataEditor{
 	private void changeOperation( BaseElementDataModel baseElement ){
 
 		//Eltavolitja az ott levot
-		ParamElementEditor.this.remove( labelOperationSelector, elementTypeComponent.getComponent() );
+		ParamElementEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
 		
 		ElementOperationInterface elementOperation;
 		
@@ -322,7 +330,7 @@ public class ParamElementEditor extends DataEditor{
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
 			
-			//fieldOperationComponent =  
+			elementTypeComponent = new FieldElementTypeComponent<FieldElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//TEXT
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
@@ -355,7 +363,7 @@ public class ParamElementEditor extends DataEditor{
 		}		
 		
 		//Elhelyezi az ujat		
-		ParamElementEditor.this.add( labelOperationSelector, elementTypeComponent.getComponent() );
+		ParamElementEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
 		ParamElementEditor.this.repaint();
 		
 	}
