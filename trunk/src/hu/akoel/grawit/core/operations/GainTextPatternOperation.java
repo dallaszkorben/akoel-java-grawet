@@ -48,9 +48,13 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 
 	}
 	
+	public static String getStaticName(){
+		return NAME;
+	}
+	
 	@Override
 	public String getName() {
-		return NAME;
+		return getStaticName();
 	}
 	
 	/**

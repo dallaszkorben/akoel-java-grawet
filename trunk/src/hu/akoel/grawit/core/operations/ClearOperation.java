@@ -6,11 +6,9 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -25,9 +23,13 @@ import hu.akoel.grawit.exceptions.ElementTimeoutException;
 public class ClearOperation implements ElementOperationInterface{
 	private static final String NAME = "CLEAR";
 	
+	public static String getStaticName(){
+		return NAME;
+	}
+	
 	@Override
 	public String getName() {		
-		return NAME;
+		return getStaticName();
 	}
 	
 	/**

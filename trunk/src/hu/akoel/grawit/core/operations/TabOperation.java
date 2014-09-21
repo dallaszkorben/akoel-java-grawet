@@ -26,10 +26,15 @@ public class TabOperation implements ElementOperationInterface{
 	
 	private final static String NAME = "TAB";
 	
-	@Override
-	public String getName() {		
+	public static String getStaticName(){
 		return NAME;
 	}
+	
+	@Override
+	public String getName() {		
+		return getStaticName();
+	}
+	
 	
 	/**
 	 * 

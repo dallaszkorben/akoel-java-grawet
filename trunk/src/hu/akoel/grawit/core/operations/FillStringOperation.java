@@ -43,11 +43,15 @@ public class FillStringOperation implements ElementOperationInterface{
 		stringToShow = element.getAttribute( ATTR_STRING );		
 	}
 	
-	@Override
-	public String getName() {
+	public static String getStaticName(){
 		return NAME;
 	}
 	
+	@Override
+	public String getName() {		
+		return getStaticName();
+	}
+		
 	/**
 	 * 
 	 * Executes the action on the WebElement (Field)

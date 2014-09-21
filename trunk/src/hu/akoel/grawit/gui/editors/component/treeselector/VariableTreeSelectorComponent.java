@@ -36,7 +36,7 @@ public class VariableTreeSelectorComponent extends TreeSelectorComponent<Variabl
 	
 	@Override
 	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded ) {
-		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/variable-page-icon.png");
+		//ImageIcon pageIcon = CommonOperations.createImageIcon("tree/variable-page-icon.png");
 		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/variable-element-icon.png");
 		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/variable-node-closed-icon.png");
 		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/variable-node-open-icon.png");

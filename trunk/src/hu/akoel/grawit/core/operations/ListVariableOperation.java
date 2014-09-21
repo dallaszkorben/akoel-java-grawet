@@ -172,11 +172,15 @@ public class ListVariableOperation implements ElementOperationInterface{
 	}
 
 
-	@Override
-	public String getName() {
+	public static String getStaticName(){
 		return NAME;
 	}
-
+	
+	@Override
+	public String getName() {		
+		return getStaticName();
+	}
+	
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {

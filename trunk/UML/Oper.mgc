@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.EditorComponentInterface"
+        x="350" y="322">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.elementtype.ButtonElementTypeComponent"
+        x="828" y="566">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.operations.GainTextPatternOperation"
+        x="636" y="281">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.elementtype.TextElementTypeComponent"
+        x="1114" y="564">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.elementtype.RadiobuttonElementTypeComponent"
+        x="572" y="566">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.elementtype.LinkElementTypeComponent"
+        x="70" y="566">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.elementtype.EmptyElementTypeComponent"
+        x="-132" y="565">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.operations.ElementOperationInterface"
+        x="826" y="112">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.elementtype.CheckboxElementTypeComponent"
+        x="328" y="566">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"
+        x="376" y="96">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"
+            endpointName="elementOperation" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface"
+        x="330" y="476">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.gui.editors.component.EditorComponentInterface"/>
+    </Class>
+    <Class name="hu.akoel.grawit.gui.editor.param.ParamElementEditor"
+        x="-137" y="45">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"
+            endpointName="nodeForModify" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface"
+            endpointName="elementTypeComponent" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface"/>
+    </Class>
+    <Class name="hu.akoel.grawit.core.operations.ClickOperation"
+        x="1118" y="279">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+    </Class>
+</ClassDiagram>

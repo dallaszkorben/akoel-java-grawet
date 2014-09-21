@@ -123,11 +123,15 @@ public class FillElementOperation implements ElementOperationInterface{
 	    
 	}
 	
-	@Override
-	public String getName() {
+	public static String getStaticName(){
 		return NAME;
 	}
 	
+	@Override
+	public String getName() {		
+		return getStaticName();
+	}
+		
 	/**
 	 * 
 	 * Executes the action on the WebElement (Field)
