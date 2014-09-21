@@ -24,6 +24,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
@@ -42,13 +43,13 @@ public class FillElementOperation implements ElementOperationInterface{
 	
 	private BaseElementDataModel baseElementDataModel;
 	
-	public FillElementOperation( BaseElementDataModel parameter ){
-		this.baseElementDataModel = parameter;
+	public FillElementOperation( BaseElementDataModel baseElementDataModel ){
+		this.baseElementDataModel = baseElementDataModel;
 	}
 
-	public FillElementOperation( Element element, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException{		
+	public FillElementOperation( BaseRootDataModel baseRootDataModel, Element element, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException{		
 		
-		BaseDataModelInterface baseDataModelForFillOut = (BaseDataModelInterface)baseElementDataModel.getRoot();;
+		BaseDataModelInterface baseDataModelForFillOut = baseRootDataModel;
 		
 		String paramElementPathString = element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH);				
 		paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
@@ -113,7 +114,7 @@ public class FillElementOperation implements ElementOperationInterface{
 	    }	    
 	    try{
 	    	
-	    	baseElementDataModel = (BaseElementDataModel)baseDataModelForFillOut;
+	    	this.baseElementDataModel = (BaseElementDataModel)baseDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 

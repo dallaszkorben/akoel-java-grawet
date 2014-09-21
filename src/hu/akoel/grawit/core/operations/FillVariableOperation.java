@@ -20,11 +20,13 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.VariableSampleListEnum;
@@ -46,9 +48,11 @@ public class FillVariableOperation implements ElementOperationInterface{
 		this.variableElementDataModel = variableElementDataModel;
 	}
 	
-	public FillVariableOperation( Element element, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException{
+	public FillVariableOperation( VariableRootDataModel variableRootDataModel, Element element, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException{
 		
-		VariableDataModelInterface variableDataModelForFillOut = (VariableDataModelInterface)variableElementDataModel.getRoot();
+		VariableDataModelInterface variableDataModelForFillOut = variableRootDataModel;
+		
+		//VariableDataModelInterface variableDataModelForFillOut = (VariableDataModelInterface)variableElementDataModel.getRoot();
 		
 		String variableElementPathString = element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH);				
 		variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
@@ -100,7 +104,7 @@ public class FillVariableOperation implements ElementOperationInterface{
 	    }	    
 	    try{
 	    	
-	    	variableElementDataModel = (VariableElementDataModel)variableDataModelForFillOut;
+	    	this.variableElementDataModel = (VariableElementDataModel)variableDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
