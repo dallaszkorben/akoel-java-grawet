@@ -1,15 +1,15 @@
-package hu.akoel.grawit.enums.list.operation;
+package hu.akoel.grawit.enums.list.elementtypeoperations;
 
 import hu.akoel.grawit.CommonOperations;
 
-public enum TextOperationListEnum implements ListEnumInterface{		
+public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
 	GAINTEXTPATTERN( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintextpattern") ),	
 	;
 	
 	private String translatedName;
 	private int index;
 	
-	private TextOperationListEnum( int index, String translatedName ){
+	private TextElementTypeOperationsListEnum( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -21,7 +21,7 @@ public enum TextOperationListEnum implements ListEnumInterface{
 	}	
 	
 	public static int getSize(){
-		return TextOperationListEnum.values().length;
+		return TextElementTypeOperationsListEnum.values().length;
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public enum TextOperationListEnum implements ListEnumInterface{
 		return index;
 	}
 	
-	public static TextOperationListEnum getElementTextOperationByIndex( int index ){
+	public static TextElementTypeOperationsListEnum getElementTextOperationByIndex( int index ){
 		switch (index){
 		case 0:	return GAINTEXTPATTERN;
 		default: return GAINTEXTPATTERN;

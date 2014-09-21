@@ -1,9 +1,9 @@
 package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.operation.ListEnumInterface;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
-public enum ListSelectionByListEnum implements ListEnumInterface{		
+public enum ListSelectionByListEnum implements ElementTypeOperationsListEnumInterface{		
 	BYVALUE( 0, CommonOperations.getTranslation( "editor.label.param.operation.list.byvalue") ),
 	BYINDEX( 1, CommonOperations.getTranslation( "editor.label.param.operation.list.byindex") ),
 	BYVISIBLETEXT( 2, CommonOperations.getTranslation( "editor.label.param.operation.list.byvisibletext") ),

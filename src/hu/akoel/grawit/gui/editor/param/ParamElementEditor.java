@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.GainTextPatternOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -14,12 +15,21 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ButtonElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.CheckboxElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.RadiobuttonElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.operation.EmptyOperationComponent;
-import hu.akoel.grawit.gui.editors.component.operation.LinkOperationComponent;
-import hu.akoel.grawit.gui.editors.component.operation.OperationComponentInterface;
+import hu.akoel.grawit.gui.editors.component.elementtype.ButtonElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.CheckboxElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.EmptyElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.LinkElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface;
+import hu.akoel.grawit.gui.editors.component.elementtype.RadiobuttonElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.TextElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -44,7 +54,7 @@ public class ParamElementEditor extends DataEditor{
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	
 	private JLabel labelOperationSelector;
-	private EditorComponentInterface fieldOperationComponent;
+	private ElementTypeComponentInterface elementTypeComponent;
 	
 	BaseRootDataModel baseRootDataModel;
 	
@@ -71,7 +81,7 @@ public class ParamElementEditor extends DataEditor{
 		BasePageDataModel basePage = selectedPage.getBasePage();
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage ); 
 
-		//fieldOperationComponent = new EmptyOperationComponent();
+		//fieldOperationComponent = new EmptyElementTypeComponent();
 
 		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 			
@@ -274,21 +284,31 @@ public class ParamElementEditor extends DataEditor{
 		this.add( labelBaseElementSelector, fieldBaseElementSelector );
 //		this.add( labelOperationSelector, fieldOperationComponent );
 		
-		fieldOperationComponent = new EmptyOperationComponent();
+		
+//!!!!Na itt a hiba		
+		
+		elementTypeComponent = new EmptyElementTypeComponent();
 		changeOperation(baseElement);
 		
 	}
 	
+	/**
+	 * 
+	 * Az aktualis elemtipusnak megfelelo komponenst mutatja meg
+	 *  
+	 * @param baseElement
+	 */
 	private void changeOperation( BaseElementDataModel baseElement ){
 
 		//Eltavolitja az ott levot
-		ParamElementEditor.this.remove( labelOperationSelector, fieldOperationComponent.getComponent() );
+		ParamElementEditor.this.remove( labelOperationSelector, elementTypeComponent.getComponent() );
 		
 		ElementOperationInterface elementOperation;
 		
 		//Uj
 		if( null == nodeForModify ){
 			elementOperation = null;
+		
 		//Modositas
 		}else{
 			elementOperation = nodeForModify.getElementOperation();
@@ -297,7 +317,7 @@ public class ParamElementEditor extends DataEditor{
 		//Ha uj es elso alkalom
 		if( null == baseElement ){		 
 		
-			fieldOperationComponent = new EmptyOperationComponent();
+			elementTypeComponent = new EmptyElementTypeComponent();
 			
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
@@ -307,10 +327,12 @@ public class ParamElementEditor extends DataEditor{
 		//TEXT
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
 
+			elementTypeComponent = new TextElementTypeComponent<TextElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation );
+			
 		//LINK	
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LINK.name() ) ){
 
-			fieldOperationComponent = new LinkOperationComponent( baseElement.getElementType(), elementOperation );
+			elementTypeComponent = new LinkElementTypeComponent<LinkElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation );
 			
 		//LIST
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
@@ -318,17 +340,22 @@ public class ParamElementEditor extends DataEditor{
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
 			
+			elementTypeComponent = new ButtonElementTypeComponent<ButtonElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation );
+			
 		//RADIOBUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.RADIOBUTTON.name() ) ){
 
+			elementTypeComponent = new RadiobuttonElementTypeComponent<RadiobuttonElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation);
+			
 		//CHECKBOX
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.CHECKBOX.name() ) ){
 			
+			elementTypeComponent = new CheckboxElementTypeComponent<CheckboxElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation );
 					
 		}		
 		
 		//Elhelyezi az ujat		
-		ParamElementEditor.this.add( labelOperationSelector, fieldOperationComponent.getComponent() );
+		ParamElementEditor.this.add( labelOperationSelector, elementTypeComponent.getComponent() );
 		ParamElementEditor.this.repaint();
 		
 	}
@@ -425,8 +452,8 @@ public class ParamElementEditor extends DataEditor{
 		}else{
 			
 			BaseElementDataModel baseElement = fieldBaseElementSelector.getSelectedDataModel();
-			ElementOperationInterface elementOperation = ((OperationComponentInterface)fieldOperationComponent).getElementOperation();
-			
+			ElementOperationInterface elementOperation = elementTypeComponent.getElementOperation();
+
 			//Uj rogzites eseten
 			if( null == mode ){			
 				

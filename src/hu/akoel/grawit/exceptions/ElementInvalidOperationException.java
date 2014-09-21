@@ -1,7 +1,5 @@
 package hu.akoel.grawit.exceptions;
 
-import hu.akoel.grawit.enums.list.Torlendo_Operation;
-
 public class ElementInvalidOperationException extends ElementException{
 	private String operation;
 	private String elementName;

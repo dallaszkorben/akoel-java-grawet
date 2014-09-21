@@ -31,12 +31,12 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.operation.ButtonOperationListEnum;
-import hu.akoel.grawit.enums.list.operation.CheckboxOperationListEnum;
-import hu.akoel.grawit.enums.list.operation.FieldOperationListEnum;
-import hu.akoel.grawit.enums.list.operation.LinkOperationListEnum;
-import hu.akoel.grawit.enums.list.operation.RadiobuttonOperationListEnumElement;
-import hu.akoel.grawit.enums.list.operation.TextOperationListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ButtonElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.CheckboxElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.FieldElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.RadiobuttonElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -98,144 +98,8 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
-		//=============================
-		//
-		// Operation a muvelet alapjan
-		//
-		//=============================
-		if( !element.hasAttribute( ATTR_OPERATION ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_OPERATION );			
-		}
-		String operationString = element.getAttribute( ATTR_OPERATION );		
-		
-		//
-		// A tipus az erosebb. Ha a tipushoz nem megfelelo operation van rendelve, akkor egy 
-		// alapertelmezett operationt kap
-		//
-		//-------------
-		// Link	a tipus
-		//-------------
-		if( baseElement.getElementType().equals( ElementTypeListEnum.LINK ) ){
-			
-			// Click az operation
-			if( operationString.equals( LinkOperationListEnum.CLICK ) ){
-				
-				elementOperation = new ClickOperation();
-				
-			// Gain text az operation
-			}else if( operationString.equals( LinkOperationListEnum.GAINTEXTPATTERN ) ){
-				
-				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
-				
-			//Ha nem a tipusnak megfelelo a muvelet, akkor azt Click-nek vesszuk
-			}else{
-				
-				elementOperation = new ClickOperation();
-			}
-		
-		//---------------
-		// Button a tipus
-		//---------------
-		}else if( baseElement.getElementType().equals(ElementTypeListEnum.BUTTON)){
-			
-			//Click az operation
-			if( operationString.equals( ButtonOperationListEnum.CLICK ) ){
 
-				elementOperation = new ClickOperation();
-				
-			//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
-			}else{
-					
-				elementOperation = new ClickOperation();				
-			}
-			
-		//-----------------
-		// Checkbox a tipus
-		//-----------------
-		}else if( baseElement.getElementType().equals( ElementTypeListEnum.CHECKBOX) ){
-			
-			//Click az operation
-			if( operationString.equals( CheckboxOperationListEnum.CLICK ) ){
-				
-				elementOperation = new ClickOperation();
-				
-			//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
-			}else{
-				
-				elementOperation = new ClickOperation();
-				
-			}
-			
-		//---------------------
-		// Radio button a tipus
-		//---------------------
-		}else if( baseElement.getElementType().equals( ElementTypeListEnum.RADIOBUTTON ) ){
-			
-			if( operationString.equals( RadiobuttonOperationListEnumElement.CLICK ) ){
-				
-				elementOperation = new ClickOperation();
-				
-			//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
-			}else{
-					
-				elementOperation = new ClickOperation();
-					
-			}
 		
-		//--------------
-		// Field a tipus
-		//--------------
-		}else if( baseElement.getElementType().equals( ElementTypeListEnum.FIELD ) ){
-			
-			if( operationString.equals( FieldOperationListEnum.CLEAR ) ){
-			
-				elementOperation = new ClearOperation();
-				
-			}else if( operationString.equals( FieldOperationListEnum.CLICK ) ){
-				
-				elementOperation = new ClickOperation();
-				
-			}else if( operationString.equals( FieldOperationListEnum.TAB ) ){
-				
-				elementOperation = new TabOperation();
-				
-			}else if( operationString.equals( FieldOperationListEnum.FILL_VARIABLE ) ){
-				
-				elementOperation = new FillVariableOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
-				
-			}else if( operationString.equals( FieldOperationListEnum.FILL_ELEMENT ) ){
-				
-				elementOperation = new FillElementOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
-				
-			}else if( operationString.equals( FieldOperationListEnum.FILL_STRING ) ){
-				
-				elementOperation = new FillStringOperation( element, getRootTag(), getTag() );
-				
-			//Ha nem a tipusnak megfelelo az muvelet, akkor Clear lesz a muvelet
-			}else{
-					
-				elementOperation = new ClearOperation();
-			}
-			
-		// Text
-		}else if( baseElement.getElementType().equals( ElementTypeListEnum.TEXT ) ){
-			
-			if( operationString.equals( TextOperationListEnum.GAINTEXTPATTERN ) ){
-				
-				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
-				
-			//Ha nem a tipusnak megfelelo az muvelet, akkor is gaintext a muvelet
-			}else{
-				
-				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
-				
-			}
-			
-		//Minden egyeb esetben error
-		}else{
-			throw new XMLWrongAttributePharseException( BaseDataModelInterface.getRootTag(), BaseElementDataModel.TAG, DataModelInterface.ATTR_NAME, baseElement.getName(), BaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
-		}
-
 		//=============
 		//
 		// BaseElement
@@ -290,7 +154,158 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	    }catch(ClassCastException e){
 
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
-	    }		
+	    }	
+	    
+	    
+		//=============================
+		//
+		// Operation a muvelet alapjan
+		//
+		//=============================
+		if( !element.hasAttribute( ATTR_OPERATION ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_OPERATION );			
+		}
+		String operationString = element.getAttribute( ATTR_OPERATION );		
+		
+		//
+		// A tipus az erosebb. Ha a tipushoz nem megfelelo operation van rendelve, akkor egy 
+		// alapertelmezett operationt kap
+		//
+		//-------------
+		// Link	a tipus
+		//-------------
+		if( baseElement.getElementType().equals( ElementTypeListEnum.LINK ) ){
+			
+			// Click az operation
+			if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+				elementOperation = new ClickOperation();
+				
+			// Gain text az operation
+			}else if( operationString.equals( GainTextPatternOperation.getStaticName() ) ){
+				
+				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
+				
+			//Ha nem a tipusnak megfelelo a muvelet, akkor azt Click-nek vesszuk
+			}else{
+				
+				elementOperation = new ClickOperation();
+			}
+		
+		//---------------
+		// Button a tipus
+		//---------------
+		}else if( baseElement.getElementType().equals(ElementTypeListEnum.BUTTON)){
+			
+			//Click az operation
+			if( operationString.equals( ClickOperation.getStaticName() ) ){
+
+				elementOperation = new ClickOperation();
+				
+			//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
+			}else{
+					
+				elementOperation = new ClickOperation();				
+			}
+			
+		//-----------------
+		// Checkbox a tipus
+		//-----------------
+		}else if( baseElement.getElementType().equals( ElementTypeListEnum.CHECKBOX) ){
+			
+			//Click az operation
+			if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+				elementOperation = new ClickOperation();
+				
+			//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
+			}else{
+				
+				elementOperation = new ClickOperation();
+				
+			}
+			
+		//---------------------
+		// Radio button a tipus
+		//---------------------
+		}else if( baseElement.getElementType().equals( ElementTypeListEnum.RADIOBUTTON ) ){
+			
+			if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+				elementOperation = new ClickOperation();
+				
+			//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
+			}else{
+					
+				elementOperation = new ClickOperation();
+					
+			}
+		
+		//--------------
+		// Field a tipus
+		//--------------
+		}else if( baseElement.getElementType().equals( ElementTypeListEnum.FIELD ) ){
+			
+			if( operationString.equals( ClearOperation.getStaticName() ) ){
+			
+				elementOperation = new ClearOperation();
+				
+			}else if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+				elementOperation = new ClickOperation();
+				
+			}else if( operationString.equals( TabOperation.getStaticName() ) ){
+				
+				elementOperation = new TabOperation();
+				
+			}else if( operationString.equals( FillVariableOperation.getStaticName() ) ){
+				
+				elementOperation = new FillVariableOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			}else if( operationString.equals( FillElementOperation.getStaticName() ) ){
+				
+				elementOperation = new FillElementOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			}else if( operationString.equals( FillStringOperation.getStaticName() ) ){
+				
+				elementOperation = new FillStringOperation( element, getRootTag(), getTag() );
+				
+			//Ha nem a tipusnak megfelelo az muvelet, akkor Clear lesz a muvelet
+			}else{
+					
+				elementOperation = new ClearOperation();
+			}
+			
+		// Text
+		}else if( baseElement.getElementType().equals( ElementTypeListEnum.TEXT ) ){
+			
+			if( operationString.equals( GainTextPatternOperation.getStaticName() ) ){
+				
+				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
+				
+			//Ha nem a tipusnak megfelelo az muvelet, akkor is gaintext a muvelet
+			}else{
+				
+				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
+				
+			}
+			
+		//Minden egyeb esetben error
+		}else{
+			throw new XMLWrongAttributePharseException( BaseDataModelInterface.getRootTag(), BaseElementDataModel.TAG, DataModelInterface.ATTR_NAME, baseElement.getName(), BaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
+		}
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 		
 	}
 

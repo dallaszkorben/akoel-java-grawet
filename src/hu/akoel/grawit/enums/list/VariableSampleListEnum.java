@@ -1,9 +1,9 @@
 package hu.akoel.grawit.enums.list;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.operation.ListEnumInterface;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
-public enum VariableSampleListEnum implements ListEnumInterface{
+public enum VariableSampleListEnum implements ElementTypeOperationsListEnumInterface{
 	//NO(0, CommonOperations.getTranslation( "editor.label.base.variablesample.no") ),
 	PRE(0, CommonOperations.getTranslation( "editor.label.base.variablesample.pre") ),
 	POST(1, CommonOperations.getTranslation( "editor.label.base.variablesample.post") );
