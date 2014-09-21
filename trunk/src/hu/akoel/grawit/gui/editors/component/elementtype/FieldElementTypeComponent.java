@@ -68,9 +68,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	 * 
 	 * @param key
 	 * @param value
-	 */
-	
-	
+	 */	
 	public FieldElementTypeComponent( ElementTypeListEnum elementType , ElementOperationInterface elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
@@ -109,34 +107,10 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 					
 				}				
 			}
-		});	
-		
+		});			
 				
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
 		comboOperationList.setRenderer(new MyRenderer());
-				
-		//fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );
-		/*fieldString.setInputVerifier(new InputVerifier() {
-			String goodValue = "";
-			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
-
-				try {
-					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersStringComponent.this.type.getParameterClass(0).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( 0, value );
-					goodValue = possibleValue;
-					
-				} catch (Exception e) {
-					text.setText( goodValue );
-					return false;
-				}				
-				return true;
-			}
-		});*/
 		
 		this.setLayout( new GridBagLayout() );
 		
@@ -224,15 +198,15 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		
 		comboOperationList.setEnabled( enable );		
 		
-		if( null != fieldString  && fieldString.isVisible() ){
+//		if( null != fieldString  && fieldString.isVisible() ){
 			fieldString.setEditable( enable );
 
-		}else if( null != fieldBaseElementSelector && fieldBaseElementSelector.isVisible() ){
+//		}else if( null != fieldBaseElementSelector && fieldBaseElementSelector.isVisible() ){
 			fieldBaseElementSelector.setEnableModify(enable);
 		
-		}else if( null != fieldVariableSelector && fieldVariableSelector.isVisible() ){
+//		}else if( null != fieldVariableSelector && fieldVariableSelector.isVisible() ){
 			fieldVariableSelector.setEnableModify( enable );
-		}
+//		}
 	}
 
 	@Override
@@ -243,12 +217,40 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	private void setValueContainer( E selected ){
 
 		GridBagConstraints c = new GridBagConstraints();		
-		c.insets = new Insets(0,0,0,0);
-		
+		c.insets = new Insets(0,0,0,0);		
 		
 //System.err.println( "String: " + fieldBaseElementSelector.isShowing());
-		this.remove( labelFiller );
+		
+		
+		
+Component[] components = this.getComponents();
+
+for( int i = 0; i < components.length; i++ ){
+	if( components[i] == labelBaseElementSelector ){
 		this.remove( labelBaseElementSelector );
+	
+	}else if( components[i] == fieldBaseElementSelector ){
+		this.remove( fieldBaseElementSelector );
+		
+	}else if( components[i] == labelString ){
+		this.remove( labelString );
+		
+	}else if( components[i] == fieldString ){
+		this.remove( fieldString );
+		
+	}else if( components[i] == labelVariableSelector ){
+		this.remove( labelVariableSelector );
+		
+	}else if( components[i] == fieldVariableSelector ){
+		this.remove( fieldVariableSelector );	
+		
+	}else if( components[i] == labelFiller ){
+		this.remove( labelFiller );	
+		
+	}
+}
+
+/*		this.remove( labelBaseElementSelector );
 		this.remove( fieldBaseElementSelector );
 		this.remove( labelString );
 		this.remove( fieldString );
@@ -271,7 +273,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		this.add( comboOperationList, c );
 		c.gridy = 1;
 		
-		
+*/		
 
 		
 		//Fill element

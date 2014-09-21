@@ -18,18 +18,18 @@ public abstract class ElementTypeComponentInterface<E extends ElementTypeOperati
 	public abstract ElementOperationInterface getElementOperation();
 	
 	public abstract E getSelectedOperation( ElementTypeListEnum elementType );
-
+	
 	class MyRenderer extends BasicComboBoxRenderer {
 
-		private static final long serialVersionUID = -4562181616721578685L;
+        private static final long serialVersionUID = -4562181616721578685L;
 
-		@Override
-		public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
+        @Override
+        public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value,   int index, boolean isSelected, boolean cellHasFocus) {
 
-			@SuppressWarnings("unchecked")
-			Component c = super.getListCellRendererComponent(list, ((E)value).getTranslatedName(), index, isSelected, cellHasFocus);
+                @SuppressWarnings("unchecked")
+                Component c = super.getListCellRendererComponent(list, ((E)value).getTranslatedName(), index, isSelected, cellHasFocus);
 
-			return c;
-		}
-	}		
+                return c;
+        }
+}         
 }
