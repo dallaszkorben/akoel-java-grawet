@@ -29,7 +29,9 @@ public class FillStringOperation implements ElementOperationInterface{
 	private static final String NAME = "FILLSTRING";
 	private static final String ATTR_STRING = "string";
 	
+	//--- Data model
 	private String stringToShow;
+	//---
 	
 	public FillStringOperation( String stringToShow ){
 		this.stringToShow = stringToShow;

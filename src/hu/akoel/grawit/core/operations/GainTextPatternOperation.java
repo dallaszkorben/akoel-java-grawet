@@ -28,14 +28,15 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 	private static final String NAME = "GAINTEXT";
 	private static final String ATTR_PATTERN = "pattern";
 	
-	private String stringPattern;
 	private Pattern pattern;
 	private Matcher matcher;
-	
+
+	//--- Data model
+	private String stringPattern;
+	//---
 	
 	public GainTextPatternOperation( String stringPattern ){
-		this.stringPattern = stringPattern;
-		
+		this.stringPattern = stringPattern;		
 		pattern = Pattern.compile( stringPattern );
 	}
 	

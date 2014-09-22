@@ -41,13 +41,15 @@ public class FillElementOperation implements ElementOperationInterface{
 	private static final String NAME = "FILLELEMENT";	
 	private static final String ATTR_FILL_BASE_ELEMENT_PATH = "fillelementpath";
 	
+	//--- Data model
 	private BaseElementDataModel baseElementDataModel;
+	//---
 	
 	public FillElementOperation( BaseElementDataModel baseElementDataModel ){
 		this.baseElementDataModel = baseElementDataModel;
 	}
 
-	public FillElementOperation( BaseRootDataModel baseRootDataModel, Element element, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException{		
+	public FillElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException{		
 		
 		BaseDataModelInterface baseDataModelForFillOut = baseRootDataModel;
 		
