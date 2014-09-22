@@ -1,5 +1,6 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
@@ -78,11 +79,11 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	
 	private void common( ElementTypeListEnum elementType , ElementOperationInterface elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		
-		labelType = new JLabel("Tipus: ");
-		labelOperations = new JLabel("Muvelet: ");
-		labelString = new JLabel("String: ");
-		labelVariableSelector = new JLabel( "Valtozo: " );
-		labelBaseElementSelector = new JLabel( "Bazis elem: " );
+		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
+		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
+		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
+		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
+		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );

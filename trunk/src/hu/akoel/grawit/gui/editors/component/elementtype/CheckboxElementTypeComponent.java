@@ -1,5 +1,6 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -55,8 +56,8 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 	
 	private void common( ElementTypeListEnum elementType, ElementOperationInterface elementOperation ){
 		
-		labelType = new JLabel("Tipus: ");
-		labelOperations = new JLabel("Operation: ");
+		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
+		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );

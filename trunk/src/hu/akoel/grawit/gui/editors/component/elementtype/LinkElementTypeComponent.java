@@ -1,5 +1,6 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
@@ -58,9 +59,9 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 	
 	private void common( ElementTypeListEnum elementType, ElementOperationInterface elementOperation ){
 		
-		labelType = new JLabel("Tipus: ");
-		labelOperations = new JLabel("Operation: ");
-		labelPattern = new JLabel("Pattern: ");
+		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
+		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
+		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.pattern") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
