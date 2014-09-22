@@ -20,7 +20,6 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -42,13 +41,15 @@ public class FillVariableOperation implements ElementOperationInterface{
 	private static final String NAME = "FILLVARIABLE";	
 	private static final String ATTR_FILL_VARIABLE_ELEMENT_PATH = "fillvariableelementpath";
 	
+	//--- Data model
 	private VariableElementDataModel variableElementDataModel;
+	//---
 	
 	public FillVariableOperation( VariableElementDataModel variableElementDataModel ){
 		this.variableElementDataModel = variableElementDataModel;
 	}
 	
-	public FillVariableOperation( VariableRootDataModel variableRootDataModel, Element element, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException{
+	public FillVariableOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException{
 		
 		VariableDataModelInterface variableDataModelForFillOut = variableRootDataModel;
 		

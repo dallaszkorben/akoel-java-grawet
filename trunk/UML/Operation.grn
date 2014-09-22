@@ -21,13 +21,6 @@
       <x="247"/>
       <y="182"/>
    </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component{EditorComponentInterface.java[EditorComponentInterface"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
    <type>
       <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ButtonElementTypeComponent.java[ButtonElementTypeComponent"/>
       <height="-1"/>
@@ -35,19 +28,96 @@
       <x="43"/>
       <y="572"/>
    </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ButtonElementTypeComponent.java[ButtonElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
    <type>
       <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{CheckboxElementTypeComponent.java[CheckboxElementTypeComponent"/>
       <height="-1"/>
       <width="-1"/>
       <x="740"/>
       <y="580"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{EmptyElementTypeComponent.java[EmptyElementTypeComponent"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="1448"/>
+      <y="584"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{FieldElementTypeComponent.java[FieldElementTypeComponent"/>
+      <height="388"/>
+      <width="812"/>
+      <x="762"/>
+      <y="950"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{LinkElementTypeComponent.java[LinkElementTypeComponent"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="66"/>
+      <y="960"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{RadiobuttonElementTypeComponent.java[RadiobuttonElementTypeComponent"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="-718"/>
+      <y="548"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{TextElementTypeComponent.java[TextElementTypeComponent"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="-648"/>
+      <y="960"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.treenodedatamodel.param{ParamElementDataModel.java[ParamElementDataModel"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="2264"/>
+      <y="580"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ElementOperationInterface.java[ElementOperationInterface"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="2278"/>
+      <y="1264"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{GainTextPatternOperation.java[GainTextPatternOperation"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="-8"/>
+      <y="1746"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{TabOperation.java[TabOperation"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="864"/>
+      <y="1752"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillVariableOperation.java[FillVariableOperation"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="1632"/>
+      <y="1758"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillElementOperation.java[FillElementOperation"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="2580"/>
+      <y="1756"/>
+   </type>
+   <type>
+      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="-704"/>
+      <y="1742"/>
    </type>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
@@ -56,55 +126,6 @@
       <bendpoints>
       </bendpoints>
    </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{EmptyElementTypeComponent.java[EmptyElementTypeComponent"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="1448"/>
-      <y="584"/>
-   </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{EmptyElementTypeComponent.java[EmptyElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{FieldElementTypeComponent.java[FieldElementTypeComponent"/>
-      <height="388"/>
-      <width="812"/>
-      <x="762"/>
-      <y="950"/>
-   </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{FieldElementTypeComponent.java[FieldElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{LinkElementTypeComponent.java[LinkElementTypeComponent"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="66"/>
-      <y="960"/>
-   </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{LinkElementTypeComponent.java[LinkElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{RadiobuttonElementTypeComponent.java[RadiobuttonElementTypeComponent"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="-718"/>
-      <y="548"/>
-   </type>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
       <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{RadiobuttonElementTypeComponent.java[RadiobuttonElementTypeComponent"/>
@@ -112,41 +133,6 @@
       <bendpoints>
       </bendpoints>
    </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{TextElementTypeComponent.java[TextElementTypeComponent"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="-648"/>
-      <y="960"/>
-   </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{TextElementTypeComponent.java[TextElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.treenodedatamodel.param{ParamElementDataModel.java[ParamElementDataModel"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="2264"/>
-      <y="580"/>
-   </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.dependency.DependencyLPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editor.param{ParamElementEditor.java[ParamElementEditor"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.treenodedatamodel.param{ParamElementDataModel.java[ParamElementDataModel"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ElementOperationInterface.java[ElementOperationInterface"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="2278"/>
-      <y="1264"/>
-   </type>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.composition.CompositionPart"/>
       <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.core.treenodedatamodel.param{ParamElementDataModel.java[ParamElementDataModel"/>
@@ -154,66 +140,10 @@
       <bendpoints>
       </bendpoints>
    </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{GainTextPatternOperation.java[GainTextPatternOperation"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="-8"/>
-      <y="1746"/>
-   </type>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
       <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{LinkElementTypeComponent.java[LinkElementTypeComponent"/>
       <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{GainTextPatternOperation.java[GainTextPatternOperation"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{TextElementTypeComponent.java[TextElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{GainTextPatternOperation.java[GainTextPatternOperation"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{GainTextPatternOperation.java[GainTextPatternOperation"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ElementOperationInterface.java[ElementOperationInterface"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{TabOperation.java[TabOperation"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="864"/>
-      <y="1752"/>
-   </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{TabOperation.java[TabOperation"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ElementOperationInterface.java[ElementOperationInterface"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{FieldElementTypeComponent.java[FieldElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{TabOperation.java[TabOperation"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillVariableOperation.java[FillVariableOperation"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="1632"/>
-      <y="1758"/>
-   </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillVariableOperation.java[FillVariableOperation"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ElementOperationInterface.java[ElementOperationInterface"/>
       <bendpoints>
       </bendpoints>
    </relationship>
@@ -224,52 +154,17 @@
       <bendpoints>
       </bendpoints>
    </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillElementOperation.java[FillElementOperation"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="2580"/>
-      <y="1756"/>
-   </type>
    <relationship>
-      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{FieldElementTypeComponent.java[FieldElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillElementOperation.java[FillElementOperation"/>
+      <class="edu.buffalo.cse.green.relationship.dependency.DependencyLPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editor.param{ParamElementEditor.java[ParamElementEditor"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.treenodedatamodel.param{ParamElementDataModel.java[ParamElementDataModel"/>
       <bendpoints>
       </bendpoints>
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillElementOperation.java[FillElementOperation"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{GainTextPatternOperation.java[GainTextPatternOperation"/>
       <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ElementOperationInterface.java[ElementOperationInterface"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <type>
-      <name="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
-      <height="-1"/>
-      <width="-1"/>
-      <x="-704"/>
-      <y="1742"/>
-   </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{RadiobuttonElementTypeComponent.java[RadiobuttonElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{CheckboxElementTypeComponent.java[CheckboxElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
-      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{LinkElementTypeComponent.java[LinkElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
       <bendpoints>
       </bendpoints>
    </relationship>
@@ -282,6 +177,104 @@
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{TextElementTypeComponent.java[TextElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{GainTextPatternOperation.java[GainTextPatternOperation"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{FieldElementTypeComponent.java[FieldElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{RadiobuttonElementTypeComponent.java[RadiobuttonElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component{EditorComponentInterface.java[EditorComponentInterface"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{TextElementTypeComponent.java[TextElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{LinkElementTypeComponent.java[LinkElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillVariableOperation.java[FillVariableOperation"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ElementOperationInterface.java[ElementOperationInterface"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{EmptyElementTypeComponent.java[EmptyElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{TabOperation.java[TabOperation"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ElementOperationInterface.java[ElementOperationInterface"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{FieldElementTypeComponent.java[FieldElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{LinkElementTypeComponent.java[LinkElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillElementOperation.java[FillElementOperation"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ElementOperationInterface.java[ElementOperationInterface"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ButtonElementTypeComponent.java[ButtonElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ElementTypeComponentInterface.java[ElementTypeComponentInterface"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{CheckboxElementTypeComponent.java[CheckboxElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
       <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{ButtonElementTypeComponent.java[ButtonElementTypeComponent"/>
       <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
       <bendpoints>
@@ -290,7 +283,14 @@
    <relationship>
       <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
       <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{FieldElementTypeComponent.java[FieldElementTypeComponent"/>
-      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{ClickOperation.java[ClickOperation"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{TabOperation.java[TabOperation"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
+      <sourceType="=hu.akoel.grawit/src<hu.akoel.grawit.gui.editors.component.elementtype{FieldElementTypeComponent.java[FieldElementTypeComponent"/>
+      <targetType="=hu.akoel.grawit/src<hu.akoel.grawit.core.operations{FillElementOperation.java[FillElementOperation"/>
       <bendpoints>
       </bendpoints>
    </relationship>

@@ -23,6 +23,7 @@ import hu.akoel.grawit.core.operations.FillElementOperation;
 import hu.akoel.grawit.core.operations.FillStringOperation;
 import hu.akoel.grawit.core.operations.FillVariableOperation;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
+import hu.akoel.grawit.core.operations.SelectVariableOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
@@ -261,11 +262,11 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 			}else if( operationString.equals( FillVariableOperation.getStaticName() ) ){
 				
-				elementOperation = new FillVariableOperation( variableRootDataModel, element, getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new FillVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			}else if( operationString.equals( FillElementOperation.getStaticName() ) ){
 				
-				elementOperation = new FillElementOperation( (BaseRootDataModel)baseElement.getRoot(), element, getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new FillElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			}else if( operationString.equals( FillStringOperation.getStaticName() ) ){
 				
@@ -276,8 +277,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 					
 				elementOperation = new ClearOperation();
 			}
-			
+		
+		//---------
 		// Text
+		//---------
 		}else if( baseElement.getElementType().equals( ElementTypeListEnum.TEXT ) ){
 			
 			if( operationString.equals( GainTextPatternOperation.getStaticName() ) ){
@@ -291,6 +294,18 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 			}
 			
+		//---------
+		// List
+		//---------
+		}else if( baseElement.getElementType().equals( ElementTypeListEnum.LIST ) ){
+			
+			
+			if( operationString.equals( SelectVariableOperation.getStaticName() ) ){
+				
+				elementOperation = new SelectVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			}
+				
 		//Minden egyeb esetben error
 		}else{
 			throw new XMLWrongAttributePharseException( BaseDataModelInterface.getRootTag(), BaseElementDataModel.TAG, DataModelInterface.ATTR_NAME, baseElement.getName(), BaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );

@@ -183,7 +183,8 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.GAINTEXTPATTERN.getIndex());
 				fieldPattern.setText( ((GainTextPatternOperation)elementOperation).getStringPattern());
 				
-			}			
+			}
+			
 		}
 	}	
 	
