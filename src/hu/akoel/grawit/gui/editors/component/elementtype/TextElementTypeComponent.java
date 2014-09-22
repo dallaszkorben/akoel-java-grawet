@@ -232,27 +232,13 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		this.revalidate();
 		this.repaint();
 	}
-	
-/*	class MyRenderer extends BasicComboBoxRenderer {
 
-		private static final long serialVersionUID = -4562181616721578685L;
-
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
-
-			Component c = super.getListCellRendererComponent(list, ((TextElementTypeOperationsListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
-
-			return c;
-		}
-	}
-*/
 	@Override
 	public ElementOperationInterface getElementOperation() {
 		
 		//GAINTEXT
 		if( comboOperationList.getSelectedIndex() == E.GAINTEXTPATTERN.getIndex() ){
 			return new GainTextPatternOperation( fieldPattern.getText() );
-			
 		}
 		
 		return null;
