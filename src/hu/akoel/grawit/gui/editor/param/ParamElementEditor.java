@@ -18,6 +18,7 @@ import hu.akoel.grawit.enums.list.elementtypeoperations.ButtonElementTypeOperati
 import hu.akoel.grawit.enums.list.elementtypeoperations.CheckboxElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.FieldElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ListElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.RadiobuttonElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -28,6 +29,7 @@ import hu.akoel.grawit.gui.editors.component.elementtype.EmptyElementTypeCompone
 import hu.akoel.grawit.gui.editors.component.elementtype.FieldElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.LinkElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface;
+import hu.akoel.grawit.gui.editors.component.elementtype.ListElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.RadiobuttonElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.TextElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
@@ -340,7 +342,9 @@ public class ParamElementEditor extends DataEditor{
 			elementTypeComponent = new LinkElementTypeComponent<LinkElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation );
 			
 		//LIST
-		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
+		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LIST.name() ) ){
+			
+			elementTypeComponent = new ListElementTypeComponent<ListElementTypeOperationsListEnum>( baseElement.getElementType(), baseRootDataModel, variableRootDataModel);
 			
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){

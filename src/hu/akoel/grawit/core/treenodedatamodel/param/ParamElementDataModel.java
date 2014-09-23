@@ -19,11 +19,13 @@ import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
-import hu.akoel.grawit.core.operations.FillElementOperation;
+import hu.akoel.grawit.core.operations.FillBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillStringOperation;
-import hu.akoel.grawit.core.operations.FillVariableOperation;
+import hu.akoel.grawit.core.operations.FillVariableElementOperation;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
-import hu.akoel.grawit.core.operations.SelectVariableOperation;
+import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
+import hu.akoel.grawit.core.operations.SelectStringOperation;
+import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
@@ -33,12 +35,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.ButtonElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.CheckboxElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.FieldElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.RadiobuttonElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -100,8 +96,6 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
-
-		
 		//=============
 		//
 		// BaseElement
@@ -110,15 +104,15 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		if( !element.hasAttribute( ATTR_BASE_ELEMENT_PATH ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH );			
 		}	
-		String paramElementPathString = element.getAttribute(ATTR_BASE_ELEMENT_PATH);				
-		paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
+		String baseElementPathString = element.getAttribute(ATTR_BASE_ELEMENT_PATH);				
+		baseElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + baseElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
 	    Document document = null;
 	    try  
 	    {  
 	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( paramElementPathString ) ) );  
+	        document = builder.parse( new InputSource( new StringReader( baseElementPathString ) ) );  
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
@@ -151,7 +145,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	    
 	    try{
 	    	
-	    	baseElement = (BaseElementDataModel)baseDataModel;
+	    	this.baseElement = (BaseElementDataModel)baseDataModel;
 	    	
 	    }catch(ClassCastException e){
 
@@ -260,13 +254,13 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new TabOperation();
 				
-			}else if( operationString.equals( FillVariableOperation.getStaticName() ) ){
+			}else if( operationString.equals( FillVariableElementOperation.getStaticName() ) ){
 				
-				elementOperation = new FillVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new FillVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
-			}else if( operationString.equals( FillElementOperation.getStaticName() ) ){
+			}else if( operationString.equals( FillBaseElementOperation.getStaticName() ) ){
 				
-				elementOperation = new FillElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new FillBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			}else if( operationString.equals( FillStringOperation.getStaticName() ) ){
 				
@@ -298,31 +292,25 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		// List
 		//---------
 		}else if( baseElement.getElementType().equals( ElementTypeListEnum.LIST ) ){
-			
-			
-			if( operationString.equals( SelectVariableOperation.getStaticName() ) ){
+						
+			if( operationString.equals( SelectVariableElementOperation.getStaticName() ) ){
 				
-				elementOperation = new SelectVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new SelectVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
+			}else if( operationString.equals( SelectBaseElementOperation.getStaticName() ) ){
+				
+				elementOperation = new SelectBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+		
+			}else if( operationString.equals( SelectStringOperation.getStaticName() ) ){
+				
+				elementOperation = new SelectStringOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
 			}
-				
+			
 		//Minden egyeb esetben error
 		}else{
 			throw new XMLWrongAttributePharseException( BaseDataModelInterface.getRootTag(), BaseElementDataModel.TAG, DataModelInterface.ATTR_NAME, baseElement.getName(), BaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
 		}
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-		
+
 	}
 
 	/**

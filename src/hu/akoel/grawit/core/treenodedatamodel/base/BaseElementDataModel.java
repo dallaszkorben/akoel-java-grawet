@@ -34,12 +34,11 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	private String frame;
 	private String identifier;
 	private SelectorType identificationType;
+	//----
+	
 	//Ide menti az erre a mezore hivatkozo ParamElement Mezo mentett erteket
 	private String variableValue = "";
 	//---
-
-	
-	
 
 	/**
 	 * 
@@ -206,6 +205,12 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		return getModelNameToShowStatic();
 	}
 	
+	/**
+	 * 
+	 * Visszaadja a valtozokent, az osztaly altal reprezentalt elem tartalmat elmentett erteket
+	 * 
+	 * @return
+	 */
 	public String getVariableValue() {
 		return variableValue;
 	}
