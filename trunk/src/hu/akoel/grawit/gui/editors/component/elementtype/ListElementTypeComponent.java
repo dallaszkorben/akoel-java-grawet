@@ -1,7 +1,6 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.FillBaseElementOperation;
@@ -11,7 +10,7 @@ import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.FieldElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ListElementTypeOperationsListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
 
@@ -26,7 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
+public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
 
 	private static final long serialVersionUID = -6108131072338954554L;
 	
@@ -56,7 +55,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	 * Uj
 	 * 
 	 */
-	public FieldElementTypeComponent( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ListElementTypeComponent( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 
 		common( elementType, null, baseRootDataModel, variableRootDataModel );
@@ -70,7 +69,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	 * @param key
 	 * @param value
 	 */	
-	public FieldElementTypeComponent( ElementTypeListEnum elementType , ElementOperationInterface elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ListElementTypeComponent( ElementTypeListEnum elementType , ElementOperationInterface elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
 		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
@@ -170,24 +169,20 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 				
 				comboOperationList.setSelectedIndex(E.TAB.getIndex());
 				
-			}else if( elementOperation instanceof ClearOperation ){
-				
-				comboOperationList.setSelectedIndex(E.CLEAR.getIndex());
-				
 			}else if( elementOperation instanceof FillVariableElementOperation ){
 								
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((FillVariableElementOperation)elementOperation).getVariableElement() );
-				comboOperationList.setSelectedIndex(E.FILL_VARIABLE.getIndex());
+				comboOperationList.setSelectedIndex(E.SELECT_VARIABLE.getIndex());
 
 			}else if( elementOperation instanceof FillBaseElementOperation ){
 								
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((FillBaseElementOperation)elementOperation).getBaseElement() );
-				comboOperationList.setSelectedIndex(E.FILL_ELEMENT.getIndex());
+				comboOperationList.setSelectedIndex(E.SELECT_BASE.getIndex());
 
 			}else if( elementOperation instanceof FillStringOperation ){
 								
 				fieldString.setText( ((FillStringOperation)elementOperation).getStringToShow() );
-				comboOperationList.setSelectedIndex(E.FILL_STRING.getIndex());
+				comboOperationList.setSelectedIndex(E.SELECT_STRING.getIndex());
 				
 			}			
 		}
@@ -251,34 +246,9 @@ for( int i = 0; i < components.length; i++ ){
 	}
 }
 
-/*		this.remove( labelBaseElementSelector );
-		this.remove( fieldBaseElementSelector );
-		this.remove( labelString );
-		this.remove( fieldString );
-		this.remove( labelVariableSelector );
-		this.remove( fieldVariableSelector );	
-		
-		this.removeAll();
-		
-		c.gridy = 0;
-		c.gridx = 2;
-		c.gridwidth = 1;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
-		c.anchor = GridBagConstraints.WEST;
-		this.add( labelOperations, c );
-		
-		c.gridx = 3;
-		c.weightx = 0;
-		this.add( comboOperationList, c );
-		c.gridy = 1;
-		
-*/		
-
-		
+	
 		//Fill element
-		if( selected.equals( E.FILL_ELEMENT ) ){
+		if( selected.equals( E.SELECT_BASE ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -294,7 +264,7 @@ for( int i = 0; i < components.length; i++ ){
 			this.add( fieldBaseElementSelector, c );
 			
 		//Fill variable
-		}else if( selected.equals( E.FILL_VARIABLE ) ){
+		}else if( selected.equals( E.SELECT_VARIABLE ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -310,7 +280,7 @@ for( int i = 0; i < components.length; i++ ){
 			this.add( fieldVariableSelector, c );
 			
 		//Fill string
-		}else if( selected.equals( E.FILL_STRING ) ){
+		}else if( selected.equals( E.SELECT_STRING ) ){
 		
 			c.gridy = 0;
 			c.gridx = 4;
@@ -324,19 +294,6 @@ for( int i = 0; i < components.length; i++ ){
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldString, c );
-			
-		//Clear
-		}else if( selected.equals( E.CLEAR) ){
-			
-			//Filler
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelFiller, c );
 			
 		//Tab
 		}else if( selected.equals( E.TAB ) ){
@@ -373,21 +330,17 @@ for( int i = 0; i < components.length; i++ ){
 	public ElementOperationInterface getElementOperation() {
 		
 		//Fill element
-		if( comboOperationList.getSelectedIndex() ==  E.FILL_ELEMENT.getIndex() ){
+		if( comboOperationList.getSelectedIndex() ==  E.SELECT_BASE.getIndex() ){
 			return new FillBaseElementOperation( fieldBaseElementSelector.getSelectedDataModel() );
 			
 		//Fill variable
-		}else if(comboOperationList.getSelectedIndex() ==  E.FILL_VARIABLE.getIndex() ){
+		}else if(comboOperationList.getSelectedIndex() ==  E.SELECT_VARIABLE.getIndex() ){
 			return new FillVariableElementOperation( fieldVariableSelector.getSelectedDataModel() );
 			
 		//Fill string
-		}else if( comboOperationList.getSelectedIndex() ==  E.FILL_STRING.getIndex() ){
+		}else if( comboOperationList.getSelectedIndex() ==  E.SELECT_STRING.getIndex() ){
 			return new FillStringOperation( fieldString.getText() );
-			
-		//Clear
-		}else if( comboOperationList.getSelectedIndex() ==  E.CLEAR.getIndex() ){
-			return new ClearOperation();
-			
+
 		//Tab
 		}else if( comboOperationList.getSelectedIndex() ==  E.TAB.getIndex() ){
 			return new TabOperation();

@@ -130,7 +130,13 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		return getTagStatic();
 	}
 
-//	@Override
+	/**
+	 * 
+	 * Visszadja a valtozo altal reprezentalt erteket
+	 * Lehet egy generalt veletlen ertek, vagy beegetett ertek
+	 * 
+	 * @return
+	 */
 	public String getValue() {
 		return type.getValue(parameters);
 	}
