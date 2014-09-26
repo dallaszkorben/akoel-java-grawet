@@ -87,7 +87,7 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 		});	
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
-		comboOperationList.setRenderer(new MyRenderer());
+		comboOperationList.setRenderer(new ElementTypeComponentRenderer());
 		
 		this.setLayout( new GridBagLayout() );
 		

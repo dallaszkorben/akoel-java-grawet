@@ -96,7 +96,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		});	
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
-		comboOperationList.setRenderer(new MyRenderer());
+		comboOperationList.setRenderer(new ElementTypeComponentRenderer());
 		
 		//fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );
 		/*fieldString.setInputVerifier(new InputVerifier() {

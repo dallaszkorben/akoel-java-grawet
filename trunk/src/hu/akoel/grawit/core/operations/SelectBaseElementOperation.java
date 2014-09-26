@@ -147,7 +147,7 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 		return baseElementDataModel.getVariableValue();
 	}
 
-	public BaseElementDataModel getVariableElement() {
+	public BaseElementDataModel getBaseElement() {
 		return baseElementDataModel;
 	}
 	

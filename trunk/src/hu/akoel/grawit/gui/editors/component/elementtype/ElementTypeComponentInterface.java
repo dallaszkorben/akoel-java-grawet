@@ -19,7 +19,7 @@ public abstract class ElementTypeComponentInterface<E extends ElementTypeOperati
 	
 	public abstract E getSelectedOperation( ElementTypeListEnum elementType );
 	
-	class MyRenderer extends BasicComboBoxRenderer {
+	class ElementTypeComponentRenderer extends BasicComboBoxRenderer {
 
         private static final long serialVersionUID = -4562181616721578685L;
 

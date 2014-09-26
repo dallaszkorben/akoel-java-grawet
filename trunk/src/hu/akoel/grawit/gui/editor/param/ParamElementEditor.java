@@ -129,135 +129,7 @@ public class ParamElementEditor extends DataEditor{
 		fieldName = new TextFieldComponent();
 		
 		this.variableRootDataModel = variableRootDataModel;
-		
-		
-/*		
-		fieldOperation.addItemListener( new ItemListener() {
-			
-			private boolean hasBeenHere = false;
-			
-			@Override
-			public void itemStateChanged(ItemEvent e) {
 
-				int index = fieldOperation.getSelectedIndex();					
-
-				//Ha megvaltoztattam a tipust
-				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
-					
-					 operation = Torlendo_Operation.getOperationByIndex(index);
-					 
-					 //Mindenkeppen torolni kell, ha letezett
-					 if( null != fieldVariableSelector ){
-						 ParamElementEditor.this.remove( labelVariableSelector, fieldVariableSelector.getComponent() );
-						 ParamElementEditor.this.remove( labelListSelectionType, fieldListSelectionType );						
-						 ParamElementEditor.this.repaint();
-					 }else if( null != fieldFieldBaseElementSelector ){
-						 ParamElementEditor.this.remove( labelFieldBaseElementSelector, fieldFieldBaseElementSelector );
-						 ParamElementEditor.this.repaint();
-					 }
-					 
-					 //LIST
-					 if( operation.equals( Torlendo_Operation.LIST_VARIABLE ) ){
-						
-						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
-						 if( hasBeenHere || null == nodeForModify ){
-							 
-							 //Akkor uresen kell kapnom a mezot
-							 fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
-							 fieldListSelectionType.setSelectedIndex( ListEnumListSelectionBy.BYVISIBLETEXT.getIndex() );
-							 
-						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
-						 }else{
-							 Torlendo_ListVariableOperation op = (Torlendo_ListVariableOperation)nodeForModify.getElementOperation();
-							 
-							 //akkor latnom kell a kivalasztott tartalmat
-							 fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, op.getVariableElement() );
-							 fieldListSelectionType.setSelectedIndex(op.getListSelectionType().getIndex());
-						 }
-							
-						 ParamElementEditor.this.add(labelListSelectionType, fieldListSelectionType );
-						 ParamElementEditor.this.add( labelVariableSelector, fieldVariableSelector ); 
-						 
-					 //FIELD_VARIABLE
-					 }else if( operation.equals( Torlendo_Operation.FIELD_VARIABLE ) ){
-							 
-						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
-						 if( hasBeenHere || null == nodeForModify ){
-							 
-							 //Akkor uresen kell kapnom a mezot
-							 fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
-						 
-						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
-						 }else{
-							 
-							 Torlendo_FieldVariableOperation op = (Torlendo_FieldVariableOperation)nodeForModify.getElementOperation();
-							 
-							 //akkor latnom kell a kivalasztott tartalmat
-							 fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, op.getVariableElement() );
-						 }
-							
-						 ParamElementEditor.this.add( labelVariableSelector, fieldVariableSelector );
-//						 ParamElementEditor.this.revalidate();
-
-					 //FIELD_ELEMENT
-					 }else if( operation.equals( Torlendo_Operation.FIELD_ELEMENT ) ){
-								 
-						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
-						 if( hasBeenHere || null == nodeForModify ){
-								 
-							 //Akkor uresen kell kapnom a mezot
-							 fieldFieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
-							 
-						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
-						 }else{
-								 
-							 Torlendo_FieldParamElementOperation op = (Torlendo_FieldParamElementOperation)nodeForModify.getElementOperation();
-					 
-							 //akkor latnom kell a kivalasztott tartalmat
-							 fieldFieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, op.getBaseElement() );
-						 }
-								
-						 ParamElementEditor.this.add( labelFieldBaseElementSelector, fieldFieldBaseElementSelector );
-						 
-					 //GAIN TEXT
-					 }else if( operation.equals( Torlendo_Operation.GAINTEXTPATTERN ) ){
-								 
-						 //Ha mar volt valtoztatas, vagy uj ParameterElem szerkesztes tortenik 
-						 if( hasBeenHere || null == nodeForModify ){
-								 
-							 //Akkor uresen kell kapnom a mezot
-							 fieldPattern = new TextFieldComponent( "" );
-							 
-						 //Ha viszont most van itt eloszor es a ParameterElem modositasa tortenik
-						 }else{
-								 
-							 Torlendo_GainTextPatternOperation op = (Torlendo_GainTextPatternOperation)nodeForModify.getElementOperation();
-					 
-							 //akkor latnom kell a kivalasztott tartalmat
-							 fieldPattern = new TextFieldComponent( op.getStringPattern() );
-						 }
-								
-						 ParamElementEditor.this.add( labelPattern, fieldPattern );						 
-						 
-						 
-						 
-					 }else if( operation.equals( Torlendo_Operation.BUTTON ) ){
-					
-						 
-						 
-					 }else if( operation.equals( Torlendo_Operation.CHECKBOX ) ){
-						
-					 }else if( operation.equals( Torlendo_Operation.RADIOBUTTON ) ){
-						
-					 }else if( operation.equals( Torlendo_Operation.LINK ) ){
-				 
-					}else if( operation.equals( Torlendo_Operation.TAB ) ){
-
-					 hasBeenHere = true;						
-				}				
-			}
-		});
-*/		
 	}
 	
 	private void commonPost(BaseElementDataModel baseElement, BasePageDataModel basePage ){
@@ -344,7 +216,7 @@ public class ParamElementEditor extends DataEditor{
 		//LIST
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LIST.name() ) ){
 			
-			elementTypeComponent = new ListElementTypeComponent<ListElementTypeOperationsListEnum>( baseElement.getElementType(), baseRootDataModel, variableRootDataModel);
+			elementTypeComponent = new ListElementTypeComponent<ListElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);
 			
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
@@ -461,7 +333,7 @@ public class ParamElementEditor extends DataEditor{
 		}else{
 			
 			BaseElementDataModel baseElement = fieldBaseElementSelector.getSelectedDataModel();
-			ElementOperationInterface elementOperation = elementTypeComponent.getElementOperation();
+			ElementOperationInterface elementOperation = elementTypeComponent.getElementOperation();			
 
 			//Uj rogzites eseten
 			if( null == mode ){			
