@@ -3,9 +3,6 @@ package hu.akoel.grawit.gui.editors.component.elementtype;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
-import hu.akoel.grawit.core.operations.FillBaseElementOperation;
-import hu.akoel.grawit.core.operations.FillStringOperation;
-import hu.akoel.grawit.core.operations.FillVariableElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
 import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
@@ -228,7 +225,8 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 	@Override
 	public void setEnableModify(boolean enable) {
 		
-		comboOperationList.setEnabled( enable );		
+		comboOperationList.setEnabled( enable );
+		comboSelectionBy.setEnabled( enable );
 		
 //		if( null != fieldString  && fieldString.isVisible() ){
 			fieldString.setEditable( enable );
@@ -251,42 +249,37 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);		
 		
-//System.err.println( "String: " + fieldBaseElementSelector.isShowing());
-		
-		
-		
-Component[] components = this.getComponents();
+		Component[] components = this.getComponents();
 
-for( int i = 0; i < components.length; i++ ){
-	if( components[i] == labelBaseElementSelector ){
-		this.remove( labelBaseElementSelector );
+		for( int i = 0; i < components.length; i++ ){
+			if( components[i] == labelBaseElementSelector ){
+				this.remove( labelBaseElementSelector );
 	
-	}else if( components[i] == fieldBaseElementSelector ){
-		this.remove( fieldBaseElementSelector );
+			}else if( components[i] == fieldBaseElementSelector ){
+				this.remove( fieldBaseElementSelector );
 		
-	}else if( components[i] == labelString ){
-		this.remove( labelString );
+			}else if( components[i] == labelString ){
+				this.remove( labelString );
 		
-	}else if( components[i] == fieldString ){
-		this.remove( fieldString );
+			}else if( components[i] == fieldString ){
+				this.remove( fieldString );
 		
-	}else if( components[i] == labelVariableSelector ){
-		this.remove( labelVariableSelector );
+			}else if( components[i] == labelVariableSelector ){
+				this.remove( labelVariableSelector );
 		
-	}else if( components[i] == fieldVariableSelector ){
-		this.remove( fieldVariableSelector );	
+			}else if( components[i] == fieldVariableSelector ){
+				this.remove( fieldVariableSelector );	
 		
-	}else if( components[i] == labelFiller ){
-		this.remove( labelFiller );	
+			}else if( components[i] == labelFiller ){
+				this.remove( labelFiller );	
 		
-	}else if( components[i] == labelSelectionBy ){
-		this.remove( labelSelectionBy );
+			}else if( components[i] == labelSelectionBy ){
+				this.remove( labelSelectionBy );
 		
-	}else if( components[i] == comboSelectionBy ){
-		this.remove( comboSelectionBy );
-	}
-}
-
+			}else if( components[i] == comboSelectionBy ){
+				this.remove( comboSelectionBy );
+			}
+		}
 
 		//Fill element
 		if( selected.equals( E.SELECT_BASE ) ){
