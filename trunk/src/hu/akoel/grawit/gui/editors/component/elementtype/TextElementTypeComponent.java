@@ -3,6 +3,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
+import hu.akoel.grawit.core.operations.OutputValueOperation;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
 
@@ -83,10 +84,8 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					if( comboOperationList.getItemAt(index).equals( E.GAINTEXTPATTERN ) ){
-						setValueContainer( true );
-						
-					}		
+					setValueContainer( comboOperationList.getItemAt(index) );
+					
 				}				
 			}
 		});	
@@ -164,7 +163,11 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.GAINTEXTPATTERN.getIndex());
 				fieldPattern.setText( ((GainTextPatternOperation)elementOperation).getStringPattern());
 				
-			}			
+			}else if ( elementOperation instanceof OutputValueOperation ){
+				
+				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );
+				
+			}
 		}
 	}	
 	
@@ -191,7 +194,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		return this;
 	}
 
-	private void setValueContainer( boolean show ){
+	private void setValueContainer( E selectedOperation ){
 		
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);
@@ -200,8 +203,9 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		this.remove( fieldPattern );
 		this.remove( labelFiller );
 		
-		if( show ){		
-		
+		//GAINTEXTPATTERN 
+		if( selectedOperation.equals( E.GAINTEXTPATTERN ) ){
+
 			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
@@ -215,8 +219,9 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 			c.weightx = 1;
 			this.add( fieldPattern, c );
 			
-		}else{
-			
+		//OUTPUTVALUE
+		}else if( selectedOperation.equals(E.OUTPUTVALUE)){
+
 			//Filler
 			c.gridy = 0;
 			c.gridx = 4;
@@ -226,7 +231,6 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 			c.weightx = 1;
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
-			
 		}
 		
 		this.revalidate();
@@ -236,9 +240,13 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 	@Override
 	public ElementOperationInterface getElementOperation() {
 		
-		//GAINTEXT
+		//GAINTEXTPATTERN
 		if( comboOperationList.getSelectedIndex() == E.GAINTEXTPATTERN.getIndex() ){
 			return new GainTextPatternOperation( fieldPattern.getText() );
+		
+		//OUTPUTVALUE
+		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTVALUE.getIndex() ){
+			return new OutputValueOperation();
 		}
 		
 		return null;

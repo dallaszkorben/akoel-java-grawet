@@ -36,13 +36,13 @@ public abstract class SelectOperationAdapter implements ElementOperationInterfac
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 	
-		if( null != elementProgress ){
-			elementProgress.elementStarted( element.getName() );
-		}
-		
 		BaseElementDataModel baseElement = element.getBaseElement();
 		By by = null;
 		WebElement webElement = null;
+		
+		if( null != elementProgress ){
+			elementProgress.elementStarted( element.getName(), baseElement.getVariableValue() );
+		}
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -91,7 +91,7 @@ public abstract class SelectOperationAdapter implements ElementOperationInterfac
 				if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
 					
 					//Elmenti az elem tartalmat a valtozoba
-					element.getBaseElement().setVariableValue( select.getFirstSelectedOption().getAttribute("value") );
+					baseElement.setVariableValue( select.getFirstSelectedOption().getAttribute("value") );
 				}			
 			
 				//Muvelet
@@ -102,7 +102,7 @@ public abstract class SelectOperationAdapter implements ElementOperationInterfac
 					
 					//Elmenti az elem tartalmat a valtozoba
 					//webElement.sendKeys(Keys.TAB);
-					element.getBaseElement().setVariableValue( webElement.getAttribute("value") );
+					baseElement.setVariableValue( webElement.getAttribute("value") );
 			
 				}
 			
@@ -128,7 +128,7 @@ public abstract class SelectOperationAdapter implements ElementOperationInterfac
 		}		
 		
 		if( null != elementProgress ){
-			elementProgress.elementEnded( element.getName() );
+			elementProgress.elementEnded( element.getName(), baseElement.getVariableValue() );
 		}
 	}
 

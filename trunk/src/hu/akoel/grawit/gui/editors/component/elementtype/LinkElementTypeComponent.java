@@ -4,6 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
+import hu.akoel.grawit.core.operations.OutputValueOperation;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
 
@@ -84,13 +85,8 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					if( comboOperationList.getItemAt(index).equals( E.CLICK ) ){
-						setValueContainer( false );
-						
-					}else if( comboOperationList.getItemAt(index).equals( E.GAINTEXTPATTERN ) ){
-						setValueContainer( true );
-						
-					}		
+					setValueContainer( comboOperationList.getItemAt(index) );
+					
 				}				
 			}
 		});	
@@ -183,6 +179,10 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.GAINTEXTPATTERN.getIndex());
 				fieldPattern.setText( ((GainTextPatternOperation)elementOperation).getStringPattern());
 				
+			}else if ( elementOperation instanceof OutputValueOperation ){
+				
+				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );
+				
 			}
 			
 		}
@@ -212,7 +212,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		return this;
 	}
 
-	private void setValueContainer( boolean show ){
+	private void setValueContainer( E selectedOperation ){
 		
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);
@@ -221,8 +221,32 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		this.remove( fieldPattern );
 		this.remove( labelFiller );
 		
-		if( show ){		
+		if( selectedOperation.equals( E.CLICK ) ){
 		
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );
+			
+		}else if( selectedOperation.equals( E.OUTPUTVALUE ) ){
+			
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );
+			
+		}else if( selectedOperation.equals( E.GAINTEXTPATTERN ) ){
+			
 			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
@@ -236,19 +260,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			c.weightx = 1;
 			this.add( fieldPattern, c );
 			
-		}else{
-			
-			//Filler
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelFiller, c );
-			
-		}
+		}		
 		
 		this.revalidate();
 		this.repaint();
@@ -277,7 +289,10 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		//GAINTEXT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXTPATTERN.getIndex() ){
 			return new GainTextPatternOperation( fieldPattern.getText() );
-			
+		
+		//OUTPUTVALUE
+		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTVALUE.getIndex() ){
+			return new OutputValueOperation();
 		}
 		
 		return null;

@@ -36,8 +36,9 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 	//---
 	
 	public GainTextPatternOperation( String stringPattern ){
-		this.stringPattern = stringPattern;		
-		pattern = Pattern.compile( stringPattern );
+		this.stringPattern = stringPattern;
+		
+		common( stringPattern );
 	}
 	
 	public GainTextPatternOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
@@ -45,8 +46,20 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 		if( !element.hasAttribute( ATTR_PATTERN ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_PATTERN );			
 		}
-		stringPattern = element.getAttribute( ATTR_PATTERN );		
-
+		stringPattern = element.getAttribute( ATTR_PATTERN );	
+		
+		common( stringPattern );
+		
+	}
+	
+	private void common( String stringPattern ){
+		
+		if( stringPattern.trim().length() == 0 ){
+			pattern = null;
+		}else{		
+			pattern = Pattern.compile( stringPattern );
+		}
+		
 	}
 	
 	public static String getStaticName(){
@@ -66,14 +79,14 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 	
-		if( null != elementProgress ){
-			elementProgress.elementStarted( element.getName() );
-		}
-		
 		BaseElementDataModel baseElement = element.getBaseElement();
 		By by = null;
 		WebElement webElement = null;
 		
+		if( null != elementProgress ){
+			elementProgress.elementStarted( element.getName(), baseElement.getVariableValue() );
+		}
+				
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 						
@@ -116,14 +129,18 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 		
 		//Execute the operation = Elmenti az elem tartalmat a valtozoba
 		String origText = webElement.getText();
-		matcher = pattern.matcher( origText );
-		if( matcher.find() ){
-			String resultText = matcher.group();
-			element.getBaseElement().setVariableValue( resultText );
+		if( null == pattern ){
+			baseElement.setVariableValue( origText );
+		}else{
+			matcher = pattern.matcher( origText );
+			if( matcher.find() ){
+				String resultText = matcher.group();
+				baseElement.setVariableValue( resultText );
+			}			
 		}
 		
 		if( null != elementProgress ){
-			elementProgress.elementEnded( element.getName() );
+			elementProgress.elementEnded( element.getName(), baseElement.getVariableValue() );
 		}
 	}
 	

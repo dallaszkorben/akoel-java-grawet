@@ -3,7 +3,8 @@ package hu.akoel.grawit.enums.list.elementtypeoperations;
 import hu.akoel.grawit.CommonOperations;
 
 public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
-	GAINTEXTPATTERN( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintextpattern") ),	
+	GAINTEXTPATTERN( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gaintextpattern") ),
+	OUTPUTVALUE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text.outputvalue") ),
 	;
 	
 	private String translatedName;
@@ -32,6 +33,7 @@ public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	public static TextElementTypeOperationsListEnum getElementTextOperationByIndex( int index ){
 		switch (index){
 		case 0:	return GAINTEXTPATTERN;
+		case 1:	return OUTPUTVALUE;
 		default: return GAINTEXTPATTERN;
 		}
 	}

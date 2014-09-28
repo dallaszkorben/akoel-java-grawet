@@ -23,6 +23,7 @@ import hu.akoel.grawit.core.operations.FillBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillStringOperation;
 import hu.akoel.grawit.core.operations.FillVariableElementOperation;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
+import hu.akoel.grawit.core.operations.OutputValueOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
 import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
@@ -181,6 +182,11 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			}else if( operationString.equals( GainTextPatternOperation.getStaticName() ) ){
 				
 				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
+			
+			//OutputValue
+			}else if( operationString.equals( OutputValueOperation.getStaticName() ) ){ 
+				
+				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
 				
 			//Ha nem a tipusnak megfelelo a muvelet, akkor azt Click-nek vesszuk
 			}else{
@@ -266,6 +272,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new FillStringOperation( element, getRootTag(), getTag() );
 				
+			}else if( operationString.equals( OutputValueOperation.getStaticName() ) ){ 
+				
+				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
+				
 			//Ha nem a tipusnak megfelelo az muvelet, akkor Clear lesz a muvelet
 			}else{
 					
@@ -280,11 +290,15 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			if( operationString.equals( GainTextPatternOperation.getStaticName() ) ){
 				
 				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
+			
+			}else if( operationString.equals( OutputValueOperation.getStaticName() ) ){ 
 				
-			//Ha nem a tipusnak megfelelo az muvelet, akkor is gaintext a muvelet
+				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
+				
+			//Ha nem a tipusnak megfelelo az muvelet, akkor OUTPUTVALUE
 			}else{
 				
-				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
+				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
 				
 			}
 			
