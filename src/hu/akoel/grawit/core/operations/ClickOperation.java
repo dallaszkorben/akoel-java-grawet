@@ -95,13 +95,13 @@ public class ClickOperation implements ElementOperationInterface{
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
+
 	}
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
 		//No parameter, no operation			
 	}
-
 
 
 

@@ -15,4 +15,5 @@ public interface ElementOperationInterface {
 	public String getName();
 		
 	public void setXMLAttribute( Document document, Element element );
+	
 }
