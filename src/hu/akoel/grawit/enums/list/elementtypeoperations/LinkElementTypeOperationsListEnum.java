@@ -5,6 +5,7 @@ import hu.akoel.grawit.CommonOperations;
 public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.click") ),
 	GAINTEXTPATTERN( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintextpattern") ),	
+	OUTPUTVALUE( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.link.outputvalue") ),	
 	;
 	
 	private String translatedName;
@@ -34,6 +35,7 @@ public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		switch (index){
 		case 0:	return CLICK;
 		case 1:	return GAINTEXTPATTERN;
+		case 2:	return OUTPUTVALUE;
 		default: return CLICK;
 		}
 	}

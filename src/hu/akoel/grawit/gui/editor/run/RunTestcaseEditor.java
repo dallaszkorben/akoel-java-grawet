@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -72,7 +73,7 @@ public class RunTestcaseEditor extends BaseEditor{
 //		this.tree = tree;	
 		
 		pageProgress = new PageProgress();
-		elementProgress = new ElementProgress();		
+		elementProgress = new ElementProgress();
 		
 		runButton = new JButton( CommonOperations.getTranslation("editor.label.runtest.runbutton") );
 		runButton.addActionListener(new ActionListener(){
@@ -103,7 +104,7 @@ public class RunTestcaseEditor extends BaseEditor{
 				    		int childCount = selectedTestcase.getChildCount();
 				    		for( int index = 0; index < childCount; index++ ){
 				    			TestcasePageModelInterface pageToRun = (TestcasePageModelInterface)selectedTestcase.getChildAt(index);
-				    			pageToRun.doAction(webDriver, pageProgress, elementProgress );
+				    			pageToRun.doAction(webDriver, pageProgress, elementProgress);
 				    		}					
 				
 //				    		closePage.doAction( webDriver, pageProgress, elementProgress );
@@ -231,8 +232,6 @@ public class RunTestcaseEditor extends BaseEditor{
 		
 	}
 	
-	
-	
 	class PageProgress implements PageProgressInterface{
 
 		@Override
@@ -258,7 +257,15 @@ public class RunTestcaseEditor extends BaseEditor{
 	class ElementProgress implements ElementProgressInterface{
 
 		@Override
-		public void elementStarted(String name) {
+		public void elementStarted(String name, String value) {
+			try {
+				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem  azonosítása ELINDULT. Értéke: " + value + "\n", null );
+			} catch (BadLocationException e) {e.printStackTrace();}
+			
+		}
+		
+		@Override
+		public void elementStarted(String name ) {
 			try {
 				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem  azonosítása ELINDULT\n", null );
 			} catch (BadLocationException e) {e.printStackTrace();}
@@ -266,10 +273,24 @@ public class RunTestcaseEditor extends BaseEditor{
 		}
 
 		@Override
+		public void elementEnded(String name, String value) {
+			try {
+				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem BEFEJEZ{D)TT. Értéke: " + value + "\n", attributeElementFinished );
+			} catch (BadLocationException e) {e.printStackTrace();}		
+			
+		}
+		
+		@Override
 		public void elementEnded(String name) {
 			try {
-				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem BEFEJEZ{D)TT\n", attributeElementFinished );
+				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem BEFEJEZ{D)TT.\n", attributeElementFinished );
 			} catch (BadLocationException e) {e.printStackTrace();}		
+			
+		}
+
+		@Override
+		public void getMessage(String message) {
+System.err.println(message);
 			
 		}
 		

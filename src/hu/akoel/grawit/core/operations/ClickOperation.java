@@ -42,12 +42,12 @@ public class ClickOperation implements ElementOperationInterface{
 	 */
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException {
+
+		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		if( null != elementProgress ){
 			elementProgress.elementStarted( element.getName() );
 		}
-		
-		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);

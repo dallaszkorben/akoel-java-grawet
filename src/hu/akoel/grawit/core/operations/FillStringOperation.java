@@ -62,13 +62,13 @@ public class FillStringOperation implements ElementOperationInterface{
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 	
-		if( null != elementProgress ){
-			elementProgress.elementStarted( element.getName() );
-		}
-		
 		BaseElementDataModel baseElement = element.getBaseElement();
 		By by = null;
 		WebElement webElement = null;
+		
+		if( null != elementProgress ){
+			elementProgress.elementStarted( element.getName(), baseElement.getVariableValue() );
+		}	
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -114,7 +114,7 @@ public class FillStringOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.getBaseElement().setVariableValue( webElement.getText() );
+			baseElement.setVariableValue( webElement.getText() );
 		}
 		
 		try{
@@ -129,11 +129,11 @@ public class FillStringOperation implements ElementOperationInterface{
 		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			element.getBaseElement().setVariableValue( webElement.getAttribute("value") );		
+			baseElement.setVariableValue( webElement.getAttribute("value") );		
 		}
 		
 		if( null != elementProgress ){
-			elementProgress.elementEnded( element.getName() );
+			elementProgress.elementEnded( element.getName(), baseElement.getVariableValue() );
 		}
 	}
 

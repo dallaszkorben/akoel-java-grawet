@@ -7,6 +7,7 @@ import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.FillBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillStringOperation;
 import hu.akoel.grawit.core.operations.FillVariableElementOperation;
+import hu.akoel.grawit.core.operations.OutputValueOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -189,6 +190,10 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 				fieldString.setText( ((FillStringOperation)elementOperation).getStringToShow() );
 				comboOperationList.setSelectedIndex(E.FILL_STRING.getIndex());
 				
+			}else if ( elementOperation instanceof OutputValueOperation ){
+				
+				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );
+				
 			}			
 		}
 	}	
@@ -215,14 +220,10 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		return this;
 	}
 
-	private void setValueContainer( E selected ){
+	private void setValueContainer( E selectedOperation ){
 
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);		
-		
-//System.err.println( "String: " + fieldBaseElementSelector.isShowing());
-		
-		
 		
 Component[] components = this.getComponents();
 
@@ -250,35 +251,9 @@ for( int i = 0; i < components.length; i++ ){
 		
 	}
 }
-
-/*		this.remove( labelBaseElementSelector );
-		this.remove( fieldBaseElementSelector );
-		this.remove( labelString );
-		this.remove( fieldString );
-		this.remove( labelVariableSelector );
-		this.remove( fieldVariableSelector );	
-		
-		this.removeAll();
-		
-		c.gridy = 0;
-		c.gridx = 2;
-		c.gridwidth = 1;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
-		c.anchor = GridBagConstraints.WEST;
-		this.add( labelOperations, c );
-		
-		c.gridx = 3;
-		c.weightx = 0;
-		this.add( comboOperationList, c );
-		c.gridy = 1;
-		
-*/		
-
 		
 		//Fill element
-		if( selected.equals( E.FILL_ELEMENT ) ){
+		if( selectedOperation.equals( E.FILL_ELEMENT ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -294,7 +269,7 @@ for( int i = 0; i < components.length; i++ ){
 			this.add( fieldBaseElementSelector, c );
 			
 		//Fill variable
-		}else if( selected.equals( E.FILL_VARIABLE ) ){
+		}else if( selectedOperation.equals( E.FILL_VARIABLE ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -310,7 +285,7 @@ for( int i = 0; i < components.length; i++ ){
 			this.add( fieldVariableSelector, c );
 			
 		//Fill string
-		}else if( selected.equals( E.FILL_STRING ) ){
+		}else if( selectedOperation.equals( E.FILL_STRING ) ){
 		
 			c.gridy = 0;
 			c.gridx = 4;
@@ -326,7 +301,7 @@ for( int i = 0; i < components.length; i++ ){
 			this.add( fieldString, c );
 			
 		//Clear
-		}else if( selected.equals( E.CLEAR) ){
+		}else if( selectedOperation.equals( E.CLEAR) ){
 			
 			//Filler
 			c.gridy = 0;
@@ -339,7 +314,7 @@ for( int i = 0; i < components.length; i++ ){
 			this.add( labelFiller, c );
 			
 		//Tab
-		}else if( selected.equals( E.TAB ) ){
+		}else if( selectedOperation.equals( E.TAB ) ){
 
 			//Filler
 			c.gridy = 0;
@@ -352,7 +327,7 @@ for( int i = 0; i < components.length; i++ ){
 			this.add( labelFiller, c );
 			
 		//Click
-		}else if( selected.equals( E.CLICK ) ){
+		}else if( selectedOperation.equals( E.CLICK ) ){
 			
 			//Filler
 			c.gridy = 0;
@@ -363,6 +338,18 @@ for( int i = 0; i < components.length; i++ ){
 			c.weightx = 1;
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
+			
+		}else if( selectedOperation.equals( E.OUTPUTVALUE ) ){
+			
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );			
 		}		
 
 		this.revalidate();
@@ -395,6 +382,10 @@ for( int i = 0; i < components.length; i++ ){
 		//Click
 		}else if( comboOperationList.getSelectedIndex() ==  E.CLICK.getIndex() ){
 			return new ClickOperation();
+	
+		//OUTPUTVALUE
+		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTVALUE.getIndex() ){
+			return new OutputValueOperation();
 		}
 	
 		return null;

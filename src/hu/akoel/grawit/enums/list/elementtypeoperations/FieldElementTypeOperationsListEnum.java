@@ -9,6 +9,7 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	CLEAR( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.field.clear") ),
 	TAB( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.field.tab") ),
 	CLICK( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.field.click") ),
+	OUTPUTVALUE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputvalue") ),
 	;
 	
 	private String translatedName;
@@ -42,6 +43,7 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 		case 3: return CLEAR;
 		case 4: return TAB;
 		case 5: return CLICK;
+		case 6: return OUTPUTVALUE;
 		default: return FILL_STRING;
 		}
 	}
