@@ -1,5 +1,8 @@
 package hu.akoel.grawit.gui.tree;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -20,6 +23,9 @@ public class RunTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;
+	private EmptyEditor emptyPanel;		
+	
+	private HashMap<TestcaseCaseDataModel, RunTestcaseEditor> testcaseMap = new HashMap<>();
 	
 //	private ParamRootDataModel paramRootDataModel;
 //	private SpecialRootDataModel specialRootDataModel;
@@ -37,6 +43,8 @@ public class RunTree extends Tree {
 		this.removePopupUp();
 		this.removePopupDown();
 		this.removePopupModify();
+		
+		emptyPanel = new EmptyEditor();
 	}
 	
 	@Override
@@ -69,19 +77,26 @@ public class RunTree extends Tree {
 	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
 		
 		//Ha a root-ot valasztottam
-		if( selectedNode instanceof TestcaseRootDataModel ){
-			EmptyEditor emptyPanel = new EmptyEditor();								
+		if( selectedNode instanceof TestcaseRootDataModel ){									
 			guiFrame.showEditorPanel( emptyPanel );
 			
 		}else if( selectedNode instanceof TestcaseNodeDataModel ){
 //			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.VIEW);
-//			guiFrame.showEditorPanel( testcaseNodeEditor);								
+//			guiFrame.showEditorPanel( testcaseNodeEditor);		
+			//EmptyEditor emptyPanel = new EmptyEditor();
+			guiFrame.showEditorPanel( emptyPanel );
 		
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
 			
-			//RunTestcaseEditor testcaseCaseEditor = new RunTestcaseEditor( this, (TestcaseCaseDataModel)selectedNode );
+			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
+			if( null == editor ){
+				editor = new RunTestcaseEditor( this, (TestcaseCaseDataModel)selectedNode );
+				testcaseMap.put((TestcaseCaseDataModel)selectedNode, editor );
+			}
+				
+			guiFrame.showEditorPanel( editor );
 			
-			guiFrame.showEditorPanel( RunTestcaseEditor.getInstance( this, (TestcaseCaseDataModel)selectedNode ) );				
+			//guiFrame.showEditorPanel( RunTestcaseEditor.getInstance( this, (TestcaseCaseDataModel)selectedNode ) );				
 							
 /*		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
 			TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( this, (TestcaseParamPageDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	

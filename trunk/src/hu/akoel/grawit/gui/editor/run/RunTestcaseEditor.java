@@ -57,14 +57,15 @@ public class RunTestcaseEditor extends BaseEditor{
 	
 	private JTextArea pageList;	
 	
-	public static RunTestcaseEditor getInstance( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){
+/*	public static RunTestcaseEditor getInstance( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){
 		if( null == instance ){
 			instance = new RunTestcaseEditor( tree, testcaseCaseElement );
 		}
 		return instance; 
 	}
+*/	
 	
-	private RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){		
+	public RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){		
 
 		super( CommonOperations.getTranslation( "editor.label.runtest.windowtitle" ) );
 
