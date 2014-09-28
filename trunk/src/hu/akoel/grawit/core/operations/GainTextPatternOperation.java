@@ -30,7 +30,7 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 	
 	private Pattern pattern;
 	private Matcher matcher;
-
+	
 	//--- Data model
 	private String stringPattern;
 	//---

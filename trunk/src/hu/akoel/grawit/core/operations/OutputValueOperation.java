@@ -54,6 +54,7 @@ public class OutputValueOperation implements ElementOperationInterface{
 		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		if( null != elementProgress ){
+			
 			elementProgress.elementStarted( element.getName(), baseElement.getVariableValue() );
 	
 			elementProgress.getMessage( baseElement.getVariableValue() );
@@ -74,5 +75,6 @@ public class OutputValueOperation implements ElementOperationInterface{
 		element.setAttributeNode(attr);
 */				
 	}
+
 
 }
