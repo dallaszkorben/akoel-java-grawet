@@ -50,16 +50,15 @@ public class OutputValueOperation implements ElementOperationInterface{
 	 */
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
-
-		BaseElementDataModel baseElement = element.getBaseElement();
 		
 		if( null != elementProgress ){
 			
-			elementProgress.elementStarted( element.getName(), baseElement.getVariableValue() );
+			elementProgress.elementStarted( element.getName() );
 	
-			elementProgress.getMessage( baseElement.getVariableValue() );
+			BaseElementDataModel baseElement = element.getBaseElement();
+			elementProgress.outputValue( baseElement.getVariableValue() );
 			
-			elementProgress.elementEnded( element.getName(), baseElement.getVariableValue() );
+			elementProgress.elementEnded( element.getName() );
 		}
 	}
 

@@ -8,6 +8,9 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -153,16 +156,16 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 		if( null != pageProgress ){
 			pageProgress.pageStarted( getName(), getNodeTypeToShow() );
 		}	
-		
+	
 		//Kod legyartasa
 		CompilationTask task = generateTheCode();
-		
+
 		//Kod forditasa
 		boolean success = compileTheCode( task );
 
 		//Ha sikerult a forditas
 		if( success ){
-			
+		
 			//Akkor futtatja a kodot
 			runTheCode( driver );
 
@@ -192,26 +195,25 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 	private CompilationTask generateTheCode( String source ){
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		diagnostics = new DiagnosticCollector<JavaFileObject>();
-				
+		
 		//Legyartom a kodot
-		StringWriter writer = new StringWriter();
+		StringWriter writer = new StringWriter();	
 		PrintWriter out = new PrintWriter(writer);
-		//out.println("import org.openqa.selenium.WebDriver;\n");
-		//out.println("public class CustomClass {\n");		
-		//out.println("	public CustomClass() {}\n");		
-		//out.println("  	public void doAction(WebDriver driver) throws hu.akoel.grawit.exceptions.PageException{\n");
+
 		out.println( codePre );
 		out.println( source );
 		out.println( codePost );
-		//out.println("  	}\n");
-		//out.println("}\n");
+
 		out.close();
-		
+	
 		javaFile = new JavaSourceFromString( customClassName, writer.toString() );
 		 
 	    Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(javaFile);
-	    CompilationTask task = compiler.getTask(null, null, diagnostics, null, null, compilationUnits);
+
+	    CompilationTask task = null;
 	    
+	    task = compiler.getTask(null, null, diagnostics, null, null, compilationUnits);
+
 	    return task;
 	}
 	

@@ -12,16 +12,23 @@ public class JavaSourceFromString extends SimpleJavaFileObject {
 		this.sourceCode = sourceCode;
 	}
 
-	@Override
+/*	@Override
 	public CharSequence getCharContent(boolean ignoreEncodingErrors) {
 		return sourceCode;
 	}
-	
+*/	
 	public String getSourceCode(){
 		return sourceCode;
 	}
 	
 	public URI getURI(){
 		return this.uri;
+	}
+	
+	@Override
+	public CharSequence getCharContent(final boolean ignoreEncodingErrors) throws UnsupportedOperationException {
+		if (sourceCode == null)
+			throw new UnsupportedOperationException("getCharContent()");
+		return sourceCode;
 	}
 }
