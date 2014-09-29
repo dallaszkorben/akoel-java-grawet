@@ -193,18 +193,6 @@ public class GUIFrame extends JFrame{
         menuItem.addActionListener( saveAsActionListener );
         menu.add(menuItem);
         
-        //a group of check box menu items
-//        menu.addSeparator();
-      
-        //Submenu
-/*        JMenu submenu = new JMenu("Submenu");
-//      submenu.setMnemonic(KeyEvent.VK_S);
-        menuItem = new JMenuItem("Submemu eleme");
-//      menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
-        submenu.add(menuItem);
-        menu.add(submenu);
-*/
-        
         //
         //Edit fomenu
         //
@@ -312,14 +300,6 @@ public class GUIFrame extends JFrame{
         
         this.add( splitPaneLeft, BorderLayout.CENTER);
         
-        
-        //JSplitPane splitPaneRight = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, editorPanel, assistantPanel);
-        //splitPaneRight.setOneTouchExpandable(false);
-        //splitPaneRight.setDividerLocation(300);
-        
-        //this.add( splitPaneRight, BorderLayout.CENTER);
-       // this.add( assistantPanel, BorderLayout.EAST );
-                
 		//make sure the JFrame is visible
         this.setVisible(true);
         

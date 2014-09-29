@@ -2,7 +2,9 @@ package hu.akoel.grawit.gui.editor.run;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -13,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
@@ -45,14 +48,15 @@ public class RunTestcaseEditor extends BaseEditor{
 	private ElementProgress elementProgress;
 	
 	private JButton runButton;
-	//private JTextArea reportList;
-	private JTextPane reportList;
-	private DefaultStyledDocument reportDocument;
+	private JTextPane consolPanel;
+	private JTextArea statusPanel;	
+	private JTextArea valuePanel;
+	private DefaultStyledDocument consolDocument;
 	private SimpleAttributeSet attributeError;
 	private SimpleAttributeSet attributePageFinished;
 	private SimpleAttributeSet attributeElementFinished;
 	
-	private JTextArea pageList;	
+	
 	
 	public RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){		
 
@@ -76,8 +80,9 @@ public class RunTestcaseEditor extends BaseEditor{
 						
 						RunTestcaseEditor.this.runButton.setEnabled( false );
 						
-						pageList.setText("");
-						reportList.setText("");
+						valuePanel.setText("");
+						statusPanel.setText("");
+						consolPanel.setText("");
 												
 				    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
 						
@@ -101,21 +106,21 @@ public class RunTestcaseEditor extends BaseEditor{
 				    		
 				    		//reportList.append( compillationException.getMessage() + "\n\n" );
 				    		try {
-								reportDocument.insertString(reportDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
+								consolDocument.insertString(consolDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
 							} catch (BadLocationException e) {e.printStackTrace();}
 				    		
 				    	}catch( PageException pageException ){
 				    		
 				    		//reportList.append( pageException.getMessage() +  "\n\n" );
 				    		try {
-								reportDocument.insertString(reportDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
+								consolDocument.insertString(consolDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
 							} catch (BadLocationException e) {e.printStackTrace();}
 				    	
 				    	//Nem kezbentartott hiba
 				    	}catch( Exception exception ){
 				    		
 				    		try {
-								reportDocument.insertString(reportDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
+								consolDocument.insertString(consolDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
 							} catch (BadLocationException e) {e.printStackTrace();}
 				    	
 				    		
@@ -146,8 +151,8 @@ public class RunTestcaseEditor extends BaseEditor{
 		//reportList = new JTextArea( 4, 11);
 		
 		 StyleContext sc = new StyleContext();
-		 reportDocument = new DefaultStyledDocument(sc);
-		 reportList = new JTextPane(reportDocument);
+		 consolDocument = new DefaultStyledDocument(sc);
+		 consolPanel = new JTextPane(consolDocument);
 		 
 		 //Error attribute
 		 attributeError = new SimpleAttributeSet();
@@ -163,29 +168,40 @@ public class RunTestcaseEditor extends BaseEditor{
 		 StyleConstants.setForeground( attributeElementFinished, Color.BLACK );
 		
 		 //Automatic scroll
-		 DefaultCaret reportListCaret = (DefaultCaret)reportList.getCaret();
+		 DefaultCaret reportListCaret = (DefaultCaret)consolPanel.getCaret();
 		 reportListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		 
 		 //Scroll panel
-		 JScrollPane scrollPaneForReportList = new JScrollPane(reportList);
-		 scrollPaneForReportList.setPreferredSize(new Dimension(10,100));
+		 JScrollPane scrollPaneForConsolPanel = new JScrollPane(consolPanel);
+//		 scrollPaneForConsolPanel.setPreferredSize(new Dimension(10,100));
+		 scrollPaneForConsolPanel.setAutoscrolls(true);
 		 
-		 this.add( scrollPaneForReportList, BorderLayout.SOUTH );
-		 scrollPaneForReportList.setAutoscrolls(true);
+//		 this.add( scrollPaneForConsolPanel, BorderLayout.SOUTH );
+		 
 		 
 		 
 		    
 		
 		
-		//Page list
-		pageList = new JTextArea(2, 25);
-		pageList.setEditable(false);
-		DefaultCaret pageListCaret = (DefaultCaret)pageList.getCaret();
+		//Status panel
+		statusPanel = new JTextArea(2, 25);
+		statusPanel.setEditable(false);
+		DefaultCaret pageListCaret = (DefaultCaret)statusPanel.getCaret();
 		pageListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		JScrollPane spForPageList = new JScrollPane(pageList);
+		JScrollPane scrollPaneForStatusPanel = new JScrollPane(statusPanel);
+
+		//value panel
+		valuePanel = new JTextArea(2, 15);
+		valuePanel.setEditable(false);
+		DefaultCaret valueCaret = (DefaultCaret)statusPanel.getCaret();
+		valueCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		JScrollPane scrollPaneForValuePanel = new JScrollPane(valuePanel);
+		
+		//filler panel
+		JPanel fillerPanel = new JPanel();
 		
 		c.gridy = 0;
-		c.gridx = 1;
+		c.gridx = 2;
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
 		c.gridheight = 2;
@@ -193,10 +209,21 @@ public class RunTestcaseEditor extends BaseEditor{
 		c.weightx = 0;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		controlPanel.add( spForPageList, c );
+		controlPanel.add( scrollPaneForStatusPanel, c );
 		
 		c.gridy = 0;
-		c.gridx = 0;
+		c.gridx = 3;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 2;
+		c.fill = GridBagConstraints.VERTICAL;
+		c.weightx = 0;
+		c.weighty = 1;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		controlPanel.add( scrollPaneForValuePanel, c );
+		
+		c.gridy = 0;
+		c.gridx = 1;
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
 		c.gridheight = 1;
@@ -204,11 +231,61 @@ public class RunTestcaseEditor extends BaseEditor{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		controlPanel.add( runButton, c );
+		controlPanel.add( runButton, c );	
+		
+		c.gridy = 0;
+		c.gridx = 0;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		controlPanel.add( fillerPanel, c );	
+			
+		
+		MyHorizontalSplitPane horizontalSplitPane = new MyHorizontalSplitPane(JSplitPane.VERTICAL_SPLIT, controlPanel, scrollPaneForConsolPanel);
+		horizontalSplitPane.setOneTouchExpandable(false);
+		horizontalSplitPane.setFlippedDividerLocation( 200 );	        
+		this.add( horizontalSplitPane, BorderLayout.CENTER);
 		
 		
-		
-		
+	}
+	
+	
+	public class MyHorizontalSplitPane extends JSplitPane {
+
+		private static final long serialVersionUID = 5556490319250974754L;
+	    
+		private boolean hasAbsoluteLocation = false;
+		private int absoluteLocation = 200;
+	    private boolean isPainted = false;
+
+	    public MyHorizontalSplitPane( int orientation, Component upperComponent, Component lowerComponent ){
+	    	super( orientation, upperComponent, lowerComponent );
+	    }
+	    	    
+	    public void setFlippedDividerLocation(int absoluteLocation) {
+	        if (!isPainted) {
+	            hasAbsoluteLocation = true;
+	            this.absoluteLocation = absoluteLocation;
+	        } else {
+	            super.setDividerLocation(absoluteLocation);
+	        }
+	        setResizeWeight( 1.0 );
+	    }
+	    
+	    public void paint(Graphics g) {
+	        super.paint(g);
+	        if (!isPainted) {
+	            if (hasAbsoluteLocation) {
+	                super.setDividerLocation( this.getHeight() - absoluteLocation);
+	            }
+	            isPainted = true;
+	        }
+	    }
+
 	}
 	
 	class PageProgress implements PageProgressInterface{
@@ -216,8 +293,8 @@ public class RunTestcaseEditor extends BaseEditor{
 		@Override
 		public void pageStarted(String pageID, String nodeType) {			
 			try {
-				reportDocument.insertString(
-						reportDocument.getLength(),  
+				consolDocument.insertString(
+						consolDocument.getLength(),  
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.pagestarted"), 
 								pageID, nodeType
@@ -232,8 +309,8 @@ public class RunTestcaseEditor extends BaseEditor{
 		public void pageEnded(String pageID, String nodeType) {
 		
 			try {
-				reportDocument.insertString(
-						reportDocument.getLength(),  
+				consolDocument.insertString(
+						consolDocument.getLength(),  
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.pageended"), 
 								pageID, nodeType
@@ -242,7 +319,7 @@ public class RunTestcaseEditor extends BaseEditor{
 				);				
 			} catch (BadLocationException e) {e.printStackTrace();}
 			
-			RunTestcaseEditor.this.pageList.append( pageID + " OK\n");
+			RunTestcaseEditor.this.statusPanel.append( pageID + " OK\n");
 			
 		}		
 	}
@@ -252,7 +329,7 @@ public class RunTestcaseEditor extends BaseEditor{
 		@Override
 		public void elementStarted(String name ) {
 			try {
-				reportDocument.insertString(reportDocument.getLength(), "    " + 
+				consolDocument.insertString(consolDocument.getLength(), "    " + 
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.elementstarted"), 
 								"'"+name+"'"
@@ -266,7 +343,7 @@ public class RunTestcaseEditor extends BaseEditor{
 		public void elementEnded(String name) {
 			
 			try {
-				reportDocument.insertString(reportDocument.getLength(), "    " + 
+				consolDocument.insertString(consolDocument.getLength(), "    " + 
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.elementended"), 
 								"'"+name+"'"
@@ -278,7 +355,8 @@ public class RunTestcaseEditor extends BaseEditor{
 
 		@Override
 		public void outputValue(String outputValue) {
-System.err.println(outputValue);
+		
+			RunTestcaseEditor.this.valuePanel.append( outputValue + "\n" );
 			
 		}
 		
