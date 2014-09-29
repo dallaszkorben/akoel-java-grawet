@@ -195,13 +195,13 @@ public class FillBaseElementOperation implements ElementOperationInterface{
 */		
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
-		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
+/*		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
 		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			baseElement.setVariableValue( webElement.getText() );
 		}
-		
+*/		
 		try{
 			
 			//Execute the operation
@@ -214,13 +214,13 @@ public class FillBaseElementOperation implements ElementOperationInterface{
 		}
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
+/*		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			//webElement.sendKeys(Keys.TAB);
 			baseElement.setVariableValue( webElement.getAttribute("value") );		
 		}
-		
+*/		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName(), baseElement.getVariableValue() );
 		}

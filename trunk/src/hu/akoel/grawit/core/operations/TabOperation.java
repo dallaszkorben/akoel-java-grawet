@@ -14,7 +14,6 @@ import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.list.VariableSampleListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
@@ -91,13 +90,13 @@ public class TabOperation implements ElementOperationInterface{
 */		
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
-		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
+/*		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
 		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			baseElement.setVariableValue( webElement.getText() );
 		}
-		
+*/		
 		try{
 			//Execute the operation
 			//webElement.clear();
@@ -107,7 +106,7 @@ public class TabOperation implements ElementOperationInterface{
 			throw new ElementInvalidOperationException( getName(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
 		
-		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
+/*		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
 		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
@@ -115,7 +114,7 @@ public class TabOperation implements ElementOperationInterface{
 			//element.getBaseElement().setVariableValue( webElement.getText() );
 		
 		}
-		
+*/		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
