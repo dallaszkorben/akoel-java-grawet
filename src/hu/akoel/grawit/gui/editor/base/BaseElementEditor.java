@@ -9,7 +9,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.VariableSampleListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.RadioButtonComponent;
@@ -36,7 +35,7 @@ public class BaseElementEditor extends DataEditor{
 	private JLabel labelIdentifier;
 	private TextFieldComponent fieldIdentifier;
 	private ComboBoxComponent<ElementTypeListEnum> comboElementType;
-	private ComboBoxComponent<VariableSampleListEnum> comboVariable;
+//	private ComboBoxComponent<VariableSampleListEnum> comboVariable;
 	private RadioButtonComponent buttonID;
 	private RadioButtonComponent buttonCSS;
 	
@@ -67,7 +66,7 @@ public class BaseElementEditor extends DataEditor{
     	comboElementType.setSelectedIndex( 0 );
     	
     	//Variable
-		comboVariable.setSelectedIndex( 0 );
+//		comboVariable.setSelectedIndex( 0 );
 		
 		commonPost();
 	}
@@ -106,7 +105,7 @@ public class BaseElementEditor extends DataEditor{
 	   	comboElementType.setSelectedIndex( selectedNode.getElementType().getIndex() );
 	   	
 		//Variable	
-		comboVariable.setSelectedIndex( selectedNode.getVariableSample().getIndex() );
+//		comboVariable.setSelectedIndex( selectedNode.getVariableSample().getIndex() );
 	
 		commonPost();
 		
@@ -127,11 +126,12 @@ public class BaseElementEditor extends DataEditor{
 			comboElementType.addItem( ElementTypeListEnum.getElementTypeByIndex(i) );
 		}
 		
-		//Variable
+/*		//Variable
 		comboVariable = new ComboBoxComponent<>();
 		for(int i = 0; i < VariableSampleListEnum.getSize(); i++ ){
 			comboVariable.addItem( VariableSampleListEnum.getVariableSampleByIndex(i) );
 		}
+*/		
 	
 	}
 
@@ -142,7 +142,7 @@ public class BaseElementEditor extends DataEditor{
 		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.label.base.identifier") + ": ");
 		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.label.base.identifiertype") + ": ");
 		JLabel labelElementType = new JLabel( CommonOperations.getTranslation("editor.label.base.elementtype") + ": ");
-		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("editor.label.base.variablesample") + ": " );
+//		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("editor.label.base.variablesample") + ": " );
 		
 		this.add( labelName, fieldName );
 		this.add( labelElementType, comboElementType );
@@ -150,7 +150,7 @@ public class BaseElementEditor extends DataEditor{
 		this.add( labelIdentifier, fieldIdentifier );
 		this.add( labelIdentifierType, buttonID );
 		this.add( new JLabel(), buttonCSS );
-		this.add( labelVariable, comboVariable );
+//		this.add( labelVariable, comboVariable );
 		
 	}
 	
@@ -245,10 +245,10 @@ public class BaseElementEditor extends DataEditor{
 			elementType = (ElementTypeListEnum)comboElementType.getSelectedItem();
 			
 			//Variable sample
-			VariableSampleListEnum variableSample = null;
+//			VariableSampleListEnum variableSample = null;
 			//int selectedIndex = comboVariable.getSelectedIndex();
 			//variableSample = VariableSample.getVariableSampleByIndex( selectedIndex );
-			variableSample = (VariableSampleListEnum)comboVariable.getSelectedItem();
+//			variableSample = (VariableSampleListEnum)comboVariable.getSelectedItem();
 			
 			SelectorType identificationType = null;
 			if( buttonID.isSelected() ){
@@ -262,7 +262,8 @@ public class BaseElementEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				BaseElementDataModel newBaseElement = new BaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, variableSample, fieldFrame.getText()  );				
+				//BaseElementDataModel newBaseElement = new BaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, variableSample, fieldFrame.getText()  );				
+				BaseElementDataModel newBaseElement = new BaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, fieldFrame.getText()  );
 				//BaseElementDataModel newPageBaseElement = new BaseElementDataModel( baseElement );
 			
 				nodeForCapture.add( newBaseElement );
@@ -277,7 +278,7 @@ public class BaseElementEditor extends DataEditor{
 				nodeForModify.setFrame( fieldFrame.getText() );
 				nodeForModify.setIdentifier( fieldIdentifier.getText() );
 				nodeForModify.setElementType(elementType);
-				nodeForModify.setVariableSample( variableSample );
+				//nodeForModify.setVariableSample( variableSample );
 				nodeForModify.setIdentificationType( identificationType );
 				
 			}

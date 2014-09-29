@@ -13,7 +13,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.enums.list.VariableSampleListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
@@ -87,25 +86,25 @@ public abstract class SelectOperationAdapter implements ElementOperationInterfac
 
 			if( getSelectionBy().equals( ListSelectionByListEnum.BYVALUE ) ){
 		
-				//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
+/*				//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
 				if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
 					
 					//Elmenti az elem tartalmat a valtozoba
 					baseElement.setVariableValue( select.getFirstSelectedOption().getAttribute("value") );
 				}			
-			
+*/			
 				//Muvelet
 				select.selectByValue( getStringToSelection() );
 			
 				//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-				if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
+/*				if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 					
 					//Elmenti az elem tartalmat a valtozoba
 					//webElement.sendKeys(Keys.TAB);
 					baseElement.setVariableValue( webElement.getAttribute("value") );
 			
 				}
-			
+*/			
 			}else if( getSelectionBy().equals( ListSelectionByListEnum.BYINDEX ) ){
 			
 				//TODO ki kell talalni, hogy hogyan szerezheto meg a kivalasztott sorszama

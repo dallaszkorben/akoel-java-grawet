@@ -28,7 +28,6 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.VariableSampleListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
@@ -183,12 +182,12 @@ public class FillVariableElementOperation implements ElementOperationInterface{
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
 		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
+/*		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			baseElement.setVariableValue( webElement.getText() );
 		}
-		
+*/		
 		try{
 			//Execute the operation
 			webElement.sendKeys( variableElementDataModel.getValue() );
@@ -198,12 +197,12 @@ public class FillVariableElementOperation implements ElementOperationInterface{
 		}
 		
 		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
+/*		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			baseElement.setVariableValue( webElement.getAttribute("value") );		
 		}
-		
+*/		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName(), baseElement.getVariableValue() );
 		}
