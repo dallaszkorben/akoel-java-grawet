@@ -39,13 +39,13 @@ public class ClearOperation implements ElementOperationInterface{
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 	
+		if( null != elementProgress ){
+			elementProgress.elementStarted( element.getName() );
+		}
+		
 		BaseElementDataModel baseElement = element.getBaseElement();
 		By by = null;
 		WebElement webElement = null;
-		
-		if( null != elementProgress ){
-			elementProgress.elementStarted( element.getName(), baseElement.getVariableValue() );
-		}
 		
 		//Searching for the element - waiting for it
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -113,7 +113,7 @@ public class ClearOperation implements ElementOperationInterface{
 		}
 */		
 		if( null != elementProgress ){
-			elementProgress.elementEnded( element.getName(), baseElement.getVariableValue() );
+			elementProgress.elementEnded( element.getName() );
 		}
 	}
 

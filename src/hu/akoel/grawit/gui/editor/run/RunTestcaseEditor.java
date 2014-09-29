@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -38,14 +39,10 @@ public class RunTestcaseEditor extends BaseEditor{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
-//	private Tree tree;
-	
 	private TestcaseCaseDataModel selectedTestcase;
 	
 	private PageProgress pageProgress;
 	private ElementProgress elementProgress;
-	
-	private static RunTestcaseEditor instance = null;
 	
 	private JButton runButton;
 	//private JTextArea reportList;
@@ -57,22 +54,12 @@ public class RunTestcaseEditor extends BaseEditor{
 	
 	private JTextArea pageList;	
 	
-/*	public static RunTestcaseEditor getInstance( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){
-		if( null == instance ){
-			instance = new RunTestcaseEditor( tree, testcaseCaseElement );
-		}
-		return instance; 
-	}
-*/	
-	
 	public RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){		
 
 		super( CommonOperations.getTranslation( "editor.label.runtest.windowtitle" ) );
 
 		this.selectedTestcase = testcaseCaseElement;
-		
-//		this.tree = tree;	
-		
+
 		pageProgress = new PageProgress();
 		elementProgress = new ElementProgress();
 		
@@ -189,15 +176,6 @@ public class RunTestcaseEditor extends BaseEditor{
 		 
 		    
 		
-/*		reportList = new JTextPane();
-		reportList.setBorder(BorderFactory.createEmptyBorder());
-		reportList.setForeground(Color.red);
-		//Automatikus scroll
-		DefaultCaret reportListCaret = (DefaultCaret)reportList.getCaret();
-		reportListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		JScrollPane spForErrorList = new JScrollPane(reportList);
-		this.add( spForErrorList, BorderLayout.SOUTH );
-*/		
 		
 		//Page list
 		pageList = new JTextArea(2, 25);
@@ -236,62 +214,71 @@ public class RunTestcaseEditor extends BaseEditor{
 	class PageProgress implements PageProgressInterface{
 
 		@Override
-		public void pageStarted(String pageName, String nodeType) {			
+		public void pageStarted(String pageID, String nodeType) {			
 			try {
-				reportDocument.insertString(reportDocument.getLength(), "'" + pageName + "' azonosítójú '" +  nodeType + "' típusú oldal ELINDULT\n", null );
+				reportDocument.insertString(
+						reportDocument.getLength(),  
+						MessageFormat.format(
+								CommonOperations.getTranslation("editor.runtestcase.message.pagestarted"), 
+								pageID, nodeType
+						) + "\n", 
+						attributePageFinished 
+				);		
 			} catch (BadLocationException e) {e.printStackTrace();}
 			
 		}
 
 		@Override
-		public void pageEnded(String idName, String modelName) {
+		public void pageEnded(String pageID, String nodeType) {
 		
 			try {
-				reportDocument.insertString(reportDocument.getLength(), "'" + idName + "' azonosítójú '" +  modelName + "' típusú oldal BEFEJEZ{D)TT\n", attributePageFinished );
+				reportDocument.insertString(
+						reportDocument.getLength(),  
+						MessageFormat.format(
+								CommonOperations.getTranslation("editor.runtestcase.message.pageended"), 
+								pageID, nodeType
+						) + "\n", 
+						attributePageFinished 
+				);				
 			} catch (BadLocationException e) {e.printStackTrace();}
 			
-			RunTestcaseEditor.this.pageList.append( idName + " OK\n");
+			RunTestcaseEditor.this.pageList.append( pageID + " OK\n");
 			
 		}		
 	}
 	
 	class ElementProgress implements ElementProgressInterface{
-
-		@Override
-		public void elementStarted(String name, String value) {
-			try {
-				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem  azonosítása ELINDULT. Értéke: " + value + "\n", null );
-			} catch (BadLocationException e) {e.printStackTrace();}
-			
-		}
 		
 		@Override
 		public void elementStarted(String name ) {
 			try {
-				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem  azonosítása ELINDULT\n", null );
+				reportDocument.insertString(reportDocument.getLength(), "    " + 
+						MessageFormat.format(
+								CommonOperations.getTranslation("editor.runtestcase.message.elementstarted"), 
+								"'"+name+"'"
+						) + "\n", null 
+				);
 			} catch (BadLocationException e) {e.printStackTrace();}
 			
 		}
-
-		@Override
-		public void elementEnded(String name, String value) {
-			try {
-				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem BEFEJEZ{D)TT. Értéke: " + value + "\n", attributeElementFinished );
-			} catch (BadLocationException e) {e.printStackTrace();}		
-			
-		}
-		
+	
 		@Override
 		public void elementEnded(String name) {
+			
 			try {
-				reportDocument.insertString(reportDocument.getLength(), "   '" + name + "' azonosítójú elem BEFEJEZ{D)TT.\n", attributeElementFinished );
+				reportDocument.insertString(reportDocument.getLength(), "    " + 
+						MessageFormat.format(
+								CommonOperations.getTranslation("editor.runtestcase.message.elementended"), 
+								"'"+name+"'"
+						) + "\n", null 
+				);
 			} catch (BadLocationException e) {e.printStackTrace();}		
 			
 		}
 
 		@Override
-		public void getMessage(String message) {
-System.err.println(message);
+		public void outputValue(String outputValue) {
+System.err.println(outputValue);
 			
 		}
 		
