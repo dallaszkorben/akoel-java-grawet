@@ -8,12 +8,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,8 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
@@ -43,37 +39,83 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	/**
 	 * Uj rogzites
 	 * 
+	 * @param classForSelect
 	 * @param rootDataModel
 	 */
-	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel ){
+/*	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel ){
 		super();
 	
-		common( classForSelect, rootDataModel, null );		
+		common( classForSelect, rootDataModel, null, false );		
 	}
+*/
+	/**
+	 * Uj rogzites
+	 * 
+	 * @param classForSelect
+	 * @param rootDataModel
+	 * @param enableEmpty		Engedelyezi a mezo torleset
+	 * 
+	 */
+/*	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel, boolean enableEmpty ){
+		super();
+	
+		common( classForSelect, rootDataModel, null, enableEmpty );		
+	}
+*/
 	
 	/**
 	 * Modositas
 	 * 
+	 * @param classForSelect
 	 * @param rootDataModel
 	 * @param selectedDataModel
 	 */
-	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel, F selectedDataModel ){
+/*	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel, F selectedDataModel ){
 		super();
 	
-		common( classForSelect, rootDataModel, selectedDataModel );
+		common( classForSelect, rootDataModel, selectedDataModel, false );
 
 		setSelectedDataModelToField( selectedDataModel );
 		
 	}
+*/	
+	/**
+	 * 
+	 * Modositas
+	 * 
+	 * @param classForSelect
+	 * @param rootDataModel
+	 * @param selectedDataModel
+	 * @param enableEmpty			engedelyezi a mezo torleset
+	 */
+	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel, F selectedDataModel, boolean enableEmpty ){
+		super();
 	
-	private void common( Class<F> classForSelect, final DataModelInterface rootDataModel, final F selectedDataModel ){	
+		common( classForSelect, rootDataModel, selectedDataModel, enableEmpty );
+
+		if( null != selectedDataModel ){
+			setSelectedDataModelToField( selectedDataModel );
+		}
+		
+	}
+	
+	private void common( Class<F> classForSelect, final DataModelInterface rootDataModel, F selectedDataModel, final boolean enableEmpty ){	
 		
 		this.classForSelect = classForSelect;
+		this.selectedDataModel = selectedDataModel;
 		
 		this.setLayout(new BorderLayout());
 		
 		field.setEditable( false );
 		field.setBackground(FIELD_BACKGROUND);
+		field.addKeyListener( new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+		        if ( button.isEnabled() && enableEmpty && e.getKeyCode() == KeyEvent.VK_BACK_SPACE ) {
+		          field.setText( "" );
+		          TreeSelectorComponent.this.selectedDataModel = null;
+		        }
+		      }
+		});		
 				
 		button = new JButton("...");
 		
@@ -84,7 +126,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 			public void actionPerformed(ActionEvent e) {
 				
 				//Akkor megnyitja a Dialogus ablakot a Page valasztashoz
-				new SelectorDialog( TreeSelectorComponent.this, rootDataModel, selectedDataModel );
+				new SelectorDialog( TreeSelectorComponent.this, rootDataModel, TreeSelectorComponent.this.selectedDataModel );
 			}
 		} );
 
@@ -97,7 +139,8 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	}
 
 	@Override
-	public void setEnableModify(boolean enable) {
+	public void setEnableModify(boolean enable) {		
+		
 		button.setEnabled( enable );
 	}
 

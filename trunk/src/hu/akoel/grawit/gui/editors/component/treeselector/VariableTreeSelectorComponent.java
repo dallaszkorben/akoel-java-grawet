@@ -14,11 +14,11 @@ public class VariableTreeSelectorComponent extends TreeSelectorComponent<Variabl
 	private static final long serialVersionUID = 5692189257383238770L;
 
 	public VariableTreeSelectorComponent( VariableDataModelInterface rootDataModel ) {
-		super(VariableElementDataModel.class, rootDataModel);
+		super(VariableElementDataModel.class, rootDataModel, null, false );
 	}
 
 	public VariableTreeSelectorComponent( VariableDataModelInterface rootDataModel, VariableElementDataModel selectedVariableElementDataModel ) {
-		super(VariableElementDataModel.class, rootDataModel, selectedVariableElementDataModel);
+		super(VariableElementDataModel.class, rootDataModel, selectedVariableElementDataModel, false );
 	}
 	
 	@Override
