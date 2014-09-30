@@ -16,11 +16,11 @@ public class SpecialCustomTreeSelectorComponent extends TreeSelectorComponent<Sp
 	private static final long serialVersionUID = -3698310168899684818L;
 
 	public SpecialCustomTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
-		super(SpecialCustomDataModel.class, rootDataModel);
+		super(SpecialCustomDataModel.class, rootDataModel, null, false );
 	}
 
 	public SpecialCustomTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialCustomDataModel selectedSpecialDataModel ) {
-		super(SpecialCustomDataModel.class, rootDataModel, selectedSpecialDataModel);
+		super(SpecialCustomDataModel.class, rootDataModel, selectedSpecialDataModel, false);
 	}
 	
 	@Override

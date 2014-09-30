@@ -14,12 +14,12 @@ public class SpecialCloseTreeSelectorComponent extends TreeSelectorComponent<Spe
 
 	private static final long serialVersionUID = -3698310168899684818L;
 
-	public SpecialCloseTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
-		super(SpecialCloseDataModel.class, rootDataModel);
-	}
+//	public SpecialCloseTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
+//		super(SpecialCloseDataModel.class, rootDataModel, true );
+//	}
 
 	public SpecialCloseTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialCloseDataModel selectedCloseDataModel ) {
-		super(SpecialCloseDataModel.class, rootDataModel, selectedCloseDataModel);
+		super(SpecialCloseDataModel.class, rootDataModel, selectedCloseDataModel, true );
 	}
 	
 	@Override

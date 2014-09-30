@@ -59,7 +59,7 @@ public class TestcaseCaseEditor extends DataEditor{
 		fieldOpenTreeSelector = new SpecialOpenTreeSelectorComponent(specialDataModel);
 		
 		//SpecialCloseTreeSelector
-		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent(specialDataModel);
+		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent(specialDataModel, null);
 			
 		//DriverTreeSelector
 		fieldDriverTreeSelector = new DriverTreeSelectorComponent(driverDataModel);
@@ -86,7 +86,7 @@ public class TestcaseCaseEditor extends DataEditor{
 		//SpecialOpenTreeSelector
 		fieldOpenTreeSelector = new SpecialOpenTreeSelectorComponent( specialDataModel, selectedNode.getOpenPage() );
 		
-		//SpecialOpenTreeSelector
+		//SpecialCloseTreeSelector
 		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent( specialDataModel, selectedNode.getClosePage() );
 				
 		//DriverTreeSelector
@@ -149,7 +149,7 @@ public class TestcaseCaseEditor extends DataEditor{
 					)
 			);			
 			
-		}else if( null == fieldCloseTreeSelector.getSelectedDataModel() ){
+		/*}else if( null == fieldCloseTreeSelector.getSelectedDataModel() ){
 			errorList.put( 
 					fieldCloseTreeSelector,
 					MessageFormat.format(
@@ -157,7 +157,7 @@ public class TestcaseCaseEditor extends DataEditor{
 							"'"+labelCloseSpecialTreeSelector.getText()+"'"
 					)
 			);			
-			
+			*/
 		}else if( null == fieldDriverTreeSelector.getSelectedDataModel() ){
 			errorList.put( 
 					fieldDriverTreeSelector,

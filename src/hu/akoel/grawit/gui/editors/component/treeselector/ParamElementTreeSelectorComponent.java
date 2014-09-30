@@ -16,11 +16,11 @@ public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<Par
 	private static final long serialVersionUID = 8754108739802478258L;
 
 	public ParamElementTreeSelectorComponent( ParamDataModelInterface paramRootDataModel ) {
-		super(ParamElementDataModel.class, paramRootDataModel);
+		super(ParamElementDataModel.class, paramRootDataModel, null, false);
 	}
 
 	public ParamElementTreeSelectorComponent( ParamDataModelInterface paramRootDataModel, ParamElementDataModel selectedParamPageDataModel ) {
-		super(ParamElementDataModel.class, paramRootDataModel, selectedParamPageDataModel);
+		super(ParamElementDataModel.class, paramRootDataModel, selectedParamPageDataModel, false);
 	}
 	
 	@Override

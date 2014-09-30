@@ -3,8 +3,6 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
@@ -12,11 +10,6 @@ import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
-
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -26,11 +19,11 @@ public class DriverTreeSelectorComponent extends TreeSelectorComponent<DriverBro
 	private static final long serialVersionUID = -3698310168899684818L;
 
 	public DriverTreeSelectorComponent( DriverDataModelInterface rootDataModel ) {
-		super(DriverBrowserDataModelInterface.class, rootDataModel);
+		super(DriverBrowserDataModelInterface.class, rootDataModel, null, false );
 	}
 
 	public DriverTreeSelectorComponent( DriverDataModelInterface rootDataModel, DriverBrowserDataModelInterface selectedSpecialDataModel ) {
-		super(DriverBrowserDataModelInterface.class, rootDataModel, selectedSpecialDataModel);
+		super(DriverBrowserDataModelInterface.class, rootDataModel, selectedSpecialDataModel, false);
 	}
 	
 	@Override

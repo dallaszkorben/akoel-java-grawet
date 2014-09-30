@@ -3,7 +3,6 @@ package hu.akoel.grawit.gui.editor.run;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -54,9 +53,7 @@ public class RunTestcaseEditor extends BaseEditor{
 	private DefaultStyledDocument consolDocument;
 	private SimpleAttributeSet attributeError;
 	private SimpleAttributeSet attributePageFinished;
-	private SimpleAttributeSet attributeElementFinished;
-	
-	
+	private SimpleAttributeSet attributeElementFinished;	
 	
 	public RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){		
 
@@ -100,7 +97,10 @@ public class RunTestcaseEditor extends BaseEditor{
 				    			pageToRun.doAction(webDriver, pageProgress, elementProgress);
 				    		}					
 				
-//				    		closePage.doAction( webDriver, pageProgress, elementProgress );
+				    		//Ha van closePage definialva, akkor vegrehajtom
+				    		if( null != closePage ){
+				    			closePage.doAction( webDriver, pageProgress, elementProgress );
+				    		}
 				
 				    	}catch( CompilationException compillationException ){
 				    		

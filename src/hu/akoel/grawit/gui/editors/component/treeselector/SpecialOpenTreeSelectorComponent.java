@@ -15,11 +15,11 @@ public class SpecialOpenTreeSelectorComponent extends TreeSelectorComponent<Spec
 	private static final long serialVersionUID = -3698310168899684818L;
 
 	public SpecialOpenTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
-		super(SpecialOpenDataModel.class, rootDataModel);
+		super(SpecialOpenDataModel.class, rootDataModel, null, false );
 	}
 
 	public SpecialOpenTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialOpenDataModel selectedOpenDataModel ) {
-		super(SpecialOpenDataModel.class, rootDataModel, selectedOpenDataModel);
+		super(SpecialOpenDataModel.class, rootDataModel, selectedOpenDataModel, false );
 	}
 	
 	@Override

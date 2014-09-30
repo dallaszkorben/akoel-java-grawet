@@ -15,11 +15,11 @@ public class BaseElementTreeSelectorComponent extends TreeSelectorComponent<Base
 	private static final long serialVersionUID = -5178610032767904794L;
 
 	public BaseElementTreeSelectorComponent( BaseDataModelInterface rootDataModel ) {
-		super(BaseElementDataModel.class, rootDataModel);
+		super(BaseElementDataModel.class, rootDataModel, null, false);
 	}
 
 	public BaseElementTreeSelectorComponent( BaseDataModelInterface rootDataModel, BaseElementDataModel selectedBaseElementDataModel ) {
-		super(BaseElementDataModel.class, rootDataModel, selectedBaseElementDataModel);
+		super(BaseElementDataModel.class, rootDataModel, selectedBaseElementDataModel, false);
 	}
 	
 	@Override

@@ -3,7 +3,7 @@ package hu.akoel.grawit.enums.list.elementtypeoperations;
 import hu.akoel.grawit.CommonOperations;
 
 public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
-	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.click") ),	
+	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.click") ),	
 	;
 	
 	private String translatedName;
