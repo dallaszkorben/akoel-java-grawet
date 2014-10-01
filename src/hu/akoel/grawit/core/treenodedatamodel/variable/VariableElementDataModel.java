@@ -69,6 +69,10 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 			
 		}else if( ParameterTypeListEnum.RANDOM_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = ParameterTypeListEnum.RANDOM_DATE_PARAMETER;
+			
+		}else if( ParameterTypeListEnum.TODAY_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ParameterTypeListEnum.TODAY_DATE_PARAMETER;
+			
 		}
 		
 		parameters = new ArrayList<Object>();
