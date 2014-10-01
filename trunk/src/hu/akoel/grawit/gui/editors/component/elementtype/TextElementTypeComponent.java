@@ -22,13 +22,17 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 
 	private static final long serialVersionUID = -6108131072338954554L;
 
-	private JTextField fieldType;
-	private JComboBox<E> comboOperationList;
-	private JTextField fieldPattern;
-		
 	private JLabel labelType;
+	private JTextField fieldType;
+	
 	private JLabel labelOperations;	
+	private JComboBox<E> comboOperationList;
+	
 	private JLabel labelPattern;
+	private JTextField fieldPattern;
+	
+	private JLabel labelMessage;
+	private JTextField fieldMessage;
 	
 	private JLabel labelFiller;
 	
@@ -62,12 +66,14 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
 		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.pattern") + ": ");
+		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.param.message") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
 		fieldType.setEditable(false);
 		
 		fieldPattern = new JTextField();
+		fieldMessage = new JTextField();
 		
 		comboOperationList = new JComboBox<>();
 		for( int i = 0; i < E.getSize(); i++ ){
@@ -166,6 +172,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 			}else if ( elementOperation instanceof OutputValueOperation ){
 				
 				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );
+				fieldMessage.setText( ((OutputValueOperation)elementOperation).getMessageToShow());
 				
 			}
 		}
@@ -180,12 +187,20 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		return fieldPattern.getText();
 	}	
 	
+	public String getMessage(){
+		return fieldMessage.getText();
+	}	
+	
 	@Override
 	public void setEnableModify(boolean enable) {
 		comboOperationList.setEnabled( enable );		
 		
 		if( null != fieldPattern  && fieldPattern.isVisible() ){
 			fieldPattern.setEditable( enable );
+		}
+		
+		if( null != fieldMessage  && fieldMessage.isVisible() ){
+			fieldMessage.setEditable( enable );
 		}
 	}
 
@@ -200,7 +215,9 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		c.insets = new Insets(0,0,0,0);
 		
 		this.remove( labelPattern );
+		this.remove( labelMessage );
 		this.remove( fieldPattern );
+		this.remove( fieldMessage );
 		this.remove( labelFiller );
 		
 		//GAINTEXTPATTERN 
@@ -222,7 +239,20 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		//OUTPUTVALUE
 		}else if( selectedOperation.equals(E.OUTPUTVALUE)){
 
-			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelMessage, c );
+		
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldMessage, c );
+			
+/*			//Filler
 			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
@@ -231,6 +261,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 			c.weightx = 1;
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
+*/			
 		}
 		
 		this.revalidate();
@@ -246,7 +277,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		
 		//OUTPUTVALUE
 		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTVALUE.getIndex() ){
-			return new OutputValueOperation();
+			return new OutputValueOperation( fieldMessage.getText() );
 		}
 		
 		return null;

@@ -48,11 +48,11 @@ public class SelectVariableElementOperation extends SelectOperationAdapter{
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_SELECTION_BY );			
 		}
 		String stringSelectionBy = element.getAttribute( ATTR_SELECTION_BY );		
-		if( stringSelectionBy.equals( ListSelectionByListEnum.BYINDEX ) ){
+		if( stringSelectionBy.equals( ListSelectionByListEnum.BYINDEX.name() ) ){
 			selectionBy = ListSelectionByListEnum.BYINDEX;
-		}else if( stringSelectionBy.equals( ListSelectionByListEnum.BYVALUE ) ){
+		}else if( stringSelectionBy.equals( ListSelectionByListEnum.BYVALUE.name() ) ){
 			selectionBy = ListSelectionByListEnum.BYVALUE;
-		}else if( stringSelectionBy.equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
+		}else if( stringSelectionBy.equals( ListSelectionByListEnum.BYVISIBLETEXT.name() ) ){
 			selectionBy = ListSelectionByListEnum.BYVISIBLETEXT;
 		}else{
 			selectionBy = ListSelectionByListEnum.BYVISIBLETEXT;

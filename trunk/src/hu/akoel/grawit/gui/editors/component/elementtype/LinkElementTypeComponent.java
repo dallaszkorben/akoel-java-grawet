@@ -24,12 +24,17 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 	private static final long serialVersionUID = -6108131072338954554L;
 
 	private JTextField fieldType;
-	private JComboBox<E> comboOperationList;
-	private JTextField fieldPattern;
-		
 	private JLabel labelType;
-	private JLabel labelOperations;	
+	
+	private JComboBox<E> comboOperationList;
+	private JLabel labelOperations;
+	
+	private JTextField fieldPattern;	
 	private JLabel labelPattern;
+	
+	//Message - Mezo ertekenek megjelenitese
+	private JLabel labelMessage;
+	private JTextField fieldMessage;
 	
 	private JLabel labelFiller;
 	
@@ -66,9 +71,9 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
-		fieldType.setEditable(false);
-		
+		fieldType.setEditable(false);		
 		fieldPattern = new JTextField();
+		fieldMessage = new JTextField();
 		
 		comboOperationList = new JComboBox<>();
 		for( int i = 0; i < E.getSize(); i++ ){
@@ -181,7 +186,8 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 				
 			}else if ( elementOperation instanceof OutputValueOperation ){
 				
-				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );
+				fieldMessage.setText( ((OutputValueOperation)elementOperation).getMessageToShow());
+				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );		
 				
 			}
 			
@@ -205,6 +211,11 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		if( null != fieldPattern  && fieldPattern.isVisible() ){
 			fieldPattern.setEditable( enable );
 		}
+		
+		if( null != fieldMessage  && fieldMessage.isVisible() ){
+			fieldMessage.setEditable( enable );
+		}
+		
 	}
 
 	@Override
@@ -220,6 +231,8 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		this.remove( labelPattern );
 		this.remove( fieldPattern );
 		this.remove( labelFiller );
+		this.remove( fieldMessage );
+		this.remove( labelMessage );
 		
 		if( selectedOperation.equals( E.CLICK ) ){
 		
@@ -235,18 +248,22 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			
 		}else if( selectedOperation.equals( E.OUTPUTVALUE ) ){
 			
-			//Filler
 			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
 			c.weighty = 0;
 			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1;
+			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelFiller, c );
+			this.add( labelMessage, c );
+		
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldMessage, c );
 			
 		}else if( selectedOperation.equals( E.GAINTEXTPATTERN ) ){
 			
+			//Filler
 			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
@@ -292,7 +309,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		
 		//OUTPUTVALUE
 		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTVALUE.getIndex() ){
-			return new OutputValueOperation();
+			return new OutputValueOperation( fieldMessage.getText() );
 		}
 		
 		return null;
