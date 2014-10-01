@@ -271,9 +271,9 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		
 		
 		//Kitolto
-		gridY++;
+		//gridY++;
 		c.gridy = gridY;
-		c.gridx = 2;
+		c.gridx = 3;
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;

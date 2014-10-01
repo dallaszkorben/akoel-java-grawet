@@ -20,6 +20,7 @@ import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParameter
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomIntegerComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomStringComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersStringComponent;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersTodayDateComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -224,6 +225,22 @@ public class VariableElementEditor extends DataEditor{
 								fieldVariableParameters = new VariableParametersRandomDateComponent(type);
 							}
 						}										
+						
+					//TODAY_DATE_PARAMETER
+					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.TODAY_DATE_PARAMETER ) ){
+							
+						//Nem ez az elso valtoztatas
+						if( null != fieldVariableParameters ){
+							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
+							fieldVariableParameters = new VariableParametersTodayDateComponent(type);
+						}else{
+							//Modositas volt
+							if( null != nodeForModify ){
+								fieldVariableParameters = new VariableParametersTodayDateComponent(type, nodeForModify.getParameters() );
+							}else{
+								fieldVariableParameters = new VariableParametersTodayDateComponent(type);
+							}
+						}							
 						
 					}
 					

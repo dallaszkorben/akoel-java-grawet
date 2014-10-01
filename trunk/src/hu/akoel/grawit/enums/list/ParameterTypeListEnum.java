@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
@@ -18,6 +19,7 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class}),
 	INTEGER_PARAMETER( 4, CommonOperations.getTranslation("editor.label.variable.parametertype.integer"), new Class<?>[]{Integer.class}),
 	RANDOM_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate"), new Class<?>[]{String.class, String.class, String.class, String.class }),
+	TODAY_DATE_PARAMETER( 6, CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate"), new Class<?>[]{String.class, String.class }),
 	;
 	
 	private int index;
@@ -88,10 +90,13 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 				}				
 				return CommonOperations.getRandomStringDate( fromCalendar, toCalendar, sdf );
 			
-		}
-
-//TODO ne felejtsd el folytatni		
+		}else if( this.equals( TODAY_DATE_PARAMETER ) ){
+			SimpleDateFormat sdf = new SimpleDateFormat( (String)parameters.get(0) );
+			Calendar calendar = GregorianCalendar.getInstance();
+			return sdf.format( calendar );
 		
+		}
+	
 		return null;
 	}
 	
@@ -111,6 +116,7 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 		case 3: return RANDOM_DOUBLE_PARAMETER;
 		case 4: return INTEGER_PARAMETER;
 		case 5: return RANDOM_DATE_PARAMETER;
+		case 6: return TODAY_DATE_PARAMETER;
 		default: return STRING_PARAMETER;
 		}
 	}

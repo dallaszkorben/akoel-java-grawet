@@ -4,7 +4,6 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
