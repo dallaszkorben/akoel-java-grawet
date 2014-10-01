@@ -6,6 +6,6 @@ public interface ElementProgressInterface {
 	
 	public void elementEnded( String name );
 	
-	public void outputValue( String outputValue );
+	public void outputValue( String outputValue, String message );
 	
 }

@@ -354,9 +354,13 @@ public class RunTestcaseEditor extends BaseEditor{
 		}
 
 		@Override
-		public void outputValue(String outputValue) {
+		public void outputValue(String outputValue, String message ) {
 		
-			RunTestcaseEditor.this.valuePanel.append( outputValue + "\n" );
+			if( null == message || message.trim().length() == 0 ){
+				RunTestcaseEditor.this.valuePanel.append( outputValue + "\n" );
+			}else{
+				RunTestcaseEditor.this.valuePanel.append( message + ": " + outputValue + "\n" );
+			}
 			
 		}
 		

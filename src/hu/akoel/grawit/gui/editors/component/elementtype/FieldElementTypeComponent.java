@@ -31,20 +31,29 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 
 	private static final long serialVersionUID = -6108131072338954554L;
 	
-	private JTextField fieldType;
-	private JComboBox<E> comboOperationList;
-		
+	//Type
 	private JLabel labelType;
-	private JLabel labelOperations;	
+	private JTextField fieldType;
 	
+	//Operation
+	private JLabel labelOperations;	
+	private JComboBox<E> comboOperationList;	
+	
+	//Variable selector - Mezo kitoltes
 	private JLabel labelVariableSelector;
 	private VariableTreeSelectorComponent fieldVariableSelector;
 	
+	//BaseElement selector - Mezo kitoltes
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;
 	
+	//String - Mezo kitoltes
 	private JLabel labelString;
 	private JTextField fieldString;
+
+	//Message - Mezo ertekenek megjelenitese
+	private JLabel labelMessage;
+	private JTextField fieldMessage;
 	
 	private JLabel labelFiller;
 	
@@ -85,10 +94,12 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
 		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": ");
+		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.param.message") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
 		fieldType.setEditable(false);
+		fieldMessage = new JTextField();
 
 		comboOperationList = new JComboBox<>();
 		for( int i = 0; i < E.getSize(); i++ ){
@@ -192,7 +203,8 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 				
 			}else if ( elementOperation instanceof OutputValueOperation ){
 				
-				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );
+				fieldMessage.setText( ((OutputValueOperation)elementOperation).getMessageToShow());
+				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );				
 				
 			}			
 		}
@@ -212,6 +224,10 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		
 //		}else if( null != fieldVariableSelector && fieldVariableSelector.isVisible() ){
 			fieldVariableSelector.setEnableModify( enable );
+//		}
+			
+//		if( null != fieldMessage  && fieldMessage.isVisible() ){
+			fieldMessage.setEditable( enable );
 //		}
 	}
 
@@ -248,6 +264,12 @@ for( int i = 0; i < components.length; i++ ){
 		
 	}else if( components[i] == labelFiller ){
 		this.remove( labelFiller );	
+		
+	}else if( components[i] == fieldMessage ){
+		this.remove( fieldMessage );
+	
+	}else if( components[i] == labelMessage ){
+		this.remove( labelMessage );
 		
 	}
 }
@@ -340,16 +362,30 @@ for( int i = 0; i < components.length; i++ ){
 			this.add( labelFiller, c );
 			
 		}else if( selectedOperation.equals( E.OUTPUTVALUE ) ){
+	
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelMessage, c );
+		
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldMessage, c );
 			
 			//Filler
-			c.gridy = 0;
+/*			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
 			c.weighty = 0;
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 1;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelFiller, c );			
+			this.add( labelFiller, c );
+*/						
 		}		
 
 		this.revalidate();
@@ -385,7 +421,7 @@ for( int i = 0; i < components.length; i++ ){
 	
 		//OUTPUTVALUE
 		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTVALUE.getIndex() ){
-			return new OutputValueOperation();
+			return new OutputValueOperation( fieldMessage.getText() );
 		}
 	
 		return null;

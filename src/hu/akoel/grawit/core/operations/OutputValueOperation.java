@@ -18,20 +18,20 @@ public class OutputValueOperation implements ElementOperationInterface{
 	private static final String ATTR_MESSAGE = "message";
 	
 	//--- Data model
-	//private String message;
+	private String message;
 	//---
 	
-	public OutputValueOperation( ){
-		//this.message = stringToShow;
+	public OutputValueOperation( String message ){
+		this.message = message;
 	}
 	
 	public OutputValueOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
-/*		if( !element.hasAttribute( ATTR_MESSAGE ) ){
+		if( !element.hasAttribute( ATTR_MESSAGE ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_MESSAGE );			
 		}
 		message = element.getAttribute( ATTR_MESSAGE );
-*/				
+				
 	}
 	
 	public static String getStaticName(){
@@ -56,24 +56,22 @@ public class OutputValueOperation implements ElementOperationInterface{
 			elementProgress.elementStarted( element.getName() );
 	
 			BaseElementDataModel baseElement = element.getBaseElement();
-			elementProgress.outputValue( baseElement.getVariableValue() );
+			elementProgress.outputValue( baseElement.getVariableValue(), message );
 			
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
 
-/*	public String getMessageToShow() {
+	public String getMessageToShow() {
 		return message;
 	}
-*/
+
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-/*		Attr attr = document.createAttribute( ATTR_MESSAGE );
+		Attr attr = document.createAttribute( ATTR_MESSAGE );
 		attr.setValue( message );
-		element.setAttributeNode(attr);
-*/				
+		element.setAttributeNode(attr);				
 	}
-
 
 }
