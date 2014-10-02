@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.text.MaskFormatter;
 
-public enum FormDateListEnum implements ElementTypeOperationsListEnumInterface{		
+public enum DateFormListEnum implements ElementTypeOperationsListEnumInterface{		
 	ddMMyyyy_slash( 0, "dd/MM/yyyy", "dd/MM/yyyy", "##/##/####" ),
 	ddMMyyyy_hyphen( 1, "dd-MM-yyyy", "dd-MM-yyyy", "##-##-####" ),
 	ddMMyyyy_dot( 2, "dd.MM.yyyy", "dd.MM.yyyy", "##.##.####" ),
@@ -24,7 +24,7 @@ public enum FormDateListEnum implements ElementTypeOperationsListEnumInterface{
 	private String stringFormat;
 	private String stringMask;
 	
-	private FormDateListEnum( int index, String translatedName, String stringFormat, String stringMask ){
+	private DateFormListEnum( int index, String translatedName, String stringFormat, String stringMask ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -33,7 +33,7 @@ public enum FormDateListEnum implements ElementTypeOperationsListEnumInterface{
 	}
 	
 	public static int getSize(){
-		return FormDateListEnum.values().length;
+		return DateFormListEnum.values().length;
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public enum FormDateListEnum implements ElementTypeOperationsListEnumInterface{
 		return formatter;
 	}
 	
-	public static FormDateListEnum getFormDateByMask( String mask ){
+	public static DateFormListEnum getDateFormByMask( String mask ){
 		
 		for( int i = 0; i < getSize(); i++ ){
 			if( getFormDateByIndex(i).stringMask.equals( mask ) ){
@@ -82,7 +82,7 @@ public enum FormDateListEnum implements ElementTypeOperationsListEnumInterface{
 		
 	}
 	
-	public static FormDateListEnum getFormDateByIndex( int index ){
+	public static DateFormListEnum getFormDateByIndex( int index ){
 		switch (index){
 		case 0:	return ddMMyyyy_slash;
 		case 1: return ddMMyyyy_hyphen;

@@ -19,7 +19,7 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class}),
 	INTEGER_PARAMETER( 4, CommonOperations.getTranslation("editor.label.variable.parametertype.integer"), new Class<?>[]{Integer.class}),
 	RANDOM_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate"), new Class<?>[]{String.class, String.class, String.class, String.class }),
-	TODAY_DATE_PARAMETER( 6, CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate"), new Class<?>[]{String.class, String.class }),
+	TODAY_DATE_PARAMETER( 6, CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate"), new Class<?>[]{String.class, String.class, String.class, Integer.class }),
 	;
 	
 	private int index;
@@ -93,6 +93,19 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 		}else if( this.equals( TODAY_DATE_PARAMETER ) ){
 			SimpleDateFormat sdf = new SimpleDateFormat( (String)parameters.get(0) );
 			Calendar calendar = GregorianCalendar.getInstance();
+			
+			//PLUS
+			if( ((String)parameters.get(2)).equals(DateDigressionListEnum.PLUS.name() ) ){
+				
+				calendar.add(Calendar.DAY_OF_MONTH, new Integer( (String)parameters.get(3) ) );
+				
+			//MINUS
+			}else if( ((String)parameters.get(2)).equals(DateDigressionListEnum.MINUS.name() ) ){
+				
+				calendar.add(Calendar.DAY_OF_MONTH, new Integer( "-" + (String)parameters.get(3) ) );				
+				
+			}
+			
 			return sdf.format( calendar.getTime() );
 		
 		}

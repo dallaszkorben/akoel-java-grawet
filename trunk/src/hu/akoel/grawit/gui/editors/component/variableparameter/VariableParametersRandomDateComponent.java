@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.FormDateListEnum;
+import hu.akoel.grawit.enums.list.DateFormListEnum;
 import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 
 import java.awt.Component;
@@ -189,8 +189,8 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		
 		fieldFormatDate = new FormDateComboBox();
 		//Feltoltom a listat
-		for( int i = 0; i < FormDateListEnum.getSize(); i++ ){		
-			fieldFormatDate.addItem( FormDateListEnum.getFormDateByIndex(i) );
+		for( int i = 0; i < DateFormListEnum.getSize(); i++ ){		
+			fieldFormatDate.addItem( DateFormListEnum.getFormDateByIndex(i) );
 		}
 		fieldFormatDate.addItemListener( new ItemListener() {
 			
@@ -203,15 +203,15 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
 					//DateFormat oldDateFormat = (DateFormat)parameterList.get(PARAMETERORDER_FORMAT);
-					DateFormat newDateFormat = FormDateListEnum.getFormDateByIndex(index).getDateFormat();
+					DateFormat newDateFormat = DateFormListEnum.getFormDateByIndex(index).getDateFormat();
 
 					String oldFromText = fieldFrom.getText();
 					String oldToText = fieldTo.getText();
 					
 					try {						
 						
-						MaskFormatter newMaskFormatterFrom = FormDateListEnum.getFormDateByIndex(index).getMask();
-						MaskFormatter newMaskFormatterTo = FormDateListEnum.getFormDateByIndex(index).getMask();
+						MaskFormatter newMaskFormatterFrom = DateFormListEnum.getFormDateByIndex(index).getMask();
+						MaskFormatter newMaskFormatterTo = DateFormListEnum.getFormDateByIndex(index).getMask();
 						DefaultFormatterFactory fromFactory = new DefaultFormatterFactory(newMaskFormatterFrom);		
 						DefaultFormatterFactory toFactory = new DefaultFormatterFactory(newMaskFormatterTo);	
 						fieldFrom.setFormatterFactory(fromFactory);
@@ -227,8 +227,8 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 						
 						parameterList.set(PARAMETERORDER_FROM, newDateFormat.format(newDateFrom ) );
 						parameterList.set(PARAMETERORDER_TO, newDateFormat.format(newDateTo ) );
-						parameterList.set(PARAMETERORDER_FORMAT, FormDateListEnum.getFormDateByIndex(index).getStringDateFormat() );
-						parameterList.set(PARAMETERORDER_MASK, FormDateListEnum.getFormDateByIndex(index).getStringMask() );
+						parameterList.set(PARAMETERORDER_FORMAT, DateFormListEnum.getFormDateByIndex(index).getStringDateFormat() );
+						parameterList.set(PARAMETERORDER_MASK, DateFormListEnum.getFormDateByIndex(index).getStringMask() );
 
 						dateFormat = newDateFormat;
 						maskFormatterFrom = newMaskFormatterFrom;
@@ -285,7 +285,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 //		fieldFormatDate.setSelectedIndex( FormDate.ddMMyyyy_dot.getIndex() );
 	
 		
-		FormDateListEnum fd = FormDateListEnum.getFormDateByMask( (String)parameterList.get(PARAMETERORDER_MASK) );
+		DateFormListEnum fd = DateFormListEnum.getDateFormByMask( (String)parameterList.get(PARAMETERORDER_MASK) );
 		fieldFormatDate.setSelectedIndex( fd.getIndex() );	
 	}	
 	
@@ -306,7 +306,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 		return parameterList;
 	}
 	
-	class FormDateComboBox extends JComboBox<FormDateListEnum>{
+	class FormDateComboBox extends JComboBox<DateFormListEnum>{
 
 		public FormDateComboBox(){
 			this.setRenderer(new MyRenderer());
@@ -319,7 +319,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 			@Override
 			public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
 								
-				Component c = super.getListCellRendererComponent(list, ((FormDateListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
+				Component c = super.getListCellRendererComponent(list, ((DateFormListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
 
 				return this;
 			}

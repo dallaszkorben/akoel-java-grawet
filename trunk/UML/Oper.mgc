@@ -93,7 +93,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class name="hu.akoel.grawit.core.operations.FillVariableOperation"
-        x="1506" y="413">
+        x="1159" y="413">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -126,6 +126,17 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
+    <Class
+        name="hu.akoel.grawit.core.operations.ElementOperationInterface"
+        x="826" y="112">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
     <Class name="hu.akoel.grawit.core.operations.ClearOperation"
         x="1516" y="268">
         <AttributesDisplayFilter public-accepted="true"
@@ -137,17 +148,6 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.core.operations.ElementOperationInterface"
-        x="826" y="112">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class
         name="hu.akoel.grawit.gui.editors.component.elementtype.CheckboxElementTypeComponent"
@@ -201,17 +201,6 @@
             endpointName="nodeForModify" kind="Simple"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
     </Class>
-    <Class
-        name="hu.akoel.grawit.gui.editors.component.elementtype.ListElementTypeComponent"
-        x="-487" y="566">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
     <Class name="hu.akoel.grawit.core.operations.ClickOperation"
         x="1032" y="273">
         <AttributesDisplayFilter public-accepted="true"
@@ -223,5 +212,16 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.elementtype.ListElementTypeComponent"
+        x="-487" y="566">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
     </Class>
 </ClassDiagram>
