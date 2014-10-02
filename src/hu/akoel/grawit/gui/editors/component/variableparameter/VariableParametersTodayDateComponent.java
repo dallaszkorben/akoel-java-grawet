@@ -1,7 +1,8 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.FormDateListEnum;
+import hu.akoel.grawit.enums.list.DateDigressionListEnum;
+import hu.akoel.grawit.enums.list.DateFormListEnum;
 import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 
 import java.awt.Component;
@@ -13,12 +14,18 @@ import java.awt.event.ItemListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
-import javax.swing.text.MaskFormatter;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 public class VariableParametersTodayDateComponent extends JPanel implements VariableParametersComponentInterface{
 
@@ -26,17 +33,22 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 	
 	private static final String DEFAULT_FORMAT = "dd/mm/yyyy";
 	private static final String DEFAULT_MASK = "##/##/####";
+	private static final String DEFAULT_DIGRESSION = DateDigressionListEnum.NONE.name();
+	private static final String DEFAULT_DAYS = "0";
 
 	private static final int PARAMETERORDER_FORMAT = 0;	
-	private static final int PARAMETERORDER_MASK = 1;	
+	private static final int PARAMETERORDER_MASK = 1;
+	private static final int PARAMETERORDER_DIGRESSION = 2;
+	private static final int PARAMETERORDER_DAYS = 3;
 	
-	private FormDateComboBox fieldFormatDate;
+	private DateFormComboBox fieldDateFormat;	
+	private DateDigressionComboBox fieldDateDigression;
+	private JFormattedTextField fieldDays;
+	private JLabel labelDays;
 	
-	DateFormat dateFormat;
-	MaskFormatter maskFormatterFrom;
-	MaskFormatter maskFormatterTo;
-	
-	private ParameterTypeListEnum type;
+	//--- Model
+	private DateFormat dateFormat;
+	//---
 	
 	private ArrayList<Object> parameterList;
 
@@ -51,7 +63,9 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 		this.parameterList = new ArrayList<>();
 
 		this.parameterList.add( DEFAULT_FORMAT );
-		this.parameterList.add( DEFAULT_MASK );		
+		this.parameterList.add( DEFAULT_MASK );	
+		this.parameterList.add( DEFAULT_DIGRESSION );
+		this.parameterList.add( DEFAULT_DAYS );
 		
 		common( type );		
 		
@@ -74,57 +88,109 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 	}
 	
 	private void common( ParameterTypeListEnum type ){
-		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
+		
+		labelDays = new JLabel( "Napok" );
+		fieldDays = new JFormattedTextField( new DefaultFormatterFactory( new NumberFormatter() ) );
+		fieldDays.setText( parameterList.get(PARAMETERORDER_DAYS).toString() );
+		fieldDays.setInputVerifier( new ValueVerifier(parameterList, type, DEFAULT_DAYS, PARAMETERORDER_DAYS) );
 		
 		dateFormat = new SimpleDateFormat((String)parameterList.get(PARAMETERORDER_FORMAT));
 		dateFormat.setLenient( false );
 
-/*		try {
-			maskFormatterFrom = new MaskFormatter((String)parameterList.get(PARAMETERORDER_MASK));
-			maskFormatterTo = new MaskFormatter((String)parameterList.get(PARAMETERORDER_MASK));
-		} catch (ParseException e2) {
-			e2.printStackTrace();
-			//TODO kezelni valahogy
-		}
-*/		
-		
 		int gridY = 0;
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);
 		
 		//
-		//FormDate date
+		//DateForm
 		//
-		JLabel labelFormatDate = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate.format") );
+		JLabel labelDateFormat = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate.format") );
 		
-		fieldFormatDate = new FormDateComboBox();
-		//Feltoltom a listat
-		for( int i = 0; i < FormDateListEnum.getSize(); i++ ){		
-			fieldFormatDate.addItem( FormDateListEnum.getFormDateByIndex(i) );
+		fieldDateFormat = new DateFormComboBox();
+		for( int i = 0; i < DateFormListEnum.getSize(); i++ ){		
+			fieldDateFormat.addItem( DateFormListEnum.getFormDateByIndex(i) );
 		}
-		fieldFormatDate.addItemListener( new ItemListener() {
+		fieldDateFormat.addItemListener( new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 
-				int index = fieldFormatDate.getSelectedIndex();	
+				int index = fieldDateFormat.getSelectedIndex();	
 				
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					DateFormat newDateFormat = FormDateListEnum.getFormDateByIndex(index).getDateFormat();
+					DateFormat newDateFormat = DateFormListEnum.getFormDateByIndex(index).getDateFormat();
 					
-					parameterList.set(PARAMETERORDER_FORMAT, FormDateListEnum.getFormDateByIndex(index).getStringDateFormat() );
-					parameterList.set(PARAMETERORDER_MASK, FormDateListEnum.getFormDateByIndex(index).getStringMask() );
+					parameterList.set(PARAMETERORDER_FORMAT, DateFormListEnum.getFormDateByIndex(index).getStringDateFormat() );
+					parameterList.set(PARAMETERORDER_MASK, DateFormListEnum.getFormDateByIndex(index).getStringMask() );
 
 					dateFormat = newDateFormat;
 				}
 				
 			}
+		});		
+		
+		//
+		//DateDigression
+		//
+		JLabel labelDateDigression = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate.digression") );
+		
+		fieldDateDigression = new DateDigressionComboBox();
+		for( int i = 0; i < DateDigressionListEnum.getSize(); i++ ){		
+			fieldDateDigression.addItem( DateDigressionListEnum.getDateDigressionByIndex(i) );
+		}
+		fieldDateDigression.addItemListener( new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+
+				int index = fieldDateDigression.getSelectedIndex();	
+				
+				//Ha megvaltoztattam a tipust
+				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
+					
+					parameterList.set( PARAMETERORDER_DIGRESSION, DateDigressionListEnum.getDateDigressionByIndex(index).name() );
+
+					VariableParametersTodayDateComponent.this.remove( labelDays );
+					VariableParametersTodayDateComponent.this.remove( fieldDays );
+					
+					//PLUS/MINUS
+					if( index == DateDigressionListEnum.PLUS.getIndex() || index == DateDigressionListEnum.MINUS.getIndex() ){
+
+						GridBagConstraints c = new GridBagConstraints();		
+						c.insets = new Insets(0,0,0,0);
+						
+						//DAYS
+						int gridY=0;		
+						c.gridy = gridY;
+						c.gridx = 2;
+						c.gridwidth = 1;
+						c.weighty = 0;
+						c.fill = GridBagConstraints.HORIZONTAL;
+						c.weightx = 0;
+						c.anchor = GridBagConstraints.WEST;
+						VariableParametersTodayDateComponent.this.add( labelDays, c );
+						
+						gridY++;
+						c.gridy = gridY;
+						c.gridx = 2;
+						c.gridwidth = 1;
+						c.weighty = 0;
+						c.fill = GridBagConstraints.HORIZONTAL;
+						c.weightx = 0;
+						c.anchor = GridBagConstraints.WEST;
+						VariableParametersTodayDateComponent.this.add( fieldDays, c );		
+						
+					}					
+					VariableParametersTodayDateComponent.this.revalidate();					
+				}				
+			}
 		});	
 		
+		//DATE FORMAT
 		gridY=0;		
 		c.gridy = gridY;
 		c.gridx = 0;
@@ -133,7 +199,7 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelFormatDate, c );
+		this.add( labelDateFormat, c );
 		
 		gridY++;
 		c.gridy = gridY;
@@ -143,14 +209,32 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( fieldFormatDate, c );
+		this.add( fieldDateFormat, c );
 
-	
+		//DATE DIGRESSION
+		gridY=0;		
+		c.gridy = gridY;
+		c.gridx = 1;
+		c.gridwidth = 1;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0;
+		c.anchor = GridBagConstraints.WEST;
+		this.add( labelDateDigression, c );
 		
+		gridY++;
+		c.gridy = gridY;
+		c.gridx = 1;
+		c.gridwidth = 1;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0;
+		c.anchor = GridBagConstraints.WEST;
+		this.add( fieldDateDigression, c );
 		
 		//Kitolto
 		c.gridy = gridY;
-		c.gridx = 1;
+		c.gridx = 3;
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -158,17 +242,20 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 		c.anchor = GridBagConstraints.WEST;
 		this.add( new JLabel(), c );
 		
-		//Default dd/MM/yyy
-//		fieldFormatDate.setSelectedIndex( FormDate.ddMMyyyy_dot.getIndex() );
-	
+		fieldDateFormat.setSelectedIndex(-1);
+		fieldDateDigression.setSelectedIndex(-1);
 		
-		FormDateListEnum fd = FormDateListEnum.getFormDateByMask( (String)parameterList.get(PARAMETERORDER_MASK) );
-		fieldFormatDate.setSelectedIndex( fd.getIndex() );	
+		DateFormListEnum fd = DateFormListEnum.getDateFormByMask( (String)parameterList.get(PARAMETERORDER_MASK) );
+		fieldDateFormat.setSelectedIndex( fd.getIndex() );
+		
+		fieldDateDigression.setSelectedIndex( DateDigressionListEnum.getDateDigressionByName( (String)parameterList.get(PARAMETERORDER_DIGRESSION) ).getIndex() );
+
 	}	
 	
 	@Override
 	public void setEnableModify(boolean enable) {
-		fieldFormatDate.setEnabled(enable);
+		fieldDateFormat.setEnabled(enable);
+		fieldDateDigression.setEnabled(enable);
 	}
 
 	@Override
@@ -181,9 +268,9 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 		return parameterList;
 	}
 	
-	class FormDateComboBox extends JComboBox<FormDateListEnum>{
+	class DateFormComboBox extends JComboBox<DateFormListEnum>{
 
-		public FormDateComboBox(){
+		public DateFormComboBox(){
 			this.setRenderer(new MyRenderer());
 		}
 		
@@ -194,10 +281,72 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 			@Override
 			public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
 								
-				Component c = super.getListCellRendererComponent(list, ((FormDateListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
+				Component c = super.getListCellRendererComponent(list, ((DateFormListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
 
 				return this;
 			}
 		}		
 	}
+	
+	class DateDigressionComboBox extends JComboBox<DateDigressionListEnum>{
+
+		public DateDigressionComboBox(){
+			this.setRenderer(new MyRenderer());
+		}
+		
+		class MyRenderer extends BasicComboBoxRenderer {
+
+			private static final long serialVersionUID = -2705481306186913190L;
+
+			@Override
+			public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
+								
+				Component c = super.getListCellRendererComponent(list, ((DateDigressionListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
+
+				return this;
+			}
+		}		
+	}
+	
+	public static class ValueVerifier extends InputVerifier{
+		private ArrayList<Object> parameterList;
+		private String defaultValue;
+		private int parameterOrder;
+		private ParameterTypeListEnum type;
+		
+		String goodValue = defaultValue;
+		
+		public ValueVerifier( ArrayList<Object> parameterList, ParameterTypeListEnum type, String defaultValue, int parameterOrder ){
+			this.parameterList = parameterList;
+			this.defaultValue = defaultValue;
+			this.parameterOrder = parameterOrder;
+			this.type = type;
+		
+			goodValue = defaultValue;
+		}	
+		
+		@Override
+		public boolean verify(JComponent input) {
+			JTextField text = (JTextField)input;
+			String possibleValue = text.getText();
+
+			try {
+				//Kiprobalja, hogy konvertalhato-e
+				Object value = getConverted(possibleValue);//type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
+				parameterList.set( parameterOrder, value );
+				goodValue = possibleValue;
+				
+				parameterList.set(PARAMETERORDER_DAYS, goodValue );
+				
+			} catch (Exception e) {
+				text.setText( goodValue );
+				return false;
+			}				
+			return true;
+		}
+		
+		public Object getConverted( String possibleValue ) throws Exception{
+			return type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
+		}
+ } 	
 }
