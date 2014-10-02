@@ -1,8 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClassDiagram>
     <Class
+        name="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersTodayDateComponent.ValueVerifier"
+        x="3" y="450">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.enums.list.ParameterTypeListEnum"
+            endpointName="type" kind="Simple"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface"
+        x="-206" y="-72">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel"
+        x="-238" y="282">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.enums.list.ParameterTypeListEnum"
+            endpointName="type" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"/>
+        <Communication destinationClassName="hu.akoel.grawit.enums.list.ParameterTypeListEnum"/>
+    </Class>
+    <Class name="hu.akoel.grawit.enums.list.ParameterTypeListEnum"
+        x="-268" y="415">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersTodayDateComponent"
+        x="537" y="157">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersComponentInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersTodayDateComponent.DateDigressionComboBox"
+            endpointName="fieldDateDigression" kind="Simple"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersTodayDateComponent.DateFormComboBox"
+            endpointName="fieldDateFormat" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.enums.list.DateDigressionListEnum"/>
+        <Communication destinationClassName="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersTodayDateComponent.ValueVerifier"/>
+    </Class>
+    <Class
         name="hu.akoel.grawit.core.operations.FillVariableElementOperation"
-        x="187" y="302">
+        x="98" y="283">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -16,9 +88,8 @@
             endpointName="variableElementDataModel" kind="Simple"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
     </Class>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface"
-        x="-206" y="-72">
+    <Class name="hu.akoel.grawit.enums.list.DateDigressionListEnum"
+        x="313" y="399">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -40,7 +111,7 @@
     </Class>
     <Class
         name="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersComponentInterface"
-        x="175" y="381">
+        x="534" y="52">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -51,7 +122,7 @@
     </Class>
     <Class
         name="hu.akoel.grawit.core.operations.ElementOperationInterface"
-        x="186" y="42">
+        x="98" y="49">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -78,8 +149,8 @@
         <Communication destinationClassName="hu.akoel.grawit.core.operations.ElementOperationInterface"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel"
-        x="-238" y="282">
+        name="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersTodayDateComponent.DateDigressionComboBox"
+        x="520" y="330">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -87,26 +158,11 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"/>
-        <Association
-            destinationClassName="hu.akoel.grawit.enums.list.ParameterTypeListEnum"
-            endpointName="type" kind="Simple"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"/>
-        <Communication destinationClassName="hu.akoel.grawit.enums.list.ParameterTypeListEnum"/>
-    </Class>
-    <Class name="hu.akoel.grawit.enums.list.ParameterTypeListEnum"
-        x="-262" y="518">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="hu.akoel.grawit.enums.list.DateDigressionListEnum"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersTodayDateComponent"
-        x="172" y="556">
+        name="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersTodayDateComponent.DateFormComboBox"
+        x="700" y="332">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -114,9 +170,5 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersComponentInterface"/>
-        <Association
-            destinationClassName="hu.akoel.grawit.enums.list.ParameterTypeListEnum"
-            endpointName="type" kind="Simple"/>
     </Class>
 </ClassDiagram>
