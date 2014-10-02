@@ -89,9 +89,7 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 			//TODO kezelni valahogy
 		}
 */		
-		//
-		// From field
-		//		
+		
 		int gridY = 0;
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);
@@ -99,7 +97,7 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 		//
 		//FormDate date
 		//
-		JLabel labelFormatDate = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate.format") );
+		JLabel labelFormatDate = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate.format") );
 		
 		fieldFormatDate = new FormDateComboBox();
 		//Feltoltom a listat
