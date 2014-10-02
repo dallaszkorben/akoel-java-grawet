@@ -93,7 +93,7 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 		}else if( this.equals( TODAY_DATE_PARAMETER ) ){
 			SimpleDateFormat sdf = new SimpleDateFormat( (String)parameters.get(0) );
 			Calendar calendar = GregorianCalendar.getInstance();
-			return sdf.format( calendar );
+			return sdf.format( calendar.getTime() );
 		
 		}
 	
