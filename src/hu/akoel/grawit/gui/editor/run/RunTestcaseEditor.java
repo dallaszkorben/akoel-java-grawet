@@ -33,6 +33,7 @@ import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface;
 import hu.akoel.grawit.exceptions.CompilationException;
+import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -108,6 +109,8 @@ public class RunTestcaseEditor extends BaseEditor{
 				    		try {
 								consolDocument.insertString(consolDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
 							} catch (BadLocationException e) {e.printStackTrace();}
+				    		
+				    	//}catch( ElementCompareOperationException compareException ){	
 				    		
 				    	}catch( PageException pageException ){
 				    		

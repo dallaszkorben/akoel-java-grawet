@@ -468,27 +468,6 @@ public class GUIFrame extends JFrame{
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			try{
 
-/*				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-				Document doc = docBuilder.newDocument();
-
-				Element rootElement = doc.createElement("grawit");
-				doc.appendChild(rootElement);
-
-				//PAGE BASEROOT mentese
-				Element pageBaseElement = baseRootDataModel.getXMLElement(doc);	
-				rootElement.appendChild( pageBaseElement );
-				
-				//PARAMROOT PAGE mentese
-				Element paramPageElement = paramRootDataModel.getXMLElement(doc);	
-				rootElement.appendChild( paramPageElement );
-				
-				
-				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-				Transformer transformer = transformerFactory.newTransformer();
-				DOMSource source = new DOMSource(doc);
-				
-				//StreamResult result = new StreamResult("hello.xml");
-*/
 				// Iras
 				
 				JFileChooser fc;

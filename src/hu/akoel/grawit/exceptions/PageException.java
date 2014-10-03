@@ -8,7 +8,6 @@ public class PageException extends Exception{
 	private ElementException elementException = null;
 
 	public PageException(String pageName, String elementName, String elementId, ElementException elementException ) {
-		//super( "Unable to find element: \n   Page name: " + pageName + "\n   Element name: " + elementName + "\n   Element id: " + elementId, elementException );
 		super( elementException.getMessage() + "\n   Page name: " + pageName, elementException );
 		this.pageName = pageName;
 		this.elementName = elementName;

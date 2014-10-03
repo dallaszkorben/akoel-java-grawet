@@ -26,19 +26,11 @@ public class RunTree extends Tree {
 	private EmptyEditor emptyPanel;		
 	
 	private HashMap<TestcaseCaseDataModel, RunTestcaseEditor> testcaseMap = new HashMap<>();
-	
-//	private ParamRootDataModel paramRootDataModel;
-//	private SpecialRootDataModel specialRootDataModel;
-//	private DriverRootDataModel driverRootDataModel;
-	
-	//public RunTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
+
 	public RunTree(GUIFrame guiFrame, TestcaseRootDataModel testcaseRootDataModel ) {		
 		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
-//		this.specialRootDataModel = specialRootDataModel;
-//		this.paramRootDataModel = paramRootDataModel;
-//		this.driverRootDataModel = driverRootDataModel;
 		
 		this.removePopupUp();
 		this.removePopupDown();
@@ -81,9 +73,6 @@ public class RunTree extends Tree {
 			guiFrame.showEditorPanel( emptyPanel );
 			
 		}else if( selectedNode instanceof TestcaseNodeDataModel ){
-//			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.VIEW);
-//			guiFrame.showEditorPanel( testcaseNodeEditor);		
-			//EmptyEditor emptyPanel = new EmptyEditor();
 			guiFrame.showEditorPanel( emptyPanel );
 		
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
@@ -95,17 +84,7 @@ public class RunTree extends Tree {
 			}
 				
 			guiFrame.showEditorPanel( editor );
-			
-			//guiFrame.showEditorPanel( RunTestcaseEditor.getInstance( this, (TestcaseCaseDataModel)selectedNode ) );				
-							
-/*		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
-			TestcaseParamPageEditor testcasePageEditor = new TestcaseParamPageEditor( this, (TestcaseParamPageDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
-			guiFrame.showEditorPanel( testcasePageEditor);									
-			
-		}else if( selectedNode instanceof TestcaseCustomDataModel ){
-			TestcaseCustomPageEditor testcaseCustomEditor = new TestcaseCustomPageEditor( this, (TestcaseCustomDataModel)selectedNode, specialRootDataModel, EditMode.VIEW );	
-			guiFrame.showEditorPanel( testcaseCustomEditor);
-*/			
+					
 		}
 	}
 

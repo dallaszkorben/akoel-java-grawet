@@ -13,7 +13,7 @@ public class ElementCompareOperationException extends ElementException{
 	private static final long serialVersionUID = 3601836630818056477L;
 
 	public ElementCompareOperationException( CompareTypeListEnum compareType, String compareValue, String elementName, String elementSelector, String elementValue, Exception e ){
-		super( "The '" + elementName + "' element has not the expected value.\nFound value: " + elementValue + " Compare value: " + compareValue + "\n Expected relation: " + (compareType.equals( CompareTypeListEnum.EQUAL ) ? "=" : "!="), e );
+		super( "The '" + elementName + "' element has not the expected value.\nFound value: " + elementValue + "\nCompare value: " + compareValue + "\nExpected relation: " + (compareType.equals( CompareTypeListEnum.EQUAL ) ? "=" : "!="), e );
 		this.compareType = compareType;
 		this.compareValue = compareValue;
 		this.elementName = elementName;
