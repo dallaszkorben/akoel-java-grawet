@@ -342,7 +342,8 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldString, c );
-			
+		
+		//CLICK
 		}else if( selectedOperation.equals( E.CLICK ) ){
 		
 			//Filler
@@ -355,6 +356,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
 			
+		//OUTPUT
 		}else if( selectedOperation.equals( E.OUTPUTVALUE ) ){
 			
 			c.gridy = 0;
@@ -370,6 +372,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			c.weightx = 1;
 			this.add( fieldMessage, c );
 			
+		//GAIN
 		}else if( selectedOperation.equals( E.GAINTEXTPATTERN ) ){
 			
 			//Filler

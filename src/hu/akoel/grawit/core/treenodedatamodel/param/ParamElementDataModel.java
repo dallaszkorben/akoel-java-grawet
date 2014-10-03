@@ -176,29 +176,32 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//-------------
 		if( baseElement.getElementType().equals( ElementTypeListEnum.LINK ) ){
 			
-			// Click az operation
+			//CLICK
 			if( operationString.equals( ClickOperation.getStaticName() ) ){
 				
 				elementOperation = new ClickOperation();
 				
-			// Gain text az operation
+			//GAIN
 			}else if( operationString.equals( GainTextPatternOperation.getStaticName() ) ){
 				
 				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
 			
-			//OutputValue
+			//OUTPUT
 			}else if( operationString.equals( OutputValueOperation.getStaticName() ) ){ 
 				
 				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
-				
+			
+			//COMPARE STRING
 			}else if( operationString.equals( CompareVariableElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
+			//COMPARE BASEELEMENT
 			}else if( operationString.equals( CompareBaseElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
+			//COMPARE STRING
 			}else if( operationString.equals( CompareStringOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareStringOperation( element, getRootTag(), getTag() );				
@@ -214,7 +217,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//---------------
 		}else if( baseElement.getElementType().equals(ElementTypeListEnum.BUTTON)){
 			
-			//Click az operation
+			//CLICK
 			if( operationString.equals( ClickOperation.getStaticName() ) ){
 
 				elementOperation = new ClickOperation();
@@ -230,7 +233,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//-----------------
 		}else if( baseElement.getElementType().equals( ElementTypeListEnum.CHECKBOX) ){
 			
-			//Click az operation
+			//CLICK
 			if( operationString.equals( ClickOperation.getStaticName() ) ){
 				
 				elementOperation = new ClickOperation();
@@ -247,6 +250,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//---------------------
 		}else if( baseElement.getElementType().equals( ElementTypeListEnum.RADIOBUTTON ) ){
 			
+			//CLICK
 			if( operationString.equals( ClickOperation.getStaticName() ) ){
 				
 				elementOperation = new ClickOperation();
@@ -263,42 +267,57 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//--------------
 		}else if( baseElement.getElementType().equals( ElementTypeListEnum.FIELD ) ){
 			
+			//CLEAR
 			if( operationString.equals( ClearOperation.getStaticName() ) ){
 			
 				elementOperation = new ClearOperation();
 				
+			//CLICK
 			}else if( operationString.equals( ClickOperation.getStaticName() ) ){
 				
 				elementOperation = new ClickOperation();
 				
+			//TAB
 			}else if( operationString.equals( TabOperation.getStaticName() ) ){
 				
 				elementOperation = new TabOperation();
 				
+			//GAIN
+			}else if( operationString.equals( GainTextPatternOperation.getStaticName() ) ){
+				
+				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
+				
+			//FILL VARIABLE
 			}else if( operationString.equals( FillVariableElementOperation.getStaticName() ) ){
 				
 				elementOperation = new FillVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
+			//FILL BASEELEMENT
 			}else if( operationString.equals( FillBaseElementOperation.getStaticName() ) ){
 				
 				elementOperation = new FillBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
+			//FILL STRING
 			}else if( operationString.equals( FillStringOperation.getStaticName() ) ){
 				
 				elementOperation = new FillStringOperation( element, getRootTag(), getTag() );
 				
+			//OUTPUT
 			}else if( operationString.equals( OutputValueOperation.getStaticName() ) ){ 
 				
 				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
 				
+			//COMPARE VARIABLE
 			}else if( operationString.equals( CompareVariableElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
-				
+
+			//COMPARE BASEELEMENT
 			}else if( operationString.equals( CompareBaseElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
+			//COMPARE STRING
 			}else if( operationString.equals( CompareStringOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareStringOperation( element, getRootTag(), getTag() );
