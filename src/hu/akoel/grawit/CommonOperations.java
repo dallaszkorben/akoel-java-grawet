@@ -198,42 +198,42 @@ public class CommonOperations {
 	 }	 
 	 
 	 public static class ValueVerifier extends InputVerifier{
-			private ArrayList<Object> parameterList;
-			private String defaultValue;
-			private int parameterOrder;
-			private ParameterTypeListEnum type;
+		 private ArrayList<Object> parameterList;
+		 private String defaultValue;
+		 private int parameterOrder;
+		 private ParameterTypeListEnum type;
 			
-			String goodValue = defaultValue;
+		 String goodValue = defaultValue;
 			
-			public ValueVerifier( ArrayList<Object> parameterList, ParameterTypeListEnum type, String defaultValue, int parameterOrder ){
-				this.parameterList = parameterList;
-				this.defaultValue = defaultValue;
-				this.parameterOrder = parameterOrder;
-				this.type = type;
+		 public ValueVerifier( ArrayList<Object> parameterList, ParameterTypeListEnum type, String defaultValue, int parameterOrder ){
+			 this.parameterList = parameterList;
+			 this.defaultValue = defaultValue;
+			 this.parameterOrder = parameterOrder;
+			 this.type = type;
+			 
+			 goodValue = defaultValue;
+		 }	
 			
-				goodValue = defaultValue;
-			}	
-			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
+		 @Override
+		 public boolean verify(JComponent input) {
+			 JTextField text = (JTextField)input;
+			 String possibleValue = text.getText();
 
-				try {
-					//Kiprobalja, hogy konvertalhato-e
-					Object value = getConverted(possibleValue);//type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( parameterOrder, value );
-					goodValue = possibleValue;
+			 try {
+				 //Kiprobalja, hogy konvertalhato-e
+				 Object value = getConverted(possibleValue);//type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
+				 parameterList.set( parameterOrder, value );
+				 goodValue = possibleValue;
 					
-				} catch (Exception e) {
-					text.setText( goodValue );
-					return false;
-				}				
-				return true;
-			}
+			 } catch (Exception e) {
+				 text.setText( goodValue );
+				 return false;
+			 }				
+			 return true;
+		 }
 			
-			public Object getConverted( String possibleValue ) throws Exception{
-				return type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
-			}
+		 public Object getConverted( String possibleValue ) throws Exception{
+			 return type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
+		 }
 	 } 	 
 }

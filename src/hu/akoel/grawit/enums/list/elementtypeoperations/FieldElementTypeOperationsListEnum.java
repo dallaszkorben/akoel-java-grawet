@@ -10,6 +10,9 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	TAB( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.field.tab") ),
 	CLICK( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.field.click") ),
 	OUTPUTVALUE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputvalue") ),
+	COMPARE_VARIABLE( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevariable") ),
+	COMPARE_ELEMENT( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.compareelement") ),
+	COMPARE_STRING( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparestring") ),
 	;
 	
 	private String translatedName;
@@ -44,6 +47,9 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 		case 4: return TAB;
 		case 5: return CLICK;
 		case 6: return OUTPUTVALUE;
+		case 7: return COMPARE_VARIABLE;
+		case 8: return COMPARE_ELEMENT;
+		case 9: return COMPARE_STRING;
 		default: return FILL_STRING;
 		}
 	}

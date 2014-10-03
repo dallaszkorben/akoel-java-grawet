@@ -31,5 +31,5 @@ public abstract class ElementTypeComponentInterface<E extends ElementTypeOperati
 
                 return c;
         }
-}         
+	}         
 }

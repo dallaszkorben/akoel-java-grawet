@@ -161,10 +161,6 @@ public class ParamElementEditor extends DataEditor{
 		
 		this.add( labelName, fieldName );
 		this.add( labelBaseElementSelector, fieldBaseElementSelector );
-//		this.add( labelElementTypeSelector, fieldOperationComponent );
-		
-		
-//!!!!Na itt a hiba		
 		
 		elementTypeComponent = new EmptyElementTypeComponent();
 		changeOperation(baseElement);
@@ -206,12 +202,12 @@ public class ParamElementEditor extends DataEditor{
 		//TEXT
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
 
-			elementTypeComponent = new TextElementTypeComponent<TextElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation );
+			elementTypeComponent = new TextElementTypeComponent<TextElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//LINK	
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LINK.name() ) ){
 
-			elementTypeComponent = new LinkElementTypeComponent<LinkElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation );
+			elementTypeComponent = new LinkElementTypeComponent<LinkElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//LIST
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LIST.name() ) ){

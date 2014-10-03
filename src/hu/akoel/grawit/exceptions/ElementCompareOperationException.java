@@ -1,19 +1,27 @@
 package hu.akoel.grawit.exceptions;
 
+import hu.akoel.grawit.enums.list.CompareTypeListEnum;
+
 public class ElementCompareOperationException extends ElementException{
 
-	private String expectedValue;
+	private String compareValue;
 	private String elementName;
 	private String elementSelector;
 	private String elementValue;
+	private CompareTypeListEnum compareType;
 
 	private static final long serialVersionUID = 3601836630818056477L;
 
-	public ElementCompareOperationException( String expectedValue, String elementName, String elementSelector, String elementValue, Exception e ){
-		super( "The '" + elementName + "' element has not the expected value.\nExpected value: " + expectedValue + "\nFound value: " + elementValue, e );
-		this.expectedValue = expectedValue;
+	public ElementCompareOperationException( CompareTypeListEnum compareType, String compareValue, String elementName, String elementSelector, String elementValue, Exception e ){
+		super( "The '" + elementName + "' element has not the expected value.\nFound value: " + elementValue + " Compare value: " + compareValue + "\n Expected relation: " + (compareType.equals( CompareTypeListEnum.EQUAL ) ? "=" : "!="), e );
+		this.compareType = compareType;
+		this.compareValue = compareValue;
 		this.elementName = elementName;
 		this.elementValue = elementValue;
+	}
+	
+	public CompareTypeListEnum getCompareType() {
+		return compareType;
 	}
 	
 	public String getElementName() {
@@ -28,8 +36,8 @@ public class ElementCompareOperationException extends ElementException{
 		return elementSelector;
 	}
 	
-	public String getExpectedValue(){
-		return expectedValue;
+	public String getCompareValue(){
+		return compareValue;
 	}
 	
 	
