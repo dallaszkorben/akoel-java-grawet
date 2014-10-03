@@ -27,6 +27,7 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
@@ -182,17 +183,37 @@ public class CompareVariableElementOperation implements ElementOperationInterfac
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
 		}
 		
-		//Execute the operation
-		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+		//
+		// Execute the OPERATION
+		//		
+		String foundText = "";
 		
-			if( !webElement.getText().equals( variableElementDataModel.getValue() ) ){
-				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+		//Ha FIELD
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
+			foundText = webElement.getAttribute("value");	
+		
+		//TEXT
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.TEXT)){
+			
+			foundText = webElement.getText();
+			
+		//LINK
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LINK)){
+			
+			foundText = webElement.getText();
+			
+		}		
+		
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+			
+			if( !foundText.equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), foundText, new Exception() );
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( webElement.getText().equals( variableElementDataModel.getValue() ) ){
-				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+			if( foundText.equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), foundText, new Exception() );
 			}
 			
 		}

@@ -17,6 +17,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
@@ -126,9 +127,25 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 			} catch (InterruptedException e) {}
 		}	
 */		
+		String origText = "";
 		
-		//Execute the operation = Elmenti az elem tartalmat a valtozoba
-		String origText = webElement.getText();
+		//Ha FIELD
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
+			origText = webElement.getAttribute("value");	
+		
+		//TEXT
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.TEXT)){
+			
+			origText = webElement.getText();
+		
+		//LINK
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LINK)){
+			
+			origText = webElement.getText();
+			
+		}
+		
+		//Execute the operation = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
 			baseElement.setVariableValue( origText );
 		}else{
