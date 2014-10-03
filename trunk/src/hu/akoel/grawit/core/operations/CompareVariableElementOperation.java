@@ -6,9 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,9 +26,9 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
@@ -41,19 +39,30 @@ public class CompareVariableElementOperation implements ElementOperationInterfac
 	
 	private static final String NAME = "COMPAREVARIABLE";	
 	private static final String ATTR_COMPARE_VARIABLE_ELEMENT_PATH = "comparevariableelementpath";
+	private static final String ATTR_COMPARE_TYPE = "type";
 	
 	//--- Data model
 	private VariableElementDataModel variableElementDataModel;
+	private CompareTypeListEnum compareType;
 	//---
 	
-	public CompareVariableElementOperation( VariableElementDataModel variableElementDataModel ){
+	public CompareVariableElementOperation( VariableElementDataModel variableElementDataModel, CompareTypeListEnum compareType ){
 		this.variableElementDataModel = variableElementDataModel;
+		this.compareType = compareType;
 	}
 	
 	public CompareVariableElementOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
 		VariableDataModelInterface variableDataModelForFillOut = variableRootDataModel;
 		
+		//ATTR_COMPARE_TYPE
+		if( !element.hasAttribute( ATTR_COMPARE_TYPE ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_TYPE );		
+		}	
+		String typeString = element.getAttribute(ATTR_COMPARE_TYPE);
+		this.compareType = CompareTypeListEnum.valueOf( typeString );
+		
+		//ATTR_COMPARE_VARIABLE_ELEMENT_PATH
 		if( !element.hasAttribute( ATTR_COMPARE_VARIABLE_ELEMENT_PATH ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_VARIABLE_ELEMENT_PATH );		
 		}
@@ -174,8 +183,18 @@ public class CompareVariableElementOperation implements ElementOperationInterfac
 		}
 		
 		//Execute the operation
-		if( !webElement.getText().equals( variableElementDataModel.getValue() ) ){
-			throw new ElementCompareOperationException(variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+		
+			if( !webElement.getText().equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+			}
+			
+		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+			
+			if( webElement.getText().equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+			}
+			
 		}
 		
 		if( null != elementProgress ){
@@ -187,11 +206,19 @@ public class CompareVariableElementOperation implements ElementOperationInterfac
 		return variableElementDataModel;
 	}
 
+	public CompareTypeListEnum getCompareType(){
+		return compareType;
+	}
+	
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
 		Attr attr = document.createAttribute( ATTR_COMPARE_VARIABLE_ELEMENT_PATH );
 		attr.setValue( variableElementDataModel.getPathTag() );
-		element.setAttributeNode( attr );			
+		element.setAttributeNode( attr );		
+		
+		attr = document.createAttribute( ATTR_COMPARE_TYPE );
+		attr.setValue( compareType.name() );
+		element.setAttributeNode( attr );
 	}
 	
 }

@@ -14,6 +14,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
@@ -25,32 +26,34 @@ public class CompareStringOperation implements ElementOperationInterface{
 	
 	private static final String NAME = "COMPARESTRING";
 	private static final String ATTR_STRING = "string";
+	private static final String ATTR_COMPARE_TYPE = "type";
 	
 	//--- Data model
 	private String stringToCompare;
+	private CompareTypeListEnum compareType;
 	//---
 	
-	public CompareStringOperation( String stringToCompare ){
+	public CompareStringOperation( String stringToCompare, CompareTypeListEnum compareType ){
 		this.stringToCompare = stringToCompare;
+		this.compareType = compareType;
 	}
 	
 	public CompareStringOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
+		//ATTR_COMPARE_TYPE
+		if( !element.hasAttribute( ATTR_COMPARE_TYPE ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_TYPE );		
+		}	
+		String typeString = element.getAttribute(ATTR_COMPARE_TYPE);
+		this.compareType = CompareTypeListEnum.valueOf( typeString );
+		
+		//ATTR_STRING
 		if( !element.hasAttribute( ATTR_STRING ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_STRING );			
 		}
 		stringToCompare = element.getAttribute( ATTR_STRING );		
 	}
 	
-	public static String getStaticName(){
-		return NAME;
-	}
-	
-	@Override
-	public String getName() {		
-		return getStaticName();
-	}
-		
 	/**
 	 * 
 	 * Executes the action on the WebElement (Field)
@@ -99,8 +102,19 @@ public class CompareStringOperation implements ElementOperationInterface{
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
 		}		
 		
-		if( !webElement.getText().equals( stringToCompare ) ){
-			throw new ElementCompareOperationException(stringToCompare, element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+		//Execute the operation
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+			
+			if( !webElement.getText().equals( stringToCompare ) ){
+				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+			}
+			
+		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+			
+			if( webElement.getText().equals( stringToCompare ) ){
+				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+			}
+			
 		}
 		
 		if( null != elementProgress ){
@@ -112,12 +126,29 @@ public class CompareStringOperation implements ElementOperationInterface{
 		return stringToCompare;
 	}
 
+	public static String getStaticName(){
+		return NAME;
+	}
+	
+	@Override
+	public String getName() {		
+		return getStaticName();
+	}
+		
+	public CompareTypeListEnum getCompareType(){
+		return compareType;
+	}
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
+		
 		Attr attr = document.createAttribute( ATTR_STRING );
 		attr.setValue( stringToCompare );
-		element.setAttributeNode(attr);		
+		element.setAttributeNode(attr);	
+		
+		attr = document.createAttribute( ATTR_COMPARE_TYPE );
+		attr.setValue( compareType.name() );
+		element.setAttributeNode( attr );	
 	}
 	
 }

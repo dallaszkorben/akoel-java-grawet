@@ -18,6 +18,9 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.CompareBaseElementOperation;
+import hu.akoel.grawit.core.operations.CompareStringOperation;
+import hu.akoel.grawit.core.operations.CompareVariableElementOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.FillBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillStringOperation;
@@ -188,6 +191,18 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
 				
+			}else if( operationString.equals( CompareVariableElementOperation.getStaticName() ) ){
+				
+				elementOperation = new CompareVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			}else if( operationString.equals( CompareBaseElementOperation.getStaticName() ) ){
+				
+				elementOperation = new CompareBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			}else if( operationString.equals( CompareStringOperation.getStaticName() ) ){
+				
+				elementOperation = new CompareStringOperation( element, getRootTag(), getTag() );				
+				
 			//Ha nem a tipusnak megfelelo a muvelet, akkor azt Click-nek vesszuk
 			}else{
 				
@@ -276,6 +291,19 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
 				
+			}else if( operationString.equals( CompareVariableElementOperation.getStaticName() ) ){
+				
+				elementOperation = new CompareVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			}else if( operationString.equals( CompareBaseElementOperation.getStaticName() ) ){
+				
+				elementOperation = new CompareBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			}else if( operationString.equals( CompareStringOperation.getStaticName() ) ){
+				
+				elementOperation = new CompareStringOperation( element, getRootTag(), getTag() );
+					
+				
 			//Ha nem a tipusnak megfelelo az muvelet, akkor Clear lesz a muvelet
 			}else{
 					
@@ -295,11 +323,23 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
 				
-			//Ha nem a tipusnak megfelelo az muvelet, akkor OUTPUTVALUE
+			}else if( operationString.equals( CompareVariableElementOperation.getStaticName() ) ){
+				
+				elementOperation = new CompareVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			}else if( operationString.equals( CompareBaseElementOperation.getStaticName() ) ){
+				
+				elementOperation = new CompareBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			}else if( operationString.equals( CompareStringOperation.getStaticName() ) ){
+				
+				elementOperation = new CompareStringOperation( element, getRootTag(), getTag() );
+				
+			//Ha nem a tipusnak megfelelo az muvelet
 			}else{
 				
-				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
-				
+				throw new XMLWrongAttributePharseException( BaseDataModelInterface.getRootTag(), BaseElementDataModel.TAG, DataModelInterface.ATTR_NAME, baseElement.getName(), BaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
+				//TODO ez nem jo uzenet
 			}
 			
 		//---------

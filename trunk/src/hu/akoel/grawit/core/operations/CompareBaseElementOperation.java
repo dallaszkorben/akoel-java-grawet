@@ -6,9 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,9 +26,9 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
@@ -41,19 +39,30 @@ public class CompareBaseElementOperation implements ElementOperationInterface{
 	
 	private static final String NAME = "COMPAREELEMENT";	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "comparebaseelementpath";
+	private static final String ATTR_COMPARE_TYPE = "type";
 	
 	//--- Data model
 	private BaseElementDataModel baseElementDataModel;
+	private CompareTypeListEnum compareType;
 	//---
 	
-	public CompareBaseElementOperation( BaseElementDataModel baseElementDataModel ){
+	public CompareBaseElementOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType ){
 		this.baseElementDataModel = baseElementDataModel;
+		this.compareType = compareType;
 	}
 
 	public CompareBaseElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
 		BaseDataModelInterface baseDataModelForFillOut = baseRootDataModel;
 		
+		//ATTR_COMPARE_TYPE
+		if( !element.hasAttribute( ATTR_COMPARE_TYPE ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_TYPE );		
+		}	
+		String typeString = element.getAttribute(ATTR_COMPARE_TYPE);
+		this.compareType = CompareTypeListEnum.valueOf( typeString );
+		
+		//ATTR_COMPARE_BASE_ELEMENT_PATH
 		if( !element.hasAttribute( ATTR_COMPARE_BASE_ELEMENT_PATH ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_BASE_ELEMENT_PATH );		
 		}	
@@ -130,15 +139,6 @@ public class CompareBaseElementOperation implements ElementOperationInterface{
 	    
 	}
 	
-	public static String getStaticName(){
-		return NAME;
-	}
-	
-	@Override
-	public String getName() {		
-		return getStaticName();
-	}
-		
 	/**
 	 * 
 	 * Executes the action on the WebElement (Field)
@@ -187,9 +187,20 @@ public class CompareBaseElementOperation implements ElementOperationInterface{
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
 		}
 	
+		
 		//Execute the operation
-		if( !webElement.getText().equals( baseElementDataModel.getVariableValue() ) ){
-			throw new ElementCompareOperationException(baseElementDataModel.getVariableValue(), element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+			
+			if( !webElement.getText().equals( baseElementDataModel.getVariableValue() ) ){
+				throw new ElementCompareOperationException(compareType, baseElementDataModel.getVariableValue(), element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+			}
+			
+		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+			
+			if( webElement.getText().equals( baseElementDataModel.getVariableValue() ) ){
+				throw new ElementCompareOperationException(compareType, baseElementDataModel.getVariableValue(), element.getName(), baseElement.getSelector(), webElement.getText(), new Exception() );
+			}
+			
 		}
 		
 		if( null != elementProgress ){
@@ -201,11 +212,29 @@ public class CompareBaseElementOperation implements ElementOperationInterface{
 		return baseElementDataModel;
 	}
 
+	public static String getStaticName(){
+		return NAME;
+	}
+	
+	@Override
+	public String getName() {		
+		return getStaticName();
+	}
+		
+	public CompareTypeListEnum getCompareType(){
+		return compareType;
+	}
+	
 	@Override
 	public void setXMLAttribute(Document document, Element element) {		
 		Attr attr = document.createAttribute( ATTR_COMPARE_BASE_ELEMENT_PATH );
 		attr.setValue( baseElementDataModel.getPathTag() );
+		element.setAttributeNode( attr );
+		
+		attr = document.createAttribute( ATTR_COMPARE_TYPE );
+		attr.setValue( compareType.name() );
 		element.setAttributeNode( attr );	
+
 	}
 	
 }
