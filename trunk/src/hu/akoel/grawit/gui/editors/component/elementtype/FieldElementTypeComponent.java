@@ -10,6 +10,7 @@ import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.FillBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillStringOperation;
 import hu.akoel.grawit.core.operations.FillVariableElementOperation;
+import hu.akoel.grawit.core.operations.GainTextPatternOperation;
 import hu.akoel.grawit.core.operations.OutputValueOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -44,6 +45,10 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	//Operation
 	private JLabel labelOperations;	
 	private JComboBox<E> comboOperationList;	
+	
+	//Pattern
+	private JTextField fieldPattern;	
+	private JLabel labelPattern;
 	
 	//Variable selector - Mezo kitoltes
 	private JLabel labelVariableSelector;
@@ -97,6 +102,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
+		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.pattern") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
 		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": ");
@@ -106,14 +112,14 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
 		fieldType.setEditable(false);
+		fieldPattern = new JTextField();
 		fieldMessage = new JTextField();
 
 		//OPERATION
 		comboOperationList = new JComboBox<>();
 		for( int i = 0; i < E.getSize(); i++ ){
 			comboOperationList.addItem( (E) E.getElementFieldOperationByIndex(i) );
-		}
-		
+		}		
 		comboOperationList.addItemListener( new ItemListener() {
 			
 			@Override
@@ -195,51 +201,66 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 			
 		}else{
 			
+			//CLICK
 			if( elementOperation instanceof ClickOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
+			//TAB
 			}else if( elementOperation instanceof TabOperation ){
 				
 				comboOperationList.setSelectedIndex(E.TAB.getIndex());
 				
+			//CLEAR
 			}else if( elementOperation instanceof ClearOperation ){
 				
 				comboOperationList.setSelectedIndex(E.CLEAR.getIndex());
 				
+			//GAIN
+			}else if( elementOperation instanceof GainTextPatternOperation ){
+				
+				comboOperationList.setSelectedIndex(E.GAINTEXTPATTERN.getIndex());
+				fieldPattern.setText( ((GainTextPatternOperation)elementOperation).getStringPattern());
+				
+			//FILL_VARIABLE
 			}else if( elementOperation instanceof FillVariableElementOperation ){
 								
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((FillVariableElementOperation)elementOperation).getVariableElement() );
 				comboOperationList.setSelectedIndex(E.FILL_VARIABLE.getIndex());
 
+			//FILL_BASELEMENT
 			}else if( elementOperation instanceof FillBaseElementOperation ){
 								
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((FillBaseElementOperation)elementOperation).getBaseElement() );
 				comboOperationList.setSelectedIndex(E.FILL_ELEMENT.getIndex());
 
+			//FILL_STRING
 			}else if( elementOperation instanceof FillStringOperation ){
 								
 				fieldString.setText( ((FillStringOperation)elementOperation).getStringToShow() );
 				comboOperationList.setSelectedIndex(E.FILL_STRING.getIndex());
 				
+			//OUTPUT
 			}else if ( elementOperation instanceof OutputValueOperation ){
 				
 				fieldMessage.setText( ((OutputValueOperation)elementOperation).getMessageToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );
 				
+			//COMPARE_VARIABLE
 			}else if( elementOperation instanceof CompareVariableElementOperation ){
 				
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareVariableElementOperation)elementOperation).getVariableElement() );				
 				comboOperationList.setSelectedIndex(E.COMPARE_VARIABLE.getIndex());
 				comboCompareTypeList.setSelectedIndex( ((CompareVariableElementOperation)elementOperation).getCompareType().getIndex() );
 
+			//COMPARE_BASEELEMENT
 			}else if( elementOperation instanceof CompareBaseElementOperation ){
 								
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareBaseElementOperation)elementOperation).getBaseElement() );
 				comboCompareTypeList.setSelectedIndex( ((CompareBaseElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_ELEMENT.getIndex());
 				
-
+			//COMPARESTRING
 			}else if( elementOperation instanceof CompareStringOperation ){
 								
 				fieldString.setText( ((CompareStringOperation)elementOperation).getStringToShow() );
@@ -285,6 +306,20 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);		
 		
+		this.remove( labelPattern );
+		this.remove( fieldPattern );
+		this.remove( labelBaseElementSelector );
+		this.remove( fieldBaseElementSelector );
+		this.remove( labelString );
+		this.remove( fieldString );
+		this.remove( labelVariableSelector );
+		this.remove( fieldVariableSelector );	
+		this.remove( labelFiller );	
+		this.remove( fieldMessage );
+		this.remove( labelMessage );
+		this.remove( labelCompareType );
+		this.remove( comboCompareTypeList );
+/*		
 Component[] components = this.getComponents();
 
 for( int i = 0; i < components.length; i++ ){
@@ -323,7 +358,7 @@ for( int i = 0; i < components.length; i++ ){
 
 		
 	}
-}
+}*/
 		
 		//Fill element / Compare element
 		if( selectedOperation.equals( E.FILL_ELEMENT ) || selectedOperation.equals( E.COMPARE_ELEMENT ) ){
@@ -438,6 +473,22 @@ for( int i = 0; i < components.length; i++ ){
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
 */			
+		//GAIN
+		}else if( selectedOperation.equals( E.GAINTEXTPATTERN ) ){
+						
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelPattern, c );
+					
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );						
 			
 		}	
 
@@ -490,6 +541,10 @@ for( int i = 0; i < components.length; i++ ){
 		}else if( comboOperationList.getSelectedIndex() ==  E.CLICK.getIndex() ){
 			return new ClickOperation();
 	
+		//GAINTEXT
+		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXTPATTERN.getIndex() ){
+			return new GainTextPatternOperation( fieldPattern.getText() );
+				
 		//OUTPUTVALUE
 		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTVALUE.getIndex() ){
 			return new OutputValueOperation( fieldMessage.getText() );

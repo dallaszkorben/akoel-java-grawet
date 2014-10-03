@@ -6,13 +6,14 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	FILL_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillvariable") ),
 	FILL_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillelement") ),
 	FILL_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillstring") ),
-	CLEAR( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.field.clear") ),
-	TAB( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.field.tab") ),
-	CLICK( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.field.click") ),
-	OUTPUTVALUE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputvalue") ),
-	COMPARE_VARIABLE( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevariable") ),
-	COMPARE_ELEMENT( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.compareelement") ),
-	COMPARE_STRING( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparestring") ),
+	GAINTEXTPATTERN( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gaintextpattern") ),
+	CLEAR( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.field.clear") ),
+	TAB( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.field.tab") ),
+	CLICK( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.field.click") ),
+	OUTPUTVALUE( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputvalue") ),
+	COMPARE_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevariable") ),
+	COMPARE_ELEMENT( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.compareelement") ),
+	COMPARE_STRING( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparestring") ),
 	;
 	
 	private String translatedName;
@@ -43,13 +44,14 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 		case 0:	return FILL_VARIABLE;
 		case 1:	return FILL_ELEMENT;
 		case 2:	return FILL_STRING;
-		case 3: return CLEAR;
-		case 4: return TAB;
-		case 5: return CLICK;
-		case 6: return OUTPUTVALUE;
-		case 7: return COMPARE_VARIABLE;
-		case 8: return COMPARE_ELEMENT;
-		case 9: return COMPARE_STRING;
+		case 3: return GAINTEXTPATTERN;
+		case 4: return CLEAR;
+		case 5: return TAB;
+		case 6: return CLICK;
+		case 7: return OUTPUTVALUE;
+		case 8: return COMPARE_VARIABLE;
+		case 9: return COMPARE_ELEMENT;
+		case 10: return COMPARE_STRING;
 		default: return FILL_STRING;
 		}
 	}
