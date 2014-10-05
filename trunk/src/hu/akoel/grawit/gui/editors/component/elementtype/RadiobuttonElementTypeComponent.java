@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -87,7 +88,8 @@ public class RadiobuttonElementTypeComponent<E extends RadiobuttonElementTypeOpe
 		});	
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
-		comboOperationList.setRenderer(new ElementTypeComponentRenderer());
+		//comboOperationList.setRenderer(new ElementTypeComponentRenderer());
+		comboOperationList.setRenderer(new ListRenderer<E>());
 		
 		this.setLayout( new GridBagLayout() );
 		

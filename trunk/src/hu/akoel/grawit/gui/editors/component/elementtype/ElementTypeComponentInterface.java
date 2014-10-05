@@ -1,11 +1,6 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
-import java.awt.Component;
-
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
-
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
@@ -19,7 +14,7 @@ public abstract class ElementTypeComponentInterface<E extends ElementTypeOperati
 	
 	public abstract E getSelectedOperation( ElementTypeListEnum elementType );
 	
-	class ElementTypeComponentRenderer extends BasicComboBoxRenderer {
+/*	class ElementTypeComponentRenderer extends BasicComboBoxRenderer {
 
         private static final long serialVersionUID = -4562181616721578685L;
 
@@ -31,5 +26,6 @@ public abstract class ElementTypeComponentInterface<E extends ElementTypeOperati
 
                 return c;
         }
-	}         
+	}
+*/         
 }

@@ -46,7 +46,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	MaskFormatter maskFormatterFrom;
 	MaskFormatter maskFormatterTo;
 	
-	private ParameterTypeListEnum type;
+//	private ParameterTypeListEnum type;
 	
 	private ArrayList<Object> parameterList;
 
@@ -86,7 +86,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	}
 	
 	private void common( ParameterTypeListEnum type ){
-		this.type = type;
+//		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
 		

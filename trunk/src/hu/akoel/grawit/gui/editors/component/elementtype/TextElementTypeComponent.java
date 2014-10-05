@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.CompareBaseElementOperation;
 import hu.akoel.grawit.core.operations.CompareStringOperation;
 import hu.akoel.grawit.core.operations.CompareVariableElementOperation;
@@ -12,7 +13,6 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
-import hu.akoel.grawit.gui.editors.component.elementtype.FieldElementTypeComponent.CompareTypeRenderer;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
 
@@ -132,7 +132,8 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		});	
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
-		comboOperationList.setRenderer(new ElementTypeComponentRenderer());
+		//comboOperationList.setRenderer(new ElementTypeComponentRenderer());
+		comboOperationList.setRenderer(new ListRenderer<E>());
 		
 		//COMPARE TYPE
 		comboCompareTypeList = new JComboBox<CompareTypeListEnum>();
@@ -141,7 +142,8 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		}
 				
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
-		comboCompareTypeList.setRenderer(new CompareTypeRenderer());		
+		//comboCompareTypeList.setRenderer(new CompareTypeRenderer());	
+		comboCompareTypeList.setRenderer(new ListRenderer<CompareTypeListEnum>());
 		
 		this.setLayout( new GridBagLayout() );
 		
@@ -428,7 +430,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 	
 	}
 	
-	class CompareTypeRenderer extends BasicComboBoxRenderer {
+/*	class CompareTypeRenderer extends BasicComboBoxRenderer {
 
 		private static final long serialVersionUID = 321816528340469926L;
 
@@ -441,5 +443,5 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
                 return c;
         }
 	}    
-
+*/
 }
