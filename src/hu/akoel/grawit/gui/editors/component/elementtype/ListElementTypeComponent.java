@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
@@ -131,8 +132,10 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
-		comboOperationList.setRenderer(new ElementTypeComponentRenderer() );
-		comboSelectionBy.setRenderer( new MyRenderer() );
+		//comboOperationList.setRenderer(new ElementTypeComponentRenderer() );
+		comboOperationList.setRenderer( new ListRenderer<E>() );
+		comboSelectionBy.setRenderer( new ListRenderer<ListSelectionByListEnum>() );		
+		//comboSelectionBy.setRenderer( new MyRenderer() );
 		
 		this.setLayout( new GridBagLayout() );
 		
@@ -412,7 +415,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		return null;
 	}
 	
-	class MyRenderer extends BasicComboBoxRenderer {
+/*	class MyRenderer extends BasicComboBoxRenderer {
 
 		private static final long serialVersionUID = -6648040896597364730L;
 
@@ -424,5 +427,6 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 
                 return c;
         }
-	}      
+	}
+*/	      
 }

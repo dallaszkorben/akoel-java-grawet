@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.CompareBaseElementOperation;
 import hu.akoel.grawit.core.operations.CompareStringOperation;
@@ -131,7 +132,8 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		});	
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
-		comboOperationList.setRenderer(new ElementTypeComponentRenderer());
+		//comboOperationList.setRenderer(new ElementTypeComponentRenderer());
+		comboOperationList.setRenderer( new ListRenderer<E>() );
 		
 		//COMPARE TYPE
 		comboCompareTypeList = new JComboBox<CompareTypeListEnum>();
@@ -140,7 +142,8 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		}
 						
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
-		comboCompareTypeList.setRenderer(new CompareTypeRenderer());
+		comboCompareTypeList.setRenderer( new ListRenderer<CompareTypeListEnum>() );
+		//comboCompareTypeList.setRenderer(new CompareTypeRenderer());
 				
 		this.setLayout( new GridBagLayout() );
 		
@@ -446,7 +449,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 	
 	}
 	
-	class CompareTypeRenderer extends BasicComboBoxRenderer {
+/*	class CompareTypeRenderer extends BasicComboBoxRenderer {
 
 		private static final long serialVersionUID = 321816528340469926L;
 
@@ -459,5 +462,5 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
                 return c;
         }
 	}    
-
+*/
 }
