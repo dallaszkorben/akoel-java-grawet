@@ -366,17 +366,30 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//---------
 		}else if( baseElement.getElementType().equals( ElementTypeListEnum.LIST ) ){
 						
+			//Variable Element
 			if( operationString.equals( SelectVariableElementOperation.getStaticName() ) ){
 				
 				elementOperation = new SelectVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
+			//Base Element
 			}else if( operationString.equals( SelectBaseElementOperation.getStaticName() ) ){
 				
 				elementOperation = new SelectBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 		
+			//String
 			}else if( operationString.equals( SelectStringOperation.getStaticName() ) ){
 				
 				elementOperation = new SelectStringOperation( element, getRootTag(), getTag(), ATTR_NAME, getName() );
+		
+			//Click
+			}else if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+				elementOperation = new ClickOperation( );
+				
+			//Tab
+			}else if( operationString.equals( TabOperation.getStaticName() ) ){
+				
+				elementOperation = new TabOperation( );
 			}
 			
 		//Minden egyeb esetben error

@@ -31,7 +31,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	
 	private static final String DEFAULT_FROM = "01/01/1980";
 	private static final String DEFAULT_TO = "01/01/2000";
-	private static final String DEFAULT_FORMAT = "dd/mm/yyyy";
+	private static final String DEFAULT_FORMAT = "dd/MM/yyyy";
 	private static final String DEFAULT_MASK = "##/##/####";
 	private static final int PARAMETERORDER_FROM = 0;
 	private static final int PARAMETERORDER_TO = 1;

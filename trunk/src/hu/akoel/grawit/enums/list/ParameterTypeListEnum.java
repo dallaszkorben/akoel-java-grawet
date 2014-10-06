@@ -97,13 +97,13 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 			//PLUS
 			if( ((String)parameters.get(2)).equals(DateDigressionListEnum.PLUS.name() ) ){
 				
-				calendar.add(Calendar.DAY_OF_MONTH, new Integer( (String)parameters.get(3) ) );
+				calendar.add(Calendar.DAY_OF_MONTH, (Integer)parameters.get(3) );
 				
 			//MINUS
 			}else if( ((String)parameters.get(2)).equals(DateDigressionListEnum.MINUS.name() ) ){
-				
-				calendar.add(Calendar.DAY_OF_MONTH, new Integer( "-" + (String)parameters.get(3) ) );				
-				
+System.out.print(sdf.format( calendar.getTime() ))	;			
+				calendar.add(Calendar.DAY_OF_MONTH, -((Integer)parameters.get(3)) );				
+System.out.print(sdf.format( calendar.getTime() ))	;				
 			}
 			
 			return sdf.format( calendar.getTime() );
