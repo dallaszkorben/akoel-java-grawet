@@ -218,6 +218,8 @@ public class GUIFrame extends JFrame{
         editVariableMenuItem.setEnabled( false );
         menu.add(editVariableMenuItem);        
         
+        menu.addSeparator();
+        
         //Edit Base
         editBaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.basepage") );
         editBaseMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.basepage") ).getKeyCode()); // KeyEvent.VK_B);

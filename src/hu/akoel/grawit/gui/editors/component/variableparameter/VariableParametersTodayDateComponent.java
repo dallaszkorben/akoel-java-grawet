@@ -31,7 +31,7 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 
 	private static final long serialVersionUID = -3266616532152280622L;
 	
-	private static final String DEFAULT_FORMAT = "dd/mm/yyyy";
+	private static final String DEFAULT_FORMAT = "dd/MM/yyyy";
 	private static final String DEFAULT_MASK = "##/##/####";
 	private static final String DEFAULT_DIGRESSION = DateDigressionListEnum.NONE.name();
 	private static final String DEFAULT_DAYS = "0";

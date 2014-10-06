@@ -25,9 +25,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JTextField;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
 
@@ -121,15 +119,15 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		for( int i = 0; i < ListSelectionByListEnum.getSize(); i++ ){
 			comboSelectionBy.addItem((ListSelectionByListEnum)ListSelectionByListEnum.getListSelectionTypeByOrder(i) );
 		}
-		comboSelectionBy.addItemListener( new ItemListener( ) {
+		
+		/*comboSelectionBy.addItemListener( new ItemListener( ) {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
-		});
-		
+		});*/		
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
 		//comboOperationList.setRenderer(new ElementTypeComponentRenderer() );
@@ -170,12 +168,12 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		c.weightx = 0;
 		this.add( comboOperationList, c );
 		c.gridy = 1;
-
-		
 		
 		//Kenyszeritem, hogy a kovetkezo setSelectedItem() hatasara vegrehajtsa a az itemStateChanged() metodust
 		comboOperationList.setSelectedIndex(-1);
-		comboSelectionBy.setSelectedIndex(-1);
+		
+		//Default ertek
+		comboSelectionBy.setSelectedIndex(ListSelectionByListEnum.BYVALUE.getIndex());
 		
 		//Valtozok letrehozase
 		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
@@ -229,17 +227,10 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 	public void setEnableModify(boolean enable) {
 		
 		comboOperationList.setEnabled( enable );
-		comboSelectionBy.setEnabled( enable );
-		
-//		if( null != fieldString  && fieldString.isVisible() ){
-			fieldString.setEditable( enable );
-
-//		}else if( null != fieldBaseElementSelector && fieldBaseElementSelector.isVisible() ){
-			fieldBaseElementSelector.setEnableModify(enable);
-		
-//		}else if( null != fieldVariableSelector && fieldVariableSelector.isVisible() ){
-			fieldVariableSelector.setEnableModify( enable );
-//		}
+		comboSelectionBy.setEnabled( enable );		
+		fieldString.setEditable( enable );
+		fieldBaseElementSelector.setEnableModify(enable);		
+		fieldVariableSelector.setEnableModify( enable );
 	}
 
 	@Override
