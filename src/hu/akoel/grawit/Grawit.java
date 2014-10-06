@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 
 public class Grawit {
 	private static final String title = "Grawit";
-	private static final String version = "0.0.1";
+	private static final String version = "0.0.2";
 	
 	private static int frameWidth = 1000;
 	private static int frameHeight = 600;
