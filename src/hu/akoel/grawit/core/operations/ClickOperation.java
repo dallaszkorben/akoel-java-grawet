@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -50,7 +51,7 @@ public class ClickOperation implements ElementOperationInterface{
 		}
 		
 		//Searching for the element - waiting for it
-		WebDriverWait wait = new WebDriverWait(driver, 10);
+		WebDriverWait wait = new WebDriverWait(driver, CommonOperations.waitingTime);
 		
 		By by = null;
 		

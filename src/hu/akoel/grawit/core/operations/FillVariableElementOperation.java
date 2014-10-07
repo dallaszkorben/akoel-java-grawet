@@ -142,7 +142,7 @@ public class FillVariableElementOperation implements ElementOperationInterface{
 		WebElement webElement = null;
 		
 		//Searching for the element - waiting for it
-		WebDriverWait wait = new WebDriverWait(driver, 10);
+		WebDriverWait wait = new WebDriverWait(driver, CommonOperations.waitingTime);
 						
 		//Selector meszerzese
 		if( baseElement.getSelectorType().equals(SelectorType.ID)){

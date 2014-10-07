@@ -101,9 +101,9 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 				
 			//MINUS
 			}else if( ((String)parameters.get(2)).equals(DateDigressionListEnum.MINUS.name() ) ){
-System.out.print(sdf.format( calendar.getTime() ))	;			
+			
 				calendar.add(Calendar.DAY_OF_MONTH, -((Integer)parameters.get(3)) );				
-System.out.print(sdf.format( calendar.getTime() ))	;				
+			
 			}
 			
 			return sdf.format( calendar.getTime() );

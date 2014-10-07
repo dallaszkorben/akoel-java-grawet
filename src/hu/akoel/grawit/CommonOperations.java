@@ -41,6 +41,8 @@ public class CommonOperations {
 	private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 //	private static Calendar calendarBegin = new GregorianCalendar(1970, 01, 01 );
 //	private static Calendar calendarEnd = new GregorianCalendar(1994, 01, 01 );
+	
+	public static int waitingTime = 50;
 
 	public static enum Browser{
 		FIREFOX,
