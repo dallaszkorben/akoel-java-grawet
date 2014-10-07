@@ -32,7 +32,8 @@ public class Grawit {
 		// Hasznalando nyelv beallitasa
 		//
 		//CommonOperations.setLocal( "en", "US" );
-		CommonOperations.setLocal( new Locale.Builder().setLanguage("hu").setRegion("HU").build());
+		//CommonOperations.setLocal( new Locale.Builder().setLanguage("hu").setRegion("HU").build());
+		CommonOperations.setLocal( new Locale.Builder().setLanguage("en").setRegion("US").build());
 		 
 		//
 		// Window

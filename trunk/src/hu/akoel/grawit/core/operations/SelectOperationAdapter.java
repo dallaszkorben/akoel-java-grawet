@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -44,7 +46,7 @@ public abstract class SelectOperationAdapter implements ElementOperationInterfac
 		WebElement webElement = null;
 		
 		//Searching for the element - waiting for it
-		WebDriverWait wait = new WebDriverWait(driver, 10);
+		WebDriverWait wait = new WebDriverWait(driver, CommonOperations.waitingTime);
 						
 		//Selector meszerzese
 		if( baseElement.getSelectorType().equals(SelectorType.ID)){
