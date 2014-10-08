@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VariableParametersIntegerComponent extends JPanel implements VariableParametersComponentInterface{
+public class Torlendo_VariableParametersIntegerComponent extends JPanel implements VariableParametersComponentInterface{
 
 	private static final long serialVersionUID = -7128350501312573948L;
 
@@ -29,7 +29,7 @@ public class VariableParametersIntegerComponent extends JPanel implements Variab
 	 * 
 	 * @param type
 	 */
-	public VariableParametersIntegerComponent( ParameterTypeListEnum type ){
+	public Torlendo_VariableParametersIntegerComponent( ParameterTypeListEnum type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
@@ -46,7 +46,7 @@ public class VariableParametersIntegerComponent extends JPanel implements Variab
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersIntegerComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
+	public Torlendo_VariableParametersIntegerComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel

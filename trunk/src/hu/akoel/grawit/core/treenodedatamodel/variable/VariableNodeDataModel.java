@@ -4,6 +4,7 @@ import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -38,7 +39,7 @@ public class VariableNodeDataModel extends VariableDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public VariableNodeDataModel( Element element ) throws XMLPharseException{
+	public VariableNodeDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( VariableNodeDataModel.getRootTag(), Tag.VARIABLENODE, ATTR_NAME );			
@@ -60,11 +61,11 @@ public class VariableNodeDataModel extends VariableDataModelInterface{
 				
 				//Ha VARIABLEELEMENT van alatta
 				if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() )){
-					this.add(new VariableElementDataModel(variableElement));
+					this.add(new VariableElementDataModel(variableElement, baseRootDataModel ));
 				
 				//Ha ujabb VARIABLENODE van alatta
 				}else if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() )){
-					this.add(new VariableNodeDataModel(variableElement));
+					this.add(new VariableNodeDataModel(variableElement, baseRootDataModel ));
 				}
 			}
 		}

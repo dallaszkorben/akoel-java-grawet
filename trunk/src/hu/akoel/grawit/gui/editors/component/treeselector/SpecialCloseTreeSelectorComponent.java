@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
@@ -28,7 +28,7 @@ public class SpecialCloseTreeSelectorComponent extends TreeSelectorComponent<Spe
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){
 			
-			DataModelInterface dataModel = (DataModelInterface)node;
+			DataModelAdapter dataModel = (DataModelAdapter)node;
 
 			if( !dataModel.isRoot() ){
 				if( !hasHyphen ){
@@ -49,7 +49,7 @@ public class SpecialCloseTreeSelectorComponent extends TreeSelectorComponent<Spe
 	}
 	
 	@Override
-	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded ) {
+	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 	
 		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/special-close-icon.png");
 		ImageIcon openIcon = CommonOperations.createImageIcon("tree/special-open-icon.png");

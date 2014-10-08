@@ -8,7 +8,7 @@ import javax.swing.tree.TreeNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public abstract class DataModelInterface extends DefaultMutableTreeNode{
+public abstract class DataModelAdapter extends DefaultMutableTreeNode{
 	
 	private static final long serialVersionUID = 3951879392831974974L;
 	
@@ -60,7 +60,7 @@ public abstract class DataModelInterface extends DefaultMutableTreeNode{
 		TreeNode[] nodeArray = this.getPath();
 		for( TreeNode node: nodeArray ){
 			
-			DataModelInterface dataModel = (DataModelInterface)node;
+			DataModelAdapter dataModel = (DataModelAdapter)node;
 
 			if( !dataModel.isRoot() ){
 				out.append( dataModel.getOpenTag() );
@@ -68,7 +68,7 @@ public abstract class DataModelInterface extends DefaultMutableTreeNode{
 		}
 		
 		for( int i = nodeArray.length - 1; i >= 0; i-- ){
-			DataModelInterface dataModel = ((DataModelInterface)nodeArray[i]);
+			DataModelAdapter dataModel = ((DataModelAdapter)nodeArray[i]);
 			if( !dataModel.isRoot() ){
 				out.append( dataModel.getCloseTag() );
 			}			

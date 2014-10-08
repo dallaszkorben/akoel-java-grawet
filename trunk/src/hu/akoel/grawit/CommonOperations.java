@@ -1,6 +1,6 @@
 package hu.akoel.grawit;
 
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 
@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -30,19 +29,14 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import com.opera.core.systems.OperaDriver;
 
 public class CommonOperations {
-	private static String language = new String("en");
-	private static String country = new String( "US");
-	private static Locale locale = new Locale( language, country );
+//	private static String language = new String("en");
+//	private static String country = new String( "US");
+//	private static Locale locale = new Locale( language, country );
 	
 	private static Random rnd = new Random();
 	
-//	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private static SimpleDateFormat yearMonthFormat = new SimpleDateFormat("MM/yyyy");
 	private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
-//	private static Calendar calendarBegin = new GregorianCalendar(1970, 01, 01 );
-//	private static Calendar calendarEnd = new GregorianCalendar(1994, 01, 01 );
-	
-	public static int waitingTime = 50;
 
 	public static enum Browser{
 		FIREFOX,
@@ -51,7 +45,7 @@ public class CommonOperations {
 		OPERA		
 	}
 	
-	public static Locale getLocale(){
+/*	public static Locale getLocale(){
 		return locale;
 	}
 	
@@ -62,14 +56,15 @@ public class CommonOperations {
 	public static void setLocal( String language, String country ){
 		locale = new Locale( language, country );
 	}
+*/
 	
 	public static String getTranslation( String code ){
-		return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Grawet", locale ).getString( code );
+		//return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Grawet", locale ).getString( code );
+		return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Grawet", Properties.getInstance().getLocale() ).getString( code );
 	}
 	
 	public static DateFormat getDateFormat(){
-		return DateFormat.getDateInstance(DateFormat.SHORT, getLocale() );
-//		return dateFormat;
+		return DateFormat.getDateInstance(DateFormat.SHORT, Properties.getInstance().getLocale() );
 	}
 
 	public static SimpleDateFormat getYearFormat(){
@@ -188,10 +183,10 @@ public class CommonOperations {
 	  * @param name
 	  * @return
 	  */
-	 public static DataModelInterface getDataModelByNameInLevel( DataModelInterface actualBaseDataModel, Tag tag, String name ){
+	 public static DataModelAdapter getDataModelByNameInLevel( DataModelAdapter actualBaseDataModel, Tag tag, String name ){
 		 int childCount = actualBaseDataModel.getChildCount();
 		 for( int i = 0; i < childCount; i++ ){
-			 DataModelInterface dm = (DataModelInterface)actualBaseDataModel.getChildAt( i );
+			 DataModelAdapter dm = (DataModelAdapter)actualBaseDataModel.getChildAt( i );
 			 if( dm.getName().equals( name ) && dm.getTag().equals( tag )){
 				 return dm;
 			 }

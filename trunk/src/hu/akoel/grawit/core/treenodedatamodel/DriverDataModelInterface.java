@@ -2,7 +2,7 @@ package hu.akoel.grawit.core.treenodedatamodel;
 
 import hu.akoel.grawit.enums.Tag;
 
-public abstract class DriverDataModelInterface extends DataModelInterface{
+public abstract class DriverDataModelInterface extends DataModelAdapter{
 
 	private static final long serialVersionUID = 1016570017093967416L;
 

@@ -24,15 +24,15 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	public static final String ATTR_IDENTIFIER = "identifier";
 	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
 	public static final String ATTR_FRAME = "frame";
-//	public static final String ATTR_VARIABLE_SAMPLE = "variablesample";	
+	public static final String ATTR_WAITINGTIME = "waitingtime";
 	
 	//Adatmodel ---
 	private String name;
 	private ElementTypeListEnum elementType;
-//	private VariableSampleListEnum variableSample;
 	private String frame;
 	private String identifier;
 	private SelectorType identificationType;
+	private Integer waitingTime = null;
 	//----
 	
 	//Ide menti az erre a mezore hivatkozo ParamElement Mezo mentett erteket
@@ -47,13 +47,10 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	 * @param elementType
 	 * @param identifier
 	 * @param identificationType
-	 * @param variableSample
 	 * @param frame
 	 */
-	//public BaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, VariableSampleListEnum variableSample, String frame){
-	public BaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, String frame){
-		//common( name, elementType, identifier, identificationType, variableSample, frame );	
-		common( name, elementType, identifier, identificationType, frame );
+	public BaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTime, String frame){
+		common( name, elementType, identifier, identificationType, waitingTime, frame );
 	}
 
 	/**
@@ -105,35 +102,28 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 			identificationType = SelectorType.CSS;
 		}else{			
 			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
-		}
-		
-/*		//variablesemple
-		String variablesempleString = element.getAttribute(ATTR_VARIABLE_SAMPLE);
-		if( nameString.isEmpty() ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_VARIABLE_SAMPLE );			
 		}		
-*/
-/*		if( VariableSample.NO.name().equals(variablesempleString)){
-			variableSample = VariableSample.NO;
-		}else 
-*/
-/*		if( VariableSampleListEnum.PRE.name().equals(variablesempleString)){
-			variableSample = VariableSampleListEnum.PRE;
-		}else if( VariableSampleListEnum.POST.name().equals(variablesempleString)){
-			variableSample = VariableSampleListEnum.POST;
+		
+		//waiting time
+		if( !element.hasAttribute( ATTR_WAITINGTIME ) ){			
+			//TODO majd visszarakni, hogy ha nem talalja, akkor hiba
+			//throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_WAITINGTIME );
 		}else{
-			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_VARIABLE_SAMPLE, variablesempleString );
+			String waitingTimeString = element.getAttribute( ATTR_WAITINGTIME );
+			try{
+				waitingTime = new Integer( waitingTimeString );
+			}catch( Exception e ){}
+			
 		}
-*/				
+				
 	}
 	
-	//private void common( String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, VariableSampleListEnum variableSample, String frame ){
-	private void common( String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, String frame ){
+	private void common( String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTime, String frame ){
 		this.name = name;
 		this.elementType = elementType;
 		this.identifier = identifier;
 		this.identificationType = identificationType;
-//		this.variableSample = variableSample;
+		this.waitingTime = waitingTime;
 		this.frame = frame;
 	}
 
@@ -163,6 +153,14 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.elementType = elementType;
 	}
 	
+	public Integer getWaitingTime(){
+		return this.waitingTime;
+	}
+	
+	public void setWaitingTime( Integer waitingTime ){
+		this.waitingTime = waitingTime;
+	}
+	
 	public String getSelector() {
 		return identifier;
 	}
@@ -179,14 +177,6 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		this.identificationType = identificationType;
 	}
 
-/*	public VariableSampleListEnum getVariableSample() {
-		return variableSample;
-	}
-
-	public void setVariableSample(VariableSampleListEnum variableSample) {
-		this.variableSample = variableSample;
-	}
-*/
 	public String getFrame(){
 		return frame;
 	}
@@ -236,11 +226,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		attr = document.createAttribute( ATTR_FRAME);
 		attr.setValue( getFrame() );
 		elementElement.setAttributeNode(attr);	
-
-/*		attr = document.createAttribute( ATTR_VARIABLE_SAMPLE);
-		attr.setValue( getVariableSample().name() );
-		elementElement.setAttributeNode(attr);
-*/		
+		
 		attr = document.createAttribute( ATTR_IDENTIFIER );
 		attr.setValue( getSelector() );
 		elementElement.setAttributeNode(attr);	
@@ -251,6 +237,15 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 
 		attr = document.createAttribute( ATTR_IDENTIFICATION_TYPE );
 		attr.setValue( getSelectorType().name() );
+		elementElement.setAttributeNode(attr);	
+		
+		attr = document.createAttribute( ATTR_WAITINGTIME );
+		if( null == getWaitingTime() ){
+			attr.setValue( "" );	
+		}else{
+			attr.setValue( getWaitingTime().toString() );
+		}
+		
 		elementElement.setAttributeNode(attr);	
 
 		return elementElement;	

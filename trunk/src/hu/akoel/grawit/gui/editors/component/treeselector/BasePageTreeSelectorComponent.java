@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
@@ -28,7 +28,7 @@ public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BasePag
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){
 			
-			DataModelInterface dataModel = (DataModelInterface)node;
+			DataModelAdapter dataModel = (DataModelAdapter)node;
 
 			if( !dataModel.isRoot() ){
 				if( !hasHyphen ){
@@ -48,7 +48,7 @@ public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BasePag
 	}
 	
 	@Override
-	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded ) {
+	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
 		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
 		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");

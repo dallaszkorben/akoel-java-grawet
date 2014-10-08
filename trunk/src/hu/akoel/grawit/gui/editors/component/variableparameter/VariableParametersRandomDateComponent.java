@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.enums.list.DateFormListEnum;
 import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 
@@ -309,9 +310,10 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	class FormDateComboBox extends JComboBox<DateFormListEnum>{
 
 		public FormDateComboBox(){
-			this.setRenderer(new MyRenderer());
+			//this.setRenderer(new MyRenderer());
+			this.setRenderer(new ListRenderer<DateFormListEnum>());
 		}
-		
+/*		
 		class MyRenderer extends BasicComboBoxRenderer {
 
 			private static final long serialVersionUID = -4562181616721578685L;
@@ -323,6 +325,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 
 				return this;
 			}
-		}		
+		}
+*/				
 	}
 }

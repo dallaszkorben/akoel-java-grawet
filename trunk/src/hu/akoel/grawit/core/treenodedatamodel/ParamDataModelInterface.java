@@ -3,7 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel;
 import hu.akoel.grawit.enums.Tag;
 
 
-public abstract class ParamDataModelInterface extends DataModelInterface{
+public abstract class ParamDataModelInterface extends DataModelAdapter{
 
 	private static final long serialVersionUID = 3339665940651468923L;
 	

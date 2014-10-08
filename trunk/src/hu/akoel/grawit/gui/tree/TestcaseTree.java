@@ -11,7 +11,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
@@ -50,7 +50,7 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
-	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
+	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
 //		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/testcase-close-icon.png");
 //		ImageIcon openIcon = CommonOperations.createImageIcon("tree/testcase-open-icon.png");
@@ -79,7 +79,7 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
-	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
+	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 		
 		//Ha a root-ot valasztottam
 		if( selectedNode instanceof TestcaseRootDataModel ){
@@ -106,7 +106,7 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
-	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
+	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
 		
 		if( selectedNode instanceof TestcaseNodeDataModel ){
 			
@@ -131,7 +131,7 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
-	public void doPopupInsert( JPopupMenu popupMenu, final DataModelInterface selectedNode) {
+	public void doPopupInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode) {
 		
 		//
 		// Csomopont eseten
@@ -210,7 +210,7 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
-	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelInterface selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
+	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
 	
 		if( selectedNode.getChildCount() == 0 ){
 			
@@ -249,7 +249,7 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
-	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelInterface selectedNode ) {
+	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode ) {
 		
 		//Insert Node
 		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );

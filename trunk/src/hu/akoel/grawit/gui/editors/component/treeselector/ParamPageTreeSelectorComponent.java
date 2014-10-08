@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
@@ -29,7 +29,7 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamP
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){
 			
-			DataModelInterface dataModel = (DataModelInterface)node;
+			DataModelAdapter dataModel = (DataModelAdapter)node;
 
 			if( !dataModel.isRoot() ){
 				if( !hasHyphen ){
@@ -49,7 +49,7 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamP
 	}
 	
 	@Override
-	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded ) {
+	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 	
 		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-icon.png");
     	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/param-element-icon.png");

@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.enums.SelectorType;
@@ -35,9 +36,10 @@ public class BaseElementEditor extends DataEditor{
 	private JLabel labelIdentifier;
 	private TextFieldComponent fieldIdentifier;
 	private ComboBoxComponent<ElementTypeListEnum> comboElementType;
-//	private ComboBoxComponent<VariableSampleListEnum> comboVariable;
 	private RadioButtonComponent buttonID;
-	private RadioButtonComponent buttonCSS;
+	private RadioButtonComponent buttonCSS;	
+	private JLabel labelWaitingTime;
+	private TextFieldComponent fieldWaitingTime;
 	
 	//Insert
 	public BaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
@@ -58,6 +60,9 @@ public class BaseElementEditor extends DataEditor{
 
 		//Identifier
 		fieldIdentifier = new TextFieldComponent( "" );
+		
+    	//WaitingTime
+    	fieldWaitingTime = new TextFieldComponent( "" );
 
 		//Identifier type
     	buttonID.setSelected( true );
@@ -65,13 +70,8 @@ public class BaseElementEditor extends DataEditor{
     	//Element type
     	comboElementType.setSelectedIndex( 0 );
     	
-    	//Variable
-//		comboVariable.setSelectedIndex( 0 );
-		
 		commonPost();
 	}
-		
-	
 	
 	//Modositas vagy View
 	public BaseElementEditor( Tree tree, BaseElementDataModel selectedNode, EditMode mode ){		
@@ -92,6 +92,14 @@ public class BaseElementEditor extends DataEditor{
 				
 		//Identifier
 		fieldIdentifier = new TextFieldComponent( selectedNode.getSelector() );
+		
+		//Waiting time
+		Integer waitingTime = selectedNode.getWaitingTime();
+		if( null == waitingTime ){
+			fieldWaitingTime = new TextFieldComponent( "" );
+		}else{
+			fieldWaitingTime = new TextFieldComponent( waitingTime.toString() );
+		}
 	
 		//Identifier type
 	    SelectorType idType = selectedNode.getSelectorType();	    
@@ -104,9 +112,6 @@ public class BaseElementEditor extends DataEditor{
 	   	//Element type
 	   	comboElementType.setSelectedIndex( selectedNode.getElementType().getIndex() );
 	   	
-		//Variable	
-//		comboVariable.setSelectedIndex( selectedNode.getVariableSample().getIndex() );
-	
 		commonPost();
 		
 	}
@@ -125,14 +130,7 @@ public class BaseElementEditor extends DataEditor{
 		for(int i = 0; i < ElementTypeListEnum.getSize(); i++ ){
 			comboElementType.addItem( ElementTypeListEnum.getElementTypeByIndex(i) );
 		}
-		
-/*		//Variable
-		comboVariable = new ComboBoxComponent<>();
-		for(int i = 0; i < VariableSampleListEnum.getSize(); i++ ){
-			comboVariable.addItem( VariableSampleListEnum.getVariableSampleByIndex(i) );
-		}
-*/		
-	
+			
 	}
 
 	private void commonPost(){
@@ -140,17 +138,20 @@ public class BaseElementEditor extends DataEditor{
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		labelFrame = new JLabel( CommonOperations.getTranslation("editor.label.base.frame") + ": ");
 		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.label.base.identifier") + ": ");
+		labelWaitingTime = new JLabel( CommonOperations.getTranslation("editor.label.base.waitingtime") + ": ");
 		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.label.base.identifiertype") + ": ");
 		JLabel labelElementType = new JLabel( CommonOperations.getTranslation("editor.label.base.elementtype") + ": ");
-//		JLabel labelVariable = new JLabel( CommonOperations.getTranslation("editor.label.base.variablesample") + ": " );
+		
+    	//WaitingTime
+    	fieldWaitingTime = new TextFieldComponent( "" );
 		
 		this.add( labelName, fieldName );
 		this.add( labelElementType, comboElementType );
 		this.add( labelFrame, fieldFrame );
+		this.add( labelWaitingTime, fieldWaitingTime );
 		this.add( labelIdentifier, fieldIdentifier );
-		this.add( labelIdentifierType, buttonID );
+		this.add( labelIdentifierType, buttonID );		
 		this.add( new JLabel(), buttonCSS );
-//		this.add( labelVariable, comboVariable );
 		
 	}
 	
@@ -244,12 +245,6 @@ public class BaseElementEditor extends DataEditor{
 			ElementTypeListEnum elementType = null;
 			elementType = (ElementTypeListEnum)comboElementType.getSelectedItem();
 			
-			//Variable sample
-//			VariableSampleListEnum variableSample = null;
-			//int selectedIndex = comboVariable.getSelectedIndex();
-			//variableSample = VariableSample.getVariableSampleByIndex( selectedIndex );
-//			variableSample = (VariableSampleListEnum)comboVariable.getSelectedItem();
-			
 			SelectorType identificationType = null;
 			if( buttonID.isSelected() ){
 				identificationType = SelectorType.ID;
@@ -257,19 +252,17 @@ public class BaseElementEditor extends DataEditor{
 				identificationType = SelectorType.CSS;
 			}
 			
-			//TreePath pathToOpen = null;
+			Integer waitingTime = Properties.getInstance().getWaitingTime();				
+			try{
+				waitingTime = new Integer( fieldWaitingTime.getText() );
+			}catch( Exception e ){}
 			
 			//Uj rogzites eseten
 			if( null == mode ){
-			
-				//BaseElementDataModel newBaseElement = new BaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, variableSample, fieldFrame.getText()  );				
-				BaseElementDataModel newBaseElement = new BaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, fieldFrame.getText()  );
-				//BaseElementDataModel newPageBaseElement = new BaseElementDataModel( baseElement );
+								
+				BaseElementDataModel newBaseElement = new BaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, waitingTime, fieldFrame.getText()  );
 			
 				nodeForCapture.add( newBaseElement );
-				
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(newPageBaseElement.getPath());
 			
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -278,7 +271,7 @@ public class BaseElementEditor extends DataEditor{
 				nodeForModify.setFrame( fieldFrame.getText() );
 				nodeForModify.setIdentifier( fieldIdentifier.getText() );
 				nodeForModify.setElementType(elementType);
-				//nodeForModify.setVariableSample( variableSample );
+				nodeForModify.setWaitingTime( waitingTime );
 				nodeForModify.setIdentificationType( identificationType );
 				
 			}

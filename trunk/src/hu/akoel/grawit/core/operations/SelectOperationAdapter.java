@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
+import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
@@ -45,8 +46,12 @@ public abstract class SelectOperationAdapter implements ElementOperationInterfac
 		By by = null;
 		WebElement webElement = null;
 		
-		//Searching for the element - waiting for it
-		WebDriverWait wait = new WebDriverWait(driver, CommonOperations.waitingTime);
+		//WAITING TIME
+		Integer waitingTime = baseElement.getWaitingTime();
+		if( null == waitingTime ){
+			waitingTime = Properties.getInstance().getWaitingTime();
+		}
+		WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 						
 		//Selector meszerzese
 		if( baseElement.getSelectorType().equals(SelectorType.ID)){

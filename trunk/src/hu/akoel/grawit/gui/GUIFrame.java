@@ -612,11 +612,11 @@ public class GUIFrame extends JFrame{
 					// DRIVERS
 					driverRootDataModel = new DriverRootDataModel(doc);
 					
-					// VARIABLEPARAMETER
-					variableRootDataModel = new VariableRootDataModel(doc);
-					
 					// BASEROOT
 					baseRootDataModel = new BaseRootDataModel(doc);
+					
+					// VARIABLEPARAMETER
+					variableRootDataModel = new VariableRootDataModel(doc, baseRootDataModel );
 					
 					// SPECIALROOT
 					specialRootDataModel = new SpecialRootDataModel(doc);
