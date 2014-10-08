@@ -111,7 +111,13 @@ public abstract class SelectOperationAdapter implements ElementOperationInterfac
 			
 				//TODO ki kell talalni, hogy hogyan szerezheto meg a kivalasztott sorszama
 
-				select.selectByIndex( Integer.valueOf( getStringToSelection() ) );
+				Integer index = 0;
+				
+				try{
+					index = Integer.valueOf( getStringToSelection() );
+				}catch( Exception e){}
+				
+				select.selectByIndex( index );
 			
 			}else if( getSelectionBy().equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
 			

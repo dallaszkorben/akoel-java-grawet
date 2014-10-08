@@ -13,7 +13,6 @@ import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersIntegerComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersComponentInterface;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomDateComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableParametersRandomDoubleComponent;
@@ -143,7 +142,7 @@ public class VariableElementEditor extends DataEditor{
 						}
 						
 						
-					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.INTEGER_PARAMETER ) ){
+/*					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.INTEGER_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -157,7 +156,7 @@ public class VariableElementEditor extends DataEditor{
 								fieldVariableParameters = new VariableParametersIntegerComponent(type);
 							}
 						}
-						
+*/						
 					//RANDOM_STRING_PARAMETER	
 					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.RANDOM_STRING_PARAMETER ) ){
 						
