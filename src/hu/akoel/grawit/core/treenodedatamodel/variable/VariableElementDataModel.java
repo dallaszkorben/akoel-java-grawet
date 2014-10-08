@@ -9,6 +9,7 @@ import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
@@ -25,9 +26,11 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 	private static String ATTR_TYPE = "type";
 	private static String ATTR_VALUE = "value";
 	
+	//--- Data model
 	private String name;
 	private ParameterTypeListEnum type;
 	private ArrayList<Object> parameters;
+	//---
 		
 	public VariableElementDataModel( String name, ParameterTypeListEnum type, ArrayList<Object> parameters){
 		this.name = name;
@@ -35,7 +38,7 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		this.parameters = parameters;
 	}
 	
-	public VariableElementDataModel( Element element ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
+	public VariableElementDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
 		
 		if( !element.getTagName().equals( TAG.getName() ) ){
 			Element parentElement = (Element)element.getParentNode();

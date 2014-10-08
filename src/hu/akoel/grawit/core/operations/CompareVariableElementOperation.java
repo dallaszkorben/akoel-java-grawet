@@ -18,6 +18,7 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
+import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -152,8 +153,12 @@ public class CompareVariableElementOperation implements ElementOperationInterfac
 		By by = null;
 		WebElement webElement = null;
 		
-		//Searching for the element - waiting for it
-		WebDriverWait wait = new WebDriverWait(driver, CommonOperations.waitingTime);
+		//WAITING TIME
+		Integer waitingTime = baseElement.getWaitingTime();
+		if( null == waitingTime ){
+			waitingTime = Properties.getInstance().getWaitingTime();
+		}
+		WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 						
 		//Selector meszerzese
 		if( baseElement.getSelectorType().equals(SelectorType.ID)){

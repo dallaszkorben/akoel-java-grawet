@@ -11,7 +11,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
@@ -44,7 +44,7 @@ public class ParamTree extends Tree {
 	}
 
 	@Override
-	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
+	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-icon.png");
     	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/param-element-icon.png");
@@ -68,7 +68,7 @@ public class ParamTree extends Tree {
 	}
 
 	@Override
-	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
+	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 		
 		//Ha a root-ot valasztottam
 		if( selectedNode instanceof ParamRootDataModel ){
@@ -92,7 +92,7 @@ public class ParamTree extends Tree {
 	}
 
 	@Override
-	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
+	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
 		if( selectedNode instanceof ParamNodeDataModel ){
 			
 			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.MODIFY );								
@@ -112,7 +112,7 @@ public class ParamTree extends Tree {
 	}
 
 	@Override
-	public void doPopupInsert( JPopupMenu popupMenu, final DataModelInterface selectedNode) {
+	public void doPopupInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode) {
 		
 		//
 		// Csomopont eseten
@@ -175,7 +175,7 @@ public class ParamTree extends Tree {
 	}
 
 	@Override
-	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelInterface selectedNode, final int selectedRow,	final DefaultTreeModel totalTreeModel) {
+	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow,	final DefaultTreeModel totalTreeModel) {
 	
 		if( selectedNode.getChildCount() == 0 ){
 			
@@ -214,7 +214,7 @@ public class ParamTree extends Tree {
 	}
 
 	@Override
-	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelInterface selectedNode ) {
+	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode ) {
 		
 		//Insert Node
 		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );

@@ -10,7 +10,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
@@ -40,7 +40,7 @@ public class RunTree extends Tree {
 	}
 	
 	@Override
-	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded) {
+	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
 //		ImageIcon customIcon = CommonOperations.createImageIcon("tree/testcase-custom-icon.png");
 //    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-icon.png");
@@ -66,7 +66,7 @@ public class RunTree extends Tree {
 	}
 
 	@Override
-	public void doViewWhenSelectionChanged(DataModelInterface selectedNode) {
+	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 		
 		//Ha a root-ot valasztottam
 		if( selectedNode instanceof TestcaseRootDataModel ){									
@@ -89,19 +89,19 @@ public class RunTree extends Tree {
 	}
 
 	@Override
-	public void doModifyWithPopupEdit(DataModelInterface selectedNode) {
+	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
 	}
 
 	@Override
-	public void doPopupInsert(JPopupMenu popupMenu,	DataModelInterface selectedNode) {
+	public void doPopupInsert(JPopupMenu popupMenu,	DataModelAdapter selectedNode) {
 	}
 
 	@Override
-	public void doPopupDelete(JPopupMenu popupMenu, DataModelInterface selectedNode, int selectedRow, DefaultTreeModel totalTreeModel) {
+	public void doPopupDelete(JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel) {
 	}
 
 	@Override
-	public void doPopupRootInsert(JPopupMenu popupMenu, DataModelInterface selectedNode) {
+	public void doPopupRootInsert(JPopupMenu popupMenu, DataModelAdapter selectedNode) {
 	}
 
 	/**

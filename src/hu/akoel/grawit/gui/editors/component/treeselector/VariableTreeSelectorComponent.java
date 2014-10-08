@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
@@ -35,7 +35,7 @@ public class VariableTreeSelectorComponent extends TreeSelectorComponent<Variabl
 	}
 	
 	@Override
-	public ImageIcon getIcon(DataModelInterface actualNode, boolean expanded ) {
+	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 		//ImageIcon pageIcon = CommonOperations.createImageIcon("tree/variable-page-icon.png");
 		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/variable-element-icon.png");
 		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/variable-node-closed-icon.png");

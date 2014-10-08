@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.variable;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLExtraRootTagPharseException;
@@ -25,7 +26,7 @@ public class VariableRootDataModel extends VariableNodeDataModel{
 		super( "", "" );
 	}
 	
-	public VariableRootDataModel( Document doc ) throws XMLPharseException{
+	public VariableRootDataModel( Document doc, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -50,11 +51,11 @@ public class VariableRootDataModel extends VariableNodeDataModel{
 					
 						//Ha ujabb PARAMNODE van alatta
 						if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() ) ){						
-							this.add(new VariableNodeDataModel( variableElement ));
+							this.add(new VariableNodeDataModel( variableElement, baseRootDataModel ));
 					
 							//Ha rogton a rootban van elhelyezve egy elem
 						}else if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() ) ){
-							this.add(new VariableElementDataModel(variableElement));
+							this.add(new VariableElementDataModel(variableElement, baseRootDataModel ));
 						}
 					}
 				}

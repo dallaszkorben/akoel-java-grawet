@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -56,7 +56,7 @@ public abstract class Tree extends JTree{
 	
 	private GUIFrame guiFrame;
 	
-	private DataModelInterface selectedNode;
+	private DataModelAdapter selectedNode;
 	
 	private TreeMouseListener treeMouseListener;
 	
@@ -66,7 +66,7 @@ public abstract class Tree extends JTree{
 	
 	Insets autoscrollInsets = new Insets(20, 20, 20, 20);
 
-	public Tree( GUIFrame guiFrame, DataModelInterface rootDataModel ){
+	public Tree( GUIFrame guiFrame, DataModelAdapter rootDataModel ){
 	
 		super( new DefaultTreeModel(rootDataModel) );
 		
@@ -93,13 +93,13 @@ public abstract class Tree extends JTree{
 		    	Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
 		    	
 
-		    	if( null != value && value instanceof DataModelInterface ){
+		    	if( null != value && value instanceof DataModelAdapter ){
 		    		
 			    	//Felirata a NODE-nak		    	
-		    		setText( ((DataModelInterface)value).getName() );
+		    		setText( ((DataModelAdapter)value).getName() );
 		    		    	
 		    		//Ikon a NODE-nak
-		    		setIcon( Tree.this.getIcon( (DataModelInterface)value, expanded ) );
+		    		setIcon( Tree.this.getIcon( (DataModelAdapter)value, expanded ) );
 		    	}
 		 
 		    	return c;
@@ -123,17 +123,17 @@ public abstract class Tree extends JTree{
 	 * @param actualNode
 	 * @return
 	 */
-	public abstract ImageIcon getIcon( DataModelInterface actualNode, boolean expanded );
+	public abstract ImageIcon getIcon( DataModelAdapter actualNode, boolean expanded );
 	
-	public abstract void doViewWhenSelectionChanged( DataModelInterface selectedNode );
+	public abstract void doViewWhenSelectionChanged( DataModelAdapter selectedNode );
 	
-	public abstract void doModifyWithPopupEdit( DataModelInterface selectedNode );
+	public abstract void doModifyWithPopupEdit( DataModelAdapter selectedNode );
 		
-	public abstract void doPopupInsert( JPopupMenu popupMenu, DataModelInterface selectedNode );
+	public abstract void doPopupInsert( JPopupMenu popupMenu, DataModelAdapter selectedNode );
 	
-	public abstract void doPopupDelete( final JPopupMenu popupMenu, DataModelInterface selectedNode, int selectedRow, DefaultTreeModel totalTreeModel );
+	public abstract void doPopupDelete( final JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel );
 	
-	public abstract void doPopupRootInsert( JPopupMenu popupMenu, DataModelInterface selectedNode );
+	public abstract void doPopupRootInsert( JPopupMenu popupMenu, DataModelAdapter selectedNode );
 	
 	public abstract boolean possibleHierarchy( DefaultMutableTreeNode draggedNode, Object dropObject );
 	
@@ -207,7 +207,7 @@ public abstract class Tree extends JTree{
 				guiFrame.showEditorPanel( emptyPanel);
 			}else{
 			
-				selectedNode = (DataModelInterface)e.getNewLeadSelectionPath().getLastPathComponent();
+				selectedNode = (DataModelAdapter)e.getNewLeadSelectionPath().getLastPathComponent();
 			
 				doViewWhenSelectionChanged( selectedNode );
 				
@@ -229,7 +229,7 @@ public abstract class Tree extends JTree{
 		public void mouseClicked(MouseEvent e) {
 			
 			//A kivalasztott NODE			
-			selectedNode = (DataModelInterface)Tree.this.getLastSelectedPathComponent();
+			selectedNode = (DataModelAdapter)Tree.this.getLastSelectedPathComponent();
 		
 			//Ha jobb-eger gombot nyomtam - Akkor popup menu jelenik meg
 			if (SwingUtilities.isRightMouseButton(e)) {
@@ -242,7 +242,7 @@ public abstract class Tree extends JTree{
 				Tree.this.setSelectionRow(row);
 
 				//Jelzi, hogy mostantol, hiaba nem bal-egerrel valasztottam ki a node-ot, megis kivalasztott lesz
-				selectedNode = (DataModelInterface)Tree.this.getLastSelectedPathComponent();
+				selectedNode = (DataModelAdapter)Tree.this.getLastSelectedPathComponent();
 
 				//Letrehozza a PopUpMenu-t
 				//PopUpMenu popUpMenu = new PopUpMenu( row, node, path );
@@ -282,7 +282,7 @@ public abstract class Tree extends JTree{
 		private static final long serialVersionUID = -2476473336416059356L;
 
 		private DefaultMutableTreeNode parentNode;
-		private DataModelInterface selectedNode;
+		private DataModelAdapter selectedNode;
 		private TreePath selectedPath;
 		private DefaultTreeModel totalTreeModel;
 		private int selectedIndexInTheNode;
@@ -296,7 +296,7 @@ public abstract class Tree extends JTree{
 			totalTreeModel = (DefaultTreeModel)Tree.this.getModel();
 
 			//A kivalasztott NODE			
-			selectedNode = (DataModelInterface)Tree.this.getLastSelectedPathComponent();
+			selectedNode = (DataModelAdapter)Tree.this.getLastSelectedPathComponent();
 
 			//A kivalasztott node-ig vezeto PATH
 			selectedPath = Tree.this.getSelectionPath();	

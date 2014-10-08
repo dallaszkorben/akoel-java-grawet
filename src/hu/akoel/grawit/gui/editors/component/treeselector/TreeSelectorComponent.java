@@ -1,6 +1,6 @@
 package hu.akoel.grawit.gui.editors.component.treeselector;
 
-import hu.akoel.grawit.core.treenodedatamodel.DataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
 
 import java.awt.BorderLayout;
@@ -26,7 +26,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-public abstract class TreeSelectorComponent<F extends DataModelInterface> extends JPanel implements EditorComponentInterface{
+public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends JPanel implements EditorComponentInterface{
 
 	private static final long serialVersionUID = 2246129334894062585L;
 	
@@ -88,7 +88,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	 * @param selectedDataModel
 	 * @param enableEmpty			engedelyezi a mezo torleset
 	 */
-	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel, F selectedDataModel, boolean enableEmpty ){
+	public TreeSelectorComponent( Class<F> classForSelect, DataModelAdapter rootDataModel, F selectedDataModel, boolean enableEmpty ){
 		super();
 	
 		common( classForSelect, rootDataModel, selectedDataModel, enableEmpty );
@@ -99,7 +99,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 		
 	}
 	
-	private void common( Class<F> classForSelect, final DataModelInterface rootDataModel, F selectedDataModel, final boolean enableEmpty ){	
+	private void common( Class<F> classForSelect, final DataModelAdapter rootDataModel, F selectedDataModel, final boolean enableEmpty ){	
 		
 		this.classForSelect = classForSelect;
 		this.selectedDataModel = selectedDataModel;
@@ -179,7 +179,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 	 * @param actualNode
 	 * @return
 	 */
-	public abstract ImageIcon getIcon( DataModelInterface actualNode, boolean expanded );
+	public abstract ImageIcon getIcon( DataModelAdapter actualNode, boolean expanded );
 
 	/**
 	 * Megmondja, hogy a parameterkent megadott Path nyiljon-e ki vagy sem
@@ -207,7 +207,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 
 		private static final long serialVersionUID = 1607956458285776550L;
 	
-		public SelectorDialog( TreeSelectorComponent<F> treeSelectorComponent, DataModelInterface rootDataModel, F selectedDataModel ){
+		public SelectorDialog( TreeSelectorComponent<F> treeSelectorComponent, DataModelAdapter rootDataModel, F selectedDataModel ){
 
 			super( );
 
@@ -260,7 +260,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 
 			private static final long serialVersionUID = 800888675922537771L;
 			
-			public TreeForSelect( DataModelInterface rootDataModel ){
+			public TreeForSelect( DataModelAdapter rootDataModel ){
 		
 				super( new DefaultTreeModel(rootDataModel) );
 			
@@ -287,10 +287,10 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 						Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
 			    	
 						//Felirata a NODE-nak
-						setText( ((DataModelInterface)value).getName() );
+						setText( ((DataModelAdapter)value).getName() );
 			    	
 						//Ikon a NODE-nak
-						setIcon( TreeSelectorComponent.this.getIcon( (DataModelInterface)value, expanded ) );
+						setIcon( TreeSelectorComponent.this.getIcon( (DataModelAdapter)value, expanded ) );
 							    	
 						return c;
 					}
@@ -308,7 +308,7 @@ public abstract class TreeSelectorComponent<F extends DataModelInterface> extend
 						if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
 						
 							//A kivalasztott NODE			
-							DataModelInterface selectedNode = (DataModelInterface)TreeForSelect.this.getLastSelectedPathComponent();
+							DataModelAdapter selectedNode = (DataModelAdapter)TreeForSelect.this.getLastSelectedPathComponent();
 
 							//Ha megfelelo tipusu elemet valasztottam
 							if( classForSelect.isInstance( selectedNode )){							

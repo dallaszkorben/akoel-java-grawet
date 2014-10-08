@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.variableparameter;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.enums.list.DateDigressionListEnum;
 import hu.akoel.grawit.enums.list.DateFormListEnum;
 import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
@@ -271,10 +272,11 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 	class DateFormComboBox extends JComboBox<DateFormListEnum>{
 
 		public DateFormComboBox(){
-			this.setRenderer(new MyRenderer());
+			//this.setRenderer(new MyRenderer());
+			this.setRenderer(new ListRenderer<DateFormListEnum>());
 		}
 		
-		class MyRenderer extends BasicComboBoxRenderer {
+/*		class MyRenderer extends BasicComboBoxRenderer {
 
 			private static final long serialVersionUID = -4562181616721578685L;
 
@@ -284,8 +286,9 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 				Component c = super.getListCellRendererComponent(list, ((DateFormListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
 
 				return this;
-			}
-		}		
+			}			
+		}
+*/				
 	}
 	
 	class DateDigressionComboBox extends JComboBox<DateDigressionListEnum>{
