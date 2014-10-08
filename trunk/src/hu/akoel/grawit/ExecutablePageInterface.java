@@ -11,6 +11,4 @@ public interface ExecutablePageInterface {
 	
 	public void doAction(WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException;
 	
-	//public PageProgressInterface getPageProgressInterface();
-	
 }

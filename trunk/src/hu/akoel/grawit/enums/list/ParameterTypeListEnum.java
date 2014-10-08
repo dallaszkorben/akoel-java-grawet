@@ -17,9 +17,9 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),
 	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
 	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class}),
-	INTEGER_PARAMETER( 4, CommonOperations.getTranslation("editor.label.variable.parametertype.integer"), new Class<?>[]{Integer.class}),
-	RANDOM_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate"), new Class<?>[]{String.class, String.class, String.class, String.class }),
-	TODAY_DATE_PARAMETER( 6, CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate"), new Class<?>[]{String.class, String.class, String.class, Integer.class }),
+	RANDOM_DATE_PARAMETER( 4, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate"), new Class<?>[]{String.class, String.class, String.class, String.class }),
+	TODAY_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate"), new Class<?>[]{String.class, String.class, String.class, Integer.class }),
+//	INTEGER_PARAMETER( 6, CommonOperations.getTranslation("editor.label.variable.parametertype.integer"), new Class<?>[]{Integer.class}),
 	;
 	
 	private int index;
@@ -58,9 +58,9 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 			
 			return (String)parameters.get(0);
 		
-		}else if( this.equals( INTEGER_PARAMETER ) ){
+//		}else if( this.equals( INTEGER_PARAMETER ) ){
 			
-			return (String)parameters.get(0);
+//			return (String)parameters.get(0);
 		
 		}else if( this.equals( RANDOM_STRING_PARAMETER ) ){
 			
@@ -127,9 +127,9 @@ public enum ParameterTypeListEnum implements ElementTypeOperationsListEnumInterf
 		case 1: return RANDOM_STRING_PARAMETER;
 		case 2: return RANDOM_INTEGER_PARAMETER;
 		case 3: return RANDOM_DOUBLE_PARAMETER;
-		case 4: return INTEGER_PARAMETER;
-		case 5: return RANDOM_DATE_PARAMETER;
-		case 6: return TODAY_DATE_PARAMETER;
+		case 4: return RANDOM_DATE_PARAMETER;
+		case 5: return TODAY_DATE_PARAMETER;
+//		case 6: return INTEGER_PARAMETER;
 		default: return STRING_PARAMETER;
 		}
 	}
