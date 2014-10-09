@@ -192,7 +192,7 @@ public class CompareVariableElementOperation implements ElementOperationInterfac
 		// Execute the OPERATION
 		//		
 		String foundText = "";
-		
+/*		
 		//Ha FIELD
 		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
 			foundText = webElement.getAttribute("value");	
@@ -208,6 +208,8 @@ public class CompareVariableElementOperation implements ElementOperationInterfac
 			foundText = webElement.getText();
 			
 		}		
+*/
+		foundText = element.getBaseElement().getGainedValue();
 		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			

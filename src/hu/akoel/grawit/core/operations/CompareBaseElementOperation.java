@@ -197,7 +197,7 @@ public class CompareBaseElementOperation implements ElementOperationInterface{
 		// Execute the OPERATION
 		//		
 		String foundText = "";
-		
+/*		
 		//Ha FIELD
 		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
 			foundText = webElement.getAttribute("value");	
@@ -213,17 +213,19 @@ public class CompareBaseElementOperation implements ElementOperationInterface{
 			foundText = webElement.getText();
 			
 		}		
+*/
+		foundText = element.getBaseElement().getGainedValue();
 		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
-			if( !foundText.equals( baseElementDataModel.getVariableValue() ) ){
-				throw new ElementCompareOperationException(compareType, baseElementDataModel.getVariableValue(), element.getName(), baseElement.getSelector(), foundText, new Exception() );
+			if( !foundText.equals( baseElementDataModel.getGainedValue() ) ){
+				throw new ElementCompareOperationException(compareType, baseElementDataModel.getGainedValue(), element.getName(), baseElement.getSelector(), foundText, new Exception() );
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( foundText.equals( baseElementDataModel.getVariableValue() ) ){
-				throw new ElementCompareOperationException(compareType, baseElementDataModel.getVariableValue(), element.getName(), baseElement.getSelector(), foundText, new Exception() );
+			if( foundText.equals( baseElementDataModel.getGainedValue() ) ){
+				throw new ElementCompareOperationException(compareType, baseElementDataModel.getGainedValue(), element.getName(), baseElement.getSelector(), foundText, new Exception() );
 			}
 			
 		}

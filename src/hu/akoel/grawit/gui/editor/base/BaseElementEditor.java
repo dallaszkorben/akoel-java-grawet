@@ -143,7 +143,6 @@ public class BaseElementEditor extends DataEditor{
 		JLabel labelElementType = new JLabel( CommonOperations.getTranslation("editor.label.base.elementtype") + ": ");
 		
     	//WaitingTime
-    	fieldWaitingTime = new TextFieldComponent( "" );
 		
 		this.add( labelName, fieldName );
 		this.add( labelElementType, comboElementType );
@@ -252,7 +251,7 @@ public class BaseElementEditor extends DataEditor{
 				identificationType = SelectorType.CSS;
 			}
 			
-			Integer waitingTime = Properties.getInstance().getWaitingTime();				
+			Integer waitingTime = null;				
 			try{
 				waitingTime = new Integer( fieldWaitingTime.getText() );
 			}catch( Exception e ){}
