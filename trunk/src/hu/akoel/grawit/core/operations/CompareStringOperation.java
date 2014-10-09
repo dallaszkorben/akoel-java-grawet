@@ -114,7 +114,7 @@ public class CompareStringOperation implements ElementOperationInterface{
 		//		
 		String foundText = "";
 		
-		//Ha FIELD
+/*		//Ha FIELD
 		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
 			foundText = webElement.getAttribute("value");	
 		
@@ -129,6 +129,9 @@ public class CompareStringOperation implements ElementOperationInterface{
 			foundText = webElement.getText();
 			
 		}		
+*/		
+		//Gained value
+		foundText = element.getBaseElement().getGainedValue();
 		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			

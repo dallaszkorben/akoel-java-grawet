@@ -210,7 +210,7 @@ public class FillBaseElementOperation implements ElementOperationInterface{
 			
 			//Execute the operation
 			//webElement.clear();
-			webElement.sendKeys( baseElementDataModel.getVariableValue() );
+			webElement.sendKeys( baseElementDataModel.getGainedValue() );
 			webElement.sendKeys(Keys.TAB);
 			
 		}catch (WebDriverException webDriverException){

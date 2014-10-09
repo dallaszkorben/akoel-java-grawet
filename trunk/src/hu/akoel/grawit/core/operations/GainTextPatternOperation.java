@@ -153,12 +153,12 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 		
 		//Execute the operation = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
-			baseElement.setVariableValue( origText );
+			baseElement.setGainedValue( origText );
 		}else{
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
 				String resultText = matcher.group();
-				baseElement.setVariableValue( resultText );
+				baseElement.setGainedValue( resultText );
 			}			
 		}
 		
