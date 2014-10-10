@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
-import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
+import hu.akoel.grawit.enums.list.VariableTypeListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -20,6 +20,7 @@ import hu.akoel.grawit.gui.editors.component.variableparameter.VariableRandomInt
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableRandomStringComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableStringComponent;
 import hu.akoel.grawit.gui.editors.component.variableparameter.VariableTodayDateComponent;
+import hu.akoel.grawit.gui.editors.component.variableparameter.VariableVariableComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -37,11 +38,11 @@ public class VariableElementEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelVariableType;
-	private ComboBoxComponent<ParameterTypeListEnum> fieldVariableType;
+	private ComboBoxComponent<VariableTypeListEnum> fieldVariableType;
 	private JLabel labelVariableParameters;
 	private VariableComponentInterface fieldVariableParameters;
 	
-	private ParameterTypeListEnum type;
+	private VariableTypeListEnum type;
 	
 	/**
 	 *  Uj VariableElement rogzitese - Insert
@@ -63,7 +64,7 @@ public class VariableElementEditor extends DataEditor{
 		fieldName.setText( "" );
 		
 		//Type - String
-		type = ParameterTypeListEnum.STRING_PARAMETER;		
+		type = VariableTypeListEnum.STRING_PARAMETER;		
 				
 		//Parameters
 		//fieldVariableParameters = new VariableParametersStringComponent(type);				
@@ -110,8 +111,8 @@ public class VariableElementEditor extends DataEditor{
 	
 		//VariableTypeSelector		
 		fieldVariableType = new ComboBoxComponent<>();
-		for( int i = 0; i < ParameterTypeListEnum.getSize(); i++ ){
-			fieldVariableType.addItem( ParameterTypeListEnum.getVariableParameterTypeByIndex(i) );
+		for( int i = 0; i < VariableTypeListEnum.getSize(); i++ ){
+			fieldVariableType.addItem( VariableTypeListEnum.getVariableParameterTypeByIndex(i) );
 		}
 		fieldVariableType.addItemListener( new ItemListener() {
 			
@@ -123,10 +124,10 @@ public class VariableElementEditor extends DataEditor{
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					type = ParameterTypeListEnum.getVariableParameterTypeByIndex(index);
+					type = VariableTypeListEnum.getVariableParameterTypeByIndex(index);
 					
 					//STRING_PARAMETER
-					if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.STRING_PARAMETER ) ){
+					if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.STRING_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -158,7 +159,7 @@ public class VariableElementEditor extends DataEditor{
 						}
 */						
 					//RANDOM_STRING_PARAMETER	
-					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.RANDOM_STRING_PARAMETER ) ){
+					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.RANDOM_STRING_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -176,7 +177,7 @@ public class VariableElementEditor extends DataEditor{
 						
 					
 					//RANDOM_INTEGER_PARAMETER
-					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.RANDOM_INTEGER_PARAMETER ) ){
+					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.RANDOM_INTEGER_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -194,7 +195,7 @@ public class VariableElementEditor extends DataEditor{
 						
 						
 					//RANDOM_DECIMAL_PARAMETER	
-					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.RANDOM_DOUBLE_PARAMETER ) ){
+					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.RANDOM_DOUBLE_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -210,7 +211,7 @@ public class VariableElementEditor extends DataEditor{
 						}
 										
 					//RANDOM_DATE_PARAMETER
-					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.RANDOM_DATE_PARAMETER ) ){
+					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.RANDOM_DATE_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -226,8 +227,8 @@ public class VariableElementEditor extends DataEditor{
 						}										
 						
 					//TODAY_DATE_PARAMETER
-					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.TODAY_DATE_PARAMETER ) ){
-							
+					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.TODAY_DATE_PARAMETER ) ){
+
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
 							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
@@ -239,8 +240,24 @@ public class VariableElementEditor extends DataEditor{
 							}else{
 								fieldVariableParameters = new VariableTodayDateComponent(type);
 							}
-						}							
+						}						
 						
+					//VARIABLE_PARAMETER
+					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.VARIABLE_PARAMETER ) ){
+							
+						//Nem ez az elso valtoztatas
+						if( null != fieldVariableParameters ){
+							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
+							fieldVariableParameters = new VariableVariableComponent(type);
+						}else{
+							//Modositas volt
+							if( null != nodeForModify ){
+								fieldVariableParameters = new VariableVariableComponent(type, nodeForModify.getParameters() );
+							}else{
+								fieldVariableParameters = new VariableVariableComponent(type);
+							}
+						}
+
 					}
 					
 					VariableElementEditor.this.add( labelVariableParameters, fieldVariableParameters );

@@ -11,7 +11,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
+import hu.akoel.grawit.enums.list.VariableTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
@@ -28,11 +28,11 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 	
 	//--- Data model
 	private String name;
-	private ParameterTypeListEnum type;
+	private VariableTypeListEnum type;
 	private ArrayList<Object> parameters;
 	//---
 		
-	public VariableElementDataModel( String name, ParameterTypeListEnum type, ArrayList<Object> parameters){
+	public VariableElementDataModel( String name, VariableTypeListEnum type, ArrayList<Object> parameters){
 		this.name = name;
 		this.type = type;
 		this.parameters = parameters;
@@ -55,30 +55,33 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		if( !element.hasAttribute( ATTR_TYPE ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_TYPE );			
 		}
-		if( ParameterTypeListEnum.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterTypeListEnum.STRING_PARAMETER;
+		if( VariableTypeListEnum.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = VariableTypeListEnum.STRING_PARAMETER;
 			
 /*		}else if( ParameterTypeListEnum.INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = ParameterTypeListEnum.INTEGER_PARAMETER;
 */			
-		}else if( ParameterTypeListEnum.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterTypeListEnum.RANDOM_STRING_PARAMETER;
+		}else if( VariableTypeListEnum.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = VariableTypeListEnum.RANDOM_STRING_PARAMETER;
 			
-		}else if( ParameterTypeListEnum.RANDOM_INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterTypeListEnum.RANDOM_INTEGER_PARAMETER;
+		}else if( VariableTypeListEnum.RANDOM_INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = VariableTypeListEnum.RANDOM_INTEGER_PARAMETER;
 			
-		}else if( ParameterTypeListEnum.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterTypeListEnum.RANDOM_DOUBLE_PARAMETER;
+		}else if( VariableTypeListEnum.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = VariableTypeListEnum.RANDOM_DOUBLE_PARAMETER;
 			
-		}else if( ParameterTypeListEnum.RANDOM_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterTypeListEnum.RANDOM_DATE_PARAMETER;
+		}else if( VariableTypeListEnum.RANDOM_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = VariableTypeListEnum.RANDOM_DATE_PARAMETER;
 			
-		}else if( ParameterTypeListEnum.TODAY_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterTypeListEnum.TODAY_DATE_PARAMETER;
+		}else if( VariableTypeListEnum.TODAY_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = VariableTypeListEnum.TODAY_DATE_PARAMETER;
+			
+		}else if( VariableTypeListEnum.VARIABLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = VariableTypeListEnum.VARIABLE_PARAMETER;			
 			
 		//Default
 		}else{
-			type = ParameterTypeListEnum.STRING_PARAMETER;
+			type = VariableTypeListEnum.STRING_PARAMETER;
 			
 		}
 		
@@ -107,11 +110,11 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		
 	}
 	
-	public ParameterTypeListEnum getType(){
+	public VariableTypeListEnum getType(){
 		return type;
 	}
 	
-	public void setType( ParameterTypeListEnum type ){
+	public void setType( VariableTypeListEnum type ){
 		this.type = type;
 	}
 	

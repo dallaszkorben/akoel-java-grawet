@@ -55,9 +55,11 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"/>
         <Association
             destinationClassName="hu.akoel.grawit.enums.list.ParameterTypeListEnum"
             endpointName="type" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"/>
         <Communication destinationClassName="hu.akoel.grawit.enums.list.ParameterTypeListEnum"/>
     </Class>
     <Class name="hu.akoel.grawit.enums.list.ParameterTypeListEnum"
@@ -141,6 +143,17 @@
         <Association
             destinationClassName="hu.akoel.grawit.enums.list.ParameterTypeListEnum"
             endpointName="type" kind="Simple"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface"
+        x="1040" y="-39">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class
         name="hu.akoel.grawit.gui.editors.component.variableparameter.VariableRandomDateComponent"

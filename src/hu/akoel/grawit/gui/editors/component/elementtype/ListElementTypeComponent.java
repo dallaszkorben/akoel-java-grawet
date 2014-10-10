@@ -4,6 +4,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
+import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
 import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
@@ -34,18 +36,27 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 	private JTextField fieldType;
 	private JComboBox<E> comboOperationList;
 		
+	//Pattern
+	private JTextField fieldPattern;	
+	private JLabel labelPattern;
+	
+	//Type
 	private JLabel labelType;
 	private JLabel labelOperations;	
 	
+	//Variable selector - Mezo kitoltes
 	private JLabel labelVariableSelector;
 	private VariableTreeSelectorComponent fieldVariableSelector;
 	
+	//BaseElement selector - Mezo kitoltes
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;
 	
+	//String - Mezo kitoltes
 	private JLabel labelString;
 	private JTextField fieldString;
 	
+	//Selection by
 	private JLabel labelSelectionBy;
 	private JComboBox<ListSelectionByListEnum> comboSelectionBy;
 	
@@ -55,18 +66,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 	public E getSelectedOperation(ElementTypeListEnum elementType) {
 		return(E)comboOperationList.getSelectedItem();
 	}
-	
-	/**
-	 * Uj
-	 * 
-	 */
-/*	public ListElementTypeComponent( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
-		super();
-
-		common( elementType, null, baseRootDataModel, variableRootDataModel );
 		
-	}
-*/	
 	/**
 	 * 
 	 * Mar letezo
@@ -84,6 +84,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 	private void common( ElementTypeListEnum elementType , ElementOperationInterface elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
+		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.pattern") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
 		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
@@ -93,6 +94,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
 		fieldType.setEditable(false);
+		fieldPattern = new JTextField();
 
 		comboOperationList = new JComboBox<>();
 		for( int i = 0; i < E.getSize(); i++ ){
@@ -119,15 +121,6 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		for( int i = 0; i < ListSelectionByListEnum.getSize(); i++ ){
 			comboSelectionBy.addItem((ListSelectionByListEnum)ListSelectionByListEnum.getListSelectionTypeByOrder(i) );
 		}
-		
-		/*comboSelectionBy.addItemListener( new ItemListener( ) {
-			
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});*/		
 		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
 		//comboOperationList.setRenderer(new ElementTypeComponentRenderer() );
@@ -188,14 +181,17 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			
 		}else{
 			
+			//CLICK
 			if( elementOperation instanceof ClickOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
+			//TAB
 			}else if( elementOperation instanceof TabOperation ){
 				
 				comboOperationList.setSelectedIndex(E.TAB.getIndex());
 				
+			//SELECT VARIABLE
 			}else if( elementOperation instanceof SelectVariableElementOperation ){
 								
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((SelectVariableElementOperation)elementOperation).getVariableElement() );
@@ -203,6 +199,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 				
 				comboSelectionBy.setSelectedIndex( ((SelectVariableElementOperation)elementOperation).getSelectionBy().getIndex() );
 				
+			//SELECT BASE 
 			}else if( elementOperation instanceof SelectBaseElementOperation ){
 								
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((SelectBaseElementOperation)elementOperation).getBaseElement() );
@@ -210,13 +207,27 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 
 				comboSelectionBy.setSelectedIndex( ((SelectBaseElementOperation)elementOperation).getSelectionBy().getIndex() );
 			
-
+			//SELECT STRING
 			}else if( elementOperation instanceof SelectStringOperation ){
 								
 				fieldString.setText( ((SelectStringOperation)elementOperation).getStringToSelection() );
 				comboOperationList.setSelectedIndex(E.SELECT_STRING.getIndex());
 				
 				comboSelectionBy.setSelectedIndex( ((SelectStringOperation)elementOperation).getSelectionBy().getIndex() );
+				
+			//GAIN VALUE TO VARIABLE
+			}else if( elementOperation instanceof GainValueToVariableOperation ){
+				
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainValueToVariableOperation)elementOperation).getVariableElement() );
+				comboOperationList.setSelectedIndex(E.GAINVALUE_TO_VARIABLE.getIndex());
+				fieldPattern.setText( ((GainValueToVariableOperation)elementOperation).getStringPattern());	
+			
+			//GAIN TEXT TO VARIABLE
+			}else if( elementOperation instanceof GainTextToVariableOperation ){
+					
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainTextToVariableOperation)elementOperation).getVariableElement() );
+				comboOperationList.setSelectedIndex(E.GAINTEXT_TO_VARIABLE.getIndex());
+				fieldPattern.setText( ((GainTextToVariableOperation)elementOperation).getStringPattern());					
 				
 			}			
 		}
@@ -231,6 +242,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		fieldString.setEditable( enable );
 		fieldBaseElementSelector.setEnableModify(enable);		
 		fieldVariableSelector.setEnableModify( enable );
+		fieldPattern.setEditable( enable );
 	}
 
 	@Override
@@ -238,45 +250,25 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		return this;
 	}
 
-	private void setValueContainer( E selected ){
+	private void setValueContainer( E selectedOperation ){
 
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);		
 		
-		Component[] components = this.getComponents();
-
-		for( int i = 0; i < components.length; i++ ){
-			if( components[i] == labelBaseElementSelector ){
-				this.remove( labelBaseElementSelector );
-	
-			}else if( components[i] == fieldBaseElementSelector ){
-				this.remove( fieldBaseElementSelector );
-		
-			}else if( components[i] == labelString ){
-				this.remove( labelString );
-		
-			}else if( components[i] == fieldString ){
-				this.remove( fieldString );
-		
-			}else if( components[i] == labelVariableSelector ){
-				this.remove( labelVariableSelector );
-		
-			}else if( components[i] == fieldVariableSelector ){
-				this.remove( fieldVariableSelector );	
-		
-			}else if( components[i] == labelFiller ){
-				this.remove( labelFiller );	
-		
-			}else if( components[i] == labelSelectionBy ){
-				this.remove( labelSelectionBy );
-		
-			}else if( components[i] == comboSelectionBy ){
-				this.remove( comboSelectionBy );
-			}
-		}
+		this.remove( labelBaseElementSelector );
+		this.remove( fieldBaseElementSelector );
+		this.remove( labelString );
+		this.remove( fieldString );
+		this.remove( labelVariableSelector );
+		this.remove( fieldVariableSelector );	
+		this.remove( labelFiller );	
+		this.remove( labelSelectionBy );
+		this.remove( comboSelectionBy );
+		this.remove( labelPattern );
+		this.remove( fieldPattern );
 
 		//Fill element
-		if( selected.equals( E.SELECT_BASE ) ){
+		if( selectedOperation.equals( E.SELECT_BASE ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -294,7 +286,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			putSelectionByElement( c );
 			
 		//Fill variable
-		}else if( selected.equals( E.SELECT_VARIABLE ) ){
+		}else if( selectedOperation.equals( E.SELECT_VARIABLE ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -312,7 +304,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			putSelectionByElement( c );
 			
 		//Fill string
-		}else if( selected.equals( E.SELECT_STRING ) ){
+		}else if( selectedOperation.equals( E.SELECT_STRING ) ){
 		
 			c.gridy = 0;
 			c.gridx = 4;
@@ -330,7 +322,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			putSelectionByElement( c );
 			
 		//Tab
-		}else if( selected.equals( E.TAB ) ){
+		}else if( selectedOperation.equals( E.TAB ) ){
 
 			//Filler
 			c.gridy = 0;
@@ -343,7 +335,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			this.add( labelFiller, c );
 			
 		//Click
-		}else if( selected.equals( E.CLICK ) ){
+		}else if( selectedOperation.equals( E.CLICK ) ){
 			
 			//Filler
 			c.gridy = 0;
@@ -354,6 +346,68 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			c.weightx = 1;
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
+			
+		//GAINVALUE TO VARIABLE
+		}else if( selectedOperation.equals( E.GAINVALUE_TO_VARIABLE ) ){
+			
+			//VARIABLE
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelVariableSelector, c );
+			
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldVariableSelector, c );			
+				
+			//PATTERN
+			c.gridy = 1;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelPattern, c );
+							
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );					
+			
+		//GAINTEXT TO VARIABLE
+		}else if( selectedOperation.equals( E.GAINTEXT_TO_VARIABLE ) ){
+				
+			//VARIABLE
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelVariableSelector, c );
+				
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldVariableSelector, c );			
+				
+			//PATTERN
+			c.gridy = 1;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelPattern, c );
+								
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );					
 		}		
 
 		this.revalidate();
@@ -401,23 +455,19 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		//Click
 		}else if( comboOperationList.getSelectedIndex() ==  E.CLICK.getIndex() ){
 			return new ClickOperation();
+			
+		//GAINVALUE TO VARIABLE
+		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_VARIABLE.getIndex() ){
+			return new GainValueToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
+	
+		//GAINTEXT TO VARIABLE
+		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_VARIABLE.getIndex() ){
+			return new GainTextToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
+			
 		}
 	
 		return null;
 	}
 	
-/*	class MyRenderer extends BasicComboBoxRenderer {
-
-		private static final long serialVersionUID = -6648040896597364730L;
-
-		@Override
-        public Component getListCellRendererComponent( JList list, Object value,   int index, boolean isSelected, boolean cellHasFocus) {
-
-                //@SuppressWarnings("unchecked")
-                Component c = super.getListCellRendererComponent(list, ((ListSelectionByListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
-
-                return c;
-        }
-	}
-*/	      
+	      
 }

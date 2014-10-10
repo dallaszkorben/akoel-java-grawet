@@ -14,6 +14,8 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	COMPARE_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevariable") ),
 	COMPARE_ELEMENT( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.compareelement") ),
 	COMPARE_STRING( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparestring") ),
+	GAINVALUE_TO_VARIABLE( 11, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetovariable") ),
+	GAINVALUE_TO_ELEMENT( 12, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetoelement") ),
 	;
 	
 	private String translatedName;
@@ -52,6 +54,8 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 		case 8: return COMPARE_VARIABLE;
 		case 9: return COMPARE_ELEMENT;
 		case 10: return COMPARE_STRING;
+		case 11: return GAINVALUE_TO_VARIABLE;
+		case 12: return GAINVALUE_TO_ELEMENT;
 		default: return FILL_STRING;
 		}
 	}
