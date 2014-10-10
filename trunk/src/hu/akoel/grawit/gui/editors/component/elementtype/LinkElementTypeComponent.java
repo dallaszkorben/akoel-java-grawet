@@ -7,9 +7,9 @@ import hu.akoel.grawit.core.operations.CompareToGainedBaseElementOperation;
 import hu.akoel.grawit.core.operations.CompareToStringOperation;
 import hu.akoel.grawit.core.operations.CompareToVariableElementOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
-import hu.akoel.grawit.core.operations.GainTextPatternOperation;
+import hu.akoel.grawit.core.operations._GainTextPatternOperation;
 import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
-import hu.akoel.grawit.core.operations.OutputValueOperation;
+import hu.akoel.grawit.core.operations.OutputGainedOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
@@ -201,15 +201,15 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
 			//GAINTEXT 
-			}else if( elementOperation instanceof GainTextPatternOperation ){
+			}else if( elementOperation instanceof _GainTextPatternOperation ){
 				
 				comboOperationList.setSelectedIndex(E.GAINTEXTPATTERN.getIndex());
-				fieldPattern.setText( ((GainTextPatternOperation)elementOperation).getStringPattern());
+				fieldPattern.setText( ((_GainTextPatternOperation)elementOperation).getStringPattern());
 				
 			//OUTPUT VALUE
-			}else if ( elementOperation instanceof OutputValueOperation ){
+			}else if ( elementOperation instanceof OutputGainedOperation ){
 				
-				fieldMessage.setText( ((OutputValueOperation)elementOperation).getMessageToShow());
+				fieldMessage.setText( ((OutputGainedOperation)elementOperation).getMessageToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );		
 				
 			//COMPARE TO VARIABLE
@@ -425,11 +425,11 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			
 		//GAINTEXT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXTPATTERN.getIndex() ){
-			return new GainTextPatternOperation( fieldPattern.getText() );
+			return new _GainTextPatternOperation( fieldPattern.getText() );
 		
-		//OUTPUTVALUE
+		//OUTPUTGAINED
 		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTVALUE.getIndex() ){
-			return new OutputValueOperation( fieldMessage.getText() );
+			return new OutputGainedOperation( fieldMessage.getText() );
 			
 		//Compare element
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_ELEMENT.getIndex() ){

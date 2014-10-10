@@ -20,7 +20,7 @@ public class ListRenderer<E extends ElementTypeOperationsListEnumInterface> exte
 	@Override
 	public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value,   int index, boolean isSelected, boolean cellHasFocus) {
 		
-//		if( null != value ){
+		if( null != value ){
 		
 		@SuppressWarnings("unchecked")
 		Component c = super.getListCellRendererComponent(list, ((E)value).getTranslatedName(), index, isSelected, cellHasFocus);
@@ -29,9 +29,9 @@ public class ListRenderer<E extends ElementTypeOperationsListEnumInterface> exte
 
 		return c;
 		
-//		}else{ 
-//			return null;
-//		}
+		}else{ 
+			return null;
+		}
 	}
 	  
 }

@@ -12,7 +12,7 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	GAINTEXT_TO_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintexttovariable") ),
 	GAINVALUE_TO_ELEMENT( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gainvaluetoelement") ),
 	GAINTEXT_TO_ELEMENT( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintexttoelement") ),
-	
+	OUTPUTGAINED( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.list.outputgained") ),	
 	;
 	
 	private String translatedName;
@@ -49,6 +49,7 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		case 6: return GAINTEXT_TO_VARIABLE;	
 		case 7: return GAINVALUE_TO_ELEMENT;
 		case 8: return GAINTEXT_TO_ELEMENT;	
+		case 9: return OUTPUTGAINED;
 		default: return CLICK;		
 		
 		}

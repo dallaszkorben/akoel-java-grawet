@@ -8,6 +8,7 @@ import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
 import hu.akoel.grawit.core.operations.GainValueToElementOperation;
 import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
+import hu.akoel.grawit.core.operations.OutputGainedOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
 import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
@@ -62,6 +63,10 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 	private JLabel labelSelectionBy;
 	private JComboBox<ListSelectionByListEnum> comboSelectionBy;
 	
+	//Message - Mezo ertekenek megjelenitese
+	private JLabel labelMessage;
+	private JTextField fieldMessage;
+	
 	private JLabel labelFiller;
 	
 	@Override
@@ -91,12 +96,14 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
 		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": ");
+		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.param.message") + ": ");
 		labelSelectionBy = new JLabel( CommonOperations.getTranslation("editor.label.param.selectionby") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
 		fieldType.setEditable(false);
 		fieldPattern = new JTextField();
+		fieldMessage = new JTextField();
 
 		comboOperationList = new JComboBox<>();
 		for( int i = 0; i < E.getSize(); i++ ){
@@ -245,6 +252,12 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.GAINTEXT_TO_ELEMENT.getIndex());
 				fieldPattern.setText( ((GainTextToElementOperation)elementOperation).getStringPattern());			
 				
+			//OUTPUT GAINED
+			}else if ( elementOperation instanceof OutputGainedOperation ){
+				
+				fieldMessage.setText( ((OutputGainedOperation)elementOperation).getMessageToShow());
+				comboOperationList.setSelectedIndex( E.OUTPUTGAINED.getIndex() );
+				
 			}			
 		}
 	}	
@@ -258,6 +271,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		fieldString.setEditable( enable );
 		fieldBaseElementSelector.setEnableModify(enable);		
 		fieldVariableSelector.setEnableModify( enable );
+		fieldMessage.setEditable( enable );		
 		fieldPattern.setEditable( enable );
 	}
 
@@ -282,6 +296,8 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		this.remove( comboSelectionBy );
 		this.remove( labelPattern );
 		this.remove( fieldPattern );
+		this.remove( labelMessage );
+		this.remove( fieldMessage );		
 
 		//Fill element
 		if( selectedOperation.equals( E.SELECT_BASE ) ){
@@ -459,6 +475,21 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			c.weightx = 1;
 			this.add( fieldPattern, c );		
 		
+		//Output Gained
+		}else if( selectedOperation.equals( E.OUTPUTGAINED ) ){
+	
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelMessage, c );
+		
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldMessage, c );			
 		}		
 
 		this.revalidate();
@@ -514,6 +545,18 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		//GAINTEXT TO VARIABLE
 		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_VARIABLE.getIndex() ){
 			return new GainTextToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
+			
+		//GAINVALUE TO ELEMENT
+		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_ELEMENT.getIndex() ){
+			return new GainValueToElementOperation( fieldPattern.getText() );
+	
+		//GAINTEXT TO ELEMENT
+		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_ELEMENT.getIndex() ){
+			return new GainTextToElementOperation( fieldPattern.getText() );
+			
+		//OUTPUTGAINED
+		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTGAINED.getIndex() ){
+			return new OutputGainedOperation( fieldMessage.getText() );			
 			
 		}
 	

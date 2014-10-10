@@ -7,12 +7,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
@@ -26,9 +26,9 @@ import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class GainTextToElementOperation implements ElementOperationInterface{
+public class _GainValueOperation implements ElementOperationInterface{
 	
-	private static final String NAME = "GAINTEXTTOELEMENT";
+	private static final String NAME = "GAINTEXT";
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
@@ -38,20 +38,18 @@ public class GainTextToElementOperation implements ElementOperationInterface{
 	private String stringPattern;
 	//---
 	
-	public GainTextToElementOperation( String stringPattern ){
+	public _GainValueOperation( String stringPattern ){
 		this.stringPattern = stringPattern;
 		
 		common( stringPattern );
 	}
 	
-	public GainTextToElementOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public _GainValueOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		if( !element.hasAttribute( ATTR_PATTERN ) ){
-			//throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_PATTERN );
-			stringPattern = "";
-		}else{
-			stringPattern = element.getAttribute( ATTR_PATTERN );
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_PATTERN );			
 		}
+		stringPattern = element.getAttribute( ATTR_PATTERN );	
 		
 		common( stringPattern );
 		
@@ -127,22 +125,38 @@ public class GainTextToElementOperation implements ElementOperationInterface{
 		if( null == webElement ){
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
 		}
-				
+		
+/*		
+		while( !webElement.isDisplayed() ){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {}
+		}	
+*/		
 		String origText = "";
 		
-		//GAIN TEXT
-		//Ha LIST
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
-
-			Select select = new Select(webElement);
-			origText = select.getFirstSelectedOption().getText();
+		//Ha FIELD
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
+			origText = webElement.getAttribute("value");	
+		
+		//TEXT
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.TEXT)){
 			
-		//Ha FIELD/CHECKBOX/RADIOBUTTON
-		}else{		
 			origText = webElement.getText();
+		
+		//LINK
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LINK)){
+			
+			origText = webElement.getText();
+
+		//LIST
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
+				
+			origText = webElement.getText();
+
 		}
-	
-		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
+		
+		//Execute the operation = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
 			baseElement.setGainedValue( origText );
 		}else{
@@ -151,7 +165,7 @@ public class GainTextToElementOperation implements ElementOperationInterface{
 				String resultText = matcher.group();
 				baseElement.setGainedValue( resultText );
 			}			
-		}		
+		}
 		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );

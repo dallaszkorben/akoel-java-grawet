@@ -25,7 +25,7 @@ import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class GainTextPatternOperation implements ElementOperationInterface{
+public class _GainTextPatternOperation implements ElementOperationInterface{
 	
 	private static final String NAME = "GAINTEXT";
 	private static final String ATTR_PATTERN = "pattern";
@@ -37,13 +37,13 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 	private String stringPattern;
 	//---
 	
-	public GainTextPatternOperation( String stringPattern ){
+	public _GainTextPatternOperation( String stringPattern ){
 		this.stringPattern = stringPattern;
 		
 		common( stringPattern );
 	}
 	
-	public GainTextPatternOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public _GainTextPatternOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		if( !element.hasAttribute( ATTR_PATTERN ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_PATTERN );			
