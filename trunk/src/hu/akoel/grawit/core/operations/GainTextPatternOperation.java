@@ -12,7 +12,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
@@ -150,6 +149,8 @@ public class GainTextPatternOperation implements ElementOperationInterface{
 			origText = webElement.getText();
 			
 		}
+		
+// TODO kell ide a LIST es a checkbox meg a radiobutton is		
 		
 		//Execute the operation = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){

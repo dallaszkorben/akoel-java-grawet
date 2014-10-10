@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VariableParametersRandomDoubleComponent extends JPanel implements VariableParametersComponentInterface{
+public class VariableRandomDoubleComponent extends JPanel implements VariableComponentInterface{
 
 	private static final long serialVersionUID = 3522710006727176792L;
 	
@@ -24,10 +24,11 @@ public class VariableParametersRandomDoubleComponent extends JPanel implements V
 	private static final int PARAMETERORDER_TO = 1;
 	private static final int PARAMETERORDER_DECIMALLENGTH = 2;
 	
+	//--- Adatmodel
 	private JTextField fieldFrom;
 	private JTextField fieldTo;
 	private JTextField fieldDecimalLength;
-//	private ParameterType type;
+	//---
 	
 	private ArrayList<Object> parameterList;
 
@@ -36,7 +37,7 @@ public class VariableParametersRandomDoubleComponent extends JPanel implements V
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomDoubleComponent( ParameterTypeListEnum type ){
+	public VariableRandomDoubleComponent( ParameterTypeListEnum type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
@@ -55,7 +56,7 @@ public class VariableParametersRandomDoubleComponent extends JPanel implements V
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomDoubleComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
+	public VariableRandomDoubleComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel

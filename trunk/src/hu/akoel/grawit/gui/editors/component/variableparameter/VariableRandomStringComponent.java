@@ -9,21 +9,23 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VariableParametersRandomIntegerComponent extends JPanel implements VariableParametersComponentInterface{
+public class VariableRandomStringComponent extends JPanel implements VariableComponentInterface{
 
-	private static final long serialVersionUID = 9007331207402054910L;
+	private static final long serialVersionUID = -9146846149045859640L;
 	
-	private static final String DEFAULT_FROM = "1";
-	private static final String DEFAULT_TO = "100";
-	private static final int PARAMETERORDER_FROM = 0;
-	private static final int PARAMETERORDER_TO = 1;
+	private static final String DEFAULT_SAMPLE = "abcdefghijklmnopqrstuvwxyz0123456789";
+	private static final String DEFAULT_LENGTH = "15";
+	private static final int PARAMETERORDER_SAMPLE = 0;
+	private static final int PARAMETERORDER_LENGTH = 1;
 	
-	private JTextField fieldFrom;
-	private JTextField fieldTo;
+	private JTextField fieldSample;
+	private JTextField fieldLength;
 	private ParameterTypeListEnum type;
 	
 	private ArrayList<Object> parameterList;
@@ -33,13 +35,13 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomIntegerComponent( ParameterTypeListEnum type ){
+	public VariableRandomStringComponent( ParameterTypeListEnum type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
 		this.parameterList = new ArrayList<>();
-		this.parameterList.add( DEFAULT_FROM );
-		this.parameterList.add( DEFAULT_TO );
+		this.parameterList.add( DEFAULT_SAMPLE );
+		this.parameterList.add( DEFAULT_LENGTH );
 		
 		common( type );		
 		
@@ -51,7 +53,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomIntegerComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
+	public VariableRandomStringComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -67,16 +69,15 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		this.setLayout( new GridBagLayout() );
 		
 		//
-		// From field
+		// Sample field
 		//
 		
-		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger.from") );
+		JLabel labelSample = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring.samplestring") );
 		
-		fieldFrom = new JTextField( parameterList.get(PARAMETERORDER_FROM).toString());
-		fieldFrom.setColumns(5);
-		fieldFrom.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_FROM, PARAMETERORDER_FROM) );
-		/*fieldFrom.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_FROM;
+		fieldSample = new JTextField( parameterList.get(PARAMETERORDER_SAMPLE).toString());
+		
+		fieldSample.setInputVerifier(new InputVerifier() {
+			String goodValue = DEFAULT_SAMPLE;
 			
 			@Override
 			public boolean verify(JComponent input) {
@@ -85,8 +86,8 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = DateIntervalComponent.this.type.getParameterClass(PARAMETERORDER_FROM).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( PARAMETERORDER_FROM, value );
+					Object value = VariableRandomStringComponent.this.type.getParameterClass(PARAMETERORDER_SAMPLE).getConstructor(String.class).newInstance(possibleValue);
+					parameterList.set( PARAMETERORDER_SAMPLE, value );
 					goodValue = possibleValue;
 					
 				} catch (Exception e) {
@@ -95,7 +96,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 				}				
 				return true;
 			}
-		});*/
+		});
 		
 		int gridY = 0;
 		GridBagConstraints c = new GridBagConstraints();		
@@ -106,9 +107,9 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
+		c.weightx = 1;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelFrom, c );
+		this.add( labelSample, c );
 		
 		gridY++;
 		c.gridy = 1;
@@ -116,20 +117,19 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
+		c.weightx = 1;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( fieldFrom, c );		
+		this.add( fieldSample, c );		
 
 		//
-		// To field
+		// Length field
 		//
-		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger.to") );
+		JLabel labelLength = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring.length") );
 
-		fieldTo = new JTextField( parameterList.get(PARAMETERORDER_TO).toString());
-		fieldTo.setColumns(5);
-		fieldTo.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_TO, PARAMETERORDER_TO) );
-		/*fieldTo.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_TO;
+		fieldLength = new JTextField( parameterList.get(PARAMETERORDER_LENGTH).toString());
+		fieldLength.setColumns(5);
+		fieldLength.setInputVerifier(new InputVerifier() {
+			String goodValue = DEFAULT_LENGTH;
 			
 			@Override
 			public boolean verify(JComponent input) {
@@ -138,8 +138,8 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = DateIntervalComponent.this.type.getParameterClass(PARAMETERORDER_TO).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( PARAMETERORDER_TO, value );
+					Object value = VariableRandomStringComponent.this.type.getParameterClass(PARAMETERORDER_LENGTH).getConstructor(String.class).newInstance(possibleValue);
+					parameterList.set( PARAMETERORDER_LENGTH, value );
 					goodValue = possibleValue;
 					
 				} catch (Exception e) {
@@ -148,7 +148,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 				}				
 				return true;
 			}
-		});*/
+		});
 		
 		gridY=0;
 		//c = new GridBagConstraints();		
@@ -161,7 +161,7 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelTo, c );
+		this.add( labelLength, c );
 		
 		gridY++;
 		c.gridy = 1;
@@ -171,25 +171,14 @@ public class VariableParametersRandomIntegerComponent extends JPanel implements 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( fieldTo, c );
-		
-		//Kitolto
-		gridY++;
-		c.gridy = 1;
-		c.gridx = 2;
-		c.gridwidth = 1;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
-		c.anchor = GridBagConstraints.WEST;
-		this.add( new JLabel(), c );
+		this.add( fieldLength, c );
 		
 	}	
 	
 	@Override
 	public void setEnableModify(boolean enable) {
-		fieldFrom.setEditable( enable );		
-		fieldTo.setEditable( enable );
+		fieldSample.setEditable( enable );		
+		fieldLength.setEditable( enable );
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
+import java.sql.Time;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
@@ -8,6 +9,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,10 +18,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import com.thoughtworks.selenium.webdriven.Timer;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
+import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
@@ -232,15 +238,38 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 
 		int childrenCount = this.getChildCount();
 		for( int i = 0; i < childrenCount; i++ ){
-			//ParamElementDataModel parameterElement = (ParamElementDataModel)this.getChildAt( i );
+
+			//TODO BaseElement Waiting time ... atadhato lenne parameterkent a doAction szamara
+			
+			//Parameterezett elem
 			parameterElement = (ParamElementDataModel)this.getChildAt( i );
 			
-			// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt
-			String frame = parameterElement.getBaseElement().getFrame();
-			//driver.switchTo().defaultContent();
-			if( null != frame && frame.trim().length() > 0 ){
+			//Bazis elem
+			BaseElementDataModel baseElement = parameterElement.getBaseElement();
+			
+			//TODO lehet, hogy ennek az idonek kulonboznie kellene
+			//Bazis elemhez tartozo warakozasi ido
+			Integer waitingTime = baseElement.getWaitingTime();
+			if( null == waitingTime ){
+				waitingTime = Properties.getInstance().getWaitingTime();
+			}
+			WebDriverWait wait = new WebDriverWait(driver, waitingTime);
+			
+			// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
+			String frameName = parameterElement.getBaseElement().getFrame();
+
+			if( null != frameName && frameName.trim().length() > 0 ){
+				
+//				try{
+//					Thread.sleep( 1000 );
+//				}catch( InterruptedException e){}
+				
+				
 				driver.switchTo().defaultContent();
-				driver.switchTo().frame( frame );		
+				wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
+				driver.switchTo().defaultContent();
+
+				driver.switchTo().frame( frameName );		
 			}
 				
 			try{			

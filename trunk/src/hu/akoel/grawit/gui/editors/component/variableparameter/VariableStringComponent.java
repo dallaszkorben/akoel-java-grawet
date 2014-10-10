@@ -9,14 +9,16 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Torlendo_VariableParametersIntegerComponent extends JPanel implements VariableParametersComponentInterface{
-
-	private static final long serialVersionUID = -7128350501312573948L;
-
-	private static final String DEFAULT_VALUE = "0";
+public class VariableStringComponent extends JPanel implements VariableComponentInterface{
+	
+	private static final long serialVersionUID = -5111211582850994473L;
+	
+	private static final String DEFAULT_VALUE = "";
 	
 	private static final int PARAMETERORDER_VALUE = 0;
 	
@@ -29,7 +31,7 @@ public class Torlendo_VariableParametersIntegerComponent extends JPanel implemen
 	 * 
 	 * @param type
 	 */
-	public Torlendo_VariableParametersIntegerComponent( ParameterTypeListEnum type ){
+	public VariableStringComponent( ParameterTypeListEnum type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
@@ -37,7 +39,8 @@ public class Torlendo_VariableParametersIntegerComponent extends JPanel implemen
 		this.parameterList.add( DEFAULT_VALUE );
 		
 		common( type );
-					
+		
+		
 	}
 	
 	/**
@@ -46,13 +49,14 @@ public class Torlendo_VariableParametersIntegerComponent extends JPanel implemen
 	 * @param type
 	 * @param parameterList
 	 */
-	public Torlendo_VariableParametersIntegerComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
+	public VariableStringComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
 		this.parameterList = parameterList;
 		
-		common( type );		
+		common( type );
+		
 		
 	}
 	
@@ -64,7 +68,7 @@ public class Torlendo_VariableParametersIntegerComponent extends JPanel implemen
 		fieldString = new JTextField( parameterList.get(PARAMETERORDER_VALUE).toString());
 		fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );
 		/*fieldString.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_VALUE;
+			String goodValue = "";
 			
 			@Override
 			public boolean verify(JComponent input) {
@@ -73,7 +77,7 @@ public class Torlendo_VariableParametersIntegerComponent extends JPanel implemen
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParameterIntegerComponent.this.type.getParameterClass(0).getConstructor(String.class).newInstance(possibleValue);
+					Object value = VariableParametersStringComponent.this.type.getParameterClass(0).getConstructor(String.class).newInstance(possibleValue);
 					parameterList.set( 0, value );
 					goodValue = possibleValue;
 					
