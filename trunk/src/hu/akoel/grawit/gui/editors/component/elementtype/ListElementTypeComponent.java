@@ -4,7 +4,9 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
+import hu.akoel.grawit.core.operations.GainValueToElementOperation;
 import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
@@ -227,7 +229,21 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 					
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainTextToVariableOperation)elementOperation).getVariableElement() );
 				comboOperationList.setSelectedIndex(E.GAINTEXT_TO_VARIABLE.getIndex());
-				fieldPattern.setText( ((GainTextToVariableOperation)elementOperation).getStringPattern());					
+				fieldPattern.setText( ((GainTextToVariableOperation)elementOperation).getStringPattern());		
+				
+			//GAIN VALUE TO ELEMENT
+			}else if( elementOperation instanceof GainValueToElementOperation ){
+				
+				//fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainValueToElementOperation)elementOperation).getVariableElement() );
+				comboOperationList.setSelectedIndex(E.GAINVALUE_TO_ELEMENT.getIndex());
+				fieldPattern.setText( ((GainValueToElementOperation)elementOperation).getStringPattern());	
+			
+			//GAIN TEXT TO ELEMENT
+			}else if( elementOperation instanceof GainTextToElementOperation ){
+					
+				//fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainTextToElementOperation)elementOperation).getVariableElement() );
+				comboOperationList.setSelectedIndex(E.GAINTEXT_TO_ELEMENT.getIndex());
+				fieldPattern.setText( ((GainTextToElementOperation)elementOperation).getStringPattern());			
 				
 			}			
 		}
@@ -408,6 +424,41 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldPattern, c );					
+		
+		//GAINVALUE TO ELEMENT
+		}else if( selectedOperation.equals( E.GAINVALUE_TO_ELEMENT ) ){
+			
+			//PATTERN
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelPattern, c );
+							
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );					
+			
+		//GAINTEXT TO ELEMENT
+		}else if( selectedOperation.equals( E.GAINTEXT_TO_ELEMENT ) ){
+			
+			//PATTERN
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelPattern, c );
+								
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );		
+		
 		}		
 
 		this.revalidate();
