@@ -12,6 +12,7 @@ import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
+import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputValueOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -31,9 +32,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JTextField;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
 
@@ -78,12 +77,10 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	 * Uj
 	 * 
 	 */
-	public FieldElementTypeComponent( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
-		super();
-
-		common( elementType, null, baseRootDataModel, variableRootDataModel );
-		
-	}
+//	public FieldElementTypeComponent( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+//		super();
+//		common( elementType, null, baseRootDataModel, variableRootDataModel );		
+//	}
 	
 	/**
 	 * 
@@ -204,6 +201,8 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 			
 		}else{
 			
+			//!!!Fontos a beallitasok sorrendje!!!
+			
 			//CLICK
 			if( elementOperation instanceof ClickOperation  ){
 				
@@ -270,7 +269,13 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 				comboCompareTypeList.setSelectedIndex( ((CompareToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_STRING.getIndex());
 				
-				
+			//GAIN VALUE TO VARIABLE
+			}else if( elementOperation instanceof GainValueToVariableOperation ){
+			
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainValueToVariableOperation)elementOperation).getVariableElement() );
+				comboOperationList.setSelectedIndex(E.GAINVALUE_TO_VARIABLE.getIndex());
+				fieldPattern.setText( ((GainValueToVariableOperation)elementOperation).getStringPattern());	
+
 			}else{
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 			}
@@ -287,15 +292,11 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	public void setEnableModify(boolean enable) {
 		
 		comboOperationList.setEnabled( enable );		
-		
 		fieldString.setEditable( enable );
-
-		fieldBaseElementSelector.setEnableModify(enable);
-		
+		fieldBaseElementSelector.setEnableModify(enable);		
 		fieldVariableSelector.setEnableModify( enable );
-
-		fieldMessage.setEditable( enable );
-
+		fieldMessage.setEditable( enable );		
+		fieldPattern.setEditable( enable );
 		comboCompareTypeList.setEnabled( enable );
 	}
 
@@ -322,46 +323,6 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		this.remove( labelMessage );
 		this.remove( labelCompareType );
 		this.remove( comboCompareTypeList );
-/*		
-Component[] components = this.getComponents();
-
-for( int i = 0; i < components.length; i++ ){
-	if( components[i] == labelBaseElementSelector ){
-		this.remove( labelBaseElementSelector );
-	
-	}else if( components[i] == fieldBaseElementSelector ){
-		this.remove( fieldBaseElementSelector );
-		
-	}else if( components[i] == labelString ){
-		this.remove( labelString );
-		
-	}else if( components[i] == fieldString ){
-		this.remove( fieldString );
-		
-	}else if( components[i] == labelVariableSelector ){
-		this.remove( labelVariableSelector );
-		
-	}else if( components[i] == fieldVariableSelector ){
-		this.remove( fieldVariableSelector );	
-		
-	}else if( components[i] == labelFiller ){
-		this.remove( labelFiller );	
-		
-	}else if( components[i] == fieldMessage ){
-		this.remove( fieldMessage );
-	
-	}else if( components[i] == labelMessage ){
-		this.remove( labelMessage );
-		
-	}else if( components[i] == labelCompareType ){
-		this.remove( labelCompareType );
-		
-	}else if( components[i] == comboCompareTypeList ){
-		this.remove( comboCompareTypeList );		
-
-		
-	}
-}*/
 		
 		//Fill element / Compare element
 		if( selectedOperation.equals( E.FILL_ELEMENT ) || selectedOperation.equals( E.COMPARE_ELEMENT ) ){
@@ -492,6 +453,37 @@ for( int i = 0; i < components.length; i++ ){
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldPattern, c );						
+		
+		//GAINVALUE TO VARIABLE
+		}else if( selectedOperation.equals( E.GAINVALUE_TO_VARIABLE ) ){
+		
+			//VARIABLE
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelVariableSelector, c );
+		
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldVariableSelector, c );			
+			
+			//PATTERN
+			c.gridy = 1;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelPattern, c );
+						
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );				
 			
 		}	
 
@@ -563,24 +555,14 @@ for( int i = 0; i < components.length; i++ ){
 		//Compare string
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_STRING.getIndex() ){
 			return new CompareToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()) );
-				
+			
+		//GAINVALUE TO VARIABLE
+		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_VARIABLE.getIndex() ){
+			return new GainValueToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
+			
 		}
 	
 		return null;
 	}
 	
-/*	class CompareTypeRenderer extends BasicComboBoxRenderer {
-
-		private static final long serialVersionUID = 321816528340469926L;
-
-		@Override
-        public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value,   int index, boolean isSelected, boolean cellHasFocus) {
-
-                @SuppressWarnings("unchecked")
-                Component c = super.getListCellRendererComponent(list, ((CompareTypeListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
-
-                return c;
-        }
-	}    
-*/
 }

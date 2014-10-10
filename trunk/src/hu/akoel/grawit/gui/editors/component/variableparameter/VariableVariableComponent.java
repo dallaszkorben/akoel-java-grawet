@@ -11,18 +11,19 @@ import java.util.ArrayList;
 
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VariableStringComponent extends JPanel implements VariableComponentInterface{
-	
-	private static final long serialVersionUID = -5111211582850994473L;
+public class VariableVariableComponent extends JPanel implements VariableComponentInterface{
+
+	private static final long serialVersionUID = 5302725716904676695L;
 	
 	private static final String DEFAULT_VALUE = "";
+	private static final int PARAMETERORDER_SAMPLE = 0;
 	
-	private static final int PARAMETERORDER_VALUE = 0;
-	
-	private JTextField fieldString;
+	private JTextField fieldValue;
+	private VariableTypeListEnum type;
 	
 	private ArrayList<Object> parameterList;
 
@@ -31,15 +32,14 @@ public class VariableStringComponent extends JPanel implements VariableComponent
 	 * 
 	 * @param type
 	 */
-	public VariableStringComponent( VariableTypeListEnum type ){
+	public VariableVariableComponent( VariableTypeListEnum type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
 		this.parameterList = new ArrayList<>();
 		this.parameterList.add( DEFAULT_VALUE );
 		
-		common( type );
-		
+		common( type );		
 		
 	}
 	
@@ -49,26 +49,31 @@ public class VariableStringComponent extends JPanel implements VariableComponent
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableStringComponent( VariableTypeListEnum type, ArrayList<Object> parameterList ){
+	public VariableVariableComponent( VariableTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
 		this.parameterList = parameterList;
 		
-		common( type );
-		
+		common( type );		
 		
 	}
 	
 	private void common( VariableTypeListEnum type ){
+		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
 		
-		//Mezo feltoltese
-		fieldString = new JTextField( parameterList.get(PARAMETERORDER_VALUE).toString());
-		fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );
-		/*fieldString.setInputVerifier(new InputVerifier() {
-			String goodValue = "";
+		//
+		// Sample field
+		//
+		
+		JLabel labelValue = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.variable.defaultvalue") );
+		
+		fieldValue = new JTextField( parameterList.get(PARAMETERORDER_SAMPLE).toString());
+		
+		fieldValue.setInputVerifier(new InputVerifier() {
+			String goodValue = DEFAULT_VALUE;
 			
 			@Override
 			public boolean verify(JComponent input) {
@@ -77,8 +82,8 @@ public class VariableStringComponent extends JPanel implements VariableComponent
 
 				try {
 					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersStringComponent.this.type.getParameterClass(0).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( 0, value );
+					Object value = VariableVariableComponent.this.type.getParameterClass(PARAMETERORDER_SAMPLE).getConstructor(String.class).newInstance(possibleValue);
+					parameterList.set( PARAMETERORDER_SAMPLE, value );
 					goodValue = possibleValue;
 					
 				} catch (Exception e) {
@@ -87,35 +92,36 @@ public class VariableStringComponent extends JPanel implements VariableComponent
 				}				
 				return true;
 			}
-		});*/
+		});
 		
 		int gridY = 0;
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);
-/*		
+		
 		c.gridy = gridY;
 		c.gridx = 0;
-		c.gridwidth = 0;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
-		c.anchor = GridBagConstraints.WEST;
-		this.add( labelString, c );
-*/		
-		gridY++;
-		c.gridy = gridY;
-		c.gridx = 0;
-		c.gridwidth = 0;
+		c.gridwidth = 1;
 		c.weighty = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( fieldString, c );
+		this.add( labelValue, c );
+		
+		gridY++;
+		c.gridy = 1;
+		c.gridx = 0;
+		c.gridwidth = 1;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.anchor = GridBagConstraints.WEST;
+		this.add( fieldValue, c );		
+		
 	}	
 	
 	@Override
 	public void setEnableModify(boolean enable) {
-		fieldString.setEditable( enable );		
+		fieldValue.setEditable( enable );		
 	}
 
 	@Override

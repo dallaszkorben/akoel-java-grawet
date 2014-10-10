@@ -8,6 +8,7 @@ import hu.akoel.grawit.core.operations.CompareToStringOperation;
 import hu.akoel.grawit.core.operations.CompareToVariableElementOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
+import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputValueOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -26,9 +27,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JTextField;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
 
@@ -178,17 +177,6 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		c.weightx = 0;
 		this.add( comboOperationList, c );
 		c.gridy = 1;
-	
-		//Filler
-/*		c.gridy = 0;
-		c.gridx = 4;
-		c.gridwidth = 1;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
-		c.anchor = GridBagConstraints.WEST;
-		this.add( labelFiller, c );
-*/
 		
 		//Kenyszeritem, hogy a kovetkezo setSelectedItem() hatasara vegrehajtsa a az itemStateChanged() metodust
 		comboOperationList.setSelectedIndex(-1);
@@ -207,39 +195,51 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 		}else{
 			
+			//CLICK
 			if( elementOperation instanceof ClickOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
+			//GAINTEXT 
 			}else if( elementOperation instanceof GainTextPatternOperation ){
 				
 				comboOperationList.setSelectedIndex(E.GAINTEXTPATTERN.getIndex());
 				fieldPattern.setText( ((GainTextPatternOperation)elementOperation).getStringPattern());
 				
+			//OUTPUT VALUE
 			}else if ( elementOperation instanceof OutputValueOperation ){
 				
 				fieldMessage.setText( ((OutputValueOperation)elementOperation).getMessageToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );		
 				
+			//COMPARE TO VARIABLE
 			}else if( elementOperation instanceof CompareToVariableElementOperation ){
 				
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareToVariableElementOperation)elementOperation).getVariableElement() );				
 				comboOperationList.setSelectedIndex(E.COMPARE_VARIABLE.getIndex());
 				comboCompareTypeList.setSelectedIndex( ((CompareToVariableElementOperation)elementOperation).getCompareType().getIndex() );
 
+			//COMPARE TO GAINED
 			}else if( elementOperation instanceof CompareToGainedBaseElementOperation ){
 								
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareToGainedBaseElementOperation)elementOperation).getBaseElement() );
 				comboCompareTypeList.setSelectedIndex( ((CompareToGainedBaseElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_ELEMENT.getIndex());
 				
-
+			//COMPARE TO STRING
 			}else if( elementOperation instanceof CompareToStringOperation ){
 								
 				fieldString.setText( ((CompareToStringOperation)elementOperation).getStringToShow() );
 				comboCompareTypeList.setSelectedIndex( ((CompareToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_STRING.getIndex());
 		
+			//GAIN TEXT TO VARIABLE
+			}else if( elementOperation instanceof GainTextToVariableOperation ){
+					
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainTextToVariableOperation)elementOperation).getVariableElement() );
+				comboOperationList.setSelectedIndex(E.GAINTEXT_TO_VARIABLE.getIndex());
+				fieldPattern.setText( ((GainTextToVariableOperation)elementOperation).getStringPattern());					
+
 			}			
 		}
 	}	
@@ -443,24 +443,15 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_STRING.getIndex() ){
 			return new CompareToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()) );
 
+		//GAINTEXT TO VARIABLE
+		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_VARIABLE.getIndex() ){
+			return new GainTextToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
+
 		}
 		
 		return null;
 	
 	}
 	
-/*	class CompareTypeRenderer extends BasicComboBoxRenderer {
 
-		private static final long serialVersionUID = 321816528340469926L;
-
-		@Override
-        public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value,   int index, boolean isSelected, boolean cellHasFocus) {
-
-                @SuppressWarnings("unchecked")
-                Component c = super.getListCellRendererComponent(list, ((CompareTypeListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
-
-                return c;
-        }
-	}    
-*/
 }

@@ -9,6 +9,8 @@ public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	COMPARE_VARIABLE( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparevariable") ),
 	COMPARE_ELEMENT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.link.compareelement") ),
 	COMPARE_STRING( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparestring") ),
+	GAINTEXT_TO_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttovariable") ),
+	GAINTEXT_TO_ELEMENT( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttoelement") ),
 	;
 	
 	private String translatedName;
@@ -42,6 +44,8 @@ public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		case 3: return COMPARE_VARIABLE;
 		case 4: return COMPARE_ELEMENT;
 		case 5: return COMPARE_STRING;
+		case 6: return GAINTEXT_TO_VARIABLE;
+		case 7: return GAINTEXT_TO_ELEMENT;
 		default: return CLICK;
 		}
 	}

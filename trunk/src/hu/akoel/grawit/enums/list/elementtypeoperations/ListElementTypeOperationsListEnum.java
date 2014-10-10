@@ -8,6 +8,11 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	SELECT_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.list.fillstring") ),
 	TAB( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.list.tab") ),
 	CLICK( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.list.click") ),
+	GAINVALUE_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gainvaluetovariable") ),
+	GAINTEXT_TO_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintexttovariable") ),
+	GAINVALUE_TO_ELEMENT( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gainvaluetoelement") ),
+	GAINTEXT_TO_ELEMENT( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintexttoelement") ),
+	
 	;
 	
 	private String translatedName;
@@ -40,11 +45,11 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		case 2:	return SELECT_STRING;
 		case 3: return TAB;
 		case 4: return CLICK;
-		default: return CLICK;
-		
-		
-		
-		
+		case 5: return GAINVALUE_TO_VARIABLE;
+		case 6: return GAINTEXT_TO_VARIABLE;	
+		case 7: return GAINVALUE_TO_ELEMENT;
+		case 8: return GAINTEXT_TO_ELEMENT;	
+		default: return CLICK;		
 		
 		}
 	}

@@ -8,6 +8,7 @@ public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	COMPARE_VARIABLE( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparevariable") ),
 	COMPARE_ELEMENT( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.text.compareelement") ),
 	COMPARE_STRING( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparestring") ),
+	GAINTEXT_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gaintexttovariable") ),
 	;
 	
 	private String translatedName;
@@ -39,7 +40,8 @@ public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		case 1:	return OUTPUTVALUE;
 		case 2: return COMPARE_VARIABLE;
 		case 3: return COMPARE_ELEMENT;
-		case 4: return COMPARE_STRING;		
+		case 4: return COMPARE_STRING;
+		case 5: return GAINTEXT_TO_VARIABLE;	
 		default: return GAINTEXTPATTERN;
 		}
 	}

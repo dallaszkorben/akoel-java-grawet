@@ -26,6 +26,10 @@ import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
+import hu.akoel.grawit.core.operations.GainTextToElementOperation;
+import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
+import hu.akoel.grawit.core.operations.GainValueToElementOperation;
+import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputValueOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
@@ -206,6 +210,16 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new CompareToStringOperation( element, getRootTag(), getTag() );				
 				
+			//GAIN TEXT TO VARIABLE
+			}else if( operationString.equals( GainTextToVariableOperation.getStaticName() ) ){
+							
+				elementOperation = new GainTextToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+					
+			//GAIN TEXT TO ELEMENT
+			}else if( operationString.equals( GainTextToElementOperation.getStaticName() ) ){
+										
+				elementOperation = new GainTextToElementOperation( element, getRootTag(), getTag() );				
+				
 			//Ha nem a tipusnak megfelelo a muvelet, akkor azt Click-nek vesszuk
 			}else{
 				
@@ -321,8 +335,17 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			}else if( operationString.equals( CompareToStringOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareToStringOperation( element, getRootTag(), getTag() );
+			
+			//GAIN VALUE TO VARIABLE
+			}else if( operationString.equals( GainValueToVariableOperation.getStaticName() ) ){
 					
-				
+				elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+
+			//GAIN VALUE TO ELEMENT
+			}else if( operationString.equals( GainValueToElementOperation.getStaticName() ) ){
+						
+				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
+
 			//Ha nem a tipusnak megfelelo az muvelet, akkor Clear lesz a muvelet
 			}else{
 					
@@ -334,25 +357,40 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		//---------
 		}else if( baseElement.getElementType().equals( ElementTypeListEnum.TEXT ) ){
 			
+			//GAIN
 			if( operationString.equals( GainTextPatternOperation.getStaticName() ) ){
 				
 				elementOperation = new GainTextPatternOperation( element, getRootTag(), getTag() );
 			
+			//OUTPUT VALUE
 			}else if( operationString.equals( OutputValueOperation.getStaticName() ) ){ 
 				
 				elementOperation = new OutputValueOperation( element, getRootTag(), getTag() );
 				
+			//COMPARE TO VARIABLE
 			}else if( operationString.equals( CompareToVariableElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareToVariableElementOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
+			//COMPARE TO GAINED
 			}else if( operationString.equals( CompareToGainedBaseElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareToGainedBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
+			//COMPARE TO STRING
 			}else if( operationString.equals( CompareToStringOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareToStringOperation( element, getRootTag(), getTag() );
+				
+			//GAIN TEXT TO VARIABLE
+			}else if( operationString.equals( GainTextToVariableOperation.getStaticName() ) ){
+						
+				elementOperation = new GainTextToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+				
+			//GAIN TEXT TO ELEMENT
+			}else if( operationString.equals( GainTextToElementOperation.getStaticName() ) ){
+									
+				elementOperation = new GainTextToElementOperation( element, getRootTag(), getTag() );				
 				
 			//Ha nem a tipusnak megfelelo az muvelet
 			}else{
@@ -390,6 +428,28 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 			}else if( operationString.equals( TabOperation.getStaticName() ) ){
 				
 				elementOperation = new TabOperation( );
+				
+			//GAIN VALUE TO VARIABLE
+			}else if( operationString.equals( GainValueToVariableOperation.getStaticName() ) ){
+						
+				elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+
+			//GAIN VALUE TO ELEMENT
+			}else if( operationString.equals( GainValueToElementOperation.getStaticName() ) ){
+								
+				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
+				
+			//GAIN TEXT TO VARIABLE
+			}else if( operationString.equals( GainTextToVariableOperation.getStaticName() ) ){
+							
+				elementOperation = new GainTextToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+
+			//GAIN TEXT TO ELEMENT
+			}else if( operationString.equals( GainTextToElementOperation.getStaticName() ) ){
+								
+				elementOperation = new GainTextToElementOperation( element, getRootTag(), getTag() );
+				
+				
 			}
 			
 		//Minden egyeb esetben error

@@ -3,7 +3,7 @@ package hu.akoel.grawit.gui.editors.component.variableparameter;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.enums.list.DateFormListEnum;
-import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
+import hu.akoel.grawit.enums.list.VariableTypeListEnum;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -52,7 +52,7 @@ public class VariableRandomDateComponent extends JPanel implements VariableCompo
 	 * 
 	 * @param type
 	 */
-	public VariableRandomDateComponent( ParameterTypeListEnum type ){
+	public VariableRandomDateComponent( VariableTypeListEnum type ){
 		super();
 		
 		this.parameterList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class VariableRandomDateComponent extends JPanel implements VariableCompo
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableRandomDateComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
+	public VariableRandomDateComponent( VariableTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -82,7 +82,7 @@ public class VariableRandomDateComponent extends JPanel implements VariableCompo
 		
 	}
 	
-	private void common( ParameterTypeListEnum type ){
+	private void common( VariableTypeListEnum type ){
 		
 		this.setLayout( new GridBagLayout() );
 		

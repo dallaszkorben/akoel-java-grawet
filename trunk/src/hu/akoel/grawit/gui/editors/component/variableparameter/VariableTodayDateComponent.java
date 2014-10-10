@@ -4,7 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.enums.list.DateDigressionListEnum;
 import hu.akoel.grawit.enums.list.DateFormListEnum;
-import hu.akoel.grawit.enums.list.ParameterTypeListEnum;
+import hu.akoel.grawit.enums.list.VariableTypeListEnum;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -58,7 +58,7 @@ public class VariableTodayDateComponent extends JPanel implements VariableCompon
 	 * 
 	 * @param type
 	 */
-	public VariableTodayDateComponent( ParameterTypeListEnum type ){
+	public VariableTodayDateComponent( VariableTypeListEnum type ){
 		super();
 		
 		this.parameterList = new ArrayList<>();
@@ -78,7 +78,7 @@ public class VariableTodayDateComponent extends JPanel implements VariableCompon
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableTodayDateComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
+	public VariableTodayDateComponent( VariableTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -88,7 +88,7 @@ public class VariableTodayDateComponent extends JPanel implements VariableCompon
 		
 	}
 	
-	private void common( ParameterTypeListEnum type ){
+	private void common( VariableTypeListEnum type ){
 		
 		this.setLayout( new GridBagLayout() );
 		
@@ -303,11 +303,11 @@ public class VariableTodayDateComponent extends JPanel implements VariableCompon
 		private ArrayList<Object> parameterList;
 		private String defaultValue;
 		private int parameterOrder;
-		private ParameterTypeListEnum type;
+		private VariableTypeListEnum type;
 		
 		String goodValue = defaultValue;
 		
-		public ValueVerifier( ArrayList<Object> parameterList, ParameterTypeListEnum type, String defaultValue, int parameterOrder ){
+		public ValueVerifier( ArrayList<Object> parameterList, VariableTypeListEnum type, String defaultValue, int parameterOrder ){
 			this.parameterList = parameterList;
 			this.defaultValue = defaultValue;
 			this.parameterOrder = parameterOrder;
