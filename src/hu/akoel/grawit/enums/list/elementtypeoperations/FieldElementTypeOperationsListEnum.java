@@ -6,16 +6,15 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	FILL_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillvariable") ),
 	FILL_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillelement") ),
 	FILL_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillstring") ),
-	GAINTEXTPATTERN( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gaintextpattern") ),
-	CLEAR( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.field.clear") ),
-	TAB( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.field.tab") ),
-	CLICK( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.field.click") ),
-	OUTPUTVALUE( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputvalue") ),
-	COMPARE_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevariable") ),
-	COMPARE_ELEMENT( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.compareelement") ),
-	COMPARE_STRING( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparestring") ),
-	GAINVALUE_TO_VARIABLE( 11, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetovariable") ),
-	GAINVALUE_TO_ELEMENT( 12, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetoelement") ),
+	CLEAR( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.field.clear") ),
+	TAB( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.field.tab") ),
+	CLICK( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.field.click") ),	
+	COMPARE_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevariable") ),
+	COMPARE_ELEMENT( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.field.compareelement") ),
+	COMPARE_STRING( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparestring") ),
+	GAINVALUE_TO_VARIABLE( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetovariable") ),
+	GAINVALUE_TO_ELEMENT( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetoelement") ),
+	OUTPUTGAINED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputgained") ),
 	;
 	
 	private String translatedName;
@@ -46,16 +45,15 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 		case 0:	return FILL_VARIABLE;
 		case 1:	return FILL_ELEMENT;
 		case 2:	return FILL_STRING;
-		case 3: return GAINTEXTPATTERN;
-		case 4: return CLEAR;
-		case 5: return TAB;
-		case 6: return CLICK;
-		case 7: return OUTPUTVALUE;
-		case 8: return COMPARE_VARIABLE;
-		case 9: return COMPARE_ELEMENT;
-		case 10: return COMPARE_STRING;
-		case 11: return GAINVALUE_TO_VARIABLE;
-		case 12: return GAINVALUE_TO_ELEMENT;
+		case 3: return CLEAR;
+		case 4: return TAB;
+		case 5: return CLICK;		
+		case 6: return COMPARE_VARIABLE;
+		case 7: return COMPARE_ELEMENT;
+		case 8: return COMPARE_STRING;
+		case 9: return GAINVALUE_TO_VARIABLE;
+		case 10: return GAINVALUE_TO_ELEMENT;
+		case 11: return OUTPUTGAINED;
 		default: return FILL_STRING;
 		}
 	}
