@@ -21,12 +21,12 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.Properties;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -37,43 +37,42 @@ import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class FillBaseElementOperation implements ElementOperationInterface{
+public class FillWithVariableElementOperation implements ElementOperationInterface{
 	
-	private static final String NAME = "FILLELEMENT";	
-	private static final String ATTR_FILL_BASE_ELEMENT_PATH = "fillelementpath";
+	private static final String NAME = "FILLVARIABLE";	
+	private static final String ATTR_FILL_VARIABLE_ELEMENT_PATH = "fillvariableelementpath";
 	
 	//--- Data model
-	private BaseElementDataModel baseElementDataModel;
+	private VariableElementDataModel variableElementDataModel;
 	//---
 	
-	public FillBaseElementOperation( BaseElementDataModel baseElementDataModel ){
-		this.baseElementDataModel = baseElementDataModel;
+	public FillWithVariableElementOperation( VariableElementDataModel variableElementDataModel ){
+		this.variableElementDataModel = variableElementDataModel;
 	}
-
-	public FillBaseElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
+	
+	public FillWithVariableElementOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		BaseDataModelInterface baseDataModelForFillOut = baseRootDataModel;
+		VariableDataModelInterface variableDataModelForFillOut = variableRootDataModel;
 		
-		if( !element.hasAttribute( ATTR_FILL_BASE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_FILL_BASE_ELEMENT_PATH );		
-		}	
-		String baseElementPathString = element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH);				
-		baseElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + baseElementPathString;  
+		if( !element.hasAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_FILL_VARIABLE_ELEMENT_PATH );		
+		}
+		String variableElementPathString = element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH);				
+		variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
 	    Document document = null;
 	    try{  
 	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( baseElementPathString ) ) );  
+	        document = builder.parse( new InputSource( new StringReader( variableElementPathString ) ) );  
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH), e );
 	    } 
 
-	    //Megkeresem a PARAMELEMENTROOT-ben a PARAMELEMENT-hez vezeto utat
+	    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
 	    Node actualNode = document;
-    
 	    while( actualNode.hasChildNodes() ){
 		
 	    	actualNode = actualNode.getFirstChild();
@@ -81,53 +80,40 @@ public class FillBaseElementOperation implements ElementOperationInterface{
 	    	String tagName = actualElement.getTagName();
 	    	String attrName = null;
 	    	
-	    	//Ha BASENODE
-	    	if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	    		
-	    		baseDataModelForFillOut = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASENODE, attrName );
+	    	//Ha VARIABLENODE
+	    	if( tagName.equals( VariableNodeDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(VariableNodeDataModel.ATTR_NAME);	    		
+	    		variableDataModelForFillOut = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLENODE, attrName );
 
-	    		if( null == baseDataModelForFillOut ){
+	    		if( null == variableDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha BASEELEMENT
-	    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEELEMENT, attrName );
-	
-	    		if( null == baseDataModelForFillOut ){
+	    	//Ha VARIABLEELEMENT
+	    	}else if( tagName.equals( VariableElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(VariableElementDataModel.ATTR_NAME);
+	    		variableDataModelForFillOut = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLEELEMENT, attrName );
+	    		
+	    		if( null == variableDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );
 	    		}
-
-	    	
-	    	//Ha BASEPAGE
-	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEPAGE, attrName );
-
-	    		if( null == baseDataModelForFillOut ){
-
-	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
-	    		}
-	    	
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );	    		
 	    	}
 	    }	    
 	    try{
 	    	
-	    	this.baseElementDataModel = (BaseElementDataModel)baseDataModelForFillOut;
+	    	this.variableElementDataModel = (VariableElementDataModel)variableDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH ), e );
 	    }
-	    
 	}
 	
 	public static String getStaticName(){
@@ -138,7 +124,8 @@ public class FillBaseElementOperation implements ElementOperationInterface{
 	public String getName() {		
 		return getStaticName();
 	}
-		
+	
+	
 	/**
 	 * 
 	 * Executes the action on the WebElement (Field)
@@ -146,7 +133,7 @@ public class FillBaseElementOperation implements ElementOperationInterface{
 	 */
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
-	
+
 		if( null != elementProgress ){
 			elementProgress.elementStarted( element.getName() );
 		}
@@ -199,20 +186,17 @@ public class FillBaseElementOperation implements ElementOperationInterface{
 */		
 		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
-/*		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
+		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
+/*		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
 			baseElement.setVariableValue( webElement.getText() );
 		}
 */		
 		try{
-			
 			//Execute the operation
-			//webElement.clear();
-			webElement.sendKeys( baseElementDataModel.getGainedValue() );
+			webElement.sendKeys( variableElementDataModel.getValue() );
 			webElement.sendKeys(Keys.TAB);
-			
 		}catch (WebDriverException webDriverException){
 			throw new ElementInvalidOperationException( getName(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
@@ -221,7 +205,6 @@ public class FillBaseElementOperation implements ElementOperationInterface{
 /*		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 				
 			//Elmenti az elem tartalmat a valtozoba
-			//webElement.sendKeys(Keys.TAB);
 			baseElement.setVariableValue( webElement.getAttribute("value") );		
 		}
 */		
@@ -230,15 +213,15 @@ public class FillBaseElementOperation implements ElementOperationInterface{
 		}
 	}
 
-	public BaseElementDataModel getBaseElement() {
-		return baseElementDataModel;
+	public VariableElementDataModel getVariableElement() {
+		return variableElementDataModel;
 	}
 
 	@Override
-	public void setXMLAttribute(Document document, Element element) {		
-		Attr attr = document.createAttribute( ATTR_FILL_BASE_ELEMENT_PATH );
-		attr.setValue( baseElementDataModel.getPathTag() );
-		element.setAttributeNode( attr );	
+	public void setXMLAttribute(Document document, Element element) {
+		Attr attr = document.createAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH );
+		attr.setValue( variableElementDataModel.getPathTag() );
+		element.setAttributeNode( attr );			
 	}
 	
 }

@@ -1,7 +1,9 @@
 package hu.akoel.grawit.core.operations;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,47 +18,43 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.CompareTypeListEnum;
-import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class CompareStringOperation implements ElementOperationInterface{
+public class FillWithStringOperation implements ElementOperationInterface{
 	
-	private static final String NAME = "COMPARESTRING";
+	private static final String NAME = "FILLSTRING";
 	private static final String ATTR_STRING = "string";
-	private static final String ATTR_COMPARE_TYPE = "type";
 	
 	//--- Data model
-	private String stringToCompare;
-	private CompareTypeListEnum compareType;
+	private String stringToShow;
 	//---
 	
-	public CompareStringOperation( String stringToCompare, CompareTypeListEnum compareType ){
-		this.stringToCompare = stringToCompare;
-		this.compareType = compareType;
+	public FillWithStringOperation( String stringToShow ){
+		this.stringToShow = stringToShow;
 	}
 	
-	public CompareStringOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public FillWithStringOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
-		//ATTR_COMPARE_TYPE
-		if( !element.hasAttribute( ATTR_COMPARE_TYPE ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_TYPE );		
-		}	
-		String typeString = element.getAttribute(ATTR_COMPARE_TYPE);
-		this.compareType = CompareTypeListEnum.valueOf( typeString );
-		
-		//ATTR_STRING
 		if( !element.hasAttribute( ATTR_STRING ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_STRING );			
 		}
-		stringToCompare = element.getAttribute( ATTR_STRING );		
+		stringToShow = element.getAttribute( ATTR_STRING );		
 	}
 	
+	public static String getStaticName(){
+		return NAME;
+	}
+	
+	@Override
+	public String getName() {		
+		return getStaticName();
+	}
+		
 	/**
 	 * 
 	 * Executes the action on the WebElement (Field)
@@ -107,78 +105,53 @@ public class CompareStringOperation implements ElementOperationInterface{
 		
 		if( null == webElement ){
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
-		}		
-		
-		//
-		// Execute the OPERATION
-		//		
-		String foundText = "";
-		
-/*		//Ha FIELD
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
-			foundText = webElement.getAttribute("value");	
-		
-		//TEXT
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.TEXT)){
-			
-			foundText = webElement.getText();
-			
-		//LINK
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LINK)){
-			
-			foundText = webElement.getText();
-			
-		}		
+		}
+/*		
+		while( !webElement.isDisplayed() ){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {}
+		}	
 */		
-		//Gained value
-		foundText = element.getBaseElement().getGainedValue();
+		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
-		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
-			
-			if( !foundText.equals( stringToCompare ) ){
-				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), foundText, new Exception() );
-			}
-			
-		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-			
-			if( foundText.equals( stringToCompare ) ){
-				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), foundText, new Exception() );
-			}
-			
+/*		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
+		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
+				
+			//Elmenti az elem tartalmat a valtozoba
+			baseElement.setVariableValue( webElement.getText() );
+		}
+*/		
+		try{
+			//Execute the operation
+			webElement.sendKeys( stringToShow );
+			webElement.sendKeys(Keys.TAB);
+		}catch (WebDriverException webDriverException){
+			throw new ElementInvalidOperationException( getName(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
 		
+/*		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
+		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
+				
+			//Elmenti az elem tartalmat a valtozoba
+			baseElement.setVariableValue( webElement.getAttribute("value") );		
+		}
+*/		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
 
 	public String getStringToShow() {
-		return stringToCompare;
+		return stringToShow;
 	}
 
-	public static String getStaticName(){
-		return NAME;
-	}
-	
-	@Override
-	public String getName() {		
-		return getStaticName();
-	}
-		
-	public CompareTypeListEnum getCompareType(){
-		return compareType;
-	}
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		
 		Attr attr = document.createAttribute( ATTR_STRING );
-		attr.setValue( stringToCompare );
-		element.setAttributeNode(attr);	
-		
-		attr = document.createAttribute( ATTR_COMPARE_TYPE );
-		attr.setValue( compareType.name() );
-		element.setAttributeNode( attr );	
+		attr.setValue( stringToShow );
+		element.setAttributeNode(attr);		
 	}
 	
 }

@@ -20,13 +20,11 @@ import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
-public class VariableParametersRandomDateComponent extends JPanel implements VariableParametersComponentInterface{
+public class VariableRandomDateComponent extends JPanel implements VariableComponentInterface{
 
 	private static final long serialVersionUID = -3266616532152280622L;
 	
@@ -43,11 +41,9 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	private JFormattedTextField fieldTo;
 	private FormDateComboBox fieldFormatDate;
 	
-	DateFormat dateFormat;
-	MaskFormatter maskFormatterFrom;
-	MaskFormatter maskFormatterTo;
-	
-//	private ParameterTypeListEnum type;
+	private DateFormat dateFormat;
+	private MaskFormatter maskFormatterFrom;
+	private MaskFormatter maskFormatterTo;
 	
 	private ArrayList<Object> parameterList;
 
@@ -56,7 +52,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	 * 
 	 * @param type
 	 */
-	public VariableParametersRandomDateComponent( ParameterTypeListEnum type ){
+	public VariableRandomDateComponent( ParameterTypeListEnum type ){
 		super();
 		
 		this.parameterList = new ArrayList<>();
@@ -76,7 +72,7 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersRandomDateComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
+	public VariableRandomDateComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -87,7 +83,6 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	}
 	
 	private void common( ParameterTypeListEnum type ){
-//		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
 		
@@ -310,22 +305,8 @@ public class VariableParametersRandomDateComponent extends JPanel implements Var
 	class FormDateComboBox extends JComboBox<DateFormListEnum>{
 
 		public FormDateComboBox(){
-			//this.setRenderer(new MyRenderer());
 			this.setRenderer(new ListRenderer<DateFormListEnum>());
 		}
-/*		
-		class MyRenderer extends BasicComboBoxRenderer {
-
-			private static final long serialVersionUID = -4562181616721578685L;
-
-			@Override
-			public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
-								
-				Component c = super.getListCellRendererComponent(list, ((DateFormListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
-
-				return this;
-			}
-		}
-*/				
+			
 	}
 }

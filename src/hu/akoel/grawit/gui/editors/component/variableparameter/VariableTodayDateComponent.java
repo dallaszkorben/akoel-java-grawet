@@ -28,7 +28,7 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
-public class VariableParametersTodayDateComponent extends JPanel implements VariableParametersComponentInterface{
+public class VariableTodayDateComponent extends JPanel implements VariableComponentInterface{
 
 	private static final long serialVersionUID = -3266616532152280622L;
 	
@@ -58,7 +58,7 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 	 * 
 	 * @param type
 	 */
-	public VariableParametersTodayDateComponent( ParameterTypeListEnum type ){
+	public VariableTodayDateComponent( ParameterTypeListEnum type ){
 		super();
 		
 		this.parameterList = new ArrayList<>();
@@ -78,7 +78,7 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 	 * @param type
 	 * @param parameterList
 	 */
-	public VariableParametersTodayDateComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
+	public VariableTodayDateComponent( ParameterTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -155,8 +155,8 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 					
 					parameterList.set( PARAMETERORDER_DIGRESSION, DateDigressionListEnum.getDateDigressionByIndex(index).name() );
 
-					VariableParametersTodayDateComponent.this.remove( labelDays );
-					VariableParametersTodayDateComponent.this.remove( fieldDays );
+					VariableTodayDateComponent.this.remove( labelDays );
+					VariableTodayDateComponent.this.remove( fieldDays );
 					
 					//PLUS/MINUS
 					if( index == DateDigressionListEnum.PLUS.getIndex() || index == DateDigressionListEnum.MINUS.getIndex() ){
@@ -173,7 +173,7 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 						c.fill = GridBagConstraints.HORIZONTAL;
 						c.weightx = 0;
 						c.anchor = GridBagConstraints.WEST;
-						VariableParametersTodayDateComponent.this.add( labelDays, c );
+						VariableTodayDateComponent.this.add( labelDays, c );
 						
 						gridY++;
 						c.gridy = gridY;
@@ -183,10 +183,10 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 						c.fill = GridBagConstraints.HORIZONTAL;
 						c.weightx = 0;
 						c.anchor = GridBagConstraints.WEST;
-						VariableParametersTodayDateComponent.this.add( fieldDays, c );		
+						VariableTodayDateComponent.this.add( fieldDays, c );		
 						
 					}					
-					VariableParametersTodayDateComponent.this.revalidate();					
+					VariableTodayDateComponent.this.revalidate();					
 				}				
 			}
 		});	
@@ -272,32 +272,19 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 	class DateFormComboBox extends JComboBox<DateFormListEnum>{
 
 		public DateFormComboBox(){
-			//this.setRenderer(new MyRenderer());
 			this.setRenderer(new ListRenderer<DateFormListEnum>());
 		}
-		
-/*		class MyRenderer extends BasicComboBoxRenderer {
-
-			private static final long serialVersionUID = -4562181616721578685L;
-
-			@Override
-			public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
-								
-				Component c = super.getListCellRendererComponent(list, ((DateFormListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
-
-				return this;
-			}			
-		}
-*/				
+					
 	}
 	
 	class DateDigressionComboBox extends JComboBox<DateDigressionListEnum>{
 
 		public DateDigressionComboBox(){
-			this.setRenderer(new MyRenderer());
+			this.setRenderer(new ListRenderer<DateDigressionListEnum>());
+			//this.setRenderer(new MyRenderer());
 		}
 		
-		class MyRenderer extends BasicComboBoxRenderer {
+/*		class MyRenderer extends BasicComboBoxRenderer {
 
 			private static final long serialVersionUID = -2705481306186913190L;
 
@@ -308,7 +295,8 @@ public class VariableParametersTodayDateComponent extends JPanel implements Vari
 
 				return this;
 			}
-		}		
+		}
+*/				
 	}
 	
 	public static class ValueVerifier extends InputVerifier{

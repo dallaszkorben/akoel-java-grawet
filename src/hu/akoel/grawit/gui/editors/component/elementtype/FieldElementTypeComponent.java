@@ -4,13 +4,13 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickOperation;
-import hu.akoel.grawit.core.operations.CompareBaseElementOperation;
-import hu.akoel.grawit.core.operations.CompareStringOperation;
-import hu.akoel.grawit.core.operations.CompareVariableElementOperation;
+import hu.akoel.grawit.core.operations.CompareToGainedBaseElementOperation;
+import hu.akoel.grawit.core.operations.CompareToStringOperation;
+import hu.akoel.grawit.core.operations.CompareToVariableElementOperation;
 import hu.akoel.grawit.core.operations.ElementOperationInterface;
-import hu.akoel.grawit.core.operations.FillBaseElementOperation;
-import hu.akoel.grawit.core.operations.FillStringOperation;
-import hu.akoel.grawit.core.operations.FillVariableElementOperation;
+import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
+import hu.akoel.grawit.core.operations.FillWithStringOperation;
+import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
 import hu.akoel.grawit.core.operations.GainTextPatternOperation;
 import hu.akoel.grawit.core.operations.OutputValueOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
@@ -226,21 +226,21 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 				fieldPattern.setText( ((GainTextPatternOperation)elementOperation).getStringPattern());
 				
 			//FILL_VARIABLE
-			}else if( elementOperation instanceof FillVariableElementOperation ){
+			}else if( elementOperation instanceof FillWithVariableElementOperation ){
 								
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((FillVariableElementOperation)elementOperation).getVariableElement() );
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((FillWithVariableElementOperation)elementOperation).getVariableElement() );
 				comboOperationList.setSelectedIndex(E.FILL_VARIABLE.getIndex());
 
 			//FILL_BASELEMENT
-			}else if( elementOperation instanceof FillBaseElementOperation ){
+			}else if( elementOperation instanceof FillWithBaseElementOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((FillBaseElementOperation)elementOperation).getBaseElement() );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((FillWithBaseElementOperation)elementOperation).getBaseElement() );
 				comboOperationList.setSelectedIndex(E.FILL_ELEMENT.getIndex());
 
 			//FILL_STRING
-			}else if( elementOperation instanceof FillStringOperation ){
+			}else if( elementOperation instanceof FillWithStringOperation ){
 								
-				fieldString.setText( ((FillStringOperation)elementOperation).getStringToShow() );
+				fieldString.setText( ((FillWithStringOperation)elementOperation).getStringToShow() );
 				comboOperationList.setSelectedIndex(E.FILL_STRING.getIndex());
 				
 			//OUTPUT
@@ -250,24 +250,24 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 				comboOperationList.setSelectedIndex( E.OUTPUTVALUE.getIndex() );
 				
 			//COMPARE_VARIABLE
-			}else if( elementOperation instanceof CompareVariableElementOperation ){
+			}else if( elementOperation instanceof CompareToVariableElementOperation ){
 				
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareVariableElementOperation)elementOperation).getVariableElement() );				
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareToVariableElementOperation)elementOperation).getVariableElement() );				
 				comboOperationList.setSelectedIndex(E.COMPARE_VARIABLE.getIndex());
-				comboCompareTypeList.setSelectedIndex( ((CompareVariableElementOperation)elementOperation).getCompareType().getIndex() );
+				comboCompareTypeList.setSelectedIndex( ((CompareToVariableElementOperation)elementOperation).getCompareType().getIndex() );
 
 			//COMPARE_BASEELEMENT
-			}else if( elementOperation instanceof CompareBaseElementOperation ){
+			}else if( elementOperation instanceof CompareToGainedBaseElementOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareBaseElementOperation)elementOperation).getBaseElement() );
-				comboCompareTypeList.setSelectedIndex( ((CompareBaseElementOperation)elementOperation).getCompareType().getIndex() );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareToGainedBaseElementOperation)elementOperation).getBaseElement() );
+				comboCompareTypeList.setSelectedIndex( ((CompareToGainedBaseElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_ELEMENT.getIndex());
 				
 			//COMPARESTRING
-			}else if( elementOperation instanceof CompareStringOperation ){
+			}else if( elementOperation instanceof CompareToStringOperation ){
 								
-				fieldString.setText( ((CompareStringOperation)elementOperation).getStringToShow() );
-				comboCompareTypeList.setSelectedIndex( ((CompareStringOperation)elementOperation).getCompareType().getIndex() );
+				fieldString.setText( ((CompareToStringOperation)elementOperation).getStringToShow() );
+				comboCompareTypeList.setSelectedIndex( ((CompareToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_STRING.getIndex());
 				
 				
@@ -522,15 +522,15 @@ for( int i = 0; i < components.length; i++ ){
 		
 		//Fill element
 		if( comboOperationList.getSelectedIndex() ==  E.FILL_ELEMENT.getIndex() ){
-			return new FillBaseElementOperation( fieldBaseElementSelector.getSelectedDataModel() );
+			return new FillWithBaseElementOperation( fieldBaseElementSelector.getSelectedDataModel() );
 			
 		//Fill variable
 		}else if(comboOperationList.getSelectedIndex() ==  E.FILL_VARIABLE.getIndex() ){
-			return new FillVariableElementOperation( fieldVariableSelector.getSelectedDataModel() );
+			return new FillWithVariableElementOperation( fieldVariableSelector.getSelectedDataModel() );
 			
 		//Fill string
 		}else if( comboOperationList.getSelectedIndex() ==  E.FILL_STRING.getIndex() ){
-			return new FillStringOperation( fieldString.getText() );
+			return new FillWithStringOperation( fieldString.getText() );
 			
 		//Clear
 		}else if( comboOperationList.getSelectedIndex() ==  E.CLEAR.getIndex() ){
@@ -554,15 +554,15 @@ for( int i = 0; i < components.length; i++ ){
 			
 		//Compare element
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_ELEMENT.getIndex() ){
-			return new CompareBaseElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()) );
+			return new CompareToGainedBaseElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()) );
 				
 		//Compare variable
 		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARE_VARIABLE.getIndex() ){
-			return new CompareVariableElementOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()) );
+			return new CompareToVariableElementOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()) );
 				
 		//Compare string
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_STRING.getIndex() ){
-			return new CompareStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()) );
+			return new CompareToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()) );
 				
 		}
 	
