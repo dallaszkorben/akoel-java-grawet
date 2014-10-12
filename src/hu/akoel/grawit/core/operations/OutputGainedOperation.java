@@ -16,10 +16,8 @@ public class OutputGainedOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "OUTPUTGAINED";
 	private static final String ATTR_MESSAGE = "message";
-	
-	//--- Data model
+
 	private String message;
-	//---
 	
 	public OutputGainedOperation( String message ){
 		this.message = message;

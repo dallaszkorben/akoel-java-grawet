@@ -72,23 +72,6 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	
 	private JLabel labelFiller;
 	
-
-	/**
-	 * Uj
-	 * 
-	 */
-//	public FieldElementTypeComponent( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
-//		super();
-//		common( elementType, null, baseRootDataModel, variableRootDataModel );		
-//	}
-	
-	/**
-	 * 
-	 * Mar letezo
-	 * 
-	 * @param key
-	 * @param value
-	 */	
 	public FieldElementTypeComponent( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		

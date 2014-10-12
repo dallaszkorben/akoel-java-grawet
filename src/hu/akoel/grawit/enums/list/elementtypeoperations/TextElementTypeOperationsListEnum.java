@@ -3,12 +3,12 @@ package hu.akoel.grawit.enums.list.elementtypeoperations;
 import hu.akoel.grawit.CommonOperations;
 
 public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
-	GAINTEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gaintexttovariable") ),
-	GAINTEXT_TO_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gainvaluetoelement") ),
-	OUTPUTGAINED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.text.outputgained") ),
-	COMPARE_VARIABLE( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparevariable") ),
-	COMPARE_ELEMENT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.text.compareelement") ),
-	COMPARE_STRING( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparestring") ),	
+	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttovariable") ),
+	COMPARETEXT_TO_GAINED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttogained") ),
+	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostring") ),
+	GAINTEXT_TO_VARIABLE( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gaintexttovariable") ),
+	GAINTEXT_TO_ELEMENT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gainvaluetoelement") ),
+	OUTPUTGAINED( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.text.outputgained") ),
 	;
 	
 	private String translatedName;
@@ -36,12 +36,12 @@ public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	
 	public static TextElementTypeOperationsListEnum getElementTextOperationByIndex( int index ){
 		switch (index){		
-		case 0: return GAINTEXT_TO_VARIABLE;
-		case 1: return GAINTEXT_TO_ELEMENT;
-		case 3:	return OUTPUTGAINED;
-		case 4: return COMPARE_VARIABLE;
-		case 5: return COMPARE_ELEMENT;
-		case 6: return COMPARE_STRING;		
+		case 0: return COMPARETEXT_TO_VARIABLE;
+		case 1: return COMPARETEXT_TO_GAINED;
+		case 2: return COMPARETEXT_TO_STRING;
+		case 3: return GAINTEXT_TO_VARIABLE;
+		case 4: return GAINTEXT_TO_ELEMENT;
+		case 5:	return OUTPUTGAINED;
 		default: return OUTPUTGAINED;
 		}
 	}
