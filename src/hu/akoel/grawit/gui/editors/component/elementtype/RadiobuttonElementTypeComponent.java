@@ -6,7 +6,7 @@ import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.CompareValueToGainedOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
-import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainValueToElementOperation;
 import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputGainedOperation;
@@ -67,14 +67,14 @@ public class RadiobuttonElementTypeComponent<E extends RadiobuttonElementTypeOpe
 	
 	private JLabel labelFiller;
 	
-	public RadiobuttonElementTypeComponent( ElementTypeListEnum elementType , ElementOperationInterface elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public RadiobuttonElementTypeComponent( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
 		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );	
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType , ElementOperationInterface elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
@@ -445,7 +445,7 @@ private void setValueContainer( E selectedOperation ){
 	}
 
 	@Override
-	public ElementOperationInterface getElementOperation() {
+	public ElementOperationAdapter getElementOperation() {
 		
 		//CLICK
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){

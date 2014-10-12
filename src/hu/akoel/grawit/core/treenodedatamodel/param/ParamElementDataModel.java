@@ -24,7 +24,7 @@ import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
 import hu.akoel.grawit.core.operations.CompareValueToGainedOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
-import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
@@ -63,7 +63,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	//Adatmodel ---
 	private String name;
 	private BaseElementDataModel baseElement;
-	private ElementOperationInterface elementOperation;
+	private ElementOperationAdapter elementOperation;
 	//----
 
 	/**
@@ -74,7 +74,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	 * @param baseElement
 	 * @param operation
 	 */
-	public ParamElementDataModel( String name, BaseElementDataModel baseElement, ElementOperationInterface operation){
+	public ParamElementDataModel( String name, BaseElementDataModel baseElement, ElementOperationAdapter operation){
 		this.name = name;
 		this.baseElement = baseElement;
 		this.elementOperation = operation;		
@@ -546,11 +546,11 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		return this.name;
 	}
 	
-	public ElementOperationInterface getElementOperation() {
+	public ElementOperationAdapter getElementOperation() {
 		return elementOperation;
 	}
 
-	public void setOperation(ElementOperationInterface elementOperation) {
+	public void setOperation(ElementOperationAdapter elementOperation) {
 		this.elementOperation = elementOperation;
 	}	
 

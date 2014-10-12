@@ -5,13 +5,10 @@ import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,24 +17,18 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
-import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
-import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
-import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
-import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class FillWithVariableElementOperation implements ElementOperationInterface{
+public class FillWithVariableElementOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "FILLVARIABLE";	
 	private static final String ATTR_FILL_VARIABLE_ELEMENT_PATH = "fillvariableelementpath";
@@ -131,7 +122,7 @@ public class FillWithVariableElementOperation implements ElementOperationInterfa
 	 * Executes the action on the WebElement (Field)
 	 * 
 	 */
-	@Override
+/*	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 
 		if( null != elementProgress ){
@@ -177,22 +168,7 @@ public class FillWithVariableElementOperation implements ElementOperationInterfa
 		if( null == webElement ){
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
 		}
-/*		
-		while( !webElement.isDisplayed() ){
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {}
-		}	
-*/		
-		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
-		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-/*		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
-				
-			//Elmenti az elem tartalmat a valtozoba
-			baseElement.setVariableValue( webElement.getText() );
-		}
-*/		
 		try{
 			//Execute the operation
 			webElement.sendKeys( variableElementDataModel.getValue() );
@@ -200,21 +176,27 @@ public class FillWithVariableElementOperation implements ElementOperationInterfa
 		}catch (WebDriverException webDriverException){
 			throw new ElementInvalidOperationException( getName(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
-		
-		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-/*		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 				
-			//Elmenti az elem tartalmat a valtozoba
-			baseElement.setVariableValue( webElement.getAttribute("value") );		
-		}
-*/		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
-
+*/
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
+	}
+
+	@Override
+	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+
+		try{
+			//Execute the operation
+			webElement.sendKeys( variableElementDataModel.getValue() );
+			webElement.sendKeys(Keys.TAB);
+		}catch (WebDriverException webDriverException){
+			throw new ElementInvalidOperationException( getName(), element.getName(), element.getBaseElement().getSelector(), webDriverException );
+		}
+		
 	}
 
 	@Override

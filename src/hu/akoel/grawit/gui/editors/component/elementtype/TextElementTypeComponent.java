@@ -5,7 +5,7 @@ import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.CompareTextToGainedOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
-import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputGainedOperation;
@@ -84,14 +84,14 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 	 * @param key
 	 * @param value
 	 */
-	public TextElementTypeComponent( ElementTypeListEnum elementType , ElementOperationInterface elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public TextElementTypeComponent( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
 		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType, ElementOperationInterface elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( ElementTypeListEnum elementType, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
@@ -434,7 +434,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 	}
 
 	@Override
-	public ElementOperationInterface getElementOperation() {
+	public ElementOperationAdapter getElementOperation() {
 		
 		//COMPARE TEXT TO GAINED
 		if( comboOperationList.getSelectedIndex() ==  E.COMPARE_ELEMENT.getIndex() ){

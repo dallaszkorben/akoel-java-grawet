@@ -1,6 +1,6 @@
 package hu.akoel.grawit.gui.editors.component.elementtype;
 
-import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
@@ -24,7 +24,7 @@ public class EmptyElementTypeComponent extends ElementTypeComponentInterface<Ele
 	}
 
 	@Override
-	public ElementOperationInterface getElementOperation() {
+	public ElementOperationAdapter getElementOperation() {
 		return null;
 	}
 

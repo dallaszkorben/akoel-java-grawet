@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -178,7 +178,7 @@ public class ParamElementEditor extends DataEditor{
 		//Eltavolitja az ott levot
 		ParamElementEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
 		
-		ElementOperationInterface elementOperation;
+		ElementOperationAdapter elementOperation;
 		
 		//Uj
 		if( null == nodeForModify ){
@@ -329,7 +329,7 @@ public class ParamElementEditor extends DataEditor{
 		}else{
 			
 			BaseElementDataModel baseElement = fieldBaseElementSelector.getSelectedDataModel();
-			ElementOperationInterface elementOperation = elementTypeComponent.getElementOperation();			
+			ElementOperationAdapter elementOperation = elementTypeComponent.getElementOperation();			
 
 			//Uj rogzites eseten
 			if( null == mode ){			
