@@ -1,31 +1,21 @@
 package hu.akoel.grawit.core.operations;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.Properties;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
-import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
-import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
-import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class FillWithStringOperation implements ElementOperationInterface{
+public class FillWithStringOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "FILLSTRING";
 	private static final String ATTR_STRING = "string";
@@ -60,7 +50,7 @@ public class FillWithStringOperation implements ElementOperationInterface{
 	 * Executes the action on the WebElement (Field)
 	 * 
 	 */
-	@Override
+/*	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 	
 		if( null != elementProgress ){
@@ -106,22 +96,7 @@ public class FillWithStringOperation implements ElementOperationInterface{
 		if( null == webElement ){
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
 		}
-/*		
-		while( !webElement.isDisplayed() ){
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {}
-		}	
-*/		
-		//throw new ElementException( elementBase.getName(), elementBase.getBy().toString(), e );
 		
-/*		//Ha valtozokent van deffinialva es muvelet elott kell menteni az erteket
-		if( baseElement.getVariableSample().equals( VariableSampleListEnum.PRE ) ){
-				
-			//Elmenti az elem tartalmat a valtozoba
-			baseElement.setVariableValue( webElement.getText() );
-		}
-*/		
 		try{
 			//Execute the operation
 			webElement.sendKeys( stringToShow );
@@ -129,23 +104,27 @@ public class FillWithStringOperation implements ElementOperationInterface{
 		}catch (WebDriverException webDriverException){
 			throw new ElementInvalidOperationException( getName(), element.getName(), baseElement.getSelector(), webDriverException );
 		}
-		
-/*		//Ha valtozokent van deffinialva es muvelet utan kell menteni az erteket
-		if( baseElement.getVariableSample().equals( VariableSampleListEnum.POST ) ){
 				
-			//Elmenti az elem tartalmat a valtozoba
-			baseElement.setVariableValue( webElement.getAttribute("value") );		
-		}
-*/		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
-
+*/
 	public String getStringToShow() {
 		return stringToShow;
 	}
 
+	@Override
+	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+		
+		try{
+			//Execute the operation
+			webElement.sendKeys( stringToShow );
+			webElement.sendKeys(Keys.TAB);
+		}catch (WebDriverException webDriverException){
+			throw new ElementInvalidOperationException( getName(), element.getName(), element.getBaseElement().getSelector(), webDriverException );
+		}
+	}
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {

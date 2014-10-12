@@ -7,12 +7,9 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,26 +18,20 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
-import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
-import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
-import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class CompareValueToVariableOperation implements ElementOperationInterface{
+public class CompareValueToVariableOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "COMPAREVALUETOVARIABLE";	
 	private static final String ATTR_COMPARE_VARIABLE_ELEMENT_PATH = "comparevariableelementpath";
@@ -172,7 +163,7 @@ public class CompareValueToVariableOperation implements ElementOperationInterfac
 	 * Executes the action on the WebElement (Field)
 	 * 
 	 */
-	@Override
+/*	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 
 		if( null != elementProgress ){
@@ -261,21 +252,71 @@ public class CompareValueToVariableOperation implements ElementOperationInterfac
 			
 			if( origText.equals( variableElementDataModel.getValue() ) ){
 				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), origText, new Exception() );
-			}
-			
+			}			
 		}
 		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
-
+*/
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
 
 	public CompareTypeListEnum getCompareType(){
 		return compareType;
+	}
+	
+	@Override
+	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+
+		//
+		// Execute the OPERATION
+		//		
+		String origText = "";
+		
+		//COMPARE VALUE
+		//Ha LIST
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
+
+			Select select = new Select(webElement);
+			origText = select.getFirstSelectedOption().getAttribute("value");
+		
+		//CHECKBOX/RADIOBUTTON
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) ){
+			
+			if( webElement.isSelected() ){
+				origText = "SELECTED";
+			}else{
+				origText = "NOT SELECTED";
+			}
+			
+		//Ha FIELD/CHECKBOX
+		}else{		
+			origText = webElement.getAttribute("value");
+		}
+		
+		if( null != pattern ){
+			matcher = pattern.matcher( origText );
+			if( matcher.find() ){
+				origText = matcher.group();
+			}			
+		}		
+
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+			
+			if( !origText.equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+			}
+			
+		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+			
+			if( origText.equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+			}			
+		}
+		
 	}
 	
 	@Override
@@ -288,5 +329,7 @@ public class CompareValueToVariableOperation implements ElementOperationInterfac
 		attr.setValue( compareType.name() );
 		element.setAttributeNode( attr );
 	}
+
+
 	
 }

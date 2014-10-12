@@ -3,7 +3,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickOperation;
-import hu.akoel.grawit.core.operations.ElementOperationInterface;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ButtonElementTypeOperationsListEnum;
 
@@ -48,14 +48,14 @@ public class ButtonElementTypeComponent<E extends ButtonElementTypeOperationsLis
 	 * @param key
 	 * @param value
 	 */
-	public ButtonElementTypeComponent( ElementTypeListEnum elementType , ElementOperationInterface elementOperation ){
+	public ButtonElementTypeComponent( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation ){
 		super();
 		
 		common( elementType, elementOperation );		
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType, ElementOperationInterface elementOperation ){
+	private void common( ElementTypeListEnum elementType, ElementOperationAdapter elementOperation ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
@@ -198,7 +198,7 @@ public class ButtonElementTypeComponent<E extends ButtonElementTypeOperationsLis
 	}
 */
 	@Override
-	public ElementOperationInterface getElementOperation() {
+	public ElementOperationAdapter getElementOperation() {
 		
 		//CLICK
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){

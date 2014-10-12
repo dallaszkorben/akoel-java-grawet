@@ -8,12 +8,9 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,20 +19,14 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
-import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
-import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
-import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
@@ -44,7 +35,7 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
  * @author afoldvarszky
  *
  */
-public class GainValueToVariableOperation implements ElementOperationInterface{
+public class GainValueToVariableOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "GAINVALUETOVARIABLE";
 	private static final String ATTR_PATTERN = "pattern";
@@ -163,7 +154,7 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 	 * Executes the action on the WebElement (Field)
 	 * 
 	 */
-	@Override
+/*	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 	
 		if( null != elementProgress ){
@@ -251,7 +242,7 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
-	
+*/	
 	public String getStringPattern(){
 		return stringPattern;
 	}
@@ -260,6 +251,47 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 		return variableElementDataModel;
 	}
 	
+	@Override
+	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+		
+		String origText = "";
+
+		//GAIN VALUE
+		//Ha LIST
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
+
+			Select select = new Select(webElement);
+			origText = select.getFirstSelectedOption().getAttribute("value");
+			
+		//CHECKBOX/RADIOBUTTON
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) ){
+
+			if( webElement.isSelected() ){
+				origText = "SELECTED";
+			}else{
+				origText = "NOT SELECTED";
+			}
+			
+		//Ha FIELD
+		}else{		
+			origText = webElement.getAttribute("value");
+		}
+		ArrayList<Object> parameters = new ArrayList<>();
+		
+		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
+		if( null == pattern ){
+			parameters.add( origText );
+			variableElementDataModel.setParameters( parameters );
+		}else{
+			matcher = pattern.matcher( origText );
+			if( matcher.find() ){
+				String resultText = matcher.group();
+				parameters.add( resultText );
+				variableElementDataModel.setParameters(parameters);
+			}			
+		}	
+	}
+
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
 		Attr attr = document.createAttribute( ATTR_PATTERN );
@@ -270,6 +302,7 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 		attr.setValue( variableElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );	
 	}
+
 	
 }
 

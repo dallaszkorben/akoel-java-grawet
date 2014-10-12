@@ -38,9 +38,9 @@ public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOpera
 	public static RadiobuttonElementTypeOperationsListEnum getElementRadiobuttonOperationByIndex( int index ){
 		switch (index){
 		case 0:	return CLICK;
-		case 1:	return COMPAREVALUE_TO_GAINED;
-		case 2:	return COMPAREVALUE_TO_STRING;
-		case 3:	return COMPAREVALUE_TO_VARIABLE;
+		case 1:	return COMPAREVALUE_TO_VARIABLE;
+		case 2:	return COMPAREVALUE_TO_GAINED;
+		case 3:	return COMPAREVALUE_TO_STRING;
 		case 4:	return GAINVALUE_TO_VARIABLE;
 		case 5:	return GAINVALUE_TO_ELEMENT;
 		case 6:	return OUTPUTGAINED;
