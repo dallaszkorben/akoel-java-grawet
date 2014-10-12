@@ -47,7 +47,6 @@ public class GainTextToElementOperation implements ElementOperationInterface{
 	public GainTextToElementOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		if( !element.hasAttribute( ATTR_PATTERN ) ){
-			//throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_PATTERN );
 			stringPattern = "";
 		}else{
 			stringPattern = element.getAttribute( ATTR_PATTERN );

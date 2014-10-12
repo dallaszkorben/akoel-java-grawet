@@ -19,6 +19,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
+import hu.akoel.grawit.exceptions.ElementUnreachableBrowserException;
 
 public class ClickOperation implements ElementOperationInterface{
 
@@ -76,6 +77,8 @@ public class ClickOperation implements ElementOperationInterface{
 				
 		}catch( org.openqa.selenium.TimeoutException timeOutException ){
 			throw new ElementTimeoutException( element.getName(), baseElement.getSelector(), timeOutException );
+		}catch( org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException ){
+			throw new ElementUnreachableBrowserException( unreachableBrowserException );
 		}
 				
 		try{

@@ -1,7 +1,6 @@
 package hu.akoel.grawit.core.operations;
 
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +30,9 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
+import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
@@ -39,40 +40,46 @@ import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-/**
- * 
- * @author afoldvarszky
- *
- */
-public class GainValueToVariableOperation implements ElementOperationInterface{
+public class CompareValueToVariableOperation implements ElementOperationInterface{
 	
-	private static final String NAME = "GAINVALUETOVARIABLE";
+	private static final String NAME = "COMPAREVALUETOVARIABLE";	
+	private static final String ATTR_COMPARE_VARIABLE_ELEMENT_PATH = "comparevariableelementpath";
+	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
-	private static final String ATTR_FILL_VARIABLE_ELEMENT_PATH = "fillvariableelementpath";
 	
 	private Pattern pattern;
 	private Matcher matcher;
+	private String stringPattern;
 	
 	//--- Data model
 	private VariableElementDataModel variableElementDataModel;
-	private String stringPattern;
+	private CompareTypeListEnum compareType;
 	//---
 	
-	public GainValueToVariableOperation( VariableElementDataModel variableElementDataModel, String stringPattern ){
-		this.stringPattern = stringPattern;		
+	public CompareValueToVariableOperation( VariableElementDataModel variableElementDataModel, CompareTypeListEnum compareType, String stringPattern ){
 		this.variableElementDataModel = variableElementDataModel;
+		this.compareType = compareType;
+		this.stringPattern = stringPattern;
 		
 		common( stringPattern );
 	}
 	
-	public GainValueToVariableOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLMissingAttributePharseException, XMLBaseConversionPharseException{
+	public CompareValueToVariableOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
 		VariableDataModelInterface variableDataModelForFillOut = variableRootDataModel;
 		
-		if( !element.hasAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_FILL_VARIABLE_ELEMENT_PATH );		
+		//ATTR_COMPARE_TYPE
+		if( !element.hasAttribute( ATTR_COMPARE_TYPE ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_TYPE );		
+		}	
+		String typeString = element.getAttribute(ATTR_COMPARE_TYPE);
+		this.compareType = CompareTypeListEnum.valueOf( typeString );
+		
+		//ATTR_COMPARE_VARIABLE_ELEMENT_PATH
+		if( !element.hasAttribute( ATTR_COMPARE_VARIABLE_ELEMENT_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_VARIABLE_ELEMENT_PATH );		
 		}
-		String variableElementPathString = element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH);				
+		String variableElementPathString = element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH);				
 		variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -83,7 +90,7 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH), e );
 	    } 
 
 	    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
@@ -102,7 +109,7 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 
 	    		if( null == variableDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH) );
 	    		}
 	    		
 	    	//Ha VARIABLEELEMENT
@@ -112,12 +119,12 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 	    		
 	    		if( null == variableDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH) );
 	    		}
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH) );	    		
 	    	}
 	    }	    
 	    try{
@@ -127,16 +134,27 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH ), e );
 	    }
-		
-		if( !element.hasAttribute( ATTR_PATTERN ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_PATTERN );			
-		}
-		this.stringPattern = element.getAttribute( ATTR_PATTERN );	
 	    
-		common( stringPattern );
+	    //PATTERN
+	    if( !element.hasAttribute( ATTR_PATTERN ) ){
+			stringPattern = "";
+		}else{
+			stringPattern = element.getAttribute( ATTR_PATTERN );
+		}
 		
+		common( stringPattern );
+
+	}
+	
+	public static String getStaticName(){
+		return NAME;
+	}
+	
+	@Override
+	public String getName() {		
+		return getStaticName();
 	}
 	
 	private void common( String stringPattern ){
@@ -149,15 +167,6 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 		
 	}
 	
-	public static String getStaticName(){
-		return NAME;
-	}
-	
-	@Override
-	public String getName() {
-		return getStaticName();
-	}
-	
 	/**
 	 * 
 	 * Executes the action on the WebElement (Field)
@@ -165,7 +174,7 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 	 */
 	@Override
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
-	
+
 		if( null != elementProgress ){
 			elementProgress.elementStarted( element.getName() );
 		}
@@ -192,7 +201,6 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 		//Varakozik az elem megjeleneseig, de max 10 mp-ig
 		try{
 			wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
-			//wait.until(ExpectedConditions.elementToBeClickable( by ) );
 		
 		}catch( org.openqa.selenium.TimeoutException timeOutException ){
 			throw new ElementTimeoutException( element.getName(), baseElement.getSelector(), timeOutException );
@@ -209,67 +217,76 @@ public class GainValueToVariableOperation implements ElementOperationInterface{
 		if( null == webElement ){
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
 		}
-				
+		
+		//
+		// Execute the OPERATION
+		//		
 		String origText = "";
-
-		//GAIN VALUE
+		
+		//COMPARE VALUE
 		//Ha LIST
 		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
 
 			Select select = new Select(webElement);
 			origText = select.getFirstSelectedOption().getAttribute("value");
-			
+		
 		//CHECKBOX/RADIOBUTTON
 		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) ){
-
+			
 			if( webElement.isSelected() ){
 				origText = "SELECTED";
 			}else{
 				origText = "NOT SELECTED";
 			}
 			
-		//Ha FIELD
+		//Ha FIELD/CHECKBOX
 		}else{		
 			origText = webElement.getAttribute("value");
 		}
-		ArrayList<Object> parameters = new ArrayList<>();
 		
-		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
-		if( null == pattern ){
-			parameters.add( origText );
-			variableElementDataModel.setParameters( parameters );
-		}else{
+		if( null != pattern ){
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
-				String resultText = matcher.group();
-				parameters.add( resultText );
-				variableElementDataModel.setParameters(parameters);
+				origText = matcher.group();
 			}			
+		}		
+
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+			
+			if( !origText.equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), origText, new Exception() );
+			}
+			
+		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+			
+			if( origText.equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), origText, new Exception() );
+			}
+			
 		}
 		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
-	
-	public String getStringPattern(){
-		return stringPattern;
-	}
 
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
+
+	public CompareTypeListEnum getCompareType(){
+		return compareType;
+	}
 	
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		Attr attr = document.createAttribute( ATTR_PATTERN );
-		attr.setValue( stringPattern );
-		element.setAttributeNode(attr);		
-		
-		attr = document.createAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH );
+		Attr attr = document.createAttribute( ATTR_COMPARE_VARIABLE_ELEMENT_PATH );
 		attr.setValue( variableElementDataModel.getPathTag() );
-		element.setAttributeNode( attr );	
+		element.setAttributeNode( attr );		
+		
+		attr = document.createAttribute( ATTR_COMPARE_TYPE );
+		attr.setValue( compareType.name() );
+		element.setAttributeNode( attr );
 	}
 	
 }
-

@@ -1,15 +1,18 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
@@ -25,23 +28,31 @@ import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class CompareToStringOperation implements ElementOperationInterface{
+public class CompareValueToStringOperation implements ElementOperationInterface{
 	
-	private static final String NAME = "COMPARESTRING";
+	private static final String NAME = "COMPAREVALUETOSTRING";
 	private static final String ATTR_STRING = "string";
 	private static final String ATTR_COMPARE_TYPE = "type";
+	private static final String ATTR_PATTERN = "pattern";
+	
+	private Pattern pattern;
+	private Matcher matcher;
+	private String stringPattern;
 	
 	//--- Data model
 	private String stringToCompare;
 	private CompareTypeListEnum compareType;
 	//---
 	
-	public CompareToStringOperation( String stringToCompare, CompareTypeListEnum compareType ){
+	public CompareValueToStringOperation( String stringToCompare, CompareTypeListEnum compareType, String stringPattern ){
 		this.stringToCompare = stringToCompare;
 		this.compareType = compareType;
+		this.stringPattern = stringPattern;
+		
+		common( stringPattern );
 	}
 	
-	public CompareToStringOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public CompareValueToStringOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		//ATTR_COMPARE_TYPE
 		if( !element.hasAttribute( ATTR_COMPARE_TYPE ) ){
@@ -54,7 +65,16 @@ public class CompareToStringOperation implements ElementOperationInterface{
 		if( !element.hasAttribute( ATTR_STRING ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_STRING );			
 		}
-		stringToCompare = element.getAttribute( ATTR_STRING );		
+		stringToCompare = element.getAttribute( ATTR_STRING );	
+		
+		//PATTERN
+		if( !element.hasAttribute( ATTR_PATTERN ) ){
+			stringPattern = "";
+		}else{
+			stringPattern = element.getAttribute( ATTR_PATTERN );
+		}
+		
+		common( stringPattern );
 	}
 	
 	/**
@@ -112,37 +132,46 @@ public class CompareToStringOperation implements ElementOperationInterface{
 		//
 		// Execute the OPERATION
 		//		
-		String foundText = "";
+		String origText = "";
 		
+		//COMPARE VALUE
+		//Ha LIST
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
+
+			Select select = new Select(webElement);
+			origText = select.getFirstSelectedOption().getAttribute("value");
+			
+		//CHECKBOX/RADIOBUTTON
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) ){
+			
+			if( webElement.isSelected() ){
+				origText = "SELECTED";
+			}else{
+				origText = "NOT SELECTED";
+			}
+			
 		//Ha FIELD
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
-			foundText = webElement.getAttribute("value");	
+		}else{		
+			origText = webElement.getAttribute("value");
+		}
 		
-		//TEXT
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.TEXT)){
-			
-			foundText = webElement.getText();
-			
-		//LINK
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LINK)){
-			
-			foundText = webElement.getText();
-			
-		}		
-		
-		//Gained value
-//		foundText = element.getBaseElement().getGainedValue();
+		if( null != pattern ){
+			matcher = pattern.matcher( origText );
+			if( matcher.find() ){
+				origText = matcher.group();
+			}			
+		}
 		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
-			if( !foundText.equals( stringToCompare ) ){
-				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), foundText, new Exception() );
+			if( !origText.equals( stringToCompare ) ){
+				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), origText, new Exception() );
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( foundText.equals( stringToCompare ) ){
-				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), foundText, new Exception() );
+			if( origText.equals( stringToCompare ) ){
+				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), origText, new Exception() );
 			}
 			
 		}
@@ -152,6 +181,16 @@ public class CompareToStringOperation implements ElementOperationInterface{
 		}
 	}
 
+	private void common( String stringPattern ){
+		
+		if( stringPattern.trim().length() == 0 ){
+			pattern = null;
+		}else{		
+			pattern = Pattern.compile( stringPattern );
+		}
+		
+	}
+	
 	public String getStringToShow() {
 		return stringToCompare;
 	}

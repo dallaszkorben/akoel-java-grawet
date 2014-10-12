@@ -275,6 +275,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 			try{			
 				parameterElement.doAction( driver, elementProgress );
 			
+			//Ha nem futott le rendesen a teszteset
 			}catch (ElementException e){
 				throw new PageException( this.getName(), e.getElementName(), e.getElementSelector(), e);
 			

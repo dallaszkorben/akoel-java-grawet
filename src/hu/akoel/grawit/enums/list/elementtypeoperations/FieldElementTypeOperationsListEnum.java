@@ -9,9 +9,9 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	CLEAR( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.field.clear") ),
 	TAB( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.field.tab") ),
 	CLICK( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.field.click") ),	
-	COMPARE_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevariable") ),
-	COMPARE_ELEMENT( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.field.compareelement") ),
-	COMPARE_STRING( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparestring") ),
+	COMPAREVALUE_TO_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevaluetovariable") ),
+	COMPAREVALUE_TO_GAINED( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevaluetogained") ),
+	COMPAREVALUE_TO_STRING( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevaluetostring") ),
 	GAINVALUE_TO_VARIABLE( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetovariable") ),
 	GAINVALUE_TO_ELEMENT( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetoelement") ),
 	OUTPUTGAINED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputgained") ),
@@ -48,9 +48,9 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 		case 3: return CLEAR;
 		case 4: return TAB;
 		case 5: return CLICK;		
-		case 6: return COMPARE_VARIABLE;
-		case 7: return COMPARE_ELEMENT;
-		case 8: return COMPARE_STRING;
+		case 6: return COMPAREVALUE_TO_VARIABLE;
+		case 7: return COMPAREVALUE_TO_GAINED;
+		case 8: return COMPAREVALUE_TO_STRING;
 		case 9: return GAINVALUE_TO_VARIABLE;
 		case 10: return GAINVALUE_TO_ELEMENT;
 		case 11: return OUTPUTGAINED;
