@@ -128,14 +128,23 @@ public class GainValueToElementOperation implements ElementOperationInterface{
 				
 		String origText = "";
 		
-		//GAIN TEXT
+		//GAIN VALUE
 		//Ha LIST
 		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
 
 			Select select = new Select(webElement);
 			origText = select.getFirstSelectedOption().getAttribute("value");
+
+		//CHECKBOX/RADIOBUTTON
+		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) ){
+
+			if( webElement.isSelected() ){
+				origText = "SELECTED";
+			}else{
+				origText = "NOT SELECTED";
+			}
 			
-		//Ha FIELD/CHECKBOX/RADIOBUTTON
+		//Ha FIELD
 		}else{		
 			origText = webElement.getAttribute("value");
 		}

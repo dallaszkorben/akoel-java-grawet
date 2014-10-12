@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -18,40 +19,63 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
+import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class _GainTextPatternOperation implements ElementOperationInterface{
+public class CompareTextToStringOperation implements ElementOperationInterface{
 	
-	private static final String NAME = "GAINTEXT";
+	private static final String NAME = "COMPARETEXTTOSTRING";
+	private static final String ATTR_STRING = "string";
+	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
 	private Matcher matcher;
+	private String stringPattern;
 	
 	//--- Data model
-	private String stringPattern;
+	private String stringToCompare;
+	private CompareTypeListEnum compareType;
 	//---
 	
-	public _GainTextPatternOperation( String stringPattern ){
+	public CompareTextToStringOperation( String stringToCompare, CompareTypeListEnum compareType, String stringPattern ){
+		this.stringToCompare = stringToCompare;
+		this.compareType = compareType;
 		this.stringPattern = stringPattern;
 		
 		common( stringPattern );
 	}
 	
-	public _GainTextPatternOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public CompareTextToStringOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
-		if( !element.hasAttribute( ATTR_PATTERN ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_PATTERN );			
+		//ATTR_COMPARE_TYPE
+		if( !element.hasAttribute( ATTR_COMPARE_TYPE ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_TYPE );		
+		}	
+		String typeString = element.getAttribute(ATTR_COMPARE_TYPE);
+		this.compareType = CompareTypeListEnum.valueOf( typeString );
+		
+		//ATTR_STRING
+		if( !element.hasAttribute( ATTR_STRING ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_STRING );			
 		}
-		stringPattern = element.getAttribute( ATTR_PATTERN );	
+		stringToCompare = element.getAttribute( ATTR_STRING );	
+		
+	    //PATTERN
+	    if( !element.hasAttribute( ATTR_PATTERN ) ){
+			stringPattern = "";
+		}else{
+			stringPattern = element.getAttribute( ATTR_PATTERN );
+		}
 		
 		common( stringPattern );
-		
+
 	}
 	
 	private void common( String stringPattern ){
@@ -62,15 +86,6 @@ public class _GainTextPatternOperation implements ElementOperationInterface{
 			pattern = Pattern.compile( stringPattern );
 		}
 		
-	}
-	
-	public static String getStaticName(){
-		return NAME;
-	}
-	
-	@Override
-	public String getName() {
-		return getStaticName();
 	}
 	
 	/**
@@ -123,61 +138,78 @@ public class _GainTextPatternOperation implements ElementOperationInterface{
 		
 		if( null == webElement ){
 			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
-		}
+		}		
 		
-/*		
-		while( !webElement.isDisplayed() ){
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {}
-		}	
-*/		
+		//
+		// Execute the OPERATION
+		//		
 		String origText = "";
 		
-		//Ha FIELD
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
-			origText = webElement.getAttribute("value");	
-		
-		//TEXT
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.TEXT)){
+		//COMPARE TEXT
+		//Ha LIST
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
+
+			Select select = new Select(webElement);
+			origText = select.getFirstSelectedOption().getText();
 			
+		//Ha FIELD/CHECKBOX/RADIOBUTTON
+		}else{		
 			origText = webElement.getText();
-		
-		//LINK
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LINK)){
-			
-			origText = webElement.getText();
-			
 		}
 		
-// TODO kell ide a LIST es a checkbox meg a radiobutton is		
-		
-		//Execute the operation = Elmenti az elem tartalmat a valtozoba		
-		if( null == pattern ){
-			baseElement.setGainedValue( origText );
-		}else{
+		if( null != pattern ){
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
-				String resultText = matcher.group();
-				baseElement.setGainedValue( resultText );
+				origText = matcher.group();
 			}			
+		}		
+
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+			
+			if( !origText.equals( stringToCompare ) ){
+				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), origText, new Exception() );
+			}
+			
+		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+			
+			if( origText.equals( stringToCompare ) ){
+				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), baseElement.getSelector(), origText, new Exception() );
+			}
+			
 		}
 		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );
 		}
 	}
+
+	public String getStringToShow() {
+		return stringToCompare;
+	}
+
+	public static String getStaticName(){
+		return NAME;
+	}
 	
-	public String getStringPattern(){
-		return stringPattern;
+	@Override
+	public String getName() {		
+		return getStaticName();
+	}
+		
+	public CompareTypeListEnum getCompareType(){
+		return compareType;
 	}
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		Attr attr = document.createAttribute( ATTR_PATTERN );
-		attr.setValue( stringPattern );
-		element.setAttributeNode(attr);		
+		
+		Attr attr = document.createAttribute( ATTR_STRING );
+		attr.setValue( stringToCompare );
+		element.setAttributeNode(attr);	
+		
+		attr = document.createAttribute( ATTR_COMPARE_TYPE );
+		attr.setValue( compareType.name() );
+		element.setAttributeNode( attr );	
 	}
 	
 }
-

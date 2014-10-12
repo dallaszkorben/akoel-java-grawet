@@ -1,6 +1,8 @@
 package hu.akoel.grawit.core.operations;
 
 import java.io.StringReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -9,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -37,23 +40,31 @@ import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class CompareToVariableElementOperation implements ElementOperationInterface{
+public class CompareTextToVariableOperation implements ElementOperationInterface{
 	
-	private static final String NAME = "COMPAREVARIABLE";	
+	private static final String NAME = "COMPARETEXTTOVARIABLE";	
 	private static final String ATTR_COMPARE_VARIABLE_ELEMENT_PATH = "comparevariableelementpath";
 	private static final String ATTR_COMPARE_TYPE = "type";
+	private static final String ATTR_PATTERN = "pattern";
+	
+	private Pattern pattern;
+	private Matcher matcher;
+	private String stringPattern;
 	
 	//--- Data model
 	private VariableElementDataModel variableElementDataModel;
 	private CompareTypeListEnum compareType;
 	//---
 	
-	public CompareToVariableElementOperation( VariableElementDataModel variableElementDataModel, CompareTypeListEnum compareType ){
+	public CompareTextToVariableOperation( VariableElementDataModel variableElementDataModel, CompareTypeListEnum compareType, String stringPattern ){
 		this.variableElementDataModel = variableElementDataModel;
 		this.compareType = compareType;
+		this.stringPattern = stringPattern;
+		
+		common( stringPattern );
 	}
 	
-	public CompareToVariableElementOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public CompareTextToVariableOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
 		VariableDataModelInterface variableDataModelForFillOut = variableRootDataModel;
 		
@@ -125,6 +136,26 @@ public class CompareToVariableElementOperation implements ElementOperationInterf
 	    	//Nem sikerult az utvonalat megtalalni
 	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH ), e );
 	    }
+	    
+	    //PATTERN
+	    if( !element.hasAttribute( ATTR_PATTERN ) ){
+			stringPattern = "";
+		}else{
+			stringPattern = element.getAttribute( ATTR_PATTERN );
+		}
+		
+		common( stringPattern );
+
+	}
+	
+	private void common( String stringPattern ){
+		
+		if( stringPattern.trim().length() == 0 ){
+			pattern = null;
+		}else{		
+			pattern = Pattern.compile( stringPattern );
+		}
+		
 	}
 	
 	public static String getStaticName(){
@@ -191,36 +222,37 @@ public class CompareToVariableElementOperation implements ElementOperationInterf
 		//
 		// Execute the OPERATION
 		//		
-		String foundText = "";
+		String origText = "";
 		
-		//Ha FIELD
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.FIELD)){
-			foundText = webElement.getAttribute("value");	
+		//COMPARE TEXT
+		//Ha LIST
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
+
+			Select select = new Select(webElement);
+			origText = select.getFirstSelectedOption().getText();
+			
+		//Ha FIELD/CHECKBOX/RADIOBUTTON
+		}else{		
+			origText = webElement.getText();
+		}
 		
-		//TEXT
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.TEXT)){
-			
-			foundText = webElement.getText();
-			
-		//LINK
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LINK)){
-			
-			foundText = webElement.getText();
-			
+		if( null != pattern ){
+			matcher = pattern.matcher( origText );
+			if( matcher.find() ){
+				origText = matcher.group();
+			}			
 		}		
 
-//		foundText = element.getBaseElement().getGainedValue();
-		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
-			if( !foundText.equals( variableElementDataModel.getValue() ) ){
-				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), foundText, new Exception() );
+			if( !origText.equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), origText, new Exception() );
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( foundText.equals( variableElementDataModel.getValue() ) ){
-				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), foundText, new Exception() );
+			if( origText.equals( variableElementDataModel.getValue() ) ){
+				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), origText, new Exception() );
 			}
 			
 		}
