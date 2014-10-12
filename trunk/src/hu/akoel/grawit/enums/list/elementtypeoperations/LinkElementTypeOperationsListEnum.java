@@ -4,13 +4,12 @@ import hu.akoel.grawit.CommonOperations;
 
 public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.click") ),
-	GAINTEXTPATTERN( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintextpattern") ),	
-	OUTPUTVALUE( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.link.outputvalue") ),	
-	COMPARE_VARIABLE( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparevariable") ),
-	COMPARE_ELEMENT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.link.compareelement") ),
-	COMPARE_STRING( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparestring") ),
-	GAINTEXT_TO_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttovariable") ),
-	GAINTEXT_TO_ELEMENT( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttoelement") ),
+	COMPARETEXT_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttovariable") ),
+	COMPARETEXT_TO_GAIND( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttogained") ),
+	COMPARETEXT_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttostring") ),
+	GAINTEXT_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttovariable") ),
+	GAINTEXT_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttoelement") ),
+	OUTPUTGAINED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.link.outputvalue") ),	
 	;
 	
 	private String translatedName;
@@ -39,13 +38,12 @@ public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	public static LinkElementTypeOperationsListEnum getElementFieldOperationByIndex( int index ){
 		switch (index){
 		case 0:	return CLICK;
-		case 1:	return GAINTEXTPATTERN;
-		case 2:	return OUTPUTVALUE;
-		case 3: return COMPARE_VARIABLE;
-		case 4: return COMPARE_ELEMENT;
-		case 5: return COMPARE_STRING;
-		case 6: return GAINTEXT_TO_VARIABLE;
-		case 7: return GAINTEXT_TO_ELEMENT;
+		case 1: return COMPARETEXT_TO_VARIABLE;
+		case 2: return COMPARETEXT_TO_GAIND;
+		case 3: return COMPARETEXT_TO_STRING;
+		case 4: return GAINTEXT_TO_VARIABLE;
+		case 5: return GAINTEXT_TO_ELEMENT;
+		case 6:	return OUTPUTGAINED;
 		default: return CLICK;
 		}
 	}

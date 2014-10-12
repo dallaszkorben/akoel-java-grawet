@@ -4,12 +4,12 @@ import hu.akoel.grawit.CommonOperations;
 
 public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.click") ),
-	COMPAREVALUE_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.comparevaluetovariable") ),
-	COMPAREVALUE_TO_GAINED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.comparevaluetogained") ),
-	COMPAREVALUE_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.comparevaluetostring") ),
-	GAINVALUE_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.gainvaluetovariable") ),
-	GAINVALUE_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.gainvaluetoelement") ),
-	OUTPUTGAINED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.outputgained") ),
+	COMPAREVALUE_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetovariable") ),
+	COMPAREVALUE_TO_GAINED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetogained") ),
+	COMPAREVALUE_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostring") ),
+	GAINVALUE_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.gainvaluetovariable") ),
+	GAINVALUE_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.gainvaluetoelement") ),
+	OUTPUTGAINED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.outputgained") ),
 	;
 	
 	private String translatedName;

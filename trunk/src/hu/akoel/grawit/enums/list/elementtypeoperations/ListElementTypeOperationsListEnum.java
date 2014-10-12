@@ -8,11 +8,12 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	SELECT_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.list.fillstring") ),
 	TAB( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.list.tab") ),
 	CLICK( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.list.click") ),
-	GAINVALUE_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gainvaluetovariable") ),
-	GAINTEXT_TO_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintexttovariable") ),
-	GAINVALUE_TO_ELEMENT( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gainvaluetoelement") ),
-	GAINTEXT_TO_ELEMENT( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintexttoelement") ),
-	OUTPUTGAINED( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.list.outputgained") ),	
+	COMPARE_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetovariable") ),
+	COMPARE_TO_GAINED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetogained") ),
+	COMPARE_TO_STRING( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetostring") ),
+	GAIN_TO_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintovariable") ),
+	GAIN_TO_ELEMENT( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintoelement") ),
+	OUTPUTGAINED( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.list.outputgained") ),	
 	;
 	
 	private String translatedName;
@@ -45,11 +46,12 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		case 2:	return SELECT_STRING;
 		case 3: return TAB;
 		case 4: return CLICK;
-		case 5: return GAINVALUE_TO_VARIABLE;
-		case 6: return GAINTEXT_TO_VARIABLE;	
-		case 7: return GAINVALUE_TO_ELEMENT;
-		case 8: return GAINTEXT_TO_ELEMENT;	
-		case 9: return OUTPUTGAINED;
+		case 5: return COMPARE_TO_VARIABLE;
+		case 6: return COMPARE_TO_GAINED;
+		case 7: return COMPARE_TO_STRING;
+		case 8: return GAIN_TO_VARIABLE;
+		case 9: return GAIN_TO_ELEMENT;	
+		case 10: return OUTPUTGAINED;
 		default: return CLICK;		
 		
 		}

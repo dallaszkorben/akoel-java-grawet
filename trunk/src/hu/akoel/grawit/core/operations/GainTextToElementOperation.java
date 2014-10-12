@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -13,7 +12,6 @@ import org.w3c.dom.Element;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
@@ -65,89 +63,7 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 	public String getName() {
 		return getStaticName();
 	}
-	
-	/**
-	 * 
-	 * Executes the action on the WebElement (Field)
-	 * 
-	 */
-/*	@Override
-	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
-	
-		if( null != elementProgress ){
-			elementProgress.elementStarted( element.getName() );
-		}
 		
-		BaseElementDataModel baseElement = element.getBaseElement();
-		By by = null;
-		WebElement webElement = null;
-		
-		//WAITING TIME
-		Integer waitingTime = baseElement.getWaitingTime();
-		if( null == waitingTime ){
-			waitingTime = Properties.getInstance().getWaitingTime();
-		}
-		WebDriverWait wait = new WebDriverWait(driver, waitingTime);
-						
-		//Selector meszerzese
-		if( baseElement.getSelectorType().equals(SelectorType.ID)){
-			by = By.id( baseElement.getSelector() );
-		//CSS
-		}else if( baseElement.getSelectorType().equals(SelectorType.CSS)){
-			by = By.cssSelector( baseElement.getSelector() );
-		}
-						
-		//Varakozik az elem megjeleneseig, de max 10 mp-ig
-		try{
-			wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
-			//wait.until(ExpectedConditions.elementToBeClickable( by ) );
-		
-		}catch( org.openqa.selenium.TimeoutException timeOutException ){
-			throw new ElementTimeoutException( element.getName(), baseElement.getSelector(), timeOutException );
-		}
-		
-		try{
-			webElement = driver.findElement( by );
-		}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
-			throw new ElementInvalidSelectorException(element.getName(), baseElement.getSelector(), invalidSelectorException );
-		}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
-			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), noSuchElementException );
-		}
-		
-		if( null == webElement ){
-			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
-		}
-				
-		String origText = "";
-		
-		//GAIN TEXT
-		//Ha LIST
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
-
-			Select select = new Select(webElement);
-			origText = select.getFirstSelectedOption().getText();
-			
-		//Ha FIELD/CHECKBOX/RADIOBUTTON
-		}else{		
-			origText = webElement.getText();
-		}
-	
-		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
-		if( null == pattern ){
-			baseElement.setGainedValue( origText );
-		}else{
-			matcher = pattern.matcher( origText );
-			if( matcher.find() ){
-				String resultText = matcher.group();
-				baseElement.setGainedValue( resultText );
-			}			
-		}		
-		
-		if( null != elementProgress ){
-			elementProgress.elementEnded( element.getName() );
-		}
-	}
-*/	
 	public String getStringPattern(){
 		return stringPattern;
 	}
@@ -159,15 +75,15 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 		
 		//GAIN TEXT
 		//Ha LIST
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
+/*		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
 
 			Select select = new Select(webElement);
 			origText = select.getFirstSelectedOption().getText();
-			
+*/			
 		//Ha FIELD/CHECKBOX/RADIOBUTTON
-		}else{		
+//		}else{		
 			origText = webElement.getText();
-		}
+//		}
 	
 		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
@@ -178,8 +94,7 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 				String resultText = matcher.group();
 				element.getBaseElement().setGainedValue( resultText );
 			}			
-		}		
-		
+		}			
 	}
 
 	@Override

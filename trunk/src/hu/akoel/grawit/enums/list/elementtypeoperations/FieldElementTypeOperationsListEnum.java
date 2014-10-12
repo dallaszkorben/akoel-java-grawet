@@ -14,7 +14,7 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	COMPAREVALUE_TO_STRING( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevaluetostring") ),
 	GAINVALUE_TO_VARIABLE( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetovariable") ),
 	GAINVALUE_TO_ELEMENT( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetoelement") ),
-	OUTPUTGAINED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputgained") ),
+	OUTPUTGAINED( 11, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputgained") ),
 	;
 	
 	private String translatedName;

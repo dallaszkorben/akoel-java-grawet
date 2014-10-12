@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -26,7 +25,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
-import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -40,7 +38,6 @@ public class CompareTextToGainedOperation extends ElementOperationAdapter{
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
-	private Matcher matcher;
 	private String stringPattern;
 	
 	//--- Data model
@@ -185,20 +182,10 @@ public class CompareTextToGainedOperation extends ElementOperationAdapter{
 
 		String origText = "";
 		
-		//COMPARE TEXT
-		//Ha LIST
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
-
-			Select select = new Select(webElement);
-			origText = select.getFirstSelectedOption().getText();
-			
-		//Ha FIELD/CHECKBOX/RADIOBUTTON
-		}else{		
-			origText = webElement.getText();
-		}
+		origText = webElement.getText();
 		
 		if( null != pattern ){
-			matcher = pattern.matcher( origText );
+			Matcher matcher = pattern.matcher( origText );
 			if( matcher.find() ){
 				origText = matcher.group();
 			}			
@@ -227,6 +214,10 @@ public class CompareTextToGainedOperation extends ElementOperationAdapter{
 		attr = document.createAttribute( ATTR_COMPARE_TYPE );
 		attr.setValue( compareType.name() );
 		element.setAttributeNode( attr );	
+		
+		attr = document.createAttribute( ATTR_PATTERN );
+		attr.setValue( stringPattern );
+		element.setAttributeNode(attr);	
 
 	}
 	

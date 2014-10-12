@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,7 +38,6 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
-	private Matcher matcher;
 	private String stringPattern;
 	
 	//--- Data model
@@ -158,108 +156,6 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 		
 	}
 	
-	/**
-	 * 
-	 * Executes the action on the WebElement (Field)
-	 * 
-	 */
-/*	@Override
-	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
-
-		if( null != elementProgress ){
-			elementProgress.elementStarted( element.getName() );
-		}
-		
-		BaseElementDataModel baseElement = element.getBaseElement();
-		By by = null;
-		WebElement webElement = null;
-		
-		//WAITING TIME
-		Integer waitingTime = baseElement.getWaitingTime();
-		if( null == waitingTime ){
-			waitingTime = Properties.getInstance().getWaitingTime();
-		}
-		WebDriverWait wait = new WebDriverWait(driver, waitingTime);
-						
-		//Selector meszerzese
-		if( baseElement.getSelectorType().equals(SelectorType.ID)){
-			by = By.id( baseElement.getSelector() );
-		//CSS
-		}else if( baseElement.getSelectorType().equals(SelectorType.CSS)){
-			by = By.cssSelector( baseElement.getSelector() );
-		}
-						
-		//Varakozik az elem megjeleneseig, de max 10 mp-ig
-		try{
-			wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
-		
-		}catch( org.openqa.selenium.TimeoutException timeOutException ){
-			throw new ElementTimeoutException( element.getName(), baseElement.getSelector(), timeOutException );
-		}
-		
-		try{
-			webElement = driver.findElement( by );
-		}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
-			throw new ElementInvalidSelectorException(element.getName(), baseElement.getSelector(), invalidSelectorException );
-		}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
-			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), noSuchElementException );
-		}
-		
-		if( null == webElement ){
-			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
-		}
-		
-		//
-		// Execute the OPERATION
-		//		
-		String origText = "";
-		
-		//COMPARE VALUE
-		//Ha LIST
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
-
-			Select select = new Select(webElement);
-			origText = select.getFirstSelectedOption().getAttribute("value");
-		
-		//CHECKBOX/RADIOBUTTON
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) ){
-			
-			if( webElement.isSelected() ){
-				origText = "SELECTED";
-			}else{
-				origText = "NOT SELECTED";
-			}
-			
-		//Ha FIELD/CHECKBOX
-		}else{		
-			origText = webElement.getAttribute("value");
-		}
-		
-		if( null != pattern ){
-			matcher = pattern.matcher( origText );
-			if( matcher.find() ){
-				origText = matcher.group();
-			}			
-		}		
-
-		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
-			
-			if( !origText.equals( variableElementDataModel.getValue() ) ){
-				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), origText, new Exception() );
-			}
-			
-		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-			
-			if( origText.equals( variableElementDataModel.getValue() ) ){
-				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), baseElement.getSelector(), origText, new Exception() );
-			}			
-		}
-		
-		if( null != elementProgress ){
-			elementProgress.elementEnded( element.getName() );
-		}
-	}
-*/
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
@@ -275,21 +171,14 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 		// Execute the OPERATION
 		//		
 		String origText = "";
-		
-		//COMPARE VALUE
-		//Ha LIST
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
-
-			Select select = new Select(webElement);
-			origText = select.getFirstSelectedOption().getAttribute("value");
-		
+				
 		//CHECKBOX/RADIOBUTTON
-		}else if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) ){
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) ){
 			
 			if( webElement.isSelected() ){
-				origText = "SELECTED";
+				origText = "on";
 			}else{
-				origText = "NOT SELECTED";
+				origText = "off";
 			}
 			
 		//Ha FIELD/CHECKBOX
@@ -298,7 +187,7 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 		}
 		
 		if( null != pattern ){
-			matcher = pattern.matcher( origText );
+			Matcher matcher = pattern.matcher( origText );
 			if( matcher.find() ){
 				origText = matcher.group();
 			}			
@@ -328,8 +217,10 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 		attr = document.createAttribute( ATTR_COMPARE_TYPE );
 		attr.setValue( compareType.name() );
 		element.setAttributeNode( attr );
+		
+		attr = document.createAttribute( ATTR_PATTERN );
+		attr.setValue( stringPattern );
+		element.setAttributeNode(attr);	
 	}
 
-
-	
 }
