@@ -3,6 +3,7 @@ package hu.akoel.grawit.gui.editor.run;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -33,7 +34,6 @@ import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface;
 import hu.akoel.grawit.exceptions.CompilationException;
-import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -49,9 +49,13 @@ public class RunTestcaseEditor extends BaseEditor{
 	
 	private JButton runButton;
 	private JTextPane consolPanel;
-	private JTextArea statusPanel;	
+	private JTextPane statusPanel;	
 	private JTextArea valuePanel;
 	private DefaultStyledDocument consolDocument;
+	private DefaultStyledDocument statusDocument;
+	
+	private SimpleAttributeSet attributeOK;
+	private SimpleAttributeSet attributeFailed;
 	private SimpleAttributeSet attributeError;
 	private SimpleAttributeSet attributePageFinished;
 	private SimpleAttributeSet attributeElementFinished;	
@@ -81,9 +85,10 @@ public class RunTestcaseEditor extends BaseEditor{
 						valuePanel.setText("");
 						statusPanel.setText("");
 						consolPanel.setText("");
+						statusPanel.setText("");
 												
 				    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
-						
+				    	
 				    	ExecutablePageInterface openPage = selectedTestcase.getOpenPage();
 				    	ExecutablePageInterface closePage = selectedTestcase.getClosePage();
 				    	WebDriver webDriver = selectedTestcase.getDriverDataModel().getDriver();
@@ -102,6 +107,8 @@ public class RunTestcaseEditor extends BaseEditor{
 				    		if( null != closePage ){
 				    			closePage.doAction( webDriver, pageProgress, elementProgress );
 				    		}
+				    		
+				    		setStatusOfTestCase( selectedTestcase, true );
 				
 				    	}catch( CompilationException compillationException ){
 				    		
@@ -109,6 +116,8 @@ public class RunTestcaseEditor extends BaseEditor{
 				    		try {
 								consolDocument.insertString(consolDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
 							} catch (BadLocationException e) {e.printStackTrace();}
+				    		
+				    		setStatusOfTestCase( selectedTestcase, false );
 				    		
 				    	//}catch( ElementCompareOperationException compareException ){	
 				    		
@@ -119,6 +128,8 @@ public class RunTestcaseEditor extends BaseEditor{
 								consolDocument.insertString(consolDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
 							} catch (BadLocationException e) {e.printStackTrace();}
 				    	
+				    		setStatusOfTestCase( selectedTestcase, false );
+				    		
 				    	//Nem kezbentartott hiba
 				    	}catch( Exception exception ){
 				    		
@@ -126,6 +137,7 @@ public class RunTestcaseEditor extends BaseEditor{
 								consolDocument.insertString(consolDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
 							} catch (BadLocationException e) {e.printStackTrace();}
 				    	
+				    		setStatusOfTestCase( selectedTestcase, false );
 				    		
 /*				    	}catch( org.openqa.selenium.TimeoutException timeOutException ){
 				    		timeoutException.
@@ -150,49 +162,65 @@ public class RunTestcaseEditor extends BaseEditor{
 		JPanel controlPanel = getDataSection();		
 		controlPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
 		
-		//Error list panel		
-		//reportList = new JTextArea( 4, 11);
+		//Consol document
+		StyleContext consolrStyleContext = new StyleContext();
+		consolDocument = new DefaultStyledDocument(consolrStyleContext);
+		consolPanel = new JTextPane(consolDocument);
+		consolPanel.setEditable( false );
+		DefaultCaret consolCaret = (DefaultCaret)consolPanel.getCaret();
+		consolCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		JScrollPane scrollPaneForConsolPanel = new JScrollPane(consolPanel);
+		//scrollPaneForConsolPanel.setPreferredSize(new Dimension(10,100));
+		scrollPaneForConsolPanel.setAutoscrolls(true);
+
+		//Status document
+		StyleContext statusStyleContext = new StyleContext();
+		statusDocument = new DefaultStyledDocument(statusStyleContext);
+		statusPanel = new JTextPane(statusDocument);
+		statusPanel.setEditable( false );
+		statusPanel.setPreferredSize(new Dimension(170,1));
+		DefaultCaret statusCaret = (DefaultCaret)statusPanel.getCaret();
+		statusCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		JScrollPane scrollPaneForStatusPanel = new JScrollPane(statusPanel);
+	    //scrollPaneForStatusPanel.setPreferredSize(new Dimension(70,100));
+		scrollPaneForStatusPanel.setAutoscrolls(true);
+
+		//OK attribute
+		attributeOK = new SimpleAttributeSet();
+		StyleConstants.setForeground( attributeOK, Color.GREEN );
+		StyleConstants.setBold( attributeOK, true);
 		
-		 StyleContext sc = new StyleContext();
-		 consolDocument = new DefaultStyledDocument(sc);
-		 consolPanel = new JTextPane(consolDocument);
+		//Failed attribute
+		attributeFailed = new SimpleAttributeSet();
+		StyleConstants.setForeground( attributeFailed, Color.RED );
+		StyleConstants.setBold( attributeFailed, true);
 		 
-		 //Error attribute
-		 attributeError = new SimpleAttributeSet();
-		 StyleConstants.setForeground( attributeError, Color.RED );
-		 StyleConstants.setBold( attributeError, true);
+		//Error attribute
+		attributeError = new SimpleAttributeSet();
+		StyleConstants.setForeground( attributeError, Color.RED );
+		StyleConstants.setBold( attributeError, true);
 		 
-		 //Page finished attribute
-		 attributePageFinished = new SimpleAttributeSet();
-		 StyleConstants.setForeground( attributePageFinished, Color.BLACK );
+		//Page finished attribute
+		attributePageFinished = new SimpleAttributeSet();
+		StyleConstants.setForeground( attributePageFinished, Color.BLACK );
 		 
-		 //Element finished attribute
-		 attributeElementFinished = new SimpleAttributeSet();
-		 StyleConstants.setForeground( attributeElementFinished, Color.BLACK );
+		//Element finished attribute
+		attributeElementFinished = new SimpleAttributeSet();
+		StyleConstants.setForeground( attributeElementFinished, Color.BLACK );
 		
-		 //Automatic scroll
-		 DefaultCaret reportListCaret = (DefaultCaret)consolPanel.getCaret();
-		 reportListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
 		 
-		 //Scroll panel
-		 JScrollPane scrollPaneForConsolPanel = new JScrollPane(consolPanel);
-//		 scrollPaneForConsolPanel.setPreferredSize(new Dimension(10,100));
-		 scrollPaneForConsolPanel.setAutoscrolls(true);
+//		this.add( scrollPaneForConsolPanel, BorderLayout.SOUTH );
 		 
-//		 this.add( scrollPaneForConsolPanel, BorderLayout.SOUTH );
-		 
-		 
-		 
-		    
 		
 		
 		//Status panel
-		statusPanel = new JTextArea(2, 25);
+/*		statusPanel = new JTextArea(2, 25);
 		statusPanel.setEditable(false);
 		DefaultCaret pageListCaret = (DefaultCaret)statusPanel.getCaret();
 		pageListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		JScrollPane scrollPaneForStatusPanel = new JScrollPane(statusPanel);
-
+*/
 		//value panel
 		valuePanel = new JTextArea(2, 15);
 		valuePanel.setEditable(false);
@@ -256,6 +284,20 @@ public class RunTestcaseEditor extends BaseEditor{
 		
 	}
 	
+	private void setStatusOfTestCase( TestcaseCaseDataModel selectedTestcase, boolean ok ){
+	
+		try {
+			statusDocument.insertString(statusDocument.getLength(), selectedTestcase.getName(), null );
+			
+			if( ok ){
+				statusDocument.insertString(statusDocument.getLength(), " OK\n", attributeOK );
+			}else{
+				statusDocument.insertString(statusDocument.getLength(), " Failed\n", attributeFailed );
+			}
+			
+		} catch (BadLocationException e) {e.printStackTrace();}
+
+	}
 	
 	public class MyHorizontalSplitPane extends JSplitPane {
 
@@ -322,7 +364,7 @@ public class RunTestcaseEditor extends BaseEditor{
 				);				
 			} catch (BadLocationException e) {e.printStackTrace();}
 			
-			RunTestcaseEditor.this.statusPanel.append( pageID + " OK\n");
+			//RunTestcaseEditor.this.statusPanel.append( pageID + " OK\n");
 			
 		}		
 	}

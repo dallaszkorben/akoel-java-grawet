@@ -19,8 +19,7 @@ public enum VariableTypeListEnum implements ElementTypeOperationsListEnumInterfa
 	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class}),
 	RANDOM_DATE_PARAMETER( 4, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate"), new Class<?>[]{String.class, String.class, String.class, String.class }),
 	TODAY_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate"), new Class<?>[]{String.class, String.class, String.class, Integer.class }),
-	VARIABLE_PARAMETER( 6, CommonOperations.getTranslation("editor.label.variable.parametertype.variable"), new Class<?>[]{String.class }),
-//	INTEGER_PARAMETER( 6, CommonOperations.getTranslation("editor.label.variable.parametertype.integer"), new Class<?>[]{Integer.class}),
+	STORE_PARAMETER( 6, CommonOperations.getTranslation("editor.label.variable.parametertype.variable"), new Class<?>[]{String.class }),
 	;
 	
 	private int index;
@@ -58,10 +57,6 @@ public enum VariableTypeListEnum implements ElementTypeOperationsListEnumInterfa
 		if( this.equals( STRING_PARAMETER ) ){
 			
 			return (String)parameters.get(0);
-		
-//		}else if( this.equals( INTEGER_PARAMETER ) ){
-			
-//			return (String)parameters.get(0);
 		
 		}else if( this.equals( RANDOM_STRING_PARAMETER ) ){
 			
@@ -109,7 +104,7 @@ public enum VariableTypeListEnum implements ElementTypeOperationsListEnumInterfa
 			
 			return sdf.format( calendar.getTime() );
 		
-		}else if( this.equals( VARIABLE_PARAMETER ) ){
+		}else if( this.equals( STORE_PARAMETER ) ){
 			
 			return (String)parameters.get(0);
 		
@@ -134,7 +129,7 @@ public enum VariableTypeListEnum implements ElementTypeOperationsListEnumInterfa
 		case 3: return RANDOM_DOUBLE_PARAMETER;
 		case 4: return RANDOM_DATE_PARAMETER;
 		case 5: return TODAY_DATE_PARAMETER;
-		case 6: return VARIABLE_PARAMETER;
+		case 6: return STORE_PARAMETER;
 		default: return STRING_PARAMETER;
 		}
 	}

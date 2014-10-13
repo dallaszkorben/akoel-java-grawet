@@ -61,7 +61,7 @@ public class BasePageDataModel extends BaseDataModelInterface{
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element baseElement = (Element)node;
-				//if( baseElement.getTagName().equals( BaseElementDataModel.getTagStatic() )){
+
 				if( baseElement.getTagName().equals( Tag.BASEELEMENT.getName() )){					
 					this.add(new BaseElementDataModel(baseElement));
 				}

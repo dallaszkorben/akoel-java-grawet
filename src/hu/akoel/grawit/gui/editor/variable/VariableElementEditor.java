@@ -243,7 +243,7 @@ public class VariableElementEditor extends DataEditor{
 						}						
 						
 					//VARIABLE_PARAMETER
-					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.VARIABLE_PARAMETER ) ){
+					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.STORE_PARAMETER ) ){
 							
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
