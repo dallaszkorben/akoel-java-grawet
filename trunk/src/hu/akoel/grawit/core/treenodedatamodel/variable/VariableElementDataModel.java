@@ -58,9 +58,6 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		if( VariableTypeListEnum.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = VariableTypeListEnum.STRING_PARAMETER;
 			
-/*		}else if( ParameterTypeListEnum.INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = ParameterTypeListEnum.INTEGER_PARAMETER;
-*/			
 		}else if( VariableTypeListEnum.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = VariableTypeListEnum.RANDOM_STRING_PARAMETER;
 			
@@ -76,8 +73,8 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 		}else if( VariableTypeListEnum.TODAY_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = VariableTypeListEnum.TODAY_DATE_PARAMETER;
 			
-		}else if( VariableTypeListEnum.VARIABLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableTypeListEnum.VARIABLE_PARAMETER;			
+		}else if( VariableTypeListEnum.STORE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = VariableTypeListEnum.STORE_PARAMETER;			
 			
 		//Default
 		}else{
