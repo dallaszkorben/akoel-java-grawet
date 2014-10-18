@@ -25,6 +25,8 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -37,12 +39,15 @@ import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -65,13 +70,31 @@ public abstract class Tree extends JTree{
 	private boolean needPopupUp = true;
 	private boolean needPopupDown = true;
 	private boolean needPopupModify = true;
-//	private boolean needEnableDisable = true;
 	
 	Insets autoscrollInsets = new Insets(20, 20, 20, 20);
 	
 	public Tree( GUIFrame guiFrame, DataModelAdapter rootDataModel ){
 	
 		super( new DefaultTreeModel(rootDataModel) );
+		
+		//CTRL-T - Node ki/be kapcsolasa
+		KeyStroke ctrlTKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK, false);
+		Action ctrlTAction = new AbstractAction() {
+			private static final long serialVersionUID = -1790341706165622733L;
+			public void actionPerformed(ActionEvent e) {
+				if( null != selectedNode && selectedNode.isEnabledToTurnOnOff() ){
+				
+					if( selectedNode.isOn() ){
+						selectedNode.setOn( false );						
+					}else{
+						selectedNode.setOn( true );
+					}
+					((DefaultTreeModel)Tree.this.getModel()).reload(selectedNode);
+				}
+			}
+		};		
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ctrlTKeyStroke, "CTRL-T");
+		this.getActionMap().put("CTRL-T", ctrlTAction);			
 		
 		treeModel = (DefaultTreeModel)this.getModel();
 		
@@ -152,10 +175,6 @@ public abstract class Tree extends JTree{
 		
 	}
 	
-/*	public void removeEnableDisable(){
-		needEnableDisable = false;
-	}
-*/	
 	public void removePopupModify(){
 		needPopupModify = false;
 	}
@@ -167,16 +186,6 @@ public abstract class Tree extends JTree{
 	public void removePopupDown(){
 		needPopupDown = false;
 	}
-	
-/*	public void setEnablePopupMenuEdit( boolean enable ){
-		
-		this.removeMouseListener( treeMouseListener );
-		
-		if( enable ){
-			this.addMouseListener(treeMouseListener );
-		}
-	}
-*/
 	
 	class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
@@ -225,17 +234,12 @@ public abstract class Tree extends JTree{
 			if( null == e.getNewLeadSelectionPath() ){
 				EmptyEditor emptyPanel = new EmptyEditor();								
 				guiFrame.showEditorPanel( emptyPanel);
-			}else{
-			
-				selectedNode = (DataModelAdapter)e.getNewLeadSelectionPath().getLastPathComponent();
-			
+			}else{			
+				selectedNode = (DataModelAdapter)e.getNewLeadSelectionPath().getLastPathComponent();			
 				doViewWhenSelectionChanged( selectedNode );
-				
-
 			}
 		}		
-	}
-		
+	}	
 	
 	/**
 	 * A jobb-eger gomb benyomasara reagalo osztaly
