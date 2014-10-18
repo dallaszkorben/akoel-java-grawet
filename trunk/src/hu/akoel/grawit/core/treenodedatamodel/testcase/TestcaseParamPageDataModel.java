@@ -36,6 +36,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	
 	public static final String ATTR_DETAILS = "details";
 	public static final String ATTR_PARAM_PAGE_PATH = "parampagepath";
+	private static final String ATTR_ON = "on";
 	
 	private String name;
 	private String details;
@@ -46,6 +47,9 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 		this.name = name;
 		this.details = details;
 		this.paramPage = paramPage;
+		
+		//Engedelyezi a Node Ki/Be kapcsolasat
+		this.setEnabledToTurnOnOff( true );
 	}
 	
 	/**
@@ -56,12 +60,37 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	 */
 	public TestcaseParamPageDataModel( Element element, ParamDataModelInterface paramDataModel ) throws XMLPharseException{
 		
+		//Engedelyezi a Node Ki/Be kapcsolasat
+		this.setEnabledToTurnOnOff( true );
+		
+		//========
+		//
+		// Name
+		//
+		//========	
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseParamPageDataModel.getRootTag(), Tag.TESTCASEPARAMPAGE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
+		//========
+		//
+		// On
+		//
+		//========		
+		if( !element.hasAttribute( ATTR_ON ) ){
+			this.setOn( Boolean.TRUE );
+		}else{
+			String enabledString = element.getAttribute( ATTR_ON );
+			this.setOn( Boolean.parseBoolean( enabledString ));
+		}	
+		
+		//========
+		//
+		// Details
+		//
+		//========	
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
 			throw new XMLMissingAttributePharseException( TestcaseParamPageDataModel.getRootTag(), Tag.TESTCASEPARAMPAGE, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
@@ -69,7 +98,11 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 		this.details = detailsString;
 
 		
-		
+		//========
+		//
+		// Param page path
+		//
+		//========	
 		if( !element.hasAttribute( ATTR_PARAM_PAGE_PATH ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH );			
 		}	
@@ -87,8 +120,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	    	//Nem sikerult az atalakitas
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH), e );
 	    } 
-	    
-	    
+	    	    
 	    //Megkeresem a PARAMPAGEROOT-ben a PARAMPAGE-hez vezeto utat
 	    Node actualNode = document;
 	    while( actualNode.hasChildNodes() ){
@@ -196,16 +228,39 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	public Element getXMLElement(Document document) {
 		Attr attr;
 		
-		//Node element
+		//========
+		//
+		// Node element
+		//
+		//========
 		Element nodeElement = document.createElement( TestcaseParamPageDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
 		
+		//========
+		//
+		// On
+		//
+		//========
+		attr = document.createAttribute( ATTR_ON );
+		attr.setValue( this.isOn().toString() );
+		nodeElement.setAttributeNode(attr);
+
+		//========
+		//
+		// Details
+		//
+		//========
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	
 		
+		//========
+		//
+		// Param page path
+		//
+		//========
 		attr = document.createAttribute( ATTR_PARAM_PAGE_PATH );
 		attr.setValue( paramPage.getPathTag() );
 		nodeElement.setAttributeNode( attr );
@@ -215,7 +270,11 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 
 	@Override
 	public void doAction(WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException {
-		paramPage.doAction( driver, pageProgress, elementProgress );		
+		
+		//Ha Be van kapcsolava a TestParamPage oldal
+		if( this.isOn() ){
+			paramPage.doAction( driver, pageProgress, elementProgress );
+		}
 	}
 	
 }

@@ -19,7 +19,7 @@ public class SpecialCloseTreeSelectorComponent extends TreeSelectorComponent<Spe
 //	}
 
 	public SpecialCloseTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialCloseDataModel selectedCloseDataModel ) {
-		super(SpecialCloseDataModel.class, rootDataModel, selectedCloseDataModel, true );
+		super(CommonOperations.getTranslation("window.title.selector.specialclose"), SpecialCloseDataModel.class, rootDataModel, selectedCloseDataModel, true );
 	}
 	
 	@Override

@@ -17,7 +17,6 @@ import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -37,6 +36,7 @@ public class SpecialTree extends Tree{
 	public SpecialTree(GUIFrame guiFrame, SpecialRootDataModel rootDataModel) {
 		super(guiFrame, rootDataModel);
 		this.guiFrame = guiFrame;
+
 	}
 
 	@Override

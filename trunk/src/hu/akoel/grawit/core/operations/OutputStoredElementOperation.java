@@ -12,18 +12,18 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class OutputGainedOperation extends ElementOperationAdapter{
+public class OutputStoredElementOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "OUTPUTGAINED";
+	private static final String NAME = "OUTPUTSTOREDELEMENT";
 	private static final String ATTR_MESSAGE = "message";
 
 	private String message;
 	
-	public OutputGainedOperation( String message ){
+	public OutputStoredElementOperation( String message ){
 		this.message = message;
 	}
 	
-	public OutputGainedOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public OutputStoredElementOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		if( !element.hasAttribute( ATTR_MESSAGE ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_MESSAGE );			

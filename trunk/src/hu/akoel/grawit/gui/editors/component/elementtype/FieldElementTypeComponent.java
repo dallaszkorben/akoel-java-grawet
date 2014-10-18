@@ -4,7 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickOperation;
-import hu.akoel.grawit.core.operations.CompareValueToGainedOperation;
+import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
@@ -13,7 +13,7 @@ import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
 import hu.akoel.grawit.core.operations.GainValueToElementOperation;
 import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
-import hu.akoel.grawit.core.operations.OutputGainedOperation;
+import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -227,10 +227,10 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToVariableOperation)elementOperation).getCompareType().getIndex() );
 
 			//COMPARE VALUE TO GAINED
-			}else if( elementOperation instanceof CompareValueToGainedOperation ){
+			}else if( elementOperation instanceof CompareValueToStoredElementOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToGainedOperation)elementOperation).getBaseElement() );
-				comboCompareTypeList.setSelectedIndex( ((CompareValueToGainedOperation)elementOperation).getCompareType().getIndex() );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElement() );
+				comboCompareTypeList.setSelectedIndex( ((CompareValueToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_GAINED.getIndex());
 				
 			//COMPARE VALUE TO STRING
@@ -254,9 +254,9 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 				fieldPattern.setText( ((GainValueToElementOperation)elementOperation).getStringPattern());	
 
 			//OUTPUT GAINED
-			}else if ( elementOperation instanceof OutputGainedOperation ){
+			}else if ( elementOperation instanceof OutputStoredElementOperation ){
 				
-				fieldMessage.setText( ((OutputGainedOperation)elementOperation).getMessageToShow());
+				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTGAINED.getIndex() );
 				
 			}else{
@@ -511,7 +511,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		
 		//COMPARE VALUE TO GAINED
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_GAINED.getIndex() ){
-			return new CompareValueToGainedOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
+			return new CompareValueToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 				
 		//COMPARE VALUE TO VARIABLE
 		}else if(comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_VARIABLE.getIndex() ){
@@ -531,7 +531,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 			
 		//OUTPUTGAINED
 		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTGAINED.getIndex() ){
-			return new OutputGainedOperation( fieldMessage.getText() );			
+			return new OutputStoredElementOperation( fieldMessage.getText() );			
 		}
 	
 		return null;

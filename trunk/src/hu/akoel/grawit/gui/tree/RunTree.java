@@ -1,6 +1,5 @@
 package hu.akoel.grawit.gui.tree;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
@@ -11,9 +10,9 @@ import javax.swing.tree.TreePath;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -65,6 +64,18 @@ public class RunTree extends Tree {
 		return null;
 	}
 
+	@Override
+	public ImageIcon getIconOff(DataModelAdapter actualNode, boolean expanded) {
+
+    	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-off-icon.png");
+    	
+    	if( actualNode instanceof TestcaseCaseDataModel){
+            return caseIcon;
+    	}else{
+    		return getIcon(actualNode, expanded);
+        }
+	}
+	
 	@Override
 	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 		

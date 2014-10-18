@@ -25,27 +25,25 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class CompareTextToGainedOperation extends ElementOperationAdapter{
+public class CompareValueToStoredElementOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "COMPARETEXTTOGAINED";	
+	private static final String NAME = "COMPAREVALUETOSTOREDELEMENT";	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "comparebaseelementpath";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
 	private String stringPattern;
-	
-	//--- Data model
 	private BaseElementDataModel baseElementDataModel;
 	private CompareTypeListEnum compareType;
-	//---
 	
-	public CompareTextToGainedOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType, String stringPattern ){
+	public CompareValueToStoredElementOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType, String stringPattern ){
 		this.baseElementDataModel = baseElementDataModel;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
@@ -53,7 +51,7 @@ public class CompareTextToGainedOperation extends ElementOperationAdapter{
 		common( stringPattern );
 	}
 
-	public CompareTextToGainedOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
+	public CompareValueToStoredElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
 		BaseDataModelInterface baseDataModelForFillOut = baseRootDataModel;
 		
@@ -147,9 +145,9 @@ public class CompareTextToGainedOperation extends ElementOperationAdapter{
 		}
 		
 		common( stringPattern );
-    
+	    
 	}
-
+	
 	private void common( String stringPattern ){
 		
 		if( stringPattern.trim().length() == 0 ){
@@ -179,10 +177,25 @@ public class CompareTextToGainedOperation extends ElementOperationAdapter{
 	
 	@Override
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-
+	
+		//
+		// Execute the OPERATION
+		//		
 		String origText = "";
 		
-		origText = webElement.getText();
+		//CHECKBOX/RADIOBUTTON
+		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
+			
+			if( webElement.isSelected() ){
+				origText = "on";
+			}else{
+				origText = "off";
+			}
+			
+		//Ha FIELD
+		}else{		
+			origText = webElement.getAttribute("value");
+		}
 		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
@@ -190,7 +203,7 @@ public class CompareTextToGainedOperation extends ElementOperationAdapter{
 				origText = matcher.group();
 			}			
 		}		
-
+		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( baseElementDataModel.getGainedValue() ) ){
@@ -202,7 +215,7 @@ public class CompareTextToGainedOperation extends ElementOperationAdapter{
 			if( origText.equals( baseElementDataModel.getGainedValue() ) ){
 				throw new ElementCompareOperationException(compareType, baseElementDataModel.getGainedValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
 			}			
-		}		
+		}	
 	}
 	
 	@Override
@@ -214,11 +227,10 @@ public class CompareTextToGainedOperation extends ElementOperationAdapter{
 		attr = document.createAttribute( ATTR_COMPARE_TYPE );
 		attr.setValue( compareType.name() );
 		element.setAttributeNode( attr );	
-		
+
 		attr = document.createAttribute( ATTR_PATTERN );
 		attr.setValue( stringPattern );
 		element.setAttributeNode(attr);	
-
 	}
 	
 }

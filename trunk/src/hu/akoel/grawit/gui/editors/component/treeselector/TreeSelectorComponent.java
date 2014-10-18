@@ -12,13 +12,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -35,63 +40,12 @@ public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends 
 	private JTextField field = new JTextField();
 	private F selectedDataModel;
 	private Class<F> classForSelect;
+	private String title;
 	
-	/**
-	 * Uj rogzites
-	 * 
-	 * @param classForSelect
-	 * @param rootDataModel
-	 */
-/*	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel ){
+	public TreeSelectorComponent( String title, Class<F> classForSelect, DataModelAdapter rootDataModel, F selectedDataModel, boolean enableEmpty ){
 		super();
 	
-		common( classForSelect, rootDataModel, null, false );		
-	}
-*/
-	/**
-	 * Uj rogzites
-	 * 
-	 * @param classForSelect
-	 * @param rootDataModel
-	 * @param enableEmpty		Engedelyezi a mezo torleset
-	 * 
-	 */
-/*	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel, boolean enableEmpty ){
-		super();
-	
-		common( classForSelect, rootDataModel, null, enableEmpty );		
-	}
-*/
-	
-	/**
-	 * Modositas
-	 * 
-	 * @param classForSelect
-	 * @param rootDataModel
-	 * @param selectedDataModel
-	 */
-/*	public TreeSelectorComponent( Class<F> classForSelect, DataModelInterface rootDataModel, F selectedDataModel ){
-		super();
-	
-		common( classForSelect, rootDataModel, selectedDataModel, false );
-
-		setSelectedDataModelToField( selectedDataModel );
-		
-	}
-*/	
-	/**
-	 * 
-	 * Modositas
-	 * 
-	 * @param classForSelect
-	 * @param rootDataModel
-	 * @param selectedDataModel
-	 * @param enableEmpty			engedelyezi a mezo torleset
-	 */
-	public TreeSelectorComponent( Class<F> classForSelect, DataModelAdapter rootDataModel, F selectedDataModel, boolean enableEmpty ){
-		super();
-	
-		common( classForSelect, rootDataModel, selectedDataModel, enableEmpty );
+		common( title, classForSelect, rootDataModel, selectedDataModel, enableEmpty );
 
 		if( null != selectedDataModel ){
 			setSelectedDataModelToField( selectedDataModel );
@@ -99,8 +53,9 @@ public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends 
 		
 	}
 	
-	private void common( Class<F> classForSelect, final DataModelAdapter rootDataModel, F selectedDataModel, final boolean enableEmpty ){	
+	private void common( String title, Class<F> classForSelect, final DataModelAdapter rootDataModel, F selectedDataModel, final boolean enableEmpty ){	
 		
+		this.title = title;
 		this.classForSelect = classForSelect;
 		this.selectedDataModel = selectedDataModel;
 		
@@ -126,7 +81,7 @@ public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends 
 			public void actionPerformed(ActionEvent e) {
 				
 				//Akkor megnyitja a Dialogus ablakot a Page valasztashoz
-				new SelectorDialog( TreeSelectorComponent.this, rootDataModel, TreeSelectorComponent.this.selectedDataModel );
+				new SelectorDialog( TreeSelectorComponent.this.title, TreeSelectorComponent.this, rootDataModel, TreeSelectorComponent.this.selectedDataModel );
 			}
 		} );
 
@@ -206,11 +161,24 @@ public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends 
 	class SelectorDialog extends JDialog{
 
 		private static final long serialVersionUID = 1607956458285776550L;
-	
-		public SelectorDialog( TreeSelectorComponent<F> treeSelectorComponent, DataModelAdapter rootDataModel, F selectedDataModel ){
+		
+		public SelectorDialog( String title, TreeSelectorComponent<F> treeSelectorComponent, DataModelAdapter rootDataModel, F selectedDataModel ){
 
 			super( );
+			
+			this.setTitle( title );
 
+			//ESC - close window
+			KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+			Action escapeAction = new AbstractAction() {
+				private static final long serialVersionUID = -1790341706165622733L;
+				public void actionPerformed(ActionEvent e) {
+					SelectorDialog.this.close();
+				}
+			}; 
+			this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+			this.getRootPane().getActionMap().put("ESCAPE", escapeAction);			
+			
 			//Modalis a PageBasePage selector ablak
 			this.setModal( true );
 		
