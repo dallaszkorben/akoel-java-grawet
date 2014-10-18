@@ -15,11 +15,11 @@ public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BasePag
 	private static final long serialVersionUID = 1194717514083971251L;
 
 	public BasePageTreeSelectorComponent( BaseDataModelInterface rootDataModel ) {
-		super(BasePageDataModel.class, rootDataModel, null, false );
+		super(CommonOperations.getTranslation("window.title.selector.basepage"), BasePageDataModel.class, rootDataModel, null, false );
 	}
 
 	public BasePageTreeSelectorComponent( BaseDataModelInterface rootDataModel, BasePageDataModel selectedBasePageDataModel ) {
-		super(BasePageDataModel.class, rootDataModel, selectedBasePageDataModel, false);
+		super(CommonOperations.getTranslation("window.title.selector.basepage"), BasePageDataModel.class, rootDataModel, selectedBasePageDataModel, false);
 	}
 	
 	@Override

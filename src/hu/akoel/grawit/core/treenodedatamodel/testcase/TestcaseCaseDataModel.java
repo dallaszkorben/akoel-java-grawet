@@ -40,6 +40,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	public static final String ATTR_OPEN_PAGE_PATH = "openpagepath";
 	public static final String ATTR_CLOSE_PAGE_PATH = "closepagepath";
 	public static final String ATTR_DRIVER_PATH = "driverpath";
+	private static final String ATTR_ON = "on";
 	
 	private String name;
 	private String details;
@@ -55,6 +56,9 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		this.closePage = closePage;
 		this.driver = driver;
 		
+		//Engedelyezi a Node Ki/Be kapcsolasat
+		this.setEnabledToTurnOnOff( true );
+		
 	}
 	
 	/**
@@ -66,12 +70,37 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	 */
 	public TestcaseCaseDataModel( Element element, SpecialDataModelInterface specialDataModel, ParamDataModelInterface paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
 		
+		//Engedelyezi a Node Ki/Be kapcsolasat
+		this.setEnabledToTurnOnOff( true );
+		
+		//========
+		//
+		// Name
+		//
+		//========
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseCaseDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
+		//========
+		//
+		// On
+		//
+		//========		
+		if( !element.hasAttribute( ATTR_ON ) ){
+			this.setOn( Boolean.TRUE );
+		}else{
+			String enabledString = element.getAttribute( ATTR_ON );
+			this.setOn( Boolean.parseBoolean( enabledString ));
+		}				
+	
+		//========
+		//
+		// Details
+		//
+		//========
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
 			throw new XMLMissingAttributePharseException( TestcaseCaseDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
@@ -82,9 +111,11 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 		SpecialDataModelInterface specialDataModelForClose = (SpecialDataModelInterface)specialDataModel.clone();
 		//DriverDataModelInterface driverDataModel = (DriverDataModelInterface)driverDataModel.clone();
 		
+		//========
 		//
-		//closePage
+		// ClosePage
 		//
+		//========
 		if( !element.hasAttribute( ATTR_CLOSE_PAGE_PATH ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_CLOSE_PAGE_PATH );			
 		}	
@@ -161,9 +192,11 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 			}	
 		}
 		
+		//========
 		//
-		//openPage
+		// OpenPage
 		//
+		//========
 		if( !element.hasAttribute( ATTR_OPEN_PAGE_PATH ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH );			
 		}	
@@ -235,9 +268,11 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH), e );
 	    }
 		
+	    //========
 		//
 		// Driver
 		//
+	    //========
 		if( !element.hasAttribute( ATTR_DRIVER_PATH ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH );			
 		}	
@@ -380,21 +415,49 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
-		
+
+		//========
+		//
 		//Node element
+		//
+		//========
 		Element nodeElement = document.createElement( TestcaseCaseDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
 		
+		//========
+		//
+		// On
+		//
+		//========
+		attr = document.createAttribute( ATTR_ON );
+		attr.setValue( this.isOn().toString() );
+		nodeElement.setAttributeNode(attr);
+		
+		//========
+		//
+		// Details
+		//
+		//========
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	
 
+		//===============
+		//
+		// Open page path
+		//
+		//===============
 		attr = document.createAttribute( ATTR_OPEN_PAGE_PATH );
 		attr.setValue( openPage.getPathTag() );
 		nodeElement.setAttributeNode(attr);	
 
+		//===============
+		//
+		// Close page path
+		//
+		//===============
 		attr = document.createAttribute( ATTR_CLOSE_PAGE_PATH );
 		if( null == closePage ){
 			attr.setValue( "" );

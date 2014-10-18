@@ -9,11 +9,50 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public abstract class DataModelAdapter extends DefaultMutableTreeNode{
-	
+		
 	private static final long serialVersionUID = 3951879392831974974L;
-	
+		
 	public static final String ATTR_NAME = "name";
 
+	private Boolean isOn = true;
+	private Boolean enabledToTurnOnOff = false;
+	
+	/**
+	 * Megmondja, hogy a Node Ki/Be van kapcsolva
+	 * 
+	 * @return
+	 */
+	public Boolean isOn(){
+		return isOn;
+	}
+	
+	/**
+	 * Ki/be kapcsolja a Node-ot
+	 * 
+	 * @param on
+	 */
+	public void setOn( boolean on ){
+		this.isOn = on;
+	}
+	
+	/**
+	 * Megmondja, hogy engedelyezett-e a Node Ki/Be kapcsolasa
+	 * 
+	 * @return
+	 */
+	public Boolean isEnabledToTurnOnOff(){
+		return enabledToTurnOnOff;
+	}
+	
+	/**
+	 * A Node ki/be kapcsolhatosagat szabalyozza
+	 * 
+	 * @param enabled
+	 */
+	public void setEnabledToTurnOnOff( boolean enabled ){
+		this.enabledToTurnOnOff = enabled;
+	}
+	
 	/**
 	 * Az adatmodel tipusanak olvashato megnevezese
 	 * 

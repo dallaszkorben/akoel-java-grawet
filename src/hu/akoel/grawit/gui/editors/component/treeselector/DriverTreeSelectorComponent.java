@@ -19,11 +19,11 @@ public class DriverTreeSelectorComponent extends TreeSelectorComponent<DriverBro
 	private static final long serialVersionUID = -3698310168899684818L;
 
 	public DriverTreeSelectorComponent( DriverDataModelInterface rootDataModel ) {
-		super(DriverBrowserDataModelInterface.class, rootDataModel, null, false );
+		super(CommonOperations.getTranslation("window.title.selector.driver"), DriverBrowserDataModelInterface.class, rootDataModel, null, false );
 	}
 
 	public DriverTreeSelectorComponent( DriverDataModelInterface rootDataModel, DriverBrowserDataModelInterface selectedSpecialDataModel ) {
-		super(DriverBrowserDataModelInterface.class, rootDataModel, selectedSpecialDataModel, false);
+		super(CommonOperations.getTranslation("window.title.selector.driver"), DriverBrowserDataModelInterface.class, rootDataModel, selectedSpecialDataModel, false);
 	}
 	
 	@Override

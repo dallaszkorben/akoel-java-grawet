@@ -77,6 +77,21 @@ public class TestcaseTree extends Tree {
   	
 		return null;
 	}
+	
+	@Override
+	public ImageIcon getIconOff(DataModelAdapter actualNode, boolean expanded) {
+
+    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-off-icon.png");
+    	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-off-icon.png");
+    	
+    	if( actualNode instanceof TestcaseCaseDataModel){
+            return caseIcon;
+    	}else if( actualNode instanceof TestcaseParamPageDataModel ){
+            return pageIcon;
+    	}else{
+    		return getIcon(actualNode, expanded);
+        }
+	}
 
 	@Override
 	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {

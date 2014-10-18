@@ -1,24 +1,13 @@
 package hu.akoel.grawit.gui.tree;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JTree;
-import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
@@ -40,7 +29,6 @@ public class VariableTree extends Tree{
 	public VariableTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel) {
 		super(guiFrame, variableRootDataModel);
 		this.guiFrame = guiFrame;
-		
 	}
 
 	@Override

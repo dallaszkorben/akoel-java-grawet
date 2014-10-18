@@ -2,13 +2,13 @@ package hu.akoel.grawit.gui.editors.component.elementtype;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
-import hu.akoel.grawit.core.operations.CompareTextToGainedOperation;
+import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
-import hu.akoel.grawit.core.operations.OutputGainedOperation;
+import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
@@ -203,10 +203,10 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToVariableOperation)elementOperation).getCompareType().getIndex() );
 
 			//COMPARE TEXT TO GAINED
-			}else if( elementOperation instanceof CompareTextToGainedOperation ){
+			}else if( elementOperation instanceof CompareTextToStoredElementOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareTextToGainedOperation)elementOperation).getBaseElement() );
-				comboCompareTypeList.setSelectedIndex( ((CompareTextToGainedOperation)elementOperation).getCompareType().getIndex() );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareTextToStoredElementOperation)elementOperation).getBaseElement() );
+				comboCompareTypeList.setSelectedIndex( ((CompareTextToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_GAINED.getIndex());
 
 			//COMPARE TEXT TO STRING
@@ -230,10 +230,10 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 				fieldPattern.setText( ((GainTextToElementOperation)elementOperation).getStringPattern());			
 				
 			//OUTPUT GAINED
-			}if ( elementOperation instanceof OutputGainedOperation ){
+			}if ( elementOperation instanceof OutputStoredElementOperation ){
 	
 				comboOperationList.setSelectedIndex( E.OUTPUTGAINED.getIndex() );
-				fieldMessage.setText( ((OutputGainedOperation)elementOperation).getMessageToShow());
+				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 	
 			}
 		}
@@ -438,7 +438,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		
 		//COMPARE TEXT TO GAINED
 		if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_GAINED.getIndex() ){
-			return new CompareTextToGainedOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
+			return new CompareTextToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 					
 		//COMPARE TEXT TO VARIABLE
 		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_VARIABLE.getIndex() ){
@@ -458,7 +458,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 			
 		//OUTPUTGAINED
 		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTGAINED.getIndex() ){
-			return new OutputGainedOperation( fieldMessage.getText() );
+			return new OutputStoredElementOperation( fieldMessage.getText() );
 	
 		}
 		

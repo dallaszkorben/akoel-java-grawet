@@ -18,13 +18,13 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickOperation;
-import hu.akoel.grawit.core.operations.CompareListToGainedOperation;
+import hu.akoel.grawit.core.operations.CompareListToStoredElementGainedOperation;
 import hu.akoel.grawit.core.operations.CompareListToStringOperation;
 import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
-import hu.akoel.grawit.core.operations.CompareTextToGainedOperation;
+import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
-import hu.akoel.grawit.core.operations.CompareValueToGainedOperation;
+import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
@@ -37,7 +37,7 @@ import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
 import hu.akoel.grawit.core.operations.GainValueToElementOperation;
 import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
-import hu.akoel.grawit.core.operations.OutputGainedOperation;
+import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
 import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
@@ -64,6 +64,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementpath";
 	private static final String ATTR_OPERATION = "operation";
+	private static final String ATTR_ON = "on";
 	
 	//Adatmodel ---
 	private String name;
@@ -79,10 +80,14 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	 * @param baseElement
 	 * @param operation
 	 */
-	public ParamElementDataModel( String name, BaseElementDataModel baseElement, ElementOperationAdapter operation){
+	public ParamElementDataModel( String name, BaseElementDataModel baseElement, ElementOperationAdapter operation ){
 		this.name = name;
 		this.baseElement = baseElement;
-		this.elementOperation = operation;		
+		this.elementOperation = operation;
+		
+		//Engedelyezi a Node Ki/Be kapcsolasat
+		this.setEnabledToTurnOnOff( true );
+
 	}
 	
 	/**
@@ -97,6 +102,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	 */
 	public ParamElementDataModel( Element element, BaseDataModelInterface baseDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 
+		//Engedelyezi a Node Ki/Be kapcsolasat
+		this.setEnabledToTurnOnOff( true );
+		
 		//VariableDataModelInterface variableDataModel = (VariableDataModelInterface)variableRootDataModel;
 		//BaseDataModelInterface baseDataModelForFieldParamElement = (BaseDataModelInterface)baseDataModel.getRoot();;
 		
@@ -110,6 +118,19 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
+		
+		//========
+		//
+		// On
+		//
+		//========		
+		if( !element.hasAttribute( ATTR_ON ) ){
+			this.setOn( Boolean.TRUE );
+		}else{
+			String onString = element.getAttribute( ATTR_ON );
+			this.setOn( Boolean.parseBoolean( onString ));
+		}				
+		
 		
 		//=============
 		//
@@ -198,9 +219,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			//COMPARE TEXT TO GAINED
-			}else if( operationString.equals( CompareTextToGainedOperation.getStaticName() ) ){
+			}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
 				
-				elementOperation = new CompareTextToGainedOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new CompareTextToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			//COMPARE TEXT TO STRING
 			}else if( operationString.equals( CompareTextToStringOperation.getStaticName() ) ){
@@ -218,9 +239,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new GainTextToElementOperation( element, getRootTag(), getTag() );				
 			
 			//OUTPUT GAINED
-			}else if( operationString.equals( OutputGainedOperation.getStaticName() ) ){ 
+			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 				
-				elementOperation = new OutputGainedOperation( element, getRootTag(), getTag() );
+				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
 				
 			//Ha nem a tipusnak megfelelo a muvelet, akkor azt Click-nek vesszuk
 			}else{
@@ -260,9 +281,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
 			//COMPARE VALUE TO GAINED
-			}else if( operationString.equals( CompareValueToGainedOperation.getStaticName() ) ){
+			}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
 				
-				elementOperation = new CompareValueToGainedOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new CompareValueToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			//COMPARE VALUE TO STRING
 			}else if( operationString.equals( CompareValueToStringOperation.getStaticName() ) ){
@@ -280,9 +301,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
 
 			//OUTPUT GAINED
-			}else if( operationString.equals( OutputGainedOperation.getStaticName() ) ){ 
+			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 				
-				elementOperation = new OutputGainedOperation( element, getRootTag(), getTag() );
+				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
 				
 			//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
 			}else{
@@ -307,9 +328,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 	
 			//COMPARE TEXT TO GAINED
-			}else if( operationString.equals( CompareTextToGainedOperation.getStaticName() ) ){
+			}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
 	
-				elementOperation = new CompareTextToGainedOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new CompareTextToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 	
 			//COMPARE TEXT TO STRING
 			}else if( operationString.equals( CompareTextToStringOperation.getStaticName() ) ){
@@ -322,9 +343,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
 			//COMPARE VALUE TO GAINED
-			}else if( operationString.equals( CompareValueToGainedOperation.getStaticName() ) ){
+			}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
 				
-				elementOperation = new CompareValueToGainedOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new CompareValueToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			//COMPARE VALUE TO STRING
 			}else if( operationString.equals( CompareValueToStringOperation.getStaticName() ) ){
@@ -342,9 +363,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
 
 			//OUTPUT GAINED
-			}else if( operationString.equals( OutputGainedOperation.getStaticName() ) ){ 
+			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 				
-				elementOperation = new OutputGainedOperation( element, getRootTag(), getTag() );
+				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
 				
 			//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
 			}else{
@@ -394,9 +415,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
 			//COMPARE VALUE TO GAINED
-			}else if( operationString.equals( CompareValueToGainedOperation.getStaticName() ) ){
+			}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
 				
-				elementOperation = new CompareValueToGainedOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new CompareValueToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			//COMPARE VALUE TO STRING
 			}else if( operationString.equals( CompareValueToStringOperation.getStaticName() ) ){
@@ -414,9 +435,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
 
 			//OUTPUT GAINED
-			}else if( operationString.equals( OutputGainedOperation.getStaticName() ) ){ 
+			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 				
-				elementOperation = new OutputGainedOperation( element, getRootTag(), getTag() );
+				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
 				
 			//Ha nem a tipusnak megfelelo az muvelet, akkor Clear lesz a muvelet
 			}else{
@@ -435,9 +456,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			//COMPARE TEXT TO GAINED
-			}else if( operationString.equals( CompareTextToGainedOperation.getStaticName() ) ){
+			}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
 				
-				elementOperation = new CompareTextToGainedOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new CompareTextToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			//COMPARE TEXT TO STRING
 			}else if( operationString.equals( CompareTextToStringOperation.getStaticName() ) ){
@@ -455,9 +476,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new GainTextToElementOperation( element, getRootTag(), getTag() );				
 				
 			//OUTPUT GAINED
-			}else if( operationString.equals( OutputGainedOperation.getStaticName() ) ){ 
+			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 	
-				elementOperation = new OutputGainedOperation( element, getRootTag(), getTag() );
+				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
 				
 			//Ha nem a tipusnak megfelelo az muvelet
 			}else{
@@ -505,9 +526,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new CompareListToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
 			//COMPARE TO GAINED
-			}else if( operationString.equals( CompareListToGainedOperation.getStaticName() ) ){
+			}else if( operationString.equals( CompareListToStoredElementGainedOperation.getStaticName() ) ){
 				
-				elementOperation = new CompareListToGainedOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new CompareListToStoredElementGainedOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			//COMPARE TO STRING
 			}else if( operationString.equals( CompareListToStringOperation.getStaticName() ) ){
@@ -525,9 +546,14 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				elementOperation = new GainListToElementOperation( element, getRootTag(), getTag() );
 			
 			//OUTPUT GAINED
-			}else if( operationString.equals( OutputGainedOperation.getStaticName() ) ){ 
+			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 					
-				elementOperation = new OutputGainedOperation( element, getRootTag(), getTag() );				
+				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );				
+			
+			}else{
+				
+				elementOperation = new ClickOperation( );
+				
 			}
 			
 		//Minden egyeb esetben error
@@ -599,24 +625,47 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	public Element getXMLElement(Document document) {
 		Attr attr;
 	
+		//========
 		//
 		//Node element
 		//
+		//========
 		Element elementElement = document.createElement( TAG.getName() );
 		
+		//========
+		//
 		//Name
+		//
+		//========
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		elementElement.setAttributeNode(attr);	
 		
+		//========
+		//
 		//BaseElementPath
+		//
+		//========
 		attr = document.createAttribute( ATTR_BASE_ELEMENT_PATH );
 		attr.setValue( baseElement.getOpenTag() + baseElement.getCloseTag() );
 		elementElement.setAttributeNode(attr);
 
+		//========
+		//
 		//Operation
+		//
+		//========
 		attr = document.createAttribute( ATTR_OPERATION );
 		attr.setValue( getElementOperation().getName() );
+		elementElement.setAttributeNode(attr);
+		
+		//========
+		//
+		// On
+		//
+		//========
+		attr = document.createAttribute( ATTR_ON );
+		attr.setValue( this.isOn().toString() );
 		elementElement.setAttributeNode(attr);
 		
 		//Minden Operation a sajat attributumaiert felelos

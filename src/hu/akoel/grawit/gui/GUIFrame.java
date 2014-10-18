@@ -16,6 +16,7 @@ import hu.akoel.grawit.gui.tree.ParamTree;
 import hu.akoel.grawit.gui.tree.RunTree;
 import hu.akoel.grawit.gui.tree.SpecialTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
+import hu.akoel.grawit.gui.tree.Tree;
 import hu.akoel.grawit.gui.tree.VariableTree;
 
 import java.awt.BorderLayout;
@@ -44,6 +45,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -100,6 +102,7 @@ public class GUIFrame extends JFrame{
 	private EditSpecialActionListener editSpecialActionListener;
 	private EditDriverActionListener editDriverActionListener;
 	private RunRunActionListener runRunActionListener;
+	private RunTree runTree = null;
 	
 	public GUIFrame( String appName, String appVersion, int frameWidth, int frameHeight ){
 		super( appName );
@@ -322,6 +325,9 @@ public class GUIFrame extends JFrame{
 	}
 	
 	private void makeNewTestSuit(){
+		
+		runTree = null;
+		
 		//Kikapcsolom a PAGEBASE szerkesztesi menut
 		editDriverMenuItem.setEnabled( false );
 		editVariableMenuItem.setEnabled( false );
@@ -550,6 +556,8 @@ public class GUIFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 				
+			runTree = null;
+			
 			//
 			// Menuk tiltasa
 			//
@@ -812,14 +820,20 @@ public class GUIFrame extends JFrame{
 	 */
 	class RunRunActionListener implements ActionListener{
 
+//		RunTree tree = null;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-						
-			//Legyartja a JTREE-t a modell alapjan
-			RunTree tree = new RunTree( GUIFrame.this, testcaseRootDataModel );
+			
+			if( null == runTree ){
+			
+				//Legyartja a JTREE-t a modell alapjan
+				runTree = new RunTree( GUIFrame.this, testcaseRootDataModel );
+			
+			}
 			
 			treePanel.hide();
-			treePanel.show( tree );
+			treePanel.show( runTree );
 			
 		}
 		
@@ -848,7 +862,7 @@ public class GUIFrame extends JFrame{
 		public void show( JTree tree ){
 
 			this.tree = tree;
-			
+
 			//Ha volt valamilyen mas Tree az ablakban akkor azt eltavolitom
 			if( null != panelToView ){
 				this.remove( panelToView );
@@ -862,10 +876,18 @@ public class GUIFrame extends JFrame{
 			
 			//Ujrarajzoltatom
 			this.revalidate();
-			
-			//Ures szerkesztoi ablak
+
 			EmptyEditor emptyPanel = new EmptyEditor();								
-			showEditorPanel( emptyPanel);		
+			showEditorPanel( emptyPanel);
+			
+			if( tree instanceof Tree && tree.getSelectionCount() != 0 ){
+				
+				Tree runTree = (Tree)tree;
+				runTree.changed();
+				
+			}
+			
+			
 		}
 		
 		public void hide(){

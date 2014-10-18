@@ -33,9 +33,9 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class CompareListToGainedOperation extends ElementOperationAdapter{
+public class CompareListToStoredElementGainedOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "COMPARETOGAINED";	
+	private static final String NAME = "COMPARELISTTOSTOREDELEMENT";	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "comparebaseelementpath";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
@@ -47,7 +47,7 @@ public class CompareListToGainedOperation extends ElementOperationAdapter{
 	private BaseElementDataModel baseElementDataModel;
 	private CompareTypeListEnum compareType;
 	
-	public CompareListToGainedOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
+	public CompareListToStoredElementGainedOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
 		this.baseElementDataModel = baseElementDataModel;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
@@ -56,7 +56,7 @@ public class CompareListToGainedOperation extends ElementOperationAdapter{
 		common( stringPattern );
 	}
 
-	public CompareListToGainedOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
+	public CompareListToStoredElementGainedOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
 		BaseDataModelInterface baseDataModelForFillOut = baseRootDataModel;
 		

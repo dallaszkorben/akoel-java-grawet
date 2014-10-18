@@ -12,8 +12,6 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
@@ -40,6 +38,7 @@ public class DriverTree extends Tree{
 	public DriverTree(GUIFrame guiFrame, DriverRootDataModel rootDataModel) {
 		super(guiFrame, rootDataModel);
 		this.guiFrame = guiFrame;
+
 	}
 
 	@Override

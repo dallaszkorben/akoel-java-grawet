@@ -1,7 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
-import java.sql.Time;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
@@ -17,8 +16,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import com.thoughtworks.selenium.webdriven.Timer;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
@@ -45,6 +42,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	public static final Tag TAG = Tag.PARAMPAGE;
 	
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
+//	private static final String ATTR_ON = "on";
 	
 	private String name;
 
@@ -53,11 +51,14 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	
 //	private PageProgressInterface pageProgressInterface = null;	
 	
-	public ParamPageDataModel( String name, BasePageDataModel basePage  ){
+	public ParamPageDataModel( String name, BasePageDataModel basePage ){
 		super();
 		
 		this.name = name;
 		this.basePage = basePage;
+		
+		//Engedelyezi a Node Ki/Be kapcsolasat
+//		this.setEnabledToTurnOnOff( true );
 
 	}
 
@@ -69,14 +70,37 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	 */
 	public ParamPageDataModel( Element element, BaseDataModelInterface baseDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
+		//Engedelyezi a Node Ki/Be kapcsolasat
+//		this.setEnabledToTurnOnOff( true );
+		
+		//========
+		//
 		//name
+		//
+		//========
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
 		
+/*		//========
+		//
+		// On
+		//
+		//========		
+		if( !element.hasAttribute( ATTR_ON ) ){
+			this.setOn( Boolean.TRUE );
+		}else{
+			String enabledString = element.getAttribute( ATTR_ON );
+			this.setOn( Boolean.parseBoolean( enabledString ));
+		}				
+*/		
+		//========
+		//
 		//BasePage
+		//
+		//========
 		if( !element.hasAttribute( ATTR_BASE_PAGE_PATH ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH );			
 		}
@@ -85,8 +109,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder; 
 	    Document document = null;
-	    try  
-	    {  
+	    try {  
 	    	//attributum-kent tarolt utvonal atalakitasa Documentum-ma
 	        builder = factory.newDocumentBuilder();  
 	        document = builder.parse( new InputSource( new StringReader( paramPagePathString ) ) ); 
@@ -185,39 +208,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		return getNodeTypeToShowStatic();
 	}
 
-	@Override
-	public Element getXMLElement(Document document) {
-		Attr attr;
 
-		//Node element
-		Element pageElement = document.createElement(TAG.getName());
-		
-		//NAME attributum
-		attr = document.createAttribute(ATTR_NAME);
-		attr.setValue( getName() );
-		pageElement.setAttributeNode(attr);	
-
-		//PAGEBASEPAGE attributum
-		attr = document.createAttribute( ATTR_BASE_PAGE_PATH );
-		attr.setValue( basePage.getPathTag() );
-		pageElement.setAttributeNode(attr);
-		
-
-		int childrens = this.getChildCount();
-		for( int i = 0; i < childrens; i++ ){
-			
-			Object object = this.getChildAt( i );
-			
-			if( !object.equals(this) && object instanceof ParamDataModelInterface ){
-				
-				Element element = ((ParamDataModelInterface)object).getXMLElement( document );
-				pageElement.appendChild( element );		    		
-		    	
-			}
-		}
-		
-		return pageElement;	
-	}
 
 	@Override
 	public String getName() {		
@@ -244,40 +235,45 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 			//Parameterezett elem
 			parameterElement = (ParamElementDataModel)this.getChildAt( i );
 			
-			//Bazis elem
-			BaseElementDataModel baseElement = parameterElement.getBaseElement();
+			//Ha a parameterezett elem be van kapcsolva
+			if( parameterElement.isOn() ){
 			
-			//TODO lehet, hogy ennek az idonek kulonboznie kellene
-			//Bazis elemhez tartozo warakozasi ido
-			Integer waitingTime = baseElement.getWaitingTime();
-			if( null == waitingTime ){
-				waitingTime = Properties.getInstance().getWaitingTime();
-			}
-			WebDriverWait wait = new WebDriverWait(driver, waitingTime);
+				//Bazis elem
+				BaseElementDataModel baseElement = parameterElement.getBaseElement();
 			
-			// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
-			String frameName = parameterElement.getBaseElement().getFrame();
+				//TODO lehet, hogy ennek az idonek kulonboznie kellene
+				//Bazis elemhez tartozo warakozasi ido
+				Integer waitingTime = baseElement.getWaitingTime();
+				if( null == waitingTime ){
+					waitingTime = Properties.getInstance().getWaitingTime();
+				}
+				WebDriverWait wait = new WebDriverWait(driver, waitingTime);
+			
+				// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
+				String frameName = parameterElement.getBaseElement().getFrame();
 
-			if( null != frameName && frameName.trim().length() > 0 ){
+				if( null != frameName && frameName.trim().length() > 0 ){
 				
 //				try{
 //					Thread.sleep( 1000 );
 //				}catch( InterruptedException e){}
 				
 				
-				driver.switchTo().defaultContent();
-				wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
-				driver.switchTo().defaultContent();
+					driver.switchTo().defaultContent();
+					wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
+					driver.switchTo().defaultContent();
 
-				driver.switchTo().frame( frameName );		
-			}
+					driver.switchTo().frame( frameName );		
+				}
 				
-			try{			
-				parameterElement.doAction( driver, elementProgress );
+				try{			
+					parameterElement.doAction( driver, elementProgress );
 			
-			//Ha nem futott le rendesen a teszteset
-			}catch (ElementException e){
-				throw new PageException( this.getName(), e.getElementName(), e.getElementSelector(), e);
+					//Ha nem futott le rendesen a teszteset
+				}catch (ElementException e){
+					throw new PageException( this.getName(), e.getElementName(), e.getElementSelector(), e);
+			
+				}
 			
 			}
 				
@@ -289,16 +285,61 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 		}
 		
 	}
-/*
-	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ){
-		this.pageProgressInterface = pageProgressInterface;
-	}
 	
 	@Override
-	public PageProgressInterface getPageProgressInterface() {		
-		return this.pageProgressInterface;
+	public Element getXMLElement(Document document) {
+		Attr attr;
+
+		//========
+		//
+		//Node element
+		//
+		//========
+		Element pageElement = document.createElement(TAG.getName());
+		
+		//========
+		//
+		//NAME attributum
+		//
+		//========
+		attr = document.createAttribute(ATTR_NAME);
+		attr.setValue( getName() );
+		pageElement.setAttributeNode(attr);	
+
+		//========
+		//
+		//PAGEBASEPAGE attributum
+		//
+		//========
+		attr = document.createAttribute( ATTR_BASE_PAGE_PATH );
+		attr.setValue( basePage.getPathTag() );
+		pageElement.setAttributeNode(attr);		
+
+		int childrens = this.getChildCount();
+		for( int i = 0; i < childrens; i++ ){
+			
+			Object object = this.getChildAt( i );
+			
+			if( !object.equals(this) && object instanceof ParamDataModelInterface ){
+				
+				Element element = ((ParamDataModelInterface)object).getXMLElement( document );
+				pageElement.appendChild( element );		    		
+		    	
+			}
+		}
+		
+/*		//========
+		//
+		// On
+		//
+		//========
+		attr = document.createAttribute( ATTR_ON );
+		attr.setValue( this.isOn().toString() );
+		pageElement.setAttributeNode(attr);
+*/		
+		return pageElement;	
 	}
-*/
+	
 	@Override
 	public Object clone(){
 		

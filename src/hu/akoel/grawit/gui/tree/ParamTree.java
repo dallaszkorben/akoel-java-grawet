@@ -41,6 +41,7 @@ public class ParamTree extends Tree {
 		this.baseRootDataModel = baseRootDataModel;
 		this.variableRootDataModel = variableRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
+		
 	}
 
 	@Override
@@ -67,6 +68,19 @@ public class ParamTree extends Tree {
 		return null;
 	}
 
+	@Override
+	public ImageIcon getIconOff(DataModelAdapter actualNode, boolean expanded) {
+
+    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/param-element-off-icon.png");
+    	
+    	//Iconja a NODE-nak
+    	if( actualNode instanceof ParamElementDataModel ){
+            return elementIcon;
+    	}else{
+    		return getIcon(actualNode, expanded);
+        }
+	}
+	
 	@Override
 	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 		

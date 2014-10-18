@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui.tree;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -38,6 +39,7 @@ import hu.akoel.grawit.gui.editor.EmptyEditor;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
@@ -45,8 +47,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -63,9 +65,10 @@ public abstract class Tree extends JTree{
 	private boolean needPopupUp = true;
 	private boolean needPopupDown = true;
 	private boolean needPopupModify = true;
+//	private boolean needEnableDisable = true;
 	
 	Insets autoscrollInsets = new Insets(20, 20, 20, 20);
-
+	
 	public Tree( GUIFrame guiFrame, DataModelAdapter rootDataModel ){
 	
 		super( new DefaultTreeModel(rootDataModel) );
@@ -84,27 +87,7 @@ public abstract class Tree extends JTree{
 		/**
 		 * Ikonokat helyezek el az egyes csomopontok ele
 		 */
-		this.setCellRenderer(new DefaultTreeCellRenderer() {
-
-			private static final long serialVersionUID = 1323618892737458100L;
-
-			@Override
-		    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
-		    	Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
-		    	
-
-		    	if( null != value && value instanceof DataModelAdapter ){
-		    		
-			    	//Felirata a NODE-nak		    	
-		    		setText( ((DataModelAdapter)value).getName() );
-		    		    	
-		    		//Ikon a NODE-nak
-		    		setIcon( Tree.this.getIcon( (DataModelAdapter)value, expanded ) );
-		    	}
-		 
-		    	return c;
-		    }
-		});
+		this.setCellRenderer(new MyTreeCellRenderer() );
 					
 		/**
 		 * A eger benyomasara reagalok
@@ -117,6 +100,7 @@ public abstract class Tree extends JTree{
 		//this.setDragEnabled( true );
 	}
 	
+
 	/**
 	 * A parameterkent megadott Node-hoz rendel egy ikont
 	 * 
@@ -136,7 +120,11 @@ public abstract class Tree extends JTree{
 	public abstract void doPopupRootInsert( JPopupMenu popupMenu, DataModelAdapter selectedNode );
 	
 	public abstract boolean possibleHierarchy( DefaultMutableTreeNode draggedNode, Object dropObject );
-	
+
+	public ImageIcon getIconOff( DataModelAdapter actualNode, boolean expanded ){
+		return getIcon(actualNode, expanded);
+	}
+
 	/**
 	 * 
 	 * Ertesiti a tree-t, hogy valtozas tortent
@@ -164,6 +152,10 @@ public abstract class Tree extends JTree{
 		
 	}
 	
+/*	public void removeEnableDisable(){
+		needEnableDisable = false;
+	}
+*/	
 	public void removePopupModify(){
 		needPopupModify = false;
 	}
@@ -185,6 +177,34 @@ public abstract class Tree extends JTree{
 		}
 	}
 */
+	
+	class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
+
+		private static final long serialVersionUID = 1323618892737458100L;
+		
+		@Override
+	    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
+
+			//Ha nem engedelyezett a Ki/Be kapcsolas vagy ha engedelyezett, de be van kapcsolava
+			if( !((DataModelAdapter)value).isEnabledToTurnOnOff() || ((DataModelAdapter)value).isOn() ){
+    			
+				setIcon( Tree.this.getIcon( (DataModelAdapter)value, expanded ) );		
+    			setForeground( Color.black );	   
+    			
+    		//Ha engedelyezett a Ki/Be kapcsolas es ki van kapcsolva	
+    		}else{
+    			
+    			setIcon( Tree.this.getIconOff( (DataModelAdapter)value, expanded ) );
+    			setForeground( Color.gray );
+   			
+    		}				
+							
+			setText( ((DataModelAdapter)value).getName() );
+			
+			return this;
+	    }	
+	}
+	
 	
 	/**
 	 * Azt figyeli, hogy barmi miatt megvaltozott-e a kivalasztott elem.
@@ -236,7 +256,6 @@ public abstract class Tree extends JTree{
 
 				//A kivalasztott elem sora - kell a sor kiszinezesehez es a PopUp menu poziciojahoz
 				int row = Tree.this.getClosestRowForLocation(e.getX(), e.getY());
-				//int row = BaseTree.this.getRowForLocation(e.getX(), e.getY());
 				
 				//Kiszinezi a sort
 				Tree.this.setSelectionRow(row);
@@ -401,8 +420,49 @@ public abstract class Tree extends JTree{
 					this.add ( editMenu );
 				}
 				
-				doPopupInsert( this, selectedNode );
+				//
+				//On/Off
+				//
+				if( selectedNode.isEnabledToTurnOnOff() ){
+
+					JMenuItem disableEnableMenu;
+					
+					//Ha be van kapcsolva a csomopont
+					if( selectedNode.isOn() ){
+						
+						disableEnableMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.off")  );
+						disableEnableMenu.setActionCommand( ActionCommand.DISABLE.name() );
+						disableEnableMenu.addActionListener( new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+	
+								selectedNode.setOn( false );								
+						
+							}
+						});						
+						
+					//Ha ki van kapcsolva a csomopont
+					}else{
+
+						disableEnableMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.on")  );
+						disableEnableMenu.setActionCommand( ActionCommand.ENABLE.name() );
+						disableEnableMenu.addActionListener( new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+	
+								selectedNode.setOn( true );
+						
+							}
+						});
+						
+					}
+					
+					this.add ( disableEnableMenu );
+				}
 				
+				doPopupInsert( this, selectedNode );				
 				doPopupDelete( this, selectedNode, selectedRow, totalTreeModel );
 				
 			//ROOT volt kivalasztva
