@@ -192,7 +192,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		
 		//Kezdo ertek beallitasa
 		if( null == elementOperation ){
-			comboOperationList.setSelectedIndex(E.OUTPUTGAINED.getIndex());
+			comboOperationList.setSelectedIndex(E.OUTPUTSTORED.getIndex());
 		}else{
 							
 			//COMPARE TEXT TO VARIABLE
@@ -202,12 +202,12 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_VARIABLE.getIndex());
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToVariableOperation)elementOperation).getCompareType().getIndex() );
 
-			//COMPARE TEXT TO GAINED
+			//COMPARE TEXT TO STORED
 			}else if( elementOperation instanceof CompareTextToStoredElementOperation ){
 								
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareTextToStoredElementOperation)elementOperation).getBaseElement() );
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStoredElementOperation)elementOperation).getCompareType().getIndex() );
-				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_GAINED.getIndex());
+				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STORED.getIndex());
 
 			//COMPARE TEXT TO STRING
 			}else if( elementOperation instanceof CompareTextToStringOperation ){
@@ -229,10 +229,10 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.GAINTEXT_TO_ELEMENT.getIndex());
 				fieldPattern.setText( ((GainTextToElementOperation)elementOperation).getStringPattern());			
 				
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}if ( elementOperation instanceof OutputStoredElementOperation ){
 	
-				comboOperationList.setSelectedIndex( E.OUTPUTGAINED.getIndex() );
+				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 	
 			}
@@ -298,7 +298,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		this.remove( labelFiller );
 		
 		//Compare element
-		if( selectedOperation.equals( E.COMPARETEXT_TO_GAINED ) ){
+		if( selectedOperation.equals( E.COMPARETEXT_TO_STORED ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -393,8 +393,8 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 			c.weightx = 1;
 			this.add( fieldPattern, c );	
 			
-		//OUTPUTGAINED
-		}else if( selectedOperation.equals(E.OUTPUTGAINED)){
+		//OUTPUTSTORED
+		}else if( selectedOperation.equals(E.OUTPUTSTORED)){
 
 			c.gridy = 0;
 			c.gridx = 4;
@@ -412,7 +412,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		}
 		
 		//Compare element
-		if( selectedOperation.equals( E.COMPARETEXT_TO_GAINED ) || selectedOperation.equals( E.COMPARETEXT_TO_VARIABLE ) || selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ){
+		if( selectedOperation.equals( E.COMPARETEXT_TO_STORED ) || selectedOperation.equals( E.COMPARETEXT_TO_VARIABLE ) || selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ){
 				
 			c.gridy = 1;
 			c.gridx = 2;
@@ -436,8 +436,8 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 	@Override
 	public ElementOperationAdapter getElementOperation() {
 		
-		//COMPARE TEXT TO GAINED
-		if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_GAINED.getIndex() ){
+		//COMPARE TEXT TO STORED
+		if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STORED.getIndex() ){
 			return new CompareTextToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 					
 		//COMPARE TEXT TO VARIABLE
@@ -456,8 +456,8 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_ELEMENT.getIndex() ){
 			return new GainTextToElementOperation( fieldPattern.getText() );
 			
-		//OUTPUTGAINED
-		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTGAINED.getIndex() ){
+		//OUTPUTSTORED
+		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTSTORED.getIndex() ){
 			return new OutputStoredElementOperation( fieldMessage.getText() );
 	
 		}

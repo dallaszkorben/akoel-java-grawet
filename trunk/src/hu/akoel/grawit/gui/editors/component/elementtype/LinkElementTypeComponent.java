@@ -207,12 +207,12 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_VARIABLE.getIndex());
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToVariableOperation)elementOperation).getCompareType().getIndex() );
 
-			//COMPARE TEXT TO GAINED
+			//COMPARE TEXT TO STORED
 			}else if( elementOperation instanceof CompareTextToStoredElementOperation ){
 								
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareTextToStoredElementOperation)elementOperation).getBaseElement() );
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStoredElementOperation)elementOperation).getCompareType().getIndex() );
-				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_GAIND.getIndex());
+				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STORED.getIndex());
 				
 			//COMPARE TEXT TO STRING
 			}else if( elementOperation instanceof CompareTextToStringOperation ){
@@ -234,10 +234,10 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.GAINTEXT_TO_ELEMENT.getIndex());
 				fieldPattern.setText( ((GainTextToElementOperation)elementOperation).getStringPattern());			
 				
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}else if ( elementOperation instanceof OutputStoredElementOperation ){
 				
-				comboOperationList.setSelectedIndex( E.OUTPUTGAINED.getIndex() );		
+				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );		
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 								
 			}			
@@ -299,7 +299,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		this.remove( labelCompareType );
 		
 		//Compare element
-		if( selectedOperation.equals( E.COMPARETEXT_TO_GAIND ) ){
+		if( selectedOperation.equals( E.COMPARETEXT_TO_STORED ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -360,7 +360,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			this.add( labelFiller, c );
 			
 		//OUTPUT
-		}else if( selectedOperation.equals( E.OUTPUTGAINED ) ){
+		}else if( selectedOperation.equals( E.OUTPUTSTORED ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -426,7 +426,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		
 		
 		//Compare element
-		if( selectedOperation.equals( E.COMPARETEXT_TO_GAIND ) || selectedOperation.equals( E.COMPARETEXT_TO_VARIABLE ) || selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ){
+		if( selectedOperation.equals( E.COMPARETEXT_TO_STORED ) || selectedOperation.equals( E.COMPARETEXT_TO_VARIABLE ) || selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ){
 				
 			c.gridy = 1;
 			c.gridx = 2;
@@ -454,8 +454,8 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){
 			return new ClickOperation();
 				
-		//COMPARE TEXT TO GAINED
-		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_GAIND.getIndex() ){
+		//COMPARE TEXT TO STORED
+		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STORED.getIndex() ){
 			return new CompareTextToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 						
 		//COMPARE TEXT TO VARIABLE
@@ -474,8 +474,8 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_ELEMENT.getIndex() ){
 			return new GainTextToElementOperation( fieldPattern.getText() );
 
-		//OUTPUTGAINED
-		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTGAINED.getIndex() ){
+		//OUTPUTSTORED
+		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTSTORED.getIndex() ){
 			return new OutputStoredElementOperation( fieldMessage.getText() );
 						
 		}

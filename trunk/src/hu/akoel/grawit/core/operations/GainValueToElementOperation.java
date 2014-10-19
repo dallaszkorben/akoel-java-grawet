@@ -97,12 +97,12 @@ public class GainValueToElementOperation extends ElementOperationAdapter{
 	
 		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
-			element.getBaseElement().setGainedValue( origText );
+			element.getBaseElement().setStoredValue( origText );
 		}else{
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
 				String resultText = matcher.group();
-				element.getBaseElement().setGainedValue( resultText );
+				element.getBaseElement().setStoredValue( resultText );
 			}			
 		}	
 		

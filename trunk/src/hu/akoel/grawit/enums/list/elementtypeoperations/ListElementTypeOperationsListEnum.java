@@ -9,11 +9,11 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	TAB( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.list.tab") ),
 	CLICK( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.list.click") ),
 	COMPARE_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetovariable") ),
-	COMPARE_TO_GAINED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetogained") ),
+	COMPARE_TO_STORED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetostored") ),
 	COMPARE_TO_STRING( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetostring") ),
 	GAIN_TO_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintovariable") ),
 	GAIN_TO_ELEMENT( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintoelement") ),
-	OUTPUTGAINED( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.list.outputgained") ),	
+	OUTPUTSTORED( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.list.outputstored") ),	
 	;
 	
 	private String translatedName;
@@ -47,11 +47,11 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		case 3: return TAB;
 		case 4: return CLICK;
 		case 5: return COMPARE_TO_VARIABLE;
-		case 6: return COMPARE_TO_GAINED;
+		case 6: return COMPARE_TO_STORED;
 		case 7: return COMPARE_TO_STRING;
 		case 8: return GAIN_TO_VARIABLE;
 		case 9: return GAIN_TO_ELEMENT;	
-		case 10: return OUTPUTGAINED;
+		case 10: return OUTPUTSTORED;
 		default: return CLICK;		
 		
 		}

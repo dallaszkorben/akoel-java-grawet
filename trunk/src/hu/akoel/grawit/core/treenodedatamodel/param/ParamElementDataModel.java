@@ -18,7 +18,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickOperation;
-import hu.akoel.grawit.core.operations.CompareListToStoredElementGainedOperation;
+import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareListToStringOperation;
 import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
@@ -218,7 +218,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
-			//COMPARE TEXT TO GAINED
+			//COMPARE TEXT TO STORED
 			}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareTextToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
@@ -238,7 +238,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 										
 				elementOperation = new GainTextToElementOperation( element, getRootTag(), getTag() );				
 			
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 				
 				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
@@ -280,7 +280,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
-			//COMPARE VALUE TO GAINED
+			//COMPARE VALUE TO STORED
 			}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareValueToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
@@ -300,7 +300,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 						
 				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
 
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 				
 				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
@@ -327,7 +327,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	
 				elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 	
-			//COMPARE TEXT TO GAINED
+			//COMPARE TEXT TO STORED
 			}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
 	
 				elementOperation = new CompareTextToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
@@ -342,7 +342,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
-			//COMPARE VALUE TO GAINED
+			//COMPARE VALUE TO STORED
 			}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareValueToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
@@ -362,7 +362,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 						
 				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
 
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 				
 				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
@@ -414,7 +414,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
-			//COMPARE VALUE TO GAINED
+			//COMPARE VALUE TO STORED
 			}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareValueToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
@@ -434,7 +434,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 						
 				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
 
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 				
 				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
@@ -455,7 +455,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 				
-			//COMPARE TEXT TO GAINED
+			//COMPARE TEXT TO STORED
 			}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
 				
 				elementOperation = new CompareTextToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
@@ -475,7 +475,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 									
 				elementOperation = new GainTextToElementOperation( element, getRootTag(), getTag() );				
 				
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 	
 				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );
@@ -525,10 +525,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 				
 				elementOperation = new CompareListToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
-			//COMPARE TO GAINED
-			}else if( operationString.equals( CompareListToStoredElementGainedOperation.getStaticName() ) ){
+			//COMPARE TO STORED
+			}else if( operationString.equals( CompareListToStoredElementOperation.getStaticName() ) ){
 				
-				elementOperation = new CompareListToStoredElementGainedOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
+				elementOperation = new CompareListToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName() );
 				
 			//COMPARE TO STRING
 			}else if( operationString.equals( CompareListToStringOperation.getStaticName() ) ){
@@ -545,7 +545,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 								
 				elementOperation = new GainListToElementOperation( element, getRootTag(), getTag() );
 			
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
 					
 				elementOperation = new OutputStoredElementOperation( element, getRootTag(), getTag() );				

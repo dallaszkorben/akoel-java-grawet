@@ -33,7 +33,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class CompareListToStoredElementGainedOperation extends ElementOperationAdapter{
+public class CompareListToStoredElementOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "COMPARELISTTOSTOREDELEMENT";	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "comparebaseelementpath";
@@ -47,7 +47,7 @@ public class CompareListToStoredElementGainedOperation extends ElementOperationA
 	private BaseElementDataModel baseElementDataModel;
 	private CompareTypeListEnum compareType;
 	
-	public CompareListToStoredElementGainedOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
+	public CompareListToStoredElementOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
 		this.baseElementDataModel = baseElementDataModel;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
@@ -56,7 +56,7 @@ public class CompareListToStoredElementGainedOperation extends ElementOperationA
 		common( stringPattern );
 	}
 
-	public CompareListToStoredElementGainedOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
+	public CompareListToStoredElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
 		BaseDataModelInterface baseDataModelForFillOut = baseRootDataModel;
 		
@@ -220,14 +220,14 @@ public class CompareListToStoredElementGainedOperation extends ElementOperationA
 
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
-			if( !origText.equals( baseElementDataModel.getGainedValue() ) ){
-				throw new ElementCompareOperationException(compareType, baseElementDataModel.getGainedValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
+				throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( origText.equals( baseElementDataModel.getGainedValue() ) ){
-				throw new ElementCompareOperationException(compareType, baseElementDataModel.getGainedValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
+				throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
 			}			
 		}		
 	}

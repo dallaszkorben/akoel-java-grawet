@@ -193,14 +193,14 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
-			if( !origText.equals( baseElementDataModel.getGainedValue() ) ){
-				throw new ElementCompareOperationException(compareType, baseElementDataModel.getGainedValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
+				throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( origText.equals( baseElementDataModel.getGainedValue() ) ){
-				throw new ElementCompareOperationException(compareType, baseElementDataModel.getGainedValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
+				throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
 			}			
 		}		
 	}
