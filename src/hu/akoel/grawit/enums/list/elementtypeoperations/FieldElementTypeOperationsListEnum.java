@@ -13,7 +13,7 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	COMPAREVALUE_TO_STORED( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevaluetostored") ),
 	COMPAREVALUE_TO_STRING( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevaluetostring") ),
 	GAINVALUE_TO_VARIABLE( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetovariable") ),
-	GAINVALUE_TO_ELEMENT( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetoelement") ),
+	GAINVALUE_TO_ELEMENTSTORAGE( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetoelementstorage") ),
 	OUTPUTSTORED( 11, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputstored") ),
 	;
 	
@@ -52,7 +52,7 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 		case 7: return COMPAREVALUE_TO_STORED;
 		case 8: return COMPAREVALUE_TO_STRING;
 		case 9: return GAINVALUE_TO_VARIABLE;
-		case 10: return GAINVALUE_TO_ELEMENT;
+		case 10: return GAINVALUE_TO_ELEMENTSTORAGE;
 		case 11: return OUTPUTSTORED;
 		default: return FILL_STRING;
 		}
