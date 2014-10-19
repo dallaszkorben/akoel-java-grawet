@@ -193,12 +193,12 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_VARIABLE.getIndex());
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToVariableOperation)elementOperation).getCompareType().getIndex() );
 
-			//COMPARE VALUE TO GAINED
+			//COMPARE VALUE TO STORED
 			}else if( elementOperation instanceof CompareValueToStoredElementOperation ){
 								
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElement() );
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStoredElementOperation)elementOperation).getCompareType().getIndex() );
-				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_GAINED.getIndex());
+				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STORED.getIndex());
 				
 			//COMPARE VALUE TO STRING
 			}else if( elementOperation instanceof CompareValueToStringOperation ){
@@ -220,11 +220,11 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 				comboOperationList.setSelectedIndex(E.GAINVALUE_TO_ELEMENT.getIndex());
 				//fieldPattern.setText( ((GainValueToElementOperation)elementOperation).getStringPattern());	
 
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}else if ( elementOperation instanceof OutputStoredElementOperation ){
 				
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
-				comboOperationList.setSelectedIndex( E.OUTPUTGAINED.getIndex() );
+				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
 				
 			}else{
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
@@ -272,8 +272,8 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 		this.remove( labelCompareType );
 		this.remove( comboCompareTypeList );
 	
-		//Compare value to gained
-		if( selectedOperation.equals( E.COMPAREVALUE_TO_GAINED ) ){
+		//Compare value to STORED
+		if( selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -391,8 +391,8 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 			c.weightx = 1;
 			this.add( fieldPattern, c );
 */
-		//Output Gained
-		}else if( selectedOperation.equals( E.OUTPUTGAINED ) ){
+		//Output STORED
+		}else if( selectedOperation.equals( E.OUTPUTSTORED ) ){
 	
 			c.gridy = 0;
 			c.gridx = 4;
@@ -410,7 +410,7 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 		}	
 
 		//Compare element
-		if( selectedOperation.equals( E.COMPAREVALUE_TO_GAINED ) || selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) || selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
+		if( selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) || selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) || selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
 				
 			c.gridy = 1;
 			c.gridx = 2;
@@ -451,8 +451,8 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){
 			return new ClickOperation();
 		
-		//COMPARE VALUE TO GAINED
-		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_GAINED.getIndex() ){
+		//COMPARE VALUE TO STORED
+		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STORED.getIndex() ){
 			return new CompareValueToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 				
 		//COMPARE VALUE TO VARIABLE
@@ -471,8 +471,8 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_ELEMENT.getIndex() ){
 			return new GainValueToElementOperation( fieldPattern.getText() );		
 			
-		//OUTPUTGAINED
-		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTGAINED.getIndex() ){
+		//OUTPUTSTORED
+		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTSTORED.getIndex() ){
 			return new OutputStoredElementOperation( fieldMessage.getText() );						
 		}
 		

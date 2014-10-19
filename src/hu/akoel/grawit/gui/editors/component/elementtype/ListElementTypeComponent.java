@@ -3,7 +3,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickOperation;
-import hu.akoel.grawit.core.operations.CompareListToStoredElementGainedOperation;
+import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareListToStringOperation;
 import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
@@ -264,12 +264,12 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_VARIABLE.getIndex());
 				comboCompareType.setSelectedIndex( ((CompareListToVariableOperation)elementOperation).getCompareType().getIndex() );
 
-			//COMPARE TO GAINED
-			}else if( elementOperation instanceof CompareListToStoredElementGainedOperation ){
+			//COMPARE TO STORED
+			}else if( elementOperation instanceof CompareListToStoredElementOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareListToStoredElementGainedOperation)elementOperation).getBaseElement() );
-				comboCompareType.setSelectedIndex( ((CompareListToStoredElementGainedOperation)elementOperation).getCompareType().getIndex() );
-				comboOperationList.setSelectedIndex(E.COMPARE_TO_GAINED.getIndex());
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareListToStoredElementOperation)elementOperation).getBaseElement() );
+				comboCompareType.setSelectedIndex( ((CompareListToStoredElementOperation)elementOperation).getCompareType().getIndex() );
+				comboOperationList.setSelectedIndex(E.COMPARE_TO_STORED.getIndex());
 				
 			//COMPARE TO STRING
 			}else if( elementOperation instanceof CompareListToStringOperation ){
@@ -291,11 +291,11 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 				comboOperationList.setSelectedIndex(E.GAIN_TO_ELEMENT.getIndex());
 				fieldPattern.setText( ((GainListToElementOperation)elementOperation).getStringPattern());	
 				
-			//OUTPUT GAINED
+			//OUTPUT STORED
 			}else if ( elementOperation instanceof OutputStoredElementOperation ){
 				
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
-				comboOperationList.setSelectedIndex( E.OUTPUTGAINED.getIndex() );
+				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
 				
 			}			
 		}
@@ -401,8 +401,8 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			
 			putSelectionBy( c );
 			
-		//COMPARE TO GAINED
-		}else if( selectedOperation.equals( E.COMPARE_TO_GAINED)){
+		//COMPARE TO STORED
+		}else if( selectedOperation.equals( E.COMPARE_TO_STORED)){
 	
 			c.gridy = 0;
 			c.gridx = 4;
@@ -533,8 +533,8 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			
 			putGainBy( c );
 
-		//Output Gained
-		}else if( selectedOperation.equals( E.OUTPUTGAINED ) ){
+		//Output STORED
+		}else if( selectedOperation.equals( E.OUTPUTSTORED ) ){
 	
 			c.gridy = 0;
 			c.gridx = 4;
@@ -644,10 +644,10 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		}else if( comboOperationList.getSelectedIndex() ==  E.CLICK.getIndex() ){
 			return new ClickOperation();
 			
-		//COMPARE TO GAINED
-		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_GAINED.getIndex() ){
+		//COMPARE TO STORED
+		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_STORED.getIndex() ){
 						
-			return new CompareListToStoredElementGainedOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareBy.getSelectedItem()) );
+			return new CompareListToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareBy.getSelectedItem()) );
 				
 		//COMPARE TO VARIABLE
 		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_VARIABLE.getIndex() ){
@@ -665,8 +665,8 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		}else if( comboOperationList.getSelectedIndex() == E.GAIN_TO_ELEMENT.getIndex() ){
 			return new GainListToElementOperation( fieldPattern.getText(), (ListGainByListEnum)(comboGainBy.getSelectedItem()) );
 			
-		//OUTPUTGAINED
-		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTGAINED.getIndex() ){
+		//OUTPUTSTORED
+		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTSTORED.getIndex() ){
 			return new OutputStoredElementOperation( fieldMessage.getText() );			
 			
 		}

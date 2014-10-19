@@ -36,7 +36,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	//----
 	
 	//Ide menti az erre a mezore hivatkozo ParamElement Mezo mentett erteket
-	private String gainedValue = "";
+	private String storedValue = "";
 	//---
 
 	/**
@@ -205,12 +205,12 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	 * 
 	 * @return
 	 */
-	public String getGainedValue() {
-		return gainedValue;
+	public String getStoredValue() {
+		return storedValue;
 	}
 
-	public void setGainedValue(String gainedValue) {
-		this.gainedValue = gainedValue;
+	public void setStoredValue(String valueToStore) {
+		this.storedValue = valueToStore;
 	}
 	
 	@Override

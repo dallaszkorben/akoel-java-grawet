@@ -140,7 +140,7 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 
 	@Override
 	public String getStringToSelection() {	
-		return baseElementDataModel.getGainedValue();
+		return baseElementDataModel.getStoredValue();
 	}
 
 	public BaseElementDataModel getBaseElement() {

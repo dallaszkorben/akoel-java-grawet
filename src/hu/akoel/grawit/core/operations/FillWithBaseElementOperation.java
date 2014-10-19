@@ -142,7 +142,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 			
 			//Execute the operation
 			//webElement.clear();
-			webElement.sendKeys( baseElementDataModel.getGainedValue() );
+			webElement.sendKeys( baseElementDataModel.getStoredValue() );
 			webElement.sendKeys(Keys.TAB);
 			
 		}catch (WebDriverException webDriverException){

@@ -49,7 +49,7 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException {
 
 		if( null != elementProgress ){
-			elementProgress.outputValue( element.getBaseElement().getGainedValue(), message );
+			elementProgress.outputValue( element.getBaseElement().getStoredValue(), message );
 		}
 		
 	}

@@ -5,11 +5,11 @@ import hu.akoel.grawit.CommonOperations;
 public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.click") ),
 	COMPAREVALUE_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetovariable") ),
-	COMPAREVALUE_TO_GAINED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetogained") ),
+	COMPAREVALUE_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostored") ),
 	COMPAREVALUE_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostring") ),
 	GAINVALUE_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.gainvaluetovariable") ),
 	GAINVALUE_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.gainvaluetoelement") ),
-	OUTPUTGAINED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.outputgained") ),
+	OUTPUTSTORED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.outputstored") ),
 	;
 	
 	private String translatedName;
@@ -39,11 +39,11 @@ public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOpera
 		switch (index){
 		case 0:	return CLICK;
 		case 1:	return COMPAREVALUE_TO_VARIABLE;
-		case 2:	return COMPAREVALUE_TO_GAINED;
+		case 2:	return COMPAREVALUE_TO_STORED;
 		case 3:	return COMPAREVALUE_TO_STRING;
 		case 4:	return GAINVALUE_TO_VARIABLE;
 		case 5:	return GAINVALUE_TO_ELEMENT;
-		case 6:	return OUTPUTGAINED;
+		case 6:	return OUTPUTSTORED;
 		default: return CLICK;
 		}
 	}

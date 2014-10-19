@@ -4,11 +4,11 @@ import hu.akoel.grawit.CommonOperations;
 
 public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
 	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttovariable") ),
-	COMPARETEXT_TO_GAINED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttogained") ),
+	COMPARETEXT_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostored") ),
 	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostring") ),
 	GAINTEXT_TO_VARIABLE( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gaintexttovariable") ),
 	GAINTEXT_TO_ELEMENT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gainvaluetoelement") ),
-	OUTPUTGAINED( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.text.outputgained") ),
+	OUTPUTSTORED( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.text.outputstored") ),
 	;
 	
 	private String translatedName;
@@ -37,12 +37,12 @@ public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	public static TextElementTypeOperationsListEnum getElementTextOperationByIndex( int index ){
 		switch (index){		
 		case 0: return COMPARETEXT_TO_VARIABLE;
-		case 1: return COMPARETEXT_TO_GAINED;
+		case 1: return COMPARETEXT_TO_STORED;
 		case 2: return COMPARETEXT_TO_STRING;
 		case 3: return GAINTEXT_TO_VARIABLE;
 		case 4: return GAINTEXT_TO_ELEMENT;
-		case 5:	return OUTPUTGAINED;
-		default: return OUTPUTGAINED;
+		case 5:	return OUTPUTSTORED;
+		default: return OUTPUTSTORED;
 		}
 	}
 	
