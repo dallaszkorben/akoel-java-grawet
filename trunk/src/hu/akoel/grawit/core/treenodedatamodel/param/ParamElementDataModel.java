@@ -35,7 +35,7 @@ import hu.akoel.grawit.core.operations.GainListToElementOperation;
 import hu.akoel.grawit.core.operations.GainListToVariableOperation;
 import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
-import hu.akoel.grawit.core.operations.GainValueToElementOperation;
+import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
@@ -295,10 +295,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 					
 				elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
-			//GAIN VALUE TO ELEMENT
-			}else if( operationString.equals( GainValueToElementOperation.getStaticName() ) ){
+			//GAIN VALUE TO ELEMENT STORAGE
+			}else if( operationString.equals( GainValueToElementStorageOperation.getStaticName() ) ){
 						
-				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
+				elementOperation = new GainValueToElementStorageOperation( element, getRootTag(), getTag() );
 
 			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
@@ -357,10 +357,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 					
 				elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
-			//GAIN VALUE TO ELEMENT
-			}else if( operationString.equals( GainValueToElementOperation.getStaticName() ) ){
+			//GAIN VALUE TO ELEMENT STORAGE
+			}else if( operationString.equals( GainValueToElementStorageOperation.getStaticName() ) ){
 						
-				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
+				elementOperation = new GainValueToElementStorageOperation( element, getRootTag(), getTag() );
 
 			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
@@ -429,10 +429,10 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 					
 				elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
-			//GAIN VALUE TO ELEMENT
-			}else if( operationString.equals( GainValueToElementOperation.getStaticName() ) ){
+			//GAIN VALUE TO ELEMENT STORAGE
+			}else if( operationString.equals( GainValueToElementStorageOperation.getStaticName() ) ){
 						
-				elementOperation = new GainValueToElementOperation( element, getRootTag(), getTag() );
+				elementOperation = new GainValueToElementStorageOperation( element, getRootTag(), getTag() );
 
 			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 

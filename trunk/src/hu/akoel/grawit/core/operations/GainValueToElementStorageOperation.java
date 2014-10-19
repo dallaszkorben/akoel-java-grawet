@@ -16,7 +16,7 @@ import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class GainValueToElementOperation extends ElementOperationAdapter{
+public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "GAINVALUETOELEMENT";
 	private static final String ATTR_PATTERN = "pattern";
@@ -28,13 +28,13 @@ public class GainValueToElementOperation extends ElementOperationAdapter{
 	private String stringPattern;
 	//---
 	
-	public GainValueToElementOperation( String stringPattern ){
+	public GainValueToElementStorageOperation( String stringPattern ){
 		this.stringPattern = stringPattern;
 		
 		common( stringPattern );
 	}
 	
-	public GainValueToElementOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public GainValueToElementStorageOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		if( !element.hasAttribute( ATTR_PATTERN ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_PATTERN );			

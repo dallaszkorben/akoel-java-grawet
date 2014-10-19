@@ -8,7 +8,7 @@ public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOpera
 	COMPAREVALUE_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostored") ),
 	COMPAREVALUE_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostring") ),
 	GAINVALUE_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.gainvaluetovariable") ),
-	GAINVALUE_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.gainvaluetoelement") ),
+	GAINVALUE_TO_ELEMENTSTORAGE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.gainvaluetoelement") ),
 	OUTPUTSTORED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.outputstored") ),
 	;
 	
@@ -42,7 +42,7 @@ public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOpera
 		case 2:	return COMPAREVALUE_TO_STORED;
 		case 3:	return COMPAREVALUE_TO_STRING;
 		case 4:	return GAINVALUE_TO_VARIABLE;
-		case 5:	return GAINVALUE_TO_ELEMENT;
+		case 5:	return GAINVALUE_TO_ELEMENTSTORAGE;
 		case 6:	return OUTPUTSTORED;
 		default: return CLICK;
 		}
