@@ -166,7 +166,7 @@ public class VariableNodeDataModel extends VariableDataModelAdapter{
 		
 		//Es a valtozokat is leklonozza
 		cloned.name = new String( this.name );
-		cloned.details = this.details;
+		cloned.details = new String( this.details );
 		
 		return cloned;
 		

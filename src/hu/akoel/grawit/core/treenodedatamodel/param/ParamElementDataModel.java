@@ -679,11 +679,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		
 		ParamElementDataModel cloned = (ParamElementDataModel)super.clone();
 	
-		if( null != this.children ){
-			cloned.children = (Vector<?>) this.children.clone();
-		}
-		
-		cloned.baseElement = (BaseElementDataModel) this.baseElement.clone();
+//		cloned.baseElement = (BaseElementDataModel) this.baseElement.clone();
 		cloned.elementOperation = (ElementOperationAdapter) this.elementOperation.clone();
 		
 		return cloned;

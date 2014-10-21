@@ -6,7 +6,9 @@ import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -145,11 +147,26 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 	@Override
 	public Object clone(){
 		
+		//Leklonozza a NODE-ot
 		ParamNodeDataModel cloned = (ParamNodeDataModel)super.clone();
 	
+		//Ha vannak gyerekei (NODE vagy PAGE)
 		if( null != this.children ){
-			cloned.children = (Vector<?>) this.children.clone();
+					
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+					
+			for( Object o : this.children ){
+						
+				if( o instanceof ParamDataModelAdapter ){
+					cloned.children.add(((ParamDataModelAdapter)o).clone());
+				}
+			}
 		}
+				
+		//Es a valtozokat is leklonozza
+		cloned.name = new String( this.name );
+		cloned.details = new String( this.details );		
 		
 		return cloned;
 		
