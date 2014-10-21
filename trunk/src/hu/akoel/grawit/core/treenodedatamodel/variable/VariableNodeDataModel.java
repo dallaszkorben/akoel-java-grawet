@@ -1,6 +1,5 @@
 package hu.akoel.grawit.core.treenodedatamodel.variable;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
@@ -149,7 +148,7 @@ public class VariableNodeDataModel extends VariableDataModelAdapter{
 		
 		//Leklonozza a NODE-ot
 		VariableNodeDataModel cloned = (VariableNodeDataModel)super.clone();
-	
+
 		//Ha vannak gyerekei (NODE vagy ELEMENT)
 		if( null != this.children ){
 			
@@ -159,7 +158,13 @@ public class VariableNodeDataModel extends VariableDataModelAdapter{
 			for( Object o : this.children ){
 				
 				if( o instanceof VariableDataModelAdapter ){
-					cloned.children.add(((VariableDataModelAdapter)o).clone());
+					
+					VariableDataModelAdapter child = (VariableDataModelAdapter) ((VariableDataModelAdapter)o).clone();
+					
+					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
+					child.setParent( cloned );					
+					
+					cloned.children.add(child);
 				}
 			}
 		}

@@ -322,15 +322,17 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 			//Akkor azokat is leklonozza
 			cloned.children = new Vector<>();
 							
-			for( Object ob : this.children ){
+			for( Object o : this.children ){
 								
-				if( ob instanceof ParamDataModelAdapter ){
+				if( o instanceof ParamDataModelAdapter ){
 					
-					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter) ob).clone();
-					child.setParent( ParamPageDataModel.this);					
+					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
+					
+					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
+					child.setParent( cloned );					
+					
 					cloned.children.add(child);
-System.err.println(child.getParent());
-				
+			
 				}
 			}
 		}

@@ -14,7 +14,6 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
@@ -181,31 +180,6 @@ public class BaseTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				/*//Megerosito kerdes
-				Object[] options = {
-						CommonOperations.getTranslation("button.no"),
-						CommonOperations.getTranslation("button.yes")								
-				};
-				
-				int n = JOptionPane.showOptionDialog(guiFrame,							
-						MessageFormat.format( 
-								CommonOperations.getTranslation("mesage.question.delete.treeelement"), 
-								selectedNode.getNodeTypeToShow(),									
-								selectedNode.getName()
-						),							
-						CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options,
-						options[0]);
-
-				if( n == 1 ){
-					totalTreeModel.removeNodeFromParent( selectedNode);
-					ParamTree.this.setSelectionRow(selectedRow - 1);
-				}
-				*/
-				
 				//Ha a kivalasztott csomopont szuloje BaseDataModel - annak kell lennie :)
 				if( selectedNode.getParent() instanceof BaseDataModelAdapter ){
 					

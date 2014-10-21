@@ -143,31 +143,6 @@ public class VariableTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				/*//Megerosito kerdes
-				Object[] options = {
-						CommonOperations.getTranslation("button.no"),
-						CommonOperations.getTranslation("button.yes")								
-				};
-				
-				int n = JOptionPane.showOptionDialog(guiFrame,							
-						MessageFormat.format( 
-								CommonOperations.getTranslation("mesage.question.delete.treeelement"), 
-								selectedNode.getNodeTypeToShow(),									
-								selectedNode.getName()
-						),							
-						CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options,
-						options[0]);
-
-				if( n == 1 ){
-					totalTreeModel.removeNodeFromParent( selectedNode);
-					ParamTree.this.setSelectionRow(selectedRow - 1);
-				}
-				*/
-				
 				//Ha a kivalasztott csomopont szuloje VariableDataModel - annak kell lennie :)
 				if( selectedNode.getParent() instanceof VariableDataModelAdapter ){
 					

@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
+import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -9,7 +10,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
@@ -151,7 +152,7 @@ public class TestcaseCustomDataModel extends TestcasePageModelInterface{
 	}
 
 	@Override
-	public void add(TestcaseDataModelInterface node) {
+	public void add(TestcaseDataModelAdapter node) {
 		//TODO delete super.add( (MutableTreeNode)node );
 	}
 	
@@ -221,4 +222,17 @@ public class TestcaseCustomDataModel extends TestcasePageModelInterface{
 		
 	}
 
+	@Override
+	public Object clone(){
+		
+		//Leklonozza a CUSTOM PAGE-et
+		TestcaseCustomDataModel cloned = (TestcaseCustomDataModel)super.clone();
+		
+		//Es a valtozokat is leklonozza
+		cloned.name = new String( this.name );
+		cloned.details = new String( this.details );
+		
+		return cloned;
+		
+	}
 }

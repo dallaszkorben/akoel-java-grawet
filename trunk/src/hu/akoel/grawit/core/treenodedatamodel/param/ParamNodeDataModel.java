@@ -5,6 +5,7 @@ import java.util.Vector;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -159,7 +160,14 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 			for( Object o : this.children ){
 						
 				if( o instanceof ParamDataModelAdapter ){
-					cloned.children.add(((ParamDataModelAdapter)o).clone());
+					
+					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
+					
+					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
+					child.setParent( cloned );					
+					
+					cloned.children.add(child);
+					
 				}
 			}
 		}

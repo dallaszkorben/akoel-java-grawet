@@ -6,6 +6,7 @@ import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -163,8 +164,15 @@ public class BaseNodeDataModel extends BaseDataModelAdapter{
 			
 			for( Object o : this.children ){
 				
-				if( o instanceof BaseDataModelAdapter ){
-					cloned.children.add(((BaseDataModelAdapter)o).clone());
+				if( o instanceof BaseDataModelAdapter ){					
+					
+					BaseDataModelAdapter child = (BaseDataModelAdapter) ((BaseDataModelAdapter)o).clone();
+					
+					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
+					child.setParent( cloned );					
+					
+					cloned.children.add(child);
+					
 				}
 			}
 		}

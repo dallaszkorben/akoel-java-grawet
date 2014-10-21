@@ -2,7 +2,7 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
@@ -94,9 +94,9 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof TestcaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof TestcaseDataModelAdapter ){
 				
-				Element element = ((TestcaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((TestcaseDataModelAdapter)object).getXMLElement( document );
 				testcaseElement.appendChild( element );		    		
 		    	
 			}

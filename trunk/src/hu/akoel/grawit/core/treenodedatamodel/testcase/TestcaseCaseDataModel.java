@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
+import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
@@ -10,7 +11,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
@@ -30,7 +31,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
+public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 
 	private static final long serialVersionUID = -2139557326147525999L;
 
@@ -377,7 +378,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	}
 
 	@Override
-	public void add(TestcaseDataModelInterface node) {
+	public void add(TestcaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -475,9 +476,9 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof TestcaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof TestcaseDataModelAdapter ){
 				
-				Element element = ((TestcaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((TestcaseDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
@@ -508,5 +509,40 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	
 	public DriverBrowserDataModelInterface<?> getDriverDataModel(){
 		return driver;
+	}
+	
+	@Override
+	public Object clone(){
+		
+		//Leklonozza a NODE-ot
+		TestcaseCaseDataModel cloned = (TestcaseCaseDataModel)super.clone();
+	
+		//Ha vannak gyerekei (PAGE)
+		if( null != this.children ){
+			
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+			
+			for( Object o : this.children ){
+				
+				if( o instanceof TestcaseDataModelAdapter ){					
+					
+					TestcaseDataModelAdapter child = (TestcaseDataModelAdapter) ((TestcaseDataModelAdapter)o).clone();
+					
+					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
+					child.setParent( cloned );					
+					
+					cloned.children.add(child);
+					
+				}
+			}
+		}
+		
+		//Es a valtozokat is leklonozza
+		cloned.name = new String( this.name );
+		cloned.details = new String( this.details );
+		
+		return cloned;
+		
 	}
 }

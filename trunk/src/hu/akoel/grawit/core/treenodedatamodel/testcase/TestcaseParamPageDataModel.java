@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
+import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
@@ -10,7 +11,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
@@ -40,6 +41,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	
 	private String name;
 	private String details;
+	
 	private ParamPageDataModel paramPage;
 	
 	public TestcaseParamPageDataModel( String name, String details, ParamPageDataModel paramPage ){
@@ -182,7 +184,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	}
 
 	@Override
-	public void add(TestcaseDataModelInterface node) {
+	public void add(TestcaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -277,4 +279,17 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 		}
 	}
 	
+	@Override
+	public Object clone(){
+		
+		//Leklonozza a PARAM PAGE-et
+		TestcaseParamPageDataModel cloned = (TestcaseParamPageDataModel)super.clone();
+	
+		//Es a valtozokat is leklonozza
+		cloned.name = new String( this.name );
+		cloned.details = new String( this.details );
+		
+		return cloned;
+		
+	}
 }
