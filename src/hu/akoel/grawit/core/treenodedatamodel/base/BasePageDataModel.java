@@ -1,9 +1,8 @@
 package hu.akoel.grawit.core.treenodedatamodel.base;
 
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
+import java.util.Vector;
 
-import org.apache.xerces.dom.AttrNSImpl;
+import javax.swing.tree.MutableTreeNode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -11,23 +10,23 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class BasePageDataModel extends BaseDataModelInterface{
+public class BasePageDataModel extends BaseDataModelAdapter{
 
 	private static final long serialVersionUID = 8871077064641984017L;
 	
 	public static final Tag TAG = Tag.BASEPAGE;
 	
-//	public static final String ATTR_NAME = "name";
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name ;
 	private String details;
-//	private ArrayList<BasePageChangeListener> changeListenerList = new ArrayList<>();
 		
 	public BasePageDataModel( String name, String details ){
 		this.name = name;
@@ -97,7 +96,7 @@ public class BasePageDataModel extends BaseDataModelInterface{
 	}
 
 	@Override
-	public void add(BaseDataModelInterface node) {
+	public void add(BaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 
@@ -136,9 +135,9 @@ public class BasePageDataModel extends BaseDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof BaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof BaseDataModelAdapter ){
 				
-				Element element = ((BaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((BaseDataModelAdapter)object).getXMLElement( document );
 				pageElement.appendChild( element );		    		
 		    	
 			}
@@ -147,4 +146,31 @@ public class BasePageDataModel extends BaseDataModelInterface{
 		return pageElement;	
 	}
 	
+	@Override
+	public Object clone(){
+		
+		//Leklonozza a PAGE-et
+		BasePageDataModel cloned = (BasePageDataModel)super.clone();
+	
+		//Ha vannak gyerekei (NODE vagy ELEMENT)
+		if( null != this.children ){
+			
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+			
+			for( Object o : this.children ){
+				
+				if( o instanceof BaseDataModelAdapter ){
+					cloned.children.add(((BaseDataModelAdapter)o).clone());
+				}
+			}
+		}
+		
+		//Es a valtozokat is leklonozza
+		cloned.name = new String( this.name );
+		cloned.details = this.details;
+		
+		return cloned;
+		
+	}
 }

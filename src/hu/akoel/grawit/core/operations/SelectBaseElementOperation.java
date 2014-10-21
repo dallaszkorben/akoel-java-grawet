@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
@@ -40,7 +40,7 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	
 	public SelectBaseElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		BaseDataModelInterface baseDataModelForSelect = baseRootDataModel;
+		BaseDataModelAdapter baseDataModelForSelect = baseRootDataModel;
 		
 		//SELECTION BY
 		if( !element.hasAttribute( ATTR_SELECTION_BY ) ){
@@ -88,7 +88,7 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	    	//Ha BASENODE
 	    	if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	    		
-	    		baseDataModelForSelect = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForSelect, Tag.BASENODE, attrName );
+	    		baseDataModelForSelect = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForSelect, Tag.BASENODE, attrName );
 
 	    		if( null == baseDataModelForSelect ){
 
@@ -98,7 +98,7 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	    	//Ha BASEELEMENT
 	    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForSelect = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForSelect, Tag.BASEELEMENT, attrName );
+	    		baseDataModelForSelect = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForSelect, Tag.BASEELEMENT, attrName );
 	
 	    		if( null == baseDataModelForSelect ){
 
@@ -109,7 +109,7 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
-	    		baseDataModelForSelect = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForSelect, Tag.BASEPAGE, attrName );
+	    		baseDataModelForSelect = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForSelect, Tag.BASEPAGE, attrName );
 
 	    		if( null == baseDataModelForSelect ){
 

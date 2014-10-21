@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
@@ -14,11 +14,11 @@ public class BaseElementTreeSelectorComponent extends TreeSelectorComponent<Base
 
 	private static final long serialVersionUID = -5178610032767904794L;
 
-	public BaseElementTreeSelectorComponent( BaseDataModelInterface rootDataModel ) {
+	public BaseElementTreeSelectorComponent( BaseDataModelAdapter rootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.baseelement"), BaseElementDataModel.class, rootDataModel, null, false);
 	}
 
-	public BaseElementTreeSelectorComponent( BaseDataModelInterface rootDataModel, BaseElementDataModel selectedBaseElementDataModel ) {
+	public BaseElementTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BaseElementDataModel selectedBaseElementDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.baseelement"),BaseElementDataModel.class, rootDataModel, selectedBaseElementDataModel, false);
 	}
 	

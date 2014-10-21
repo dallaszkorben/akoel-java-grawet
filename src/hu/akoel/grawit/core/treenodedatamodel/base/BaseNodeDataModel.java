@@ -1,9 +1,11 @@
 package hu.akoel.grawit.core.treenodedatamodel.base;
 
+import java.util.Vector;
+
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -14,13 +16,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class BaseNodeDataModel extends BaseDataModelInterface{
+public class BaseNodeDataModel extends BaseDataModelAdapter{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	
 	public static final Tag TAG = Tag.BASENODE;
 	
-//	public static final String ATTR_NAME = "name";
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name;
@@ -84,7 +85,7 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 	}
 
 	@Override
-	public void add(BaseDataModelInterface node) {
+	public void add(BaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -137,9 +138,9 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof BaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof BaseDataModelAdapter ){
 				
-				Element element = ((BaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((BaseDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
@@ -148,4 +149,31 @@ public class BaseNodeDataModel extends BaseDataModelInterface{
 		return nodeElement;		
 	}
 
+	@Override
+	public Object clone(){
+		
+		//Leklonozza a NODE-ot
+		BaseNodeDataModel cloned = (BaseNodeDataModel)super.clone();
+	
+		//Ha vannak gyerekei (NODE vagy PAGE)
+		if( null != this.children ){
+			
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+			
+			for( Object o : this.children ){
+				
+				if( o instanceof BaseDataModelAdapter ){
+					cloned.children.add(((BaseDataModelAdapter)o).clone());
+				}
+			}
+		}
+		
+		//Es a valtozokat is leklonozza
+		cloned.name = new String( this.name );
+		cloned.details = this.details;
+		
+		return cloned;
+		
+	}
 }

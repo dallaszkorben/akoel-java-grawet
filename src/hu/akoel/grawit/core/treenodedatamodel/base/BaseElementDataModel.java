@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -15,7 +15,7 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 
-public class BaseElementDataModel extends BaseDataModelInterface{
+public class BaseElementDataModel extends BaseDataModelAdapter{
 	private static final long serialVersionUID = -8916078747948054716L;
 
 	public static Tag TAG = Tag.BASEELEMENT;
@@ -186,7 +186,7 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 	}
 	
 	@Override
-	public void add(BaseDataModelInterface node) {
+	public void add(BaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -251,5 +251,22 @@ public class BaseElementDataModel extends BaseDataModelInterface{
 		return elementElement;	
 	}
 
-
+	@Override
+	public Object clone(){
+		
+		//Leklonozza az BaseElement-et
+		BaseElementDataModel cloned = (BaseElementDataModel)super.clone();
+	
+		//Es a valtozoit is klonozni kell
+		cloned.name = new String( this.name );		
+		cloned.frame = new String(this.frame);
+		cloned.identifier = new String( this.identifier );
+		cloned.identificationType = this.identificationType;	//TODO kedes, hogy jo-e
+		cloned.elementType = this.elementType;					//TODO Kerde, hogy jo-e
+		if( null != this.waitingTime )
+			cloned.waitingTime = new Integer(this.waitingTime);		
+		
+		return cloned;
+		
+	}
 }

@@ -1,7 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.base;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLExtraRootTagPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -90,9 +90,9 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof BaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof BaseDataModelAdapter ){
 				
-				Element element = ((BaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((BaseDataModelAdapter)object).getXMLElement( document );
 				baseElement.appendChild( element );		    		
 		    	
 			}
