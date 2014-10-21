@@ -23,7 +23,7 @@ import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.Properties;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
@@ -35,7 +35,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class ParamPageDataModel  extends ParamDataModelInterface implements ExecutablePageInterface{//, BasePageChangeListener{
+public class ParamPageDataModel  extends ParamDataModelAdapter implements ExecutablePageInterface{//, BasePageChangeListener{
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
@@ -195,7 +195,7 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 	}
 	
 	@Override
-	public void add(ParamDataModelInterface node) {
+	public void add(ParamDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -320,9 +320,9 @@ public class ParamPageDataModel  extends ParamDataModelInterface implements Exec
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamDataModelInterface ){
+			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
 				
-				Element element = ((ParamDataModelInterface)object).getXMLElement( document );
+				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
 				pageElement.appendChild( element );		    		
 		    	
 			}

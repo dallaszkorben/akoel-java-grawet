@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -132,6 +133,60 @@ public class VariableTree extends Tree{
 		
 	}
 
+	@Override
+	public void doDuplicate( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
+		
+		JMenuItem duplicateMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.duplicate") );
+		duplicateMenu.setActionCommand( ActionCommand.DUPLICATE.name());
+		duplicateMenu.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				/*//Megerosito kerdes
+				Object[] options = {
+						CommonOperations.getTranslation("button.no"),
+						CommonOperations.getTranslation("button.yes")								
+				};
+				
+				int n = JOptionPane.showOptionDialog(guiFrame,							
+						MessageFormat.format( 
+								CommonOperations.getTranslation("mesage.question.delete.treeelement"), 
+								selectedNode.getNodeTypeToShow(),									
+								selectedNode.getName()
+						),							
+						CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						options,
+						options[0]);
+
+				if( n == 1 ){
+					totalTreeModel.removeNodeFromParent( selectedNode);
+					ParamTree.this.setSelectionRow(selectedRow - 1);
+				}
+				*/
+				
+				//Ha a kivalasztott csomopont szuloje VariableDataModel - annak kell lennie :)
+				if( selectedNode.getParent() instanceof VariableDataModelAdapter ){
+					
+					//Akkor megduplikalja 
+					VariableDataModelAdapter duplicated = (VariableDataModelAdapter)selectedNode.clone();
+					
+					//Es hozzaadja a szulohoz
+					((VariableDataModelAdapter)selectedNode.getParent()).add( duplicated );
+
+					//Felfrissitem a Tree-t
+					VariableTree.this.changed();
+				
+				}
+
+			}
+		});
+		popupMenu.add ( duplicateMenu );
+	}
+	
 	@Override
 	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel ) {
 	

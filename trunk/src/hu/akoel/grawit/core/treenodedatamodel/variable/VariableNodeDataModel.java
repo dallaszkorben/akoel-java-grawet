@@ -1,9 +1,12 @@
 package hu.akoel.grawit.core.treenodedatamodel.variable;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -15,7 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class VariableNodeDataModel extends VariableDataModelInterface{
+public class VariableNodeDataModel extends VariableDataModelAdapter{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	
@@ -77,7 +80,7 @@ public class VariableNodeDataModel extends VariableDataModelInterface{
 	}
 
 	@Override
-	public void add(VariableDataModelInterface node) {
+	public void add(VariableDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -130,9 +133,9 @@ public class VariableNodeDataModel extends VariableDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof VariableDataModelInterface ){
+			if( !object.equals(this) && object instanceof VariableDataModelAdapter ){
 				
-				Element element = ((VariableDataModelInterface)object).getXMLElement( document );
+				Element element = ((VariableDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
@@ -141,4 +144,32 @@ public class VariableNodeDataModel extends VariableDataModelInterface{
 		return nodeElement;		
 	}
 
+	@Override
+	public Object clone(){
+		
+		//Leklonozza a NODE-ot
+		VariableNodeDataModel cloned = (VariableNodeDataModel)super.clone();
+	
+		//Ha vannak gyerekei (NODE vagy ELEMENT)
+		if( null != this.children ){
+			
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+			
+			for( Object o : this.children ){
+				
+				if( o instanceof VariableDataModelAdapter ){
+					cloned.children.add(((VariableDataModelAdapter)o).clone());
+				}
+			}
+		}
+		
+		//Es a valtozokat is leklonozza
+		cloned.name = new String( this.name );
+		cloned.details = this.details;
+		
+		return cloned;
+		
+	}
+	
 }

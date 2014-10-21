@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
@@ -35,7 +35,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 	private ParamPageTreeSelectorComponent fieldParamPageTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcaseParamPageEditor( Tree tree, TestcaseCaseDataModel selectedNode, ParamDataModelInterface paramDataModel ){
+	public TestcaseParamPageEditor( Tree tree, TestcaseCaseDataModel selectedNode, ParamDataModelAdapter paramDataModel ){
 		super( TestcaseParamPageDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
@@ -56,7 +56,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcaseParamPageEditor( Tree testcaseTree, TestcaseParamPageDataModel selectedNode, ParamDataModelInterface paramDataModel, EditMode mode ){		
+	public TestcaseParamPageEditor( Tree testcaseTree, TestcaseParamPageDataModel selectedNode, ParamDataModelAdapter paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = testcaseTree;

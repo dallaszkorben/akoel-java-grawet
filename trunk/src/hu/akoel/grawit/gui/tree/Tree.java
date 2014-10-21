@@ -140,6 +140,8 @@ public abstract class Tree extends JTree{
 	
 	public abstract void doPopupDelete( final JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel );
 	
+	public abstract void doDuplicate( final JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel );
+	
 	public abstract void doPopupRootInsert( JPopupMenu popupMenu, DataModelAdapter selectedNode );
 	
 	public abstract boolean possibleHierarchy( DefaultMutableTreeNode draggedNode, Object dropObject );
@@ -468,6 +470,7 @@ public abstract class Tree extends JTree{
 				
 				doPopupInsert( this, selectedNode );				
 				doPopupDelete( this, selectedNode, selectedRow, totalTreeModel );
+				doDuplicate( this, selectedNode, selectedRow, totalTreeModel );
 				
 			//ROOT volt kivalasztva
 			}else{

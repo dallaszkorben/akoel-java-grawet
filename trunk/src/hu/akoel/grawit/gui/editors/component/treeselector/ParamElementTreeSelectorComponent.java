@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
@@ -15,11 +15,11 @@ public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<Par
 
 	private static final long serialVersionUID = 8754108739802478258L;
 
-	public ParamElementTreeSelectorComponent( ParamDataModelInterface paramRootDataModel ) {
+	public ParamElementTreeSelectorComponent( ParamDataModelAdapter paramRootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.paramelement"), ParamElementDataModel.class, paramRootDataModel, null, false);
 	}
 
-	public ParamElementTreeSelectorComponent( ParamDataModelInterface paramRootDataModel, ParamElementDataModel selectedParamPageDataModel ) {
+	public ParamElementTreeSelectorComponent( ParamDataModelAdapter paramRootDataModel, ParamElementDataModel selectedParamPageDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.paramelement"), ParamElementDataModel.class, paramRootDataModel, selectedParamPageDataModel, false);
 	}
 	

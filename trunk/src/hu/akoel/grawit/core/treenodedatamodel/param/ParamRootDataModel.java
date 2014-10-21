@@ -3,7 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.param;
 import java.util.Vector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -87,9 +87,9 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamDataModelInterface ){
+			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
 				
-				Element element = ((ParamDataModelInterface)object).getXMLElement( document );
+				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
 				paramPageElement.appendChild( element );		    		
 		    	
 			}

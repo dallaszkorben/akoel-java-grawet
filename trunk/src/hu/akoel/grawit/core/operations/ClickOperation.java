@@ -38,4 +38,9 @@ public class ClickOperation extends ElementOperationAdapter{
 		//No parameter, no operation			
 	}
 
+	@Override
+	public Object clone() {		
+		return new ClickOperation();
+	}
+
 }
