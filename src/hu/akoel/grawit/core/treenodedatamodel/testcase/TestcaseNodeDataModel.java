@@ -1,11 +1,13 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
+import java.util.Vector;
+
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
@@ -19,7 +21,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
+public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 
 	private static final long serialVersionUID = -2139557326147525999L;
 
@@ -87,7 +89,7 @@ public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
 	}
 
 	@Override
-	public void add(TestcaseDataModelInterface node) {
+	public void add(TestcaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -140,9 +142,9 @@ public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof TestcaseDataModelInterface ){
+			if( !object.equals(this) && object instanceof TestcaseDataModelAdapter ){
 				
-				Element element = ((TestcaseDataModelInterface)object).getXMLElement( document );
+				Element element = ((TestcaseDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
@@ -151,4 +153,38 @@ public class TestcaseNodeDataModel extends TestcaseDataModelInterface{
 		return nodeElement;		
 	}
 
+	@Override
+	public Object clone(){
+		
+		//Leklonozza a NODE-ot
+		TestcaseNodeDataModel cloned = (TestcaseNodeDataModel)super.clone();
+	
+		//Ha vannak gyerekei (NODE vagy CASE)
+		if( null != this.children ){
+			
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+			
+			for( Object o : this.children ){
+				
+				if( o instanceof TestcaseDataModelAdapter ){					
+					
+					TestcaseDataModelAdapter child = (TestcaseDataModelAdapter) ((TestcaseDataModelAdapter)o).clone();
+					
+					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
+					child.setParent( cloned );					
+					
+					cloned.children.add(child);
+					
+				}
+			}
+		}
+		
+		//Es a valtozokat is leklonozza
+		cloned.name = new String( this.name );
+		cloned.details = new String( this.details );
+		
+		return cloned;
+		
+	}
 }

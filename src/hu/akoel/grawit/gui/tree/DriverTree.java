@@ -337,4 +337,9 @@ public class DriverTree extends Tree{
 		return false;
 	}
 
+	@Override
+	public void doDuplicate(JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel) {
+		//NO DUPLICATION ENABLED
+	}
+
 }

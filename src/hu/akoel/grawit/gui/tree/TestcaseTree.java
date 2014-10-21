@@ -12,7 +12,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
@@ -226,6 +228,35 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
+	public void doDuplicate( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
+		
+		JMenuItem duplicateMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.duplicate") );
+		duplicateMenu.setActionCommand( ActionCommand.DUPLICATE.name());
+		duplicateMenu.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				//Ha a kivalasztott csomopont szuloje BaseDataModel - annak kell lennie :)
+				if( selectedNode.getParent() instanceof TestcaseDataModelAdapter ){
+					
+					//Akkor megduplikalja 
+					TestcaseDataModelAdapter duplicated = (TestcaseDataModelAdapter)selectedNode.clone();
+					
+					//Es hozzaadja a szulohoz
+					((TestcaseDataModelAdapter)selectedNode.getParent()).add( duplicated );
+
+					//Felfrissitem a Tree-t
+					TestcaseTree.this.changed();
+				
+				}
+
+			}
+		});
+		popupMenu.add ( duplicateMenu );
+	}
+	
+	@Override
 	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
 	
 		if( selectedNode.getChildCount() == 0 ){
@@ -307,5 +338,6 @@ public class TestcaseTree extends Tree {
 		
 		return false;
 	}
+
 
 }
