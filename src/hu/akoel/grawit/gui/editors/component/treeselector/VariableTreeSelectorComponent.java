@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 
@@ -13,11 +13,11 @@ public class VariableTreeSelectorComponent extends TreeSelectorComponent<Variabl
 
 	private static final long serialVersionUID = 5692189257383238770L;
 
-	public VariableTreeSelectorComponent( VariableDataModelInterface rootDataModel ) {
+	public VariableTreeSelectorComponent( VariableDataModelAdapter rootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.variable"), VariableElementDataModel.class, rootDataModel, null, false );
 	}
 
-	public VariableTreeSelectorComponent( VariableDataModelInterface rootDataModel, VariableElementDataModel selectedVariableElementDataModel ) {
+	public VariableTreeSelectorComponent( VariableDataModelAdapter rootDataModel, VariableElementDataModel selectedVariableElementDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.variable"), VariableElementDataModel.class, rootDataModel, selectedVariableElementDataModel, false );
 	}
 	

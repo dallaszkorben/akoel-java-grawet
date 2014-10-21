@@ -5,7 +5,7 @@ import java.util.Vector;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ParamNodeDataModel extends ParamDataModelInterface{
+public class ParamNodeDataModel extends ParamDataModelAdapter{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
@@ -78,7 +78,7 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 	}
 	
 	@Override
-	public void add(ParamDataModelInterface node) {
+	public void add(ParamDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -131,9 +131,9 @@ public class ParamNodeDataModel extends ParamDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamDataModelInterface ){
+			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
 				
-				Element element = ((ParamDataModelInterface)object).getXMLElement( document );
+				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}

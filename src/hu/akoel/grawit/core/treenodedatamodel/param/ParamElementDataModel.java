@@ -44,7 +44,7 @@ import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -56,7 +56,7 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 
-public class ParamElementDataModel extends ParamDataModelInterface {
+public class ParamElementDataModel extends ParamDataModelAdapter {
 	
 	private static final long serialVersionUID = -8916078747948054716L;
 
@@ -599,7 +599,7 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 	}
 	
 	@Override
-	public void add( ParamDataModelInterface node ) {
+	public void add( ParamDataModelAdapter node ) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -682,6 +682,9 @@ public class ParamElementDataModel extends ParamDataModelInterface {
 		if( null != this.children ){
 			cloned.children = (Vector<?>) this.children.clone();
 		}
+		
+		cloned.baseElement = (BaseElementDataModel) this.baseElement.clone();
+		cloned.elementOperation = (ElementOperationAdapter) this.elementOperation.clone();
 		
 		return cloned;
 		

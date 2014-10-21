@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -41,7 +41,7 @@ public class SelectVariableElementOperation extends SelectOperationAdapter{
 	
 	public SelectVariableElementOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		VariableDataModelInterface variableDataModelForSelect = variableRootDataModel;
+		VariableDataModelAdapter variableDataModelForSelect = variableRootDataModel;
 		
 		//SELECTION BY
 		if( !element.hasAttribute( ATTR_SELECTION_BY ) ){
@@ -88,7 +88,7 @@ public class SelectVariableElementOperation extends SelectOperationAdapter{
 	    	//Ha VARIABLENODE
 	    	if( tagName.equals( VariableNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(VariableNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForSelect = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.VARIABLENODE, attrName );
+	    		variableDataModelForSelect = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.VARIABLENODE, attrName );
 
 	    		if( null == variableDataModelForSelect ){
 
@@ -98,7 +98,7 @@ public class SelectVariableElementOperation extends SelectOperationAdapter{
 	    	//Ha VARIABLEELEMENT
 	    	}else if( tagName.equals( VariableElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(VariableElementDataModel.ATTR_NAME);
-	    		variableDataModelForSelect = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.VARIABLEELEMENT, attrName );
+	    		variableDataModelForSelect = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.VARIABLEELEMENT, attrName );
 	    		
 	    		if( null == variableDataModelForSelect ){
 

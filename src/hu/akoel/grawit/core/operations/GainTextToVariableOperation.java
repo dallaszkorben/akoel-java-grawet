@@ -18,7 +18,7 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
@@ -56,7 +56,7 @@ public class GainTextToVariableOperation extends ElementOperationAdapter{
 	
 	public GainTextToVariableOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLMissingAttributePharseException, XMLBaseConversionPharseException{
 		
-		VariableDataModelInterface variableDataModelForFillOut = variableRootDataModel;
+		VariableDataModelAdapter variableDataModelForFillOut = variableRootDataModel;
 		
 		if( !element.hasAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_FILL_VARIABLE_ELEMENT_PATH );		
@@ -87,7 +87,7 @@ public class GainTextToVariableOperation extends ElementOperationAdapter{
 	    	//Ha VARIABLENODE
 	    	if( tagName.equals( VariableNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(VariableNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForFillOut = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLENODE, attrName );
+	    		variableDataModelForFillOut = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLENODE, attrName );
 
 	    		if( null == variableDataModelForFillOut ){
 
@@ -97,7 +97,7 @@ public class GainTextToVariableOperation extends ElementOperationAdapter{
 	    	//Ha VARIABLEELEMENT
 	    	}else if( tagName.equals( VariableElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(VariableElementDataModel.ATTR_NAME);
-	    		variableDataModelForFillOut = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLEELEMENT, attrName );
+	    		variableDataModelForFillOut = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLEELEMENT, attrName );
 	    		
 	    		if( null == variableDataModelForFillOut ){
 

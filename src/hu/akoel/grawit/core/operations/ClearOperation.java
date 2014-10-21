@@ -41,4 +41,12 @@ public class ClearOperation extends ElementOperationAdapter{
 		//No parameter, no operation				
 	}
 	
+	@Override
+	public Object clone(){
+		
+		ClearOperation cloned = new ClearOperation();
+		
+		return cloned;
+		
+	}
 }

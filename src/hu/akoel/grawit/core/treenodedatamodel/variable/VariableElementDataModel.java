@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.variable;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -8,15 +9,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.VariableTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
 
-public class VariableElementDataModel extends VariableDataModelInterface{// implements ElementParameter{
+public class VariableElementDataModel extends VariableDataModelAdapter{
 
 	private static final long serialVersionUID = 598870035128239461L;
 	
@@ -195,7 +199,21 @@ public class VariableElementDataModel extends VariableDataModelInterface{// impl
 	}
 
 	@Override
-	public void add(VariableDataModelInterface node) {
+	public void add(VariableDataModelAdapter node) {
 	}
 
+	@Override
+	public Object clone(){
+		
+		//Leklonozza az VariableElement-et
+		VariableElementDataModel cloned = (VariableElementDataModel)super.clone();
+	
+		//Es a valtozoit is klonozni kell
+		cloned.name = new String( this.name );
+		cloned.type = this.type;
+		cloned.parameters = (ArrayList<Object>) this.parameters.clone();
+		
+		return cloned;
+		
+	}
 }

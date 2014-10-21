@@ -9,7 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.PageProgressInterface;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
@@ -58,7 +58,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseParamPageDataModel( Element element, ParamDataModelInterface paramDataModel ) throws XMLPharseException{
+	public TestcaseParamPageDataModel( Element element, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -133,7 +133,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	    	//Ha PARAMNODE
 	    	if( tagName.equals( ParamNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ParamNodeDataModel.ATTR_NAME);	    		
-	    		paramDataModel = (ParamDataModelInterface) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNODE, attrName );
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNODE, attrName );
 
 	    		if( null == paramDataModel ){
 
@@ -143,7 +143,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	    	//Ha PARAMPAGE
 	    	}else if( tagName.equals( ParamPageDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ParamPageDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelInterface) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGE, attrName );
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGE, attrName );
 	    		if( null == paramDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );

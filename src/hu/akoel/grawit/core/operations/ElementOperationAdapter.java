@@ -19,7 +19,7 @@ import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.ElementUnreachableBrowserException;
 
-public abstract class ElementOperationAdapter {
+public abstract class ElementOperationAdapter implements Cloneable{
 		
 	public abstract String getName();
 		
@@ -27,6 +27,11 @@ public abstract class ElementOperationAdapter {
 
 	public abstract void doOperation( WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException;
 	
+	/**
+	 * Make it visible
+	 */
+    public abstract Object clone();
+  
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 		
 		

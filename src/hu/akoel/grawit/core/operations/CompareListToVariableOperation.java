@@ -18,7 +18,7 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
@@ -57,7 +57,7 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 	
 	public CompareListToVariableOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		VariableDataModelInterface variableDataModelForFillOut = variableRootDataModel;
+		VariableDataModelAdapter variableDataModelForFillOut = variableRootDataModel;
 		
 		//COMPARE BY
 		String stringCompareBy = "";
@@ -111,7 +111,7 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 	    	//Ha VARIABLENODE
 	    	if( tagName.equals( VariableNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(VariableNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForFillOut = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLENODE, attrName );
+	    		variableDataModelForFillOut = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLENODE, attrName );
 
 	    		if( null == variableDataModelForFillOut ){
 
@@ -121,7 +121,7 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 	    	//Ha VARIABLEELEMENT
 	    	}else if( tagName.equals( VariableElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(VariableElementDataModel.ATTR_NAME);
-	    		variableDataModelForFillOut = (VariableDataModelInterface) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLEELEMENT, attrName );
+	    		variableDataModelForFillOut = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLEELEMENT, attrName );
 	    		
 	    		if( null == variableDataModelForFillOut ){
 

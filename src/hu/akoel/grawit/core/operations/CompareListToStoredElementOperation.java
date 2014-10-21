@@ -46,7 +46,7 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	private ListCompareByListEnum compareBy;
 	private BaseElementDataModel baseElementDataModel;
 	private CompareTypeListEnum compareType;
-	
+		
 	public CompareListToStoredElementOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
 		this.baseElementDataModel = baseElementDataModel;
 		this.compareType = compareType;
@@ -250,6 +250,17 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 		attr.setValue( stringPattern );
 		element.setAttributeNode(attr);	
 
+	}
+
+	@Override
+	public Object clone() {
+		
+		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.clone();
+		CompareTypeListEnum compareType = this.compareType;		//TODO ez kedes, hogy jo-e
+		String stringPattern = new String( this.stringPattern );
+		ListCompareByListEnum compareBy = this.compareBy;		//TODO ez kerdes, hogy jo-e
+				
+		return new CompareListToStoredElementOperation(baseElementDataModel, compareType, stringPattern, compareBy);
 	}
 	
 }

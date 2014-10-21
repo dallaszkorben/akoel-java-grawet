@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
@@ -68,7 +68,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCaseDataModel( Element element, SpecialDataModelInterface specialDataModel, ParamDataModelInterface paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
+	public TestcaseCaseDataModel( Element element, SpecialDataModelInterface specialDataModel, ParamDataModelAdapter paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
