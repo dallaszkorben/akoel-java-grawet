@@ -33,8 +33,8 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	private ListSelectionByListEnum selectionBy;
 	//----
 	
-	public SelectBaseElementOperation( BaseElementDataModel variableElementDataModel, ListSelectionByListEnum selectionBy ){
-		this.baseElementDataModel = variableElementDataModel;
+	public SelectBaseElementOperation( BaseElementDataModel baseElementDataModel, ListSelectionByListEnum selectionBy ){
+		this.baseElementDataModel = baseElementDataModel;
 		this.selectionBy = selectionBy;
 	}
 	
@@ -165,6 +165,15 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 		attr = document.createAttribute( ATTR_SELECTION_BY );
 		attr.setValue( selectionBy.name() );
 		element.setAttributeNode( attr );	
+	}
+
+	@Override
+	public Object clone() {
+		
+		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.clone();
+		ListSelectionByListEnum selectionBy = this.selectionBy;
+		
+		return new SelectBaseElementOperation(baseElementDataModel, selectionBy);
 	}
 
 

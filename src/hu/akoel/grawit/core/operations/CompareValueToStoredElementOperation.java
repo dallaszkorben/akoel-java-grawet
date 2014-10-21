@@ -39,9 +39,12 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
+	
+	//--- Data model
 	private String stringPattern;
 	private BaseElementDataModel baseElementDataModel;
 	private CompareTypeListEnum compareType;
+	//----
 	
 	public CompareValueToStoredElementOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType, String stringPattern ){
 		this.baseElementDataModel = baseElementDataModel;
@@ -231,6 +234,16 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		attr = document.createAttribute( ATTR_PATTERN );
 		attr.setValue( stringPattern );
 		element.setAttributeNode(attr);	
+	}
+
+	@Override
+	public Object clone() {
+		
+		String stringPattern = new String( this.stringPattern );
+		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.clone();
+		CompareTypeListEnum compareType = this.compareType;
+		
+		return new CompareValueToStoredElementOperation(baseElementDataModel, compareType, stringPattern);
 	}
 	
 }

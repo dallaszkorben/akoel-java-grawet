@@ -79,5 +79,14 @@ public class SelectStringOperation extends SelectOperationAdapter{
 		element.setAttributeNode( attr );	
 	}
 
+	@Override
+	public Object clone() {
+
+		String string = new String( this.string );
+		ListSelectionByListEnum selectionBy = this.selectionBy;
+		
+		return new SelectStringOperation(string, selectionBy);
+	}
+
 
 }

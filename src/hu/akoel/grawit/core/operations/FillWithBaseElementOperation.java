@@ -157,5 +157,13 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 		attr.setValue( baseElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );	
 	}
+
+	@Override
+	public Object clone() {
+		
+		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.clone();
+		
+		return new FillWithBaseElementOperation(baseElementDataModel);
+	}
 	
 }

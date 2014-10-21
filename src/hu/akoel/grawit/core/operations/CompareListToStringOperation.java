@@ -28,11 +28,14 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_COMPARE_BY = "compareby";
 	
-	private Pattern pattern;
+	// Model
 	private String stringPattern;
 	private ListCompareByListEnum compareBy;	
 	private String stringToCompare;
 	private CompareTypeListEnum compareType;
+	//----
+	
+	private Pattern pattern;
 	
 	public CompareListToStringOperation( String stringToCompare, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
 		this.stringToCompare = stringToCompare;

@@ -139,5 +139,13 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter{
 		attr.setValue( variableElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );			
 	}
+
+	@Override
+	public Object clone() {
+		
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		
+		return new FillWithVariableElementOperation(variableElementDataModel);
+	}
 	
 }

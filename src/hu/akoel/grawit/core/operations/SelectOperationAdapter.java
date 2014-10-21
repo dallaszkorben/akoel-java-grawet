@@ -12,8 +12,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementNotFoundComponentException;
 
-public abstract class SelectOperationAdapter extends ElementOperationAdapter{
-	
+public abstract class SelectOperationAdapter extends ElementOperationAdapter{	
 	
 	public abstract ListSelectionByListEnum getSelectionBy();
 	

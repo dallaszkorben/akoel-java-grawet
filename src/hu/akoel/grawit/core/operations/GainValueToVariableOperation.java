@@ -42,8 +42,11 @@ public class GainValueToVariableOperation extends ElementOperationAdapter{
 	
 	private Pattern pattern;
 	private Matcher matcher;
+	
+	//--- Data model
 	private VariableElementDataModel variableElementDataModel;
 	private String stringPattern;
+	//---
 	
 	public GainValueToVariableOperation( VariableElementDataModel variableElementDataModel, String stringPattern ){
 		this.stringPattern = stringPattern;		
@@ -204,6 +207,15 @@ public class GainValueToVariableOperation extends ElementOperationAdapter{
 		attr = document.createAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH );
 		attr.setValue( variableElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );	
+	}
+
+	@Override
+	public Object clone() {
+		
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		String stringPattern = new String( this.stringPattern );
+		
+		return new GainValueToVariableOperation(variableElementDataModel, stringPattern);
 	}
 
 	

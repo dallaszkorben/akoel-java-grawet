@@ -43,4 +43,10 @@ public class TabOperation extends ElementOperationAdapter{
 		//No attribute		
 	}
 
+	@Override
+	public Object clone() {
+		
+		return new TabOperation();
+	}
+
 }
