@@ -168,7 +168,7 @@ public class BasePageDataModel extends BaseDataModelAdapter{
 		
 		//Es a valtozokat is leklonozza
 		cloned.name = new String( this.name );
-		cloned.details = this.details;
+		cloned.details = new String( this.details );
 		
 		return cloned;
 		

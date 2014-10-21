@@ -42,23 +42,15 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 	public static final Tag TAG = Tag.PARAMPAGE;
 	
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
-//	private static final String ATTR_ON = "on";
 	
 	private String name;
-
 	private BasePageDataModel basePage;	
-	private ParamElementDataModel parameterElement;
-	
-//	private PageProgressInterface pageProgressInterface = null;	
 	
 	public ParamPageDataModel( String name, BasePageDataModel basePage ){
 		super();
 		
 		this.name = name;
 		this.basePage = basePage;
-		
-		//Engedelyezi a Node Ki/Be kapcsolasat
-//		this.setEnabledToTurnOnOff( true );
 
 	}
 
@@ -70,9 +62,6 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 	 */
 	public ParamPageDataModel( Element element, BaseDataModelAdapter baseDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
-		//Engedelyezi a Node Ki/Be kapcsolasat
-//		this.setEnabledToTurnOnOff( true );
-		
 		//========
 		//
 		//name
@@ -83,19 +72,7 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
-		
-/*		//========
-		//
-		// On
-		//
-		//========		
-		if( !element.hasAttribute( ATTR_ON ) ){
-			this.setOn( Boolean.TRUE );
-		}else{
-			String enabledString = element.getAttribute( ATTR_ON );
-			this.setOn( Boolean.parseBoolean( enabledString ));
-		}				
-*/		
+				
 		//========
 		//
 		//BasePage
@@ -222,6 +199,8 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 	@Override
 	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException {
 		
+		ParamElementDataModel parameterElement;
+		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
 			pageProgress.pageStarted( getName(), getNodeTypeToShow() );
@@ -328,25 +307,32 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 			}
 		}
 		
-/*		//========
-		//
-		// On
-		//
-		//========
-		attr = document.createAttribute( ATTR_ON );
-		attr.setValue( this.isOn().toString() );
-		pageElement.setAttributeNode(attr);
-*/		
 		return pageElement;	
 	}
 	
 	@Override
 	public Object clone(){
 		
+		//Leklonozza a ParamPage-et
 		ParamPageDataModel cloned = (ParamPageDataModel)super.clone();
-	
+
+		//Ha vannak gyerekei (ELEMENT)
 		if( null != this.children ){
-			cloned.children = (Vector<?>) this.children.clone();
+							
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+							
+			for( Object ob : this.children ){
+								
+				if( ob instanceof ParamDataModelAdapter ){
+					
+					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter) ob).clone();
+					child.setParent( ParamPageDataModel.this);					
+					cloned.children.add(child);
+System.err.println(child.getParent());
+				
+				}
+			}
 		}
 		
 		return cloned;
