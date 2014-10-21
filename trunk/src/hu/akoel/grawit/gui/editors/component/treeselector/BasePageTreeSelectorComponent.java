@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
@@ -14,11 +14,11 @@ import javax.swing.tree.TreePath;
 public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BasePageDataModel>{
 	private static final long serialVersionUID = 1194717514083971251L;
 
-	public BasePageTreeSelectorComponent( BaseDataModelInterface rootDataModel ) {
+	public BasePageTreeSelectorComponent( BaseDataModelAdapter rootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.basepage"), BasePageDataModel.class, rootDataModel, null, false );
 	}
 
-	public BasePageTreeSelectorComponent( BaseDataModelInterface rootDataModel, BasePageDataModel selectedBasePageDataModel ) {
+	public BasePageTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BasePageDataModel selectedBasePageDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.basepage"), BasePageDataModel.class, rootDataModel, selectedBasePageDataModel, false);
 	}
 	

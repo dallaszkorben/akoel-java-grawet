@@ -17,7 +17,7 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
@@ -55,7 +55,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 
 	public CompareTextToStoredElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
-		BaseDataModelInterface baseDataModelForFillOut = baseRootDataModel;
+		BaseDataModelAdapter baseDataModelForFillOut = baseRootDataModel;
 		
 		//ATTR_COMPARE_TYPE
 		if( !element.hasAttribute( ATTR_COMPARE_TYPE ) ){
@@ -95,7 +95,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	    	//Ha BASENODE
 	    	if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	    		
-	    		baseDataModelForFillOut = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASENODE, attrName );
+	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASENODE, attrName );
 
 	    		if( null == baseDataModelForFillOut ){
 
@@ -105,7 +105,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	    	//Ha BASEELEMENT
 	    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEELEMENT, attrName );
+	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEELEMENT, attrName );
 	
 	    		if( null == baseDataModelForFillOut ){
 
@@ -116,7 +116,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelInterface) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEPAGE, attrName );
+	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEPAGE, attrName );
 
 	    		if( null == baseDataModelForFillOut ){
 

@@ -13,6 +13,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
@@ -224,7 +225,20 @@ public class ParamTree extends Tree {
 				}
 				*/
 				
-				DataModelAdapter duplicated = (DataModelAdapter)selectedNode.clone();
+				//Ha a kivalasztott csomopont szuloje ParamDataModel - annak kell lennie :)
+				if( selectedNode.getParent() instanceof ParamDataModelAdapter ){
+					
+					//Akkor megduplikalja 
+					ParamDataModelAdapter duplicated = (ParamDataModelAdapter)selectedNode.clone();
+					
+					//Es hozzaadja a szulohoz
+					((ParamDataModelAdapter)selectedNode.getParent()).add( duplicated );
+
+					//Felfrissitem a Tree-t
+					ParamTree.this.changed();
+				
+				}
+				
 			}
 		});
 		popupMenu.add ( duplicateMenu );
