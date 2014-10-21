@@ -2,6 +2,8 @@ package hu.akoel.grawit.gui.tree;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
+
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -152,15 +154,19 @@ public class VariableTree extends Tree{
 							CommonOperations.getTranslation("button.yes")								
 					};
 					
-					int n = JOptionPane.showOptionDialog(guiFrame,
-							"Valóban torolni kívánod a(z) " + selectedNode.getName() + " nevü " + selectedNode.getNodeTypeToShow() + "-t ?",
+					int n = JOptionPane.showOptionDialog(guiFrame,							
+							MessageFormat.format( 
+									CommonOperations.getTranslation("mesage.question.delete.treeelement"), 
+									selectedNode.getNodeTypeToShow(),
+									selectedNode.getName()
+							),							
 							CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 							JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE,
 							null,
 							options,
 							options[0]);
-
+					
 					if( n == 1 ){
 						totalTreeModel.removeNodeFromParent( selectedNode);
 						VariableTree.this.setSelectionRow(selectedRow - 1);
