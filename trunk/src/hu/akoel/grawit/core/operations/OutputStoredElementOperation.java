@@ -17,7 +17,9 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	private static final String NAME = "OUTPUTSTOREDELEMENT";
 	private static final String ATTR_MESSAGE = "message";
 
+	//--- Data model
 	private String message;
+	//---
 	
 	public OutputStoredElementOperation( String message ){
 		this.message = message;
@@ -59,6 +61,14 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 		Attr attr = document.createAttribute( ATTR_MESSAGE );
 		attr.setValue( message );
 		element.setAttributeNode(attr);				
+	}
+
+	@Override
+	public Object clone() {
+		
+		String message = new String( this.message );
+		
+		return new OutputStoredElementOperation(message);
 	}
 
 }

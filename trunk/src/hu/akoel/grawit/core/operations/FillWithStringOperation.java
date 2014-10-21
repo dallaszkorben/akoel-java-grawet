@@ -67,5 +67,13 @@ public class FillWithStringOperation extends ElementOperationAdapter{
 		attr.setValue( stringToShow );
 		element.setAttributeNode(attr);		
 	}
+
+	@Override
+	public Object clone() {
+		
+		String stringToShow = new String( this.stringToShow );
+		
+		return new FillWithStringOperation(stringToShow);
+	}
 	
 }

@@ -40,11 +40,14 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_COMPARE_BY = "compareby";
 	
-	private Pattern pattern;
+	// Model
 	private String stringPattern;
 	private ListCompareByListEnum compareBy;
 	private VariableElementDataModel variableElementDataModel;
 	private CompareTypeListEnum compareType;
+	//---
+	
+	private Pattern pattern;
 	
 	public CompareListToVariableOperation( VariableElementDataModel variableElementDataModel, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
 		this.variableElementDataModel = variableElementDataModel;
@@ -240,6 +243,18 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 		attr = document.createAttribute( ATTR_PATTERN );
 		attr.setValue( stringPattern );
 		element.setAttributeNode(attr);	
+	}
+
+	@Override
+	public Object clone() {
+		
+		String stringPattern = new String( this.stringPattern );
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		CompareTypeListEnum compareType = this.compareType;
+		ListCompareByListEnum compareBy = this.compareBy;
+		
+		return new CompareListToVariableOperation(variableElementDataModel, compareType, stringPattern, compareBy); 
+
 	}
 
 	

@@ -115,6 +115,14 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 		element.setAttributeNode(attr);		
 	}
 
+	@Override
+	public Object clone() {
+		
+		String stringPattern = new String( this.stringPattern );
+		
+		return new GainValueToElementStorageOperation(stringPattern);
+	}
+
 
 	
 }

@@ -37,9 +37,9 @@ public class CompareTextToVariableOperation extends ElementOperationAdapter{
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
-	private String stringPattern;
 	
 	//--- Data model
+	private String stringPattern;
 	private VariableElementDataModel variableElementDataModel;
 	private CompareTypeListEnum compareType;
 	//---
@@ -208,6 +208,16 @@ public class CompareTextToVariableOperation extends ElementOperationAdapter{
 		attr = document.createAttribute( ATTR_PATTERN );
 		attr.setValue( stringPattern );
 		element.setAttributeNode(attr);	
+	}
+
+	@Override
+	public Object clone() {
+		
+		String stringPattern = new String( this.stringPattern );
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		CompareTypeListEnum compareType = this.compareType;
+	
+		return new CompareTextToVariableOperation(variableElementDataModel, compareType, stringPattern);
 	}
 
 	

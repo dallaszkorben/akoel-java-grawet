@@ -38,9 +38,9 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
-	private String stringPattern;
 	
 	//--- Data model
+	private String stringPattern;
 	private VariableElementDataModel variableElementDataModel;
 	private CompareTypeListEnum compareType;
 	//---
@@ -210,6 +210,7 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 	
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
+		
 		Attr attr = document.createAttribute( ATTR_COMPARE_VARIABLE_ELEMENT_PATH );
 		attr.setValue( variableElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );		
@@ -221,6 +222,16 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 		attr = document.createAttribute( ATTR_PATTERN );
 		attr.setValue( stringPattern );
 		element.setAttributeNode(attr);	
+	}
+
+	@Override
+	public Object clone() {
+		
+		String stringPattern = new String( this.stringPattern );
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		CompareTypeListEnum compareType = this.compareType;
+		
+		return new CompareValueToVariableOperation(variableElementDataModel, compareType, stringPattern);
 	}
 
 }

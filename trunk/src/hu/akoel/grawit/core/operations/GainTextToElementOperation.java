@@ -103,6 +103,14 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 		attr.setValue( stringPattern );
 		element.setAttributeNode(attr);		
 	}
+
+	@Override
+	public Object clone() {
+		
+		String stringPattern = new String( this.stringPattern );
+		
+		return new GainTextToElementOperation(stringPattern);
+	}
 	
 }
 

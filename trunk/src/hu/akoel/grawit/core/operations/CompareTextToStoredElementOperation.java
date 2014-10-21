@@ -38,9 +38,9 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
-	private String stringPattern;
 	
 	//--- Data model
+	private String stringPattern;
 	private BaseElementDataModel baseElementDataModel;
 	private CompareTypeListEnum compareType;
 	//---
@@ -219,6 +219,16 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 		attr.setValue( stringPattern );
 		element.setAttributeNode(attr);	
 
+	}
+
+	@Override
+	public Object clone() {
+
+		String stringPattern = new String( this.stringPattern );
+		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.clone();
+		CompareTypeListEnum compareType = this.compareType;
+
+		return new CompareTextToStoredElementOperation(baseElementDataModel, compareType, stringPattern);
 	}
 	
 }

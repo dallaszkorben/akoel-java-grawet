@@ -45,6 +45,8 @@ public class GainListToVariableOperation extends ElementOperationAdapter{
 	private static final String ATTR_GAIN_BY = "gainby";
 	
 	private Pattern pattern;
+	
+	//--- Data model
 	private ListGainByListEnum gainBy;
 	private VariableElementDataModel variableElementDataModel;
 	private String stringPattern;
@@ -221,6 +223,17 @@ public class GainListToVariableOperation extends ElementOperationAdapter{
 		attr = document.createAttribute( ATTR_GAIN_BY );
 		attr.setValue( gainBy.name() );
 		element.setAttributeNode( attr );	
+	}
+
+	@Override
+	public Object clone() {
+		
+		ListGainByListEnum gainBy = this.gainBy;
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		String stringPattern = new String( this.stringPattern );
+
+		
+		return new GainListToVariableOperation(variableElementDataModel, stringPattern, gainBy);
 	}
 
 	

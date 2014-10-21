@@ -25,9 +25,9 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
-	private String stringPattern;
 	
 	//--- Data model
+	private String stringPattern;
 	private String stringToCompare;
 	private CompareTypeListEnum compareType;
 	//---
@@ -138,6 +138,16 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 		attr = document.createAttribute( ATTR_PATTERN );
 		attr.setValue( stringPattern );
 		element.setAttributeNode(attr);	
+	}
+
+	@Override
+	public Object clone() {
+
+		String stringPattern = new String( this.stringPattern );
+		String stringToCompare = new String( this.stringToCompare );
+		CompareTypeListEnum compareType = this.compareType;
+		
+		return new CompareTextToStringOperation(stringToCompare, compareType, stringPattern);
 	}
 	
 }
