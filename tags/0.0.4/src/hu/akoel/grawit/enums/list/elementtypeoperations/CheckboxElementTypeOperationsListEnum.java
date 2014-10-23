@@ -1,0 +1,51 @@
+package hu.akoel.grawit.enums.list.elementtypeoperations;
+
+import hu.akoel.grawit.CommonOperations;
+
+public enum CheckboxElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
+	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.click") ),	
+	COMPAREVALUE_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.comparevaluetovariable") ),
+	COMPAREVALUE_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.comparevaluetostored") ),
+	COMPAREVALUE_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.comparevaluetostring") ),
+	GAINVALUE_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.gainvaluetovariable") ),
+	GAINVALUE_TO_ELEMENTSTORAGE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.gainvaluetoelementstorage") ),
+	OUTPUTSTORED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.outputstored") ),
+	;
+	
+	private String translatedName;
+	private int index;
+	
+	private CheckboxElementTypeOperationsListEnum( int index, String translatedName ){
+	
+		this.index = index;
+		this.translatedName = translatedName;
+	}
+	
+	@Override
+	public String getTranslatedName(){
+		return translatedName;
+	}	
+	
+	public static int getSize(){
+		return CheckboxElementTypeOperationsListEnum.values().length;
+	}
+	
+	@Override
+	public int getIndex(){
+		return index;
+	}
+	
+	public static CheckboxElementTypeOperationsListEnum getElementCheckboxOperationByIndex( int index ){
+		switch (index){
+		case 0:	return CLICK;
+		case 1:	return COMPAREVALUE_TO_VARIABLE;
+		case 2:	return COMPAREVALUE_TO_STORED;
+		case 3:	return COMPAREVALUE_TO_STRING;
+		case 4:	return GAINVALUE_TO_VARIABLE;
+		case 5:	return GAINVALUE_TO_ELEMENTSTORAGE;
+		case 6:	return OUTPUTSTORED;
+		default: return CLICK;
+		}
+	}
+	
+}
