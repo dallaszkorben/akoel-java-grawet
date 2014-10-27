@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.tree.MutableTreeNode;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
@@ -315,4 +316,14 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 		
 	}
 
+	@Override
+	public Object cloneWithParent() {
+		
+		SpecialCustomDataModel cloned = (SpecialCustomDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
+	}
 }

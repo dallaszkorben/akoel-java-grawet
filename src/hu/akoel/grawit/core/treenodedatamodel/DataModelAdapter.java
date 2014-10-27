@@ -94,7 +94,8 @@ public abstract class DataModelAdapter extends DefaultMutableTreeNode{
 	 * 
 	 * @return
 	 */
-	public final String getPathTag() {		
+	public final String getPathTag() {			
+		
 		StringBuffer out = new StringBuffer();
 		TreeNode[] nodeArray = this.getPath();
 		for( TreeNode node: nodeArray ){
@@ -112,6 +113,7 @@ public abstract class DataModelAdapter extends DefaultMutableTreeNode{
 				out.append( dataModel.getCloseTag() );
 			}			
 		}
+
 		return out.toString();
 	}
 	
@@ -122,4 +124,6 @@ public abstract class DataModelAdapter extends DefaultMutableTreeNode{
 	public final String getCloseTag(){
 		return "</" + this.getTag().getName() + ">";
 	}
+	
+	public abstract Object cloneWithParent();
 }

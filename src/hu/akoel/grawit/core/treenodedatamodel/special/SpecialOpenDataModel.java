@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.special;
 
+import javax.swing.tree.MutableTreeNode;
+
 import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -165,4 +167,15 @@ public class SpecialOpenDataModel extends SpecialPageModelInterface{
 		return cloned;
 		
 	}
+	
+	@Override
+	public Object cloneWithParent() {
+		
+		SpecialOpenDataModel cloned = (SpecialOpenDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
+	}	
 }
