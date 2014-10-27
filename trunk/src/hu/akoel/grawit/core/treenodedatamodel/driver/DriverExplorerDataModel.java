@@ -203,5 +203,16 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 		return cloned;
 		
 	}
+	
+	@Override
+	public Object cloneWithParent() {
+		
+		DriverExplorerDataModel cloned = (DriverExplorerDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
+	}
 
 }

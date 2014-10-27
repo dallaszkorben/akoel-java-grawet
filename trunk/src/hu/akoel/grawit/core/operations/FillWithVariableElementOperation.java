@@ -135,7 +135,7 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter{
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		Attr attr = document.createAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH );
+		Attr attr = document.createAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH );		
 		attr.setValue( variableElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );			
 	}
@@ -143,7 +143,8 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter{
 	@Override
 	public Object clone() {
 		
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
 		
 		return new FillWithVariableElementOperation(variableElementDataModel);
 	}

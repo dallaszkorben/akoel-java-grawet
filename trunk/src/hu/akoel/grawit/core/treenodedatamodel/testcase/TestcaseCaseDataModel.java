@@ -545,4 +545,15 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		return cloned;
 		
 	}
+	
+	@Override
+	public Object cloneWithParent() {
+		
+		TestcaseCaseDataModel cloned = (TestcaseCaseDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
+	}
 }

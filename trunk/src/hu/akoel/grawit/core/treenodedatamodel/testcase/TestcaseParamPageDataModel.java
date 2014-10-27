@@ -292,4 +292,15 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 		return cloned;
 		
 	}
+	
+	@Override
+	public Object cloneWithParent() {
+		
+		TestcaseParamPageDataModel cloned = (TestcaseParamPageDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
+	}
 }
