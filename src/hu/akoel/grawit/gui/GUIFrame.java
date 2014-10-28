@@ -34,7 +34,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -111,7 +110,6 @@ public class GUIFrame extends JFrame{
 	private EditSpecialActionListener editSpecialActionListener;
 	private EditDriverActionListener editDriverActionListener;
 	private RunRunActionListener runRunActionListener;
-	private RunRunActionListener helpAboutActionListener;
 	private RunTree runTree = null;
 	
 	public GUIFrame( String appName, String appVersion, String appDesigner, int frameWidth, int frameHeight ){
@@ -123,6 +121,9 @@ public class GUIFrame extends JFrame{
 		this.appName = appName;
 		this.appVersion = appVersion;
 		this.appDesigner = appDesigner;
+		
+		//Icon
+		this.setIconImage(CommonOperations.createImageIcon("grawit_16x16.png").getImage());
 		
 		//make sure the program exits when the frame closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -501,7 +502,7 @@ public class GUIFrame extends JFrame{
 				return;
 			}
 			
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory.newInstance();
 			try{
 
 				// Iras
@@ -896,7 +897,7 @@ public class GUIFrame extends JFrame{
 			public AboutDialog( JFrame frame ){
 			
 				super( frame, true );
-				setTitle( "About" );
+				setTitle( CommonOperations.getTranslation("menu.element.help.about") );
 				
 				//Application Name
 				JLabel labelAppName = new JLabel();		
@@ -923,14 +924,14 @@ public class GUIFrame extends JFrame{
 						labelAppDesigner
 				};
 			        
-				String btnString1 = "Ok";
+				String btnString1 = CommonOperations.getTranslation("button.ok");
 				Object[] options = {btnString1};
 				
 		        //Create the JOptionPane.
 		        optionPane = new JOptionPane(array,
 		                                    JOptionPane.PLAIN_MESSAGE,
 		                                    JOptionPane.OK_OPTION,
-		                                    CommonOperations.createImageIcon("tree/base-page-icon.png"),
+		                                    CommonOperations.createImageIcon("grawit_64x64.png"),
 		                                    options,
 		                                    options[0]);
 		 
