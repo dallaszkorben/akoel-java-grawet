@@ -9,7 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.Properties;
+import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
@@ -46,7 +46,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		//WAITING TIME
 		Integer waitingTime = baseElement.getWaitingTime();
 		if( null == waitingTime ){
-			waitingTime = Properties.getInstance().getWaitingTime();
+			waitingTime = Settings.getInstance().getWaitingTime();
 		}
 		WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 						
@@ -83,7 +83,6 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		
 		//OPERATION
 		doOperation( driver, element, webElement, elementProgress );
-		//
 		
 		if( null != elementProgress ){
 			elementProgress.elementEnded( element.getName() );

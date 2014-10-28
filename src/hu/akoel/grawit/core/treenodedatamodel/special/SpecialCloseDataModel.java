@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.special;
 
+import javax.swing.tree.MutableTreeNode;
+
 import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -10,6 +12,7 @@ import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -139,4 +142,14 @@ public class SpecialCloseDataModel extends SpecialPageModelInterface{
 		
 	}
 
+	@Override
+	public Object cloneWithParent() {
+		
+		SpecialCloseDataModel cloned = (SpecialCloseDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
+	}
 }

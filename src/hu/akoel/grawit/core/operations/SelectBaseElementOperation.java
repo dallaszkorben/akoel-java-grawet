@@ -170,7 +170,8 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	@Override
 	public Object clone() {
 		
-		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.clone();
+		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
+		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.cloneWithParent();
 		ListSelectionByListEnum selectionBy = this.selectionBy;
 		
 		return new SelectBaseElementOperation(baseElementDataModel, selectionBy);

@@ -167,4 +167,15 @@ public class DriverNodeDataModel extends DriverDataModelInterface{
 		return cloned;
 		
 	}
+	
+	@Override
+	public Object cloneWithParent() {
+		
+		DriverNodeDataModel cloned = (DriverNodeDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
+	}
 }

@@ -22,15 +22,22 @@ import hu.akoel.grawit.gui.tree.VariableTree;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -45,7 +52,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -64,6 +70,7 @@ public class GUIFrame extends JFrame{
 	
 	private String appName;
 	private String appVersion;
+	private String appDesigner;
 	
 	private static int treePanelStartWidth = 200;
 	
@@ -76,6 +83,7 @@ public class GUIFrame extends JFrame{
 	private JMenuItem editVariableMenuItem;
 	private JMenuItem editTestCaseMenuItem;
 	private JMenuItem runRunMenuItem;
+	private JMenuItem helpAboutMenuItem;
 	
 	private TreePanel treePanel;
 	private EditorPanel editorPanel;
@@ -104,7 +112,7 @@ public class GUIFrame extends JFrame{
 	private RunRunActionListener runRunActionListener;
 	private RunTree runTree = null;
 	
-	public GUIFrame( String appName, String appVersion, int frameWidth, int frameHeight ){
+	public GUIFrame( String appName, String appVersion, String appDesigner, int frameWidth, int frameHeight ){
 		super( appName );
 		
 		//Mindig legefelul jelenik meg
@@ -112,6 +120,10 @@ public class GUIFrame extends JFrame{
 		
 		this.appName = appName;
 		this.appVersion = appVersion;
+		this.appDesigner = appDesigner;
+		
+		//Icon
+		this.setIconImage(CommonOperations.createImageIcon("grawit_16x16.png").getImage());
 		
 		//make sure the program exits when the frame closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -276,7 +288,24 @@ public class GUIFrame extends JFrame{
         runRunMenuItem.setEnabled( false );
         menu.add(runRunMenuItem);  
         
+     
+        //
+        //Help fomenu
+        // 
         
+        menu = new JMenu( CommonOperations.getTranslation("menu.element.help") );
+        menu.setMnemonic( KeyStroke.getKeyStroke( CommonOperations.getTranslation("menu.mnemonic.help") ).getKeyCode()); // KeyEvent.VK_E);
+        menuBar.add(menu);
+        
+        //About
+        helpAboutMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.help.about") );
+        helpAboutMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.help.about") ).getKeyCode() ); //KeyEvent.VK_P);
+        helpAboutMenuItem.addActionListener( new AboutHelpActionListener() );
+        menu.add( helpAboutMenuItem );  
+        
+        //
+        //About fomenu on the right side
+        //
         
         this.setJMenuBar(menuBar);
       
@@ -473,7 +502,7 @@ public class GUIFrame extends JFrame{
 				return;
 			}
 			
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory.newInstance();
 			try{
 
 				// Iras
@@ -840,6 +869,104 @@ public class GUIFrame extends JFrame{
 	}
 	
 	/**
+	 * About Help menu selecotion listener
+	 * 
+	 * @author afoldvarszky
+	 *
+	 */
+	//TODO megcsinalni static-ra az AboutDialog-ot, hogy csak egyszer kelljen letrehozni
+	//Mert hogy csak visible(false)-szal zarom le
+	class AboutHelpActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			AboutDialog aboutDialog = new AboutDialog( GUIFrame.this );
+	        aboutDialog.setLocationRelativeTo(GUIFrame.this);
+	        aboutDialog.pack();
+            aboutDialog.setVisible(true);            
+		
+		}		
+		
+		class AboutDialog extends JDialog{
+
+			private static final long serialVersionUID = 1L;
+			
+			private JOptionPane optionPane;
+			
+			public AboutDialog( JFrame frame ){
+			
+				super( frame, true );
+				setTitle( CommonOperations.getTranslation("menu.element.help.about") );
+				
+				//Application Name
+				JLabel labelAppName = new JLabel();		
+				labelAppName.setText( appName );
+				labelAppName.setFont(new Font( labelAppName.getFont().getName(), Font.BOLD, 20 ));
+				
+				//Version
+				JLabel labelAppVersion = new JLabel();		
+				labelAppVersion.setText( appVersion );
+				labelAppVersion.setFont(new Font( labelAppVersion.getFont().getName(), Font.PLAIN, 13 ));
+				
+				//Designer
+				JLabel labelAppDesigner = new JLabel();		
+				labelAppDesigner.setText( appDesigner );
+				labelAppDesigner.setFont(new Font( labelAppDesigner.getFont().getName(), Font.ITALIC, 10 ));
+					
+				
+				Object[] array = { 
+						labelAppName,
+						labelAppVersion,
+						" ",
+						" ",
+						" ",
+						labelAppDesigner
+				};
+			        
+				String btnString1 = CommonOperations.getTranslation("button.ok");
+				Object[] options = {btnString1};
+				
+		        //Create the JOptionPane.
+		        optionPane = new JOptionPane(array,
+		                                    JOptionPane.PLAIN_MESSAGE,
+		                                    JOptionPane.OK_OPTION,
+		                                    CommonOperations.createImageIcon("grawit_64x64.png"),
+		                                    options,
+		                                    options[0]);
+		 
+		        optionPane.addPropertyChangeListener(new PropertyChangeListener() {
+					
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (isVisible()){
+							setVisible( false );
+						}
+						
+					}
+				});
+		        
+		        //Make this dialog display it.
+		        setContentPane(optionPane);	        
+		        
+				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);				
+				addWindowListener(new WindowAdapter() {
+		                public void windowClosing(WindowEvent we) {
+		                	/*
+		                	 * Instead of directly closing the window,
+		                	 * we're going to change the JOptionPane's
+		                	 * value property.
+		                	 */	                	
+		                	optionPane.setValue(new Integer(JOptionPane.OK_OPTION));
+		            }
+		        });				
+			}
+			
+		}
+		
+	}
+	
+	/**
 	 * 
 	 * A TREE megjelenitesenek helye
 	 * 
@@ -979,6 +1106,11 @@ public class GUIFrame extends JFrame{
 	 *
 	 */
 	class StatusPanel  extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public StatusPanel(){
 			
 			this.setBorder(	BorderFactory.createLoweredBevelBorder() );

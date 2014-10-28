@@ -180,4 +180,15 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 		
 	}
 	
+	@Override
+	public Object cloneWithParent() {
+		
+		ParamNodeDataModel cloned = (ParamNodeDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
+	}
+	
 }

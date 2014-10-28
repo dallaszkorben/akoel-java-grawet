@@ -1,8 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
-import java.util.Vector;
-
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -684,6 +682,17 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		
 		return cloned;
 		
+	}
+	
+	@Override
+	public Object cloneWithParent() {
+		
+		ParamElementDataModel cloned = (ParamElementDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
 	}
 	
 }

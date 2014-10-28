@@ -249,7 +249,9 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 	public Object clone() {
 		
 		String stringPattern = new String( this.stringPattern );
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		
+		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
 		CompareTypeListEnum compareType = this.compareType;
 		ListCompareByListEnum compareBy = this.compareBy;
 		
