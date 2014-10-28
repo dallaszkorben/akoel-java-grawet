@@ -4,6 +4,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.VariableTypeListEnum;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -29,9 +30,6 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import com.opera.core.systems.OperaDriver;
 
 public class CommonOperations {
-//	private static String language = new String("en");
-//	private static String country = new String( "US");
-//	private static Locale locale = new Locale( language, country );
 	
 	private static Random rnd = new Random();
 	
@@ -45,26 +43,12 @@ public class CommonOperations {
 		OPERA		
 	}
 	
-/*	public static Locale getLocale(){
-		return locale;
-	}
-	
-	public static void setLocal( Locale l ){
-		locale = l;
-	}
-	
-	public static void setLocal( String language, String country ){
-		locale = new Locale( language, country );
-	}
-*/
-	
 	public static String getTranslation( String code ){
-		//return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Grawet", locale ).getString( code );
-		return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Grawet", Properties.getInstance().getLocale() ).getString( code );
+		return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Translation", Settings.getInstance().getLocale() ).getString( code );
 	}
 	
 	public static DateFormat getDateFormat(){
-		return DateFormat.getDateInstance(DateFormat.SHORT, Properties.getInstance().getLocale() );
+		return DateFormat.getDateInstance(DateFormat.SHORT, Settings.getInstance().getLocale() );
 	}
 
 	public static SimpleDateFormat getYearFormat(){
