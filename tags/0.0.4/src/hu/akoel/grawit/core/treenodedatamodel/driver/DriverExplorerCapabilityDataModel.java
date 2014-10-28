@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.driver;
 
+import javax.swing.tree.MutableTreeNode;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -164,4 +166,14 @@ public class DriverExplorerCapabilityDataModel extends DriverDataModelInterface{
 		
 	}
 
+	@Override
+	public Object cloneWithParent() {
+		
+		DriverExplorerCapabilityDataModel cloned = (DriverExplorerCapabilityDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
+	}
 }

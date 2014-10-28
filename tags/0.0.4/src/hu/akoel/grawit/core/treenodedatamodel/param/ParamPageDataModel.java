@@ -21,7 +21,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
-import hu.akoel.grawit.Properties;
+import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
@@ -185,8 +185,6 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 		return getNodeTypeToShowStatic();
 	}
 
-
-
 	@Override
 	public String getName() {		
 		return name;
@@ -220,11 +218,11 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 				//Bazis elem
 				BaseElementDataModel baseElement = parameterElement.getBaseElement();
 			
-				//TODO lehet, hogy ennek az idonek kulonboznie kellene
-				//Bazis elemhez tartozo warakozasi ido
+				//TODO lehet, hogy ennek a framere varakozo idonek kulonboznie kellene
+				//a Bazis elemhez tartozo warakozasi ido
 				Integer waitingTime = baseElement.getWaitingTime();
 				if( null == waitingTime ){
-					waitingTime = Properties.getInstance().getWaitingTime();
+					waitingTime = Settings.getInstance().getWaitingTime();
 				}
 				WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 			
@@ -339,6 +337,17 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 		
 		return cloned;
 		
+	}
+	
+	@Override
+	public Object cloneWithParent() {
+		
+		ParamPageDataModel cloned = (ParamPageDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
 	}
 	
 }

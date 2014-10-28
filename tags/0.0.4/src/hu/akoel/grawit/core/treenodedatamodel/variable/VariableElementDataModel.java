@@ -1,7 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.variable;
 
 import java.util.ArrayList;
-import java.util.Vector;
+import javax.swing.tree.MutableTreeNode;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -9,11 +9,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.VariableTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
@@ -207,7 +204,7 @@ public class VariableElementDataModel extends VariableDataModelAdapter{
 		
 		//Leklonozza az VariableElement-et
 		VariableElementDataModel cloned = (VariableElementDataModel)super.clone();
-	
+		
 		//Es a valtozoit is klonozni kell
 		cloned.name = new String( this.name );
 		cloned.type = this.type;
@@ -215,5 +212,16 @@ public class VariableElementDataModel extends VariableDataModelAdapter{
 		
 		return cloned;
 		
+	}
+
+	@Override
+	public Object cloneWithParent() {
+		
+		VariableElementDataModel cloned = (VariableElementDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
+		return cloned;
 	}
 }
