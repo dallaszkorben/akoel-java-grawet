@@ -43,7 +43,7 @@ import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -66,7 +66,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	
 	//Adatmodel ---
 	private String name;
-	private BaseElementDataModel baseElement;
+	private BElementDataModel baseElement;
 	private ElementOperationAdapter elementOperation;
 	//----
 
@@ -78,7 +78,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	 * @param baseElement
 	 * @param operation
 	 */
-	public ParamElementDataModel( String name, BaseElementDataModel baseElement, ElementOperationAdapter operation ){
+	public ParamElementDataModel( String name, BElementDataModel baseElement, ElementOperationAdapter operation ){
 		this.name = name;
 		this.baseElement = baseElement;
 		this.elementOperation = operation;
@@ -143,8 +143,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
 	    Document document = null;
-	    try  
-	    {  
+	    try {  
 	        builder = factory.newDocumentBuilder();  
 	        document = builder.parse( new InputSource( new StringReader( baseElementPathString ) ) );  
 	    } catch (Exception e) {  
@@ -161,10 +160,10 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	    	Element actualElement = (Element)actualNode;
 	    	String tagName = actualElement.getTagName();
 	    	
-	    	//Ha ELEMENT
-	    	if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
-	    		String attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);	    		
-	    		baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, BaseElementDataModel.TAG, attrName );
+	    	//Ha BASEELEMENT
+	    	if( tagName.equals( BElementDataModel.TAG.getName() ) ){
+	    		String attrName = actualElement.getAttribute(BElementDataModel.ATTR_NAME);	    		
+	    		baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, BElementDataModel.TAG, attrName );
 
 	    		if( null == baseDataModel ){
 

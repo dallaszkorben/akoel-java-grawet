@@ -8,7 +8,6 @@ import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -16,10 +15,11 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 
-public class BaseElementDataModel extends BaseDataModelAdapter{
-	private static final long serialVersionUID = -8916078747948054716L;
+public class NormalBaseElementDataModel extends BElementDataModel{
 
-	public static Tag TAG = Tag.BASEELEMENT;
+	private static final long serialVersionUID = 7220765215864317791L;
+
+	public static Tag TAG = Tag.NORMALBASEELEMENT;
 	
 	public static final String ATTR_ELEMENT_TYPE="elementtype";
 	public static final String ATTR_IDENTIFIER = "identifier";
@@ -28,7 +28,6 @@ public class BaseElementDataModel extends BaseDataModelAdapter{
 	public static final String ATTR_WAITINGTIME = "waitingtime";
 	
 	//Adatmodel ---
-	private String name;
 	private ElementTypeListEnum elementType;
 	private String frame;
 	private String identifier;
@@ -36,10 +35,6 @@ public class BaseElementDataModel extends BaseDataModelAdapter{
 	private Integer waitingTime = null;
 	//----
 	
-	//Ide menti az erre a mezore hivatkozo ParamElement Mezo mentett erteket
-	private String storedValue = "";
-	//---
-
 	/**
 	 * 
 	 * Modify
@@ -50,8 +45,13 @@ public class BaseElementDataModel extends BaseDataModelAdapter{
 	 * @param identificationType
 	 * @param frame
 	 */
-	public BaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTime, String frame){
-		common( name, elementType, identifier, identificationType, waitingTime, frame );
+	public NormalBaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTime, String frame){
+		super( name );
+		this.elementType = elementType;
+		this.identifier = identifier;
+		this.identificationType = identificationType;
+		this.waitingTime = waitingTime;
+		this.frame = frame;
 	}
 
 	/**
@@ -62,14 +62,8 @@ public class BaseElementDataModel extends BaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLPharseException 
 	 */
-	public BaseElementDataModel( Element element ) throws XMLPharseException{
-		
-		//name
-		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME );			
-		}
-		String nameString = element.getAttribute( ATTR_NAME );		
-		this.name = nameString;
+	public NormalBaseElementDataModel( Element element ) throws XMLPharseException{
+		super( element );
 		
 		//frame             
 		if( !element.hasAttribute( ATTR_FRAME ) ){
@@ -119,15 +113,7 @@ public class BaseElementDataModel extends BaseDataModelAdapter{
 				
 	}
 	
-	private void common( String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTime, String frame ){
-		this.name = name;
-		this.elementType = elementType;
-		this.identifier = identifier;
-		this.identificationType = identificationType;
-		this.waitingTime = waitingTime;
-		this.frame = frame;
-	}
-
+	
 	public static Tag getTagStatic(){
 		return TAG;
 	}
@@ -135,15 +121,6 @@ public class BaseElementDataModel extends BaseDataModelAdapter{
 	@Override
 	public Tag getTag() {
 		return getTagStatic();
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public ElementTypeListEnum getElementType(){
@@ -200,29 +177,12 @@ public class BaseElementDataModel extends BaseDataModelAdapter{
 		return getModelNameToShowStatic();
 	}
 	
-	/**
-	 * 
-	 * Visszaadja a valtozokent, az osztaly altal reprezentalt elem tartalmat elmentett erteket
-	 * 
-	 * @return
-	 */
-	public String getStoredValue() {
-		return storedValue;
-	}
-
-	public void setStoredValue(String valueToStore) {
-		this.storedValue = valueToStore;
-	}
-	
 	@Override
 	public Element getXMLElement(Document document) {
+		
+		Element elementElement = super.getXMLElement(document);
+		
 		Attr attr;
-
-		//Node element
-		Element elementElement = document.createElement( BaseElementDataModel.this.getTag().getName() );
-		attr = document.createAttribute( ATTR_NAME );
-		attr.setValue( getName() );
-		elementElement.setAttributeNode(attr);	
 		
 		attr = document.createAttribute( ATTR_FRAME);
 		attr.setValue( getFrame() );
@@ -253,13 +213,12 @@ public class BaseElementDataModel extends BaseDataModelAdapter{
 	}
 
 	@Override
-	public Object clone(){
+	public Object clone(){	
 		
 		//Leklonozza az BaseElement-et
-		BaseElementDataModel cloned = (BaseElementDataModel)super.clone();
+		NormalBaseElementDataModel cloned = (NormalBaseElementDataModel)super.clone();
 	
 		//Es a valtozoit is klonozni kell
-		cloned.name = new String( this.name );		
 		cloned.frame = new String(this.frame);
 		cloned.identifier = new String( this.identifier );
 		cloned.identificationType = this.identificationType;	//TODO kedes, hogy jo-e
@@ -270,15 +229,7 @@ public class BaseElementDataModel extends BaseDataModelAdapter{
 		return cloned;
 		
 	}
-	
-	@Override
-	public Object cloneWithParent() {
-		
-		BaseElementDataModel cloned = (BaseElementDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
+
+
+
 }
