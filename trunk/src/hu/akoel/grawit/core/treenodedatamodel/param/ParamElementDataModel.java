@@ -29,7 +29,7 @@ import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
-import hu.akoel.grawit.core.operations.GainListToElementOperation;
+import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainListToVariableOperation;
 import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
@@ -539,9 +539,9 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 				elementOperation = new GainListToVariableOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
 
 			//GAIN TO ELEMENT
-			}else if( operationString.equals( GainListToElementOperation.getStaticName() ) ){
+			}else if( operationString.equals( GainListToElementStorageOperation.getStaticName() ) ){
 								
-				elementOperation = new GainListToElementOperation( element, getRootTag(), getTag() );
+				elementOperation = new GainListToElementStorageOperation( element, getRootTag(), getTag() );
 			
 			//OUTPUT STORED
 			}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 

@@ -913,7 +913,6 @@ public class GUIFrame extends JFrame{
 				JLabel labelAppDesigner = new JLabel();		
 				labelAppDesigner.setText( appDesigner );
 				labelAppDesigner.setFont(new Font( labelAppDesigner.getFont().getName(), Font.ITALIC, 10 ));
-					
 				
 				Object[] array = { 
 						labelAppName,
@@ -960,10 +959,8 @@ public class GUIFrame extends JFrame{
 		                	optionPane.setValue(new Integer(JOptionPane.OK_OPTION));
 		            }
 		        });				
-			}
-			
-		}
-		
+			}			
+		}		
 	}
 	
 	/**
