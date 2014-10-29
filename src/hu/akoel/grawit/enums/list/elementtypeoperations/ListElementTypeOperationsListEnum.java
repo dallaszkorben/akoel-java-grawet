@@ -5,7 +5,7 @@ import hu.akoel.grawit.CommonOperations;
 public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
 	SELECT_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.list.selectvariable") ),
 	SELECT_BASE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.list.selectbase") ),
-	SELECT_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.list.fillstring") ),
+	SELECT_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.list.selectstring") ),
 	TAB( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.list.tab") ),
 	CLICK( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.list.click") ),
 	COMPARE_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetovariable") ),

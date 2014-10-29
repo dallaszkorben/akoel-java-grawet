@@ -18,7 +18,7 @@ import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class GainListToElementOperation extends ElementOperationAdapter{
+public class GainListToElementStorageOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "GAINTOELEMENT";
 	private static final String ATTR_PATTERN = "pattern";
@@ -31,14 +31,14 @@ public class GainListToElementOperation extends ElementOperationAdapter{
 	private ListGainByListEnum gainBy;
 	//---
 	
-	public GainListToElementOperation( String stringPattern, ListGainByListEnum gainBy ){
+	public GainListToElementStorageOperation( String stringPattern, ListGainByListEnum gainBy ){
 		this.stringPattern = stringPattern;
 		this.gainBy = gainBy;
 		
 		common( stringPattern );
 	}
 	
-	public GainListToElementOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public GainListToElementStorageOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		//GAIN BY
 		String stringGainBy = "";
@@ -135,7 +135,7 @@ public class GainListToElementOperation extends ElementOperationAdapter{
 		String stringPattern = new String( this.stringPattern );
 		ListGainByListEnum gainBy = this.gainBy;
 
-		return new GainListToElementOperation(stringPattern, gainBy);
+		return new GainListToElementStorageOperation(stringPattern, gainBy);
 	}
 
 

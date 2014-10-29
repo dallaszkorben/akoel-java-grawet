@@ -7,7 +7,7 @@ import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareListToStringOperation;
 import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.operations.GainListToElementOperation;
+import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainListToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
@@ -286,10 +286,10 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 				fieldPattern.setText( ((GainListToVariableOperation)elementOperation).getStringPattern());	
 			
 			//GAIN TO ELEMENT
-			}else if( elementOperation instanceof GainListToElementOperation ){
+			}else if( elementOperation instanceof GainListToElementStorageOperation ){
 				
 				comboOperationList.setSelectedIndex(E.GAIN_TO_ELEMENT.getIndex());
-				fieldPattern.setText( ((GainListToElementOperation)elementOperation).getStringPattern());	
+				fieldPattern.setText( ((GainListToElementStorageOperation)elementOperation).getStringPattern());	
 				
 			//OUTPUT STORED
 			}else if ( elementOperation instanceof OutputStoredElementOperation ){
@@ -663,7 +663,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 
 		//GAIN TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAIN_TO_ELEMENT.getIndex() ){
-			return new GainListToElementOperation( fieldPattern.getText(), (ListGainByListEnum)(comboGainBy.getSelectedItem()) );
+			return new GainListToElementStorageOperation( fieldPattern.getText(), (ListGainByListEnum)(comboGainBy.getSelectedItem()) );
 			
 		//OUTPUTSTORED
 		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTSTORED.getIndex() ){
