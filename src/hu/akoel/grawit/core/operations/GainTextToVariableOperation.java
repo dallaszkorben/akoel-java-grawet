@@ -160,6 +160,7 @@ public class GainTextToVariableOperation extends ElementOperationAdapter{
 		
 		String origText = "";
 
+		
 		//GAIN TEXT
 		//Ha LIST
 /*		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
