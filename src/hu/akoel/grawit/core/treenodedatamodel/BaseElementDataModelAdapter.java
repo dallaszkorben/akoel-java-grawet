@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.treenodedatamodel.base;
+package hu.akoel.grawit.core.treenodedatamodel;
 
 import javax.swing.tree.MutableTreeNode;
 
@@ -6,30 +6,28 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public abstract class BElementDataModel extends BaseDataModelAdapter{
+public abstract class BaseElementDataModelAdapter extends BaseDataModelAdapter{
 	private static final long serialVersionUID = -8916078747948054716L;
 
 //	public static Tag TAG = Tag.BASEELEMENT;
 	
-/*	public static final String ATTR_ELEMENT_TYPE="elementtype";
-	public static final String ATTR_IDENTIFIER = "identifier";
-	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
-	public static final String ATTR_FRAME = "frame";
-	public static final String ATTR_WAITINGTIME = "waitingtime";
-*/	
+//	public static final String ATTR_ELEMENT_TYPE="elementtype";
+//	public static final String ATTR_IDENTIFIER = "identifier";
+//	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
+//	public static final String ATTR_FRAME = "frame";
+//	public static final String ATTR_WAITINGTIME = "waitingtime";
+	
 	//Adatmodel ---
 	private String name;
-/*	private ElementTypeListEnum elementType;
-	private String frame;
-	private String identifier;
-	private SelectorType identificationType;
-	private Integer waitingTime = null;
-*/	
+//	private ElementTypeListEnum elementType;
+//	private String frame;
+//	private String identifier;
+//	private SelectorType identificationType;
+//	private Integer waitingTime = null;
 	//----
 	
 	//Ide menti az erre a mezore hivatkozo ParamElement Mezo mentett erteket
@@ -46,7 +44,7 @@ public abstract class BElementDataModel extends BaseDataModelAdapter{
 	 * @param identificationType
 	 * @param frame
 	 */
-	public BElementDataModel(String name){
+	public BaseElementDataModelAdapter(String name){
 		this.name = name;
 	}
 
@@ -58,7 +56,7 @@ public abstract class BElementDataModel extends BaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLPharseException 
 	 */
-	public BElementDataModel( Element element ) throws XMLPharseException{
+	public BaseElementDataModelAdapter( Element element ) throws XMLPharseException{
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
@@ -66,7 +64,7 @@ public abstract class BElementDataModel extends BaseDataModelAdapter{
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
-		
+				
 	}
 
 	@Override
@@ -80,8 +78,9 @@ public abstract class BElementDataModel extends BaseDataModelAdapter{
 	
 	@Override
 	public void add(BaseDataModelAdapter node) {
-		super.add( (MutableTreeNode)node );
 	}
+	
+	public abstract ElementTypeListEnum getElementType();
 	
 	/**
 	 * 
@@ -102,11 +101,11 @@ public abstract class BElementDataModel extends BaseDataModelAdapter{
 		Attr attr;
 
 		//Node element
-		Element elementElement = document.createElement( BElementDataModel.this.getTag().getName() );
+		Element elementElement = document.createElement( BaseElementDataModelAdapter.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		elementElement.setAttributeNode(attr);	
-		
+
 		return elementElement;	
 	}
 
@@ -114,11 +113,11 @@ public abstract class BElementDataModel extends BaseDataModelAdapter{
 	public Object clone(){
 		
 		//Leklonozza az BaseElement-et
-		BElementDataModel cloned = (BElementDataModel)super.clone();
+		BaseElementDataModelAdapter cloned = (BaseElementDataModelAdapter)super.clone();
 	
 		//Es a valtozoit is klonozni kell
 		cloned.name = new String( this.name );		
-
+	
 		return cloned;
 		
 	}
@@ -126,7 +125,7 @@ public abstract class BElementDataModel extends BaseDataModelAdapter{
 	@Override
 	public Object cloneWithParent() {
 		
-		BElementDataModel cloned = (BElementDataModel) this.clone();
+		BaseElementDataModelAdapter cloned = (BaseElementDataModelAdapter) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );

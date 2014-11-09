@@ -5,9 +5,7 @@ import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -18,7 +16,7 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -27,7 +25,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
