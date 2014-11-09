@@ -18,10 +18,12 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
@@ -42,11 +44,11 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	
 	//--- Data model
 	private String stringPattern;
-	private BaseElementDataModel baseElementDataModel;
+	private BaseElementDataModelAdapter baseElementDataModel;
 	private CompareTypeListEnum compareType;
 	//----
 	
-	public CompareValueToStoredElementOperation( BaseElementDataModel baseElementDataModel, CompareTypeListEnum compareType, String stringPattern ){
+	public CompareValueToStoredElementOperation( BaseElementDataModelAdapter baseElementDataModel, CompareTypeListEnum compareType, String stringPattern ){
 		this.baseElementDataModel = baseElementDataModel;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
@@ -103,16 +105,25 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha BASEELEMENT
-	    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEELEMENT, attrName );
+	    	//Ha NORMALBASEELEMENT
+	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
+	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.NORMALBASEELEMENT, attrName );
 	
 	    		if( null == baseDataModelForFillOut ){
 
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
 	    		}
 
+	    	//Ha SPECIALBASEELEMENT
+	    	}else if( tagName.equals( SpecialBaseElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);
+	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.SPECIALBASEELEMENT, attrName );
+		
+	    		if( null == baseDataModelForFillOut ){
+
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
+	    		}
 	    	
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
@@ -129,10 +140,11 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	    		
 	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );	    		
 	    	}
-	    }	    
+	    }
+	    
 	    try{
 	    	
-	    	this.baseElementDataModel = (BaseElementDataModel)baseDataModelForFillOut;
+	    	this.baseElementDataModel = (BaseElementDataModelAdapter)baseDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
@@ -161,7 +173,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		
 	}
 	
-	public BaseElementDataModel getBaseElement() {
+	public BaseElementDataModelAdapter getBaseElement() {
 		return baseElementDataModel;
 	}
 
@@ -210,13 +222,24 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
-				throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				//Special
+				}else{
+					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), "special", origText, new Exception() );
+				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
-				throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				//Special
+				}else{
+					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), "special", origText, new Exception() );
+				}
+
 			}			
 		}	
 	}
@@ -242,7 +265,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		String stringPattern = new String( this.stringPattern );
 		
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.cloneWithParent();
+		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.cloneWithParent();
 		CompareTypeListEnum compareType = this.compareType;
 		
 		return new CompareValueToStoredElementOperation(baseElementDataModel, compareType, stringPattern);

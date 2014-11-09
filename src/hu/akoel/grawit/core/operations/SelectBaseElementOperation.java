@@ -13,10 +13,12 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -29,11 +31,11 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	private static final String ATTR_SELECT_BASE_ELEMENT_PATH = "selectbaseelementpath";
 	
 	//--- Data model
-	private BaseElementDataModel baseElementDataModel;
+	private BaseElementDataModelAdapter baseElementDataModel;
 	private ListSelectionByListEnum selectionBy;
 	//----
 	
-	public SelectBaseElementOperation( BaseElementDataModel baseElementDataModel, ListSelectionByListEnum selectionBy ){
+	public SelectBaseElementOperation( BaseElementDataModelAdapter baseElementDataModel, ListSelectionByListEnum selectionBy ){
 		this.baseElementDataModel = baseElementDataModel;
 		this.selectionBy = selectionBy;
 	}
@@ -95,16 +97,25 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_SELECT_BASE_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_BASE_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha BASEELEMENT
-	    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForSelect = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForSelect, Tag.BASEELEMENT, attrName );
+	    	//Ha NORMALBASEELEMENT
+	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
+	    		baseDataModelForSelect = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForSelect, Tag.NORMALBASEELEMENT, attrName );
 	
 	    		if( null == baseDataModelForSelect ){
 
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_SELECT_BASE_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_BASE_ELEMENT_PATH) );
 	    		}
 
+	    	//Ha SPECIALBASEELEMENT
+	    	}else if( tagName.equals( SpecialBaseElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);
+	    		baseDataModelForSelect = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForSelect, Tag.SPECIALBASEELEMENT, attrName );
+		
+	    		if( null == baseDataModelForSelect ){
+
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_SELECT_BASE_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_BASE_ELEMENT_PATH) );
+	    		}
 	    	
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
@@ -124,7 +135,7 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	    }	    
 	    try{
 	    	
-	    	this.baseElementDataModel = (BaseElementDataModel)baseDataModelForSelect;
+	    	this.baseElementDataModel = (BaseElementDataModelAdapter)baseDataModelForSelect;
 	    	
 	    }catch(ClassCastException e){
 
@@ -143,7 +154,7 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 		return baseElementDataModel.getStoredValue();
 	}
 
-	public BaseElementDataModel getBaseElement() {
+	public BaseElementDataModelAdapter getBaseElement() {
 		return baseElementDataModel;
 	}
 	
@@ -171,7 +182,7 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	public Object clone() {
 		
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.cloneWithParent();
+		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.cloneWithParent();
 		ListSelectionByListEnum selectionBy = this.selectionBy;
 		
 		return new SelectBaseElementOperation(baseElementDataModel, selectionBy);

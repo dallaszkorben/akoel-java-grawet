@@ -14,17 +14,19 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.base.BaseElementEditor;
+import hu.akoel.grawit.gui.editor.base.NormalBaseElementEditor;
 import hu.akoel.grawit.gui.editor.base.BaseNodeEditor;
 import hu.akoel.grawit.gui.editor.base.BasePageEditor;
+import hu.akoel.grawit.gui.editor.base.SpecialBaseElementEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
 public class BaseTree extends Tree{
@@ -41,15 +43,18 @@ public class BaseTree extends Tree{
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
-    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
+    	ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
+    	ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
   
     	//Iconja a NODE-nak
     	if( actualNode instanceof BasePageDataModel){
             return pageIcon;
-    	}else if( actualNode instanceof BaseElementDataModel ){
-            return elementIcon;
+    	}else if( actualNode instanceof NormalBaseElementDataModel ){
+            return normalElementIcon;
+    	}else if( actualNode instanceof SpecialBaseElementDataModel ){
+            return specialElementIcon;
     	}else if( actualNode instanceof BaseNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
@@ -76,9 +81,13 @@ public class BaseTree extends Tree{
 			BasePageEditor basePageEditor = new BasePageEditor( this, (BasePageDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( basePageEditor);				
 						
-		}else if( selectedNode instanceof BaseElementDataModel ){
-			BaseElementEditor baseElementEditor = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( baseElementEditor);		
+		}else if( selectedNode instanceof NormalBaseElementDataModel ){
+			NormalBaseElementEditor normalBaseElementEditor = new NormalBaseElementEditor( this, (NormalBaseElementDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( normalBaseElementEditor);		
+
+		}else if( selectedNode instanceof SpecialBaseElementDataModel ){
+			SpecialBaseElementEditor specialBaseElementEditor = new SpecialBaseElementEditor( this, (SpecialBaseElementDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( specialBaseElementEditor);		
 								
 		}			
 	}
@@ -96,11 +105,15 @@ public class BaseTree extends Tree{
 			BasePageEditor basePageEditor = new BasePageEditor( this, (BasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( basePageEditor);		
 								
-		}else if( selectedNode instanceof BaseElementDataModel ){
+		}else if( selectedNode instanceof NormalBaseElementDataModel ){
 
-			BaseElementEditor baseElementEditor = new BaseElementEditor( this, (BaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( baseElementEditor);		
+			NormalBaseElementEditor normalBaseElementEditor = new NormalBaseElementEditor( this, (NormalBaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( normalBaseElementEditor);		
 								
+		}else if( selectedNode instanceof SpecialBaseElementDataModel ){
+
+			SpecialBaseElementEditor specialBaseElementEditor = new SpecialBaseElementEditor( this, (SpecialBaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( specialBaseElementEditor);					
 		}	
 	}
 
@@ -159,7 +172,7 @@ public class BaseTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					BaseElementEditor baseNodeEditor = new BaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
+					NormalBaseElementEditor baseNodeEditor = new NormalBaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
@@ -278,9 +291,14 @@ public class BaseTree extends Tree{
 		}else if( draggedNode instanceof BasePageDataModel && dropObject instanceof BaseNodeDataModel && !( dropObject instanceof BaseRootDataModel ) ){
 			return true;
 		
-		//Element elhelyezese Page-ben	
-		}else if( draggedNode instanceof BaseElementDataModel && dropObject instanceof BasePageDataModel ){
+		//NormalElement elhelyezese Page-ben	
+		}else if( draggedNode instanceof NormalBaseElementDataModel && dropObject instanceof BasePageDataModel ){
 			return true;
+
+		//SpecialElement elhelyezese Page-ben	
+		}else if( draggedNode instanceof SpecialBaseElementDataModel && dropObject instanceof BasePageDataModel ){
+			return true;
+
 		}
 		
 		return false;

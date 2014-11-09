@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -113,7 +113,7 @@ public class ParamElementEditor extends DataEditor{
 		fieldName.setText( selectedElement.getName() );
 
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
-		BaseElementDataModel baseElement = selectedElement.getBaseElement();
+		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();		
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
 		
@@ -132,7 +132,7 @@ public class ParamElementEditor extends DataEditor{
 
 	}
 	
-	private void commonPost(BaseElementDataModel baseElement, BasePageDataModel basePage ){
+	private void commonPost(BaseElementDataModelAdapter baseElement, BasePageDataModel basePage ){
 		
 		baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 		
@@ -150,7 +150,7 @@ public class ParamElementEditor extends DataEditor{
 				change();
 			}			
 			private void change(){
-				BaseElementDataModel baseElement = ParamElementEditor.this.fieldBaseElementSelector.getSelectedDataModel();
+				BaseElementDataModelAdapter baseElement = ParamElementEditor.this.fieldBaseElementSelector.getSelectedDataModel();
 				changeOperation( baseElement );
 			}
 		});
@@ -173,7 +173,7 @@ public class ParamElementEditor extends DataEditor{
 	 *  
 	 * @param baseElement
 	 */
-	private void changeOperation( BaseElementDataModel baseElement ){
+	private void changeOperation( BaseElementDataModelAdapter baseElement ){
 
 		//Eltavolitja az ott levot
 		ParamElementEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
@@ -328,7 +328,7 @@ public class ParamElementEditor extends DataEditor{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 			
-			BaseElementDataModel baseElement = fieldBaseElementSelector.getSelectedDataModel();
+			BaseElementDataModelAdapter baseElement = fieldBaseElementSelector.getSelectedDataModel();
 			ElementOperationAdapter elementOperation = elementTypeComponent.getElementOperation();			
 
 			//Uj rogzites eseten

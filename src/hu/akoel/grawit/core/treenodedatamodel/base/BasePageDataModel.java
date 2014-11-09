@@ -56,24 +56,21 @@ public class BasePageDataModel extends BaseDataModelAdapter{
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
-			
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element baseElement = (Element)node;
 
 				if( baseElement.getTagName().equals( Tag.NORMALBASEELEMENT.getName() )){					
 					this.add(new NormalBaseElementDataModel(baseElement));
-				}else if( baseElement.getTagName().equals( Tag.SPECIALBASELEMENT.getName() )){
-//TODO befejezni!!!!!!					
-//					this.add( new SpecialBaseElementDataModel( baseElement ));
+				
+				}else if( baseElement.getTagName().equals( Tag.SPECIALBASEELEMENT.getName() ) ){
+
+					this.add( new SpecialBaseElementDataModel(baseElement));
+					
 				}
 			}
 		}		
 	}
 	
-/*	public static Tag getTagStatic(){
-		return TAG;
-	}
-*/
 	@Override
 	public Tag getTag() {
 		return TAG;

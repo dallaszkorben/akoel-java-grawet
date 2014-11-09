@@ -10,7 +10,8 @@ import org.w3c.dom.Element;
 
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.Settings;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -34,58 +35,60 @@ public abstract class ElementOperationAdapter implements Cloneable{
   
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
 		
+		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+				
+			if( null != elementProgress ){
+				elementProgress.elementStarted( element.getName() );
+			}
 		
-		if( null != elementProgress ){
-			elementProgress.elementStarted( element.getName() );
-		}
+			BaseElementDataModelAdapter baseElement = element.getBaseElement();
+			By by = null;
+			WebElement webElement = null;
 		
-		BaseElementDataModel baseElement = element.getBaseElement();
-		By by = null;
-		WebElement webElement = null;
-		
-		//WAITING TIME
-		Integer waitingTime = baseElement.getWaitingTime();
-		if( null == waitingTime ){
-			waitingTime = Settings.getInstance().getWaitingTime();
-		}
-		WebDriverWait wait = new WebDriverWait(driver, waitingTime);
+			//WAITING TIME
+			Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTime();
+			if( null == waitingTime ){
+				waitingTime = Settings.getInstance().getWaitingTime();
+			}
+			WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 						
-		//Selector meszerzese
-		if( baseElement.getSelectorType().equals(SelectorType.ID)){
-			by = By.id( baseElement.getSelector() );
-		//CSS
-		}else if( baseElement.getSelectorType().equals(SelectorType.CSS)){
-			by = By.cssSelector( baseElement.getSelector() );
-		}
+			//Selector meszerzese
+			if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.ID)){
+				by = By.id( ((NormalBaseElementDataModel)baseElement).getSelector() );
+				//CSS
+			}else if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.CSS)){
+				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );
+			}
 						
-		//Varakozik az elem megjeleneseig, de max 10 mp-ig
-		try{
-			wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
-			//wait.until(ExpectedConditions.elementToBeClickable( by ) );
+			//Varakozik az elem megjeleneseig, de max 10 mp-ig
+			try{
+				wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
+				//wait.until(ExpectedConditions.elementToBeClickable( by ) );
 		
-		}catch( org.openqa.selenium.TimeoutException timeOutException ){
-			throw new ElementTimeoutException( element.getName(), baseElement.getSelector(), timeOutException );
-		}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){
-			throw new ElementUnreachableBrowserException( unreachableBrowserException);
-		}
+			}catch( org.openqa.selenium.TimeoutException timeOutException ){
+				throw new ElementTimeoutException( element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), timeOutException );
+			}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){
+				throw new ElementUnreachableBrowserException( unreachableBrowserException);
+			}
 		
-		try{
-			webElement = driver.findElement( by );
-		}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
-			throw new ElementInvalidSelectorException(element.getName(), baseElement.getSelector(), invalidSelectorException );
-		}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
-			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), noSuchElementException );
-		}
+			try{
+				webElement = driver.findElement( by );
+			}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
+				throw new ElementInvalidSelectorException(element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), invalidSelectorException );
+			}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
+				throw new ElementNotFoundSelectorException( element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), noSuchElementException );
+			}
 		
-		if( null == webElement ){
-			throw new ElementNotFoundSelectorException( element.getName(), baseElement.getSelector(), new Exception() );
-		}
+			if( null == webElement ){
+				throw new ElementNotFoundSelectorException( element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), new Exception() );
+			}
 		
-		//OPERATION
-		doOperation( driver, element, webElement, elementProgress );
+			//OPERATION
+			doOperation( driver, element, webElement, elementProgress );
 		
-		if( null != elementProgress ){
-			elementProgress.elementEnded( element.getName() );
+			if( null != elementProgress ){
+				elementProgress.elementEnded( element.getName() );
+			}
 		}
 		
 	}

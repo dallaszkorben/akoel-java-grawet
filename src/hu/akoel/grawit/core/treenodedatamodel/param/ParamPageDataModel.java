@@ -24,9 +24,11 @@ import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -125,15 +127,24 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );
 	    		}
 	    		
-	    	//Ha BASEELEMENT
-	    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
+	    	//Ha NORMALBASEELEMENT
+	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
 
 	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );	    		
+	    	
+	    	//Ha SPECIALBASEELEMENT
+	    	}else if( tagName.equals( SpecialBaseElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);
+
+	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );	    		
+	    	
+	    	
 	    	}else{
 	    		
 	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );	    		
-	    	}
+	    	}	    	
+	    	
 	    }	    
 	    try{
 	    	
@@ -216,31 +227,29 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 			if( parameterElement.isOn() ){
 			
 				//Bazis elem
-				BaseElementDataModel baseElement = parameterElement.getBaseElement();
+				BaseElementDataModelAdapter baseElement = parameterElement.getBaseElement();
 			
-				//TODO lehet, hogy ennek a framere varakozo idonek kulonboznie kellene
-				//a Bazis elemhez tartozo warakozasi ido
-				Integer waitingTime = baseElement.getWaitingTime();
-				if( null == waitingTime ){
-					waitingTime = Settings.getInstance().getWaitingTime();
-				}
-				WebDriverWait wait = new WebDriverWait(driver, waitingTime);
+				if( baseElement instanceof NormalBaseElementDataModel ){
+				
+					//TODO lehet, hogy ennek a framere varakozo idonek kulonboznie kellene
+					//a Bazis elemhez tartozo warakozasi ido
+					Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTime();
+					if( null == waitingTime ){
+						waitingTime = Settings.getInstance().getWaitingTime();
+					}
+					WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 			
-				// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
-				String frameName = parameterElement.getBaseElement().getFrame();
+					// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
+					String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
 
-				if( null != frameName && frameName.trim().length() > 0 ){
+					if( null != frameName && frameName.trim().length() > 0 ){
 				
-//				try{
-//					Thread.sleep( 1000 );
-//				}catch( InterruptedException e){}
-				
-				
-					driver.switchTo().defaultContent();
-					wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
-					driver.switchTo().defaultContent();
+						driver.switchTo().defaultContent();
+						wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
+						driver.switchTo().defaultContent();
 
-					driver.switchTo().frame( frameName );		
+						driver.switchTo().frame( frameName );		
+					}				
 				}
 				
 				try{			

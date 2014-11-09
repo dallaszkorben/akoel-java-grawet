@@ -5,7 +5,7 @@ public enum Tag{
 	BASENODE("node"),
 	BASEPAGE("page"),
 	NORMALBASEELEMENT("element"),
-	SPECIALBASELEMENT("specialelement"),
+	SPECIALBASEELEMENT("specialelement"),
 		
 	PARAMROOT("parampage"),
 	PARAMNODE("node"),
