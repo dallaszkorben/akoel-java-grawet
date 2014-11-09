@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
 
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.Settings;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
