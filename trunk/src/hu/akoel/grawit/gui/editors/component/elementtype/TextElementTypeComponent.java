@@ -7,7 +7,6 @@ import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementOperation;
-import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -216,13 +215,6 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STRING.getIndex());
 		
-			//GAIN TEXT TO VARIABLE
-			}else if( elementOperation instanceof GainTextToVariableOperation ){
-				
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainTextToVariableOperation)elementOperation).getVariableElement() );
-				comboOperationList.setSelectedIndex(E.GAINTEXT_TO_VARIABLE.getIndex());
-				fieldPattern.setText( ((GainTextToVariableOperation)elementOperation).getStringPattern());					
-			
 			//GAIN TEXT TO ELEMENT
 			}else if( elementOperation instanceof GainTextToElementOperation ){
 					
@@ -345,37 +337,6 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 			c.weightx = 1;
 			this.add( fieldString, c );
 			
-		//GAINTEXT TO VARIABLE
-		}else if( selectedOperation.equals( E.GAINTEXT_TO_VARIABLE ) ){
-			
-			//VARIABLE
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelVariableSelector, c );
-			
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldVariableSelector, c );			
-			
-			//PATTERN
-			c.gridy = 1;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelPattern, c );
-							
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldPattern, c );		
-			
 		//GAINTEXT TO ELEMENT
 		}else if( selectedOperation.equals( E.GAINTEXT_TO_ELEMENT ) ){
 			
@@ -448,10 +409,6 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STRING.getIndex() ){
 			return new CompareTextToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 
-		//GAINTEXT TO VARIABLE
-		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_VARIABLE.getIndex() ){
-			return new GainTextToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
-		
 		//GAINTEXT TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_ELEMENT.getIndex() ){
 			return new GainTextToElementOperation( fieldPattern.getText() );

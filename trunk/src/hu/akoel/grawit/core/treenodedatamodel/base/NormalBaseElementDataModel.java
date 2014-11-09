@@ -15,9 +15,8 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 
-public class NormalBaseElementDataModel extends BElementDataModel{
-
-	private static final long serialVersionUID = 7220765215864317791L;
+public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
+	private static final long serialVersionUID = -8916078747948054716L;
 
 	public static Tag TAG = Tag.NORMALBASEELEMENT;
 	
@@ -34,7 +33,7 @@ public class NormalBaseElementDataModel extends BElementDataModel{
 	private SelectorType identificationType;
 	private Integer waitingTime = null;
 	//----
-	
+
 	/**
 	 * 
 	 * Modify
@@ -47,6 +46,7 @@ public class NormalBaseElementDataModel extends BElementDataModel{
 	 */
 	public NormalBaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTime, String frame){
 		super( name );
+		
 		this.elementType = elementType;
 		this.identifier = identifier;
 		this.identificationType = identificationType;
@@ -67,28 +67,28 @@ public class NormalBaseElementDataModel extends BElementDataModel{
 		
 		//frame             
 		if( !element.hasAttribute( ATTR_FRAME ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_FRAME );			
+			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_FRAME );			
 		}
 		String frameString = element.getAttribute( ATTR_FRAME );
 		this.frame = frameString;
 		
 		//identifier             
 		if( !element.hasAttribute( ATTR_IDENTIFIER ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_IDENTIFIER );			
+			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_IDENTIFIER );			
 		}
 		String identifierString = element.getAttribute( ATTR_IDENTIFIER );
 		this.identifier = identifierString;
 		
 		//element type             
 		if( !element.hasAttribute( ATTR_ELEMENT_TYPE ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_ELEMENT_TYPE );			
+			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_ELEMENT_TYPE );			
 		}
 		String elementTypeString = element.getAttribute( ATTR_ELEMENT_TYPE );
 		this.elementType = ElementTypeListEnum.valueOf( elementTypeString );
 		
 		//identificationtype
 		if( !element.hasAttribute( ATTR_IDENTIFICATION_TYPE ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE );
+			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE );
 		}
 		String identificationTypeString = element.getAttribute( ATTR_IDENTIFICATION_TYPE );
 		if( SelectorType.ID.name().equals( identificationTypeString ) ){
@@ -96,7 +96,7 @@ public class NormalBaseElementDataModel extends BElementDataModel{
 		}else if( SelectorType.CSS.name().equals( identificationTypeString ) ){
 			identificationType = SelectorType.CSS;
 		}else{			
-			throw new XMLWrongAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
+			throw new XMLWrongAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
 		}		
 		
 		//waiting time
@@ -112,7 +112,6 @@ public class NormalBaseElementDataModel extends BElementDataModel{
 		}
 				
 	}
-	
 	
 	public static Tag getTagStatic(){
 		return TAG;
@@ -169,7 +168,7 @@ public class NormalBaseElementDataModel extends BElementDataModel{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.base.element");
+		return CommonOperations.getTranslation( "tree.nodetype.base.normalelement");
 	}
 	
 	@Override
@@ -183,7 +182,8 @@ public class NormalBaseElementDataModel extends BElementDataModel{
 		Element elementElement = super.getXMLElement(document);
 		
 		Attr attr;
-		
+
+		//Node element
 		attr = document.createAttribute( ATTR_FRAME);
 		attr.setValue( getFrame() );
 		elementElement.setAttributeNode(attr);	
@@ -213,7 +213,7 @@ public class NormalBaseElementDataModel extends BElementDataModel{
 	}
 
 	@Override
-	public Object clone(){	
+	public Object clone(){
 		
 		//Leklonozza az BaseElement-et
 		NormalBaseElementDataModel cloned = (NormalBaseElementDataModel)super.clone();
@@ -229,7 +229,12 @@ public class NormalBaseElementDataModel extends BElementDataModel{
 		return cloned;
 		
 	}
-
-
-
+	
+	@Override
+	public Object cloneWithParent() {
+		
+		NormalBaseElementDataModel cloned = (NormalBaseElementDataModel) super.cloneWithParent();
+		
+		return cloned;
+	}
 }

@@ -18,10 +18,12 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -35,10 +37,10 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 	private static final String ATTR_FILL_BASE_ELEMENT_PATH = "fillelementpath";
 	
 	//--- Data model
-	private BaseElementDataModel baseElementDataModel;
+	private BaseElementDataModelAdapter baseElementDataModel;
 	//---
 	
-	public FillWithBaseElementOperation( BaseElementDataModel baseElementDataModel ){
+	public FillWithBaseElementOperation( BaseElementDataModelAdapter baseElementDataModel ){
 		this.baseElementDataModel = baseElementDataModel;
 	}
 
@@ -83,16 +85,25 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha BASEELEMENT
-	    	}else if( tagName.equals( BaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEELEMENT, attrName );
+	    	//Ha NORMALBASEELEMENT
+	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
+	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.NORMALBASEELEMENT, attrName );
 	
 	    		if( null == baseDataModelForFillOut ){
 
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
 	    		}
 
+	    	//Ha SPECIALBASEELEMENT
+	    	}else if( tagName.equals( SpecialBaseElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);
+	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.SPECIALBASEELEMENT, attrName );
+		
+	    		if( null == baseDataModelForFillOut ){
+
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
+	    		}	    		
 	    	
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
@@ -112,7 +123,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 	    }	    
 	    try{
 	    	
-	    	this.baseElementDataModel = (BaseElementDataModel)baseDataModelForFillOut;
+	    	this.baseElementDataModel = (BaseElementDataModelAdapter)baseDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
@@ -131,22 +142,25 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 		return getStaticName();
 	}
 		
-	public BaseElementDataModel getBaseElement() {
+	public BaseElementDataModelAdapter getBaseElement() {
 		return baseElementDataModel;
 	}
 
 	@Override
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
-		try{
+		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+
+			try{
 			
-			//Execute the operation
-			//webElement.clear();
-			webElement.sendKeys( baseElementDataModel.getStoredValue() );
-			webElement.sendKeys(Keys.TAB);
+				//Execute the operation
+				//webElement.clear();
+				webElement.sendKeys( baseElementDataModel.getStoredValue() );
+				webElement.sendKeys(Keys.TAB);
 			
-		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getName(), element.getName(), element.getBaseElement().getSelector(), webDriverException );
+			}catch (WebDriverException webDriverException){
+				throw new ElementInvalidOperationException( getName(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), webDriverException );
+			}
 		}
 		
 	}
@@ -162,7 +176,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 	public Object clone() {
 		
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		BaseElementDataModel baseElementDataModel = (BaseElementDataModel) this.baseElementDataModel.cloneWithParent();
+		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.cloneWithParent();
 		
 		return new FillWithBaseElementOperation(baseElementDataModel);
 	}

@@ -3,9 +3,10 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
@@ -50,15 +51,18 @@ public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BasePag
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
-		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
+		ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
+		ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
 		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
 		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
 
 		//Iconja a NODE-nak
 		if( actualNode instanceof BasePageDataModel){
 			return (pageIcon);
-		}else if( actualNode instanceof BaseElementDataModel ){
-			return (elementIcon);
+		}else if( actualNode instanceof NormalBaseElementDataModel ){
+			return (normalElementIcon);
+		}else if( actualNode instanceof SpecialBaseElementDataModel ){
+			return (specialElementIcon);			
 		}else if( actualNode instanceof BaseNodeDataModel){
 			if( expanded ){
 				return (nodeOpenIcon);

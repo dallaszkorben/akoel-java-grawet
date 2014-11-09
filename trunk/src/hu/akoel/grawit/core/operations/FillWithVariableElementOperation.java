@@ -18,6 +18,7 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
@@ -123,14 +124,15 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
-		try{
-			//Execute the operation
-			webElement.sendKeys( variableElementDataModel.getValue() );
-			webElement.sendKeys(Keys.TAB);
-		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getName(), element.getName(), element.getBaseElement().getSelector(), webDriverException );
+		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+			try{
+				//Execute the operation
+				webElement.sendKeys( variableElementDataModel.getValue() );
+				webElement.sendKeys(Keys.TAB);
+			}catch (WebDriverException webDriverException){
+				throw new ElementInvalidOperationException( getName(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), webDriverException );
+			}
 		}
-		
 	}
 
 	@Override

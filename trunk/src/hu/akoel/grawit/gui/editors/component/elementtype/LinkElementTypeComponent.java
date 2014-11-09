@@ -8,7 +8,6 @@ import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementOperation;
-import hu.akoel.grawit.core.operations.GainTextToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -220,13 +219,6 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 				fieldString.setText( ((CompareTextToStringOperation)elementOperation).getStringToShow() );
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STRING.getIndex());
-
-			//GAIN TEXT TO VARIABLE
-			}else if( elementOperation instanceof GainTextToVariableOperation ){
-				
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainTextToVariableOperation)elementOperation).getVariableElement() );
-				comboOperationList.setSelectedIndex(E.GAINTEXT_TO_VARIABLE.getIndex());
-				fieldPattern.setText( ((GainTextToVariableOperation)elementOperation).getStringPattern());					
 			
 			//GAIN TEXT TO ELEMENT
 			}else if( elementOperation instanceof GainTextToElementOperation ){
@@ -466,10 +458,6 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STRING.getIndex() ){
 			return new CompareTextToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 
-		//GAIN TEXT TO VARIABLE
-		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_VARIABLE.getIndex() ){
-			return new GainTextToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
-			
 		//GAINTEXT TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_ELEMENT.getIndex() ){
 			return new GainTextToElementOperation( fieldPattern.getText() );

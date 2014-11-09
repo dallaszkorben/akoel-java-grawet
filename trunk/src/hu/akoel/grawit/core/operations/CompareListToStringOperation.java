@@ -11,6 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.ElementProgressInterface;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
@@ -144,13 +145,23 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( stringToCompare ) ){
-				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				//Special
+				}else{
+					throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), "special", origText, new Exception() );
+				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( stringToCompare ) ){
-				throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				//Special
+				}else{
+					throw new ElementCompareOperationException(compareType, stringToCompare, element.getName(), "special", origText, new Exception() );
+				}
 			}			
 		}
 	}

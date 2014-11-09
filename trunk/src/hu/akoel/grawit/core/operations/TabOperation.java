@@ -8,6 +8,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.ElementProgressInterface;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
@@ -27,14 +28,17 @@ public class TabOperation extends ElementOperationAdapter{
 	
 	@Override
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	
+		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
 		
-		try{
-			//Execute the operation
-			//webElement.clear();
-			//webElement.sendKeys( parameter.getValue() );
-			webElement.sendKeys(Keys.TAB);
-		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getName(), element.getName(), element.getBaseElement().getSelector(), webDriverException );
+			try{
+				//Execute the operation
+				//webElement.clear();
+				//webElement.sendKeys( parameter.getValue() );
+				webElement.sendKeys(Keys.TAB);
+			}catch (WebDriverException webDriverException){
+				throw new ElementInvalidOperationException( getName(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), webDriverException );
+			}
 		}
 	}
 	

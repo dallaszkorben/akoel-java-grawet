@@ -19,6 +19,7 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
@@ -214,13 +215,23 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( variableElementDataModel.getValue() ) ){
-				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				//Special
+				}else{
+					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), "special", origText, new Exception() );
+				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( variableElementDataModel.getValue() ) ){
-				throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), element.getBaseElement().getSelector(), origText, new Exception() );
+				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				//Special
+				}else{
+					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), "special", origText, new Exception() );
+				}
 			}
 			
 		}
