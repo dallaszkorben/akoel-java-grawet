@@ -3,11 +3,15 @@ package hu.akoel.grawit.core.treenodedatamodel.base;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaFileObject;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.JavaSourceFromString;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -22,19 +26,28 @@ public class SpecialBaseElementDataModel extends BaseElementDataModelAdapter{
 	private ElementTypeListEnum elementType = ElementTypeListEnum.SPECIAL;
 	
 	public static final String ATTR_ELEMENT_TYPE="elementtype";
-//	public static final String ATTR_IDENTIFIER = "identifier";
-//	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
-//	public static final String ATTR_FRAME = "frame";
-//	public static final String ATTR_WAITINGTIME = "waitingtime";
+	public static final String ATTR_SCRIPT = "script";
 	
 	private ArrayList<String> parameters = new ArrayList<>();
 	
+	private static final String codePre = 
+			"import org.openqa.selenium.WebDriver;\n" +
+			"public class CustomClass {\n" +		
+			"   public CustomClass() {}\n" +		
+			"   public void doAction(WebDriver driver, ArrayList<String> parameters) throws hu.akoel.grawit.exceptions.PageException{\n";
+	private static final String codePost = 
+			"\n   }\n" +
+			"}\n";
+	
+	private JavaSourceFromString javaFile;
+	private DiagnosticCollector<JavaFileObject> diagnostics;
+	private String classOutputFolder = "";
+	
+	private String customClassName = "CustomClass";
+	private String customMethodName = "doAction";
+	
 	//Adatmodel ---
-//	private ElementTypeListEnum elementType;
-//	private String frame;
-//	private String identifier;
-//	private SelectorType identificationType;
-//	private Integer waitingTime = null;
+	private String script;
 	//----
 
 	/**
@@ -47,15 +60,9 @@ public class SpecialBaseElementDataModel extends BaseElementDataModelAdapter{
 	 * @param identificationType
 	 * @param frame
 	 */
-	public SpecialBaseElementDataModel(String name){
+	public SpecialBaseElementDataModel(String name, String script ){
 		super( name );
-		
-/*		this.elementType = elementType;
-		this.identifier = identifier;
-		this.identificationType = identificationType;
-		this.waitingTime = waitingTime;
-		this.frame = frame;
-*/		
+		this.script = script;
 	}
 
 	/**
@@ -76,52 +83,13 @@ public class SpecialBaseElementDataModel extends BaseElementDataModelAdapter{
 		String elementTypeString = element.getAttribute( ATTR_ELEMENT_TYPE );
 		this.elementType = ElementTypeListEnum.valueOf( elementTypeString );
 		
-		//frame             
-/*		if( !element.hasAttribute( ATTR_FRAME ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_FRAME );			
+		//source
+		if( !element.hasAttribute( ATTR_SCRIPT ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_SCRIPT );			
 		}
-		String frameString = element.getAttribute( ATTR_FRAME );
-		this.frame = frameString;
-		
-		//identifier             
-		if( !element.hasAttribute( ATTR_IDENTIFIER ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_IDENTIFIER );			
-		}
-		String identifierString = element.getAttribute( ATTR_IDENTIFIER );
-		this.identifier = identifierString;
-		
-		//element type             
-		if( !element.hasAttribute( ATTR_ELEMENT_TYPE ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_ELEMENT_TYPE );			
-		}
-		String elementTypeString = element.getAttribute( ATTR_ELEMENT_TYPE );
-		this.elementType = ElementTypeListEnum.valueOf( elementTypeString );
-		
-		//identificationtype
-		if( !element.hasAttribute( ATTR_IDENTIFICATION_TYPE ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE );
-		}
-		String identificationTypeString = element.getAttribute( ATTR_IDENTIFICATION_TYPE );
-		if( SelectorType.ID.name().equals( identificationTypeString ) ){
-			identificationType = SelectorType.ID;
-		}else if( SelectorType.CSS.name().equals( identificationTypeString ) ){
-			identificationType = SelectorType.CSS;
-		}else{			
-			throw new XMLWrongAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
-		}		
-		
-		//waiting time
-		if( !element.hasAttribute( ATTR_WAITINGTIME ) ){			
-			//TODO majd visszarakni, hogy ha nem talalja, akkor hiba
-			//throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_WAITINGTIME );
-		}else{
-			String waitingTimeString = element.getAttribute( ATTR_WAITINGTIME );
-			try{
-				waitingTime = new Integer( waitingTimeString );
-			}catch( Exception e ){}
-			
-		}
-*/				
+		String scriptString = element.getAttribute( ATTR_SCRIPT );		
+		this.script = scriptString;
+				
 	}
 	
 	public static Tag getTagStatic(){
@@ -137,48 +105,7 @@ public class SpecialBaseElementDataModel extends BaseElementDataModelAdapter{
 	public ElementTypeListEnum getElementType(){
 		return elementType;
 	}
-/*	
-	public void setElementType( ElementTypeListEnum elementType ){
-		this.elementType = elementType;
-	}
 	
-	public Integer getWaitingTime(){
-		return this.waitingTime;
-	}
-	
-	public void setWaitingTime( Integer waitingTime ){
-		this.waitingTime = waitingTime;
-	}
-	
-	public String getSelector() {
-		return identifier;
-	}
-
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
-
-	public SelectorType getSelectorType() {
-		return identificationType;
-	}
-
-	public void setIdentificationType(SelectorType identificationType) {
-		this.identificationType = identificationType;
-	}
-
-	public String getFrame(){
-		return frame;
-	}
-	
-	public void setFrame( String frame ){
-		this.frame = frame;
-	}
-	
-	@Override
-	public void add(BaseDataModelAdapter node) {
-		super.add( (MutableTreeNode)node );
-	}
-*/	
 	
 	public void addParameter( String parameter ){
 		this.parameters.add( parameter );
