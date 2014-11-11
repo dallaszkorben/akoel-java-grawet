@@ -36,7 +36,7 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 public class CompareValueToStoredElementOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "COMPAREVALUETOSTOREDELEMENT";	
-	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "comparebaseelementpath";
+	private static final String ATTR_COMPARE_STORED_BASE_ELEMENT_PATH = "comparestoredbaseelementpath";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	
@@ -68,10 +68,10 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		this.compareType = CompareTypeListEnum.valueOf( typeString );
 		
 		//ATTR_COMPARE_BASE_ELEMENT_PATH
-		if( !element.hasAttribute( ATTR_COMPARE_BASE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_BASE_ELEMENT_PATH );		
+		if( !element.hasAttribute( ATTR_COMPARE_STORED_BASE_ELEMENT_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH );		
 		}	
-		String baseElementPathString = element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH);				
+		String baseElementPathString = element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH);				
 		baseElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + baseElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -82,7 +82,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH), e );
 	    } 
 
 	    //Megkeresem a PARAMELEMENTROOT-ben a PARAMELEMENT-hez vezeto utat
@@ -102,7 +102,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 
 	    		if( null == baseDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH) );
 	    		}
 	    		
 	    	//Ha NORMALBASEELEMENT
@@ -112,7 +112,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	
 	    		if( null == baseDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH) );
 	    		}
 
 	    	//Ha SPECIALBASEELEMENT
@@ -122,7 +122,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		
 	    		if( null == baseDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH) );
 	    		}
 	    	
 	    	//Ha BASEPAGE
@@ -132,13 +132,13 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 
 	    		if( null == baseDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH) );
 	    		}
 	    	
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH) );	    		
 	    	}
 	    }
 	    
@@ -149,7 +149,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH ), e );
 	    }
 	    
 	    //PATTERN
@@ -246,7 +246,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	
 	@Override
 	public void setXMLAttribute(Document document, Element element) {		
-		Attr attr = document.createAttribute( ATTR_COMPARE_BASE_ELEMENT_PATH );
+		Attr attr = document.createAttribute( ATTR_COMPARE_STORED_BASE_ELEMENT_PATH );
 		attr.setValue( baseElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );
 		
