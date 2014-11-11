@@ -28,27 +28,27 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class AddBaseElementToParameterOperation extends ElementOperationAdapter{
+public class AddStoredElementToParameterOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "ADDBASEELEMENTTOPARAMETER";	
-	private static final String ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH = "addbaseelementtoparameterpath";
+	private static final String NAME = "ADDSTOREDELEMENTTOPARAMETER";	
+	private static final String ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH = "storedbaseelementtoparameterpath";
 	
 	//--- Data model
 	private BaseElementDataModelAdapter baseElementDataModel;
 	//---
 	
-	public AddBaseElementToParameterOperation( BaseElementDataModelAdapter baseElementDataModel ){
+	public AddStoredElementToParameterOperation( BaseElementDataModelAdapter baseElementDataModel ){
 		this.baseElementDataModel = baseElementDataModel;
 	}
 
-	public AddBaseElementToParameterOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
+	public AddStoredElementToParameterOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
 		BaseDataModelAdapter baseDataModelForFillOut = baseRootDataModel;
 		
-		if( !element.hasAttribute( ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH );		
+		if( !element.hasAttribute( ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH );		
 		}	
-		String baseElementPathString = element.getAttribute(ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH);				
+		String baseElementPathString = element.getAttribute(ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH);				
 		baseElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + baseElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -59,7 +59,7 @@ public class AddBaseElementToParameterOperation extends ElementOperationAdapter{
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH), e );
 	    } 
 
 	    //Megkeresem a PARAMELEMENTROOT-ben a PARAMELEMENT-hez vezeto utat
@@ -79,7 +79,7 @@ public class AddBaseElementToParameterOperation extends ElementOperationAdapter{
 
 	    		if( null == baseDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH) );
 	    		}
 	    		
 	    	//Ha NORMALBASEELEMENT
@@ -89,7 +89,7 @@ public class AddBaseElementToParameterOperation extends ElementOperationAdapter{
 	
 	    		if( null == baseDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH) );
 	    		}
 
 	    	//Ha SPECIALBASEELEMENT
@@ -99,7 +99,7 @@ public class AddBaseElementToParameterOperation extends ElementOperationAdapter{
 		
 	    		if( null == baseDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH) );
 	    		}
 	    	
 	    	//Ha BASEPAGE
@@ -109,13 +109,13 @@ public class AddBaseElementToParameterOperation extends ElementOperationAdapter{
 
 	    		if( null == baseDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH) );
 	    		}
 	    	
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH) );	    		
 	    	}
 	    }	    
 	    try{
@@ -125,7 +125,7 @@ public class AddBaseElementToParameterOperation extends ElementOperationAdapter{
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH, element.getAttribute(ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH ), e );
 	    }
 	    
 	}
@@ -146,24 +146,18 @@ public class AddBaseElementToParameterOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
-//TODO na itt kell majd implementalni
-/*		
-		try{
+		//HA SPECIALBASEELEMENT - annak kell lennie
+		if( element.getBaseElement() instanceof SpecialBaseElementDataModel ){
+
+			((SpecialBaseElementDataModel)element.getBaseElement()).addParameter( baseElementDataModel.getStoredValue() );
 			
-			//Execute the operation
-			//webElement.clear();
-			webElement.sendKeys( baseElementDataModel.getStoredValue() );
-			webElement.sendKeys(Keys.TAB);
-			
-		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getName(), element.getName(), element.getBaseElement().getSelector(), webDriverException );
 		}
-*/		
+		
 	}
 	
 	@Override
 	public void setXMLAttribute(Document document, Element element) {		
-		Attr attr = document.createAttribute( ATTR_ADD_BASE_ELEMENT_TO_PARAMETER_PATH );
+		Attr attr = document.createAttribute( ATTR_STORED_BASE_ELEMENT_TO_PARAMETER_PATH );
 		attr.setValue( baseElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );	
 	}
@@ -174,7 +168,7 @@ public class AddBaseElementToParameterOperation extends ElementOperationAdapter{
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
 		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.cloneWithParent();
 		
-		return new AddBaseElementToParameterOperation(baseElementDataModel);
+		return new AddStoredElementToParameterOperation(baseElementDataModel);
 	}
 	
 }

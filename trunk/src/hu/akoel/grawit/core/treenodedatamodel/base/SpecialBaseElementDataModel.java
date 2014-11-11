@@ -1,5 +1,8 @@
 package hu.akoel.grawit.core.treenodedatamodel.base;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,6 +26,8 @@ public class SpecialBaseElementDataModel extends BaseElementDataModelAdapter{
 //	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
 //	public static final String ATTR_FRAME = "frame";
 //	public static final String ATTR_WAITINGTIME = "waitingtime";
+	
+	private ArrayList<String> parameters = new ArrayList<>();
 	
 	//Adatmodel ---
 //	private ElementTypeListEnum elementType;
@@ -174,6 +179,19 @@ public class SpecialBaseElementDataModel extends BaseElementDataModelAdapter{
 		super.add( (MutableTreeNode)node );
 	}
 */	
+	
+	public void addParameter( String parameter ){
+		this.parameters.add( parameter );
+	}
+	
+	public void clearParameters(){
+		this.parameters.clear();
+	}
+	
+	public Iterator<String> getParameterIterator(){
+		return parameters.iterator();
+	}
+	
 	public static String  getModelNameToShowStatic(){
 		return CommonOperations.getTranslation( "tree.nodetype.base.specialelement");
 	}
