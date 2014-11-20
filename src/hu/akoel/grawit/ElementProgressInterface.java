@@ -8,4 +8,5 @@ public interface ElementProgressInterface {
 	
 	public void outputValue( String outputValue, String message );
 	
+	public void outputCommand( String command );
 }

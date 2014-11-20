@@ -242,8 +242,14 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 					// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
 					String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
 
-					if( null != frameName && frameName.trim().length() > 0 ){
-				
+					if( null != frameName && frameName.trim().length() > 0 ){				
+						
+elementProgress.outputCommand( "		driver.switchTo().defaultContent();" );
+elementProgress.outputCommand( "		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt( \"" + frameName + "\" ) );" );
+elementProgress.outputCommand( "		driver.switchTo().defaultContent();" );
+elementProgress.outputCommand( "		driver.switchTo().frame( \"" + frameName + "\" );" );
+elementProgress.outputCommand( "" );
+						
 						driver.switchTo().defaultContent();
 						wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
 						driver.switchTo().defaultContent();

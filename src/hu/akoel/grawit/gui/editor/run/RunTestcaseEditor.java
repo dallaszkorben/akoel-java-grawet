@@ -25,12 +25,20 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -45,7 +53,7 @@ public class RunTestcaseEditor extends BaseEditor{
 	private TestcaseCaseDataModel selectedTestcase;
 	
 	private PageProgress pageProgress;
-	private ElementProgress elementProgress;
+	private ElementProgress elementProgres;
 	
 	private JButton runButton;
 	private JTextPane consolPanel;
@@ -67,8 +75,8 @@ public class RunTestcaseEditor extends BaseEditor{
 		this.selectedTestcase = testcaseCaseElement;
 
 		pageProgress = new PageProgress();
-		elementProgress = new ElementProgress();
-		
+		elementProgres = new ElementProgress();		
+
 		runButton = new JButton( CommonOperations.getTranslation("editor.label.runtest.runbutton") );
 		runButton.addActionListener(new ActionListener(){
 
@@ -85,27 +93,59 @@ public class RunTestcaseEditor extends BaseEditor{
 						valuePanel.setText("");
 						statusPanel.setText("");
 						consolPanel.setText("");
-						statusPanel.setText("");
-												
+						//statusPanel.setText("");
+
+elementProgres.outputCommand( "import org.openqa.selenium.By;" );
+elementProgres.outputCommand( "import org.openqa.selenium.WebDriver;" );
+elementProgres.outputCommand( "import org.openqa.selenium.WebElement;" );
+elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxDriver;" );
+elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxProfile;" );
+elementProgres.outputCommand( "import org.openqa.selenium.support.ui.Select;" );
+elementProgres.outputCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );	
+elementProgres.outputCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
+elementProgres.outputCommand( "import org.openqa.selenium.JavascriptExecutor;");
+elementProgres.outputCommand( "import org.openqa.selenium.Keys;" );
+elementProgres.outputCommand( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
+elementProgres.outputCommand( "" );				  
+
+elementProgres.outputCommand( "public class Test{ ");
+elementProgres.outputCommand( "	" );
+elementProgres.outputCommand( "	WebDriverWait wait = null;");
+elementProgres.outputCommand( "	By by = null;" );
+elementProgres.outputCommand( "	WebElement webElement = null;");
+elementProgres.outputCommand( "	Select select = null;");	
+elementProgres.outputCommand( "	Integer index = 0;" );
+elementProgres.outputCommand( "	WebDriver driver = null;" );
+elementProgres.outputCommand( "	FirefoxProfile profile = null;");
+elementProgres.outputCommand( "	JavascriptExecutor executor = null;");
+elementProgres.outputCommand( "	" );
+elementProgres.outputCommand( "	public static void main( String[] args ){" );
+elementProgres.outputCommand( "		new Test();" );
+elementProgres.outputCommand( "	}" );
+elementProgres.outputCommand( "	" );
+elementProgres.outputCommand( "	public Test(){" );	
+elementProgres.outputCommand( "	" );
+
 				    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
 				    	
 				    	ExecutablePageInterface openPage = selectedTestcase.getOpenPage();
 				    	ExecutablePageInterface closePage = selectedTestcase.getClosePage();
-				    	WebDriver webDriver = selectedTestcase.getDriverDataModel().getDriver();
-			
+				    	WebDriver webDriver = selectedTestcase.getDriverDataModel().getDriver( elementProgres );
+	
+
 				    	try{				
 			
-				    		openPage.doAction( webDriver, pageProgress, elementProgress );
+				    		openPage.doAction( webDriver, pageProgress, elementProgres );
 				
 				    		int childCount = selectedTestcase.getChildCount();
 				    		for( int index = 0; index < childCount; index++ ){
 				    			TestcasePageModelInterface pageToRun = (TestcasePageModelInterface)selectedTestcase.getChildAt(index);
-				    			pageToRun.doAction(webDriver, pageProgress, elementProgress);
+				    			pageToRun.doAction(webDriver, pageProgress, elementProgres );
 				    		}					
 				
 				    		//Ha van closePage definialva, akkor vegrehajtom
 				    		if( null != closePage ){
-				    			closePage.doAction( webDriver, pageProgress, elementProgress );
+				    			closePage.doAction( webDriver, pageProgress, elementProgres );
 				    		}
 				    		
 				    		setStatusOfTestCase( selectedTestcase, true );
@@ -147,6 +187,9 @@ public class RunTestcaseEditor extends BaseEditor{
 				    	}
 				    	
 				    	RunTestcaseEditor.this.runButton.setEnabled( true );
+				    	
+elementProgres.outputCommand( "	}");				    	
+elementProgres.outputCommand( "}");	
 			
 					}				 
 				 
@@ -408,6 +451,13 @@ public class RunTestcaseEditor extends BaseEditor{
 			}
 			
 		}
-		
+
+		@Override
+		public void outputCommand(String command) {
+			
+			System.out.println( command );
+			
+		}		
 	}
+	
 }

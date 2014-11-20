@@ -103,7 +103,7 @@ public class SpecialOpenDataModel extends SpecialPageModelInterface{
 //	}
 	
 	@Override
-	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) {
+	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgres ) {
 
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
@@ -113,6 +113,9 @@ public class SpecialOpenDataModel extends SpecialPageModelInterface{
 //		try{		
 
 		//Megnyitja az oldalt
+
+elementProgres.outputCommand( "		driver.get( \"" + url + "\" );");
+elementProgres.outputCommand( "");
 		driver.get(url);			
 			
 		//Ha valamilyen problema tortent az oldal kezelese soran

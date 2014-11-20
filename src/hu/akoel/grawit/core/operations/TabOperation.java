@@ -35,6 +35,8 @@ public class TabOperation extends ElementOperationAdapter{
 				//Execute the operation
 				//webElement.clear();
 				//webElement.sendKeys( parameter.getValue() );
+elementProgress.outputCommand( "		webElement.sendKeys( Keys.TAB );" );			
+				
 				webElement.sendKeys(Keys.TAB);
 			}catch (WebDriverException webDriverException){
 				throw new ElementInvalidOperationException( getName(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), webDriverException );
