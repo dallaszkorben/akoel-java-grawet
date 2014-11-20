@@ -151,13 +151,15 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 	}
 */	
 	@Override
-	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws CompilationException, PageException {
+	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgres ) throws CompilationException, PageException {
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
 			pageProgress.pageStarted( getName(), getNodeTypeToShow() );
 		}	
-	
+
+elementProgres.outputCommand( "		" + getScript() );		
+		
 		//Kod legyartasa
 		CompilationTask task = generateTheCode();
 

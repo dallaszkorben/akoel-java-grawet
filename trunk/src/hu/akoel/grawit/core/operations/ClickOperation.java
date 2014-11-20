@@ -28,6 +28,10 @@ public class ClickOperation extends ElementOperationAdapter{
 	
 		//Sajnos csak a javascipt hivassal mukodik. a webElement.click() hatasara nem tortenik semmi
 		//Feltehetoleg idozitesi problema, mert debug-kor mukodik
+
+elementProgress.outputCommand( "		executor = (JavascriptExecutor)driver;" );			
+elementProgress.outputCommand( "		executor.executeScript(\"arguments[0].click();\", webElement);" );	
+
 		JavascriptExecutor executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].click();", webElement);
 		

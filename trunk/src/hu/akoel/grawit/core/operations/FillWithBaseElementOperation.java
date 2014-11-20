@@ -154,7 +154,10 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 			try{
 			
 				//Execute the operation
-				//webElement.clear();
+				//webElement.clear();				
+				elementProgress.outputCommand( "		webElement.sendKeys(\"" + baseElementDataModel.getStoredValue() + "\");     //" + element.getName() );
+				elementProgress.outputCommand( "		webElement.sendKeys(Keys.TAB);" );
+				
 				webElement.sendKeys( baseElementDataModel.getStoredValue() );
 				webElement.sendKeys(Keys.TAB);
 			

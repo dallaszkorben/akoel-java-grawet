@@ -127,7 +127,10 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter{
 		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
 			try{
 				//Execute the operation
-				webElement.sendKeys( variableElementDataModel.getValue() );
+				elementProgress.outputCommand( "		webElement.sendKeys(\"" + variableElementDataModel.getValue() + "\");     //" + element.getName() );
+				elementProgress.outputCommand( "		webElement.sendKeys(Keys.TAB);" );
+				
+				webElement.sendKeys( variableElementDataModel.getValue() );				
 				webElement.sendKeys(Keys.TAB);
 			}catch (WebDriverException webDriverException){
 				throw new ElementInvalidOperationException( getName(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), webDriverException );

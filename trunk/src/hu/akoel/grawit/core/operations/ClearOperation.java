@@ -30,6 +30,7 @@ public class ClearOperation extends ElementOperationAdapter{
 
 			try{
 			
+elementProgress.outputCommand( "		webElement.clear();" );				
 				//Execute the operation
 				webElement.clear();
 			

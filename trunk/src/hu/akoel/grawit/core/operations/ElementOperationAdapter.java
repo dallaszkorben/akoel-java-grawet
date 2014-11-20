@@ -40,7 +40,9 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			if( null != elementProgress ){
 				elementProgress.elementStarted( element.getName() );
 			}
-		
+	
+elementProgress.outputCommand("		//" + element.getName() );
+
 			BaseElementDataModelAdapter baseElement = element.getBaseElement();
 			By by = null;
 			WebElement webElement = null;
@@ -50,21 +52,27 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			if( null == waitingTime ){
 				waitingTime = Settings.getInstance().getWaitingTime();
 			}
+			
+elementProgress.outputCommand( "		wait = new WebDriverWait(driver, " + waitingTime + ");" );
 			WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 						
 			//Selector meszerzese
 			if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.ID)){
+				
+elementProgress.outputCommand( "		by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				by = By.id( ((NormalBaseElementDataModel)baseElement).getSelector() );
 				//CSS
 			}else if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.CSS)){
+elementProgress.outputCommand( "		by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );
 			}
 						
 			//Varakozik az elem megjeleneseig, de max 10 mp-ig
 			try{
+				
 				wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
 				//wait.until(ExpectedConditions.elementToBeClickable( by ) );
-		
+elementProgress.outputCommand( "		wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );		
 			}catch( org.openqa.selenium.TimeoutException timeOutException ){
 				throw new ElementTimeoutException( element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), timeOutException );
 			}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){
@@ -72,6 +80,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			}
 		
 			try{
+elementProgress.outputCommand( "		webElement = driver.findElement( by );" );					
 				webElement = driver.findElement( by );
 			}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
 				throw new ElementInvalidSelectorException(element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), invalidSelectorException );
@@ -85,7 +94,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		
 			//OPERATION
 			doOperation( driver, element, webElement, elementProgress );
-		
+elementProgress.outputCommand("");		
 			if( null != elementProgress ){
 				elementProgress.elementEnded( element.getName() );
 			}

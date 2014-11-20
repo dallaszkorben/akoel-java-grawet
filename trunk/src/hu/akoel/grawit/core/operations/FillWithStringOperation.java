@@ -57,6 +57,9 @@ public class FillWithStringOperation extends ElementOperationAdapter{
 		
 			try{
 				//Execute the operation
+				elementProgress.outputCommand( "		webElement.sendKeys(\"" + stringToShow + "\");     //" + element.getName() );
+				elementProgress.outputCommand( "		webElement.sendKeys(Keys.TAB);" );
+
 				webElement.sendKeys( stringToShow );
 				webElement.sendKeys(Keys.TAB);
 			}catch (WebDriverException webDriverException){

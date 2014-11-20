@@ -27,6 +27,12 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 
 			Select select = null;
 			try{
+				
+elementProgress.outputCommand( "		try{" );
+elementProgress.outputCommand( "			select = new Select(webElement);" );
+elementProgress.outputCommand( "		}catch(UnexpectedTagNameException e){" );
+elementProgress.outputCommand( "		}" );				
+				
 				select = new Select(webElement);
 			}catch (UnexpectedTagNameException e){
 				throw new ElementInvalidOperationException( "List Selection", element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), e );			
@@ -36,6 +42,7 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 
 				if( getSelectionBy().equals( ListSelectionByListEnum.BYVALUE ) ){
 
+elementProgress.outputCommand( "		select.selectByValue( \"" + getStringToSelection() + "\" );" );					
 					select.selectByValue( getStringToSelection() );
 						
 				}else if( getSelectionBy().equals( ListSelectionByListEnum.BYINDEX ) ){
@@ -47,9 +54,13 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 					}catch( Exception e){}
 				
 					select.selectByIndex( index );
+					
+elementProgress.outputCommand( "		index = " + index + ";" );	
+elementProgress.outputCommand( "		select.selectByIndex( index );" );					
 			
 				}else if( getSelectionBy().equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
 					
+elementProgress.outputCommand( "		select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );						
 					select.selectByVisibleText( getStringToSelection() );
 				}
 			

@@ -14,6 +14,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
@@ -150,22 +151,28 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<Driv
 	}
 
 	@Override
-	public WebDriver getDriver() {
+	public WebDriver getDriver( ElementProgressInterface elementProgres ) {
 		FirefoxProfile profile = new FirefoxProfile();
 
+elementProgres.outputCommand( "		profile = new FirefoxProfile();");		
+		
 		int childCount = getChildCount();
 		for( int index = 0; index < childCount; index++ ){
 			String key = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getName();
 			Object value = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getValue();
 			if( value instanceof String ){
-				profile.setPreference(key, (String)value );
+elementProgres.outputCommand( "		profile.setPreference( \"" + key + "\", \"" + (String)value + "\" );");					
+				profile.setPreference(key, (String)value );				
 			}else if( value instanceof Boolean ){
+elementProgres.outputCommand( "		profile.setPreference( \"" + key + "\", " + (Boolean)value + " );");
 				profile.setPreference(key, (Boolean)value );
 			}else if( value instanceof Integer ){
+elementProgres.outputCommand( "		profile.setPreference( \"" + key + "\", " + (Integer)value + " );");
 				profile.setPreference(key, (Integer)value );
 			}
 		}		
-		
+
+elementProgres.outputCommand( "		driver = new FirefoxDriver(profile);");
 //TODO ide jonnek a profilok		
 		
 		return new FirefoxDriver(profile);
