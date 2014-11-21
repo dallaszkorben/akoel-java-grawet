@@ -3,6 +3,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,11 +28,19 @@ public class Test{
 	}
 	
 	public Test(){
-	
+			
 		profile = new FirefoxProfile();
 		profile.setPreference( "pdfjs.disabled", true );
+		
+		profile.setPreference( "plugin.state.nppdf", 2 );
+		
 		profile.setPreference( "media.navigator.permission.disabled", true );
-		driver = new FirefoxDriver(profile);
+		
+		
+		//driver = new FirefoxDriver(profile);
+		driver = new InternetExplorerDriver();
+		
+		
 		driver.get( "http://tomcat01.statlogics.local:8090/RFBANK_TEST_Logic/auth.action" );
 
 		//Version-Gain
@@ -101,6 +111,7 @@ public class Test{
 		driver.switchTo().defaultContent();
 		driver.switchTo().frame( "menuFrame" );
 
+		//!!! changes in the css selector
 		//POS application menu
 		wait = new WebDriverWait(driver, 10);
 		by = By.cssSelector( "#pos_application > a:nth-child(1)" );
@@ -108,7 +119,7 @@ public class Test{
 		webElement = driver.findElement( by );
 		executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].click();", webElement);
-
+	
 		driver.switchTo().defaultContent();
 		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt( "mainFrame" ) );
 		driver.switchTo().defaultContent();
@@ -121,7 +132,7 @@ public class Test{
 		webElement = driver.findElement( by );
 		webElement.sendKeys("mymerchant");     //Merchant
 		webElement.sendKeys(Keys.TAB);
-
+	
 		driver.switchTo().defaultContent();
 		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt( "mainFrame" ) );
 		driver.switchTo().defaultContent();
@@ -133,7 +144,7 @@ public class Test{
 		wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
 		webElement = driver.findElement( by );
 		webElement.sendKeys( Keys.TAB );
-
+		
 		//Purpose
 		wait = new WebDriverWait(driver, 10);
 		by = By.id( "asset_products0_purposeId" );
@@ -172,6 +183,10 @@ public class Test{
 		webElement.sendKeys("12000");     //Price
 		webElement.sendKeys(Keys.TAB);
 
+		
+
+		
+		
 		//Action
 		wait = new WebDriverWait(driver, 10);
 		by = By.id( "loanProduct_actionId" );
@@ -242,7 +257,7 @@ public class Test{
 		webElement = driver.findElement( by );
 		executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].click();", webElement);
-
+		
 		//Next button
 		wait = new WebDriverWait(driver, 10);
 		by = By.id( "nextButton" );
@@ -776,27 +791,6 @@ public class Test{
 		executor.executeScript("arguments[0].click();", webElement);
 
 	
-              String parentFrameName = "mainFrame";
-              CharSequence partOfTitle = "_application";
-		String parentWindowHandle = driver.getWindowHandle(); // save the current window handle.
 
-		WebDriver popup = null;
-		java.util.Set<String> set =  driver.getWindowHandles();
-		java.util.Iterator<String> windowIterator = set.iterator();
-		while(windowIterator.hasNext()) { 
-			String windowHandle = windowIterator.next(); 
-			popup = driver.switchTo().window(windowHandle);	        
-			if (popup.getTitle().contains( partOfTitle )) {
-				break;
-			}
-		}
-		popup.close();
-		driver.switchTo().window(parentWindowHandle);
-		driver.switchTo().defaultContent();
-//		driver.switchTo().activeElement();
-		driver.switchTo().frame( parentFrameName);
-
-		org.openqa.selenium.JavascriptExecutor executor = ((org.openqa.selenium.JavascriptExecutor) driver); 
-		executor.executeScript("window.onbeforeunload = function() {}; window.onunload = function() {};"); 
 	}
 }

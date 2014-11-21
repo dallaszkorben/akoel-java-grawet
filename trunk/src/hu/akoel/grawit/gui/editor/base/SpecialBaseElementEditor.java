@@ -256,9 +256,9 @@ public class SpecialBaseElementEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 								
-				SpecialBaseElementDataModel newBaseElement = new SpecialBaseElementDataModel( fieldName.getText() );
+//				SpecialBaseElementDataModel newBaseElement = new SpecialBaseElementDataModel( fieldName.getText() );
 			
-				nodeForCapture.add( newBaseElement );
+//				nodeForCapture.add( newBaseElement );
 			
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
