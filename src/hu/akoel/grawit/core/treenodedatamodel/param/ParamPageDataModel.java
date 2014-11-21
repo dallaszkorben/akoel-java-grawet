@@ -243,7 +243,8 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 					String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
 
 					if( null != frameName && frameName.trim().length() > 0 ){				
-						
+			
+elementProgress.outputCommand( "		//Switch to the '" + frameName + "' frame" );
 elementProgress.outputCommand( "		driver.switchTo().defaultContent();" );
 elementProgress.outputCommand( "		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt( \"" + frameName + "\" ) );" );
 elementProgress.outputCommand( "		driver.switchTo().defaultContent();" );
@@ -253,7 +254,6 @@ elementProgress.outputCommand( "" );
 						driver.switchTo().defaultContent();
 						wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
 						driver.switchTo().defaultContent();
-
 						driver.switchTo().frame( frameName );		
 					}				
 				}
