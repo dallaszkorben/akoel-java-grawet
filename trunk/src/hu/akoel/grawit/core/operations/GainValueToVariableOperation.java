@@ -184,7 +184,7 @@ public class GainValueToVariableOperation extends ElementOperationAdapter{
 		}
 		ArrayList<Object> parameters = new ArrayList<>();
 		
-		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
+		//EXECUTE_SCRIPT OPERATION = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
 			parameters.add( origText );
 			variableElementDataModel.setParameters( parameters );

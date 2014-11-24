@@ -43,8 +43,8 @@ public class BaseTree extends Tree{
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
-    	ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
-    	ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
+    	ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-normal-icon.png");
+    	ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/base-element-special-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
   
@@ -164,10 +164,10 @@ public class BaseTree extends Tree{
 		
 		if( selectedNode instanceof BasePageDataModel ){
 
-			//Insert Element
-			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.element") );
-			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
-			insertElementMenu.addActionListener( new ActionListener() {
+			//Insert Normal Element
+			JMenuItem insertNormalElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.normalelement") );
+			insertNormalElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertNormalElementMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -177,8 +177,23 @@ public class BaseTree extends Tree{
 				
 				}
 			});
-			popupMenu.add ( insertElementMenu );
-		
+			popupMenu.add ( insertNormalElementMenu );
+
+			//Insert Special Element
+			JMenuItem insertSpecialElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.specialelement") );
+			insertSpecialElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertSpecialElementMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					SpecialBaseElementEditor baseNodeEditor = new SpecialBaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
+					guiFrame.showEditorPanel( baseNodeEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertSpecialElementMenu );
+			
 		}
 		
 	}

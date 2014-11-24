@@ -20,6 +20,7 @@ import hu.akoel.grawit.enums.list.elementtypeoperations.FieldElementTypeOperatio
 import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ListElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.RadiobuttonElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.SpecialElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -31,6 +32,7 @@ import hu.akoel.grawit.gui.editors.component.elementtype.LinkElementTypeComponen
 import hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface;
 import hu.akoel.grawit.gui.editors.component.elementtype.ListElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.RadiobuttonElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.SpecialElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.TextElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -193,6 +195,11 @@ public class ParamElementEditor extends DataEditor{
 		if( null == baseElement ){		 
 		
 			elementTypeComponent = new EmptyElementTypeComponent();
+	
+		//SPECIAL
+		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SPECIAL.name() ) ){
+				
+			elementTypeComponent = new SpecialElementTypeComponent<SpecialElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){

@@ -13,27 +13,27 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class AddStringToParameterOperation extends ElementOperationAdapter{
+public class SpecialBaseAddStringToParametersOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "ADDSTRINGTOPARAMETER";
-	private static final String ATTR_STRING = "string";
+	private static final String NAME = "ADDSTRINGTOPARAMETERS";
+	private static final String ADD_STRING_TO_PARAMETERS_PATH = "string";
 	
 	//--- Data model
 	private String stringToParameter;
 	//---
 	
-	public AddStringToParameterOperation( String stringToParameter ){
+	public SpecialBaseAddStringToParametersOperation( String stringToParameter ){
 		this.stringToParameter = stringToParameter;
 		
 	}
 	
-	public AddStringToParameterOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public SpecialBaseAddStringToParametersOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
-		//ATTR_STRING
-		if( !element.hasAttribute( ATTR_STRING ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_STRING );			
+		//ADD_STRING_TO_PARAMETERS_PATH
+		if( !element.hasAttribute( ADD_STRING_TO_PARAMETERS_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ADD_STRING_TO_PARAMETERS_PATH );			
 		}
-		stringToParameter = element.getAttribute( ATTR_STRING );	
+		stringToParameter = element.getAttribute( ADD_STRING_TO_PARAMETERS_PATH );	
 		
 	}
 
@@ -65,7 +65,7 @@ public class AddStringToParameterOperation extends ElementOperationAdapter{
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
 		
-		Attr attr = document.createAttribute( ATTR_STRING );
+		Attr attr = document.createAttribute( ADD_STRING_TO_PARAMETERS_PATH );
 		attr.setValue( stringToParameter );
 		element.setAttributeNode(attr);	
 		
@@ -76,7 +76,7 @@ public class AddStringToParameterOperation extends ElementOperationAdapter{
 
 		String stringToCompare = new String( this.stringToParameter );
 		
-		return new AddStringToParameterOperation(stringToCompare);
+		return new SpecialBaseAddStringToParametersOperation(stringToCompare);
 	}
 	
 }

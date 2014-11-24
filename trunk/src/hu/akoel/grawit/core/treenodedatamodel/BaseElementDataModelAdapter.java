@@ -6,6 +6,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -13,7 +14,9 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 public abstract class BaseElementDataModelAdapter extends BaseDataModelAdapter{
 	private static final long serialVersionUID = -8916078747948054716L;
 
-//	public static Tag TAG = Tag.BASEELEMENT;
+	public static final String ATTR_ELEMENT_TYPE="elementtype";
+	
+	public static Tag TAG = Tag.BASEELEMENT;
 	
 //	public static final String ATTR_ELEMENT_TYPE="elementtype";
 //	public static final String ATTR_IDENTIFIER = "identifier";

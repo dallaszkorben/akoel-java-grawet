@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation"
+        x="342" y="646">
+        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.operations.ElementOperationAdapter"
+        x="542" y="329">
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel"
+        x="97" y="8">
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"
+            endpointName="paramPage" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"/>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"
+        x="107" y="131">
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"
+            endpointName="parameterElement" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"
+        x="91" y="329">
+        <Association
+            destinationClassName="hu.akoel.grawit.core.operations.ElementOperationAdapter"
+            endpointName="elementOperation" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.operations.ElementOperationAdapter">
+            <Point x="361" y="274"/>
+            <Point x="482" y="288"/>
+        </Communication>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.operations.FillWithBaseElementOperation"
+        x="-177" y="645">
+        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"
+        x="798" y="53"/>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.operations.SpecialBaseAddStringToParameterOperation"
+        x="36" y="647">
+        <Extension destinationClassName="hu.akoel.grawit.core.operations.ElementOperationAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel"
+        x="454" y="26"/>
+</ClassDiagram>

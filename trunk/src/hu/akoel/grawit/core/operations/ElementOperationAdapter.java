@@ -14,6 +14,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
+import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
@@ -26,14 +27,14 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		
 	public abstract void setXMLAttribute( Document document, Element element );
 
-	public abstract void doOperation( WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException;
+	public abstract void doOperation( WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException;
 	
 	/**
 	 * Make it visible
 	 */
     public abstract Object clone();
   
-	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException{
+	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
 		
 		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
 				

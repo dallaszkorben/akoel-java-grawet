@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel"
+        x="948" y="-53">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"
+            endpointName="paramPage" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.special.SpecialPageModelInterface"
+        x="256" y="195">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel"
+        x="655" y="312">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel"
+        x="112" y="319">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialPageModelInterface"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface"
+        x="321" y="-233">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel"
+        x="-217" y="-64">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface"/>
+        <Association
+            destinationClassName="hu.akoel.grawit.core.treenodedatamodel.special.SpecialPageModelInterface"
+            endpointName="customPage" kind="Simple"/>
+    </Class>
+</ClassDiagram>
