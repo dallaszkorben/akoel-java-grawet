@@ -31,6 +31,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -47,6 +48,7 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 	
 	private String name;
 	private BasePageDataModel basePage;	
+	private ParamElementDataModel parameterElement;
 	
 	public ParamPageDataModel( String name, BasePageDataModel basePage ){
 		super();
@@ -102,7 +104,7 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 		//Megkeresem a BASEROOT-ben a BASEPAGE-hez vezeto utat
 	    Node actualNode = document;
 	    while( actualNode.hasChildNodes() ){
-		
+	
 	    	actualNode = actualNode.getFirstChild();
 	    	Element actualElement = (Element)actualNode;
 	    	String tagName = actualElement.getTagName();
@@ -126,8 +128,14 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );
 	    		}
-	    		
-	    	//Ha NORMALBASEELEMENT
+	    
+    		//Ha BASEELEMENT
+	    	}else if( tagName.equals( BaseElementDataModelAdapter.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(BaseElementDataModelAdapter.ATTR_NAME);
+
+	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );	    		
+
+/*	    	//Ha NORMALBASEELEMENT
 	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
 
@@ -138,7 +146,7 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 	    		attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);
 
 	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );	    		
-	    	
+*/	    	
 	    	
 	    	}else{
 	    		
@@ -206,9 +214,9 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 	}
 
 	@Override
-	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException {
+	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException {
 		
-		ParamElementDataModel parameterElement;
+		//ParamElementDataModel parameterElement;
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){

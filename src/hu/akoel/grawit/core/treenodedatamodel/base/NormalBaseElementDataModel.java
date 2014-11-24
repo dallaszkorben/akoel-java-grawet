@@ -19,7 +19,8 @@ import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	private static final long serialVersionUID = -8916078747948054716L;
 
-	public static Tag TAG = Tag.NORMALBASEELEMENT;
+//TODO torolni es a szulobe vinni mint baseelement
+	//public static Tag TAG = Tag.NORMALBASEELEMENT;
 	
 	public static final String ATTR_ELEMENT_TYPE="elementtype";
 	public static final String ATTR_IDENTIFIER = "identifier";

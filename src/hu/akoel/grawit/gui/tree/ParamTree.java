@@ -15,6 +15,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
@@ -50,7 +52,8 @@ public class ParamTree extends Tree {
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-icon.png");
-    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/param-element-icon.png");
+    	ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/param-element-normal-icon.png");
+    	ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/param-element-special-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/param-node-open-icon.png");
     	
@@ -58,7 +61,13 @@ public class ParamTree extends Tree {
     	if( actualNode instanceof ParamPageDataModel){
             return pageIcon;
     	}else if( actualNode instanceof ParamElementDataModel ){
-            return elementIcon;
+    		
+    		if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof NormalBaseElementDataModel ){
+    			return normalElementIcon;
+    		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof SpecialBaseElementDataModel ){
+    			return specialElementIcon;
+    		}
+    		
     	}else if( actualNode instanceof ParamNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
@@ -73,14 +82,21 @@ public class ParamTree extends Tree {
 	@Override
 	public ImageIcon getIconOff(DataModelAdapter actualNode, boolean expanded) {
 
-    	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/param-element-off-icon.png");
+    	ImageIcon elementNormalOffIcon = CommonOperations.createImageIcon("tree/param-element-normal-off-icon.png");
+    	ImageIcon elementSpecialOffIcon = CommonOperations.createImageIcon("tree/param-element-special-off-icon.png");
     	
     	//Iconja a NODE-nak
     	if( actualNode instanceof ParamElementDataModel ){
-            return elementIcon;
+    		if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof NormalBaseElementDataModel ){
+    			return elementNormalOffIcon;
+    		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof SpecialBaseElementDataModel ){
+    			return elementSpecialOffIcon;
+    		}
     	}else{
     		return getIcon(actualNode, expanded);
         }
+    	
+    	return null;
 	}
 	
 	@Override

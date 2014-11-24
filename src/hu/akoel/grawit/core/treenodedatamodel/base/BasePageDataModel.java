@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.base;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -11,7 +12,9 @@ import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -59,14 +62,34 @@ public class BasePageDataModel extends BaseDataModelAdapter{
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element baseElement = (Element)node;
 
-				if( baseElement.getTagName().equals( Tag.NORMALBASEELEMENT.getName() )){					
+				if( baseElement.getTagName().equals( Tag.BASEELEMENT.getName() )  ){
+				
+					//element type             
+					if( !baseElement.hasAttribute( BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE ) ){
+						throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE );			
+					}
+					String elementTypeString = baseElement.getAttribute( BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE );
+					
+					//SPECIAL
+					if( elementTypeString.equals( ElementTypeListEnum.SPECIAL.name() )){
+						
+						this.add( new SpecialBaseElementDataModel(baseElement));
+						
+					//FIELD, TEXT, LINK, LIST, BUTTON, RADIOBUTTON, CHECKBOX
+					}else{						
+					
+						this.add(new NormalBaseElementDataModel(baseElement));
+					}
+				
+/*				if( baseElement.getTagName().equals( Tag.NORMALBASEELEMENT.getName() )){					
 					this.add(new NormalBaseElementDataModel(baseElement));
 				
 				}else if( baseElement.getTagName().equals( Tag.SPECIALBASEELEMENT.getName() ) ){
 
 					this.add( new SpecialBaseElementDataModel(baseElement));
-					
+*/					
 				}
+				
 			}
 		}		
 	}

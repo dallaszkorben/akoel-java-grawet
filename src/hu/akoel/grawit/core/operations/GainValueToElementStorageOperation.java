@@ -95,7 +95,7 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 			origText = webElement.getAttribute("value");
 		}
 	
-		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
+		//EXECUTE_SCRIPT OPERATION = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
 			element.getBaseElement().setStoredValue( origText );
 		}else{

@@ -39,6 +39,11 @@ import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
 import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseAddStoreToParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseAddVariableToParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
@@ -50,6 +55,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
+import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -154,7 +160,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
 	    } 
 	    
-		//Megkeresem a BASEROOT-ban az utvonalat az BASEELEMENT-hez
+		//Megkeresem a BASEROOT-ban az utvonalat a BASEELEMENT-hez
 	    Node actualNode = document;
 	    if( actualNode.hasChildNodes() ){
 		
@@ -162,7 +168,30 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	    	Element actualElement = (Element)actualNode;
 	    	String tagName = actualElement.getTagName();
 	    	
-	    	//Ha NORMALELEMENT
+	    	//Ha BASELEMENT
+	    	if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
+	    	
+	    		String attrName = actualElement.getAttribute(DataModelAdapter.ATTR_NAME);	    
+	    		baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, SpecialBaseElementDataModel.TAG, attrName );
+
+	    		if( null == baseDataModel ){
+
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );	    		
+	    		}
+	    		
+	    		try{
+	    	    	
+	    	    	this.baseElement = (BaseElementDataModelAdapter) baseDataModel;
+	    	    	
+	    	    }catch(ClassCastException e){
+
+	    	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
+	    	    }
+	    						    		
+	    	}
+	    	
+	    	
+	/*    	//Ha NORMALELEMENT
 	    	if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
 	    		String attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);	    		
 	    		baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, NormalBaseElementDataModel.TAG, attrName );
@@ -184,7 +213,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	    	//Ha SPECIALELEMENT
 	    	}else if( tagName.equals( SpecialBaseElementDataModel.TAG.getName() ) ){
 	    		String attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);	    		
-	    		baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, NormalBaseElementDataModel.TAG, attrName );
+	    		baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, SpecialBaseElementDataModel.TAG, attrName );
 
 	    		if( null == baseDataModel ){
 
@@ -203,13 +232,13 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	    	}else{
 	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );	    		
 	    	}
-	    	
+*/	    	
 	    }else{
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );
     	}
 	    
 	    
-	    
+//TODO duplikacio megszuntetese. ugyan ez van a SpecialElementTypeComponent.java-ban is, csak egy kicsit maskent	    
 	    
 		//=============================
 		//
@@ -225,8 +254,29 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		if( baseElement instanceof SpecialBaseElementDataModel ){
 
 			if( baseElement.getElementType().equals( ElementTypeListEnum.SPECIAL ) ){
-System.err.println("Special operation on SPECIALBASELEMENT");
 
+				//ADD_STORED_TO_PARAMETERS
+				if( operationString.equals( SpecialBaseAddStoreToParametersOperation.getStaticName() ) ){
+					elementOperation = new SpecialBaseAddStoreToParametersOperation( element, (BaseRootDataModel)baseElement.getRoot(), getRootTag(), getTag(), ATTR_NAME, getName()  );
+					
+				//ADD_VARIABLE_TO_PARAMETERS
+				}else if( operationString.equals( SpecialBaseAddVariableToParametersOperation.getStaticName() ) ){
+					elementOperation = new SpecialBaseAddVariableToParametersOperation( element, variableRootDataModel, getRootTag(), getTag(), ATTR_NAME, getName() );
+					
+				//ADD_STRING_TO_PARAMETERS
+				}else if( operationString.equals( SpecialBaseAddStringToParametersOperation.getStaticName() ) ){
+					elementOperation = new SpecialBaseAddStringToParametersOperation( element, getRootTag(), getTag() );
+					
+				//CLEAR_PARAMETERS
+				}else if( operationString.equals( SpecialBaseClearParametersOperation.getStaticName() ) ){
+					elementOperation = new SpecialBaseClearParametersOperation();
+					
+				//EXECUTE_SCRIPT
+				}else if( operationString.equals( SpecialBaseExecuteOperation.getStaticName() ) ){
+					elementOperation = new SpecialBaseExecuteOperation();
+
+				}
+				
 			//Minden egyeb esetben error
 			}else{
 				throw new XMLWrongAttributePharseException( BaseDataModelAdapter.getRootTag(), SpecialBaseElementDataModel.TAG, DataModelAdapter.ATTR_NAME, baseElement.getName(), SpecialBaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
@@ -597,7 +647,7 @@ System.err.println("Special operation on SPECIALBASELEMENT");
 	 * @throws ElementException 
 	 * 
 	 */
-	public void doAction( WebDriver driver, ElementProgressInterface elementProgress ) throws ElementException{
+	public void doAction( WebDriver driver, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
 		this.getElementOperation().doAction( driver, this, elementProgress );
 	}
 	

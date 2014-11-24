@@ -105,7 +105,7 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 			origText = select.getFirstSelectedOption().getText();	
 		}	
 		
-		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
+		//EXECUTE_SCRIPT OPERATION = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
 			element.getBaseElement().setStoredValue( origText );
 		}else{

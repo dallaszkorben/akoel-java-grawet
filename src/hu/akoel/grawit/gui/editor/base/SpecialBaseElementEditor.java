@@ -8,12 +8,15 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editors.component.ScriptComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
+import javax.tools.JavaCompiler.CompilationTask;
 
 public class SpecialBaseElementEditor extends DataEditor{
 	
@@ -26,17 +29,9 @@ public class SpecialBaseElementEditor extends DataEditor{
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
-
-/*	private JLabel labelFrame;
-	private TextFieldComponent fieldFrame;
-	private JLabel labelIdentifier;
-	private TextFieldComponent fieldIdentifier;
-	private ComboBoxComponent<ElementTypeListEnum> comboElementType;
-	private RadioButtonComponent buttonID;
-	private RadioButtonComponent buttonCSS;	
-	private JLabel labelWaitingTime;
-	private TextFieldComponent fieldWaitingTime;
-*/
+	
+	private JLabel labelScript;
+	private ScriptComponent fieldScript;
 	
 	//Insert
 	public SpecialBaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
@@ -67,7 +62,7 @@ public class SpecialBaseElementEditor extends DataEditor{
     	//Element type
     	comboElementType.setSelectedIndex( 0 );
 */    	
-		commonPost();
+		commonPost( "" );
 	}
 	
 	//Modositas vagy View
@@ -109,45 +104,24 @@ public class SpecialBaseElementEditor extends DataEditor{
 	   	//Element type
 	   	comboElementType.setSelectedIndex( selectedNode.getElementType().getIndex() );
 */	   	
-		commonPost();
+		commonPost( selectedNode.getScript() );
 		
 	}
 	
 	private void commonPre(){
 		
-/*		//Identifier tipus
-		buttonID = new RadioButtonComponent( CommonOperations.getTranslation("editor.label.base.identifiertype.id") );
-		buttonCSS = new RadioButtonComponent( CommonOperations.getTranslation("editor.label.base.identifiertype.css") );
-		ButtonGroup group = new ButtonGroup();
-		group.add(buttonID);
-		group.add(buttonCSS);
-		
-		//Element type
-		comboElementType = new ComboBoxComponent<>();
-		for(int i = 0; i < ElementTypeListEnum.getSize(); i++ ){
-			comboElementType.addItem( ElementTypeListEnum.getElementTypeByIndex(i) );
-		}
-*/			
 	}
 
-	private void commonPost(){
+	private void commonPost( String script ){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-//		labelFrame = new JLabel( CommonOperations.getTranslation("editor.label.base.frame") + ": ");
-//		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.label.base.identifier") + ": ");
-//		labelWaitingTime = new JLabel( CommonOperations.getTranslation("editor.label.base.waitingtime") + ": ");
-//		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.label.base.identifiertype") + ": ");
-//		JLabel labelElementType = new JLabel( CommonOperations.getTranslation("editor.label.base.elementtype") + ": ");
-		
-    	//WaitingTime
+		labelScript = new JLabel( CommonOperations.getTranslation("editor.label.base.special.script") + ": ");
+
+		//Script
+		fieldScript = new ScriptComponent( SpecialBaseElementDataModel.getCodePre(), script, SpecialBaseElementDataModel.getCodePost() );	
 		
 		this.add( labelName, fieldName );
-//		this.add( labelElementType, comboElementType );
-//		this.add( labelFrame, fieldFrame );
-//		this.add( labelWaitingTime, fieldWaitingTime );
-//		this.add( labelIdentifier, fieldIdentifier );
-//		this.add( labelIdentifierType, buttonID );		
-//		this.add( new JLabel(), buttonCSS );
+		this.add( labelScript, fieldScript );
 		
 	}
 	
@@ -216,18 +190,7 @@ public class SpecialBaseElementEditor extends DataEditor{
 				}
 			}
 		}
-
-/*		//Empty identifier
-		if( fieldIdentifier.getText().length() == 0 ){
-			errorList.put( 
-					fieldIdentifier,
-					MessageFormat.format(
-							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelIdentifier.getText()+"'"
-					)
-			);
-		}				
-*/		
+	
 		//Volt hiba
 		if( errorList.size() != 0 ){
 			
@@ -236,44 +199,52 @@ public class SpecialBaseElementEditor extends DataEditor{
 		
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
-/*
-			//Element type
-			ElementTypeListEnum elementType = null;
-			elementType = (ElementTypeListEnum)comboElementType.getSelectedItem();
+		
+			//Akkor eloszor a kod szintaktikai ellenorzese kovetkezik
+			SpecialBaseElementDataModel specialBaseElement = new SpecialBaseElementDataModel( fieldName.getText(), fieldScript.getScript() );				
 			
-			SelectorType identificationType = null;
-			if( buttonID.isSelected() ){
-				identificationType = SelectorType.ID;
-			}else if( buttonCSS.isSelected() ){
-				identificationType = SelectorType.CSS;
-			}
+			//Kod legyartasa
+			CompilationTask task = specialBaseElement.generateTheCode();
 			
-			Integer waitingTime = null;				
-			try{
-				waitingTime = new Integer( fieldWaitingTime.getText() );
-			}catch( Exception e ){}
-*/			
-			//Uj rogzites eseten
-			if( null == mode ){
-								
-//				SpecialBaseElementDataModel newBaseElement = new SpecialBaseElementDataModel( fieldName.getText() );
+			//Kod forditasa
+			boolean success = specialBaseElement.compileTheCode( task );
+
+			//Ha NEM sikerult a forditas
+			if( !success ){
+				errorList.put( 
+						fieldScript, 
+						//MessageFormat.format( 
+								CommonOperations.getTranslation("editor.errormessage.formaterrorcustomscript") + "\n\n" + 
+								specialBaseElement.getDiagnostic()
+								/*, 
+								fieldScript.getScript(), 
+								CommonOperations.getTranslation("tree.nodetype.special.custom")*/ 
+						//) 
+				);
 			
-//				nodeForCapture.add( newBaseElement );
+				//Hibajelzes
+				this.errorAt( errorList );
 			
-			//Modositas eseten
-			}else if( mode.equals(EditMode.MODIFY ) ){
+			//Hibatlan minden szempontbol
+			}else{			
+			
+				//Uj rogzites eseten
+				if( null == mode ){
+			
+					nodeForCapture.add( specialBaseElement );
 				
-				nodeForModify.setName( fieldName.getText() );
-/*				nodeForModify.setFrame( fieldFrame.getText() );
-				nodeForModify.setIdentifier( fieldIdentifier.getText() );
-				nodeForModify.setElementType(elementType);
-				nodeForModify.setWaitingTime( waitingTime );
-				nodeForModify.setIdentificationType( identificationType );
-*/				
-			}
+					//Modositas eseten
+				}else if( mode.equals(EditMode.MODIFY ) ){
+				
+					nodeForModify.setName( fieldName.getText() );
+					nodeForModify.setScript( fieldScript.getScript() );
 			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.changed();
+				}			
+			
+				//A fa-ban is modositja a nevet (ha az valtozott)
+				tree.changed();
+			}			
+			
 		}
 		
 	}

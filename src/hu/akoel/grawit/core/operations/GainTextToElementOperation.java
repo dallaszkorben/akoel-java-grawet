@@ -85,7 +85,7 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 			origText = webElement.getText();
 //		}
 	
-		//EXECUTE OPERATION = Elmenti az elem tartalmat a valtozoba		
+		//EXECUTE_SCRIPT OPERATION = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
 			element.getBaseElement().setStoredValue( origText );
 		}else{

@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
 import java.io.StringReader;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -25,28 +26,27 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class AddVariableToParameterOperation extends ElementOperationAdapter{
+public class SpecialBaseAddVariableToParametersOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "ADDVARIABLETOPARAMETER";	
-	private static final String ATTR_VARIABLE_ELEMENT_PATH = "variableelementpath";
+	private static final String NAME = "ADDVARIABLETOPARAMETERS";	
+	private static final String ADD_VARIABLE_TO_PARAMETERS_PATH = "variablepath";
 	
 	//--- Data model
 	private VariableElementDataModel variableElementDataModel;
 	//---
 	
-	public AddVariableToParameterOperation( VariableElementDataModel variableElementDataModel ){
+	public SpecialBaseAddVariableToParametersOperation( VariableElementDataModel variableElementDataModel ){
 		this.variableElementDataModel = variableElementDataModel;
 	}
 	
-	public AddVariableToParameterOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public SpecialBaseAddVariableToParametersOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
 		VariableDataModelAdapter variableDataModelForFillOut = variableRootDataModel;
 		
-		//ATTR_COMPARE_VARIABLE_ELEMENT_PATH
-		if( !element.hasAttribute( ATTR_VARIABLE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_VARIABLE_ELEMENT_PATH );		
+		if( !element.hasAttribute( ADD_VARIABLE_TO_PARAMETERS_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ADD_VARIABLE_TO_PARAMETERS_PATH );		
 		}
-		String variableElementPathString = element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH);				
+		String variableElementPathString = element.getAttribute(ADD_VARIABLE_TO_PARAMETERS_PATH);				
 		variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -57,7 +57,7 @@ public class AddVariableToParameterOperation extends ElementOperationAdapter{
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_VARIABLE_TO_PARAMETERS_PATH, element.getAttribute(ADD_VARIABLE_TO_PARAMETERS_PATH), e );
 	    } 
 
 	    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
@@ -76,7 +76,7 @@ public class AddVariableToParameterOperation extends ElementOperationAdapter{
 
 	    		if( null == variableDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_VARIABLE_TO_PARAMETERS_PATH, element.getAttribute(ADD_VARIABLE_TO_PARAMETERS_PATH) );
 	    		}
 	    		
 	    	//Ha VARIABLEELEMENT
@@ -86,12 +86,12 @@ public class AddVariableToParameterOperation extends ElementOperationAdapter{
 	    		
 	    		if( null == variableDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ADD_VARIABLE_TO_PARAMETERS_PATH, element.getAttribute(ADD_VARIABLE_TO_PARAMETERS_PATH) );
 	    		}
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ADD_VARIABLE_TO_PARAMETERS_PATH, element.getAttribute(ADD_VARIABLE_TO_PARAMETERS_PATH) );	    		
 	    	}
 	    }	    
 	    try{
@@ -101,9 +101,8 @@ public class AddVariableToParameterOperation extends ElementOperationAdapter{
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_VARIABLE_ELEMENT_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_VARIABLE_TO_PARAMETERS_PATH, element.getAttribute(ADD_VARIABLE_TO_PARAMETERS_PATH ), e );
 	    }
-	    
 	}
 	
 	public static String getStaticName(){
@@ -121,20 +120,21 @@ public class AddVariableToParameterOperation extends ElementOperationAdapter{
 
 	@Override
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-	 
+
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( element.getBaseElement() instanceof SpecialBaseElementDataModel ){
 
 			((SpecialBaseElementDataModel)element.getBaseElement()).addParameter( variableElementDataModel.getValue() );
-		
-		} 
+			
+		}
+
 	}
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		Attr attr = document.createAttribute( ATTR_VARIABLE_ELEMENT_PATH );
+		Attr attr = document.createAttribute( ADD_VARIABLE_TO_PARAMETERS_PATH );		
 		attr.setValue( variableElementDataModel.getPathTag() );
-		element.setAttributeNode( attr );		
+		element.setAttributeNode( attr );			
 	}
 
 	@Override
@@ -142,8 +142,8 @@ public class AddVariableToParameterOperation extends ElementOperationAdapter{
 		
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
 		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
-	
-		return new AddVariableToParameterOperation(variableElementDataModel);
+		
+		return new SpecialBaseAddVariableToParametersOperation(variableElementDataModel);
 	}
 	
 }

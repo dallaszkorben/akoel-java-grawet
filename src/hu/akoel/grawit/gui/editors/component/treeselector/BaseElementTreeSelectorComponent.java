@@ -39,8 +39,8 @@ public class BaseElementTreeSelectorComponent extends TreeSelectorComponent<Base
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
-		ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
-		ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
+		ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-normal-icon.png");
+		ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/base-element-special-icon.png");
 		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
 		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
 

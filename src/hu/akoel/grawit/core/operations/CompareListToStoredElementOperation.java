@@ -60,7 +60,7 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 
 	public CompareListToStoredElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
-		BaseDataModelAdapter baseDataModelForFillOut = baseRootDataModel;
+		BaseDataModelAdapter baseDataModelForCompareList = baseRootDataModel;
 		
 		//COMPARE BY
 		String stringCompareBy = "";
@@ -115,14 +115,25 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	    	//Ha BASENODE
 	    	if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	    		
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASENODE, attrName );
+	    		baseDataModelForCompareList = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForCompareList, Tag.BASENODE, attrName );
 
-	    		if( null == baseDataModelForFillOut ){
+	    		if( null == baseDataModelForCompareList ){
 
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha NORMALBASEELEMENT
+	    	//HA BASEELEMENT
+	    	}else if( tagName.equals( BaseElementDataModelAdapter.TAG.getName() ) ){	
+		    		
+	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
+		    		
+	    		baseDataModelForCompareList = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForCompareList, Tag.BASEELEMENT, attrName );
+	    		if( null == baseDataModelForCompareList ){
+
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
+	    		}	    		
+	    		
+/*	    	//Ha NORMALBASEELEMENT
 	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
 	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.NORMALBASEELEMENT, attrName );
@@ -141,13 +152,13 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
 	    		}	    		
-	    	
+*/	    	
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEPAGE, attrName );
+	    		baseDataModelForCompareList = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForCompareList, Tag.BASEPAGE, attrName );
 
-	    		if( null == baseDataModelForFillOut ){
+	    		if( null == baseDataModelForCompareList ){
 
 	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
 	    		}
@@ -159,7 +170,7 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	    }	    
 	    try{
 	    	
-	    	this.baseElementDataModel = (BaseElementDataModelAdapter)baseDataModelForFillOut;
+	    	this.baseElementDataModel = (BaseElementDataModelAdapter)baseDataModelForCompareList;
 	    	
 	    }catch(ClassCastException e){
 

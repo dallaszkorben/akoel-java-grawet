@@ -85,7 +85,17 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha NORMALBASEELEMENT
+	    	//HA BASEELEMENT
+	    	}else if( tagName.equals( BaseElementDataModelAdapter.TAG.getName() ) ){	
+			    		
+	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
+			    		
+	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEELEMENT, attrName );
+	    		if( null == baseDataModelForFillOut ){
+
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
+	    		}		    		
+/*	    	//Ha NORMALBASEELEMENT
 	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
 	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.NORMALBASEELEMENT, attrName );
@@ -104,7 +114,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_BASE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_BASE_ELEMENT_PATH) );
 	    		}	    		
-	    	
+*/	    	
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
