@@ -25,20 +25,11 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.PageProgressInterface;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -135,7 +126,9 @@ elementProgres.outputCommand( "	" );
 
 				    	try{				
 			
-				    		openPage.doAction( webDriver, pageProgress, elementProgres );
+				    		if( null != openPage ){
+				    			openPage.doAction( webDriver, pageProgress, elementProgres );
+				    		}
 				
 				    		int childCount = selectedTestcase.getChildCount();
 				    		for( int index = 0; index < childCount; index++ ){

@@ -140,7 +140,7 @@ public class TestcaseCaseEditor extends DataEditor{
 					)
 			);
 		
-		}else if( null == fieldOpenTreeSelector.getSelectedDataModel() ){
+		/*}else if( null == fieldOpenTreeSelector.getSelectedDataModel() ){
 			errorList.put( 
 					fieldOpenTreeSelector,
 					MessageFormat.format(
@@ -148,7 +148,7 @@ public class TestcaseCaseEditor extends DataEditor{
 							"'"+labelOpenSpecialTreeSelector.getText()+"'"
 					)
 			);			
-			
+		*/	
 		/*}else if( null == fieldCloseTreeSelector.getSelectedDataModel() ){
 			errorList.put( 
 					fieldCloseTreeSelector,

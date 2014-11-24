@@ -226,7 +226,7 @@ public class SpecialBaseElementDataModel extends BaseElementDataModelAdapter{
 			Class<?> thisClass = loader.loadClass( customClassName );
 			Object instance = thisClass.newInstance();
 			//Method thisMethod = thisClass.getDeclaredMethod("doAction", new Class[] { String[].class });
-			Method thisMethod = thisClass.getDeclaredMethod( customMethodName, WebDriver.class );
+			Method thisMethod = thisClass.getDeclaredMethod( customMethodName, WebDriver.class, ArrayList.class );
 			//thisMethod.invoke(instance, new Object[] {null});	
 			thisMethod.invoke( instance, driver, parameters );
 			//loader = null;	    	  
