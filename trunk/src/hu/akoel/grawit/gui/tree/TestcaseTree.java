@@ -208,7 +208,7 @@ public class TestcaseTree extends Tree {
 			});
 			popupMenu.add ( insertElementMenu );
 		
-			//Insert Custom
+/*			//Insert Custom
 			JMenuItem insertSpecialMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.custompage") );
 			insertSpecialMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertSpecialMenu.addActionListener( new ActionListener() {
@@ -222,7 +222,7 @@ public class TestcaseTree extends Tree {
 				}
 			});
 			popupMenu.add ( insertSpecialMenu );			
-
+*/
 		}
 		
 	}

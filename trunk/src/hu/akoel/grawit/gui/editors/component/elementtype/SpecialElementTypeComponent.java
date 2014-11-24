@@ -143,7 +143,7 @@ public class SpecialElementTypeComponent<E extends SpecialElementTypeOperationsL
 		//Kezdo ertek beallitasa
 		if( null == elementOperation ){
 			
-			comboOperationList.setSelectedIndex(E.CLEAR_PARAMETERS.getIndex());
+			comboOperationList.setSelectedIndex(E.EXECUTE_SCRIPT.getIndex());
 			
 		}else{
 			
