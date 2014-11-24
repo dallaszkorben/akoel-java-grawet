@@ -78,7 +78,7 @@ public class GUIFrame extends JFrame{
 	private JMenuItem fileSaveMenuItem;
 	private JMenuItem editDriverMenuItem;
 	private JMenuItem editBaseMenuItem;
-	private JMenuItem editSpecialMenuItem;
+//	private JMenuItem editSpecialMenuItem;
 	private JMenuItem editParamMenuItem;
 	private JMenuItem editVariableMenuItem;
 	private JMenuItem editTestCaseMenuItem;
@@ -107,7 +107,7 @@ public class GUIFrame extends JFrame{
 	private EditBaseActionListener editBaseActionListener;
 	private EditParamActionListener editParamActionListener;
 	private EditTestcaseActionListener editTestcaseActionListener;
-	private EditSpecialActionListener editSpecialActionListener;
+//	private EditSpecialActionListener editSpecialActionListener;
 	private EditDriverActionListener editDriverActionListener;
 	private RunRunActionListener runRunActionListener;
 	private RunTree runTree = null;
@@ -243,14 +243,14 @@ public class GUIFrame extends JFrame{
         editBaseMenuItem.setEnabled( false );
         menu.add(editBaseMenuItem);
 
-        //Special
+/*        //Special
         editSpecialMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.special") );
         editSpecialMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.special") ).getKeyCode()); // KeyEvent.VK_S);
         editSpecialActionListener = new EditSpecialActionListener();
         editSpecialMenuItem.addActionListener( editSpecialActionListener );
         editSpecialMenuItem.setEnabled( false );
         menu.add(editSpecialMenuItem);
-
+*/
         menu.addSeparator();
         
         //Edit Param      
@@ -363,7 +363,7 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( false );
 		editBaseMenuItem.setEnabled( false );
 		editTestCaseMenuItem.setEnabled( false );
-		editSpecialMenuItem.setEnabled( false );
+//		editSpecialMenuItem.setEnabled( false );
 		runRunMenuItem.setEnabled( false );
 		
 		//Ablak cimenek beallitasa
@@ -388,7 +388,7 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( true );
 		editBaseMenuItem.setEnabled( true );
 		editTestCaseMenuItem.setEnabled( true );
-		editSpecialMenuItem.setEnabled( true );
+//		editSpecialMenuItem.setEnabled( true );
 		runRunMenuItem.setEnabled( true );
 	}
 	

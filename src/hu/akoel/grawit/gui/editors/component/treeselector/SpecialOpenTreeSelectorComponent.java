@@ -15,11 +15,11 @@ public class SpecialOpenTreeSelectorComponent extends TreeSelectorComponent<Spec
 	private static final long serialVersionUID = -3698310168899684818L;
 
 	public SpecialOpenTreeSelectorComponent( SpecialDataModelInterface rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.specialopen"), SpecialOpenDataModel.class, rootDataModel, null, false );
+		super(CommonOperations.getTranslation("window.title.selector.specialopen"), SpecialOpenDataModel.class, rootDataModel, null, true );
 	}
 
 	public SpecialOpenTreeSelectorComponent( SpecialDataModelInterface rootDataModel, SpecialOpenDataModel selectedOpenDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.specialopen"), SpecialOpenDataModel.class, rootDataModel, selectedOpenDataModel, false );
+		super(CommonOperations.getTranslation("window.title.selector.specialopen"), SpecialOpenDataModel.class, rootDataModel, selectedOpenDataModel, true );
 	}
 	
 	@Override
