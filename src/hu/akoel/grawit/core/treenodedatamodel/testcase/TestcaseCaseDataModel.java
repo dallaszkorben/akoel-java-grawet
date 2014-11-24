@@ -112,6 +112,11 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		SpecialDataModelInterface specialDataModelForClose = (SpecialDataModelInterface)specialDataModel.clone();
 		//DriverDataModelInterface driverDataModel = (DriverDataModelInterface)driverDataModel.clone();
 		
+		DocumentBuilderFactory factory = null;  
+		DocumentBuilder builder = null;
+		Document document = null;
+		Node actualNode = null;
+		
 		//========
 		//
 		// ClosePage
@@ -128,9 +133,8 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		//Ha van oldallezaras
 		}else{
 			closeElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + closeElementPathString;  
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
-			DocumentBuilder builder;
-			Document document = null;
+			factory = DocumentBuilderFactory.newInstance();  
+			document = null;
 			try {  
 				builder = factory.newDocumentBuilder();  
 				document = builder.parse( new InputSource( new StringReader( closeElementPathString ) ) );  
@@ -141,7 +145,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 			} 	    
 	    
 			//Megkeresem a SPECIALROOT-ben a CLOSE-hoz vezeto utat
-			Node actualNode = document;
+			actualNode = document;
 			while( actualNode.hasChildNodes() ){
 		
 				actualNode = actualNode.getFirstChild();
@@ -201,73 +205,80 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		if( !element.hasAttribute( ATTR_OPEN_PAGE_PATH ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH );			
 		}	
-		String openElementPathString = element.getAttribute(ATTR_OPEN_PAGE_PATH);				
-		openElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + openElementPathString;  
-		DocumentBuilderFactory  factory = DocumentBuilderFactory.newInstance();  
-		DocumentBuilder builder;
-	    Document document = null;
-	    try{  
-	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( openElementPathString ) ) );  
-	    } catch (Exception e) {  
-	    
-	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH ), e );
-	    } 	    
-	    
-	    //Megkeresem a SPECIALROOT-ben az OPEN-hez vezeto utat
-	    Node actualNode = document;
-	    while( actualNode.hasChildNodes() ){
+		String openElementPathString = element.getAttribute(ATTR_OPEN_PAGE_PATH);		
+		if( openElementPathString.trim().length() == 0 ){
+			openPage = null;
 		
-	    	actualNode = actualNode.getFirstChild();
-	    	Element actualElement = (Element)actualNode;
-	    	String tagName = actualElement.getTagName();
-	    	String attrName = null;
+		//Ha van oldalnyitas
+		}else{
+		
+			openElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + openElementPathString;  
+			factory = DocumentBuilderFactory.newInstance();			
+			document = null;
+			try{  
+				builder = factory.newDocumentBuilder();  
+				document = builder.parse( new InputSource( new StringReader( openElementPathString ) ) );  
+			} catch (Exception e) {  
+	    
+				//Nem sikerult az atalakitas
+				throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH ), e );
+			} 	    
+	    
+			//Megkeresem a SPECIALROOT-ben az OPEN-hez vezeto utat
+			actualNode = document;
+			while( actualNode.hasChildNodes() ){
+		
+				actualNode = actualNode.getFirstChild();
+				Element actualElement = (Element)actualNode;
+				String tagName = actualElement.getTagName();
+				String attrName = null;
 	    	
-	    	//Ha SPECIALNODE
-	    	if( tagName.equals( SpecialNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(SpecialNodeDataModel.ATTR_NAME);	    		
-	    		specialDataModelForOpen = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModelForOpen, Tag.SPECIALNODE, attrName );
+				//Ha SPECIALNODE
+				if( tagName.equals( SpecialNodeDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(SpecialNodeDataModel.ATTR_NAME);	    		
+					specialDataModelForOpen = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModelForOpen, Tag.SPECIALNODE, attrName );
 
-	    		if( null == specialDataModelForOpen ){
+					if( null == specialDataModelForOpen ){
 
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );
-	    		}
+						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );
+					}
 	    		
-	    	//Ha PARAMOPEN
-	    	}else if( tagName.equals( SpecialOpenDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(SpecialOpenDataModel.ATTR_NAME);
-	    		specialDataModelForOpen = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModelForOpen, Tag.SPECIALOPEN, attrName );
+				//Ha PARAMOPEN
+				}else if( tagName.equals( SpecialOpenDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(SpecialOpenDataModel.ATTR_NAME);
+					specialDataModelForOpen = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModelForOpen, Tag.SPECIALOPEN, attrName );
 	    		
-	    		if( null == specialDataModelForOpen ){
+					if( null == specialDataModelForOpen ){
 	    		
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );
-	    		}
+						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );
+					}
 	    		
-	    	//Ha PARAMCLOSE
-	    	}else if( tagName.equals( SpecialCloseDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(SpecialCloseDataModel.ATTR_NAME);
-	    		specialDataModelForOpen = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModelForOpen, Tag.SPECIALCLOSE, attrName );
+				//Ha PARAMCLOSE
+				}else if( tagName.equals( SpecialCloseDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(SpecialCloseDataModel.ATTR_NAME);
+					specialDataModelForOpen = (SpecialDataModelInterface) CommonOperations.getDataModelByNameInLevel( specialDataModelForOpen, Tag.SPECIALCLOSE, attrName );
 	    		
-	    		if( null == specialDataModelForOpen ){
+					if( null == specialDataModelForOpen ){
 	    			
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );
-	    		}
+						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );
+					}
 	    		
-	    	}else{
+				}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );	    		
-	    	}
-	    }	    
-	    try{
+					throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );	    		
+				}
+			}	    
+			try{
 	    	
-	    	openPage = (SpecialOpenDataModel)specialDataModelForOpen;
+				openPage = (SpecialOpenDataModel)specialDataModelForOpen;
 	    	
-	    }catch(ClassCastException e){
+			}catch(ClassCastException e){
 
-	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH), e );
-	    }
+				//Nem sikerult az utvonalat megtalalni
+				throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH), e );
+			}
+	    
+		}
 		
 	    //========
 		//
@@ -451,7 +462,11 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		//
 		//===============
 		attr = document.createAttribute( ATTR_OPEN_PAGE_PATH );
-		attr.setValue( openPage.getPathTag() );
+		if( null == openPage ){
+			attr.setValue("");
+		}else{
+			attr.setValue( openPage.getPathTag() );
+		}
 		nodeElement.setAttributeNode(attr);	
 
 		//===============

@@ -237,6 +237,7 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 				//Bazis elem
 				BaseElementDataModelAdapter baseElement = parameterElement.getBaseElement();
 			
+				//Ha NORMAL
 				if( baseElement instanceof NormalBaseElementDataModel ){
 				
 					//TODO lehet, hogy ennek a framere varakozo idonek kulonboznie kellene

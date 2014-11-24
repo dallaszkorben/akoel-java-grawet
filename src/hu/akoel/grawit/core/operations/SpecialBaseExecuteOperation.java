@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.Iterator;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
@@ -41,7 +43,11 @@ public class SpecialBaseExecuteOperation extends ElementOperationAdapter{
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( element.getBaseElement() instanceof SpecialBaseElementDataModel ){
 //TODO muvelet kiirasa
-			((SpecialBaseElementDataModel)element.getBaseElement()).doAction(driver);
+			
+			//Iterator<String> it = ((SpecialBaseElementDataModel)element.getBaseElement()).getParameterIterator();
+			//if( it.hasNext() ){
+				((SpecialBaseElementDataModel)element.getBaseElement()).doAction(driver);
+			//}
 			
 		}
 	

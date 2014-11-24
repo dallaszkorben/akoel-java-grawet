@@ -12,6 +12,7 @@ import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -35,13 +36,12 @@ public abstract class ElementOperationAdapter implements Cloneable{
     public abstract Object clone();
   
 	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
-		
-		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
 				
-			if( null != elementProgress ){
-				elementProgress.elementStarted( element.getName() );
-			}
-	
+		if( null != elementProgress ){
+			elementProgress.elementStarted( element.getName() );
+		}
+
+		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){			
 elementProgress.outputCommand("		//" + element.getName() );
 
 			BaseElementDataModelAdapter baseElement = element.getBaseElement();
@@ -95,11 +95,20 @@ elementProgress.outputCommand( "		webElement = driver.findElement( by );" );
 		
 			//OPERATION
 			doOperation( driver, element, webElement, elementProgress );
-elementProgress.outputCommand("");		
-			if( null != elementProgress ){
-				elementProgress.elementEnded( element.getName() );
-			}
+elementProgress.outputCommand("");	
+		
+		}else if( element.getBaseElement() instanceof SpecialBaseElementDataModel ){
+			
+			doOperation( driver, element, null, elementProgress );
+			
 		}
+
+
+
+
+		if( null != elementProgress ){
+			elementProgress.elementEnded( element.getName() );
+		}		
 		
 	}
 
