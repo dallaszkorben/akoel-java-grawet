@@ -56,7 +56,7 @@ public abstract class DataEditor extends BaseEditor{
 		
 		this.mode = null;
 		
-		common( element );
+		common();
 	}
 	
 	public DataEditor( EditMode mode, String element ){
@@ -64,11 +64,11 @@ public abstract class DataEditor extends BaseEditor{
 		
 		this.mode = mode;
 		
-		common( element );
+		common();
 		
 	}
 	
-	private void common(  String element ){
+	private void common(){
 		
 //		this.setLayout( new BorderLayout() );
 		//this.setBackground(Color.cyan);

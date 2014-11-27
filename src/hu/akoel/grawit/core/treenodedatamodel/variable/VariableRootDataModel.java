@@ -51,7 +51,7 @@ public class VariableRootDataModel extends VariableNodeDataModel{
 						if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() ) ){						
 							this.add(new VariableNodeDataModel( variableElement, baseRootDataModel ));
 					
-							//Ha rogton a rootban van elhelyezve egy elem
+						//Ha rogton a rootban van elhelyezve egy elem
 						}else if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() ) ){
 							this.add(new VariableElementDataModel(variableElement, baseRootDataModel ));
 						}

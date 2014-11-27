@@ -4,7 +4,6 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -14,6 +13,7 @@ import hu.akoel.grawit.gui.tree.BaseTree;
 import hu.akoel.grawit.gui.tree.DriverTree;
 import hu.akoel.grawit.gui.tree.ParamTree;
 import hu.akoel.grawit.gui.tree.RunTree;
+import hu.akoel.grawit.gui.tree.ScriptTree;
 import hu.akoel.grawit.gui.tree.SpecialTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -65,6 +65,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.script.ScriptRootDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
+
 public class GUIFrame extends JFrame{
 	private static final long serialVersionUID = 5462215116385991087L;
 	
@@ -78,7 +81,7 @@ public class GUIFrame extends JFrame{
 	private JMenuItem fileSaveMenuItem;
 	private JMenuItem editDriverMenuItem;
 	private JMenuItem editBaseMenuItem;
-//	private JMenuItem editSpecialMenuItem;
+//	private JMenuItem editScriptMenuItem;
 	private JMenuItem editParamMenuItem;
 	private JMenuItem editVariableMenuItem;
 	private JMenuItem editTestCaseMenuItem;
@@ -93,8 +96,9 @@ public class GUIFrame extends JFrame{
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
 	private ParamRootDataModel paramRootDataModel = new ParamRootDataModel();	
 	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
-	private SpecialRootDataModel specialRootDataModel = new SpecialRootDataModel();
-	private DriverRootDataModel driverRootDataModel = new DriverRootDataModel();	
+//	private ScriptRootDataModel scriptRootDataModel = new ScriptRootDataModel();
+	private DriverRootDataModel driverRootDataModel = new DriverRootDataModel();
+	private SpecialRootDataModel specialRootDataModel = new SpecialRootDataModel(); //TODO delete
 	
 	private File usedDirectory = null;
 	
@@ -107,7 +111,7 @@ public class GUIFrame extends JFrame{
 	private EditBaseActionListener editBaseActionListener;
 	private EditParamActionListener editParamActionListener;
 	private EditTestcaseActionListener editTestcaseActionListener;
-//	private EditSpecialActionListener editSpecialActionListener;
+//	private EditScriptActionListener editScriptActionListener;
 	private EditDriverActionListener editDriverActionListener;
 	private RunRunActionListener runRunActionListener;
 	private RunTree runTree = null;
@@ -233,6 +237,14 @@ public class GUIFrame extends JFrame{
         editVariableMenuItem.setEnabled( false );
         menu.add(editVariableMenuItem);        
         
+ /*       //Script
+        editScriptMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.script") );
+        editScriptMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.script") ).getKeyCode()); // KeyEvent.VK_S);
+        editScriptActionListener = new EditScriptActionListener();
+        editScriptMenuItem.addActionListener( editScriptActionListener );
+        editScriptMenuItem.setEnabled( false );
+        menu.add(editScriptMenuItem);
+*/
         menu.addSeparator();
         
         //Edit Base
@@ -243,14 +255,6 @@ public class GUIFrame extends JFrame{
         editBaseMenuItem.setEnabled( false );
         menu.add(editBaseMenuItem);
 
-/*        //Special
-        editSpecialMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.special") );
-        editSpecialMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.special") ).getKeyCode()); // KeyEvent.VK_S);
-        editSpecialActionListener = new EditSpecialActionListener();
-        editSpecialMenuItem.addActionListener( editSpecialActionListener );
-        editSpecialMenuItem.setEnabled( false );
-        menu.add(editSpecialMenuItem);
-*/
         menu.addSeparator();
         
         //Edit Param      
@@ -363,6 +367,7 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( false );
 		editBaseMenuItem.setEnabled( false );
 		editTestCaseMenuItem.setEnabled( false );
+//		editScriptMenuItem.setEnabled( false );
 //		editSpecialMenuItem.setEnabled( false );
 		runRunMenuItem.setEnabled( false );
 		
@@ -371,7 +376,8 @@ public class GUIFrame extends JFrame{
 		
 		baseRootDataModel.removeAllChildren();
 		paramRootDataModel.removeAllChildren();
-		specialRootDataModel.removeAllChildren();
+//		specialRootDataModel.removeAllChildren();
+//		scriptRootDataModel.removeAllChildren();
 		variableRootDataModel.removeAllChildren();
 		testcaseRootDataModel.removeAllChildren();
 				
@@ -388,6 +394,7 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( true );
 		editBaseMenuItem.setEnabled( true );
 		editTestCaseMenuItem.setEnabled( true );
+//		editScriptMenuItem.setEnabled( true );
 //		editSpecialMenuItem.setEnabled( true );
 		runRunMenuItem.setEnabled( true );
 	}
@@ -414,9 +421,13 @@ public class GUIFrame extends JFrame{
 		Element baseRootElement = baseRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( baseRootElement );
 		
-		//SPECIALROOT mentese
+		//SPECIALROOT mentese TODO torolni
 		Element specialRootElement = specialRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( specialRootElement );
+		
+//		//SCRIPTROOT mentese
+//		Element scriptRootElement = scriptRootDataModel.getXMLElement(doc);	
+//		rootElement.appendChild( scriptRootElement );		
 				
 		//PARAMROOT PAGE mentese
 		Element paramRootElement = paramRootDataModel.getXMLElement(doc);	
@@ -658,10 +669,14 @@ public class GUIFrame extends JFrame{
 					// SPECIALROOT
 					specialRootDataModel = new SpecialRootDataModel(doc);
 					
+//					// SCRIPTROOT
+//					scriptRootDataModel = new ScriptRootDataModel(doc);
+					
 					// PARAMROOT
 					paramRootDataModel = new ParamRootDataModel(doc, variableRootDataModel, baseRootDataModel );
 						
 					// TESTCASE
+					//testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel, driverRootDataModel, scriptRootDataModel );
 					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel, driverRootDataModel );
 					
 					usedDirectory = file;
@@ -809,6 +824,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
+			//TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, specialRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel, scriptRootDataModel );
 			TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, specialRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel );
 			
 			treePanel.hide();
@@ -825,13 +841,13 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditSpecialActionListener implements ActionListener{
+/*	class EditScriptActionListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			SpecialTree tree = new SpecialTree( GUIFrame.this, specialRootDataModel );
+			ScriptTree tree = new ScriptTree( GUIFrame.this, scriptRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );
@@ -839,7 +855,7 @@ public class GUIFrame extends JFrame{
 		}
 		
 	}
-	
+*/	
 	/**
 	 * 
 	 * Run Run menu selection listener 

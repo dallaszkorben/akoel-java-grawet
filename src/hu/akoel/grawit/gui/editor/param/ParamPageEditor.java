@@ -8,7 +8,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.BasePageTreeSelectorComponent;
@@ -22,7 +22,7 @@ public class ParamPageEditor extends DataEditor{
 	private static final long serialVersionUID = -9038879802467565947L;
 
 	private Tree tree; 
-	private ParamPageDataModel nodeForModify;
+	private ParamPageSpecificDataModel nodeForModify;
 	private ParamNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
@@ -34,7 +34,7 @@ public class ParamPageEditor extends DataEditor{
 	//Itt biztos beszuras van
 	public ParamPageEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 
-		super( ParamPageDataModel.getNodeTypeToShowStatic());
+		super( ParamPageSpecificDataModel.getNodeTypeToShowStatic());
 				
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -51,7 +51,7 @@ public class ParamPageEditor extends DataEditor{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamPageEditor( Tree tree, ParamPageDataModel selectedPage, EditMode mode ){
+	public ParamPageEditor( Tree tree, ParamPageSpecificDataModel selectedPage, EditMode mode ){
 
 		super( mode, selectedPage.getNodeTypeToShow());
 
@@ -136,10 +136,10 @@ public class ParamPageEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Page-rol van szo (Lehetne meg NODE is)
-				if( levelNode instanceof ParamPageDataModel ){
+				if( levelNode instanceof ParamPageSpecificDataModel ){
 					
 					//Ha azonos a nev
-					if( ((ParamPageDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((ParamPageSpecificDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -171,7 +171,7 @@ public class ParamPageEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){				
 				
-				ParamPageDataModel newParamPage = new ParamPageDataModel( fieldName.getText(), fieldBasePageSelector.getSelectedDataModel() );				
+				ParamPageSpecificDataModel newParamPage = new ParamPageSpecificDataModel( fieldName.getText(), fieldBasePageSelector.getSelectedDataModel() );				
 				//ParamPagePageDataModel newParamPagePage = new ParamPagePageDataModel( paramPage, basePageRootDataModel );
 				nodeForCapture.add( newParamPage );
 				

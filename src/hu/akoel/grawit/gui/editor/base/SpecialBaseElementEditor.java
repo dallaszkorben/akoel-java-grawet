@@ -8,7 +8,6 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ScriptComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -17,6 +16,8 @@ import hu.akoel.grawit.gui.tree.Tree;
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 import javax.tools.JavaCompiler.CompilationTask;
+
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 
 public class SpecialBaseElementEditor extends DataEditor{
 	

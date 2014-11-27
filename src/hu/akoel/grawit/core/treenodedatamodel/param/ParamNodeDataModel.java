@@ -5,11 +5,8 @@ import java.util.Vector;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -59,8 +56,12 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 				Element pageElement = (Element)node;
 				
 				//Ha PARAMPAGE van alatta
-				if( pageElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
-					this.add(new ParamPageDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
+				if( pageElement.getTagName().equals( Tag.PARAMPAGESPECIFIC.getName() )){					
+					this.add(new ParamPageSpecificDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
+
+				//HA PARAMPAGENOSPECIFIC
+				}else if( pageElement.getTagName().equals( Tag.PARAMPAGENOSPECIFIC.getName() )){					
+					this.add(new ParamPageNoSpecificDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 				
 				//Ha ujabb BASENODE van alatta
 				}else if( pageElement.getTagName().equals( Tag.PARAMNODE.getName() )){					

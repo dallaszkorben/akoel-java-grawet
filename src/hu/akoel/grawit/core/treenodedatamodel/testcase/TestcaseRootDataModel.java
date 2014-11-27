@@ -7,7 +7,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLExtraRootTagPharseException;
@@ -17,6 +16,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.script.ScriptRootDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 
 public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 
@@ -30,7 +32,8 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 		super( "", "" );
 	}
 	
-	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel, SpecialRootDataModel specialRootDataModel, DriverRootDataModel driverRootDataModel ) throws XMLPharseException{
+	//public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel, SpecialRootDataModel specialRootDataModel, DriverRootDataModel driverRootDataModel, ScriptRootDataModel scriptRootDataModel ) throws XMLPharseException{
+	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel, SpecialRootDataModel specialRootDataModel, DriverRootDataModel driverRootDataModel ) throws XMLPharseException{		
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );

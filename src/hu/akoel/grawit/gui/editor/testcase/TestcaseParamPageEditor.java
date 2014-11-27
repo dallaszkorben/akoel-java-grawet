@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -180,7 +180,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 		}else{
 
 			//A kivalasztott paramPage
-			ParamPageDataModel paramPage = fieldParamPageTreeSelector.getSelectedDataModel();			
+			ParamPageSpecificDataModel paramPage = fieldParamPageTreeSelector.getSelectedDataModel();			
 			
 			//Uj rogzites eseten
 			if( null == mode ){

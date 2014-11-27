@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.param;
 import java.io.StringReader;
 
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -190,49 +191,6 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	    						    		
 	    	}
 	    	
-	    	
-	/*    	//Ha NORMALELEMENT
-	    	if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
-	    		String attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);	    		
-	    		baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, NormalBaseElementDataModel.TAG, attrName );
-
-	    		if( null == baseDataModel ){
-
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );	    		
-	    		}
-	    		
-	    		try{
-	    	    	
-	    	    	this.baseElement = (NormalBaseElementDataModel)baseDataModel;
-	    	    	
-	    	    }catch(ClassCastException e){
-
-	    	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
-	    	    }	
-	    	
-	    	//Ha SPECIALELEMENT
-	    	}else if( tagName.equals( SpecialBaseElementDataModel.TAG.getName() ) ){
-	    		String attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);	    		
-	    		baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, SpecialBaseElementDataModel.TAG, attrName );
-
-	    		if( null == baseDataModel ){
-
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );	    		
-	    		}
-	    		
-	    		try{
-	    	    	
-	    	    	this.baseElement = (SpecialBaseElementDataModel)baseDataModel;
-	    	    	
-	    	    }catch(ClassCastException e){
-
-	    	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
-	    	    }	
-	    		
-	    	}else{
-	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );	    		
-	    	}
-*/	    	
 	    }else{
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );
     	}
@@ -725,7 +683,33 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		//
 		//========
 		attr = document.createAttribute( ATTR_BASE_ELEMENT_PATH );
-		attr.setValue( baseElement.getOpenTag() + baseElement.getCloseTag() );
+
+		if( this.getParent() instanceof ParamPageSpecificDataModel ){
+		
+			attr.setValue( baseElement.getOpenTag() + baseElement.getCloseTag() );
+			
+		}else if( this.getParent() instanceof ParamPageNoSpecificDataModel ){
+
+			attr.setValue( baseElement.getPathTag() );
+/*
+			attr.setValue( basePage.getPathTag() );
+			pageElement.setAttributeNode(attr);		
+
+			int childrens = this.getChildCount();
+			for( int i = 0; i < childrens; i++ ){
+				
+				Object object = this.getChildAt( i );
+				
+				if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
+					
+					Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
+					pageElement.appendChild( element );		    		
+			    	
+				}
+			}
+*/			
+		}
+		
 		elementElement.setAttributeNode(attr);
 
 		//========

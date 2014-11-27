@@ -16,9 +16,6 @@ import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInter
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -30,6 +27,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 
 public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 

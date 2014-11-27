@@ -113,7 +113,8 @@ public class BaseTree extends Tree{
 		}else if( selectedNode instanceof SpecialBaseElementDataModel ){
 
 			SpecialBaseElementEditor specialBaseElementEditor = new SpecialBaseElementEditor( this, (SpecialBaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( specialBaseElementEditor);					
+			guiFrame.showEditorPanel( specialBaseElementEditor);
+								
 		}	
 	}
 
