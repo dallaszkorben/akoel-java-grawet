@@ -1,4 +1,4 @@
-package TODELETE.hu.akoel.grawit.core.treenodedatamodel.script;
+package hu.akoel.grawit.core.treenodedatamodel.base;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -8,10 +8,11 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.tree.MutableTreeNode;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
@@ -26,20 +27,29 @@ import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.JavaSourceFromString;
-import hu.akoel.grawit.core.treenodedatamodel.ScriptElementDataModelAdapter;
+import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.CompilationException;
+import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.InvocationTargetSpecialBaseElementException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
+public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
+	private static final long serialVersionUID = -8916078747948054716L;
 
-	private static final long serialVersionUID = -4450434610253862372L;
-
-	public static Tag TAG = Tag.SCRIPTELEMENT;
+	//TODO torolni es a szulobe vinni mint baseelement
+	//public static Tag TAG = Tag.SPECIALBASEELEMENT;
 	
+	private ElementTypeListEnum elementType = ElementTypeListEnum.SCRIPT;
+	
+//	public static final String ATTR_ELEMENT_TYPE="elementtype";
 	public static final String ATTR_SCRIPT = "script";
+	
+	private ArrayList<String> parameters = new ArrayList<>();
 	
 	private static final String codePre = 
 			"import org.openqa.selenium.WebDriver;\n" +
@@ -51,12 +61,6 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 			"\n   }\n" +
 			"}\n";
 	
-	private String name;
-	private String script;
-	
-//	private PageProgressInterface pageProgressInterface = null;
-
-	//private CompilationTask task;
 	private JavaSourceFromString javaFile;
 	private DiagnosticCollector<JavaFileObject> diagnostics;
 	private String classOutputFolder = "";
@@ -64,26 +68,42 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 	private String customClassName = "CustomClass";
 	private String customMethodName = "doAction";
 	
-	public ScriptElementDataModel(String name, String script ){
+	//Adatmodel ---
+	private String script;
+	//----
+
+	/**
+	 * 
+	 * Modify
+	 * 
+	 * @param name
+	 * @param elementType
+	 * @param identifier
+	 * @param identificationType
+	 * @param frame
+	 */
+	public ScriptBaseElementDataModel(String name, String script ){
 		super( name );
-		common( name, script );	
+		this.script = script;
 	}
 
 	/**
-	 * XML alapjan gyartja le a SPECIALCLOSE-t
+	 * Capture new
+	 * 
+	 * XML alapjan gyartja le a BASEELEMENT-et
 	 * 
 	 * @param element
 	 * @throws XMLPharseException 
 	 */
-	public ScriptElementDataModel( Element element ) throws XMLPharseException{
+	public ScriptBaseElementDataModel( Element element ) throws XMLPharseException{
 		super( element );
 		
-		//name
-		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME );			
+		//element type             
+		if( !element.hasAttribute( ATTR_ELEMENT_TYPE ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_ELEMENT_TYPE );			
 		}
-		String nameString = element.getAttribute( ATTR_NAME );		
-		this.name = nameString;
+		String elementTypeString = element.getAttribute( ATTR_ELEMENT_TYPE );
+		this.elementType = ElementTypeListEnum.valueOf( elementTypeString );
 		
 		//source
 		if( !element.hasAttribute( ATTR_SCRIPT ) ){
@@ -91,15 +111,9 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 		}
 		String scriptString = element.getAttribute( ATTR_SCRIPT );		
 		this.script = scriptString;
-		
-		
+				
 	}
 	
-	private void common( String name, String script ){		
-		this.name = name;
-		this.script = script;
-	}
-
 	public static Tag getTagStatic(){
 		return TAG;
 	}
@@ -109,15 +123,24 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 		return getTagStatic();
 	}
 
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	
+	public ElementTypeListEnum getElementType(){
+		return elementType;
 	}
 	
+	
+	public void addParameter( String parameter ){
+		this.parameters.add( parameter );
+	}
+	
+	public void clearParameters(){
+		this.parameters.clear();
+	}
+	
+	public Iterator<String> getParameterIterator(){
+		return parameters.iterator();
+	}
+
 	public String getScript(){
 		return script;
 	}
@@ -125,19 +148,12 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 	public void setScript( String script ){
 		this.script = script;
 	}
-	
 
-	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.script.element");
-	}
-	
-	@Override
-	public String getNodeTypeToShow(){
-		return getModelNameToShowStatic();
+		return CommonOperations.getTranslation( "tree.nodetype.base.scriptelement");
 	}
 
-	public void adoAction( WebDriver driver ) throws PageException, CompilationException {
+	public void doAction( WebDriver driver ) throws CompilationException, ElementException {
 		
 		//Kod legyartasa
 		CompilationTask task = generateTheCode();
@@ -161,8 +177,7 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 				//Dob egy exceptiont  Diagnostic<? extends JavaFileObject>
 				throw new CompilationException( this.getName(), javaFile, diagList.get( 0 ) );
 			}
-		}
-		
+		}		
 	}
 	
 	public  CompilationTask generateTheCode( ){
@@ -199,7 +214,7 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 		return success;
 	}
 	
-	private void runTheCode( WebDriver driver ) throws PageException{
+	private void runTheCode( WebDriver driver ) throws ElementException{
 		try {	    	  
 			
 			File f = new File(classOutputFolder);
@@ -211,9 +226,9 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 			Class<?> thisClass = loader.loadClass( customClassName );
 			Object instance = thisClass.newInstance();
 			//Method thisMethod = thisClass.getDeclaredMethod("doAction", new Class[] { String[].class });
-			Method thisMethod = thisClass.getDeclaredMethod( customMethodName, WebDriver.class );
+			Method thisMethod = thisClass.getDeclaredMethod( customMethodName, WebDriver.class, ArrayList.class );
 			//thisMethod.invoke(instance, new Object[] {null});	
-			thisMethod.invoke(instance, driver);
+			thisMethod.invoke( instance, driver, parameters );
 			//loader = null;	    	  
 	    	  
         //Class.forName("HelloWorld").getDeclaredMethod("main", new Class[] { String[].class }).invoke(null, new Object[] { null });
@@ -238,12 +253,19 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 			if( e.getCause() instanceof PageException ){
 				//Hogy kezelni tudjam a nem megtalalt elemet
 				//A tobbi hiba mind programozasi hiba, tehat Error
-				//TODO valszeg le kell zarnom a program futasat a tobbi esetben 
-				throw new PageException( 
+				//TODO valszeg le kell zarnom a program futasat a tobbi esetben
+								
+				throw new InvocationTargetSpecialBaseElementException( 
+						SpecialBaseExecuteOperation.getStaticName(),
+						this.getName(),
+						((ElementException)e.getCause()));
+				
+/*				throw new PageException( 
 						this.getName(), 
 						((PageException)e.getCause()).getElementName(), 
 						((PageException)e.getCause()).getElementId(), 
-						((PageException)e.getCause()).getElementException() );				
+						((PageException)e.getCause()).getElementException() );
+*/										
 			}else{
 				System.err.println("Invocation target Exception: " + e.getCause());
 				throw new Error(e);
@@ -262,19 +284,24 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 	public static String getCodePost(){
 		return codePost;
 	}
+		
+	@Override
+	public String getNodeTypeToShow(){
+		return getModelNameToShowStatic();
+	}
 	
+	@Override
 	public Element getXMLElement(Document document) {
-
+		
+		Element elementElement = super.getXMLElement(document);
+		
 		Attr attr;
-
-		//Node element
-		Element elementElement = document.createElement( ScriptElementDataModel.this.getTag().getName() );
-
-		//Name
-		attr = document.createAttribute( ATTR_NAME );
-		attr.setValue( getName() );
+		
+		//Element type
+		attr = document.createAttribute( ATTR_ELEMENT_TYPE );
+		attr.setValue( getElementType().name() );
 		elementElement.setAttributeNode(attr);	
-
+		
 		//Source
 		attr = document.createAttribute( ATTR_SCRIPT );
 		attr.setValue( getScript() );
@@ -286,19 +313,21 @@ public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 	@Override
 	public Object clone(){
 		
-		ScriptElementDataModel cloned = (ScriptElementDataModel)super.clone();
+		//Leklonozza az BaseElement-et
+		ScriptBaseElementDataModel cloned = (ScriptBaseElementDataModel)super.clone();
 	
+		cloned.elementType = this.elementType;	
+		
+		cloned.script = new String( this.getScript() );
+		
 		return cloned;
 		
 	}
-
+	
 	@Override
 	public Object cloneWithParent() {
 		
-		ScriptElementDataModel cloned = (ScriptElementDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
+		ScriptBaseElementDataModel cloned = (ScriptBaseElementDataModel) super.cloneWithParent();
 		
 		return cloned;
 	}

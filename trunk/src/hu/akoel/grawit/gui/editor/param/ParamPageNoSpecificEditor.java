@@ -8,7 +8,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNoSpecificDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNonSpecificDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -21,7 +21,7 @@ public class ParamPageNoSpecificEditor extends DataEditor{
 	private static final long serialVersionUID = -9038879802467565947L;
 
 	private Tree tree; 
-	private ParamPageNoSpecificDataModel nodeForModify;
+	private ParamPageNonSpecificDataModel nodeForModify;
 	private ParamNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
@@ -53,7 +53,7 @@ public class ParamPageNoSpecificEditor extends DataEditor{
 	
 	//Itt lehet hogy modositas vagy megtekintes van
 	//public ParamPageNoSignificantEditor( Tree tree, ParamPageDataModel selectedPage, EditMode mode ){
-	public ParamPageNoSpecificEditor( Tree tree, ParamPageNoSpecificDataModel selectedPage, EditMode mode ){
+	public ParamPageNoSpecificEditor( Tree tree, ParamPageNonSpecificDataModel selectedPage, EditMode mode ){
 
 		super( mode, selectedPage.getNodeTypeToShow());
 
@@ -164,7 +164,7 @@ public class ParamPageNoSpecificEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){				
 				
-				ParamPageNoSpecificDataModel newParamPage = new ParamPageNoSpecificDataModel( fieldName.getText() );				
+				ParamPageNonSpecificDataModel newParamPage = new ParamPageNonSpecificDataModel( fieldName.getText() );				
 				nodeForCapture.add( newParamPage );
 				
 			//Modositas eseten

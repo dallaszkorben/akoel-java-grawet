@@ -6,7 +6,9 @@ import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -69,6 +71,27 @@ public class BaseNodeDataModel extends BaseDataModelAdapter{
 				//}else if( baseElement.getTagName().equals( TestcaseNodeDataModel.getTagStatic().getName() )){
 				}else if( baseElement.getTagName().equals( Tag.BASENODE.getName() )){
 					this.add(new BaseNodeDataModel(baseElement));
+					
+				//Ha normal elem
+				}else if( baseElement.getTagName().equals( Tag.BASEELEMENT.getName() ) ){
+					
+					//element type             
+					if( !baseElement.hasAttribute( BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE ) ){
+						throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE );			
+					}
+					String elementTypeString = baseElement.getAttribute( BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE );
+					
+					//SCRIPT
+					if( elementTypeString.equals( ElementTypeListEnum.SCRIPT.name() )){
+						
+						this.add( new ScriptBaseElementDataModel(baseElement));
+						
+					//FIELD, TEXT, LINK, LIST, BUTTON, RADIOBUTTON, CHECKBOX
+					}else{						
+					
+						this.add(new NormalBaseElementDataModel(baseElement));
+					}
+										
 				}
 			}
 		}

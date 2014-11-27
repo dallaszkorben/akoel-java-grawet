@@ -119,16 +119,16 @@ elementProgres.outputCommand( "	" );
 
 				    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
 				    	
-				    	ExecutablePageInterface openPage = selectedTestcase.getOpenPage();
-				    	ExecutablePageInterface closePage = selectedTestcase.getClosePage();
+//				    	ExecutablePageInterface openPage = selectedTestcase.getOpenPage();
+//				    	ExecutablePageInterface closePage = selectedTestcase.getClosePage();
 				    	WebDriver webDriver = selectedTestcase.getDriverDataModel().getDriver( elementProgres );
 	
 
 				    	try{				
 			
-				    		if( null != openPage ){
-				    			openPage.doAction( webDriver, pageProgress, elementProgres );
-				    		}
+//				    		if( null != openPage ){
+//				    			openPage.doAction( webDriver, pageProgress, elementProgres );
+//				    		}
 				
 				    		int childCount = selectedTestcase.getChildCount();
 				    		for( int index = 0; index < childCount; index++ ){
@@ -136,10 +136,10 @@ elementProgres.outputCommand( "	" );
 				    			pageToRun.doAction(webDriver, pageProgress, elementProgres );
 				    		}					
 				
-				    		//Ha van closePage definialva, akkor vegrehajtom
-				    		if( null != closePage ){
-				    			closePage.doAction( webDriver, pageProgress, elementProgres );
-				    		}
+//				    		//Ha van closePage definialva, akkor vegrehajtom
+//				    		if( null != closePage ){
+//				    			closePage.doAction( webDriver, pageProgress, elementProgres );
+//				    		}
 				    		
 				    		setStatusOfTestCase( selectedTestcase, true );
 				

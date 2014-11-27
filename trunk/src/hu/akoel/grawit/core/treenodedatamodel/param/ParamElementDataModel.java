@@ -54,7 +54,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -237,9 +237,9 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		String operationString = element.getAttribute( ATTR_OPERATION );		
 
 		//Ha SpecialBase ElementDataModel
-		if( baseElement instanceof SpecialBaseElementDataModel ){
+		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			if( baseElement.getElementType().equals( ElementTypeListEnum.SPECIAL ) ){
+			if( baseElement.getElementType().equals( ElementTypeListEnum.SCRIPT ) ){
 
 				//ADD_STORED_TO_PARAMETERS
 				if( operationString.equals( SpecialBaseAddStoreToParametersOperation.getStaticName() ) ){
@@ -265,7 +265,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 				
 			//Minden egyeb esetben error
 			}else{
-				throw new XMLWrongAttributePharseException( BaseDataModelAdapter.getRootTag(), SpecialBaseElementDataModel.TAG, DataModelAdapter.ATTR_NAME, baseElement.getName(), SpecialBaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
+				throw new XMLWrongAttributePharseException( BaseDataModelAdapter.getRootTag(), ScriptBaseElementDataModel.TAG, DataModelAdapter.ATTR_NAME, baseElement.getName(), ScriptBaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
 			}
 			
 			
@@ -716,7 +716,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		
 			attr.setValue( baseElement.getOpenTag() + baseElement.getCloseTag() );
 			
-		}else if( this.getParent() instanceof ParamPageNoSpecificDataModel ){
+		}else if( this.getParent() instanceof ParamPageNonSpecificDataModel ){
 
 			attr.setValue( baseElement.getPathTag() );
 /*

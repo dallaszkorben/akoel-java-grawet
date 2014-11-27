@@ -7,11 +7,12 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNoSpecificDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNonSpecificDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -49,8 +50,8 @@ public class ParamElementEditor extends DataEditor{
 	private static final long serialVersionUID = -7285419881714492620L;
 	
 	private Tree tree;
-	private ParamElementDataModel nodeForModify;
-	private ParamPageDataModelAdapter nodeForCapture;
+	private ParamElementDataModel nodeForModify;	
+	private ParamDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -71,6 +72,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
+//	public ParamElementEditor( Tree tree, ParamDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
 	public ParamElementEditor( Tree tree, ParamPageDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
 
 		super( ParamElementDataModel.getModelNameToShowStatic());
@@ -92,8 +94,11 @@ public class ParamElementEditor extends DataEditor{
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage );
 			baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 		
-		}else if( selectedPage instanceof ParamPageNoSpecificDataModel ){
+		}else if( selectedPage instanceof ParamPageNonSpecificDataModel ){
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
+		
+//		}else if( selectedPage instanceof ParamNodeDataModel ){
+//			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );			
 		}
 			
 		commonPost( null );
@@ -107,7 +112,8 @@ public class ParamElementEditor extends DataEditor{
 	 * @param selectedElement
 	 * @param mode
 	 */
-	public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){		
+	//public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){		
+	public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){
 
 		super( mode, selectedElement.getNodeTypeToShow());
 
@@ -126,8 +132,10 @@ public class ParamElementEditor extends DataEditor{
 		if( selectedElement.getParent() instanceof ParamPageSpecificDataModel ){		
 			BasePageDataModel basePage = ((ParamPageSpecificDataModel)selectedElement.getParent()).getBasePage();		
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
-		}else if( selectedElement.getParent() instanceof ParamPageNoSpecificDataModel ){
+		}else if( selectedElement.getParent() instanceof ParamPageNonSpecificDataModel ){
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
+//		}else if( selectedElement.getParent() instanceof ParamNodeDataModel ){
+//			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
 		}
 		
 		commonPost( baseElement );
@@ -149,31 +157,37 @@ public class ParamElementEditor extends DataEditor{
 //			baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 //		}	
 		
-		fieldBaseElementSelector.getDocument().addDocumentListener( new DocumentListener(){
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				change();				
-			}
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				change();
-			}
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				change();
-			}			
-			private void change(){
-				BaseElementDataModelAdapter baseElement = ParamElementEditor.this.fieldBaseElementSelector.getSelectedDataModel();
-				changeOperation( baseElement );
-			}
-		});
+		if( null != fieldBaseElementSelector ){
+		
+			fieldBaseElementSelector.getDocument().addDocumentListener( new DocumentListener(){
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					change();				
+				}
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					change();
+				}
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					change();
+				}			
+				private void change(){
+					BaseElementDataModelAdapter baseElement = ParamElementEditor.this.fieldBaseElementSelector.getSelectedDataModel();
+					changeOperation( baseElement );
+				}
+			});
+		}
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": " );
 		labelElementTypeSelector = new JLabel( "");
 		
 		this.add( labelName, fieldName );
-		this.add( labelBaseElementSelector, fieldBaseElementSelector );
+		
+		if( null != fieldBaseElementSelector ){
+			this.add( labelBaseElementSelector, fieldBaseElementSelector );
+		}
 		
 		elementTypeComponent = new EmptyElementTypeComponent();
 		changeOperation(baseElement);
@@ -208,7 +222,7 @@ public class ParamElementEditor extends DataEditor{
 			elementTypeComponent = new EmptyElementTypeComponent();
 	
 		//SPECIAL
-		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SPECIAL.name() ) ){
+		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SCRIPT.name() ) ){
 				
 			elementTypeComponent = new SpecialElementTypeComponent<SpecialElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
@@ -282,7 +296,7 @@ public class ParamElementEditor extends DataEditor{
 			);
 		
 		//Nincs BaseElement kivalasztva
-		}else if( null == fieldBaseElementSelector.getSelectedDataModel()){
+		}else if( null != fieldBaseElementSelector && null == fieldBaseElementSelector.getSelectedDataModel()){
 			errorList.put( 
 					fieldBaseElementSelector,
 					MessageFormat.format(

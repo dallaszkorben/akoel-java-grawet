@@ -16,7 +16,7 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
@@ -122,9 +122,9 @@ public class SpecialBaseAddVariableToParametersOperation extends ElementOperatio
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
 		//HA SPECIALBASEELEMENT - annak kell lennie
-		if( element.getBaseElement() instanceof SpecialBaseElementDataModel ){
+		if( element.getBaseElement() instanceof ScriptBaseElementDataModel ){
 
-			((SpecialBaseElementDataModel)element.getBaseElement()).addParameter( variableElementDataModel.getValue() );
+			((ScriptBaseElementDataModel)element.getBaseElement()).addParameter( variableElementDataModel.getValue() );
 			
 		}
 

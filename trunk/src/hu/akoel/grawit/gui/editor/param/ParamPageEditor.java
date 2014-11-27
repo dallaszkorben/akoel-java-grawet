@@ -60,6 +60,7 @@ public class ParamPageEditor extends DataEditor{
 		this.mode = mode;
 		
 		BasePageDataModel basePage = selectedPage.getBasePage();
+TreeNode tn = basePage.getRoot();
 		BaseRootDataModel baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 		
 		//Name		

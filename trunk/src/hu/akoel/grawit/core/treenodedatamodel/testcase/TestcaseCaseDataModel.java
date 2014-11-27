@@ -39,23 +39,24 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	public static final Tag TAG = Tag.TESTCASECASE;
 	
 	public static final String ATTR_DETAILS = "details";
-	public static final String ATTR_OPEN_PAGE_PATH = "openpagepath";
-	public static final String ATTR_CLOSE_PAGE_PATH = "closepagepath";
+//	public static final String ATTR_OPEN_PAGE_PATH = "openpagepath";
+//	public static final String ATTR_CLOSE_PAGE_PATH = "closepagepath";
 	public static final String ATTR_DRIVER_PATH = "driverpath";
 	private static final String ATTR_ON = "on";
 	
 	private String name;
 	private String details;
-	private SpecialOpenDataModel openPage;
-	private SpecialCloseDataModel closePage;
+//	private SpecialOpenDataModel openPage;
+//	private SpecialCloseDataModel closePage;
 	private DriverBrowserDataModelInterface<?> driver;
 	
-	public TestcaseCaseDataModel( String name, String details, SpecialOpenDataModel openPage, SpecialCloseDataModel closePage, DriverBrowserDataModelInterface<?> driver ){
+//	public TestcaseCaseDataModel( String name, String details, SpecialOpenDataModel openPage, SpecialCloseDataModel closePage, DriverBrowserDataModelInterface<?> driver ){
+	public TestcaseCaseDataModel( String name, String details, DriverBrowserDataModelInterface<?> driver ){	
 		super( );
 		this.name = name;
 		this.details = details;
-		this.openPage = openPage;
-		this.closePage = closePage;
+//		this.openPage = openPage;
+//		this.closePage = closePage;
 		this.driver = driver;
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
@@ -118,7 +119,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		Document document = null;
 		Node actualNode = null;
 		
-		//========
+/*		//========
 		//
 		// ClosePage
 		//
@@ -280,7 +281,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 			}
 	    
 		}
-		
+*/		
 	    //========
 		//
 		// Driver
@@ -457,7 +458,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	
 
-		//===============
+/*		//===============
 		//
 		// Open page path
 		//
@@ -482,7 +483,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 			attr.setValue( closePage.getPathTag() );
 		}
 		nodeElement.setAttributeNode(attr);	
-		
+*/		
 		attr = document.createAttribute( ATTR_DRIVER_PATH );
 		attr.setValue( driver.getPathTag() );
 		nodeElement.setAttributeNode(attr);	
@@ -503,7 +504,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		return nodeElement;		
 	}
 
-	public void setSpecialOpenDataModel( SpecialOpenDataModel openPage ){
+/*	public void setSpecialOpenDataModel( SpecialOpenDataModel openPage ){
 		this.openPage = openPage;
 	}
 
@@ -518,7 +519,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	public SpecialCloseDataModel getClosePage(){
 		return closePage;
 	}
-
+*/
 	public void setDriverDataModel( DriverBrowserDataModelInterface<?> driver ){
 		this.driver = driver;
 	}

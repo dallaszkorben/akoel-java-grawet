@@ -8,7 +8,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -41,12 +41,12 @@ public class SpecialBaseExecuteOperation extends ElementOperationAdapter{
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException, CompilationException{
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
-		if( element.getBaseElement() instanceof SpecialBaseElementDataModel ){
+		if( element.getBaseElement() instanceof ScriptBaseElementDataModel ){
 //TODO muvelet kiirasa
 			
 			//Iterator<String> it = ((SpecialBaseElementDataModel)element.getBaseElement()).getParameterIterator();
 			//if( it.hasNext() ){
-				((SpecialBaseElementDataModel)element.getBaseElement()).doAction(driver);
+				((ScriptBaseElementDataModel)element.getBaseElement()).doAction(driver);
 			//}
 			
 		}

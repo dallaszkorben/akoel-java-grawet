@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
@@ -25,7 +26,8 @@ public class NormalBaseElementEditor extends DataEditor{
 	
 	private Tree tree;
 	private NormalBaseElementDataModel nodeForModify;
-	private BasePageDataModel nodeForCapture;
+//	private BasePageDataModel nodeForCapture;
+	private BaseDataModelAdapter nodeForCapture;	
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -41,7 +43,8 @@ public class NormalBaseElementEditor extends DataEditor{
 	private TextFieldComponent fieldWaitingTime;
 	
 	//Insert
-	public NormalBaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
+//	public NormalBaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
+	public NormalBaseElementEditor( Tree tree, BaseDataModelAdapter selectedNode ){
 
 		super( NormalBaseElementDataModel.getModelNameToShowStatic());
 

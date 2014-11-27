@@ -14,17 +14,17 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class ParamPageNoSpecificDataModel extends ParamPageDataModelAdapter{ //  extends ParamDataModelAdapter implements ExecutablePageInterface{
+public class ParamPageNonSpecificDataModel extends ParamPageDataModelAdapter{ //  extends ParamDataModelAdapter implements ExecutablePageInterface{
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
-	public static final Tag TAG = Tag.PARAMPAGENOSPECIFIC;
+	public static final Tag TAG = Tag.PARAMPAGENONSPECIFIC;
 	
 //	private String name;
 //	private BasePageDataModel basePage;	
 //	private ParamElementDataModel parameterElement;
 	
-	public ParamPageNoSpecificDataModel( String name ){
+	public ParamPageNonSpecificDataModel( String name ){
 		super( name );
 		
 //		this.name = name;
@@ -38,7 +38,7 @@ public class ParamPageNoSpecificDataModel extends ParamPageDataModelAdapter{ // 
 	 * @param element
 	 * @throws XMLPharseException
 	 */
-	public ParamPageNoSpecificDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public ParamPageNonSpecificDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		super( element );
 		

@@ -18,7 +18,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -26,7 +26,7 @@ import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.base.NormalBaseElementEditor;
 import hu.akoel.grawit.gui.editor.base.BaseNodeEditor;
 import hu.akoel.grawit.gui.editor.base.BasePageEditor;
-import hu.akoel.grawit.gui.editor.base.SpecialBaseElementEditor;
+import hu.akoel.grawit.gui.editor.base.ScriptBaseElementEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
 public class BaseTree extends Tree{
@@ -53,7 +53,7 @@ public class BaseTree extends Tree{
             return pageIcon;
     	}else if( actualNode instanceof NormalBaseElementDataModel ){
             return normalElementIcon;
-    	}else if( actualNode instanceof SpecialBaseElementDataModel ){
+    	}else if( actualNode instanceof ScriptBaseElementDataModel ){
             return specialElementIcon;
     	}else if( actualNode instanceof BaseNodeDataModel){
     		if( expanded ){
@@ -85,8 +85,8 @@ public class BaseTree extends Tree{
 			NormalBaseElementEditor normalBaseElementEditor = new NormalBaseElementEditor( this, (NormalBaseElementDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( normalBaseElementEditor);		
 
-		}else if( selectedNode instanceof SpecialBaseElementDataModel ){
-			SpecialBaseElementEditor specialBaseElementEditor = new SpecialBaseElementEditor( this, (SpecialBaseElementDataModel)selectedNode, EditMode.VIEW );								
+		}else if( selectedNode instanceof ScriptBaseElementDataModel ){
+			ScriptBaseElementEditor specialBaseElementEditor = new ScriptBaseElementEditor( this, (ScriptBaseElementDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( specialBaseElementEditor);		
 								
 		}			
@@ -110,9 +110,9 @@ public class BaseTree extends Tree{
 			NormalBaseElementEditor normalBaseElementEditor = new NormalBaseElementEditor( this, (NormalBaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( normalBaseElementEditor);		
 								
-		}else if( selectedNode instanceof SpecialBaseElementDataModel ){
+		}else if( selectedNode instanceof ScriptBaseElementDataModel ){
 
-			SpecialBaseElementEditor specialBaseElementEditor = new SpecialBaseElementEditor( this, (SpecialBaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			ScriptBaseElementEditor specialBaseElementEditor = new ScriptBaseElementEditor( this, (ScriptBaseElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( specialBaseElementEditor);
 								
 		}	
@@ -156,6 +156,35 @@ public class BaseTree extends Tree{
 			});
 			popupMenu.add ( insertPageMenu );
 			
+			//Insert Normal Element
+			JMenuItem insertNormalElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.normalelement") );
+			insertNormalElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertNormalElementMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					NormalBaseElementEditor baseNodeEditor = new NormalBaseElementEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( baseNodeEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertNormalElementMenu );
+			
+			//Insert Script Element
+			JMenuItem insertScriptElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.specialelement") );
+			insertScriptElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertScriptElementMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					ScriptBaseElementEditor baseNodeEditor = new ScriptBaseElementEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( baseNodeEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertScriptElementMenu );
 		}		
 		
 		
@@ -180,20 +209,20 @@ public class BaseTree extends Tree{
 			});
 			popupMenu.add ( insertNormalElementMenu );
 
-			//Insert Special Element
-			JMenuItem insertSpecialElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.specialelement") );
-			insertSpecialElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
-			insertSpecialElementMenu.addActionListener( new ActionListener() {
+			//Insert Script Element
+			JMenuItem insertScriptElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.specialelement") );
+			insertScriptElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertScriptElementMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					SpecialBaseElementEditor baseNodeEditor = new SpecialBaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
+					ScriptBaseElementEditor baseNodeEditor = new ScriptBaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
 			});
-			popupMenu.add ( insertSpecialElementMenu );
+			popupMenu.add ( insertScriptElementMenu );
 			
 		}
 		
@@ -312,7 +341,15 @@ public class BaseTree extends Tree{
 			return true;
 
 		//SpecialElement elhelyezese Page-ben	
-		}else if( draggedNode instanceof SpecialBaseElementDataModel && dropObject instanceof BasePageDataModel ){
+		}else if( draggedNode instanceof ScriptBaseElementDataModel && dropObject instanceof BasePageDataModel ){
+			return true;
+
+		//NormalElement elhelyezese Node-ban	
+		}else if( draggedNode instanceof NormalBaseElementDataModel && dropObject instanceof BaseNodeDataModel ){
+			return true;
+
+		//SpecialElement elhelyezese Node-ban	
+		}else if( draggedNode instanceof ScriptBaseElementDataModel && dropObject instanceof BaseNodeDataModel ){
 			return true;
 
 		}

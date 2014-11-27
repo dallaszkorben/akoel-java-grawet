@@ -1,10 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -17,7 +14,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.script.ScriptRootDataModel;
 import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 
 public class TestcaseRootDataModel extends TestcaseNodeDataModel{

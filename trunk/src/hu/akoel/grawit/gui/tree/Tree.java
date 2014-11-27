@@ -1,5 +1,12 @@
 package hu.akoel.grawit.gui.tree;
 
+
+import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.enums.ActionCommand;
+import hu.akoel.grawit.gui.GUIFrame;
+import hu.akoel.grawit.gui.editor.EmptyEditor;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
@@ -33,12 +40,6 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.Enumeration;
 
-import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.enums.ActionCommand;
-import hu.akoel.grawit.gui.GUIFrame;
-import hu.akoel.grawit.gui.editor.EmptyEditor;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -56,6 +57,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
 
 public abstract class Tree extends JTree{
 

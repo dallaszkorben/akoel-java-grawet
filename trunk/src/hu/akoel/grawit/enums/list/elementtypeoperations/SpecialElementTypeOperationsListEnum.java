@@ -3,11 +3,11 @@ package hu.akoel.grawit.enums.list.elementtypeoperations;
 import hu.akoel.grawit.CommonOperations;
 
 public enum SpecialElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{	
-	ADD_VARIABLE_TO_PARAMETERS( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.special.addvariabletoparameters") ),
-	ADD_STORED_TO_PARAMETERS( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.special.addstoredtoparameters") ),
-	ADD_STRING_TO_PARAMETERS( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.special.addstringtoparameters") ),
-	CLEAR_PARAMETERS( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.special.clearparameters") ),
-	EXECUTE_SCRIPT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.special.executescript") ),
+	ADD_VARIABLE_TO_PARAMETERS( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.script.addvariabletoparameters") ),
+	ADD_STORED_TO_PARAMETERS( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.script.addstoredtoparameters") ),
+	ADD_STRING_TO_PARAMETERS( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.script.addstringtoparameters") ),
+	CLEAR_PARAMETERS( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.script.clearparameters") ),
+	EXECUTE_SCRIPT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.script.executescript") ),
 	;
 	
 	private String translatedName;
