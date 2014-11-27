@@ -1,15 +1,9 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
-import java.util.Vector;
-
-import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,24 +12,14 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.ExecutablePageInterface;
-import hu.akoel.grawit.PageProgressInterface;
-import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.exceptions.CompilationException;
-import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
-import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
 public class ParamPageSpecificDataModel extends ParamPageDataModelAdapter{ // extends ParamDataModelAdapter implements ExecutablePageInterface{
@@ -128,7 +112,7 @@ public class ParamPageSpecificDataModel extends ParamPageDataModelAdapter{ // ex
 						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );
 					}
 	    		
-					//Ha BASEPAGE
+				//Ha BASEPAGE
 				}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
 					attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
 					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEPAGE, attrName );
@@ -137,7 +121,7 @@ public class ParamPageSpecificDataModel extends ParamPageDataModelAdapter{ // ex
 						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );
 					}
 	    
-					//Ha BASEELEMENT
+				//Ha BASEELEMENT
 				}else if( tagName.equals( BaseElementDataModelAdapter.TAG.getName() ) ){
 					attrName = actualElement.getAttribute(BaseElementDataModelAdapter.ATTR_NAME);
 

@@ -1,42 +1,17 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
-import java.io.StringReader;
-import java.util.Vector;
-
 import javax.swing.tree.MutableTreeNode;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.ExecutablePageInterface;
-import hu.akoel.grawit.PageProgressInterface;
-import hu.akoel.grawit.Settings;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.exceptions.CompilationException;
-import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.PageException;
-import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
-import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
 public class ParamPageNoSpecificDataModel extends ParamPageDataModelAdapter{ //  extends ParamDataModelAdapter implements ExecutablePageInterface{
@@ -85,8 +60,8 @@ public class ParamPageNoSpecificDataModel extends ParamPageDataModelAdapter{ // 
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element paramElement = (Element)node;
 
-				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
-					this.add(new ParamElementAbsoluteDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){	
+					this.add(new ParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 				}
 			}
 		}	
