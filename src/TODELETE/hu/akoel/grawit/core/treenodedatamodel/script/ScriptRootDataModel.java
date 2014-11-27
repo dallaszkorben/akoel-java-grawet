@@ -1,11 +1,10 @@
-package hu.akoel.grawit.core.treenodedatamodel.special;
+package TODELETE.hu.akoel.grawit.core.treenodedatamodel.script;
 
 import java.util.Vector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.ScriptDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLExtraRootTagPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -15,19 +14,19 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SpecialRootDataModel extends SpecialNodeDataModel{
+public class ScriptRootDataModel extends ScriptNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	private static final Tag TAG = Tag.SPECIALROOT;
+	private static final Tag TAG = Tag.SCRIPTROOT;
 	
 	public static final String ATTR_NAME = "";
 	
-	public SpecialRootDataModel(){
+	public ScriptRootDataModel(){
 		super( "", "" );
 	}
 	
-	public SpecialRootDataModel( Document doc ) throws XMLPharseException{
+	public ScriptRootDataModel( Document doc ) throws XMLPharseException{
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -39,20 +38,25 @@ public class SpecialRootDataModel extends SpecialNodeDataModel{
 					
 		}else if( nList.getLength() == 1 ){
 		
-			Node specialNode = nList.item(0);
-			if (specialNode.getNodeType() == Node.ELEMENT_NODE) {
+			Node scriptNode = nList.item(0);
+			if (scriptNode.getNodeType() == Node.ELEMENT_NODE) {
 			
-				NodeList nodeList = specialNode.getChildNodes();
+				NodeList nodeList = scriptNode.getChildNodes();
 				for( int i = 0; i < nodeList.getLength(); i++ ){
 			
 					Node baseNode = nodeList.item( i );
 				
 					if (baseNode.getNodeType() == Node.ELEMENT_NODE) {
-						Element baseElement = (Element)baseNode;
+						Element scriptElement = (Element)baseNode;
 					
-						//Ha ujabb SPECIALNODE van alatta
-						if( baseElement.getTagName().equals( Tag.SPECIALNODE.getName() ) ){
-							this.add(new SpecialNodeDataModel(baseElement));
+						//Ha ujabb SCRIPTNODE van alatta
+						if( scriptElement.getTagName().equals( Tag.SCRIPTNODE.getName() ) ){
+							this.add(new ScriptNodeDataModel(scriptElement));
+							
+						//Ha rogton a rootban van elhelyezve egy elem
+						}else if( scriptElement.getTagName().equals( Tag.SCRIPTELEMENT.getName() ) ){
+							this.add(new ScriptElementDataModel(scriptElement ));
+
 						}
 					}
 				}
@@ -71,40 +75,40 @@ public class SpecialRootDataModel extends SpecialNodeDataModel{
 
 	@Override
 	public String getName(){
-		return "Special Root";
+		return "Script Root";
 	}
 	
 	@Override
 	public String getNodeTypeToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.special.root");
+		return CommonOperations.getTranslation( "tree.nodetype.script.root");
 	}
 	
 	@Override
 	public Element getXMLElement(Document document) {
 		
-		//SpecialElement
-		Element specialElement = document.createElement( TAG.getName() );
+		//ScriptElement
+		Element scriptElement = document.createElement( TAG.getName() );
 
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof SpecialDataModelInterface ){
+			if( !object.equals(this) && object instanceof ScriptDataModelAdapter ){
 				
-				Element element = ((SpecialDataModelInterface)object).getXMLElement( document );
-				specialElement.appendChild( element );		    		
+				Element element = ((ScriptDataModelAdapter)object).getXMLElement( document );
+				scriptElement.appendChild( element );		    		
 		    	
 			}
 		}
 
-		return specialElement;		
+		return scriptElement;		
 	}
 	
 	@Override
 	public Object clone(){
 		
-		SpecialRootDataModel cloned = (SpecialRootDataModel)super.clone();
+		ScriptRootDataModel cloned = (ScriptRootDataModel)super.clone();
 	
 		if( null != this.children ){
 			cloned.children = (Vector<?>) this.children.clone();

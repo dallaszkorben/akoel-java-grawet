@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.treenodedatamodel.special;
+package TODELETE.hu.akoel.grawit.core.treenodedatamodel.script;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -8,9 +8,6 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,29 +25,28 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.JavaSourceFromString;
-import hu.akoel.grawit.PageProgressInterface;
-import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ScriptElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class SpecialCustomDataModel extends SpecialPageModelInterface{
+public class ScriptElementDataModel extends ScriptElementDataModelAdapter{
 
 	private static final long serialVersionUID = -4450434610253862372L;
 
-	public static Tag TAG = Tag.SPECIALCUSTOM;
+	public static Tag TAG = Tag.SCRIPTELEMENT;
 	
 	public static final String ATTR_SCRIPT = "script";
 	
 	private static final String codePre = 
 			"import org.openqa.selenium.WebDriver;\n" +
+			"import java.util.ArrayList;\n" +			
 			"public class CustomClass {\n" +		
 			"   public CustomClass() {}\n" +		
-			"   public void doAction(WebDriver driver) throws hu.akoel.grawit.exceptions.PageException{\n";
+			"   public void doAction(WebDriver driver, ArrayList<String> parameters) throws hu.akoel.grawit.exceptions.PageException{\n";
 	private static final String codePost = 
 			"\n   }\n" +
 			"}\n";
@@ -68,7 +64,8 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 	private String customClassName = "CustomClass";
 	private String customMethodName = "doAction";
 	
-	public SpecialCustomDataModel(String name, String script ){
+	public ScriptElementDataModel(String name, String script ){
+		super( name );
 		common( name, script );	
 	}
 
@@ -78,7 +75,8 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 	 * @param element
 	 * @throws XMLPharseException 
 	 */
-	public SpecialCustomDataModel( Element element ) throws XMLPharseException{
+	public ScriptElementDataModel( Element element ) throws XMLPharseException{
+		super( element );
 		
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
@@ -128,37 +126,18 @@ public class SpecialCustomDataModel extends SpecialPageModelInterface{
 		this.script = script;
 	}
 	
-	@Override
-	public void add(SpecialDataModelInterface node) {
-	}
+
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.special.custom");
+		return CommonOperations.getTranslation( "tree.nodetype.script.element");
 	}
 	
 	@Override
 	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
-/*	
-	public void setPageProgressInterface( PageProgressInterface pageProgressInterface ) {
-		this.pageProgressInterface = pageProgressInterface;		
-	}
-	
-	@Override
-	public PageProgressInterface getPageProgressInterface() {
-		return this.pageProgressInterface;
-	}
-*/	
-	@Override
-	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgres ) throws CompilationException, PageException {
-		
-		//Jelzi, hogy elindult az oldal feldolgozasa
-		if( null != pageProgress ){
-			pageProgress.pageStarted( getName(), getNodeTypeToShow() );
-		}	
 
-elementProgres.outputCommand( "		" + getScript() );		
+	public void adoAction( WebDriver driver ) throws PageException, CompilationException {
 		
 		//Kod legyartasa
 		CompilationTask task = generateTheCode();
@@ -182,11 +161,6 @@ elementProgres.outputCommand( "		" + getScript() );
 				//Dob egy exceptiont  Diagnostic<? extends JavaFileObject>
 				throw new CompilationException( this.getName(), javaFile, diagList.get( 0 ) );
 			}
-		}	
-		
-		//Jelzi, hogy befejezodott az oldal feldolgozasa
-		if( null != pageProgress ){
-			pageProgress.pageEnded( getName(), getNodeTypeToShow() );
 		}
 		
 	}
@@ -289,12 +263,12 @@ elementProgres.outputCommand( "		" + getScript() );
 		return codePost;
 	}
 	
-	@Override
 	public Element getXMLElement(Document document) {
+
 		Attr attr;
 
 		//Node element
-		Element elementElement = document.createElement( SpecialCustomDataModel.this.getTag().getName() );
+		Element elementElement = document.createElement( ScriptElementDataModel.this.getTag().getName() );
 
 		//Name
 		attr = document.createAttribute( ATTR_NAME );
@@ -312,7 +286,7 @@ elementProgres.outputCommand( "		" + getScript() );
 	@Override
 	public Object clone(){
 		
-		SpecialCustomDataModel cloned = (SpecialCustomDataModel)super.clone();
+		ScriptElementDataModel cloned = (ScriptElementDataModel)super.clone();
 	
 		return cloned;
 		
@@ -321,11 +295,12 @@ elementProgres.outputCommand( "		" + getScript() );
 	@Override
 	public Object cloneWithParent() {
 		
-		SpecialCustomDataModel cloned = (SpecialCustomDataModel) this.clone();
+		ScriptElementDataModel cloned = (ScriptElementDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
 		
 		return cloned;
 	}
+
 }

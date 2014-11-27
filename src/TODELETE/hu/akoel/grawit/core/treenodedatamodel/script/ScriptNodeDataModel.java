@@ -1,11 +1,11 @@
-package hu.akoel.grawit.core.treenodedatamodel.special;
+package TODELETE.hu.akoel.grawit.core.treenodedatamodel.script;
 
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.ScriptDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -16,18 +16,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SpecialNodeDataModel extends SpecialDataModelInterface{
+public class ScriptNodeDataModel extends ScriptDataModelAdapter{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	
-	public static final Tag TAG = Tag.SPECIALNODE;
+	public static final Tag TAG = Tag.SCRIPTNODE;
 	
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name;
 	private String details;
 	
-	public SpecialNodeDataModel( String name, String details ){
+	public ScriptNodeDataModel( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;
@@ -40,16 +40,16 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public SpecialNodeDataModel( Element element ) throws XMLPharseException{
+	public ScriptNodeDataModel( Element element ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( SpecialNodeDataModel.getRootTag(), Tag.SPECIALNODE, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( ScriptNodeDataModel.getRootTag(), Tag.SCRIPTNODE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( SpecialNodeDataModel.getRootTag(), Tag.SPECIALNODE, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( ScriptNodeDataModel.getRootTag(), Tag.SCRIPTNODE, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -60,21 +60,13 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element baseElement = (Element)node;
 				
-				//Ha SPECIALOPEN van alatta
-				if( baseElement.getTagName().equals( Tag.SPECIALOPEN.getName() )){
-					this.add(new SpecialOpenDataModel(baseElement));
-				
-				//Ha SPECIALCLOSE van alatta
-				}else if( baseElement.getTagName().equals( Tag.SPECIALCLOSE.getName() )){
-					this.add(new SpecialCloseDataModel(baseElement));
-					
-				//Ha SPECIALCUSTOM van alatta
-				}else if( baseElement.getTagName().equals( Tag.SPECIALCUSTOM.getName() )){
-					this.add(new SpecialCustomDataModel(baseElement));
+				//Ha SCRIPTELEMENT van alatta
+				if( baseElement.getTagName().equals( Tag.SCRIPTELEMENT.getName() )){
+					this.add(new ScriptElementDataModel(baseElement));
 						
-				//Ha ujabb BASENODE van alatta
-				}else if( baseElement.getTagName().equals( Tag.SPECIALNODE.getName() )){
-					this.add(new SpecialNodeDataModel(baseElement));
+				//Ha ujabb SCRIPTNODE van alatta
+				}else if( baseElement.getTagName().equals( Tag.SCRIPTNODE.getName() )){
+					this.add(new ScriptNodeDataModel(baseElement));
 				}
 			}
 		}
@@ -90,12 +82,12 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 	}
 
 	@Override
-	public void add(SpecialDataModelInterface node) {
+	public void add(ScriptDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.special.node");
+		return CommonOperations.getTranslation( "tree.nodetype.script.node");
 	}
 	
 	@Override
@@ -129,7 +121,7 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( SpecialNodeDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( ScriptNodeDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
@@ -143,9 +135,9 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof SpecialDataModelInterface ){
+			if( !object.equals(this) && object instanceof ScriptDataModelAdapter ){
 				
-				Element element = ((SpecialDataModelInterface)object).getXMLElement( document );
+				Element element = ((ScriptDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
@@ -157,7 +149,7 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 	@Override
 	public Object clone(){
 		
-		SpecialNodeDataModel cloned = (SpecialNodeDataModel)super.clone();
+		ScriptNodeDataModel cloned = (ScriptNodeDataModel)super.clone();
 	
 		if( null != this.children ){
 			cloned.children = (Vector<?>) this.children.clone();
@@ -170,7 +162,7 @@ public class SpecialNodeDataModel extends SpecialDataModelInterface{
 	@Override
 	public Object cloneWithParent() {
 		
-		SpecialNodeDataModel cloned = (SpecialNodeDataModel) this.clone();
+		ScriptNodeDataModel cloned = (ScriptNodeDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
