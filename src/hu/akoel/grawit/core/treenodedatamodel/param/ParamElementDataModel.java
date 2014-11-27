@@ -50,6 +50,8 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
@@ -138,63 +140,89 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 			this.setOn( Boolean.parseBoolean( onString ));
 		}				
 		
-		
-		//=============
-		//
-		// BaseElement
-		//
-		//=============
-		if( !element.hasAttribute( ATTR_BASE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH );			
-		}	
-		String baseElementPathString = element.getAttribute(ATTR_BASE_ELEMENT_PATH);				
-		baseElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + baseElementPathString;  
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
-	    DocumentBuilder builder;
-	    Document document = null;
-	    try {  
-	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( baseElementPathString ) ) );  
-	    } catch (Exception e) {  
+		//Ha meghatarozott oldalon levo Elem-rol van szo
+//		if( this.getParent() instanceof ParamPageSpecificDataModel ){
+			
+			//=============
+			//
+			// BaseElement
+			//
+			//=============
+			if( !element.hasAttribute( ATTR_BASE_ELEMENT_PATH ) ){
+				throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH );			
+			}	
+			String baseElementPathString = element.getAttribute(ATTR_BASE_ELEMENT_PATH);				
+			baseElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + baseElementPathString;  
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
+			DocumentBuilder builder;
+			Document document = null;
+			try {  
+				builder = factory.newDocumentBuilder();  
+				document = builder.parse( new InputSource( new StringReader( baseElementPathString ) ) );  
+			} catch (Exception e) {  
 	    
-	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
-	    } 
+				//Nem sikerult az atalakitas
+				throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
+			} 
 	    
-		//Megkeresem a BASEROOT-ban az utvonalat a BASEELEMENT-hez
-	    Node actualNode = document;
-	    if( actualNode.hasChildNodes() ){
+			//Megkeresem a BASEROOT-ban az utvonalat a BASEELEMENT-hez
+			Node actualNode = document;
+			while( actualNode.hasChildNodes() ){
 		
-	    	actualNode = actualNode.getFirstChild();
-	    	Element actualElement = (Element)actualNode;
-	    	String tagName = actualElement.getTagName();
+				actualNode = actualNode.getFirstChild();
+				Element actualElement = (Element)actualNode;
+				String tagName = actualElement.getTagName();
+				String attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	  
 	    	
-	    	//Ha BASELEMENT
-	    	if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
+				//Ha BASENODE
+				if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
+					//attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	    		
+					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASENODE, attrName );
+
+					if( null == baseDataModel ){
+
+						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );
+					}
+					
+				//Ha BASEPAGE
+				}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
+					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEPAGE, attrName );
+					if( null == baseDataModel ){
+
+						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );
+					}
+					
+				//Ha BASELEMENT
+				}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
 	    	
-	    		String attrName = actualElement.getAttribute(DataModelAdapter.ATTR_NAME);	    
-	    		baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, SpecialBaseElementDataModel.TAG, attrName );
+					//String attrName = actualElement.getAttribute(DataModelAdapter.ATTR_NAME);	    
+					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEELEMENT, attrName );
 
-	    		if( null == baseDataModel ){
+					if( null == baseDataModel ){
 
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );	    		
-	    		}
+						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );	    		
+					}
 	    		
-	    		try{
+					try{
 	    	    	
-	    	    	this.baseElement = (BaseElementDataModelAdapter) baseDataModel;
+						this.baseElement = (BaseElementDataModelAdapter) baseDataModel;
 	    	    	
-	    	    }catch(ClassCastException e){
+					}catch(ClassCastException e){
 
-	    	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
-	    	    }
+						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
+					}
 	    						    		
-	    	}
+				}
 	    	
-	    }else{
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );
-    	}
+			}
 	    
+
+		//Ha nem meghatarozott oldalhoz kotott elemrol van szo
+//		}else if( this.getParent() instanceof ParamPageNoSpecificDataModel ){
+
+			
+			
+//		}
 	    
 //TODO duplikacio megszuntetese. ugyan ez van a SpecialElementTypeComponent.java-ban is, csak egy kicsit maskent	    
 	    

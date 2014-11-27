@@ -13,7 +13,6 @@ public enum Tag{
 	PARAMPAGESPECIFIC("page"),
 	PARAMPAGENOSPECIFIC("pagenospecific"),
 	PARAMELEMENT("element"),
-	//PARAMELEMENTRELATIVE("element"),
 	//PARAMELEMENTABSOLUTE("elementabsolute"),
 	
 	VARIABLEROOT("variable"),
