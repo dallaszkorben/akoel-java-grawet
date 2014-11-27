@@ -11,21 +11,21 @@ import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
+import TODELETE.hu.akoel.grawit.gui.editor.special.SpecialCloseEditor;
+import TODELETE.hu.akoel.grawit.gui.editor.special.SpecialCustomEditor;
+import TODELETE.hu.akoel.grawit.gui.editor.special.SpecialNodeEditor;
+import TODELETE.hu.akoel.grawit.gui.editor.special.SpecialOpenEditor;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.special.SpecialCloseEditor;
-import hu.akoel.grawit.gui.editor.special.SpecialCustomEditor;
-import hu.akoel.grawit.gui.editor.special.SpecialNodeEditor;
-import hu.akoel.grawit.gui.editor.special.SpecialOpenEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
 public class SpecialTree extends Tree{

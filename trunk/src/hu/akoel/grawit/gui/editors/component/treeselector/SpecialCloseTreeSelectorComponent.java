@@ -3,12 +3,14 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
+
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 
 public class SpecialCloseTreeSelectorComponent extends TreeSelectorComponent<SpecialCloseDataModel>{
 

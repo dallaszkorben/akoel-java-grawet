@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
+
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,9 +12,6 @@ import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialPageModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -27,6 +25,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
+
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialPageModelInterface;
 
 public class TestcaseCustomDataModel extends TestcasePageModelInterface{
 

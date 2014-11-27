@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCustomDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -17,6 +16,8 @@ import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
+
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
 
 //TODO custom editort meg kell szerkesztenem. nem is nyultam meg hozza
 

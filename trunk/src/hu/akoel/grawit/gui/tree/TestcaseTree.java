@@ -11,14 +11,13 @@ import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
@@ -41,14 +40,17 @@ public class TestcaseTree extends Tree {
 	private ParamRootDataModel paramRootDataModel;
 	private SpecialRootDataModel specialRootDataModel;
 	private DriverRootDataModel driverRootDataModel;
+//	private ScriptRootDataModel scriptRootDataModel;
 	
-	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
+//	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel, ScriptRootDataModel scriptRootDataModel ) {
+	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
 		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
 		this.specialRootDataModel = specialRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
 		this.driverRootDataModel = driverRootDataModel;
+//		this.scriptRootDataModel = scriptRootDataModel;
 		
 	}
 

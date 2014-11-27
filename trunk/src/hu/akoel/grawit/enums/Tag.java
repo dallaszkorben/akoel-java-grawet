@@ -10,8 +10,11 @@ public enum Tag{
 		
 	PARAMROOT("parampage"),
 	PARAMNODE("node"),
-	PARAMPAGE("page"),
+	PARAMPAGESPECIFIC("page"),
+	PARAMPAGENOSPECIFIC("pagenospecific"),
 	PARAMELEMENT("element"),
+	//PARAMELEMENTRELATIVE("element"),
+	//PARAMELEMENTABSOLUTE("elementabsolute"),
 	
 	VARIABLEROOT("variable"),
 	VARIABLENODE("node"),
@@ -30,6 +33,10 @@ public enum Tag{
 	SPECIALCLOSE("close"),
 	SPECIALCUSTOM("custom"),
 		
+	SCRIPTROOT("script"),
+	SCRIPTNODE("node"),
+	SCRIPTELEMENT("element"),
+	
 	DRIVERROOT("driver"),
 	DRIVERNODE("node"),
 	DRIVEREXPLORER("explorer"),

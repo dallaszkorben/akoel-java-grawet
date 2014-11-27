@@ -13,7 +13,7 @@ import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -41,9 +41,9 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	private String name;
 	private String details;
 	
-	private ParamPageDataModel paramPage;
+	private ParamPageSpecificDataModel paramPage;
 	
-	public TestcaseParamPageDataModel( String name, String details, ParamPageDataModel paramPage ){
+	public TestcaseParamPageDataModel( String name, String details, ParamPageSpecificDataModel paramPage ){
 		super( );
 		this.name = name;
 		this.details = details;
@@ -142,9 +142,9 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	    		}
 	    		
 	    	//Ha PARAMPAGE
-	    	}else if( tagName.equals( ParamPageDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamPageDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGE, attrName );
+	    	}else if( tagName.equals( ParamPageSpecificDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(ParamPageSpecificDataModel.ATTR_NAME);
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGESPECIFIC, attrName );
 	    		if( null == paramDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
@@ -162,7 +162,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	    }	    
 	    try{
 	    	
-	    	paramPage = (ParamPageDataModel)paramDataModel;
+	    	paramPage = (ParamPageSpecificDataModel)paramDataModel;
 	    	
 	    }catch(ClassCastException e){
 
@@ -217,11 +217,11 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 		return name;
 	}
 
-	public void setParamPage( ParamPageDataModel paramPage ){
+	public void setParamPage( ParamPageSpecificDataModel paramPage ){
 		this.paramPage = paramPage;		
 	}
 	
-	public ParamPageDataModel getParamPage(){
+	public ParamPageSpecificDataModel getParamPage(){
 		return paramPage;
 	}
 	
