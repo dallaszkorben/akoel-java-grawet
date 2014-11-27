@@ -11,7 +11,7 @@ public enum ElementTypeListEnum implements ElementTypeOperationsListEnumInterfac
 	BUTTON( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.button") ),
 	RADIOBUTTON( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton") ),
 	CHECKBOX( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox") ),	
-	SPECIAL( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.special") ),	
+	SCRIPT( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.script") ),	
 	;
 	
 	private String translatedName;
@@ -46,7 +46,7 @@ public enum ElementTypeListEnum implements ElementTypeOperationsListEnumInterfac
 		case 4: return BUTTON;
 		case 5: return RADIOBUTTON;
 		case 6: return CHECKBOX;
-		case 7: return SPECIAL;
+		case 7: return SCRIPT;
 		default: return FIELD;		
 		}
 	}

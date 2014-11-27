@@ -16,11 +16,11 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNoSpecificDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNonSpecificDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
@@ -54,7 +54,7 @@ public class ParamTree extends Tree {
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-specific-icon.png");
-    	ImageIcon pageNoSpecificIcon = CommonOperations.createImageIcon("tree/param-page-nospecific-icon.png");
+    	ImageIcon pageNoSpecificIcon = CommonOperations.createImageIcon("tree/param-page-nonspecific-icon.png");
     	ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/param-element-normal-icon.png");
     	ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/param-element-special-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-node-closed-icon.png");
@@ -64,14 +64,14 @@ public class ParamTree extends Tree {
     	if( actualNode instanceof ParamPageSpecificDataModel){
             return pageIcon;
 
-    	}else if( actualNode instanceof ParamPageNoSpecificDataModel){
+    	}else if( actualNode instanceof ParamPageNonSpecificDataModel){
     		return pageNoSpecificIcon;
 
     	}else if( actualNode instanceof ParamElementDataModel ){
     		
     		if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof NormalBaseElementDataModel ){
     			return normalElementIcon;
-    		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof SpecialBaseElementDataModel ){
+    		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof ScriptBaseElementDataModel ){
     			return specialElementIcon;
     		}
     		
@@ -96,7 +96,7 @@ public class ParamTree extends Tree {
     	if( actualNode instanceof ParamElementDataModel ){
     		if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof NormalBaseElementDataModel ){
     			return elementNormalOffIcon;
-    		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof SpecialBaseElementDataModel ){
+    		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof ScriptBaseElementDataModel ){
     			return elementSpecialOffIcon;
     		}
     	}else{
@@ -122,8 +122,8 @@ public class ParamTree extends Tree {
 			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamPageSpecificDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( paramPageEditor);
 			
-		}else if( selectedNode instanceof ParamPageNoSpecificDataModel ){
-			ParamPageNoSpecificEditor paramPageNoSpecificEditor = new ParamPageNoSpecificEditor( this, (ParamPageNoSpecificDataModel)selectedNode, EditMode.VIEW );								
+		}else if( selectedNode instanceof ParamPageNonSpecificDataModel ){
+			ParamPageNoSpecificEditor paramPageNoSpecificEditor = new ParamPageNoSpecificEditor( this, (ParamPageNonSpecificDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( paramPageNoSpecificEditor);					
 							
 		}else if( selectedNode instanceof ParamElementDataModel ){
@@ -146,9 +146,9 @@ public class ParamTree extends Tree {
 			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamPageSpecificDataModel)selectedNode, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( paramPageEditor);		
 				
-		}else if( selectedNode instanceof ParamPageNoSpecificDataModel ){
+		}else if( selectedNode instanceof ParamPageNonSpecificDataModel ){
 			
-			ParamPageNoSpecificEditor paramPageEditor = new ParamPageNoSpecificEditor( this, (ParamPageNoSpecificDataModel)selectedNode, EditMode.MODIFY );							                                            
+			ParamPageNoSpecificEditor paramPageEditor = new ParamPageNoSpecificEditor( this, (ParamPageNonSpecificDataModel)selectedNode, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( paramPageEditor);		
 			
 		}else if( selectedNode instanceof ParamElementDataModel ){
@@ -232,7 +232,7 @@ public class ParamTree extends Tree {
 			});
 			popupMenu.add ( insertElementMenu );
 
-		}else if( selectedNode instanceof ParamPageNoSpecificDataModel ){
+		}else if( selectedNode instanceof ParamPageNonSpecificDataModel ){
 			
 			//Insert Absolute Element
 			JMenuItem insertAbsoluteElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.absoluteelement") );
@@ -242,7 +242,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (ParamPageNoSpecificDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (ParamPageNonSpecificDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
 					guiFrame.showEditorPanel( paramPageNodeEditor);								
 				
 				}
@@ -377,12 +377,20 @@ public class ParamTree extends Tree {
 		if( draggedNode instanceof ParamNodeDataModel && dropObject instanceof ParamNodeDataModel ){
 			return true;
 
-		//Page elhelyezese Node-ba de nem Root-ba	
+		//Specific Page elhelyezese Node-ba de nem Root-ba	
 		}else if( draggedNode instanceof ParamPageSpecificDataModel && dropObject instanceof ParamNodeDataModel && !( dropObject instanceof ParamRootDataModel ) ){
 			return true;
+
+		//Non Specific Page elhelyezese Node-ba de nem Root-ba	
+		}else if( draggedNode instanceof ParamPageNonSpecificDataModel && dropObject instanceof ParamNodeDataModel && !( dropObject instanceof ParamRootDataModel ) ){
+			return true;
 			
-		//Elem elhelyezese Page-be	
+		//Elem elhelyezese Specific Page-be	
 		}else if( draggedNode instanceof ParamElementDataModel && dropObject instanceof ParamPageSpecificDataModel ){
+			return true;
+
+		//Elem elhelyezese NonSpecific Page-be	
+		}else if( draggedNode instanceof ParamElementDataModel && dropObject instanceof ParamPageNonSpecificDataModel ){
 			return true;
 			
 		}	

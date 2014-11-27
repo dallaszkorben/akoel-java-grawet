@@ -5,15 +5,12 @@ public enum Tag{
 	BASENODE("node"),
 	BASEPAGE("page"),
 	BASEELEMENT("element"),
-	//NORMALBASEELEMENT("element"),
-	//SPECIALBASEELEMENT("element"),
-		
+	
 	PARAMROOT("parampage"),
 	PARAMNODE("node"),
 	PARAMPAGESPECIFIC("page"),
-	PARAMPAGENOSPECIFIC("pagenospecific"),
+	PARAMPAGENONSPECIFIC("pagenospecific"),
 	PARAMELEMENT("element"),
-	//PARAMELEMENTABSOLUTE("elementabsolute"),
 	
 	VARIABLEROOT("variable"),
 	VARIABLENODE("node"),

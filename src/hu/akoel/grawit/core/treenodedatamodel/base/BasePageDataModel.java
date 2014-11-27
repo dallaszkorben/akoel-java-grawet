@@ -70,10 +70,10 @@ public class BasePageDataModel extends BaseDataModelAdapter{
 					}
 					String elementTypeString = baseElement.getAttribute( BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE );
 					
-					//SPECIAL
-					if( elementTypeString.equals( ElementTypeListEnum.SPECIAL.name() )){
+					//SCRIPT
+					if( elementTypeString.equals( ElementTypeListEnum.SCRIPT.name() )){
 						
-						this.add( new SpecialBaseElementDataModel(baseElement));
+						this.add( new ScriptBaseElementDataModel(baseElement));
 						
 					//FIELD, TEXT, LINK, LIST, BUTTON, RADIOBUTTON, CHECKBOX
 					}else{						

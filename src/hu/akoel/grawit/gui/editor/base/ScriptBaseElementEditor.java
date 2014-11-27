@@ -5,9 +5,10 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ScriptComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -17,15 +18,14 @@ import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 import javax.tools.JavaCompiler.CompilationTask;
 
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialCustomDataModel;
-
-public class SpecialBaseElementEditor extends DataEditor{
+public class ScriptBaseElementEditor extends DataEditor{
 	
 	private static final long serialVersionUID = 165396704460481021L;
 	
 	private Tree tree;
-	private SpecialBaseElementDataModel nodeForModify;
-	private BasePageDataModel nodeForCapture;
+	private ScriptBaseElementDataModel nodeForModify;
+	//private BasePageDataModel nodeForCapture;
+	private BaseDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -35,9 +35,10 @@ public class SpecialBaseElementEditor extends DataEditor{
 	private ScriptComponent fieldScript;
 	
 	//Insert
-	public SpecialBaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
+	//public ScriptBaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
+	public ScriptBaseElementEditor( Tree tree, BaseDataModelAdapter selectedNode ){
 
-		super( SpecialBaseElementDataModel.getModelNameToShowStatic());
+		super( ScriptBaseElementDataModel.getModelNameToShowStatic());
 
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -67,7 +68,7 @@ public class SpecialBaseElementEditor extends DataEditor{
 	}
 	
 	//Modositas vagy View
-	public SpecialBaseElementEditor( Tree tree, SpecialBaseElementDataModel selectedNode, EditMode mode ){		
+	public ScriptBaseElementEditor( Tree tree, ScriptBaseElementDataModel selectedNode, EditMode mode ){		
 
 		super( mode, selectedNode.getNodeTypeToShow());
 
@@ -116,10 +117,10 @@ public class SpecialBaseElementEditor extends DataEditor{
 	private void commonPost( String script ){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelScript = new JLabel( CommonOperations.getTranslation("editor.label.base.special.script") + ": ");
+		labelScript = new JLabel( CommonOperations.getTranslation("editor.label.base.script.script") + ": ");
 
 		//Script
-		fieldScript = new ScriptComponent( SpecialBaseElementDataModel.getCodePre(), script, SpecialBaseElementDataModel.getCodePost() );	
+		fieldScript = new ScriptComponent( ScriptBaseElementDataModel.getCodePre(), script, ScriptBaseElementDataModel.getCodePost() );	
 		
 		this.add( labelName, fieldName );
 		this.add( labelScript, fieldScript );
@@ -202,7 +203,7 @@ public class SpecialBaseElementEditor extends DataEditor{
 		}else{
 		
 			//Akkor eloszor a kod szintaktikai ellenorzese kovetkezik
-			SpecialBaseElementDataModel specialBaseElement = new SpecialBaseElementDataModel( fieldName.getText(), fieldScript.getScript() );				
+			ScriptBaseElementDataModel specialBaseElement = new ScriptBaseElementDataModel( fieldName.getText(), fieldScript.getScript() );				
 			
 			//Kod legyartasa
 			CompilationTask task = specialBaseElement.generateTheCode();

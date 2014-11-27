@@ -12,7 +12,7 @@ import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -97,7 +97,7 @@ elementProgress.outputCommand( "		webElement = driver.findElement( by );" );
 			doOperation( driver, element, webElement, elementProgress );
 elementProgress.outputCommand("");	
 		
-		}else if( element.getBaseElement() instanceof SpecialBaseElementDataModel ){
+		}else if( element.getBaseElement() instanceof ScriptBaseElementDataModel ){
 			
 			doOperation( driver, element, null, elementProgress );
 			

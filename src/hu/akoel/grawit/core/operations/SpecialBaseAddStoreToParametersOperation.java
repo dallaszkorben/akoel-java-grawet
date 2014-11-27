@@ -23,7 +23,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.SpecialBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -177,9 +177,9 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
 		//HA SPECIALBASEELEMENT - annak kell lennie
-		if( element.getBaseElement() instanceof SpecialBaseElementDataModel ){
+		if( element.getBaseElement() instanceof ScriptBaseElementDataModel ){
 
-			((SpecialBaseElementDataModel)element.getBaseElement()).addParameter( baseElementDataModel.getStoredValue() );
+			((ScriptBaseElementDataModel)element.getBaseElement()).addParameter( baseElementDataModel.getStoredValue() );
 			
 		}
 		

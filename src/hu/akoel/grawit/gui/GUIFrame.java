@@ -13,7 +13,6 @@ import hu.akoel.grawit.gui.tree.BaseTree;
 import hu.akoel.grawit.gui.tree.DriverTree;
 import hu.akoel.grawit.gui.tree.ParamTree;
 import hu.akoel.grawit.gui.tree.RunTree;
-import hu.akoel.grawit.gui.tree.ScriptTree;
 import hu.akoel.grawit.gui.tree.SpecialTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -65,7 +64,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.script.ScriptRootDataModel;
 import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 
 public class GUIFrame extends JFrame{

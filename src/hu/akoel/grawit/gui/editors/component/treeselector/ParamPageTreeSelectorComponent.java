@@ -5,26 +5,28 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNonSpecificDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamPageSpecificDataModel>{
+public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamPageDataModelAdapter>{
 
 	private static final long serialVersionUID = 1064181673121972602L;
 
 	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamPageSpecificDataModel.class, rootDataModel, null, false);
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamPageDataModelAdapter.class, rootDataModel, null, false);
 	}
 
-	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamPageSpecificDataModel selectedParamPageDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamPageSpecificDataModel.class, rootDataModel, selectedParamPageDataModel, false);
+	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamPageDataModelAdapter selectedParamPageDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamPageDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, false);
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( ParamPageSpecificDataModel selectedDataModel) {
+	public String getSelectedDataModelToString( ParamPageDataModelAdapter selectedDataModel) {
 		StringBuffer out = new StringBuffer();
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){
@@ -45,20 +47,23 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamP
 
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
-		return !( path.getLastPathComponent() instanceof ParamPageSpecificDataModel );
+		return !( path.getLastPathComponent() instanceof ParamPageDataModelAdapter );
 	}
 	
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 	
-		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-specific-icon.png");
+		ImageIcon pageSpecificIcon = CommonOperations.createImageIcon("tree/param-page-specific-icon.png");
+		ImageIcon pageNonSpecificIcon = CommonOperations.createImageIcon("tree/param-page-nonspecific-icon.png");
     	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/param-element-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/param-node-open-icon.png");
     	
     	//Iconja a NODE-nak
     	if( actualNode instanceof ParamPageSpecificDataModel){
-            return pageIcon;
+            return pageSpecificIcon;
+    	}else if( actualNode instanceof ParamPageNonSpecificDataModel){
+    		return pageNonSpecificIcon;
     	}else if( actualNode instanceof ParamElementDataModel ){
             return elementIcon;
     	}else if( actualNode instanceof ParamNodeDataModel){
