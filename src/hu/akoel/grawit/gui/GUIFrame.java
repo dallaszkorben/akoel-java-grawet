@@ -13,7 +13,6 @@ import hu.akoel.grawit.gui.tree.BaseTree;
 import hu.akoel.grawit.gui.tree.DriverTree;
 import hu.akoel.grawit.gui.tree.ParamTree;
 import hu.akoel.grawit.gui.tree.RunTree;
-import hu.akoel.grawit.gui.tree.SpecialTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.Tree;
 import hu.akoel.grawit.gui.tree.VariableTree;
@@ -64,8 +63,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
-
 public class GUIFrame extends JFrame{
 	private static final long serialVersionUID = 5462215116385991087L;
 	
@@ -96,7 +93,7 @@ public class GUIFrame extends JFrame{
 	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
 //	private ScriptRootDataModel scriptRootDataModel = new ScriptRootDataModel();
 	private DriverRootDataModel driverRootDataModel = new DriverRootDataModel();
-	private SpecialRootDataModel specialRootDataModel = new SpecialRootDataModel(); //TODO delete
+//	private SpecialRootDataModel specialRootDataModel = new SpecialRootDataModel(); //TODO delete
 	
 	private File usedDirectory = null;
 	
@@ -419,9 +416,9 @@ public class GUIFrame extends JFrame{
 		Element baseRootElement = baseRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( baseRootElement );
 		
-		//SPECIALROOT mentese TODO torolni
-		Element specialRootElement = specialRootDataModel.getXMLElement(doc);	
-		rootElement.appendChild( specialRootElement );
+//		//SPECIALROOT mentese TODO torolni
+//		Element specialRootElement = specialRootDataModel.getXMLElement(doc);	
+//		rootElement.appendChild( specialRootElement );
 		
 //		//SCRIPTROOT mentese
 //		Element scriptRootElement = scriptRootDataModel.getXMLElement(doc);	
@@ -664,8 +661,8 @@ public class GUIFrame extends JFrame{
 					// VARIABLEPARAMETER
 					variableRootDataModel = new VariableRootDataModel(doc, baseRootDataModel );
 					
-					// SPECIALROOT
-					specialRootDataModel = new SpecialRootDataModel(doc);
+//					// SPECIALROOT
+//					specialRootDataModel = new SpecialRootDataModel(doc);
 					
 //					// SCRIPTROOT
 //					scriptRootDataModel = new ScriptRootDataModel(doc);
@@ -675,7 +672,7 @@ public class GUIFrame extends JFrame{
 						
 					// TESTCASE
 					//testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel, driverRootDataModel, scriptRootDataModel );
-					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel, driverRootDataModel );
+					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, driverRootDataModel );
 					
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
@@ -823,7 +820,7 @@ public class GUIFrame extends JFrame{
 						
 			//Legyartja a JTREE-t a modell alapjan
 			//TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, specialRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel, scriptRootDataModel );
-			TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, specialRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel );
+			TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

@@ -6,15 +6,12 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.DriverTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.SpecialCloseTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.SpecialOpenTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -41,7 +38,7 @@ public class TestcaseCaseEditor extends DataEditor{
 	private DriverTreeSelectorComponent fieldDriverTreeSelector;
 
 	//Itt biztos beszuras van
-	public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode, SpecialDataModelInterface specialDataModel, DriverDataModelInterface driverDataModel ){
+	public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode, DriverDataModelInterface driverDataModel ){
 		
 		super( TestcaseCaseDataModel.getModelNameToShowStatic() );
 		
@@ -69,7 +66,7 @@ public class TestcaseCaseEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcaseCaseEditor( Tree tree, TestcaseCaseDataModel selectedNode, SpecialDataModelInterface specialDataModel, DriverDataModelInterface driverDataModel, EditMode mode ){		
+	public TestcaseCaseEditor( Tree tree, TestcaseCaseDataModel selectedNode, DriverDataModelInterface driverDataModel, EditMode mode ){		
 		
 		super( mode, selectedNode.getNodeTypeToShow());
 

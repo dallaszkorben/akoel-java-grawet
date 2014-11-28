@@ -14,8 +14,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
-
 public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
@@ -29,7 +27,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 	}
 	
 	//public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel, SpecialRootDataModel specialRootDataModel, DriverRootDataModel driverRootDataModel, ScriptRootDataModel scriptRootDataModel ) throws XMLPharseException{
-	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel, SpecialRootDataModel specialRootDataModel, DriverRootDataModel driverRootDataModel ) throws XMLPharseException{		
+	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel ) throws XMLPharseException{		
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -54,7 +52,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 					
 						//Ha ujabb TESTCASENODE van alatta
 						if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() ) ){
-							this.add(new TestcaseNodeDataModel(testcaseElement, specialRootDataModel, paramRootDataModel, driverRootDataModel ));
+							this.add(new TestcaseNodeDataModel(testcaseElement, paramRootDataModel, driverRootDataModel ));
 						}
 					}
 				}

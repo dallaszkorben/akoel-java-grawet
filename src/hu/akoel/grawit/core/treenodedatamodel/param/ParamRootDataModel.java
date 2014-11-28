@@ -15,8 +15,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-
 public class ParamRootDataModel extends ParamNodeDataModel{
 
 	private static final long serialVersionUID = 9062567931430247371L;
