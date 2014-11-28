@@ -1,6 +1,5 @@
 package hu.akoel.grawit.gui.tree;
 
-
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -57,7 +56,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-
 
 public abstract class Tree extends JTree{
 

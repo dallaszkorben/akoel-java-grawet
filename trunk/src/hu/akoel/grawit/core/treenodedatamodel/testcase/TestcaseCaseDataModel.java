@@ -10,7 +10,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.SpecialDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
@@ -27,10 +26,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialCloseDataModel;
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialNodeDataModel;
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialOpenDataModel;
 
 public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 
@@ -71,7 +66,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCaseDataModel( Element element, SpecialDataModelInterface specialDataModel, ParamDataModelAdapter paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
+	public TestcaseCaseDataModel( Element element, ParamDataModelAdapter paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -110,8 +105,8 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
 		
-		SpecialDataModelInterface specialDataModelForOpen = (SpecialDataModelInterface)specialDataModel.clone();
-		SpecialDataModelInterface specialDataModelForClose = (SpecialDataModelInterface)specialDataModel.clone();
+//		SpecialDataModelInterface specialDataModelForOpen = (SpecialDataModelInterface)specialDataModel.clone();
+//		SpecialDataModelInterface specialDataModelForClose = (SpecialDataModelInterface)specialDataModel.clone();
 		//DriverDataModelInterface driverDataModel = (DriverDataModelInterface)driverDataModel.clone();
 		
 		DocumentBuilderFactory factory = null;  
@@ -338,7 +333,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	    		attrName = actualElement.getAttribute(DriverFirefoxPropertyDataModel.ATTR_NAME);
 	    		driverDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( driverDataModel, Tag.DRIVERFIREFOXPROPERTY, attrName );
 	    		
-	    		if( null == specialDataModelForOpen ){
+	    		if( null == driverDataModel ){
 	    			
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH) );
 	    		}
@@ -350,7 +345,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	    }	    
 	    try{
 	    	
-	    	driver = (DriverBrowserDataModelInterface)driverDataModel;
+	    	driver = (DriverBrowserDataModelInterface<?>)driverDataModel;
 	    	
 	    }catch(ClassCastException e){
 
@@ -371,12 +366,13 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 				
 				}
 				
-				//Ha TESTCASECUSTOM van alatta
+/*				//Ha TESTCASECUSTOM van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASECUSTOMPAGE.getName() )){
 					
-					this.add(new TestcaseCustomDataModel(testcaseElement, specialDataModel ));
+					this.add(new TestcaseCustomDataModel(testcaseElement ));
 				
 				}
+*/				
 			}
 		}
 	}

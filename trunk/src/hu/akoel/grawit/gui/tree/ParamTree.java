@@ -56,7 +56,7 @@ public class ParamTree extends Tree {
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-specific-icon.png");
     	ImageIcon pageNoSpecificIcon = CommonOperations.createImageIcon("tree/param-page-nonspecific-icon.png");
     	ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/param-element-normal-icon.png");
-    	ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/param-element-special-icon.png");
+    	ImageIcon scriptElementIcon = CommonOperations.createImageIcon("tree/param-element-script-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/param-node-open-icon.png");
     	
@@ -72,7 +72,7 @@ public class ParamTree extends Tree {
     		if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof NormalBaseElementDataModel ){
     			return normalElementIcon;
     		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof ScriptBaseElementDataModel ){
-    			return specialElementIcon;
+    			return scriptElementIcon;
     		}
     		
     	}else if( actualNode instanceof ParamNodeDataModel){

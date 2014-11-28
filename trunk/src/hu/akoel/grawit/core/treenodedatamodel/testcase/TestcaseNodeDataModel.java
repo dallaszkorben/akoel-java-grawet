@@ -5,9 +5,7 @@ import java.util.Vector;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -19,8 +17,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import TODELETE.hu.akoel.grawit.core.treenodedatamodel.special.SpecialRootDataModel;
 
 public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 
@@ -47,7 +43,7 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseNodeDataModel( Element element, SpecialRootDataModel specialRootDataModel, ParamRootDataModel baseRootDataModel, DriverRootDataModel driverRootDataModel ) throws XMLPharseException{
+	public TestcaseNodeDataModel( Element element, ParamRootDataModel baseRootDataModel, DriverRootDataModel driverRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseNodeDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
@@ -69,11 +65,11 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 				
 				//Ha TESTCASECASE van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASECASE.getName() )){
-					this.add(new TestcaseCaseDataModel(testcaseElement, specialRootDataModel, baseRootDataModel, driverRootDataModel ));
+					this.add(new TestcaseCaseDataModel(testcaseElement, baseRootDataModel, driverRootDataModel ));
 				
 				//Ha ujabb TESTCASENODE van alatta
 				}else if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() )){
-					this.add(new TestcaseNodeDataModel(testcaseElement, specialRootDataModel, baseRootDataModel, driverRootDataModel ));
+					this.add(new TestcaseNodeDataModel(testcaseElement, baseRootDataModel, driverRootDataModel ));
 				}
 			}
 		}
