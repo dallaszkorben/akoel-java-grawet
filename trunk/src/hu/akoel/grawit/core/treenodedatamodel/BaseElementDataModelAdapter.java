@@ -60,7 +60,7 @@ public abstract class BaseElementDataModelAdapter extends BaseDataModelAdapter{
 	 * @throws XMLPharseException 
 	 */
 	public BaseElementDataModelAdapter( Element element ) throws XMLPharseException{
-		
+
 		//name
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME );			

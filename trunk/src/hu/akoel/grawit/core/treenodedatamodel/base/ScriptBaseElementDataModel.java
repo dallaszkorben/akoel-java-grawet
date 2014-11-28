@@ -53,10 +53,11 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 	
 	private static final String codePre = 
 			"import org.openqa.selenium.WebDriver;\n" +
-			"import java.util.ArrayList;\n" +			
+			"import java.util.ArrayList;\n" +
+			"import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;\n" +	
 			"public class CustomClass {\n" +		
 			"   public CustomClass() {}\n" +		
-			"   public void doAction(WebDriver driver, ArrayList<String> parameters) throws hu.akoel.grawit.exceptions.PageException{\n";
+			"   public void doAction(WebDriver driver, ArrayList<String> parameters, BaseElementDataModelAdapter baseElement ) throws hu.akoel.grawit.exceptions.PageException{\n";
 	private static final String codePost = 
 			"\n   }\n" +
 			"}\n";
@@ -226,9 +227,9 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 			Class<?> thisClass = loader.loadClass( customClassName );
 			Object instance = thisClass.newInstance();
 			//Method thisMethod = thisClass.getDeclaredMethod("doAction", new Class[] { String[].class });
-			Method thisMethod = thisClass.getDeclaredMethod( customMethodName, WebDriver.class, ArrayList.class );
+			Method thisMethod = thisClass.getDeclaredMethod( customMethodName, WebDriver.class, ArrayList.class, BaseElementDataModelAdapter.class );
 			//thisMethod.invoke(instance, new Object[] {null});	
-			thisMethod.invoke( instance, driver, parameters );
+			thisMethod.invoke( instance, driver, parameters, this );
 			//loader = null;	    	  
 	    	  
         //Class.forName("HelloWorld").getDeclaredMethod("main", new Class[] { String[].class }).invoke(null, new Object[] { null });
