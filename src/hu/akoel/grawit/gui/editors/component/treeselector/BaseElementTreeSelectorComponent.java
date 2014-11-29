@@ -16,10 +16,12 @@ public class BaseElementTreeSelectorComponent extends TreeSelectorComponent<Base
 
 	private static final long serialVersionUID = -5178610032767904794L;
 
+	//Specific Page egyik eleme - Parameterkent szukseges megkapni a BasePage elereset
 	public BaseElementTreeSelectorComponent( BaseDataModelAdapter rootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.baseelement"), BaseElementDataModelAdapter.class, rootDataModel, null, false);
 	}
 
+	//NonSpecific Page Egyik eleme - Parameterkent szukseges megkapni a Root Base-t
 	public BaseElementTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BaseElementDataModelAdapter selectedBaseElementDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.baseelement"),BaseElementDataModelAdapter.class, rootDataModel, selectedBaseElementDataModel, false);
 	}

@@ -54,7 +54,10 @@ public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends 
 	}
 	
 	private void common( String title, Class<F> classForSelect, final DataModelAdapter rootDataModel, F selectedDataModel, final boolean enableEmpty ){	
-		
+
+@SuppressWarnings("unused")
+DataModelAdapter root = rootDataModel;
+
 		this.title = title;
 		this.classForSelect = classForSelect;
 		this.selectedDataModel = selectedDataModel;

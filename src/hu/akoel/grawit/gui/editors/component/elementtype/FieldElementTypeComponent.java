@@ -289,7 +289,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 	}
 
 	private void setValueContainer( E selectedOperation ){
-
+		
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);		
 		

@@ -12,7 +12,7 @@ import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.SpecialElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ScriptElementTypeOperationsListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
 
@@ -27,7 +27,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class SpecialElementTypeComponent<E extends SpecialElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
+public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
 
 	private static final long serialVersionUID = -6108131072338954554L;
 	
@@ -53,7 +53,7 @@ public class SpecialElementTypeComponent<E extends SpecialElementTypeOperationsL
 	
 	private JLabel labelFiller;
 	
-	public SpecialElementTypeComponent( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ScriptElementTypeComponent( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
 		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
@@ -130,7 +130,6 @@ public class SpecialElementTypeComponent<E extends SpecialElementTypeOperationsL
 		c.gridx = 3;
 		c.weightx = 0;
 		this.add( comboOperationList, c );
-		c.gridy = 1;
 
 		//Kenyszeritem, hogy a kovetkezo setSelectedItem() hatasara vegrehajtsa a az itemStateChanged() metodust
 		comboOperationList.setSelectedIndex(-1);
@@ -210,7 +209,7 @@ public class SpecialElementTypeComponent<E extends SpecialElementTypeOperationsL
 	private void setValueContainer( E selectedOperation ){
 
 		GridBagConstraints c = new GridBagConstraints();		
-		c.insets = new Insets(0,0,0,0);		
+		c.insets = this.getInsets(); //new Insets(0,0,0,0);		
 		
 		this.remove( labelBaseElementSelector );
 		this.remove( fieldBaseElementSelector );
@@ -218,6 +217,7 @@ public class SpecialElementTypeComponent<E extends SpecialElementTypeOperationsL
 		this.remove( fieldString );
 		this.remove( labelVariableSelector );
 		this.remove( fieldVariableSelector );	
+		this.remove( labelFiller );
 		
 		//Fill element / Compare value to element
 		if( selectedOperation.equals( E.ADD_STORED_TO_PARAMETERS ) ){
