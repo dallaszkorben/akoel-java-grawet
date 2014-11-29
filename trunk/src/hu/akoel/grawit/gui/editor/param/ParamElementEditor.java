@@ -23,7 +23,7 @@ import hu.akoel.grawit.enums.list.elementtypeoperations.FieldElementTypeOperatio
 import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ListElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.RadiobuttonElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.SpecialElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ScriptElementTypeOperationsListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -35,7 +35,7 @@ import hu.akoel.grawit.gui.editors.component.elementtype.LinkElementTypeComponen
 import hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface;
 import hu.akoel.grawit.gui.editors.component.elementtype.ListElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.RadiobuttonElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.SpecialElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.ScriptElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.TextElementTypeComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -81,9 +81,9 @@ public class ParamElementEditor extends DataEditor{
 		this.nodeForCapture = selectedPage;
 		this.mode = null;
 		
-		this.baseRootDataModel = baseRootDataModel;
+		//this.baseRootDataModel = baseRootDataModel;
 
-		commonPre(  paramRootDataModel, variableRootDataModel );
+		commonPre( baseRootDataModel, paramRootDataModel, variableRootDataModel );
 		
 		//Name
 		fieldName.setText( "" );
@@ -121,7 +121,7 @@ public class ParamElementEditor extends DataEditor{
 		this.nodeForModify = selectedElement;
 		this.mode = mode;	
 		
-		commonPre( paramRootDataModel, variableRootDataModel );
+		commonPre( baseRootDataModel, paramRootDataModel, variableRootDataModel );
 		
 		//Name
 		fieldName.setText( selectedElement.getName() );
@@ -129,24 +129,26 @@ public class ParamElementEditor extends DataEditor{
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		
+		//Oldalhoz kotott BASEPAGE - Parameterkent a basePage-et kell elkuldeni
 		if( selectedElement.getParent() instanceof ParamPageSpecificDataModel ){		
 			BasePageDataModel basePage = ((ParamPageSpecificDataModel)selectedElement.getParent()).getBasePage();		
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
+
+		//Nem oldalhoz kotott BASEPAGE - Parameterkent a BASE ROOT-ot kell elkuldeni
 		}else if( selectedElement.getParent() instanceof ParamPageNonSpecificDataModel ){
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
-//		}else if( selectedElement.getParent() instanceof ParamNodeDataModel ){
-//			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
 		}
 		
 		commonPost( baseElement );
 		
 	}
 
-	private void commonPre( final ParamRootDataModel paramRootDataModel, final VariableRootDataModel variableRootDataModel ){
-			
+	private void commonPre( final BaseRootDataModel baseRootDataModel, final ParamRootDataModel paramRootDataModel, final VariableRootDataModel variableRootDataModel ){
+				
 		//Name
 		fieldName = new TextFieldComponent();
 		
+		this.baseRootDataModel = baseRootDataModel;
 		this.variableRootDataModel = variableRootDataModel;
 
 	}
@@ -221,10 +223,10 @@ public class ParamElementEditor extends DataEditor{
 		
 			elementTypeComponent = new EmptyElementTypeComponent();
 	
-		//SPECIAL
+		//SCRIPT
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SCRIPT.name() ) ){
 				
-			elementTypeComponent = new SpecialElementTypeComponent<SpecialElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new ScriptElementTypeComponent<ScriptElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
