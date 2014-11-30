@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.text.MessageFormat;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,22 +27,23 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 import org.openqa.selenium.WebDriver;
-import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.Player;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
+import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.TestcaseProgressInterface;
 import hu.akoel.grawit.gui.tree.Tree;
 
-public class RunTestcaseEditor extends BaseEditor{
+public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
@@ -51,7 +53,10 @@ public class RunTestcaseEditor extends BaseEditor{
 	private ElementProgress elementProgres;
 	private TestcaseProgress testcaseProgress;
 	
-	private JButton runButton;
+	private JButton startButton;
+	private JButton stopButton;
+	private JButton pauseButton;
+	
 	private JTextPane consolPanel;
 	private JTextPane statusPanel;	
 	private JTextArea valuePanel;
@@ -64,21 +69,63 @@ public class RunTestcaseEditor extends BaseEditor{
 	private SimpleAttributeSet attributePageFinished;
 	private SimpleAttributeSet attributeElementFinished;	
 	
+	private boolean needToStop = false;	
 	
+	private void setNeedToStop( boolean needToStop ){
+		this.needToStop = needToStop;
+	}
 	
-	//public RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){
+	@Override
+	public boolean isStopped() {
+		return needToStop;
+	}
+
 	public RunTestcaseEditor( Tree tree, TestcaseDataModelAdapter testcaseDataModel ){	
 
-		super( CommonOperations.getTranslation( "editor.label.runtest.windowtitle" ) );
-
+		super(( testcaseDataModel instanceof TestcaseCaseDataModel ) ? CommonOperations.getTranslation( "editor.label.runtest.testcasewindowtitle" ) : ( testcaseDataModel instanceof TestcaseNodeDataModel) ? CommonOperations.getTranslation( "editor.label.runtest.testnodewindowtitle" ) : "");
+		
 		this.selectedTestcase = testcaseDataModel;
 
 		pageProgress = new PageProgress();
 		elementProgres = new ElementProgress();	
 		testcaseProgress = new TestcaseProgress();
 
-		runButton = new JButton( CommonOperations.getTranslation("editor.label.runtest.runbutton") );
-		runButton.addActionListener(new ActionListener(){
+		ImageIcon startIcon = CommonOperations.createImageIcon("control/control-play.png");
+		ImageIcon startDisabledIcon = CommonOperations.createImageIcon("control/control-play-disabled.png");
+		ImageIcon startRolloverIcon = CommonOperations.createImageIcon("control/control-play-rollover.png");
+		ImageIcon startPressedIcon = CommonOperations.createImageIcon("control/control-play-pressed.png");
+		ImageIcon startSelectedIcon = CommonOperations.createImageIcon("control/control-play-selected.png");		
+		
+		ImageIcon stopIcon = CommonOperations.createImageIcon("control/control-stop.png");
+		ImageIcon stopDisabledIcon = CommonOperations.createImageIcon("control/control-stop-disabled.png");
+		ImageIcon stopRolloverIcon = CommonOperations.createImageIcon("control/control-stop-rollover.png");
+		ImageIcon stopPressedIcon = CommonOperations.createImageIcon("control/control-stop-pressed.png");
+		ImageIcon stopSelectedIcon = CommonOperations.createImageIcon("control/control-stop-selected.png");
+		
+		ImageIcon pauseIcon = CommonOperations.createImageIcon("control/control-pause.png");
+		ImageIcon pauseDisabledIcon = CommonOperations.createImageIcon("control/control-pause-disabled.png");
+		ImageIcon pauseRolloverIcon = CommonOperations.createImageIcon("control/control-pause-rollover.png");
+		ImageIcon pausePressedIcon = CommonOperations.createImageIcon("control/control-pause-pressed.png");
+		ImageIcon pauseSelectedIcon = CommonOperations.createImageIcon("control/control-pause-selected.png");
+		
+		//
+		// START
+		//
+		startButton = new JButton();
+		
+		startButton.setBorderPainted(false);
+		startButton.setBorder(null);
+		startButton.setFocusable(false);
+		startButton.setMargin(new Insets(0, 0, 0, 0));
+		startButton.setContentAreaFilled(false);
+
+		startButton.setSelectedIcon(startSelectedIcon);
+		startButton.setRolloverIcon((startRolloverIcon));
+		startButton.setPressedIcon(startPressedIcon);
+		startButton.setDisabledIcon(startDisabledIcon);		
+		startButton.setIcon(startIcon);
+		
+		startButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -86,10 +133,13 @@ public class RunTestcaseEditor extends BaseEditor{
 				new Thread( new Runnable() {
 
 					@Override
-					public void run() {						
+					public void run() {
 						
 						//Letiltja a Inditas gombot
-						RunTestcaseEditor.this.runButton.setEnabled( false );
+						RunTestcaseEditor.this.startButton.setEnabled( false );
+						setNeedToStop( false );
+						//Engedelyezi a Stop gombot
+						RunTestcaseEditor.this.stopButton.setEnabled( true );
 
 						//Torli a panelek tartalmat
 						valuePanel.setText("");
@@ -100,7 +150,9 @@ public class RunTestcaseEditor extends BaseEditor{
 						throughTestcases( RunTestcaseEditor.this.selectedTestcase );
 				    	
 						//Engedelyezi az Inditas gombot
-				    	RunTestcaseEditor.this.runButton.setEnabled( true );
+				    	RunTestcaseEditor.this.startButton.setEnabled( true );
+				    	//Tiltja a Stop gombot
+				    	RunTestcaseEditor.this.stopButton.setEnabled( false );
 			
 					}				 
 				 
@@ -109,7 +161,54 @@ public class RunTestcaseEditor extends BaseEditor{
 						
 		});		
 
-	
+		//
+		// STOP
+		//
+		stopButton = new JButton();
+		
+		stopButton.setBorderPainted(false);
+		stopButton.setBorder(null);
+		stopButton.setFocusable(false);
+		stopButton.setMargin(new Insets(0, 0, 0, 0));
+		stopButton.setContentAreaFilled(false);
+
+		stopButton.setSelectedIcon(stopSelectedIcon);
+		stopButton.setRolloverIcon((stopRolloverIcon));
+		stopButton.setPressedIcon(stopPressedIcon);
+		stopButton.setDisabledIcon(stopDisabledIcon);
+		stopButton.setIcon(stopIcon);
+
+		stopButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+								
+				setNeedToStop( true );
+				
+			}
+						
+		});	
+		
+		//
+		// PAUSE
+		//
+		pauseButton = new JButton();
+		
+		pauseButton.setBorderPainted(false);
+		pauseButton.setBorder(null);
+		pauseButton.setFocusable(false);
+		pauseButton.setMargin(new Insets(0, 0, 0, 0));
+		pauseButton.setContentAreaFilled(false);
+
+		pauseButton.setSelectedIcon(pauseSelectedIcon);
+		pauseButton.setRolloverIcon((pauseRolloverIcon));
+		pauseButton.setPressedIcon(pausePressedIcon);
+		pauseButton.setDisabledIcon(pauseDisabledIcon);
+		pauseButton.setIcon(pauseIcon);
+		
+		startButton.setEnabled( true );
+		stopButton.setEnabled( false );
+		pauseButton.setEnabled( false );
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -185,28 +284,31 @@ public class RunTestcaseEditor extends BaseEditor{
 		//filler panel
 		JPanel fillerPanel = new JPanel();
 		
+		//STATUS PANEL
 		c.gridy = 0;
 		c.gridx = 2;
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
-		c.gridheight = 2;
+		c.gridheight = 3;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.weightx = 0;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		controlPanel.add( scrollPaneForStatusPanel, c );
 		
+		//VALUE PANEL
 		c.gridy = 0;
 		c.gridx = 3;
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
-		c.gridheight = 2;
+		c.gridheight = 3;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.weightx = 0;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		controlPanel.add( scrollPaneForValuePanel, c );
-		
+	
+		//START BUTTON
 		c.gridy = 0;
 		c.gridx = 1;
 		c.insets = new Insets(0,0,0,0);
@@ -216,8 +318,32 @@ public class RunTestcaseEditor extends BaseEditor{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		controlPanel.add( runButton, c );	
-		
+		controlPanel.add( startButton, c );	
+
+		//STOP BUTTON
+		c.gridy = 1;
+		c.gridx = 1;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		controlPanel.add( stopButton, c );	
+
+		//PAUSE BUTTON
+		c.gridy = 2;
+		c.gridx = 1;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		controlPanel.add( pauseButton, c );	
+
 		c.gridy = 0;
 		c.gridx = 0;
 		c.insets = new Insets(0,0,0,0);
@@ -239,10 +365,14 @@ public class RunTestcaseEditor extends BaseEditor{
 
 	private void throughTestcases( TestcaseDataModelAdapter testcase ){
 
+		if( isStopped() ){
+			return;
+		}
+		
 		//Ha egy TESTCASE-t kaptam, akkor azt vegrehajtatom
 		if( testcase instanceof TestcaseCaseDataModel ){
 			
-			executeTestcase( (TestcaseCaseDataModel)testcase);
+			executeTestcase( (TestcaseCaseDataModel)testcase );
 			
 		//Ha egy csomopontot valasztottam ki, akkor annak elemein megyek keresztul
 		}else if( testcase instanceof TestcaseNodeDataModel){
@@ -306,7 +436,7 @@ elementProgres.outputCommand( "	" );
     		//A teszteset Page-einek futtatasa
     		for( int index = 0; index < childCount; index++ ){
     			TestcasePageModelInterface pageToRun = (TestcasePageModelInterface)actualTestcase.getChildAt(index);
-    			pageToRun.doAction(webDriver, pageProgress, elementProgres );
+    			pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
     		}					
     		
     		testcaseProgress.testcaseEnded( actualTestcase.getName() );
@@ -327,6 +457,14 @@ elementProgres.outputCommand( "	" );
 				consolDocument.insertString(consolDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
 			} catch (BadLocationException e) {e.printStackTrace();}
     	
+    		setStatusOfTestCase( actualTestcase, false );
+    		
+    	}catch( StoppedByUserException stoppedByUserException ){
+    		
+    		try {
+				consolDocument.insertString(consolDocument.getLength(), stoppedByUserException.getMessage() + "\n\n", attributeError );
+			} catch (BadLocationException e) {e.printStackTrace();}
+    		
     		setStatusOfTestCase( actualTestcase, false );
     		
     	//Nem kezbentartott hiba
@@ -499,5 +637,7 @@ elementProgres.outputCommand( "}");
 			
 		}		
 	}
+
+
 	
 }
