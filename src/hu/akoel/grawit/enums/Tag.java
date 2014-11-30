@@ -8,8 +8,7 @@ public enum Tag{
 	
 	PARAMROOT("parampage"),
 	PARAMNODE("node"),
-	PARAMPAGESPECIFIC("page"),
-	PARAMPAGENONSPECIFIC("pagenospecific"),
+	PARAMPAGE("page"),
 	PARAMELEMENT("element"),
 	
 	VARIABLEROOT("variable"),

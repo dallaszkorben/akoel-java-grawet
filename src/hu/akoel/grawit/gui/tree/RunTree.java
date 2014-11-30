@@ -10,6 +10,7 @@ import javax.swing.tree.TreePath;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
@@ -23,7 +24,7 @@ public class RunTree extends Tree {
 	private GUIFrame guiFrame;
 	private EmptyEditor emptyPanel;		
 	
-	private HashMap<TestcaseCaseDataModel, RunTestcaseEditor> testcaseMap = new HashMap<>();
+	private HashMap<TestcaseDataModelAdapter, RunTestcaseEditor> testcaseMap = new HashMap<>();
 
 	public RunTree(GUIFrame guiFrame, TestcaseRootDataModel testcaseRootDataModel ) {		
 		super(guiFrame, testcaseRootDataModel);
@@ -83,8 +84,16 @@ public class RunTree extends Tree {
 			guiFrame.showEditorPanel( emptyPanel );
 			
 		}else if( selectedNode instanceof TestcaseNodeDataModel ){
-			guiFrame.showEditorPanel( emptyPanel );
+			//guiFrame.showEditorPanel( emptyPanel );
 		
+			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
+			if( null == editor ){
+				editor = new RunTestcaseEditor( this, (TestcaseNodeDataModel)selectedNode );
+				testcaseMap.put((TestcaseNodeDataModel)selectedNode, editor );
+			}
+
+			guiFrame.showEditorPanel( editor );
+			
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
 			
 			RunTestcaseEditor editor = testcaseMap.get(selectedNode);

@@ -56,13 +56,9 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 				Element pageElement = (Element)node;
 				
 				//Ha PARAMPAGE van alatta
-				if( pageElement.getTagName().equals( Tag.PARAMPAGESPECIFIC.getName() )){					
-					this.add(new ParamPageSpecificDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
+				if( pageElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
+					this.add(new ParamPageDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 
-				//HA PARAMPAGENOSPECIFIC
-				}else if( pageElement.getTagName().equals( Tag.PARAMPAGENONSPECIFIC.getName() )){					
-					this.add(new ParamPageNonSpecificDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
-				
 				//Ha ujabb BASENODE van alatta
 				}else if( pageElement.getTagName().equals( Tag.PARAMNODE.getName() )){					
 					this.add(new ParamNodeDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );

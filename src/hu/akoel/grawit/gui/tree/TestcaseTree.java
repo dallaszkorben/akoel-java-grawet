@@ -16,9 +16,6 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNonSpecificDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
@@ -38,30 +35,21 @@ public class TestcaseTree extends Tree {
 	private GUIFrame guiFrame;
 	
 	private ParamRootDataModel paramRootDataModel;
-//	private SpecialRootDataModel specialRootDataModel;
 	private DriverRootDataModel driverRootDataModel;
-//	private ScriptRootDataModel scriptRootDataModel;
 	
-//	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, SpecialRootDataModel specialRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel, ScriptRootDataModel scriptRootDataModel ) {
 	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
 		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
-//		this.specialRootDataModel = specialRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
 		this.driverRootDataModel = driverRootDataModel;
-//		this.scriptRootDataModel = scriptRootDataModel;
 		
 	}
 
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
-//		ImageIcon closeIcon = CommonOperations.createImageIcon("tree/testcase-close-icon.png");
-//		ImageIcon openIcon = CommonOperations.createImageIcon("tree/testcase-open-icon.png");
-//		ImageIcon customIcon = CommonOperations.createImageIcon("tree/testcase-custom-icon.png");
-    	ImageIcon pageSpecificIcon = CommonOperations.createImageIcon("tree/testcase-page-specific-icon.png");
-    	ImageIcon pageNonSpecificIcon = CommonOperations.createImageIcon("tree/testcase-page-nonspecific-icon.png");
+    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-icon.png");
     	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/testcase-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/testcase-node-open-icon.png");
@@ -69,14 +57,10 @@ public class TestcaseTree extends Tree {
     	//Iconja a NODE-nak
     	if( actualNode instanceof TestcaseCaseDataModel){
             return caseIcon;
-    	}else if( actualNode instanceof TestcaseParamPageDataModel ){
+            
+    	}else if( actualNode instanceof TestcaseParamPageDataModel ){    		   		
+    		return pageIcon;
     		
-    		ParamPageDataModelAdapter paramPage = ((TestcaseParamPageDataModel)actualNode).getParamPage();
-    		if( paramPage instanceof ParamPageSpecificDataModel ){
-    			return pageSpecificIcon;
-    		}else if( paramPage instanceof ParamPageNonSpecificDataModel ){
-    			return pageNonSpecificIcon;
-    		}
     	}else if( actualNode instanceof TestcaseNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;

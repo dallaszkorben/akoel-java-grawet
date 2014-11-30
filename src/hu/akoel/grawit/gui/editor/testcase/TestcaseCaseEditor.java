@@ -30,10 +30,6 @@ public class TestcaseCaseEditor extends DataEditor{
 	private TextFieldComponent fieldName;
 	private TextAreaComponent fieldDetails;
 	
-//	private JLabel labelOpenSpecialTreeSelector;
-//	private SpecialOpenTreeSelectorComponent fieldOpenTreeSelector;
-//	private JLabel labelCloseSpecialTreeSelector;
-//	private SpecialCloseTreeSelectorComponent fieldCloseTreeSelector;	
 	private JLabel labelDriverTreeSelector;
 	private DriverTreeSelectorComponent fieldDriverTreeSelector;
 
@@ -51,12 +47,6 @@ public class TestcaseCaseEditor extends DataEditor{
 		
 		//Details
 		fieldDetails = new TextAreaComponent( "", 5, 15);
-		
-		//SpecialOpenTreeSelector
-//		fieldOpenTreeSelector = new SpecialOpenTreeSelectorComponent(specialDataModel);
-		
-		//SpecialCloseTreeSelector
-//		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent(specialDataModel, null);
 			
 		//DriverTreeSelector
 		fieldDriverTreeSelector = new DriverTreeSelectorComponent(driverDataModel);
@@ -80,12 +70,6 @@ public class TestcaseCaseEditor extends DataEditor{
 		//Details
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 
-/*		//SpecialOpenTreeSelector
-		fieldOpenTreeSelector = new SpecialOpenTreeSelectorComponent( specialDataModel, selectedNode.getOpenPage() );
-		
-		//SpecialCloseTreeSelector
-		fieldCloseTreeSelector = new SpecialCloseTreeSelectorComponent( specialDataModel, selectedNode.getClosePage() );
-*/				
 		//DriverTreeSelector
 		fieldDriverTreeSelector = new DriverTreeSelectorComponent( driverDataModel, selectedNode.getDriverDataModel() );
 				
@@ -97,12 +81,6 @@ public class TestcaseCaseEditor extends DataEditor{
 		//Name
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		
-/*		//Open page
-		labelOpenSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.openpage") + ": ");
-		
-		//Close page
-		labelCloseSpecialTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.closepage") + ": ");
-*/
 		//WebDriver
 		labelDriverTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.driver") + ": ");
 		
@@ -111,8 +89,6 @@ public class TestcaseCaseEditor extends DataEditor{
 		
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );
-//		this.add( labelOpenSpecialTreeSelector, fieldOpenTreeSelector );
-//		this.add( labelCloseSpecialTreeSelector, fieldCloseTreeSelector );
 		this.add( labelDriverTreeSelector, fieldDriverTreeSelector );
 		
 	}
@@ -137,24 +113,6 @@ public class TestcaseCaseEditor extends DataEditor{
 					)
 			);
 		
-		/*}else if( null == fieldOpenTreeSelector.getSelectedDataModel() ){
-			errorList.put( 
-					fieldOpenTreeSelector,
-					MessageFormat.format(
-							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelOpenSpecialTreeSelector.getText()+"'"
-					)
-			);			
-		*/	
-		/*}else if( null == fieldCloseTreeSelector.getSelectedDataModel() ){
-			errorList.put( 
-					fieldCloseTreeSelector,
-					MessageFormat.format(
-							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelCloseSpecialTreeSelector.getText()+"'"
-					)
-			);			
-			*/
 		}else if( null == fieldDriverTreeSelector.getSelectedDataModel() ){
 			errorList.put( 
 					fieldDriverTreeSelector,
@@ -224,7 +182,6 @@ public class TestcaseCaseEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				//TestcaseCaseDataModel newTestcaseCase = new TestcaseCaseDataModel( fieldName.getText(), fieldDetails.getText(), fieldOpenTreeSelector.getSelectedDataModel(), fieldCloseTreeSelector.getSelectedDataModel(), fieldDriverTreeSelector.getSelectedDataModel() );				
 				TestcaseCaseDataModel newTestcaseCase = new TestcaseCaseDataModel( fieldName.getText(), fieldDetails.getText(), fieldDriverTreeSelector.getSelectedDataModel() );				
 				nodeForCapture.add( newTestcaseCase );
 				
@@ -234,8 +191,6 @@ public class TestcaseCaseEditor extends DataEditor{
 				//Modositja a valtozok erteket
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
-//				nodeForModify.setSpecialOpenDataModel( fieldOpenTreeSelector.getSelectedDataModel() );
-//				nodeForModify.setSpecialCloseDataModel( fieldCloseTreeSelector.getSelectedDataModel() );
 				nodeForModify.setDriverDataModel( fieldDriverTreeSelector.getSelectedDataModel() );
 			
 			}			

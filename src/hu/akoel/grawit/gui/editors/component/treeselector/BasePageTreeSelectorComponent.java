@@ -15,12 +15,12 @@ import javax.swing.tree.TreePath;
 public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BasePageDataModel>{
 	private static final long serialVersionUID = 1194717514083971251L;
 
-	public BasePageTreeSelectorComponent( BaseDataModelAdapter rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.basepage"), BasePageDataModel.class, rootDataModel, null, false );
+	public BasePageTreeSelectorComponent( BaseDataModelAdapter rootDataModel, boolean enableEmpty ) {
+		super(CommonOperations.getTranslation("window.title.selector.basepage"), BasePageDataModel.class, rootDataModel, null, enableEmpty );
 	}
 
-	public BasePageTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BasePageDataModel selectedBasePageDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.basepage"), BasePageDataModel.class, rootDataModel, selectedBasePageDataModel, false);
+	public BasePageTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BasePageDataModel selectedBasePageDataModel, boolean enableEmpty ) {
+		super(CommonOperations.getTranslation("window.title.selector.basepage"), BasePageDataModel.class, rootDataModel, selectedBasePageDataModel, enableEmpty);
 	}
 	
 	@Override

@@ -5,7 +5,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
@@ -51,13 +51,13 @@ public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<Par
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 	
-		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-specific-icon.png");
+		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-icon.png");
     	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/param-element-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/param-node-open-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamPageSpecificDataModel){
+    	if( actualNode instanceof ParamPageDataModel){
             return pageIcon;
     	}else if( actualNode instanceof ParamElementDataModel ){
             return elementIcon;
@@ -70,7 +70,5 @@ public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<Par
         }
 		return null;
 	}
-
-
 	
 }

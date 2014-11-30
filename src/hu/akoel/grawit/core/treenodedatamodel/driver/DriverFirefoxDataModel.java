@@ -14,12 +14,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
+import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<DriverFirefoxPropertyDataModel>{
 
