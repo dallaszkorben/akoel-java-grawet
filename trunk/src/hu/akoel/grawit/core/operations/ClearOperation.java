@@ -6,10 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
+import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class ClearOperation extends ElementOperationAdapter{
 	private static final String NAME = "CLEAR";

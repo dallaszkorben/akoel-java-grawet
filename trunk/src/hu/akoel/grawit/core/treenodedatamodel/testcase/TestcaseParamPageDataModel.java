@@ -1,28 +1,25 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
-import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.PageProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNonSpecificDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
+import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 
 import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
@@ -44,9 +41,9 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	private String name;
 	private String details;
 	
-	private ParamPageDataModelAdapter paramPage;
+	private ParamPageDataModel paramPage;
 	
-	public TestcaseParamPageDataModel( String name, String details, ParamPageDataModelAdapter paramPage ){
+	public TestcaseParamPageDataModel( String name, String details, ParamPageDataModel paramPage ){
 		super( );
 		this.name = name;
 		this.details = details;
@@ -144,24 +141,14 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
 	    		}
 	    		
-	    	//Ha PARAMPAGE SPECIFIC
-	    	}else if( tagName.equals( ParamPageSpecificDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamPageSpecificDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGESPECIFIC, attrName );
+	    	//Ha PARAMPAGE
+	    	}else if( tagName.equals( ParamPageDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(ParamPageDataModel.ATTR_NAME);
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGE, attrName );
 	    		if( null == paramDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
 	    		}
-
-	    	//Ha PARAMPAGE NONSPECIFIC
-	    	}else if( tagName.equals( ParamPageNonSpecificDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamPageNonSpecificDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGENONSPECIFIC, attrName );
-	    		if( null == paramDataModel ){
-
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
-	    		}
-	    		
 	    		
 	    	//Ha PARAMELEMENT - ez nem lehet, torold ki ezt a feltetelt
 	    	}else if( tagName.equals( ParamElementDataModel.TAG.getName() ) ){
@@ -175,7 +162,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 	    }	    
 	    try{
 	    	
-	    	paramPage = (ParamPageDataModelAdapter)paramDataModel;
+	    	paramPage = (ParamPageDataModel)paramDataModel;
 	    	
 	    }catch(ClassCastException e){
 
@@ -230,11 +217,11 @@ public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
 		return name;
 	}
 
-	public void setParamPage( ParamPageDataModelAdapter paramPage ){
+	public void setParamPage( ParamPageDataModel paramPage ){
 		this.paramPage = paramPage;		
 	}
 	
-	public ParamPageDataModelAdapter getParamPage(){
+	public ParamPageDataModel getParamPage(){
 		return paramPage;
 	}
 	

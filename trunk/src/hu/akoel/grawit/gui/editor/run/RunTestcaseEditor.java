@@ -26,25 +26,30 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 import org.openqa.selenium.WebDriver;
+import org.w3c.dom.Element;
+
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ElementProgressInterface;
-import hu.akoel.grawit.ExecutablePageInterface;
-import hu.akoel.grawit.PageProgressInterface;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
+import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.TestcaseProgressInterface;
 import hu.akoel.grawit.gui.tree.Tree;
 
 public class RunTestcaseEditor extends BaseEditor{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
-	private TestcaseCaseDataModel selectedTestcase;
+	private TestcaseDataModelAdapter selectedTestcase;
 	
 	private PageProgress pageProgress;
 	private ElementProgress elementProgres;
+	private TestcaseProgress testcaseProgress;
 	
 	private JButton runButton;
 	private JTextPane consolPanel;
@@ -59,14 +64,18 @@ public class RunTestcaseEditor extends BaseEditor{
 	private SimpleAttributeSet attributePageFinished;
 	private SimpleAttributeSet attributeElementFinished;	
 	
-	public RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){		
+	
+	
+	//public RunTestcaseEditor( Tree tree, TestcaseCaseDataModel testcaseCaseElement ){
+	public RunTestcaseEditor( Tree tree, TestcaseDataModelAdapter testcaseDataModel ){	
 
 		super( CommonOperations.getTranslation( "editor.label.runtest.windowtitle" ) );
 
-		this.selectedTestcase = testcaseCaseElement;
+		this.selectedTestcase = testcaseDataModel;
 
 		pageProgress = new PageProgress();
-		elementProgres = new ElementProgress();		
+		elementProgres = new ElementProgress();	
+		testcaseProgress = new TestcaseProgress();
 
 		runButton = new JButton( CommonOperations.getTranslation("editor.label.runtest.runbutton") );
 		runButton.addActionListener(new ActionListener(){
@@ -79,110 +88,19 @@ public class RunTestcaseEditor extends BaseEditor{
 					@Override
 					public void run() {						
 						
+						//Letiltja a Inditas gombot
 						RunTestcaseEditor.this.runButton.setEnabled( false );
-						
+
+						//Torli a panelek tartalmat
 						valuePanel.setText("");
 						statusPanel.setText("");
 						consolPanel.setText("");
-						//statusPanel.setText("");
-
-elementProgres.outputCommand( "import org.openqa.selenium.By;" );
-elementProgres.outputCommand( "import org.openqa.selenium.WebDriver;" );
-elementProgres.outputCommand( "import org.openqa.selenium.WebElement;" );
-elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxDriver;" );
-elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxProfile;" );
-elementProgres.outputCommand( "import org.openqa.selenium.support.ui.Select;" );
-elementProgres.outputCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );	
-elementProgres.outputCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
-elementProgres.outputCommand( "import org.openqa.selenium.JavascriptExecutor;");
-elementProgres.outputCommand( "import org.openqa.selenium.Keys;" );
-elementProgres.outputCommand( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
-elementProgres.outputCommand( "" );				  
-
-elementProgres.outputCommand( "public class Test{ ");
-elementProgres.outputCommand( "	" );
-elementProgres.outputCommand( "	WebDriverWait wait = null;");
-elementProgres.outputCommand( "	By by = null;" );
-elementProgres.outputCommand( "	WebElement webElement = null;");
-elementProgres.outputCommand( "	Select select = null;");	
-elementProgres.outputCommand( "	Integer index = 0;" );
-elementProgres.outputCommand( "	WebDriver driver = null;" );
-elementProgres.outputCommand( "	FirefoxProfile profile = null;");
-elementProgres.outputCommand( "	JavascriptExecutor executor = null;");
-elementProgres.outputCommand( "	" );
-elementProgres.outputCommand( "	public static void main( String[] args ){" );
-elementProgres.outputCommand( "		new Test();" );
-elementProgres.outputCommand( "	}" );
-elementProgres.outputCommand( "	" );
-elementProgres.outputCommand( "	public Test(){" );	
-elementProgres.outputCommand( "	" );
-
-				    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
+						
+						//Vegrehajtja a teszteset(ek)et
+						throughTestcases( RunTestcaseEditor.this.selectedTestcase );
 				    	
-//				    	ExecutablePageInterface openPage = selectedTestcase.getOpenPage();
-//				    	ExecutablePageInterface closePage = selectedTestcase.getClosePage();
-				    	WebDriver webDriver = selectedTestcase.getDriverDataModel().getDriver( elementProgres );
-	
-
-				    	try{				
-			
-//				    		if( null != openPage ){
-//				    			openPage.doAction( webDriver, pageProgress, elementProgres );
-//				    		}
-				
-				    		int childCount = selectedTestcase.getChildCount();
-				    		for( int index = 0; index < childCount; index++ ){
-				    			TestcasePageModelInterface pageToRun = (TestcasePageModelInterface)selectedTestcase.getChildAt(index);
-				    			pageToRun.doAction(webDriver, pageProgress, elementProgres );
-				    		}					
-				
-//				    		//Ha van closePage definialva, akkor vegrehajtom
-//				    		if( null != closePage ){
-//				    			closePage.doAction( webDriver, pageProgress, elementProgres );
-//				    		}
-				    		
-				    		setStatusOfTestCase( selectedTestcase, true );
-				
-				    	}catch( CompilationException compillationException ){
-				    		
-				    		//reportList.append( compillationException.getMessage() + "\n\n" );
-				    		try {
-								consolDocument.insertString(consolDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
-							} catch (BadLocationException e) {e.printStackTrace();}
-				    		
-				    		setStatusOfTestCase( selectedTestcase, false );
-				    		
-				    	//}catch( ElementCompareOperationException compareException ){	
-				    		
-				    	}catch( PageException pageException ){
-				    		
-				    		//reportList.append( pageException.getMessage() +  "\n\n" );
-				    		try {
-								consolDocument.insertString(consolDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
-							} catch (BadLocationException e) {e.printStackTrace();}
-				    	
-				    		setStatusOfTestCase( selectedTestcase, false );
-				    		
-				    	//Nem kezbentartott hiba
-				    	}catch( Exception exception ){
-				    		
-				    		try {
-								consolDocument.insertString(consolDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
-							} catch (BadLocationException e) {e.printStackTrace();}
-				    	
-				    		setStatusOfTestCase( selectedTestcase, false );
-				    		
-/*				    	}catch( org.openqa.selenium.TimeoutException timeOutException ){
-				    		timeoutException.
-				    		System.out.println(timeOutException.getClass());
-				    		errorList.append( timeOutException.getMessage() +  "\n\n" );
-*/				    		
-				    	}
-				    	
+						//Engedelyezi az Inditas gombot
 				    	RunTestcaseEditor.this.runButton.setEnabled( true );
-				    	
-elementProgres.outputCommand( "	}");				    	
-elementProgres.outputCommand( "}");	
 			
 					}				 
 				 
@@ -317,8 +235,116 @@ elementProgres.outputCommand( "}");
 		horizontalSplitPane.setFlippedDividerLocation( 200 );	        
 		this.add( horizontalSplitPane, BorderLayout.CENTER);
 		
-		
 	}
+
+	private void throughTestcases( TestcaseDataModelAdapter testcase ){
+
+		//Ha egy TESTCASE-t kaptam, akkor azt vegrehajtatom
+		if( testcase instanceof TestcaseCaseDataModel ){
+			
+			executeTestcase( (TestcaseCaseDataModel)testcase);
+			
+		//Ha egy csomopontot valasztottam ki, akkor annak elemein megyek keresztul
+		}else if( testcase instanceof TestcaseNodeDataModel){
+				
+			//Vegig a teszteset csomopontjainak elemein
+			int childrens = testcase.getChildCount();
+			for( int i = 0; i < childrens; i++ ){
+				
+				Object object = testcase.getChildAt( i );
+				
+				throughTestcases( (TestcaseDataModelAdapter)object );
+			}			
+		}		
+		return;		
+	}
+	
+	private void executeTestcase( TestcaseCaseDataModel actualTestcase ){
+		
+
+
+elementProgres.outputCommand( "import org.openqa.selenium.By;" );
+elementProgres.outputCommand( "import org.openqa.selenium.WebDriver;" );
+elementProgres.outputCommand( "import org.openqa.selenium.WebElement;" );
+elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxDriver;" );
+elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxProfile;" );
+elementProgres.outputCommand( "import org.openqa.selenium.support.ui.Select;" );
+elementProgres.outputCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );	
+elementProgres.outputCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
+elementProgres.outputCommand( "import org.openqa.selenium.JavascriptExecutor;");
+elementProgres.outputCommand( "import org.openqa.selenium.Keys;" );
+elementProgres.outputCommand( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
+elementProgres.outputCommand( "" );				  
+
+elementProgres.outputCommand( "public class Test{ ");
+elementProgres.outputCommand( "	" );
+elementProgres.outputCommand( "	WebDriverWait wait = null;");
+elementProgres.outputCommand( "	By by = null;" );
+elementProgres.outputCommand( "	WebElement webElement = null;");
+elementProgres.outputCommand( "	Select select = null;");	
+elementProgres.outputCommand( "	Integer index = 0;" );
+elementProgres.outputCommand( "	WebDriver driver = null;" );
+elementProgres.outputCommand( "	FirefoxProfile profile = null;");
+elementProgres.outputCommand( "	JavascriptExecutor executor = null;");
+elementProgres.outputCommand( "	" );
+elementProgres.outputCommand( "	public static void main( String[] args ){" );
+elementProgres.outputCommand( "		new Test();" );
+elementProgres.outputCommand( "	}" );
+elementProgres.outputCommand( "	" );
+elementProgres.outputCommand( "	public Test(){" );	
+elementProgres.outputCommand( "	" );
+
+//    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
+    	WebDriver webDriver = actualTestcase.getDriverDataModel().getDriver( elementProgres );	
+
+    	try{				
+
+    		int childCount = actualTestcase.getChildCount();
+    		
+    		testcaseProgress.testcaseStarted( actualTestcase.getName() );
+    		
+    		//A teszteset Page-einek futtatasa
+    		for( int index = 0; index < childCount; index++ ){
+    			TestcasePageModelInterface pageToRun = (TestcasePageModelInterface)actualTestcase.getChildAt(index);
+    			pageToRun.doAction(webDriver, pageProgress, elementProgres );
+    		}					
+    		
+    		testcaseProgress.testcaseEnded( actualTestcase.getName() );
+    		
+    		setStatusOfTestCase( actualTestcase, true );
+
+    	}catch( CompilationException compillationException ){
+    		
+    		try {
+				consolDocument.insertString(consolDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
+			} catch (BadLocationException e) {e.printStackTrace();}
+    		
+    		setStatusOfTestCase( actualTestcase, false );
+    		
+    	}catch( PageException pageException ){
+    		
+    		try {
+				consolDocument.insertString(consolDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
+			} catch (BadLocationException e) {e.printStackTrace();}
+    	
+    		setStatusOfTestCase( actualTestcase, false );
+    		
+    	//Nem kezbentartott hiba
+    	}catch( Exception exception ){
+    		
+    		try {
+				consolDocument.insertString(consolDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
+			} catch (BadLocationException e) {e.printStackTrace();}
+    	
+    		setStatusOfTestCase( actualTestcase, false );
+    		
+    	}
+    	
+elementProgres.outputCommand( "	}");				    	
+elementProgres.outputCommand( "}");	
+
+	}
+	
 	
 	private void setStatusOfTestCase( TestcaseCaseDataModel selectedTestcase, boolean ok ){
 	
@@ -366,7 +392,35 @@ elementProgres.outputCommand( "}");
 	            isPainted = true;
 	        }
 	    }
+	}
+	
+	class TestcaseProgress implements TestcaseProgressInterface{
 
+		@Override
+		public void testcaseStarted(String testcaseName) {
+			
+			try {
+				consolDocument.insertString(consolDocument.getLength(), 
+						MessageFormat.format(
+								CommonOperations.getTranslation("editor.runtestcase.message.testcasestarted"), 
+								testcaseName
+						) + "\n", null 
+				);
+			} catch (BadLocationException e) {e.printStackTrace();}			
+		}
+				
+		@Override
+		public void testcaseEnded(String testcaseName) {
+			
+			try {
+				consolDocument.insertString(consolDocument.getLength(), 
+						MessageFormat.format(
+								CommonOperations.getTranslation("editor.runtestcase.message.testcaseended"), 
+								testcaseName
+						) + "\n\n", null 
+				);
+			} catch (BadLocationException e) {e.printStackTrace();}			
+		}		
 	}
 	
 	class PageProgress implements PageProgressInterface{
@@ -375,15 +429,14 @@ elementProgres.outputCommand( "}");
 		public void pageStarted(String pageID, String nodeType) {			
 			try {
 				consolDocument.insertString(
-						consolDocument.getLength(),  
+						consolDocument.getLength(), "    " +  
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.pagestarted"), 
 								pageID, nodeType
 						) + "\n", 
 						attributePageFinished 
 				);		
-			} catch (BadLocationException e) {e.printStackTrace();}
-			
+			} catch (BadLocationException e) {e.printStackTrace();}			
 		}
 
 		@Override
@@ -391,7 +444,7 @@ elementProgres.outputCommand( "}");
 		
 			try {
 				consolDocument.insertString(
-						consolDocument.getLength(),  
+						consolDocument.getLength(), "    " + 
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.pageended"), 
 								pageID, nodeType
@@ -399,9 +452,6 @@ elementProgres.outputCommand( "}");
 						attributePageFinished 
 				);				
 			} catch (BadLocationException e) {e.printStackTrace();}
-			
-			//RunTestcaseEditor.this.statusPanel.append( pageID + " OK\n");
-			
 		}		
 	}
 	
@@ -410,28 +460,26 @@ elementProgres.outputCommand( "}");
 		@Override
 		public void elementStarted(String name ) {
 			try {
-				consolDocument.insertString(consolDocument.getLength(), "    " + 
+				consolDocument.insertString(consolDocument.getLength(), "        " + 
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.elementstarted"), 
-								"'"+name+"'"
+								name
 						) + "\n", null 
 				);
-			} catch (BadLocationException e) {e.printStackTrace();}
-			
+			} catch (BadLocationException e) {e.printStackTrace();}			
 		}
 	
 		@Override
 		public void elementEnded(String name) {
 			
 			try {
-				consolDocument.insertString(consolDocument.getLength(), "    " + 
+				consolDocument.insertString(consolDocument.getLength(), "        " + 
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.elementended"), 
-								"'"+name+"'"
+								name
 						) + "\n", null 
 				);
-			} catch (BadLocationException e) {e.printStackTrace();}		
-			
+			} catch (BadLocationException e) {e.printStackTrace();}			
 		}
 
 		@Override
@@ -441,8 +489,7 @@ elementProgres.outputCommand( "}");
 				RunTestcaseEditor.this.valuePanel.append( outputValue + "\n" );
 			}else{
 				RunTestcaseEditor.this.valuePanel.append( message + ": " + outputValue + "\n" );
-			}
-			
+			}			
 		}
 
 		@Override

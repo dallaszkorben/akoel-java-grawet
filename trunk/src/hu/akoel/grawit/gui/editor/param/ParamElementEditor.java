@@ -11,9 +11,7 @@ import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageNonSpecificDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageSpecificDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -72,8 +70,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
-//	public ParamElementEditor( Tree tree, ParamDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
-	public ParamElementEditor( Tree tree, ParamPageDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ParamElementEditor( Tree tree, ParamPageDataModel selectedPage, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
 
 		super( ParamElementDataModel.getModelNameToShowStatic());
 		
@@ -89,16 +86,14 @@ public class ParamElementEditor extends DataEditor{
 		fieldName.setText( "" );
 
 		//Base Element
-		if( selectedPage instanceof ParamPageSpecificDataModel ){
-			BasePageDataModel basePage = ((ParamPageSpecificDataModel)selectedPage).getBasePage();
+		BasePageDataModel basePage = ((ParamPageDataModel)selectedPage).getBasePage();
+		if( null != basePage ){
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage );
 			baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
-		
-		}else if( selectedPage instanceof ParamPageNonSpecificDataModel ){
+			
+		}else{
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
-		
-//		}else if( selectedPage instanceof ParamNodeDataModel ){
-//			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );			
+			
 		}
 			
 		commonPost( null );
@@ -129,14 +124,14 @@ public class ParamElementEditor extends DataEditor{
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		
-		//Oldalhoz kotott BASEPAGE - Parameterkent a basePage-et kell elkuldeni
-		if( selectedElement.getParent() instanceof ParamPageSpecificDataModel ){		
-			BasePageDataModel basePage = ((ParamPageSpecificDataModel)selectedElement.getParent()).getBasePage();		
+		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();
+		if( null != basePage ){
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
-
-		//Nem oldalhoz kotott BASEPAGE - Parameterkent a BASE ROOT-ot kell elkuldeni
-		}else if( selectedElement.getParent() instanceof ParamPageNonSpecificDataModel ){
+			baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
+			
+		}else{
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
+			
 		}
 		
 		commonPost( baseElement );

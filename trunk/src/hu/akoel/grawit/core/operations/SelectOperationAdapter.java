@@ -6,13 +6,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
-import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.ElementNotFoundComponentException;
+import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public abstract class SelectOperationAdapter extends ElementOperationAdapter{	
 	

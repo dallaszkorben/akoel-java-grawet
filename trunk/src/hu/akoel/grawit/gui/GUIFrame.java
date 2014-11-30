@@ -76,7 +76,6 @@ public class GUIFrame extends JFrame{
 	private JMenuItem fileSaveMenuItem;
 	private JMenuItem editDriverMenuItem;
 	private JMenuItem editBaseMenuItem;
-//	private JMenuItem editScriptMenuItem;
 	private JMenuItem editParamMenuItem;
 	private JMenuItem editVariableMenuItem;
 	private JMenuItem editTestCaseMenuItem;
@@ -106,7 +105,6 @@ public class GUIFrame extends JFrame{
 	private EditBaseActionListener editBaseActionListener;
 	private EditParamActionListener editParamActionListener;
 	private EditTestcaseActionListener editTestcaseActionListener;
-//	private EditScriptActionListener editScriptActionListener;
 	private EditDriverActionListener editDriverActionListener;
 	private RunRunActionListener runRunActionListener;
 	private RunTree runTree = null;
@@ -232,14 +230,6 @@ public class GUIFrame extends JFrame{
         editVariableMenuItem.setEnabled( false );
         menu.add(editVariableMenuItem);        
         
- /*       //Script
-        editScriptMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.script") );
-        editScriptMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.script") ).getKeyCode()); // KeyEvent.VK_S);
-        editScriptActionListener = new EditScriptActionListener();
-        editScriptMenuItem.addActionListener( editScriptActionListener );
-        editScriptMenuItem.setEnabled( false );
-        menu.add(editScriptMenuItem);
-*/
         menu.addSeparator();
         
         //Edit Base
@@ -362,8 +352,6 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( false );
 		editBaseMenuItem.setEnabled( false );
 		editTestCaseMenuItem.setEnabled( false );
-//		editScriptMenuItem.setEnabled( false );
-//		editSpecialMenuItem.setEnabled( false );
 		runRunMenuItem.setEnabled( false );
 		
 		//Ablak cimenek beallitasa
@@ -371,8 +359,6 @@ public class GUIFrame extends JFrame{
 		
 		baseRootDataModel.removeAllChildren();
 		paramRootDataModel.removeAllChildren();
-//		specialRootDataModel.removeAllChildren();
-//		scriptRootDataModel.removeAllChildren();
 		variableRootDataModel.removeAllChildren();
 		testcaseRootDataModel.removeAllChildren();
 				
@@ -389,8 +375,6 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( true );
 		editBaseMenuItem.setEnabled( true );
 		editTestCaseMenuItem.setEnabled( true );
-//		editScriptMenuItem.setEnabled( true );
-//		editSpecialMenuItem.setEnabled( true );
 		runRunMenuItem.setEnabled( true );
 	}
 	
@@ -414,15 +398,7 @@ public class GUIFrame extends JFrame{
 		
 		//PAGE BASEROOT mentese
 		Element baseRootElement = baseRootDataModel.getXMLElement(doc);	
-		rootElement.appendChild( baseRootElement );
-		
-//		//SPECIALROOT mentese TODO torolni
-//		Element specialRootElement = specialRootDataModel.getXMLElement(doc);	
-//		rootElement.appendChild( specialRootElement );
-		
-//		//SCRIPTROOT mentese
-//		Element scriptRootElement = scriptRootDataModel.getXMLElement(doc);	
-//		rootElement.appendChild( scriptRootElement );		
+		rootElement.appendChild( baseRootElement );	
 				
 		//PARAMROOT PAGE mentese
 		Element paramRootElement = paramRootDataModel.getXMLElement(doc);	
@@ -661,12 +637,6 @@ public class GUIFrame extends JFrame{
 					// VARIABLEPARAMETER
 					variableRootDataModel = new VariableRootDataModel(doc, baseRootDataModel );
 					
-//					// SPECIALROOT
-//					specialRootDataModel = new SpecialRootDataModel(doc);
-					
-//					// SCRIPTROOT
-//					scriptRootDataModel = new ScriptRootDataModel(doc);
-					
 					// PARAMROOT
 					paramRootDataModel = new ParamRootDataModel(doc, variableRootDataModel, baseRootDataModel );
 						
@@ -828,29 +798,7 @@ public class GUIFrame extends JFrame{
 		}
 		
 	}
-	
-	/**
-	 * 
-	 * Edit Special menu selection listener 
-	 * 
-	 * @author akoel
-	 *
-	 */
-/*	class EditScriptActionListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-						
-			//Legyartja a JTREE-t a modell alapjan
-			ScriptTree tree = new ScriptTree( GUIFrame.this, scriptRootDataModel );
-			
-			treePanel.hide();
-			treePanel.show( tree );
-			
-		}
 		
-	}
-*/	
 	/**
 	 * 
 	 * Run Run menu selection listener 

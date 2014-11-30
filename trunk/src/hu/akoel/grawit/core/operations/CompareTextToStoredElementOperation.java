@@ -16,7 +16,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ElementProgressInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
@@ -31,6 +30,7 @@ import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
+import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class CompareTextToStoredElementOperation extends ElementOperationAdapter{
 	
