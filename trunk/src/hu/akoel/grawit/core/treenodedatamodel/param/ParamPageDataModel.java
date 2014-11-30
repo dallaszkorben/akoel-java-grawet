@@ -19,6 +19,7 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ExecutablePageInterface;
+import hu.akoel.grawit.Player;
 import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
@@ -32,6 +33,7 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
+import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -212,7 +214,7 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 	}
 	
 	@Override
-	public void doAction( WebDriver driver, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException {
+	public void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException, StoppedByUserException {
 		
 		ParamElementDataModel parameterElement;
 		
@@ -225,6 +227,10 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 		for( int i = 0; i < childrenCount; i++ ){
 
 			//TODO BaseElement Waiting time ... atadhato lenne parameterkent a doAction szamara
+			
+			if( player.isStopped() ){
+				throw new StoppedByUserException();
+			}
 			
 			//Parameterezett elem
 			parameterElement = (ParamElementDataModel)this.getChildAt( i );
