@@ -34,6 +34,7 @@ import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
@@ -82,7 +83,15 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 	public RunTestcaseEditor( Tree tree, TestcaseDataModelAdapter testcaseDataModel ){	
 
-		super(( testcaseDataModel instanceof TestcaseCaseDataModel ) ? CommonOperations.getTranslation( "editor.label.runtest.testcasewindowtitle" ) : ( testcaseDataModel instanceof TestcaseNodeDataModel) ? CommonOperations.getTranslation( "editor.label.runtest.testnodewindowtitle" ) : "");
+		super(
+				( testcaseDataModel instanceof TestcaseRootDataModel) ? 
+						CommonOperations.getTranslation( "editor.label.runtest.testrootwindowtitle" ) :
+				( testcaseDataModel instanceof TestcaseCaseDataModel ) ? 
+						CommonOperations.getTranslation( "editor.label.runtest.testcasewindowtitle" ) : 
+				( testcaseDataModel instanceof TestcaseNodeDataModel) ? 
+						CommonOperations.getTranslation( "editor.label.runtest.testnodewindowtitle" ) : 
+				
+				"");
 		
 		this.selectedTestcase = testcaseDataModel;
 
