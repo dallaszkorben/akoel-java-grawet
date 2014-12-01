@@ -11,9 +11,9 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	COMPARE_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetovariable") ),
 	COMPARE_TO_STORED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetostored") ),
 	COMPARE_TO_STRING( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetostring") ),
-	GAIN_TO_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintovariable") ),
-	GAIN_TO_ELEMENT( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintoelement") ),
-	OUTPUTSTORED( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.list.outputstored") ),	
+//	GAIN_TO_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintovariable") ),
+	GAIN_TO_ELEMENT( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintoelement") ),
+	OUTPUTSTORED( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.list.outputstored") ),	
 	;
 	
 	private String translatedName;
@@ -49,9 +49,9 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		case 5: return COMPARE_TO_VARIABLE;
 		case 6: return COMPARE_TO_STORED;
 		case 7: return COMPARE_TO_STRING;
-		case 8: return GAIN_TO_VARIABLE;
-		case 9: return GAIN_TO_ELEMENT;	
-		case 10: return OUTPUTSTORED;
+//		case 8: return GAIN_TO_VARIABLE;
+		case 8: return GAIN_TO_ELEMENT;	
+		case 9: return OUTPUTSTORED;
 		default: return CLICK;		
 		
 		}

@@ -7,9 +7,9 @@ public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	COMPARETEXT_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttovariable") ),
 	COMPARETEXT_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttostored") ),
 	COMPARETEXT_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttostring") ),
-	GAINTEXT_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttovariable") ),
-	GAINTEXT_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttoelement") ),
-	OUTPUTSTORED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.link.outputstored") ),	
+//	GAINTEXT_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttovariable") ),
+	GAINTEXT_TO_ELEMENT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttoelement") ),
+	OUTPUTSTORED( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.link.outputstored") ),	
 	;
 	
 	private String translatedName;
@@ -41,9 +41,9 @@ public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		case 1: return COMPARETEXT_TO_VARIABLE;
 		case 2: return COMPARETEXT_TO_STORED;
 		case 3: return COMPARETEXT_TO_STRING;
-		case 4: return GAINTEXT_TO_VARIABLE;
-		case 5: return GAINTEXT_TO_ELEMENT;
-		case 6:	return OUTPUTSTORED;
+//		case 4: return GAINTEXT_TO_VARIABLE;
+		case 4: return GAINTEXT_TO_ELEMENT;
+		case 5:	return OUTPUTSTORED;
 		default: return CLICK;
 		}
 	}

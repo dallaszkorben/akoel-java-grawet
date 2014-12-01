@@ -367,7 +367,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			c.weightx = 1;
 			this.add( fieldMessage, c );
 			
-		//GAINTEXT TO VARIABLE
+/*		//GAINTEXT TO VARIABLE
 		}else if( selectedOperation.equals( E.GAINTEXT_TO_VARIABLE ) ){
 				
 			//VARIABLE
@@ -397,7 +397,7 @@ public class LinkElementTypeComponent<E extends LinkElementTypeOperationsListEnu
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldPattern, c );	
-			
+*/			
 		//GAINTEXT TO ELEMENT
 		}else if( selectedOperation.equals( E.GAINTEXT_TO_ELEMENT ) ){
 			

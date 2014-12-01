@@ -8,7 +8,6 @@ import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -207,13 +206,13 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STRING.getIndex());
 				
-			//GAIN VALUE TO VARIABLE
+/*			//GAIN VALUE TO VARIABLE
 			}else if( elementOperation instanceof GainValueToVariableOperation ){
 			
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainValueToVariableOperation)elementOperation).getVariableElement() );
 				comboOperationList.setSelectedIndex(E.GAINVALUE_TO_VARIABLE.getIndex());
 				//fieldPattern.setText( ((GainValueToVariableOperation)elementOperation).getStringPattern());	
-
+*/
 			//GAIN VALUE TO ELEMENT STORAGE
 			}else if( elementOperation instanceof GainValueToElementStorageOperation ){
 			
@@ -333,7 +332,7 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
 		
-		//GAIN VALUE TO VARIABLE
+/*		//GAIN VALUE TO VARIABLE
 		}else if( selectedOperation.equals( E.GAINVALUE_TO_VARIABLE ) ){
 		
 			//VARIABLE
@@ -349,7 +348,7 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldVariableSelector, c );			
-			
+*/			
 			//PATTERN
 /*			c.gridy = 1;
 			c.gridx = 4;
@@ -463,10 +462,10 @@ public class CheckboxElementTypeComponent<E extends CheckboxElementTypeOperation
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STRING.getIndex() ){
 			return new CompareValueToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 			
-		//GAINVALUE TO VARIABLE
+/*		//GAINVALUE TO VARIABLE
 		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_VARIABLE.getIndex() ){
 			return new GainValueToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
-			
+*/			
 		//GAINVALUE TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_ELEMENTSTORAGE.getIndex() ){
 			return new GainValueToElementStorageOperation( fieldPattern.getText() );		

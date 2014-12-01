@@ -242,7 +242,7 @@ public class VariableElementEditor extends DataEditor{
 							}
 						}						
 						
-					//VARIABLE_PARAMETER
+/*					//VARIABLE_PARAMETER
 					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.STORE_PARAMETER ) ){
 							
 						//Nem ez az elso valtoztatas
@@ -257,7 +257,7 @@ public class VariableElementEditor extends DataEditor{
 								fieldVariableParameters = new VariableVariableComponent(type);
 							}
 						}
-
+*/
 					}
 					
 					VariableElementEditor.this.add( labelVariableParameters, fieldVariableParameters );
