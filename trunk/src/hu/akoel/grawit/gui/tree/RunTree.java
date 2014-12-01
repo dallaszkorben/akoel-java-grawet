@@ -81,8 +81,15 @@ public class RunTree extends Tree {
 		
 		//Ha a root-ot valasztottam
 		if( selectedNode instanceof TestcaseRootDataModel ){									
-			guiFrame.showEditorPanel( emptyPanel );
+			//guiFrame.showEditorPanel( emptyPanel );
 			
+			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
+			if( null == editor ){
+				editor = new RunTestcaseEditor( this, (TestcaseRootDataModel)selectedNode );
+				testcaseMap.put((TestcaseRootDataModel)selectedNode, editor );
+			}
+
+			guiFrame.showEditorPanel( editor );
 		}else if( selectedNode instanceof TestcaseNodeDataModel ){
 			//guiFrame.showEditorPanel( emptyPanel );
 		
