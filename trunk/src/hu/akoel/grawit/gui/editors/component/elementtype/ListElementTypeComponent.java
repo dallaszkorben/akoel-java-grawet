@@ -278,13 +278,13 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 				comboCompareType.setSelectedIndex( ((CompareListToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_STRING.getIndex());
 				
-			//GAIN TO VARIABLE
+/*			//GAIN TO VARIABLE
 			}else if( elementOperation instanceof GainListToVariableOperation ){
 				
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainListToVariableOperation)elementOperation).getVariableElement() );
 				comboOperationList.setSelectedIndex(E.GAIN_TO_VARIABLE.getIndex());
 				fieldPattern.setText( ((GainListToVariableOperation)elementOperation).getStringPattern());	
-			
+*/			
 			//GAIN TO ELEMENT
 			}else if( elementOperation instanceof GainListToElementStorageOperation ){
 				
@@ -480,7 +480,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			c.weightx = 1;
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
-			
+/*			
 		//GAIN TO VARIABLE
 		}else if( selectedOperation.equals( E.GAIN_TO_VARIABLE ) ){
 			
@@ -513,7 +513,7 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 			this.add( fieldPattern, c );
 			
 			putGainBy( c );
-	
+*/	
 		//GAIN TO ELEMENT
 		}else if( selectedOperation.equals( E.GAIN_TO_ELEMENT ) ){
 			
@@ -656,11 +656,11 @@ public class ListElementTypeComponent<E extends ListElementTypeOperationsListEnu
 		//COMPARE TO STRING
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_STRING.getIndex() ){
 			return new CompareListToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareBy.getSelectedItem()) );
-			
+/*			
 		//GAIN TO VARIABLE
 		}else if( comboOperationList.getSelectedIndex() == E.GAIN_TO_VARIABLE.getIndex() ){
 			return new GainListToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText(), (ListGainByListEnum)(comboGainBy.getSelectedItem()) );
-
+*/
 		//GAIN TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAIN_TO_ELEMENT.getIndex() ){
 			return new GainListToElementStorageOperation( fieldPattern.getText(), (ListGainByListEnum)(comboGainBy.getSelectedItem()) );

@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -221,8 +223,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
-		JPanel controlPanel = getDataSection();		
-		controlPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
+		JPanel upperPanel = getDataSection();		
+		upperPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
 		
 		//Consol document
 		StyleContext consolrStyleContext = new StyleContext();
@@ -231,9 +233,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		consolPanel.setEditable( false );
 		DefaultCaret consolCaret = (DefaultCaret)consolPanel.getCaret();
 		consolCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		JScrollPane scrollPaneForConsolPanel = new JScrollPane(consolPanel);
+		JScrollPane lowerPanel = new JScrollPane(consolPanel);
 		//scrollPaneForConsolPanel.setPreferredSize(new Dimension(10,100));
-		scrollPaneForConsolPanel.setAutoscrolls(true);
+		lowerPanel.setAutoscrolls(true);
 
 		//Status document
 		StyleContext statusStyleContext = new StyleContext();
@@ -245,7 +247,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		statusCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		JScrollPane scrollPaneForStatusPanel = new JScrollPane(statusPanel);
 	    //scrollPaneForStatusPanel.setPreferredSize(new Dimension(70,100));
-		scrollPaneForStatusPanel.setAutoscrolls(true);
+		//scrollPaneForStatusPanel.setAutoscrolls(true);
+//scrollPaneForStatusPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		//OK attribute
 		attributeOK = new SimpleAttributeSet();
@@ -270,30 +273,40 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		attributeElementFinished = new SimpleAttributeSet();
 		StyleConstants.setForeground( attributeElementFinished, Color.BLACK );
 		
-
-		 
-//		this.add( scrollPaneForConsolPanel, BorderLayout.SOUTH );
-		 
+		// -------------
+		// CONTROL PANEL
+		// -------------
+		JPanel controlPanel = new JPanel();
+		controlPanel.setLayout( new FlowLayout() );
+		controlPanel.add(startButton);
+		controlPanel.add(stopButton);
+		controlPanel.add( pauseButton );		
 		
 		
-		//Status panel
-/*		statusPanel = new JTextArea(2, 25);
-		statusPanel.setEditable(false);
-		DefaultCaret pageListCaret = (DefaultCaret)statusPanel.getCaret();
-		pageListCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		JScrollPane scrollPaneForStatusPanel = new JScrollPane(statusPanel);
-*/
-		//value panel
+		
+		// ------------
+		// Status panel
+		// ------------
+		
+		
+		
+		// -----------
+		// value panel
+		// -----------
 		valuePanel = new JTextArea(2, 15);
 		valuePanel.setEditable(false);
 		DefaultCaret valueCaret = (DefaultCaret)statusPanel.getCaret();
 		valueCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		JScrollPane scrollPaneForValuePanel = new JScrollPane(valuePanel);
+//scrollPaneForValuePanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPaneForValuePanel.setSize(1, 200);
 		
 		//filler panel
 		JPanel fillerPanel = new JPanel();
 		
-		//STATUS PANEL
+		// ------------
+		// STATUS PANEL
+		// ------------
 		c.gridy = 0;
 		c.gridx = 2;
 		c.insets = new Insets(0,0,0,0);
@@ -303,9 +316,11 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		controlPanel.add( scrollPaneForStatusPanel, c );
+		upperPanel.add( scrollPaneForStatusPanel, c );
 		
-		//VALUE PANEL
+		// -----------
+		// VALUE PANEL
+		// -----------
 		c.gridy = 0;
 		c.gridx = 3;
 		c.insets = new Insets(0,0,0,0);
@@ -315,9 +330,12 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		controlPanel.add( scrollPaneForValuePanel, c );
+		upperPanel.add( scrollPaneForValuePanel, c );
 	
-		//START BUTTON
+		
+		
+		
+/*		//START BUTTON
 		c.gridy = 0;
 		c.gridx = 1;
 		c.insets = new Insets(0,0,0,0);
@@ -327,7 +345,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		controlPanel.add( startButton, c );	
+		upperPanel.add( startButton, c );	
 
 		//STOP BUTTON
 		c.gridy = 1;
@@ -339,7 +357,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		controlPanel.add( stopButton, c );	
+		upperPanel.add( stopButton, c );	
 
 		//PAUSE BUTTON
 		c.gridy = 2;
@@ -351,8 +369,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		controlPanel.add( pauseButton, c );	
-
+		upperPanel.add( pauseButton, c );	
+*/
+		
 		c.gridy = 0;
 		c.gridx = 0;
 		c.insets = new Insets(0,0,0,0);
@@ -362,10 +381,21 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 1;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		controlPanel.add( fillerPanel, c );	
-			
+		upperPanel.add( controlPanel, c );		
 		
-		MyHorizontalSplitPane horizontalSplitPane = new MyHorizontalSplitPane(JSplitPane.VERTICAL_SPLIT, controlPanel, scrollPaneForConsolPanel);
+/*		c.gridy = 0;
+		c.gridx = 0;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		upperPanel.add( fillerPanel, c );				
+*/
+		
+		MyHorizontalSplitPane horizontalSplitPane = new MyHorizontalSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
 		horizontalSplitPane.setOneTouchExpandable(false);
 		horizontalSplitPane.setFlippedDividerLocation( 200 );	        
 		this.add( horizontalSplitPane, BorderLayout.CENTER);

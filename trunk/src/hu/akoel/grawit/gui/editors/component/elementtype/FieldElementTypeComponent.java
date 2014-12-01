@@ -240,13 +240,13 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STRING.getIndex());
 				
-			//GAIN VALUE TO VARIABLE
+/*			//GAIN VALUE TO VARIABLE
 			}else if( elementOperation instanceof GainValueToVariableOperation ){
 			
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainValueToVariableOperation)elementOperation).getVariableElement() );
 				comboOperationList.setSelectedIndex(E.GAINVALUE_TO_VARIABLE.getIndex());
 				fieldPattern.setText( ((GainValueToVariableOperation)elementOperation).getStringPattern());	
-				
+*/				
 			//GAIN VALUE TO ELEMENT STORAGE
 			}else if( elementOperation instanceof GainValueToElementStorageOperation ){
 			
@@ -395,7 +395,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 			this.add( labelFiller, c );
 		
 		//GAINVALUE TO VARIABLE
-		}else if( selectedOperation.equals( E.GAINVALUE_TO_VARIABLE ) ){
+/*		}else if( selectedOperation.equals( E.GAINVALUE_TO_VARIABLE ) ){
 		
 			//VARIABLE
 			c.gridy = 0;
@@ -424,7 +424,7 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldPattern, c );
-			
+*/			
 		//GAINVALUE TO ELEMENT
 		}else if( selectedOperation.equals( E.GAINVALUE_TO_ELEMENTSTORAGE ) ){
 			
@@ -521,10 +521,10 @@ public class FieldElementTypeComponent<E extends FieldElementTypeOperationsListE
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STRING.getIndex() ){
 			return new CompareValueToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 			
-		//GAINVALUE TO VARIABLE
+/*		//GAINVALUE TO VARIABLE
 		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_VARIABLE.getIndex() ){
 			return new GainValueToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
-			
+*/			
 		//GAINVALUE TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_ELEMENTSTORAGE.getIndex() ){
 			return new GainValueToElementStorageOperation( fieldPattern.getText() );		
