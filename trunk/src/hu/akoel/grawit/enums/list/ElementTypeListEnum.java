@@ -4,22 +4,25 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ElementTypeListEnum implements ElementTypeOperationsListEnumInterface{		
-	FIELD( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.field") ),
-	TEXT( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text") ),
-	LINK( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.link") ),
-	LIST( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.list") ),
-	BUTTON( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.button") ),
-	RADIOBUTTON( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton") ),
-	CHECKBOX( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox") ),	
-	SCRIPT( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.script") ),	
+	FIELD( 0, true, CommonOperations.getTranslation( "editor.label.param.elementtype.field") ),
+	TEXT( 1, true, CommonOperations.getTranslation( "editor.label.param.elementtype.text") ),
+	LINK( 2, true, CommonOperations.getTranslation( "editor.label.param.elementtype.link") ),
+	LIST( 3, true, CommonOperations.getTranslation( "editor.label.param.elementtype.list") ),
+	BUTTON( 4, true, CommonOperations.getTranslation( "editor.label.param.elementtype.button") ),
+	RADIOBUTTON( 5, true, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton") ),
+	CHECKBOX( 6, true, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox") ),
+	
+	SCRIPT( 7, false, CommonOperations.getTranslation( "editor.label.param.elementtype.script") ),	
 	;
 	
 	private String translatedName;
+	private boolean toList;
 	private int index;
 	
-	private ElementTypeListEnum( int index, String translatedName ){
+	private ElementTypeListEnum( int index, boolean toList, String translatedName ){
 	
 		this.index = index;
+		this.toList = toList;
 		this.translatedName = translatedName;
 	}
 	
@@ -29,7 +32,18 @@ public enum ElementTypeListEnum implements ElementTypeOperationsListEnumInterfac
 	}	
 	
 	public static int getSize(){
-		return ElementTypeListEnum.values().length;
+		
+		int size = 0;
+		for( int i = 0; i < ElementTypeListEnum.values().length; i++ ){
+			
+			if( getElementTypeByIndex( i ).toList ){
+				size++;
+			}
+			
+		}
+		return size;
+		
+		//return ElementTypeListEnum.values().length;
 	}
 	
 	@Override
