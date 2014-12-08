@@ -68,10 +68,9 @@ public abstract class BaseEditor extends JPanel{
 		//
 		// Adat szekcio
 		//
-		//dataSection.setBackground( Color.green );
-		dataSection.setLayout( new GridBagLayout() );
-		dataSection.setBorder( BorderFactory.createEmptyBorder( 20, 10, 10, 10 ) );
-		super.add( dataSection, BorderLayout.CENTER );
+		getDataSection().setLayout( new GridBagLayout() );
+		getDataSection().setBorder( BorderFactory.createEmptyBorder( 20, 10, 10, 10 ) );
+		super.add( getDataSection(), BorderLayout.CENTER );
 		
 	}
 

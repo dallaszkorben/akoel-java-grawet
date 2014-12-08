@@ -3,12 +3,8 @@ package hu.akoel.grawit.gui.editor;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +14,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -41,8 +36,6 @@ public abstract class DataEditor extends BaseEditor{
 	private final static int POS_SAVEBUTTON = 1;
 	private final static int POS_STATISICON = 2;
 	
-//	private JPanel labelSection;
-//	private JPanel dataSection = new JPanel();
 	private GridBagConstraints c;
 	private int gridY = 0;
 	private JLabel filler = new JLabel();
@@ -69,38 +62,7 @@ public abstract class DataEditor extends BaseEditor{
 	}
 	
 	private void common(){
-		
-//		this.setLayout( new BorderLayout() );
-		//this.setBackground(Color.cyan);
-//		this.setBorder( BorderFactory.createLoweredBevelBorder());
-
-		//
-		// Headline terulet
-		//
-/*		JPanel headlinePanel = new JPanel();
-		headlinePanel.setBackground( Color.white );
-		headlinePanel.setLayout( new BorderLayout());
-	
-		super.add( headlinePanel, BorderLayout.NORTH );
-*/		
-		//
-		// Cim szekcio
-		//
-/*		labelSection = new JPanel();
-		labelSection.setBackground( Color.white );
-		if( null == mode || !mode.equals(EditMode.NO)){
-			headlinePanel.add( labelSection, BorderLayout.CENTER );
-		}
-*/		
-		//
-		// Operation icon section
-		//
-/*		JLabel operationSection = new JLabel();
-		operationSection.setBorder( BorderFactory.createEmptyBorder(7, 10, 7, 10));
-		if( null == mode || !mode.equals(EditMode.NO)){
-			headlinePanel.add( operationSection, BorderLayout.WEST );
-		}
-*/		
+				
 		ImageIcon pageIcon = null;
 		//CAPTURE
 		if( null == mode ) {
@@ -115,30 +77,6 @@ public abstract class DataEditor extends BaseEditor{
 		//operationSection.setIcon( pageIcon );
 		getOperationSection().setIcon( pageIcon );
 		
-/*		
-		JLabel label = new JLabel( element );		
-		//CAPTURE
-		if( null == mode ) {
-			label.setText( element );
-		//MODIFY
-		}else if( mode.equals( EditMode.MODIFY)){
-			label.setText( element );
-		//VIEW
-		}else if( mode.equals( EditMode.VIEW )){
-			label.setText( element );		
-		}
-		labelSection.add( label );
-
-		label.setFont(new Font( label.getFont().getName(), Font.BOLD, 20 ));
-*/
-		//
-		// Adat szekcio
-		//
-		//dataSection.setBackground( Color.green );
-/*		dataSection.setLayout( new GridBagLayout() );		
-		dataSection.setBorder( BorderFactory.createEmptyBorder( 20, 10, 10, 10 ) );
-		super.add( dataSection, BorderLayout.CENTER );
-*/
 		c = new GridBagConstraints();
 		
 		//Mentes gomb
@@ -194,7 +132,12 @@ public abstract class DataEditor extends BaseEditor{
 	 * Csak abban az esetben ha ez első parameter Component, a masodik pedig EditorComponentInterface leszarmazottja
 	 */
 	public void add( Component c, Object o ){
-		add( c, (EditorComponentInterface)o );
+		
+		if( o instanceof EditorComponentInterface ){
+			add( c, (EditorComponentInterface)o );
+		}else{
+			super.add(c, o);
+		}
 	}
 	
 	/**

@@ -11,31 +11,33 @@ import javax.swing.tree.TreePath;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
-import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.run.RunTestcaseEditor;
 
 public class RunTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;
-	private EmptyEditor emptyPanel;		
+	//private EmptyEditor emptyPanel;	
+	private DriverRootDataModel driverRootDataModel;
 	
 	private HashMap<TestcaseDataModelAdapter, RunTestcaseEditor> testcaseMap = new HashMap<>();
 
-	public RunTree(GUIFrame guiFrame, TestcaseRootDataModel testcaseRootDataModel ) {		
+	public RunTree(GUIFrame guiFrame, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel) {		
 		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
+		this.driverRootDataModel = driverRootDataModel;
 		
 		this.removePopupUp();
 		this.removePopupDown();
 		this.removePopupModify();
 		
-		emptyPanel = new EmptyEditor();
+		//emptyPanel = new EmptyEditor();
 	}
 	
 	@Override
@@ -85,7 +87,7 @@ public class RunTree extends Tree {
 			
 			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
 			if( null == editor ){
-				editor = new RunTestcaseEditor( this, (TestcaseRootDataModel)selectedNode );
+				editor = new RunTestcaseEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel );
 				testcaseMap.put((TestcaseRootDataModel)selectedNode, editor );
 			}
 
@@ -95,7 +97,7 @@ public class RunTree extends Tree {
 		
 			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
 			if( null == editor ){
-				editor = new RunTestcaseEditor( this, (TestcaseNodeDataModel)selectedNode );
+				editor = new RunTestcaseEditor( this, (TestcaseNodeDataModel)selectedNode, driverRootDataModel );
 				testcaseMap.put((TestcaseNodeDataModel)selectedNode, editor );
 			}
 
@@ -105,7 +107,7 @@ public class RunTree extends Tree {
 			
 			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
 			if( null == editor ){
-				editor = new RunTestcaseEditor( this, (TestcaseCaseDataModel)selectedNode );
+				editor = new RunTestcaseEditor( this, (TestcaseCaseDataModel)selectedNode, driverRootDataModel );
 				testcaseMap.put((TestcaseCaseDataModel)selectedNode, editor );
 			}
 				

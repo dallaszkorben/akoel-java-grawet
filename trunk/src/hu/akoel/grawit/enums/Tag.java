@@ -21,6 +21,9 @@ public enum Tag{
 	TESTCASECASE("case"),
 	TESTCASEPARAMPAGE("param"),
 	TESTCASECUSTOMPAGE("custom"),
+
+	RUNROOT("run"),
+	RUNNODE("node"),
 	
 	SPECIALROOT("special"),
 	SPECIALNODE("node"),
