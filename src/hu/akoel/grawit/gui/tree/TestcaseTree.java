@@ -23,11 +23,11 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataMode
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
-import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseParamPageEditor;
+import hu.akoel.grawit.gui.editor.testcase.TestcaseRootEditor;
 
 public class TestcaseTree extends Tree {
 
@@ -43,6 +43,8 @@ public class TestcaseTree extends Tree {
 		this.guiFrame = guiFrame;
 		this.paramRootDataModel = paramRootDataModel;
 		this.driverRootDataModel = driverRootDataModel;
+		
+		this.enablePopupModifyAtRoot();
 		
 	}
 
@@ -92,8 +94,10 @@ public class TestcaseTree extends Tree {
 		
 		//Ha a root-ot valasztottam
 		if( selectedNode instanceof TestcaseRootDataModel ){
-			EmptyEditor emptyPanel = new EmptyEditor();								
-			guiFrame.showEditorPanel( emptyPanel );
+			TestcaseRootEditor testcaseRootEditor = new TestcaseRootEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel, EditMode.VIEW);
+			guiFrame.showEditorPanel( testcaseRootEditor);
+			//EmptyEditor emptyPanel = new EmptyEditor();								
+			//guiFrame.showEditorPanel( emptyPanel );
 			
 		}else if( selectedNode instanceof TestcaseNodeDataModel ){
 			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.VIEW);
@@ -113,7 +117,13 @@ public class TestcaseTree extends Tree {
 	@Override
 	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
 		
-		if( selectedNode instanceof TestcaseNodeDataModel ){
+		//Ha a root-ot valasztottam
+		if( selectedNode instanceof TestcaseRootDataModel ){
+			
+			TestcaseRootEditor testcaseRootNodeEditor = new TestcaseRootEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel, EditMode.MODIFY);
+			guiFrame.showEditorPanel( testcaseRootNodeEditor);
+					
+		}else if( selectedNode instanceof TestcaseNodeDataModel ){
 			
 			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.MODIFY );								
 			guiFrame.showEditorPanel( testcaseNodeEditor);								

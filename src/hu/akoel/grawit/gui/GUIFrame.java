@@ -408,6 +408,8 @@ public class GUIFrame extends JFrame{
 		Element testcaseRootElement = testcaseRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( testcaseRootElement );		
 		
+		
+		
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(doc);
@@ -643,7 +645,7 @@ public class GUIFrame extends JFrame{
 					// TESTCASE
 					//testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel, driverRootDataModel, scriptRootDataModel );
 					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, driverRootDataModel );
-					
+
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
 					
@@ -816,7 +818,7 @@ public class GUIFrame extends JFrame{
 			if( null == runTree ){
 			
 				//Legyartja a JTREE-t a modell alapjan
-				runTree = new RunTree( GUIFrame.this, testcaseRootDataModel );
+				runTree = new RunTree( GUIFrame.this, driverRootDataModel, testcaseRootDataModel );
 			
 			}
 			

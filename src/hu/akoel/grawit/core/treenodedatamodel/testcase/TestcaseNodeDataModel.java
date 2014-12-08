@@ -5,6 +5,7 @@ import java.util.Vector;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
@@ -43,7 +44,7 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseNodeDataModel( Element element, ParamRootDataModel baseRootDataModel, DriverRootDataModel driverRootDataModel ) throws XMLPharseException{
+	public TestcaseNodeDataModel( Element element, ParamRootDataModel baseRootDataModel, DriverDataModelInterface driverRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseNodeDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			

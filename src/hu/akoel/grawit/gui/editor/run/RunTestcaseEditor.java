@@ -12,10 +12,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -27,11 +27,11 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-
 import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
@@ -83,7 +83,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		return needToStop;
 	}
 
-	public RunTestcaseEditor( Tree tree, TestcaseDataModelAdapter testcaseDataModel ){	
+	public RunTestcaseEditor( Tree tree, TestcaseDataModelAdapter testcaseDataModel, DriverDataModelInterface driverDataModel ){	
 
 		super(
 				( testcaseDataModel instanceof TestcaseRootDataModel) ? 
@@ -99,8 +99,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 		pageProgress = new PageProgress();
 		elementProgres = new ElementProgress();	
-		testcaseProgress = new TestcaseProgress();
-
+		testcaseProgress = new TestcaseProgress();	
+		
 		ImageIcon startIcon = CommonOperations.createImageIcon("control/control-play.png");
 		ImageIcon startDisabledIcon = CommonOperations.createImageIcon("control/control-play-disabled.png");
 		ImageIcon startRolloverIcon = CommonOperations.createImageIcon("control/control-play-rollover.png");
@@ -118,6 +118,14 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		ImageIcon pauseRolloverIcon = CommonOperations.createImageIcon("control/control-pause-rollover.png");
 		ImageIcon pausePressedIcon = CommonOperations.createImageIcon("control/control-pause-pressed.png");
 		ImageIcon pauseSelectedIcon = CommonOperations.createImageIcon("control/control-pause-selected.png");
+		
+		GridBagConstraints c = new GridBagConstraints();
+
+		// -------------
+		//
+		// CONTROL PANEL
+		//
+		// -------------
 		
 		//
 		// START
@@ -216,17 +224,31 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		pauseButton.setPressedIcon(pausePressedIcon);
 		pauseButton.setDisabledIcon(pauseDisabledIcon);
 		pauseButton.setIcon(pauseIcon);
-		
-		startButton.setEnabled( true );
+
+		//Indulasi beallitas
 		stopButton.setEnabled( false );
 		pauseButton.setEnabled( false );
 		
-		GridBagConstraints c = new GridBagConstraints();
+		//Ha nincs Driver definialva, akkor nem indulhat el egy teszt sem
+		if( null == ((TestcaseRootDataModel)selectedTestcase.getRoot()).getDriverDataModel() ){
+			startButton.setEnabled( false );
+		}else{
+			startButton.setEnabled( true );
+		}
 		
-		JPanel upperPanel = getDataSection();		
-		upperPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
 		
-		//Consol document
+		// CONTROL
+		JPanel controlPanel = new JPanel();
+		controlPanel.setLayout( new FlowLayout() );
+		controlPanel.add(startButton);
+		controlPanel.add(stopButton);
+		controlPanel.add( pauseButton );		
+		
+		//---------------
+		//
+		// Consol panel
+		//
+		//---------------
 		StyleContext consolrStyleContext = new StyleContext();
 		consolDocument = new DefaultStyledDocument(consolrStyleContext);
 		consolPanel = new JTextPane(consolDocument);
@@ -246,9 +268,11 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		DefaultCaret statusCaret = (DefaultCaret)statusPanel.getCaret();
 		statusCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		JScrollPane scrollPaneForStatusPanel = new JScrollPane(statusPanel);
+		scrollPaneForStatusPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPaneForStatusPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	    //scrollPaneForStatusPanel.setPreferredSize(new Dimension(70,100));
 		//scrollPaneForStatusPanel.setAutoscrolls(true);
-//scrollPaneForStatusPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
 
 		//OK attribute
 		attributeOK = new SimpleAttributeSet();
@@ -273,107 +297,94 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		attributeElementFinished = new SimpleAttributeSet();
 		StyleConstants.setForeground( attributeElementFinished, Color.BLACK );
 		
-		// -------------
-		// CONTROL PANEL
-		// -------------
-		JPanel controlPanel = new JPanel();
-		controlPanel.setLayout( new FlowLayout() );
-		controlPanel.add(startButton);
-		controlPanel.add(stopButton);
-		controlPanel.add( pauseButton );		
-		
-		
-		
-		// ------------
-		// Status panel
-		// ------------
-		
-		
+		//---------------
+		//
+		// Upper panel
+		//
+		//---------------		
+		JPanel upperPanel = new JPanel();
+		upperPanel.setLayout(new GridBagLayout());	
+		upperPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
 		
 		// -----------
-		// value panel
+		//
+		// Value panel
+		//
 		// -----------
 		valuePanel = new JTextArea(2, 15);
 		valuePanel.setEditable(false);
+		
 		DefaultCaret valueCaret = (DefaultCaret)statusPanel.getCaret();
 		valueCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		JScrollPane scrollPaneForValuePanel = new JScrollPane(valuePanel);
-//scrollPaneForValuePanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPaneForValuePanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPaneForValuePanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 		scrollPaneForValuePanel.setSize(1, 200);
-		
-		//filler panel
-		JPanel fillerPanel = new JPanel();
-		
-		// ------------
-		// STATUS PANEL
-		// ------------
-		c.gridy = 0;
-		c.gridx = 2;
+
+		// ------------------------
+		//	STATUS PANEL felirat
+		// ------------------------
+		c.gridx = 1;		
+		c.gridy = 0;		
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
-		c.gridheight = 3;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		upperPanel.add( new JLabel("Status"), c );
+
+		// ------------------------
+		// VALUE PANEL felirat
+		// ------------------------
+		c.gridx = 2;
+		c.gridy = 0;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		upperPanel.add( new JLabel("Value"), c );
+
+
+		// ------------------------
+		// STATUS PANEL elhelyezese
+		// ------------------------
+		c.gridx = 1;		
+		c.gridy = 1;		
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 2;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.weightx = 0;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		upperPanel.add( scrollPaneForStatusPanel, c );
 		
-		// -----------
-		// VALUE PANEL
-		// -----------
-		c.gridy = 0;
-		c.gridx = 3;
+		// ------------------------
+		// VALUE PANEL elhelyezese
+		// ------------------------
+		c.gridx = 2;
+		c.gridy = 1;
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
-		c.gridheight = 3;
+		c.gridheight = 2;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.weightx = 0;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		upperPanel.add( scrollPaneForValuePanel, c );
-	
-		
-		
-		
-/*		//START BUTTON
-		c.gridy = 0;
-		c.gridx = 1;
-		c.insets = new Insets(0,0,0,0);
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.fill = GridBagConstraints.NONE;
-		c.weightx = 0;
-		c.weighty = 0;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( startButton, c );	
 
-		//STOP BUTTON
+
+		
+		// -------------------------
+		// CONTROL PANEL elhelyezese
+		// -------------------------\
+		c.gridx = 0;
 		c.gridy = 1;
-		c.gridx = 1;
-		c.insets = new Insets(0,0,0,0);
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.fill = GridBagConstraints.NONE;
-		c.weightx = 0;
-		c.weighty = 0;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( stopButton, c );	
-
-		//PAUSE BUTTON
-		c.gridy = 2;
-		c.gridx = 1;
-		c.insets = new Insets(0,0,0,0);
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.fill = GridBagConstraints.NONE;
-		c.weightx = 0;
-		c.weighty = 0;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( pauseButton, c );	
-*/
-		
-		c.gridy = 0;
-		c.gridx = 0;
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
 		c.gridheight = 1;
@@ -381,19 +392,34 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 1;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( controlPanel, c );		
+		upperPanel.add( controlPanel, c );	
+	
+				
+		// -----------
+		// DATASECTION
+		// -----------		
+		JPanel dataSection = new JPanel();
+		dataSection.setLayout( new GridBagLayout() );
 		
-/*		c.gridy = 0;
+		//Utolso sorba egy kitolto elem helyezese, hogy felfele legyen igazitva az oldal
+		c.insets = new Insets(0,0,0,0);
 		c.gridx = 0;
+		c.gridy = 2;		
+		c.gridwidth = 0;
+		c.weighty = 1;		//Ezzel tol fel minden felette levot
+		dataSection.add( new JLabel(), c );		
+		
+		c.gridx = 0;
+		c.gridy = 2;		
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		c.fill = GridBagConstraints.NONE;
+		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
-		c.weighty = 0;
+		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( fillerPanel, c );				
-*/
+		upperPanel.add( dataSection, c );	
+		
 		
 		MyHorizontalSplitPane horizontalSplitPane = new MyHorizontalSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
 		horizontalSplitPane.setOneTouchExpandable(false);
@@ -464,7 +490,9 @@ elementProgres.outputCommand( "	public Test(){" );
 elementProgres.outputCommand( "	" );
 
 //    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
-    	WebDriver webDriver = actualTestcase.getDriverDataModel().getDriver( elementProgres );	
+//    	WebDriver webDriver = actualTestcase.getDriverDataModel().getDriver( elementProgres );
+
+		WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver(elementProgres);
 
     	try{				
 
@@ -666,7 +694,9 @@ elementProgres.outputCommand( "}");
 				RunTestcaseEditor.this.valuePanel.append( outputValue + "\n" );
 			}else{
 				RunTestcaseEditor.this.valuePanel.append( message + ": " + outputValue + "\n" );
-			}			
+			}
+			valuePanel.revalidate();
+			valuePanel.repaint();
 		}
 
 		@Override
@@ -677,6 +707,4 @@ elementProgres.outputCommand( "}");
 		}		
 	}
 
-
-	
 }

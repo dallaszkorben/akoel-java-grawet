@@ -272,6 +272,11 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	
 
+		//========
+		//
+		// Driver
+		//
+		//========
 		attr = document.createAttribute( ATTR_DRIVER_PATH );
 		attr.setValue( driver.getPathTag() );
 		nodeElement.setAttributeNode(attr);	

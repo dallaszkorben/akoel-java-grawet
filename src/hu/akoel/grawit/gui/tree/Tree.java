@@ -70,6 +70,7 @@ public abstract class Tree extends JTree{
 	private boolean needPopupUp = true;
 	private boolean needPopupDown = true;
 	private boolean needPopupModify = true;
+	private boolean needPopupModifyAtRoot = false;
 	
 	Insets autoscrollInsets = new Insets(20, 20, 20, 20);
 	
@@ -175,6 +176,10 @@ public abstract class Tree extends JTree{
 			this.expandPath( path );
 		}
 		
+	}
+	
+	public void enablePopupModifyAtRoot(){
+		this.needPopupModifyAtRoot = true;
 	}
 	
 	public void removePopupModify(){
@@ -372,7 +377,7 @@ public abstract class Tree extends JTree{
 						}
 					});
 					this.add ( upMenu );
-					
+				
 				}
 				
 				//
@@ -476,6 +481,24 @@ public abstract class Tree extends JTree{
 			}else{
 				
 				doPopupRootInsert( this, selectedNode );
+				
+				if( needPopupModifyAtRoot ){
+					if( needPopupModify ){
+						
+						JMenuItem editMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.edit") );
+						editMenu.setActionCommand( ActionCommand.EDIT.name());
+						editMenu.addActionListener( new ActionListener() {
+						
+							@Override
+							public void actionPerformed(ActionEvent e) {					
+
+								doModifyWithPopupEdit( selectedNode );
+							
+							}
+						});
+						this.add ( editMenu );
+					}
+				}
 				
 			}
 
