@@ -53,8 +53,16 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 	
 	private static final String codePre = 
 			"import org.openqa.selenium.WebDriver;\n" +
+			"import org.openqa.selenium.WebElement;\n" +
+			"import org.openqa.selenium.support.ui.WebDriverWait;\n" +
+			"import org.openqa.selenium.By;\n" +
+			"import org.openqa.selenium.support.ui.ExpectedConditions;\n" +
+			"import org.openqa.selenium.WebDriverException;\n" +
+			" \n" +
 			"import java.util.ArrayList;\n" +
-			"import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;\n" +	
+			" \n" +
+			"import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;\n" +
+			
 			"public class CustomClass {\n" +		
 			"   public CustomClass() {}\n" +		
 			"   public void doAction(WebDriver driver, ArrayList<String> parameters, BaseElementDataModelAdapter baseElement ) throws hu.akoel.grawit.exceptions.PageException{\n";

@@ -455,8 +455,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	}
 	
 	private void executeTestcase( TestcaseCaseDataModel actualTestcase ){
-		
 
+		//Ha be van kapcsolav		
+		if( actualTestcase.isOn() ){
 
 elementProgres.outputCommand( "import org.openqa.selenium.By;" );
 elementProgres.outputCommand( "import org.openqa.selenium.WebDriver;" );
@@ -492,62 +493,63 @@ elementProgres.outputCommand( "	" );
 //    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
 //    	WebDriver webDriver = actualTestcase.getDriverDataModel().getDriver( elementProgres );
 
-		WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver(elementProgres);
+			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver(elementProgres);
 
-    	try{				
+			try{				
 
-    		int childCount = actualTestcase.getChildCount();
+				int childCount = actualTestcase.getChildCount();
     		
-    		testcaseProgress.testcaseStarted( actualTestcase.getName() );
+				testcaseProgress.testcaseStarted( actualTestcase.getName() );
     		
-    		//A teszteset Page-einek futtatasa
-    		for( int index = 0; index < childCount; index++ ){
-    			TestcasePageModelInterface pageToRun = (TestcasePageModelInterface)actualTestcase.getChildAt(index);
-    			pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
-    		}					
+				//A teszteset Page-einek futtatasa
+				for( int index = 0; index < childCount; index++ ){
+					TestcasePageModelInterface pageToRun = (TestcasePageModelInterface)actualTestcase.getChildAt(index);
+					pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
+				}					
     		
-    		testcaseProgress.testcaseEnded( actualTestcase.getName() );
+				testcaseProgress.testcaseEnded( actualTestcase.getName() );
     		
-    		setStatusOfTestCase( actualTestcase, true );
+				setStatusOfTestCase( actualTestcase, true );
 
-    	}catch( CompilationException compillationException ){
+			}catch( CompilationException compillationException ){
     		
-    		try {
-				consolDocument.insertString(consolDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
-			} catch (BadLocationException e) {e.printStackTrace();}
+				try {
+					consolDocument.insertString(consolDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
+				} catch (BadLocationException e) {e.printStackTrace();}
     		
-    		setStatusOfTestCase( actualTestcase, false );
+				setStatusOfTestCase( actualTestcase, false );
     		
-    	}catch( PageException pageException ){
+			}catch( PageException pageException ){
     		
-    		try {
-				consolDocument.insertString(consolDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
-			} catch (BadLocationException e) {e.printStackTrace();}
+				try {
+					consolDocument.insertString(consolDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
+				} catch (BadLocationException e) {e.printStackTrace();}
     	
-    		setStatusOfTestCase( actualTestcase, false );
+				setStatusOfTestCase( actualTestcase, false );
     		
-    	}catch( StoppedByUserException stoppedByUserException ){
+			}catch( StoppedByUserException stoppedByUserException ){
     		
-    		try {
-				consolDocument.insertString(consolDocument.getLength(), stoppedByUserException.getMessage() + "\n\n", attributeError );
-			} catch (BadLocationException e) {e.printStackTrace();}
+				try {
+					consolDocument.insertString(consolDocument.getLength(), stoppedByUserException.getMessage() + "\n\n", attributeError );
+				} catch (BadLocationException e) {e.printStackTrace();}
     		
-    		setStatusOfTestCase( actualTestcase, false );
+				setStatusOfTestCase( actualTestcase, false );
     		
-    	//Nem kezbentartott hiba
-    	}catch( Exception exception ){
+				//Nem kezbentartott hiba
+			}catch( Exception exception ){
     		
-    		try {
-				consolDocument.insertString(consolDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
-			} catch (BadLocationException e) {e.printStackTrace();}
-    	
-    		setStatusOfTestCase( actualTestcase, false );
+				try {
+					consolDocument.insertString(consolDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
+				} catch (BadLocationException e) {e.printStackTrace();}
+				
+				setStatusOfTestCase( actualTestcase, false );
     		
-    	}
+			}
     	
 elementProgres.outputCommand( "	}");				    	
 elementProgres.outputCommand( "}");	
 
+		}
 	}
 	
 	

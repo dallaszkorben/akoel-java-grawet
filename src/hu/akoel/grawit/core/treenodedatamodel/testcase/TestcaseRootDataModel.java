@@ -140,10 +140,20 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 				    			
 				    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, testcaseRootElement.getAttribute(ATTR_DRIVER_PATH) );
 				    		}
+				    	
+				    	//Ha EXPLORER
+				    	}else if( tagName.equals( DriverExplorerDataModel.TAG.getName() ) ){
+				    		attrName = actualElement.getAttribute(DriverExplorerDataModel.ATTR_NAME);
+				    		dDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVEREXPLORER, attrName );
+					    		
+				    		if( null == dDataModel ){
+					    		
+				    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, testcaseRootElement.getAttribute(ATTR_DRIVER_PATH) );
+				    		}				    		
+//TODO hianyzik innen az Explorer Capability feldolgozasa				    	
+				    	}else{
 				    		
-				    	//}else{
-				    		
-				    	//	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );	    		
+				    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, testcaseRootElement.getAttribute(ATTR_DRIVER_PATH) );	    		
 				    	}
 				    }	    
 				    try{
