@@ -1,10 +1,49 @@
 package hu.akoel.grawit;
 
+import hu.akoel.grawit.core.operations.ClearOperation;
+import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareListToStringOperation;
+import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
+import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
+import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
+import hu.akoel.grawit.core.operations.FillWithStringOperation;
+import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
+import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
+import hu.akoel.grawit.core.operations.GainListToVariableOperation;
+import hu.akoel.grawit.core.operations.GainTextToElementOperation;
+import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
+import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
+import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
+import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
+import hu.akoel.grawit.core.operations.SelectStringOperation;
+import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseAddStoreToParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseAddVariableToParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
+import hu.akoel.grawit.core.operations.TabOperation;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.VariableTypeListEnum;
+import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
+import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
+import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 
-import java.io.File;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -26,6 +65,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.w3c.dom.Element;
 
 import com.opera.core.systems.OperaDriver;
 
@@ -216,5 +256,413 @@ public class CommonOperations {
 		 public Object getConverted( String possibleValue ) throws Exception{
 			 return type.getParameterClass(parameterOrder).getConstructor(String.class).newInstance(possibleValue);
 		 }
-	 } 	 
+	 }
+	 
+	 
+		public static ElementOperationAdapter getElementOperation( Element element, BaseElementDataModelAdapter baseElement, DataModelAdapter dataModel, ElementOperationAdapter elementOperation, Tag rootTag, String attr_operation, VariableRootDataModel variableRootDataModel ) throws XMLMissingAttributePharseException, XMLBaseConversionPharseException, XMLWrongAttributePharseException{		
+		
+			//=============================
+			//
+			// Operation a muvelet alapjan
+			//
+			//=============================
+			if( !element.hasAttribute( attr_operation ) ){
+				throw new XMLMissingAttributePharseException( rootTag, dataModel.getTag(), attr_operation );			
+			}
+			String operationString = element.getAttribute( attr_operation );		
+
+			//Ha SpecialBase ElementDataModel
+			if( baseElement instanceof ScriptBaseElementDataModel ){
+
+				if( baseElement.getElementType().equals( ElementTypeListEnum.SCRIPT ) ){
+
+					//ADD_STORED_TO_PARAMETERS
+					if( operationString.equals( SpecialBaseAddStoreToParametersOperation.getStaticName() ) ){
+						elementOperation = new SpecialBaseAddStoreToParametersOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName()  );
+					
+						//ADD_VARIABLE_TO_PARAMETERS
+					}else if( operationString.equals( SpecialBaseAddVariableToParametersOperation.getStaticName() ) ){
+						elementOperation = new SpecialBaseAddVariableToParametersOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+					
+						//ADD_STRING_TO_PARAMETERS
+					}else if( operationString.equals( SpecialBaseAddStringToParametersOperation.getStaticName() ) ){
+						elementOperation = new SpecialBaseAddStringToParametersOperation( element, rootTag, dataModel.getTag() );
+					
+						//CLEAR_PARAMETERS
+					}else if( operationString.equals( SpecialBaseClearParametersOperation.getStaticName() ) ){
+						elementOperation = new SpecialBaseClearParametersOperation();
+					
+						//EXECUTE_SCRIPT
+					}else if( operationString.equals( SpecialBaseExecuteOperation.getStaticName() ) ){
+						elementOperation = new SpecialBaseExecuteOperation();
+
+					}
+				
+				//Minden egyeb esetben error
+				}else{
+					throw new XMLWrongAttributePharseException( BaseDataModelAdapter.getRootTag(), ScriptBaseElementDataModel.TAG, DataModelAdapter.ATTR_NAME, baseElement.getName(), ScriptBaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
+				}
+			
+			
+			//Ha NormalBase ElementDataModel
+			}else if( baseElement instanceof NormalBaseElementDataModel ){
+
+				//
+				// A tipus az erosebb. Ha a tipushoz nem megfelelo operation van rendelve, akkor egy 
+				// alapertelmezett operationt kap
+				//
+				//-------------
+				// Link	a tipus
+				//-------------
+				if( baseElement.getElementType().equals( ElementTypeListEnum.LINK ) ){
+			
+					//CLICK
+					if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+						elementOperation = new ClickOperation();
+					
+					//COMPARE TEXT TO VARIABLE
+					}else if( operationString.equals( CompareTextToVariableOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//COMPARE TEXT TO STORED
+					}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareTextToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//COMPARE TEXT TO STRING
+					}else if( operationString.equals( CompareTextToStringOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareTextToStringOperation( element, rootTag, dataModel.getTag() );
+					
+					//GAIN TEXT TO ELEMENT
+					}else if( operationString.equals( GainTextToElementOperation.getStaticName() ) ){
+										
+						elementOperation = new GainTextToElementOperation( element, rootTag, dataModel.getTag() );				
+			
+					//OUTPUT STORED
+					}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
+				
+						elementOperation = new OutputStoredElementOperation( element, rootTag, dataModel.getTag() );
+				
+					//Ha nem a tipusnak megfelelo a muvelet, akkor azt Click-nek vesszuk
+					}else{
+				
+						elementOperation = new ClickOperation();
+					}
+		
+				//---------------
+				// Button a tipus
+				//---------------
+				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals(ElementTypeListEnum.BUTTON)){
+			
+					//CLICK
+					if( operationString.equals( ClickOperation.getStaticName() ) ){
+
+						elementOperation = new ClickOperation();
+				
+					//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
+					}else{
+					
+						elementOperation = new ClickOperation();				
+					}
+			
+				//-----------------
+				// Checkbox a tipus
+				//-----------------
+				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.CHECKBOX) ){
+			
+					//CLICK
+					if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+						elementOperation = new ClickOperation();
+				
+					//COMPARE VALUE TO VARIABLE
+					}else if( operationString.equals( CompareValueToVariableOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+
+					//COMPARE VALUE TO STORED
+					}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareValueToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//COMPARE VALUE TO STRING
+					}else if( operationString.equals( CompareValueToStringOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareValueToStringOperation( element, rootTag, dataModel.getTag() );				
+				
+					//GAIN VALUE TO VARIABLE
+					}else if( operationString.equals( GainValueToVariableOperation.getStaticName() ) ){
+					
+						elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+
+					//GAIN VALUE TO ELEMENT STORAGE
+					}else if( operationString.equals( GainValueToElementStorageOperation.getStaticName() ) ){
+						
+						elementOperation = new GainValueToElementStorageOperation( element, rootTag, dataModel.getTag() );
+
+					//OUTPUT STORED
+					}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
+				
+						elementOperation = new OutputStoredElementOperation( element, rootTag, dataModel.getTag() );
+				
+					//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
+					}else{
+				
+						elementOperation = new ClickOperation();
+				
+					}
+			
+				//---------------------
+				// Radio button a tipus
+				//---------------------
+				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.RADIOBUTTON ) ){
+			
+					//CLICK
+					if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+						elementOperation = new ClickOperation();
+				
+					//COMPARE TEXT TO VARIABLE
+					}else if( operationString.equals( CompareTextToVariableOperation.getStaticName() ) ){
+	
+						elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+	
+					//COMPARE TEXT TO STORED
+					}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
+	
+						elementOperation = new CompareTextToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+	
+					//COMPARE TEXT TO STRING
+					}else if( operationString.equals( CompareTextToStringOperation.getStaticName() ) ){
+	
+						elementOperation = new CompareTextToStringOperation( element, rootTag, dataModel.getTag() );
+				
+					//COMPARE VALUE TO VARIABLE
+					}else if( operationString.equals( CompareValueToVariableOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+
+					//COMPARE VALUE TO STORED
+					}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareValueToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//COMPARE VALUE TO STRING
+					}else if( operationString.equals( CompareValueToStringOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareValueToStringOperation( element, rootTag, dataModel.getTag() );
+				
+					//GAIN VALUE TO VARIABLE
+					}else if( operationString.equals( GainValueToVariableOperation.getStaticName() ) ){
+					
+						elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+
+					//GAIN VALUE TO ELEMENT STORAGE
+					}else if( operationString.equals( GainValueToElementStorageOperation.getStaticName() ) ){
+						
+						elementOperation = new GainValueToElementStorageOperation( element, rootTag, dataModel.getTag() );
+
+					//OUTPUT STORED
+					}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
+				
+						elementOperation = new OutputStoredElementOperation( element, rootTag, dataModel.getTag() );
+				
+					//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
+					}else{
+					
+						elementOperation = new ClickOperation();
+					
+					}
+		
+				//--------------
+				// Field a tipus
+				//--------------
+				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.FIELD ) ){
+			
+					//CLEAR
+					if( operationString.equals( ClearOperation.getStaticName() ) ){
+			
+						elementOperation = new ClearOperation();
+				
+					//CLICK
+					}else if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+						elementOperation = new ClickOperation();
+				
+					//TAB
+					}else if( operationString.equals( TabOperation.getStaticName() ) ){
+				
+						elementOperation = new TabOperation();
+				
+					//FILL VARIABLE
+					}else if( operationString.equals( FillWithVariableElementOperation.getStaticName() ) ){
+				
+						elementOperation = new FillWithVariableElementOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//FILL BASEELEMENT
+					}else if( operationString.equals( FillWithBaseElementOperation.getStaticName() ) ){
+				
+						elementOperation = new FillWithBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//FILL STRING
+					}else if( operationString.equals( FillWithStringOperation.getStaticName() ) ){
+				
+						elementOperation = new FillWithStringOperation( element, rootTag, dataModel.getTag() );
+				
+					//COMPARE VALUE TO VARIABLE
+					}else if( operationString.equals( CompareValueToVariableOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+
+					//COMPARE VALUE TO STORED
+					}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareValueToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//COMPARE VALUE TO STRING
+					}else if( operationString.equals( CompareValueToStringOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareValueToStringOperation( element, rootTag, dataModel.getTag() );
+			
+					//GAIN VALUE TO VARIABLE
+					}else if( operationString.equals( GainValueToVariableOperation.getStaticName() ) ){
+					
+						elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+
+					//GAIN VALUE TO ELEMENT STORAGE
+					}else if( operationString.equals( GainValueToElementStorageOperation.getStaticName() ) ){
+						
+						elementOperation = new GainValueToElementStorageOperation( element, rootTag, dataModel.getTag() );
+
+					//OUTPUT STORED
+					}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
+				
+						elementOperation = new OutputStoredElementOperation( element, rootTag, dataModel.getTag() );
+				
+					//Ha nem a tipusnak megfelelo az muvelet, akkor Clear lesz a muvelet
+					}else{
+					
+						elementOperation = new ClearOperation();
+					}
+		
+				//---------
+				// Text
+				//---------
+				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.TEXT ) ){
+			
+					//COMPARE TEXT TO VARIABLE
+					if( operationString.equals( CompareTextToVariableOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//COMPARE TEXT TO STORED
+					}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareTextToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//COMPARE TEXT TO STRING
+					}else if( operationString.equals( CompareTextToStringOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareTextToStringOperation( element, rootTag, dataModel.getTag() );
+				
+					//GAIN TEXT TO ELEMENT
+					}else if( operationString.equals( GainTextToElementOperation.getStaticName() ) ){
+									
+						elementOperation = new GainTextToElementOperation( element, rootTag, dataModel.getTag() );				
+				
+					//OUTPUT STORED
+					}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
+	
+						elementOperation = new OutputStoredElementOperation( element, rootTag, dataModel.getTag() );
+				
+					//Ha nem a tipusnak megfelelo az muvelet
+					}else{
+				
+						//Default muvelet
+						elementOperation = new GainTextToElementOperation( element, rootTag, dataModel.getTag() );	
+				
+						//throw new XMLWrongAttributePharseException( BaseDataModelInterface.getRootTag(), BaseElementDataModel.TAG, DataModelAdapter.ATTR_NAME, baseElement.getName(), BaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
+						//TODO ez nem jo uzenet
+					}
+			
+				//---------
+				// List
+				//---------
+				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.LIST ) ){
+						
+					//Select Variable Element
+					if( operationString.equals( SelectVariableElementOperation.getStaticName() ) ){
+				
+						elementOperation = new SelectVariableElementOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//Select Base Element
+					}else if( operationString.equals( SelectBaseElementOperation.getStaticName() ) ){
+				
+						elementOperation = new SelectBaseElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+		
+					//Select String
+					}else if( operationString.equals( SelectStringOperation.getStaticName() ) ){
+				
+						elementOperation = new SelectStringOperation( element, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+		
+					//Click
+					}else if( operationString.equals( ClickOperation.getStaticName() ) ){
+				
+						elementOperation = new ClickOperation( );
+				
+					//Tab
+					}else if( operationString.equals( TabOperation.getStaticName() ) ){
+				
+						elementOperation = new TabOperation( );
+				
+					//COMPARE TO VARIABLE
+					}else if( operationString.equals( CompareListToVariableOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareListToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+
+					//COMPARE TO STORED
+					}else if( operationString.equals( CompareListToStoredElementOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareListToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+				
+					//COMPARE TO STRING
+					}else if( operationString.equals( CompareListToStringOperation.getStaticName() ) ){
+				
+						elementOperation = new CompareListToStringOperation( element, rootTag, dataModel.getTag() );
+				
+					//GAIN TO VARIABLE
+					}else if( operationString.equals( GainListToVariableOperation.getStaticName() ) ){
+						
+						elementOperation = new GainListToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+
+					//GAIN TO ELEMENT
+					}else if( operationString.equals( GainListToElementStorageOperation.getStaticName() ) ){
+								
+						elementOperation = new GainListToElementStorageOperation( element, rootTag, dataModel.getTag() );
+			
+					//OUTPUT STORED
+					}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
+					
+						elementOperation = new OutputStoredElementOperation( element, rootTag, dataModel.getTag() );				
+			
+					}else{
+				
+						elementOperation = new ClickOperation( );
+				
+					}
+			
+				//Minden egyeb esetben error
+				}else{
+					throw new XMLWrongAttributePharseException( BaseDataModelAdapter.getRootTag(), NormalBaseElementDataModel.TAG, DataModelAdapter.ATTR_NAME, baseElement.getName(), NormalBaseElementDataModel.ATTR_ELEMENT_TYPE, ((NormalBaseElementDataModel)baseElement).getElementType().name() );
+				}
+		
+			}
+			
+			return elementOperation;
+		}
+
+
 }

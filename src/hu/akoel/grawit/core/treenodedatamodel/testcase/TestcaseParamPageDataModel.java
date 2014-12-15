@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-public class TestcaseParamPageDataModel extends TestcasePageModelInterface{
+public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 
 	private static final long serialVersionUID = 5313170692938571481L;
 
