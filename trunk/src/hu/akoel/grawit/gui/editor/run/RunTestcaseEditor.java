@@ -35,7 +35,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -503,7 +503,7 @@ elementProgres.outputCommand( "	" );
     		
 				//A teszteset Page-einek futtatasa
 				for( int index = 0; index < childCount; index++ ){
-					TestcasePageModelInterface pageToRun = (TestcasePageModelInterface)actualTestcase.getChildAt(index);
+					TestcasePageModelAdapter pageToRun = (TestcasePageModelAdapter)actualTestcase.getChildAt(index);
 					pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
 				}					
     		

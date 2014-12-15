@@ -209,7 +209,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	    	
 		}
 		
-//TODO duplikacio megszuntetese. ugyan ez van a SpecialElementTypeComponent.java-ban is, csak egy kicsit maskent	    
+//TODO duplikacio megszuntetese. ugyan ez van a SpecialElementTypeComponent.java-ban TestCaseControlLoop is, csak egy kicsit maskent	    
 	    
 		//=============================
 		//

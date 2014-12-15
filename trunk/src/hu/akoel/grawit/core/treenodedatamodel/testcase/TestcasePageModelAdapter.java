@@ -10,7 +10,7 @@ import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 
-public abstract class TestcasePageModelInterface extends TestcaseDataModelAdapter{
+public abstract class TestcasePageModelAdapter extends TestcaseDataModelAdapter{
 
 	private static final long serialVersionUID = -3451125455593871748L;
 	

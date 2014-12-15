@@ -21,6 +21,7 @@ public enum Tag{
 	TESTCASECASE("case"),
 	TESTCASEPARAMPAGE("param"),
 	TESTCASECUSTOMPAGE("custom"),
+	TESTCASECONTROLLOOP("controlloop"),
 
 	RUNROOT("run"),
 	RUNNODE("node"),
