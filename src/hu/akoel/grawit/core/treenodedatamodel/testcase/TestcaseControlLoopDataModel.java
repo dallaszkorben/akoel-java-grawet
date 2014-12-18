@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
@@ -290,7 +291,7 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
+			
 		return cloned;
 	}
 	
