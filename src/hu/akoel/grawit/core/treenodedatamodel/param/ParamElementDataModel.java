@@ -221,7 +221,9 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		}
 		String operationString = element.getAttribute( ATTR_OPERATION );		
 
-		//Ha SpecialBase ElementDataModel
+		elementOperation = CommonOperations.getElementOperation( element, baseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, variableRootDataModel );
+				
+/*		//Ha SpecialBase ElementDataModel
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
 			if( baseElement.getElementType().equals( ElementTypeListEnum.SCRIPT ) ){
@@ -609,6 +611,8 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 				throw new XMLWrongAttributePharseException( BaseDataModelAdapter.getRootTag(), NormalBaseElementDataModel.TAG, DataModelAdapter.ATTR_NAME, baseElement.getName(), NormalBaseElementDataModel.ATTR_ELEMENT_TYPE, ((NormalBaseElementDataModel)baseElement).getElementType().name() );
 			}
 		}
+		
+		*/
 
 	}
 

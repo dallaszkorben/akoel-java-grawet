@@ -1,8 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -197,9 +195,13 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 		return this.name;
 	}
 	
+	public static String  getModelNameToShowStatic(){
+		return CommonOperations.getTranslation( "tree.nodetype.testcase.control.loop");
+	}
+	
 	@Override
 	public String getNodeTypeToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.testcase.control.loop");
+		return getModelNameToShowStatic();
 	}
 	
 	public ElementOperationAdapter getElementOperation() {
