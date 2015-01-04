@@ -1,18 +1,16 @@
-package hu.akoel.grawit.gui.editors.component.elementtype;
+package hu.akoel.grawit.gui.editors.component.elementtype.compare;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
-import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
+import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.operations.SpecialBaseAddStoreToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddVariableToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.ScriptElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.CheckboxElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
 
@@ -27,9 +25,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
+public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOperationsCompareListEnum> extends ElementTypeComponentCompareInterface<E>{
 
-	private static final long serialVersionUID = -6108131072338954554L;
+	private static final long serialVersionUID = -1938952416450007421L;
 	
 	//Type
 	private JLabel labelType;
@@ -38,6 +36,10 @@ public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsLis
 	//Operation
 	private JLabel labelOperations;	
 	private JComboBox<E> comboOperationList;	
+	
+	//Pattern
+	private JTextField fieldPattern;	
+	private JLabel labelPattern;
 	
 	//Variable selector - Mezo kitoltes
 	private JLabel labelVariableSelector;
@@ -50,33 +52,45 @@ public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsLis
 	//String - Mezo kitoltes
 	private JLabel labelString;
 	private JTextField fieldString;
+
+	//Message - Mezo ertekenek megjelenitese
+	private JLabel labelMessage;
+	private JTextField fieldMessage;
+	
+	//Compare type
+	private JLabel labelCompareType;
+	private JComboBox<CompareTypeListEnum> comboCompareTypeList;	
 	
 	private JLabel labelFiller;
 	
-	public ScriptElementTypeComponent( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public CheckboxElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
-		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );	
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
+		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.pattern") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
 		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": ");
+		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.param.message") + ": ");
+		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.param.comparetype") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
 		fieldType.setEditable(false);
-
+		fieldPattern = new JTextField();
+		fieldMessage = new JTextField();
+	
 		//OPERATION
 		comboOperationList = new JComboBox<>();
 		for( int i = 0; i < E.getSize(); i++ ){
-			comboOperationList.addItem( (E) E.getOperationByIndex(i) );
+			comboOperationList.addItem( (E) E.getElementCheckboxOperationByIndex(i) );
 		}		
 		comboOperationList.addItemListener( new ItemListener() {
 			
@@ -92,12 +106,22 @@ public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsLis
 					
 				}				
 			}
-		});			
-				
+		});	
+		
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
 		//comboOperationList.setRenderer(new ElementTypeComponentRenderer());
 		comboOperationList.setRenderer(new ListRenderer<E>());
-
+		
+		//COMPARE TYPE
+		comboCompareTypeList = new JComboBox<CompareTypeListEnum>();
+		for( int i = 0; i < CompareTypeListEnum.getSize(); i++ ){
+			comboCompareTypeList.addItem( CompareTypeListEnum.getCompareTypeByIndex(i) );
+		}
+		
+		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
+		//comboCompareTypeList.setRenderer(new CompareTypeRenderer());
+		comboCompareTypeList.setRenderer(new ListRenderer<CompareTypeListEnum>());
+		
 		this.setLayout( new GridBagLayout() );
 		
 		GridBagConstraints c = new GridBagConstraints();		
@@ -130,75 +154,64 @@ public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsLis
 		c.gridx = 3;
 		c.weightx = 0;
 		this.add( comboOperationList, c );
-
+		c.gridy = 1;
+	
 		//Kenyszeritem, hogy a kovetkezo setSelectedItem() hatasara vegrehajtsa a az itemStateChanged() metodust
 		comboOperationList.setSelectedIndex(-1);
+		comboCompareTypeList.setSelectedIndex( -1 );	
 		
 		//Valtozok letrehozase
 		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
 		fieldString = new JTextField( "" );
 		
+		//Default value for CompareType
+		comboCompareTypeList.setSelectedIndex( CompareTypeListEnum.EQUAL.getIndex() );
+		
 		//Kezdo ertek beallitasa
 		if( null == elementOperation ){
 			
-			comboOperationList.setSelectedIndex(E.EXECUTE_SCRIPT.getIndex());
-			
-		}else{
-			
-			//!!!Fontos a beallitasok sorrendje!!!
-			
-			//CLEAR PARAMETERS
-			if( elementOperation instanceof ClickOperation  ){
-				
-				comboOperationList.setSelectedIndex(E.CLEAR_PARAMETERS.getIndex());
-							
-			//ADD_VARIABLE_TO_PARAMETERS
-			}else if( elementOperation instanceof SpecialBaseAddVariableToParametersOperation ){
-								
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((SpecialBaseAddVariableToParametersOperation)elementOperation).getVariableElement() );
-				comboOperationList.setSelectedIndex(E.ADD_VARIABLE_TO_PARAMETERS.getIndex());
+			fieldString.setText( "" );
+			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STRING.getIndex());
 
-			//ADD_STORED_TO_PARAMETERS
-			}else if( elementOperation instanceof SpecialBaseAddStoreToParametersOperation ){
-								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((SpecialBaseAddStoreToParametersOperation)elementOperation).getBaseElement() );
-				comboOperationList.setSelectedIndex(E.ADD_STORED_TO_PARAMETERS.getIndex());
+		//COMPARE VALUE TO VARIABLE
+		}else if( elementOperation instanceof CompareValueToVariableOperation ){
+				
+			fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareValueToVariableOperation)elementOperation).getVariableElement() );				
+			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_VARIABLE.getIndex());
+			comboCompareTypeList.setSelectedIndex( ((CompareValueToVariableOperation)elementOperation).getCompareType().getIndex() );
 
-			//ADD_STRING_TO_PARAMETERS
-			}else if( elementOperation instanceof SpecialBaseAddStringToParametersOperation ){
+		//COMPARE VALUE TO STORED
+		}else if( elementOperation instanceof CompareValueToStoredElementOperation ){
 								
-				fieldString.setText( ((SpecialBaseAddStringToParametersOperation)elementOperation).getStringToShow() );
-				comboOperationList.setSelectedIndex(E.ADD_STRING_TO_PARAMETERS.getIndex());
+			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElement() );
+			comboCompareTypeList.setSelectedIndex( ((CompareValueToStoredElementOperation)elementOperation).getCompareType().getIndex() );
+			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STORED.getIndex());
 				
-			//EXECUTE_SCRIPT
-			}else if( elementOperation instanceof SpecialBaseExecuteOperation ){
-				
-				comboOperationList.setSelectedIndex(E.EXECUTE_SCRIPT.getIndex());
-					
-			}else{
-				
-				comboOperationList.setSelectedIndex(E.CLEAR_PARAMETERS.getIndex());
-				
-			}
-		}		
-		
+		//COMPARE VALUE TO STRING
+		}else if( elementOperation instanceof CompareValueToStringOperation ){
+								
+			fieldString.setText( ((CompareValueToStringOperation)elementOperation).getStringToShow() );
+			comboCompareTypeList.setSelectedIndex( ((CompareValueToStringOperation)elementOperation).getCompareType().getIndex() );
+			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STRING.getIndex());				
+			
+		}
 	}	
 	
-	@SuppressWarnings("unchecked")
 	@Override
-	public E getSelectedOperation(ElementTypeListEnum elementType) {
+	public E getSelectedOperation( ElementTypeListEnum elementType ){
 		return(E)comboOperationList.getSelectedItem();
 	}
 	
 	@Override
 	public void setEnableModify(boolean enable) {
-		
 		comboOperationList.setEnabled( enable );		
 		fieldString.setEditable( enable );
 		fieldBaseElementSelector.setEnableModify(enable);		
 		fieldVariableSelector.setEnableModify( enable );
-
+		fieldMessage.setEditable( enable );		
+		fieldPattern.setEditable( enable );
+		comboCompareTypeList.setEnabled( enable );
 	}
 
 	@Override
@@ -207,20 +220,26 @@ public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsLis
 	}
 
 	private void setValueContainer( E selectedOperation ){
-
-		GridBagConstraints c = new GridBagConstraints();		
-		c.insets = this.getInsets(); //new Insets(0,0,0,0);		
 		
+		GridBagConstraints c = new GridBagConstraints();		
+		c.insets = new Insets(0,0,0,0);
+		
+		this.remove( labelPattern );
+		this.remove( fieldPattern );
 		this.remove( labelBaseElementSelector );
 		this.remove( fieldBaseElementSelector );
 		this.remove( labelString );
 		this.remove( fieldString );
 		this.remove( labelVariableSelector );
 		this.remove( fieldVariableSelector );	
-		this.remove( labelFiller );
-		
-		//Fill element / Compare value to element
-		if( selectedOperation.equals( E.ADD_STORED_TO_PARAMETERS ) ){
+		this.remove( labelFiller );	
+		this.remove( fieldMessage );
+		this.remove( labelMessage );
+		this.remove( labelCompareType );
+		this.remove( comboCompareTypeList );
+	
+		//Compare value to STORED
+		if( selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -235,8 +254,8 @@ public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsLis
 			c.weightx = 1;
 			this.add( fieldBaseElementSelector, c );
 			
-		//Fill variable / Compare value to variable
-		}else if( selectedOperation.equals( E.ADD_VARIABLE_TO_PARAMETERS ) ){
+		//Compare value to variable
+		}else if( selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -251,8 +270,8 @@ public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsLis
 			c.weightx = 1;
 			this.add( fieldVariableSelector, c );
 			
-		//Fill string / Compare value to string
-		}else if( selectedOperation.equals( E.ADD_STRING_TO_PARAMETERS ) ){
+		//Compare value to string
+		}else if( selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
 		
 			c.gridy = 0;
 			c.gridx = 4;
@@ -267,51 +286,49 @@ public class ScriptElementTypeComponent<E extends ScriptElementTypeOperationsLis
 			c.weightx = 1;
 			this.add( fieldString, c );
 			
-		//CLEAR_PARAMETERS || EXECUTE_SCRIPT
-		}else if( selectedOperation.equals( E.CLEAR_PARAMETERS) || selectedOperation.equals( E.EXECUTE_SCRIPT) ){
-			
-			//Filler
-			c.gridy = 0;
-			c.gridx = 4;
+		}	
+
+		//Compare element
+		if( selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) || selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) || selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
+				
+			c.gridy = 1;
+			c.gridx = 2;
 			c.gridwidth = 1;
 			c.weighty = 0;
 			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1;
+			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelFiller, c );
+			this.add( labelCompareType, c );
 			
-		}
-
+			c.gridx = 3;
+			c.weightx = 1;
+			this.add( comboCompareTypeList, c );
+							
+		}				
+				
 		this.revalidate();
 		this.repaint();
 	}
-
+	
 	@Override
 	public ElementOperationAdapter getElementOperation() {
 		
-		//ADD_STORED_TO_PARAMETERS
-		if( comboOperationList.getSelectedIndex() ==  E.ADD_STORED_TO_PARAMETERS.getIndex() ){
-			return new SpecialBaseAddStoreToParametersOperation( fieldBaseElementSelector.getSelectedDataModel() );
-			
-		//ADD_VARIABLE_TO_PARAMETERS
-		}else if(comboOperationList.getSelectedIndex() ==  E.ADD_VARIABLE_TO_PARAMETERS.getIndex() ){
-			return new SpecialBaseAddVariableToParametersOperation( fieldVariableSelector.getSelectedDataModel() );
-			
-		//ADD_STRING_TO_PARAMETERS
-		}else if( comboOperationList.getSelectedIndex() ==  E.ADD_STRING_TO_PARAMETERS.getIndex() ){
-			return new SpecialBaseAddStringToParametersOperation( fieldString.getText() );
-			
-		//CLEAR_PARAMETERS
-		}else if( comboOperationList.getSelectedIndex() ==  E.CLEAR_PARAMETERS.getIndex() ){
-			return new SpecialBaseClearParametersOperation();
-			
-		//EXECUTE_SCRIPT
-		}else if( comboOperationList.getSelectedIndex() ==  E.EXECUTE_SCRIPT.getIndex() ){
-			return new SpecialBaseExecuteOperation();
-
+		//COMPARE VALUE TO STORED
+		if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STORED.getIndex() ){
+			return new CompareValueToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
+				
+		//COMPARE VALUE TO VARIABLE
+		}else if(comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_VARIABLE.getIndex() ){
+			return new CompareValueToVariableOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
+				
+		//COMPARE VALUE TO STRING
+		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STRING.getIndex() ){
+			return new CompareValueToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
+						
 		}
-	
+		
 		return null;
-	}
 	
+	}
+
 }

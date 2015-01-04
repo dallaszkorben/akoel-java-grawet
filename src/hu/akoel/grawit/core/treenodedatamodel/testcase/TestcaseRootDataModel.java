@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
@@ -49,7 +50,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 		this.driver = driver;
 	}
 	
-	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{		
+	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{		
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -179,7 +180,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 														
 						//Ha ujabb TESTCASENODE van alatta
 						if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() ) ){
-							this.add(new TestcaseNodeDataModel(testcaseElement, paramRootDataModel, driverDataModel ));
+							this.add(new TestcaseNodeDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
 						}
 					}
 				}

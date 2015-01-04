@@ -11,10 +11,12 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -59,7 +61,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCaseDataModel( Element element, ParamDataModelAdapter paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
+	public TestcaseCaseDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamDataModelAdapter paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -178,7 +180,12 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	    	//Nem sikerult az utvonalat megtalalni
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH), e );
 	    }
-				
+			
+	    //========
+		//
+		// Gyermekei
+		//
+	    //========
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
@@ -189,7 +196,12 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMPAGE.getName() )){
 					
 					this.add(new TestcaseParamPageDataModel(testcaseElement, paramDataModel ));
-				
+
+				//Ha TESTCASELOOP van alatta
+				} else if( testcaseElement.getTagName().equals( Tag.TESTCASECONTROLLOOP.getName() )){
+						
+					this.add(new TestcaseControlLoopDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramDataModel ));
+					
 				}
 			}
 		}

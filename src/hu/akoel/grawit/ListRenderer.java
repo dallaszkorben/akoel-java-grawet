@@ -22,12 +22,10 @@ public class ListRenderer<E extends ElementTypeOperationsListEnumInterface> exte
 		
 		if( null != value ){
 		
-		@SuppressWarnings("unchecked")
-		Component c = super.getListCellRendererComponent(list, ((E)value).getTranslatedName(), index, isSelected, cellHasFocus);
-		
-		
+			@SuppressWarnings("unchecked")
+			Component c = super.getListCellRendererComponent(list, ((E)value).getTranslatedName(), index, isSelected, cellHasFocus);
 
-		return c;
+			return c;
 		
 		}else{ 
 			return null;

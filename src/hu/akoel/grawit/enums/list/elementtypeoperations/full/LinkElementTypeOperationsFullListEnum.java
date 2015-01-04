@@ -1,8 +1,9 @@
-package hu.akoel.grawit.enums.list.elementtypeoperations;
+package hu.akoel.grawit.enums.list.elementtypeoperations.full;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
-public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
+public enum LinkElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.click") ),
 	COMPARETEXT_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttovariable") ),
 	COMPARETEXT_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttostored") ),
@@ -15,7 +16,7 @@ public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	private String translatedName;
 	private int index;
 	
-	private LinkElementTypeOperationsListEnum( int index, String translatedName ){
+	private LinkElementTypeOperationsFullListEnum( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -27,7 +28,7 @@ public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	}	
 	
 	public static int getSize(){
-		return LinkElementTypeOperationsListEnum.values().length;
+		return LinkElementTypeOperationsFullListEnum.values().length;
 	}
 	
 	@Override
@@ -35,7 +36,7 @@ public enum LinkElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		return index;
 	}
 	
-	public static LinkElementTypeOperationsListEnum getElementFieldOperationByIndex( int index ){
+	public static LinkElementTypeOperationsFullListEnum getElementFieldOperationByIndex( int index ){
 		switch (index){
 		case 0:	return CLICK;
 		case 1: return COMPARETEXT_TO_VARIABLE;

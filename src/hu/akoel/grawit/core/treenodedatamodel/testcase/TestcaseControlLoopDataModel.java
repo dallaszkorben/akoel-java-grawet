@@ -1,6 +1,8 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
+import java.util.Vector;
+
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,6 +12,7 @@ import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
@@ -21,10 +24,12 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
@@ -56,7 +61,7 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 
 	}
 	
-	public TestcaseControlLoopDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public TestcaseControlLoopDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
 		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -170,7 +175,26 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 	    	
 		}
 		
-   
+	    //========
+		//
+		// Gyermekei
+		//
+	    //========
+		NodeList nodelist = element.getChildNodes();
+		for( int i = 0; i < nodelist.getLength(); i++ ){
+			Node node = nodelist.item( i );
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element testcaseElement = (Element)node;
+				
+				//Ha TESTCASEPARAM van alatta
+				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMPAGE.getName() )){
+					
+					this.add(new TestcaseParamPageDataModel(testcaseElement, paramDataModel ));
+					
+				}
+			}
+		}
+		
 		elementOperation = CommonOperations.getElementOperation( element, compareBaseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, variableRootDataModel );
 		
 	}
@@ -267,6 +291,20 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 		attr.setValue( this.isOn().toString() );
 		elementElement.setAttributeNode(attr);
 		
+		
+		int childrens = this.getChildCount();
+		for( int i = 0; i < childrens; i++ ){
+			
+			Object object = this.getChildAt( i );
+			
+			if( !object.equals(this) && object instanceof TestcaseDataModelAdapter ){
+				
+				Element element = ((TestcaseDataModelAdapter)object).getXMLElement( document );
+				elementElement.appendChild( element );		    		
+		    	
+			}
+		}
+		
 		//Minden Operation a sajat attributumaiert felelos
 		getElementOperation().setXMLAttribute( document, elementElement );
 				
@@ -278,6 +316,27 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 		
 		//Leklonozza a NODE-ot
 		TestcaseControlLoopDataModel cloned = (TestcaseControlLoopDataModel)super.clone();
+		
+		//Ha vannak gyerekei (NODE vagy CASE)
+		if( null != this.children ){
+			
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+			
+			for( Object o : this.children ){
+				
+				if( o instanceof TestcaseDataModelAdapter ){					
+					
+					TestcaseDataModelAdapter child = (TestcaseDataModelAdapter) ((TestcaseDataModelAdapter)o).clone();
+					
+					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
+					child.setParent( cloned );					
+					
+					cloned.children.add(child);
+					
+				}
+			}
+		}
 	
 		cloned.compareBaseElement = (BaseElementDataModelAdapter) this.compareBaseElement.clone();
 		cloned.elementOperation = (ElementOperationAdapter) this.elementOperation.clone();

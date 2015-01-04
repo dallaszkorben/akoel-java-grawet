@@ -7,43 +7,32 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseControlLoopDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.ButtonElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.CheckboxElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.FieldElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.ListElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.RadiobuttonElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.ScriptElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
-import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.param.ParamElementEditor;
-import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ButtonElementTypeOperationsCompareListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.CheckboxElementTypeOperationsCompareListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.FieldElementTypeOperationsCompareListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.LinkElementTypeOperationsCompareListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ListElementTypeOperationsCompareListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.RadiobuttonElementTypeOperationsCompareListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ScriptElementTypeOperationsCompareListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.TextElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.ButtonElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.CheckboxElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface;
-import hu.akoel.grawit.gui.editors.component.elementtype.EmptyElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.FieldElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.LinkElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.ListElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.RadiobuttonElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.ScriptElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.TextElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.ButtonElementTypeComponentCompare;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.CheckboxElementTypeComponentCompare;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.ElementTypeComponentCompareInterface;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.EmptyElementTypeComponentCompare;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.FieldElementTypeComponentCompare;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.LinkElementTypeComponentCompare;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.ListElementTypeComponentCompare;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.RadiobuttonElementTypeComponentCompare;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.ScriptElementTypeComponentCompare;
+import hu.akoel.grawit.gui.editors.component.elementtype.compare.TextElementTypeComponentCompare;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.DriverTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -67,13 +56,13 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 	private BaseElementTreeSelectorComponent fieldCompareBaseElementSelector;	
 	
 	private JLabel labelElementTypeSelector;
-	private ElementTypeComponentInterface<?> elementTypeComponent;
+	private ElementTypeComponentCompareInterface<?> elementTypeComponent;
 	
 	BaseRootDataModel baseRootDataModel;
 	VariableRootDataModel variableRootDataModel;
 
 	//Itt biztos beszuras van
-	public TestcaseControlLoopEditor( Tree tree, TestcaseCaseDataModel selectedNode, DriverDataModelInterface driverDataModel ){
+	public TestcaseControlLoopEditor( Tree tree, TestcaseCaseDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 		
 		super( TestcaseControlLoopDataModel.getModelNameToShowStatic() );
 		
@@ -86,22 +75,14 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		//Name
 		fieldName = new TextFieldComponent( "" );
 		
-		//Base Element
-//		BasePageDataModel basePage = ((TestcaseCaseDataModel)selectedTestCase).getBasePage();
-//		if( null != basePage ){
-//			fieldCompareBaseElementSelector = new BaseElementTreeSelectorComponent( basePage );
-//			baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
-//			
-//		}else{
 		fieldCompareBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );			
-//		}
-		
+
 		commonPost( null );
 		
 	}
 	
 	//Itt modositas van
-	public TestcaseControlLoopEditor( Tree tree, TestcaseControlLoopDataModel selectedControlLoop, DriverDataModelInterface driverDataModel, EditMode mode ){		
+	public TestcaseControlLoopEditor( Tree tree, TestcaseControlLoopDataModel selectedControlLoop, BaseRootDataModel baseRootDataModel, EditMode mode ){		
 		
 		super( mode, selectedControlLoop.getNodeTypeToShow());
 
@@ -117,16 +98,6 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedControlLoop.getCompareBaseElement();
 		
-/*		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();
-		if( null != basePage ){
-			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
-			baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
-			
-		}else{
-			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
-			
-		}
-*/		
 		fieldCompareBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
 		
 		commonPost( baseElement );
@@ -176,7 +147,7 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 			this.add( labelBaseElementSelector, fieldCompareBaseElementSelector );
 		}
 		
-		elementTypeComponent = new EmptyElementTypeComponent();
+		elementTypeComponent = new EmptyElementTypeComponentCompare();
 		changeOperation(baseElement);
 		
 	}
@@ -195,58 +166,58 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		ElementOperationAdapter elementOperation;
 		
 		//Uj
-		if( null == nodeForModify ){
+//		if( null == nodeForModify ){
 			elementOperation = null;
 		
 		//Modositas
-		}else{
-			elementOperation = nodeForModify.getElementOperation();
-		}		
+//		}else{
+//			elementOperation = nodeForModify.getElementOperation();
+//		}		
 		
 		//Ha uj es elso alkalom
 		if( null == baseElement ){		 
 		
-			elementTypeComponent = new EmptyElementTypeComponent();
+			elementTypeComponent = new EmptyElementTypeComponentCompare();
 	
 		//SCRIPT
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SCRIPT.name() ) ){
 				
-			elementTypeComponent = new ScriptElementTypeComponent<ScriptElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new ScriptElementTypeComponentCompare<ScriptElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
 			
-			elementTypeComponent = new FieldElementTypeComponent<FieldElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new FieldElementTypeComponentCompare<FieldElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//TEXT
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
 
-			elementTypeComponent = new TextElementTypeComponent<TextElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new TextElementTypeComponentCompare<TextElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//LINK	
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LINK.name() ) ){
 
-			elementTypeComponent = new LinkElementTypeComponent<LinkElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new LinkElementTypeComponentCompare<LinkElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//LIST
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LIST.name() ) ){
 			
-			elementTypeComponent = new ListElementTypeComponent<ListElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new ListElementTypeComponentCompare<ListElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
 			
-			elementTypeComponent = new ButtonElementTypeComponent<ButtonElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation );
+			elementTypeComponent = new ButtonElementTypeComponentCompare<ButtonElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation );
 			
 		//RADIOBUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.RADIOBUTTON.name() ) ){
 
-			elementTypeComponent = new RadiobuttonElementTypeComponent<RadiobuttonElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new RadiobuttonElementTypeComponentCompare<RadiobuttonElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//CHECKBOX
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.CHECKBOX.name() ) ){
 			
-			elementTypeComponent = new CheckboxElementTypeComponent<CheckboxElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new CheckboxElementTypeComponentCompare<CheckboxElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 					
 		}		
 		
@@ -353,9 +324,9 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				ParamElementDataModel newParamElement = new ParamElementDataModel( fieldName.getText(), baseElement, elementOperation );			
+				TestcaseControlLoopDataModel newTestcaseControlLoop = new TestcaseControlLoopDataModel(fieldName.getText(), baseElement, 10, elementOperation);
 				
-				nodeForCapture.add( newParamElement );
+				nodeForCapture.add( newTestcaseControlLoop );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){

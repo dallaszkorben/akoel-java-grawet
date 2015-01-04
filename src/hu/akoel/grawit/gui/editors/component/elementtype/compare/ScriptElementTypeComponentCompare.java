@@ -1,12 +1,13 @@
-package hu.akoel.grawit.gui.editors.component.elementtype;
+package hu.akoel.grawit.gui.editors.component.elementtype.compare;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.ButtonElementTypeOperationsListEnum;
-
+import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ScriptElementTypeOperationsCompareListEnum;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,79 +19,67 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class ButtonElementTypeComponent<E extends ButtonElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
+public class ScriptElementTypeComponentCompare<E extends ScriptElementTypeOperationsCompareListEnum> extends ElementTypeComponentCompareInterface<E>{
 
 	private static final long serialVersionUID = -6108131072338954554L;
-
-	private JTextField fieldType;
-	private JComboBox<E> comboOperationList;
-		
+	
+	//Type
 	private JLabel labelType;
+	private JTextField fieldType;
+	
+	//Operation
 	private JLabel labelOperations;	
+	private JComboBox<E> comboOperationList;	
+	
+	//String - Mezo kitoltes
+	private JLabel labelString;
+	private JTextField fieldString;
 	
 	private JLabel labelFiller;
 	
-	/**
-	 * Uj
-	 * 
-	 */
-	public ButtonElementTypeComponent( ElementTypeListEnum elementType ){
+	public ScriptElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
-
-		common( elementType, null );
+		
+		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
 		
 	}
 	
-	/**
-	 * 
-	 * Mar letezo
-	 * 
-	 * @param key
-	 * @param value
-	 */
-	public ButtonElementTypeComponent( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation ){
-		super();
-		
-		common( elementType, elementOperation );		
-		
-	}
-	
-	private void common( ElementTypeListEnum elementType, ElementOperationAdapter elementOperation ){
+	@SuppressWarnings("unchecked")
+	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
-		labelFiller = new JLabel();
+		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
+		labelFiller = new JLabel("");
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );
 		fieldType.setEditable(false);
-		
+
+		//OPERATION
 		comboOperationList = new JComboBox<>();
 		for( int i = 0; i < E.getSize(); i++ ){
-			comboOperationList.addItem( (E) E.getElementButtonOperationByIndex(i) );
-		}
-		
+			comboOperationList.addItem( (E) E.getOperationByIndex(i) );
+		}		
 		comboOperationList.addItemListener( new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 
-				int index = comboOperationList.getSelectedIndex();					
+				int index = comboOperationList.getSelectedIndex();				
 
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
+
+					setValueContainer();
 					
-					if( comboOperationList.getItemAt(index).equals( E.CLICK ) ){
-						setValueContainer( false );
-						
-					}		
 				}				
 			}
-		});	
-		
+		});			
+				
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
 		//comboOperationList.setRenderer(new ElementTypeComponentRenderer());
 		comboOperationList.setRenderer(new ListRenderer<E>());
-		
+
 		this.setLayout( new GridBagLayout() );
 		
 		GridBagConstraints c = new GridBagConstraints();		
@@ -123,33 +112,39 @@ public class ButtonElementTypeComponent<E extends ButtonElementTypeOperationsLis
 		c.gridx = 3;
 		c.weightx = 0;
 		this.add( comboOperationList, c );
-		c.gridy = 1;
-	
+		
 		//Kenyszeritem, hogy a kovetkezo setSelectedItem() hatasara vegrehajtsa a az itemStateChanged() metodust
 		comboOperationList.setSelectedIndex(-1);
 		
+		//Valtozok letrehozase
+		fieldString = new JTextField( "" );
+		
 		//Kezdo ertek beallitasa
 		if( null == elementOperation ){
-			comboOperationList.setSelectedIndex(E.CLICK.getIndex());
-		}else{
 			
-			if( elementOperation instanceof ClickOperation  ){
-				
-				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
-				
-			}
+			comboOperationList.setSelectedIndex(E.NONE.getIndex());
 			
-		}
+		//CLEAR PARAMETERS
+		}else if( elementOperation instanceof ClickOperation  ){
+				
+			comboOperationList.setSelectedIndex(E.NONE.getIndex());			
+			
+		}		
+		
 	}	
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public E getSelectedOperation( ElementTypeListEnum elementType ){
+	public E getSelectedOperation(ElementTypeListEnum elementType) {
 		return(E)comboOperationList.getSelectedItem();
 	}
 	
 	@Override
 	public void setEnableModify(boolean enable) {
+		
 		comboOperationList.setEnabled( enable );		
+		fieldString.setEditable( enable );
+
 	}
 
 	@Override
@@ -157,56 +152,38 @@ public class ButtonElementTypeComponent<E extends ButtonElementTypeOperationsLis
 		return this;
 	}
 
-	private void setValueContainer( boolean show ){
-		
+	private void setValueContainer(){
+
 		GridBagConstraints c = new GridBagConstraints();		
-		c.insets = new Insets(0,0,0,0);
+		c.insets = this.getInsets(); //new Insets(0,0,0,0);		
 		
+//		this.remove( labelString );
+//		this.remove( fieldString );
 		this.remove( labelFiller );
 		
-		if( show ){		
-			
-		}else{
-			
-			//Filler
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelFiller, c );
-			
-		}
-		
+		c.gridy = 0;
+		c.gridx = 4;
+		c.gridwidth = 2;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.anchor = GridBagConstraints.WEST;	
+		this.add( labelFiller, c );
+
 		this.revalidate();
 		this.repaint();
 	}
-	
-/*	class MyRenderer extends BasicComboBoxRenderer {
 
-		private static final long serialVersionUID = -4562181616721578685L;
-
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value,	int index, boolean isSelected, boolean cellHasFocus) {
-
-			Component c = super.getListCellRendererComponent(list, ((ButtonElementTypeOperationsListEnum)value).getTranslatedName(), index, isSelected, cellHasFocus);
-
-			return c;
-		}
-	}
-*/
 	@Override
 	public ElementOperationAdapter getElementOperation() {
 		
-		//CLICK
-		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){
-			return new ClickOperation();
-		}
-		
-		return null;
-	
-	}
+		//NONE
+/*		if( comboOperationList.getSelectedIndex() ==  E.NONE.getIndex() ){
+			return new SpecialBaseAddStoreToParametersOperation( fieldBaseElementSelector.getSelectedDataModel() );
 
+		}
+*/	
+		return null;
+	}
+	
 }

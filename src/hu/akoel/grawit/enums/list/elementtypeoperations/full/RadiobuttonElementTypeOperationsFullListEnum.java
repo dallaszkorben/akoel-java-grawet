@@ -1,8 +1,9 @@
-package hu.akoel.grawit.enums.list.elementtypeoperations;
+package hu.akoel.grawit.enums.list.elementtypeoperations.full;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
-public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
+public enum RadiobuttonElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
 	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.click") ),
 	COMPAREVALUE_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetovariable") ),
 	COMPAREVALUE_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostored") ),
@@ -15,7 +16,7 @@ public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOpera
 	private String translatedName;
 	private int index;
 	
-	private RadiobuttonElementTypeOperationsListEnum( int index, String translatedName ){
+	private RadiobuttonElementTypeOperationsFullListEnum( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -27,7 +28,7 @@ public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOpera
 	}	
 	
 	public static int getSize(){
-		return RadiobuttonElementTypeOperationsListEnum.values().length;
+		return RadiobuttonElementTypeOperationsFullListEnum.values().length;
 	}
 	
 	@Override
@@ -35,7 +36,7 @@ public enum RadiobuttonElementTypeOperationsListEnum implements ElementTypeOpera
 		return index;
 	}
 	
-	public static RadiobuttonElementTypeOperationsListEnum getElementRadiobuttonOperationByIndex( int index ){
+	public static RadiobuttonElementTypeOperationsFullListEnum getElementRadiobuttonOperationByIndex( int index ){
 		switch (index){
 		case 0:	return CLICK;
 		case 1:	return COMPAREVALUE_TO_VARIABLE;
