@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editors.component.elementtype;
+package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
@@ -12,7 +12,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.full.TextElementTypeOperationsFullListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
 
@@ -27,7 +27,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnum> extends ElementTypeComponentInterface<E>{
+public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFullListEnum> extends ElementTypeComponentFullInterface<E>{
 
 	private static final long serialVersionUID = -6108131072338954554L;
 
@@ -69,7 +69,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 	 * Uj
 	 * 
 	 */
-	public TextElementTypeComponent( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public TextElementTypeComponentFull( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 
 		common( elementType, null, baseRootDataModel, variableRootDataModel );
@@ -83,7 +83,7 @@ public class TextElementTypeComponent<E extends TextElementTypeOperationsListEnu
 	 * @param key
 	 * @param value
 	 */
-	public TextElementTypeComponent( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public TextElementTypeComponentFull( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
 		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		

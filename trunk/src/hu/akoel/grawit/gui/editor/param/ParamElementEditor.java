@@ -15,26 +15,26 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.ButtonElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.CheckboxElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.FieldElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.LinkElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.ListElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.RadiobuttonElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.ScriptElementTypeOperationsListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.TextElementTypeOperationsListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.full.ButtonElementTypeOperationsFullListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.full.CheckboxElementTypeOperationsFullListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.full.FieldElementTypeOperationsFullListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.full.LinkElementTypeOperationsFullListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.full.ListElementTypeOperationsFullListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.full.RadiobuttonElementTypeOperationsFullListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.full.ScriptElementTypeOperationsFullListEnum;
+import hu.akoel.grawit.enums.list.elementtypeoperations.full.TextElementTypeOperationsFullListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.ButtonElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.CheckboxElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.EmptyElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.FieldElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.LinkElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.ElementTypeComponentInterface;
-import hu.akoel.grawit.gui.editors.component.elementtype.ListElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.RadiobuttonElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.ScriptElementTypeComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.TextElementTypeComponent;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.ButtonElementTypeComponentFull;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.CheckboxElementTypeComponentFull;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.ElementTypeComponentFullInterface;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.EmptyElementTypeComponentFull;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.FieldElementTypeComponentFull;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.LinkElementTypeComponentFull;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.ListElementTypeComponentFull;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.RadiobuttonElementTypeComponentFull;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.ScriptElementTypeComponentFull;
+import hu.akoel.grawit.gui.editors.component.elementtype.full.TextElementTypeComponentFull;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -59,7 +59,7 @@ public class ParamElementEditor extends DataEditor{
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;	
 	
 	private JLabel labelElementTypeSelector;
-	private ElementTypeComponentInterface<?> elementTypeComponent;
+	private ElementTypeComponentFullInterface<?> elementTypeComponent;
 	
 	BaseRootDataModel baseRootDataModel;
 	VariableRootDataModel variableRootDataModel;
@@ -186,7 +186,7 @@ public class ParamElementEditor extends DataEditor{
 			this.add( labelBaseElementSelector, fieldBaseElementSelector );
 		}
 		
-		elementTypeComponent = new EmptyElementTypeComponent();
+		elementTypeComponent = new EmptyElementTypeComponentFull();
 		changeOperation(baseElement);
 		
 	}
@@ -216,47 +216,47 @@ public class ParamElementEditor extends DataEditor{
 		//Ha uj es elso alkalom
 		if( null == baseElement ){		 
 		
-			elementTypeComponent = new EmptyElementTypeComponent();
+			elementTypeComponent = new EmptyElementTypeComponentFull();
 	
 		//SCRIPT
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SCRIPT.name() ) ){
 				
-			elementTypeComponent = new ScriptElementTypeComponent<ScriptElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new ScriptElementTypeComponentFull<ScriptElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
 			
-			elementTypeComponent = new FieldElementTypeComponent<FieldElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new FieldElementTypeComponentFull<FieldElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//TEXT
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
 
-			elementTypeComponent = new TextElementTypeComponent<TextElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new TextElementTypeComponentFull<TextElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//LINK	
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LINK.name() ) ){
 
-			elementTypeComponent = new LinkElementTypeComponent<LinkElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new LinkElementTypeComponentFull<LinkElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//LIST
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LIST.name() ) ){
 			
-			elementTypeComponent = new ListElementTypeComponent<ListElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new ListElementTypeComponentFull<ListElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
 			
-			elementTypeComponent = new ButtonElementTypeComponent<ButtonElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation );
+			elementTypeComponent = new ButtonElementTypeComponentFull<ButtonElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation );
 			
 		//RADIOBUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.RADIOBUTTON.name() ) ){
 
-			elementTypeComponent = new RadiobuttonElementTypeComponent<RadiobuttonElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new RadiobuttonElementTypeComponentFull<RadiobuttonElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//CHECKBOX
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.CHECKBOX.name() ) ){
 			
-			elementTypeComponent = new CheckboxElementTypeComponent<CheckboxElementTypeOperationsListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new CheckboxElementTypeComponentFull<CheckboxElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
 					
 		}		
 		

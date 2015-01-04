@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
@@ -24,7 +25,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 	
 	private Tree tree;
 	private TestcaseParamPageDataModel nodeForModify;
-	private TestcaseCaseDataModel nodeForCapture;
+	private TestcaseDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -35,7 +36,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 	private ParamPageTreeSelectorComponent fieldParamPageTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcaseParamPageEditor( Tree tree, TestcaseCaseDataModel selectedNode, ParamDataModelAdapter paramDataModel ){
+	public TestcaseParamPageEditor( Tree tree, TestcaseDataModelAdapter selectedNode, ParamDataModelAdapter paramDataModel ){
 		super( TestcaseParamPageDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;

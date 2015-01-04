@@ -1,8 +1,9 @@
-package hu.akoel.grawit.enums.list.elementtypeoperations;
+package hu.akoel.grawit.enums.list.elementtypeoperations.full;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
-public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
+public enum ListElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
 	SELECT_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.list.selectvariable") ),
 	SELECT_BASE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.list.selectbase") ),
 	SELECT_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.list.selectstring") ),
@@ -19,7 +20,7 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	private String translatedName;
 	private int index;
 	
-	private ListElementTypeOperationsListEnum( int index, String translatedName ){
+	private ListElementTypeOperationsFullListEnum( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -31,7 +32,7 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	}	
 	
 	public static int getSize(){
-		return ListElementTypeOperationsListEnum.values().length;
+		return ListElementTypeOperationsFullListEnum.values().length;
 	}
 	
 	@Override
@@ -39,7 +40,7 @@ public enum ListElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		return index;
 	}
 	
-	public static ListElementTypeOperationsListEnum getElementFieldOperationByIndex( int index ){
+	public static ListElementTypeOperationsFullListEnum getElementFieldOperationByIndex( int index ){
 		switch (index){
 		case 0:	return SELECT_VARIABLE;
 		case 1:	return SELECT_BASE;

@@ -644,7 +644,7 @@ public class GUIFrame extends JFrame{
 						
 					// TESTCASE
 					//testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel, driverRootDataModel, scriptRootDataModel );
-					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, driverRootDataModel );
+					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel );
 
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);

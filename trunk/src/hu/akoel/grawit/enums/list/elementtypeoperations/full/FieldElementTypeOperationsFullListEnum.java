@@ -1,8 +1,9 @@
-package hu.akoel.grawit.enums.list.elementtypeoperations;
+package hu.akoel.grawit.enums.list.elementtypeoperations.full;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
-public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
+public enum FieldElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
 	FILL_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillvariable") ),
 	FILL_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillelement") ),
 	FILL_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillstring") ),
@@ -19,7 +20,7 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	private String translatedName;
 	private int index;
 	
-	private FieldElementTypeOperationsListEnum( int index, String translatedName ){
+	private FieldElementTypeOperationsFullListEnum( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -31,7 +32,7 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 	}	
 	
 	public static int getSize(){
-		return FieldElementTypeOperationsListEnum.values().length;
+		return FieldElementTypeOperationsFullListEnum.values().length;
 	}
 	
 	@Override
@@ -39,7 +40,7 @@ public enum FieldElementTypeOperationsListEnum implements ElementTypeOperationsL
 		return index;
 	}
 	
-	public static FieldElementTypeOperationsListEnum getElementFieldOperationByIndex( int index ){
+	public static FieldElementTypeOperationsFullListEnum getElementFieldOperationByIndex( int index ){
 		switch (index){
 		case 0:	return FILL_VARIABLE;
 		case 1:	return FILL_ELEMENT;

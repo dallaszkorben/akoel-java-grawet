@@ -1,8 +1,9 @@
-package hu.akoel.grawit.enums.list.elementtypeoperations;
+package hu.akoel.grawit.enums.list.elementtypeoperations.full;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
-public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsListEnumInterface{		
+public enum TextElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
 	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttovariable") ),
 	COMPARETEXT_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostored") ),
 	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostring") ),
@@ -13,7 +14,7 @@ public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	private String translatedName;
 	private int index;
 	
-	private TextElementTypeOperationsListEnum( int index, String translatedName ){
+	private TextElementTypeOperationsFullListEnum( int index, String translatedName ){
 	
 		this.index = index;
 		this.translatedName = translatedName;
@@ -25,7 +26,7 @@ public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsLi
 	}	
 	
 	public static int getSize(){
-		return TextElementTypeOperationsListEnum.values().length;
+		return TextElementTypeOperationsFullListEnum.values().length;
 	}
 	
 	@Override
@@ -33,7 +34,7 @@ public enum TextElementTypeOperationsListEnum implements ElementTypeOperationsLi
 		return index;
 	}
 	
-	public static TextElementTypeOperationsListEnum getElementTextOperationByIndex( int index ){
+	public static TextElementTypeOperationsFullListEnum getElementTextOperationByIndex( int index ){
 		switch (index){		
 		case 0: return COMPARETEXT_TO_VARIABLE;
 		case 1: return COMPARETEXT_TO_STORED;
