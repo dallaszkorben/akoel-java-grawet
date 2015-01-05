@@ -16,9 +16,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -122,18 +122,18 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
-		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+		if( baseElement instanceof NormalBaseElementDataModel ){
 			try{
 				//Execute the operation
-				elementProgress.outputCommand( "		webElement.sendKeys(\"" + variableElementDataModel.getValue() + "\");     //" + element.getName() );
+				elementProgress.outputCommand( "		webElement.sendKeys(\"" + variableElementDataModel.getValue() + "\");     //" + baseElement.getName() );
 				elementProgress.outputCommand( "		webElement.sendKeys(Keys.TAB);" );
 				
 				webElement.sendKeys( variableElementDataModel.getValue() );				
 				webElement.sendKeys(Keys.TAB);
 			}catch (WebDriverException webDriverException){
-				throw new ElementInvalidOperationException( getName(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), webDriverException );
+				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
 			}
 		}
 	}

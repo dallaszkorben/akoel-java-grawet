@@ -1,14 +1,12 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.Iterator;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -38,15 +36,15 @@ public class SpecialBaseExecuteOperation extends ElementOperationAdapter{
 	}
 		
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException, CompilationException{
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException, CompilationException{
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
-		if( element.getBaseElement() instanceof ScriptBaseElementDataModel ){
+		if( baseElement instanceof ScriptBaseElementDataModel ){
 //TODO muvelet kiirasa
 			
 			//Iterator<String> it = ((SpecialBaseElementDataModel)element.getBaseElement()).getParameterIterator();
 			//if( it.hasNext() ){
-				((ScriptBaseElementDataModel)element.getBaseElement()).doAction(driver);
+				((ScriptBaseElementDataModel)baseElement).doAction(driver);
 			//}
 			
 		}

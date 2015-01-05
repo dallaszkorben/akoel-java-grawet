@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
@@ -24,7 +24,7 @@ public class ClickOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 	
 		//Sajnos csak a javascipt hivassal mukodik. a webElement.click() hatasara nem tortenik semmi
 		//Feltehetoleg idozitesi problema, mert debug-kor mukodik

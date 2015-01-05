@@ -12,7 +12,6 @@ import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -28,23 +27,22 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		
 	public abstract void setXMLAttribute( Document document, Element element );
 
-	public abstract void doOperation( WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException;
+	public abstract void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException;
 	
 	/**
 	 * Make it visible
 	 */
     public abstract Object clone();
   
-	public void doAction( WebDriver driver, ParamElementDataModel element, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
+	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
 				
 		if( null != elementProgress ){
-			elementProgress.elementStarted( element.getName() );
+			elementProgress.elementStarted( baseElement.getName() );
 		}
 
-		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){			
-elementProgress.outputCommand("		//" + element.getName() );
+		if( baseElement instanceof NormalBaseElementDataModel ){			
+elementProgress.outputCommand("		//" + baseElement.getName() );
 
-			BaseElementDataModelAdapter baseElement = element.getBaseElement();
 			By by = null;
 			WebElement webElement = null;
 		
@@ -75,7 +73,7 @@ elementProgress.outputCommand( "		by = By.cssSelector( \"" + ((NormalBaseElement
 				//wait.until(ExpectedConditions.elementToBeClickable( by ) );
 elementProgress.outputCommand( "		wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );		
 			}catch( org.openqa.selenium.TimeoutException timeOutException ){
-				throw new ElementTimeoutException( element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), timeOutException );
+				throw new ElementTimeoutException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), timeOutException );
 			}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){
 				throw new ElementUnreachableBrowserException( unreachableBrowserException);
 			}
@@ -84,30 +82,27 @@ elementProgress.outputCommand( "		wait.until(ExpectedConditions.visibilityOfElem
 elementProgress.outputCommand( "		webElement = driver.findElement( by );" );					
 				webElement = driver.findElement( by );
 			}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
-				throw new ElementInvalidSelectorException(element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), invalidSelectorException );
+				throw new ElementInvalidSelectorException(baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), invalidSelectorException );
 			}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
-				throw new ElementNotFoundSelectorException( element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), noSuchElementException );
+				throw new ElementNotFoundSelectorException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), noSuchElementException );
 			}
 		
 			if( null == webElement ){
-				throw new ElementNotFoundSelectorException( element.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), new Exception() );
+				throw new ElementNotFoundSelectorException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), new Exception() );
 			}
 		
 			//OPERATION
-			doOperation( driver, element, webElement, elementProgress );
+			doOperation( driver, baseElement, webElement, elementProgress );
 elementProgress.outputCommand("");	
 		
-		}else if( element.getBaseElement() instanceof ScriptBaseElementDataModel ){
+		}else if( baseElement instanceof ScriptBaseElementDataModel ){
 			
-			doOperation( driver, element, null, elementProgress );
+			doOperation( driver, baseElement, null, elementProgress );
 			
 		}
 
-
-
-
 		if( null != elementProgress ){
-			elementProgress.elementEnded( element.getName() );
+			elementProgress.elementEnded( baseElement.getName() );
 		}		
 		
 	}

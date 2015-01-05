@@ -5,9 +5,7 @@ import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -23,11 +21,8 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
@@ -174,12 +169,12 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
 		//HA SPECIALBASEELEMENT - annak kell lennie
-		if( element.getBaseElement() instanceof ScriptBaseElementDataModel ){
+		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			((ScriptBaseElementDataModel)element.getBaseElement()).addParameter( baseElementDataModel.getStoredValue() );
+			((ScriptBaseElementDataModel)baseElement).addParameter( baseElementDataModel.getStoredValue() );
 			
 		}
 		

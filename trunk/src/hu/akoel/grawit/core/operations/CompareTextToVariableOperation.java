@@ -16,9 +16,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -165,7 +165,7 @@ public class CompareTextToVariableOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 		
 		//
 		// Execute the OPERATION
@@ -184,22 +184,22 @@ public class CompareTextToVariableOperation extends ElementOperationAdapter{
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( variableElementDataModel.getValue() ) ){
-				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				if( baseElement instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( variableElementDataModel.getValue() ) ){
-				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				if( baseElement instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), element.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 			}			
 		}

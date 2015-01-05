@@ -29,6 +29,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+
+
 public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
@@ -82,6 +84,18 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 					DocumentBuilder builder = null;
 					Document document = null;
 					Node actualNode = null;
+		
+					
+/*NamedNodeMap attributes = (NamedNodeMap) testcaseRootElement.getAttributes();	
+int numAttrs = attributes.getLength();
+for (int i = 0; i < numAttrs; i++) {
+	Attr attr = (Attr) attributes.item(i);
+	String attrName = attr.getNodeName();
+	String attrValue = attr.getNodeValue();	
+	System.out.println("Found attribute: " + attrName + " with value: " + attrValue);
+}
+System.out.println();
+*/
 					
 //TODO ezt majd torolni kell, ha mar nem letezik olyan xml amiben nics driver path					
 if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){

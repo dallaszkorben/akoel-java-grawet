@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
@@ -24,9 +24,9 @@ public class ClearOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementInvalidOperationException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementInvalidOperationException {
 
-		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+		if( baseElement instanceof NormalBaseElementDataModel ){
 
 			try{
 			
@@ -35,7 +35,7 @@ elementProgress.outputCommand( "		webElement.clear();" );
 				webElement.clear();
 			
 			}catch (WebDriverException webDriverException){
-				throw new ElementInvalidOperationException( getName(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), webDriverException );
+				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
 			}
 		}
 		

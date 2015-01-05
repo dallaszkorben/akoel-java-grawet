@@ -22,7 +22,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -181,7 +180,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 	
 		//
 		// Execute the OPERATION
@@ -189,7 +188,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		String origText = "";
 		
 		//CHECKBOX/RADIOBUTTON
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
+		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
 			
 			if( webElement.isSelected() ){
 				origText = "on";
@@ -212,22 +211,22 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
-				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				if( baseElement instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
-				if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), origText, new Exception() );
+				if( baseElement instanceof NormalBaseElementDataModel ){
+					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), element.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 
 			}			
