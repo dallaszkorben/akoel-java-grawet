@@ -14,36 +14,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.ClearOperation;
-import hu.akoel.grawit.core.operations.ClickOperation;
-import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
-import hu.akoel.grawit.core.operations.CompareListToStringOperation;
-import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
-import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
-import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
-import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
-import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
-import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
-import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
-import hu.akoel.grawit.core.operations.FillWithStringOperation;
-import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
-import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainListToVariableOperation;
-import hu.akoel.grawit.core.operations.GainTextToElementOperation;
-import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
-import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
-import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
-import hu.akoel.grawit.core.operations.SelectStringOperation;
-import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddStoreToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddVariableToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
-import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
@@ -52,16 +23,13 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
-import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class ParamElementDataModel extends ParamDataModelAdapter {
@@ -623,7 +591,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	 * 
 	 */
 	public void doAction( WebDriver driver, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
-		this.getElementOperation().doAction( driver, this, elementProgress );
+		this.getElementOperation().doAction( driver, this.getBaseElement(), elementProgress );
 	}
 	
 	public void setName( String name ){

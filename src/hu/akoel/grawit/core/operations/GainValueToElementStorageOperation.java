@@ -9,7 +9,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -69,7 +69,7 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
 		String origText = "";
 		
@@ -81,7 +81,7 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 			origText = select.getFirstSelectedOption().getAttribute("value");
 */
 		//CHECKBOX/RADIOBUTTON
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.CHECKBOX) || element.getBaseElement().getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
+		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
 
 			if( webElement.isSelected() ){
 				origText = "on";
@@ -97,12 +97,12 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 	
 		//EXECUTE_SCRIPT OPERATION = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
-			element.getBaseElement().setStoredValue( origText );
+			baseElement.setStoredValue( origText );
 		}else{
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
 				String resultText = matcher.group();
-				element.getBaseElement().setStoredValue( resultText );
+				baseElement.setStoredValue( resultText );
 			}			
 		}	
 		

@@ -6,8 +6,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -51,12 +51,12 @@ public class SpecialBaseAddStringToParametersOperation extends ElementOperationA
 	}
 		
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
-		if( element.getBaseElement() instanceof ScriptBaseElementDataModel ){
+		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			((ScriptBaseElementDataModel)element.getBaseElement()).addParameter( stringToParameter );
+			((ScriptBaseElementDataModel)baseElement).addParameter( stringToParameter );
 			
 		}
 	

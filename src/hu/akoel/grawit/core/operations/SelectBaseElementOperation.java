@@ -18,7 +18,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;

@@ -9,7 +9,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -69,7 +69,7 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 		
 		String origText = "";
 		
@@ -87,12 +87,12 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 	
 		//EXECUTE_SCRIPT OPERATION = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
-			element.getBaseElement().setStoredValue( origText );
+			baseElement.setStoredValue( origText );
 		}else{
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
 				String resultText = matcher.group();
-				element.getBaseElement().setStoredValue( resultText );
+				baseElement.setStoredValue( resultText );
 			}			
 		}			
 	}

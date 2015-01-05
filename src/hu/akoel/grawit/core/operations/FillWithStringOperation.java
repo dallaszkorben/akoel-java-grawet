@@ -8,8 +8,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
@@ -51,19 +51,19 @@ public class FillWithStringOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 		
-		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+		if( baseElement instanceof NormalBaseElementDataModel ){
 		
 			try{
 				//Execute the operation
-				elementProgress.outputCommand( "		webElement.sendKeys(\"" + stringToShow + "\");     //" + element.getName() );
+				elementProgress.outputCommand( "		webElement.sendKeys(\"" + stringToShow + "\");     //" + baseElement.getName() );
 				elementProgress.outputCommand( "		webElement.sendKeys(Keys.TAB);" );
 
 				webElement.sendKeys( stringToShow );
 				webElement.sendKeys(Keys.TAB);
 			}catch (WebDriverException webDriverException){
-				throw new ElementInvalidOperationException( getName(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), webDriverException );
+				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
 			}
 		}
 	}

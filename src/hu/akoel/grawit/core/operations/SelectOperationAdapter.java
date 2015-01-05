@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
@@ -21,9 +21,9 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 	public abstract String getStringToSelection();
 	
 	@Override
-	public void doOperation(WebDriver driver, ParamElementDataModel element, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
-		if( element.getBaseElement() instanceof NormalBaseElementDataModel ){
+		if( baseElement instanceof NormalBaseElementDataModel ){
 
 			Select select = null;
 			try{
@@ -35,7 +35,7 @@ elementProgress.outputCommand( "		}" );
 				
 				select = new Select(webElement);
 			}catch (UnexpectedTagNameException e){
-				throw new ElementInvalidOperationException( "List Selection", element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), e );			
+				throw new ElementInvalidOperationException( "List Selection", baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), e );			
 			}
 				
 			try{
@@ -66,7 +66,7 @@ elementProgress.outputCommand( "		select.selectByVisibleText( \"" + getStringToS
 			
 			}catch(NoSuchElementException e ){
 			
-				throw new ElementNotFoundComponentException( getStringToSelection(), getSelectionBy(), element.getName(), ((NormalBaseElementDataModel)element.getBaseElement()).getSelector(), e );
+				throw new ElementNotFoundComponentException( getStringToSelection(), getSelectionBy(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), e );
 
 			}catch (Exception e ){
 				
