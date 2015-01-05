@@ -59,8 +59,8 @@ public class TestcaseTree extends Tree {
 
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-specific-icon.png");
     	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
-    	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/testcase-control-loop-open-icon.png");
-    	ImageIcon loopClosedIcon = CommonOperations.createImageIcon("tree/testcase-control-loop-open-icon.png");
+    	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/testcase-loop-icon.png");
+    	ImageIcon loopClosedIcon = CommonOperations.createImageIcon("tree/testcase-loop-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/testcase-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/testcase-node-open-icon.png");
     	
@@ -95,13 +95,16 @@ public class TestcaseTree extends Tree {
 	@Override
 	public ImageIcon getIconOff(DataModelAdapter actualNode, boolean expanded) {
 
-    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-off-icon.png");
-    	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-off-icon.png");
+    	ImageIcon pageOffIcon = CommonOperations.createImageIcon("tree/testcase-page-off-icon.png");
+    	ImageIcon caseOffIcon = CommonOperations.createImageIcon("tree/testcase-case-off-icon.png");
+    	ImageIcon loopOffIcon = CommonOperations.createImageIcon("tree/testcase-loop-off-icon.png");
     	
     	if( actualNode instanceof TestcaseCaseDataModel){
-            return caseIcon;
+            return caseOffIcon;
     	}else if( actualNode instanceof TestcaseParamPageDataModel ){
-            return pageIcon;
+            return pageOffIcon;
+    	}else if( actualNode instanceof TestcaseControlLoopDataModel ){
+            return loopOffIcon;            
     	}else{
     		return getIcon(actualNode, expanded);
         }
@@ -114,8 +117,6 @@ public class TestcaseTree extends Tree {
 		if( selectedNode instanceof TestcaseRootDataModel ){
 			TestcaseRootEditor testcaseRootEditor = new TestcaseRootEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel, EditMode.VIEW);
 			guiFrame.showEditorPanel( testcaseRootEditor);
-			//EmptyEditor emptyPanel = new EmptyEditor();								
-			//guiFrame.showEditorPanel( emptyPanel );
 			
 		}else if( selectedNode instanceof TestcaseNodeDataModel ){
 			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.VIEW);

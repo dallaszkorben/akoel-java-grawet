@@ -12,6 +12,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,17 +28,23 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import javax.swing.tree.TreeNode;
+
 import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseControlLoopDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.exceptions.CompilationException;
+import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
@@ -449,7 +456,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 				Object object = testcase.getChildAt( i );
 				
 				throughTestcases( (TestcaseDataModelAdapter)object );
-			}			
+			}
+			
 		}		
 		return;		
 	}
@@ -503,8 +511,23 @@ elementProgres.outputCommand( "	" );
     		
 				//A teszteset Page-einek futtatasa
 				for( int index = 0; index < childCount; index++ ){
-					TestcasePageModelAdapter pageToRun = (TestcasePageModelAdapter)actualTestcase.getChildAt(index);
-					pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
+					
+					TreeNode treeNode = actualTestcase.getChildAt(index);
+					
+					//Ha sima Page
+					if( treeNode instanceof TestcasePageModelAdapter ){
+						
+						TestcasePageModelAdapter pageToRun = (TestcasePageModelAdapter)treeNode;
+						pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
+						
+					//Ha LOOP
+					}else if( treeNode instanceof TestcaseControlLoopDataModel ){
+						
+//						executeLoop( (TestcaseControlLoopDataModel)treeNode, webDriver );
+						
+					}
+					
+					
 				}					
     		
 				testcaseProgress.testcaseEnded( actualTestcase.getName() );
@@ -553,6 +576,21 @@ elementProgres.outputCommand( "}");
 	}
 	
 	
+/*	private void executeLoop( TestcaseControlLoopDataModel loopNode, WebDriver webDriver ){
+		
+		Integer oneLoopLength = loopNode.getOneLoopLength();
+		Integer maxLoopNumber = loopNode.getMaxLoopNumber();
+		ElementOperationAdapter operation = loopNode.getElementOperation();
+		BaseElementDataModelAdapter compareBaseElement = loopNode.getCompareBaseElement();
+		
+		try{
+			operation.doAction(webDriver, compareBaseElement, elementProgres );
+		}catch( ElementCompareOperationException e	){
+			
+		}
+		
+	}
+*/	
 	private void setStatusOfTestCase( TestcaseCaseDataModel selectedTestcase, boolean ok ){
 	
 		try {
