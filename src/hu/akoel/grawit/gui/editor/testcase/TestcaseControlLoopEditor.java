@@ -21,6 +21,7 @@ import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ListElementTypeO
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.RadiobuttonElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ScriptElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.TextElementTypeOperationsCompareListEnum;
+import hu.akoel.grawit.gui.editors.component.IntegerFieldComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.ButtonElementTypeComponentCompare;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.CheckboxElementTypeComponentCompare;
@@ -52,6 +53,12 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 
+	private JLabel labelOneLoopLength;
+	private IntegerFieldComponent fieldOneLoopLength;
+	
+	private JLabel labelMaxLoopNumber;
+	private IntegerFieldComponent fieldMaxLoopNumber;
+
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldCompareBaseElementSelector;	
 	
@@ -75,6 +82,12 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		//Name
 		fieldName = new TextFieldComponent( "" );
 		
+		//One loop length
+		fieldOneLoopLength = new IntegerFieldComponent( "1" );
+		
+		//Max loop number
+		fieldMaxLoopNumber = new IntegerFieldComponent( "1" );
+		
 		fieldCompareBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );			
 
 		commonPost( null );
@@ -89,7 +102,7 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		this.tree = tree;
 		this.nodeForModify = selectedControlLoop;
 		this.mode = mode;		
-		
+	
 		commonPre( baseRootDataModel, variableRootDataModel );
 		
 		//Name
@@ -97,6 +110,12 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedControlLoop.getCompareBaseElement();
+		
+		//One loop length
+		fieldOneLoopLength = new IntegerFieldComponent( selectedControlLoop.getOneLoopLength().toString() );
+		
+		//Max loop number
+		fieldMaxLoopNumber = new IntegerFieldComponent( selectedControlLoop.getMaxLoopNumber().toString() );
 		
 		fieldCompareBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
 		
@@ -137,11 +156,15 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 			});
 		}
 		
-		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
+		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": " );
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": " );
 		labelElementTypeSelector = new JLabel( "");
+		labelOneLoopLength = new JLabel( CommonOperations.getTranslation("editor.label.testcase.loop.onelooplength") + ": " );
+		labelMaxLoopNumber = new JLabel( CommonOperations.getTranslation("editor.label.testcase.loop.maxloopnumber") + ": " );
 		
 		this.add( labelName, fieldName );
+		this.add( labelOneLoopLength, fieldOneLoopLength );
+		this.add( labelMaxLoopNumber, fieldMaxLoopNumber );
 		
 		if( null != fieldCompareBaseElementSelector ){
 			this.add( labelBaseElementSelector, fieldCompareBaseElementSelector );
@@ -166,13 +189,13 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		ElementOperationAdapter elementOperation;
 		
 		//Uj
-//		if( null == nodeForModify ){
+		if( null == nodeForModify ){
 			elementOperation = null;
 		
 		//Modositas
-//		}else{
-//			elementOperation = nodeForModify.getElementOperation();
-//		}		
+		}else{
+			elementOperation = nodeForModify.getElementOperation();
+		}	
 		
 		//Ha uj es elso alkalom
 		if( null == baseElement ){		 
@@ -181,8 +204,9 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 	
 		//SCRIPT
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SCRIPT.name() ) ){
-				
-			elementTypeComponent = new ScriptElementTypeComponentCompare<ScriptElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
+		
+			elementTypeComponent = new EmptyElementTypeComponentCompare();
+//			elementTypeComponent = new ScriptElementTypeComponentCompare<ScriptElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
@@ -207,7 +231,8 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
 			
-			elementTypeComponent = new ButtonElementTypeComponentCompare<ButtonElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation );
+			elementTypeComponent = new EmptyElementTypeComponentCompare();
+//			elementTypeComponent = new ButtonElementTypeComponentCompare<ButtonElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation );
 			
 		//RADIOBUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.RADIOBUTTON.name() ) ){
@@ -236,6 +261,9 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		//
 		fieldName.setText( fieldName.getText().trim() );
 				
+		Integer oneLoopLength = Integer.valueOf( fieldOneLoopLength.getText() );
+		Integer maxLoopNumber = Integer.valueOf( fieldMaxLoopNumber.getText() );
+		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
 		//
@@ -276,8 +304,8 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 				
 				nodeForSearch = nodeForModify.getParent();
 				
-			}
-
+			}			
+			
 			//Megnezi, hogy van-e masik azonos nevu elem			
 			int childrenCount = nodeForSearch.getChildCount();
 			for( int i = 0; i < childrenCount; i++ ){
@@ -324,7 +352,7 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				TestcaseControlLoopDataModel newTestcaseControlLoop = new TestcaseControlLoopDataModel(fieldName.getText(), baseElement, 10, elementOperation);
+				TestcaseControlLoopDataModel newTestcaseControlLoop = new TestcaseControlLoopDataModel(fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation);
 				
 				nodeForCapture.add( newTestcaseControlLoop );
 				
@@ -332,6 +360,8 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
 				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setOneLoopLength(oneLoopLength);
+				nodeForModify.setMaxLoopNumber(maxLoopNumber);
 				nodeForModify.setCompareBaseElement(baseElement);
 				nodeForModify.setOperation( elementOperation );
 			}

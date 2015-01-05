@@ -40,20 +40,23 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "compareelementabsolutepath";
 	private static final String ATTR_OPERATION = "operation";
-	private static final String ATTR_MAXLOOP = "maxloop";
+	private static final String ATTR_ONE_LOOP_LENGTH = "onelooplength";
+	private static final String ATTR_MAX_LOOP_NUMBER = "maxloopnumber";
 	private static final String ATTR_ON = "on";
 	
 	//Adatmodel ---
 	private String name;
 	private BaseElementDataModelAdapter compareBaseElement;
 	private ElementOperationAdapter elementOperation;
-	private Integer maxLoop = null;
+	private Integer oneLoopLength = null;
+	private Integer maxLoopNumber = null;
 	//----
 	
-	public TestcaseControlLoopDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer maxLoop, ElementOperationAdapter operation ){
+	public TestcaseControlLoopDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
 		this.name = name;
 		this.compareBaseElement = compareBaseElement;
-		this.maxLoop = maxLoop;
+		this.oneLoopLength = oneLoopLength;
+		this.maxLoopNumber = maxLoopNumber;
 		this.elementOperation = operation;
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
@@ -93,14 +96,26 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 		
 		//========
 		//
-		// MaxLoop
+		// OneLoopLength
 		//
 		//========		
-		if( !element.hasAttribute( ATTR_MAXLOOP ) ){
-			this.maxLoop = null;
+		if( !element.hasAttribute( ATTR_ONE_LOOP_LENGTH ) ){
+			this.oneLoopLength = null;
 		}else{
-			String maxLoopString = element.getAttribute( ATTR_MAXLOOP );
-			this.maxLoop = Integer.parseInt( maxLoopString );
+			String oneLoopLengthString = element.getAttribute( ATTR_ONE_LOOP_LENGTH);
+			this.oneLoopLength = Integer.parseInt( oneLoopLengthString );
+		}	
+		
+		//========
+		//
+		// MaxLoopNumber
+		//
+		//========		
+		if( !element.hasAttribute( ATTR_MAX_LOOP_NUMBER ) ){
+			this.maxLoopNumber = null;
+		}else{
+			String maxLoopNumberString = element.getAttribute( ATTR_MAX_LOOP_NUMBER );
+			this.maxLoopNumber = Integer.parseInt( maxLoopNumberString );
 		}				
 		
 		//=============
@@ -206,7 +221,6 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 
 	@Override
 	public Tag getTag() {
-		//return TAG;
 		return getTagStatic();
 	}
 
@@ -242,6 +256,22 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 	
 	public BaseElementDataModelAdapter getCompareBaseElement(){
 		return compareBaseElement;
+	}
+	
+	public void setOneLoopLength( Integer oneLoopLength ){
+		this.oneLoopLength = oneLoopLength;
+	}
+	
+	public Integer getOneLoopLength(){
+		return this.oneLoopLength;
+	}
+	
+	public void setMaxLoopNumber( Integer maxLoopNumber ){
+		this.maxLoopNumber = maxLoopNumber;
+	}
+	
+	public Integer getMaxLoopNumber(){
+		return this.maxLoopNumber;
 	}
 	
 	@Override
@@ -291,7 +321,29 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 		attr.setValue( this.isOn().toString() );
 		elementElement.setAttributeNode(attr);
 		
+		//========
+		//
+		// OneLoopLength
+		//
+		//========
+		attr = document.createAttribute( ATTR_ONE_LOOP_LENGTH );
+		attr.setValue( this.getOneLoopLength().toString() );
+		elementElement.setAttributeNode(attr);
 		
+		//========
+		//
+		// MaxLoopNumber
+		//
+		//========
+		attr = document.createAttribute( ATTR_MAX_LOOP_NUMBER );
+		attr.setValue( this.getMaxLoopNumber().toString() );
+		elementElement.setAttributeNode(attr);		
+		
+		//========
+		//
+		// Gyermekek
+		//
+		//========
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
 			

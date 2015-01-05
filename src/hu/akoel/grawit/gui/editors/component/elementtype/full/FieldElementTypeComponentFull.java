@@ -240,13 +240,6 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STRING.getIndex());
 				
-/*			//GAIN VALUE TO VARIABLE
-			}else if( elementOperation instanceof GainValueToVariableOperation ){
-			
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainValueToVariableOperation)elementOperation).getVariableElement() );
-				comboOperationList.setSelectedIndex(E.GAINVALUE_TO_VARIABLE.getIndex());
-				fieldPattern.setText( ((GainValueToVariableOperation)elementOperation).getStringPattern());	
-*/				
 			//GAIN VALUE TO ELEMENT STORAGE
 			}else if( elementOperation instanceof GainValueToElementStorageOperation ){
 			
@@ -393,38 +386,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 			c.weightx = 1;
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
-		
-		//GAINVALUE TO VARIABLE
-/*		}else if( selectedOperation.equals( E.GAINVALUE_TO_VARIABLE ) ){
-		
-			//VARIABLE
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelVariableSelector, c );
-		
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldVariableSelector, c );			
-			
-			//PATTERN
-			c.gridy = 1;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelPattern, c );
-						
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldPattern, c );
-*/			
+	
 		//GAINVALUE TO ELEMENT
 		}else if( selectedOperation.equals( E.GAINVALUE_TO_ELEMENTSTORAGE ) ){
 			
@@ -521,10 +483,6 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STRING.getIndex() ){
 			return new CompareValueToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 			
-/*		//GAINVALUE TO VARIABLE
-		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_VARIABLE.getIndex() ){
-			return new GainValueToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
-*/			
 		//GAINVALUE TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_ELEMENTSTORAGE.getIndex() ){
 			return new GainValueToElementStorageOperation( fieldPattern.getText() );		
