@@ -18,7 +18,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ExecutablePageInterface;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
@@ -40,13 +39,14 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 
-public class ParamPageDataModel  extends ParamDataModelAdapter implements ExecutablePageInterface{
+public class ParamPageDataModel extends ParamPageLikeDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
 	public static final Tag TAG = Tag.PARAMPAGE;
 	
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
+	private static final String ATTR_ON = "on";
 	
 	private BasePageDataModel basePage = null;	
 	private String name;
@@ -79,6 +79,18 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
+		
+		//========
+		//
+		// On
+		//
+		//========		
+		if( !element.hasAttribute( ATTR_ON ) ){
+			this.setOn( Boolean.TRUE );
+		}else{
+			String onString = element.getAttribute( ATTR_ON );
+			this.setOn( Boolean.parseBoolean( onString ));
+		}				
 		
 		//========
 		//
@@ -162,7 +174,11 @@ public class ParamPageDataModel  extends ParamDataModelAdapter implements Execut
 				
 		}
 		
-		//Vegig a PARAMELEMENT-ekent
+	    //========
+		//
+		// Gyermekei
+		//
+	    //========
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
@@ -313,6 +329,15 @@ elementProgress.outputCommand( "" );
 		
 		//========
 		//
+		// On
+		//
+		//========
+		attr = document.createAttribute( ATTR_ON );
+		attr.setValue( this.isOn().toString() );
+		pageElement.setAttributeNode(attr);
+		
+		//========
+		//
 		//PAGEBASEPAGE attributum
 		//
 		//========
@@ -321,18 +346,24 @@ elementProgress.outputCommand( "" );
 			attr.setValue( basePage.getPathTag() );
 			pageElement.setAttributeNode(attr);		
 		}
-			int childrens = this.getChildCount();
-			for( int i = 0; i < childrens; i++ ){
+		
+		//========
+		//
+		// Gyermekek
+		//
+		//========
+		int childrens = this.getChildCount();
+		for( int i = 0; i < childrens; i++ ){
 			
-				Object object = this.getChildAt( i );
+			Object object = this.getChildAt( i );
 			
-				if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
+			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
 				
-					Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
-					pageElement.appendChild( element );		    		
+				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
+				pageElement.appendChild( element );		    		
 		    	
-				}
 			}
+		}
 			
 		
 		return pageElement;	

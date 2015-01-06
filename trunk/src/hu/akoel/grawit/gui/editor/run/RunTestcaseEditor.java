@@ -12,10 +12,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,19 +33,13 @@ import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseControlLoopDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.exceptions.CompilationException;
-import hu.akoel.grawit.exceptions.ElementCompareOperationException;
-import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.LoopExceededMaxValueException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
@@ -524,12 +514,7 @@ elementProgres.outputCommand( "	" );
 						
 						TestcasePageModelAdapter pageToRun = (TestcasePageModelAdapter)treeNode;
 						pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
-						
-					//Ha LOOP
-					}else if( treeNode instanceof TestcaseControlLoopDataModel ){
-						
-						executeLoop( (TestcaseControlLoopDataModel)treeNode, webDriver );
-						
+
 					}					
 					
 				}					
@@ -577,84 +562,6 @@ elementProgres.outputCommand( "	}");
 elementProgres.outputCommand( "}");	
 
 		}
-	}
-	
-	
-	private void executeLoop( TestcaseControlLoopDataModel loopNode, WebDriver webDriver ) throws ElementException, CompilationException, PageException, StoppedByUserException{
-
-//TODO megoldani, hogy ez is kikeruljon a konzolra
-		
-		Integer actualLoop = 0;
-		Integer oneLoopLength = loopNode.getOneLoopLength();
-		Integer maxLoopNumber = loopNode.getMaxLoopNumber();
-		ElementOperationAdapter operation = loopNode.getElementOperation();
-		BaseElementDataModelAdapter compareBaseElement = loopNode.getCompareBaseElement();
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-		
-		Date startDate = Calendar.getInstance().getTime();			
-		Date actualDate;
-		
-		//Annyiszor megy vegig a gyermekeken, amennyi a megengedett ciklusszam (es ha nem igaz a feltetel)
-		while( actualLoop++ < maxLoopNumber ){		
-			
-			try {
-				
-				//LOOP kiertekelese
-				operation.doAction(webDriver, compareBaseElement, elementProgres );
-			
-				//A feltetel igaz volt, tehat vege a Loopnak
-				break;
-
-			//Nem volt igaz a feltetel, igy a ujabb Loop veszi kezdetet
-			}catch( ElementCompareOperationException e	){
-
-				//Akkor elindul a gyermekein (ParamPage)
-				int childCount = loopNode.getChildCount();
-    		
-				//testcaseProgress.testcaseStarted( actualTestcase.getName() );
-		
-				//A teszteset Page-einek futtatasa
-				for( int index = 0; index < childCount; index++ ){
-				
-					TreeNode treeNode = loopNode.getChildAt(index);
-				
-					//Ha sima Page
-					if( treeNode instanceof TestcasePageModelAdapter ){
-					
-						TestcasePageModelAdapter pageToRun = (TestcasePageModelAdapter)treeNode;
-						pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
-					
-					//Ha LOOP
-					}else if( treeNode instanceof TestcaseControlLoopDataModel ){
-					
-						//executeLoop( (TestcaseControlLoopDataModel)treeNode, webDriver );
-					
-					}			
-				
-				}
-			
-			}
-			
-			//Ha azert lett vege a Loop-nak, mert elerte a maximalis szamot, 
-			if( actualLoop > maxLoopNumber ){
-				
-				//Akkor egy uj hibat generalok
-				throw new LoopExceededMaxValueException( compareBaseElement.getName(), new Exception() );
-				
-			}
-			
-			actualDate = Calendar.getInstance().getTime();
-			long differenceTime = actualDate.getTime() - startDate.getTime();
-			long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;
-			if( neededToWait > 0 ){
-				
-				try{
-					Thread.sleep( neededToWait );
-				} catch(InterruptedException ex) {}
-			}
-			
-			
-		}		
 	}
 	
 	private void setStatusOfTestCase( TestcaseCaseDataModel selectedTestcase, boolean ok ){

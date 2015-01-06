@@ -196,11 +196,6 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMPAGE.getName() )){
 					
 					this.add(new TestcaseParamPageDataModel(testcaseElement, paramDataModel ));
-
-				//Ha TESTCASELOOP van alatta
-				} else if( testcaseElement.getTagName().equals( Tag.TESTCASECONTROLLOOP.getName() )){
-						
-					this.add(new TestcaseControlLoopDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramDataModel ));
 					
 				}
 			}
