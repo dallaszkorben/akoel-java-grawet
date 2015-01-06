@@ -97,6 +97,7 @@ elementProgress.outputCommand("");
 		
 		}else if( baseElement instanceof ScriptBaseElementDataModel ){
 			
+			//OPERATION
 			doOperation( driver, baseElement, null, elementProgress );
 			
 		}

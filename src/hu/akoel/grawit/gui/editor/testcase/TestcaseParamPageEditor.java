@@ -8,7 +8,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageLikeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
@@ -181,7 +181,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 		}else{
 
 			//A kivalasztott paramPage
-			ParamPageDataModel paramPage = fieldParamPageTreeSelector.getSelectedDataModel();			
+			ParamPageLikeDataModelAdapter paramPage = fieldParamPageTreeSelector.getSelectedDataModel();			
 			
 			//Uj rogzites eseten
 			if( null == mode ){

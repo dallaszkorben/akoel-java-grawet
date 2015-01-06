@@ -6,9 +6,10 @@ public enum Tag{
 	BASEPAGE("page"),
 	BASEELEMENT("element"),
 	
-	PARAMROOT("parampage"),
+	PARAMROOT("parampage"),	
 	PARAMNODE("node"),
 	PARAMPAGE("page"),
+	PARAMLOOP("paramloop"),
 	PARAMELEMENT("element"),
 	
 	VARIABLEROOT("variable"),
@@ -20,8 +21,7 @@ public enum Tag{
 	TESTCASENODE("node"),
 	TESTCASECASE("case"),
 	TESTCASEPARAMPAGE("param"),
-	TESTCASECUSTOMPAGE("custom"),
-	TESTCASECONTROLLOOP("controlloop"),
+	TESTCASECUSTOMPAGE("custom"),	
 
 	RUNROOT("run"),
 	RUNNODE("node"),

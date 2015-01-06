@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editor.testcase;
+package hu.akoel.grawit.gui.editor.param;
 
 import java.awt.Component;
 import java.text.MessageFormat;
@@ -9,21 +9,19 @@ import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseControlLoopDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ButtonElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.CheckboxElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.FieldElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.LinkElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ListElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.RadiobuttonElementTypeOperationsCompareListEnum;
-import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ScriptElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.TextElementTypeOperationsCompareListEnum;
+import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.IntegerFieldComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.elementtype.compare.ButtonElementTypeComponentCompare;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.CheckboxElementTypeComponentCompare;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.ElementTypeComponentCompareInterface;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.EmptyElementTypeComponentCompare;
@@ -31,7 +29,6 @@ import hu.akoel.grawit.gui.editors.component.elementtype.compare.FieldElementTyp
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.LinkElementTypeComponentCompare;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.ListElementTypeComponentCompare;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.RadiobuttonElementTypeComponentCompare;
-import hu.akoel.grawit.gui.editors.component.elementtype.compare.ScriptElementTypeComponentCompare;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.TextElementTypeComponentCompare;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -41,13 +38,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.tree.TreeNode;
 
-public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
+public class ParamLoopEditor extends DataEditor{
 
 	private static final long serialVersionUID = -8459964508143979145L;
 	
 	private Tree tree;
-	private TestcaseControlLoopDataModel nodeForModify;
-	private TestcaseCaseDataModel nodeForCapture;
+	private ParamLoopDataModel nodeForModify;
+	private ParamNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -69,9 +66,9 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 	VariableRootDataModel variableRootDataModel;
 
 	//Itt biztos beszuras van
-	public TestcaseControlLoopEditor( Tree tree, TestcaseCaseDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public ParamLoopEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 		
-		super( TestcaseControlLoopDataModel.getModelNameToShowStatic() );
+		super( ParamLoopDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -95,7 +92,7 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 	}
 	
 	//Itt modositas van
-	public TestcaseControlLoopEditor( Tree tree, TestcaseControlLoopDataModel selectedControlLoop, BaseRootDataModel baseRootDataModel, EditMode mode ){		
+	public ParamLoopEditor( Tree tree, ParamLoopDataModel selectedControlLoop, BaseRootDataModel baseRootDataModel, EditMode mode ){		
 		
 		super( mode, selectedControlLoop.getNodeTypeToShow());
 
@@ -150,7 +147,7 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 					change();
 				}			
 				private void change(){
-					BaseElementDataModelAdapter baseElement = TestcaseControlLoopEditor.this.fieldCompareBaseElementSelector.getSelectedDataModel();
+					BaseElementDataModelAdapter baseElement = ParamLoopEditor.this.fieldCompareBaseElementSelector.getSelectedDataModel();
 					changeOperation( baseElement );
 				}
 			});
@@ -159,8 +156,8 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": " );
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": " );
 		labelElementTypeSelector = new JLabel( "");
-		labelOneLoopLength = new JLabel( CommonOperations.getTranslation("editor.label.testcase.loop.onelooplength") + ": " );
-		labelMaxLoopNumber = new JLabel( CommonOperations.getTranslation("editor.label.testcase.loop.maxloopnumber") + ": " );
+		labelOneLoopLength = new JLabel( CommonOperations.getTranslation("editor.label.param.loop.onelooplength") + ": " );
+		labelMaxLoopNumber = new JLabel( CommonOperations.getTranslation("editor.label.param.loop.maxloopnumber") + ": " );
 		
 		this.add( labelName, fieldName );
 		this.add( labelOneLoopLength, fieldOneLoopLength );
@@ -184,7 +181,7 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 	private void changeOperation( BaseElementDataModelAdapter baseElement ){
 
 		//Eltavolitja az ott levot
-		TestcaseControlLoopEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
+		ParamLoopEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
 		
 		ElementOperationAdapter elementOperation;
 		
@@ -247,8 +244,8 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 		}		
 		
 		//Elhelyezi az ujat		
-		TestcaseControlLoopEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
-		TestcaseControlLoopEditor.this.repaint();
+		ParamLoopEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
+		ParamLoopEditor.this.repaint();
 		
 	}
 	
@@ -352,9 +349,9 @@ public class TestcaseControlLoopEditor extends TestcaseControlAdapter{
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				TestcaseControlLoopDataModel newTestcaseControlLoop = new TestcaseControlLoopDataModel(fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation);
+				ParamLoopDataModel newParamLoop = new ParamLoopDataModel(fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation);
 				
-				nodeForCapture.add( newTestcaseControlLoop );
+				nodeForCapture.add( newParamLoop );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){

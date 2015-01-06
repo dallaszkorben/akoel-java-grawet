@@ -12,6 +12,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageLikeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -70,7 +71,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
-	public ParamElementEditor( Tree tree, ParamPageDataModel selectedPage, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ParamElementEditor( Tree tree, ParamPageLikeDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
 
 		super( ParamElementDataModel.getModelNameToShowStatic());
 		
@@ -85,20 +86,27 @@ public class ParamElementEditor extends DataEditor{
 		//Name
 		fieldName.setText( "" );
 
-		//Base Element
-		BasePageDataModel basePage = ((ParamPageDataModel)selectedPage).getBasePage();
-		if( null != basePage ){
-			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage );
-			baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
+		if( selectedPage instanceof ParamPageDataModel ){
+
+			//Base Element
+			BasePageDataModel basePage = ((ParamPageDataModel)selectedPage).getBasePage();
+			if( null != basePage ){
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage );
+				baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 			
+			}else{
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
+			
+			}
 		}else{
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
-			
 		}
 			
 		commonPost( null );
 	}
 		
+
+	
 	/**
 	 * 
 	 * Mar letezo ParamPageElement modositasa vagy megtekintese
@@ -124,14 +132,19 @@ public class ParamElementEditor extends DataEditor{
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		
-		BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();
-		if( null != basePage ){
-			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
-			baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
+		ParamDataModelAdapter parent = (ParamDataModelAdapter)selectedElement.getParent();
+		if( parent instanceof ParamPageDataModel ){
+		
+			BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();
+			if( null != basePage ){
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
+				baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
 			
+			}else{
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
+			}
 		}else{
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
-			
 		}
 		
 		commonPost( baseElement );

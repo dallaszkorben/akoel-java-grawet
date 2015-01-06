@@ -18,6 +18,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
@@ -27,6 +28,7 @@ import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.param.ParamElementEditor;
+import hu.akoel.grawit.gui.editor.param.ParamLoopEditor;
 import hu.akoel.grawit.gui.editor.param.ParamNodeEditor;
 import hu.akoel.grawit.gui.editor.param.ParamPageEditor;
 
@@ -58,6 +60,8 @@ public class ParamTree extends Tree {
     	ImageIcon scriptElementIcon = CommonOperations.createImageIcon("tree/param-element-script-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/param-node-open-icon.png");
+    	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
+    	ImageIcon loopClosedIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
     	
     	//Iconja a NODE-nak
     	if( actualNode instanceof ParamPageDataModel){
@@ -79,12 +83,22 @@ public class ParamTree extends Tree {
     			return scriptElementIcon;
     		}
     		
+    	}else if( actualNode instanceof ParamLoopDataModel ){
+
+    		if( expanded ){
+    			return loopOpenIcon;
+    		}else{
+    			return loopClosedIcon;
+    			
+    		}
+    		
     	}else if( actualNode instanceof ParamNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
     			return nodeClosedIcon;
     		}
+
         }
     	
 		return null;
@@ -95,6 +109,7 @@ public class ParamTree extends Tree {
 
     	ImageIcon elementNormalOffIcon = CommonOperations.createImageIcon("tree/param-element-normal-off-icon.png");
     	ImageIcon elementSpecialOffIcon = CommonOperations.createImageIcon("tree/param-element-special-off-icon.png");
+    	ImageIcon loopOffIcon = CommonOperations.createImageIcon("tree/param-loop-off-icon.png");
     	
     	//Iconja a NODE-nak
     	if( actualNode instanceof ParamElementDataModel ){
@@ -103,6 +118,10 @@ public class ParamTree extends Tree {
     		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof ScriptBaseElementDataModel ){
     			return elementSpecialOffIcon;
     		}
+    		
+    	}else if( actualNode instanceof ParamLoopDataModel ){
+            return loopOffIcon;            
+
     	}else{
     		return getIcon(actualNode, expanded);
         }
@@ -130,6 +149,10 @@ public class ParamTree extends Tree {
 			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( pageBaseElementEditor);									
 			
+		}else if( selectedNode instanceof ParamLoopDataModel ){
+			ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( this, (ParamLoopDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );
+			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
+			
 		}
 		
 	}
@@ -151,6 +174,10 @@ public class ParamTree extends Tree {
 			ParamElementEditor paramElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( paramElementEditor);		
 				
+		}else if( selectedNode instanceof ParamLoopDataModel ){
+			ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( this, (ParamLoopDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );
+			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
+
 		}		
 	}
 
@@ -190,6 +217,22 @@ public class ParamTree extends Tree {
 				}
 			});
 			popupMenu.add ( insertPageMenu );
+			
+			//Insert Control Loop
+			JMenuItem insertLoopMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.control.loop") );
+			insertLoopMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertLoopMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, baseRootDataModel );
+					guiFrame.showEditorPanel( testcaseControlLoopEditor);			
+					
+				
+				}
+			});
+			popupMenu.add ( insertLoopMenu );			
 /*			
 			//Insert Page
 			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.page") );
@@ -240,6 +283,27 @@ public class ParamTree extends Tree {
 				}
 			});
 			popupMenu.add ( insertElementMenu );		
+		}
+		
+		//
+		// Control LOOP eseten
+		//
+		if( selectedNode instanceof ParamLoopDataModel ){
+
+			//Insert Page
+			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
+			insertParamPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertParamPageMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					ParamElementEditor testcaseParamPageEditor = new ParamElementEditor( ParamTree.this, (ParamLoopDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					guiFrame.showEditorPanel( testcaseParamPageEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertParamPageMenu );
 		}
 		
 	}
@@ -374,6 +438,14 @@ public class ParamTree extends Tree {
 
 		//Elem elhelyezese Specific Page-be	
 		}else if( draggedNode instanceof ParamElementDataModel && dropObject instanceof ParamPageDataModel ){
+			return true;
+
+		//Loop elhelyezese Node-ban
+		}else if( draggedNode instanceof ParamLoopDataModel && dropObject instanceof ParamNodeDataModel ){
+			return true;
+
+		//Element elhelyezese Loop-ban
+		}else if( draggedNode instanceof ParamElementDataModel && dropObject instanceof ParamLoopDataModel ){
 			return true;
 
 		}	

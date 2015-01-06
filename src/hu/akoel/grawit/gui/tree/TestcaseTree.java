@@ -13,13 +13,11 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseControlLoopDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
@@ -27,8 +25,6 @@ import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
-import hu.akoel.grawit.gui.editor.testcase.TestcaseControlAdapter;
-import hu.akoel.grawit.gui.editor.testcase.TestcaseControlLoopEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseNodeEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseParamPageEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseRootEditor;
@@ -38,7 +34,7 @@ public class TestcaseTree extends Tree {
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;
 	
-	private BaseRootDataModel baseRootDataModel;
+//	private BaseRootDataModel baseRootDataModel;
 	private ParamRootDataModel paramRootDataModel;
 	private DriverRootDataModel driverRootDataModel;
 	
@@ -46,7 +42,7 @@ public class TestcaseTree extends Tree {
 		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
-		this.baseRootDataModel = baseRootDataModel;
+//		this.baseRootDataModel = baseRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
 		this.driverRootDataModel = driverRootDataModel;
 		
@@ -59,10 +55,9 @@ public class TestcaseTree extends Tree {
 
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-specific-icon.png");
     	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
-    	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/testcase-loop-icon.png");
-    	ImageIcon loopClosedIcon = CommonOperations.createImageIcon("tree/testcase-loop-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/testcase-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/testcase-node-open-icon.png");
+    	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
     	
     	//Iconja a NODE-nak
     	if( actualNode instanceof TestcaseCaseDataModel){
@@ -78,15 +73,6 @@ public class TestcaseTree extends Tree {
     			return nodeClosedIcon;
     		}
     		
-    	}else if( actualNode instanceof TestcaseControlLoopDataModel ){
-
-    		if( expanded ){
-    			return loopOpenIcon;
-    		}else{
-    			return loopClosedIcon;
-    			
-    		}
-    		
         }
   	
 		return null;
@@ -97,14 +83,12 @@ public class TestcaseTree extends Tree {
 
     	ImageIcon pageOffIcon = CommonOperations.createImageIcon("tree/testcase-page-off-icon.png");
     	ImageIcon caseOffIcon = CommonOperations.createImageIcon("tree/testcase-case-off-icon.png");
-    	ImageIcon loopOffIcon = CommonOperations.createImageIcon("tree/testcase-loop-off-icon.png");
+
     	
     	if( actualNode instanceof TestcaseCaseDataModel){
             return caseOffIcon;
     	}else if( actualNode instanceof TestcaseParamPageDataModel ){
             return pageOffIcon;
-    	}else if( actualNode instanceof TestcaseControlLoopDataModel ){
-            return loopOffIcon;            
     	}else{
     		return getIcon(actualNode, expanded);
         }
@@ -129,10 +113,6 @@ public class TestcaseTree extends Tree {
 		}else if( selectedNode instanceof TestcaseParamPageDataModel ){
 			TestcaseParamPageEditor testcaseParamPageEditor = new TestcaseParamPageEditor( this, (TestcaseParamPageDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( testcaseParamPageEditor);									
-			
-		}else if( selectedNode instanceof TestcaseControlLoopDataModel ){
-			TestcaseControlLoopEditor testcaseControlLoopEditor = new TestcaseControlLoopEditor( this, (TestcaseControlLoopDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );
-			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 			
 		}
 	}
@@ -160,10 +140,6 @@ public class TestcaseTree extends Tree {
 
 			TestcaseParamPageEditor testcaseParamPageEditor = new TestcaseParamPageEditor( this, (TestcaseParamPageDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseParamPageEditor);		
-			
-		}else if( selectedNode instanceof TestcaseControlLoopDataModel ){
-			TestcaseControlLoopEditor testcaseControlLoopEditor = new TestcaseControlLoopEditor( this, (TestcaseControlLoopDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );
-			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 			
 		}		
 	}
@@ -228,21 +204,6 @@ public class TestcaseTree extends Tree {
 			});
 			popupMenu.add ( insertParamPageMenu );
 		
-			//Insert Control Loop
-			JMenuItem insertLoopMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.control.loop") );
-			insertLoopMenu.setActionCommand( ActionCommand.CAPTURE.name());
-			insertLoopMenu.addActionListener( new ActionListener() {
-			
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					TestcaseControlLoopEditor testcaseControlLoopEditor = new TestcaseControlLoopEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, baseRootDataModel );
-					guiFrame.showEditorPanel( testcaseControlLoopEditor);			
-					
-				
-				}
-			});
-			popupMenu.add ( insertLoopMenu );
 			
 /*			//Insert Custom
 			JMenuItem insertSpecialMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.custompage") );
@@ -260,27 +221,6 @@ public class TestcaseTree extends Tree {
 			popupMenu.add ( insertSpecialMenu );			
 */
 			
-		}
-		
-		//
-		// Control LOOP eseten
-		//
-		if( selectedNode instanceof TestcaseControlLoopDataModel ){
-
-			//Insert Page
-			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.parampage") );
-			insertParamPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
-			insertParamPageMenu.addActionListener( new ActionListener() {
-			
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					TestcaseParamPageEditor testcaseParamPageEditor = new TestcaseParamPageEditor( TestcaseTree.this, (TestcaseControlLoopDataModel)selectedNode, paramRootDataModel );								
-					guiFrame.showEditorPanel( testcaseParamPageEditor);								
-				
-				}
-			});
-			popupMenu.add ( insertParamPageMenu );
 		}
 		
 	}
@@ -390,14 +330,6 @@ public class TestcaseTree extends Tree {
 		
 		//Page elhelyezese Case-ben
 		}else if( draggedNode instanceof TestcaseParamPageDataModel && dropObject instanceof TestcaseCaseDataModel ){
-			return true;
-			
-		//Loop elhelyezese Case-ben
-		}else if( draggedNode instanceof TestcaseControlLoopDataModel && dropObject instanceof TestcaseCaseDataModel ){
-			return true;
-
-		//Page elhelyezese Loop-ban
-		}else if( draggedNode instanceof TestcaseParamPageDataModel && dropObject instanceof TestcaseControlLoopDataModel ){
 			return true;
 
 		}

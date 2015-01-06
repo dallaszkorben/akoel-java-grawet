@@ -1,6 +1,9 @@
-package hu.akoel.grawit.core.treenodedatamodel.testcase;
+package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
@@ -8,23 +11,34 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.Player;
+import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.CompilationException;
+import hu.akoel.grawit.exceptions.ElementCompareOperationException;
+import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.LoopExceededMaxValueException;
+import hu.akoel.grawit.exceptions.PageException;
+import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
+import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,11 +46,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
+public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	private static final Tag TAG = Tag.TESTCASECONTROLLOOP;
+	public static final Tag TAG = Tag.PARAMLOOP;
 	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "compareelementabsolutepath";
 	private static final String ATTR_OPERATION = "operation";
@@ -52,7 +66,7 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 	private Integer maxLoopNumber = null;
 	//----
 	
-	public TestcaseControlLoopDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
+	public ParamLoopDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
 		this.name = name;
 		this.compareBaseElement = compareBaseElement;
 		this.oneLoopLength = oneLoopLength;
@@ -64,7 +78,7 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 
 	}
 	
-	public TestcaseControlLoopDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
+	public ParamLoopDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -199,16 +213,14 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element testcaseElement = (Element)node;
-				
-				//Ha TESTCASEPARAM van alatta
-				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMPAGE.getName() )){
-					
-					this.add(new TestcaseParamPageDataModel(testcaseElement, paramDataModel ));
-					
+				Element paramElement = (Element)node;
+				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
+						
+					this.add(new ParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+						
 				}
-			}
-		}
+			}			
+		}	
 		
 		elementOperation = CommonOperations.getElementOperation( element, compareBaseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, variableRootDataModel );
 		
@@ -349,9 +361,9 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof TestcaseDataModelAdapter ){
+			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
 				
-				Element element = ((TestcaseDataModelAdapter)object).getXMLElement( document );
+				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
 				elementElement.appendChild( element );		    		
 		    	
 			}
@@ -367,7 +379,7 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 	public Object clone(){
 		
 		//Leklonozza a NODE-ot
-		TestcaseControlLoopDataModel cloned = (TestcaseControlLoopDataModel)super.clone();
+		ParamLoopDataModel cloned = (ParamLoopDataModel)super.clone();
 		
 		//Ha vannak gyerekei (NODE vagy CASE)
 		if( null != this.children ){
@@ -377,15 +389,15 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 			
 			for( Object o : this.children ){
 				
-				if( o instanceof TestcaseDataModelAdapter ){					
+				if( o instanceof ParamDataModelAdapter ){
 					
-					TestcaseDataModelAdapter child = (TestcaseDataModelAdapter) ((TestcaseDataModelAdapter)o).clone();
+					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
 					
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					
 					
 					cloned.children.add(child);
-					
+			
 				}
 			}
 		}
@@ -407,11 +419,134 @@ public class TestcaseControlLoopDataModel extends TestcaseDataModelAdapter{
 			
 		return cloned;
 	}
-	
+
 	@Override
-	public void add( TestcaseDataModelAdapter node ) {
-		super.add( (MutableTreeNode)node );
+	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgres, ElementProgressInterface elementProgres) throws PageException,	CompilationException, StoppedByUserException {
+		
+		ParamElementDataModel parameterElement;
+		
+		Integer actualLoop = 0;
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+		
+		Date startDate = Calendar.getInstance().getTime();			
+		Date actualDate;
+		
+		//Annyiszor megy vegig a gyermekeken, amennyi a megengedett ciklusszam (es ha nem igaz a feltetel)
+		while( actualLoop++ < maxLoopNumber ){		
+			
+			//Jelzi, hogy elindult az oldal feldolgozasa
+			if( null != pageProgres ){
+				pageProgres.pageStarted( getName(), getNodeTypeToShow() );
+			}	
+			
+			try {
+				
+				//LOOP kiertekelese
+				getElementOperation().doAction(driver, getCompareBaseElement(), elementProgres );
+			
+				//A feltetel igaz volt, tehat vege a Loopnak
+				break;
+
+			//Nem volt igaz a feltetel, igy a ujabb Loop veszi kezdetet
+			}catch( ElementCompareOperationException e	){
+
+				//Akkor elindul a gyermekein (ParamPage)
+				int childCount = this.getChildCount();
+    		
+				//testcaseProgress.testcaseStarted( actualTestcase.getName() );
+		
+				//A LOOP element-jeinek futtatasa
+				for( int index = 0; index < childCount; index++ ){
+				
+					if( player.isStopped() ){
+						throw new StoppedByUserException();
+					}
+					
+					//Parameterezett elem
+					parameterElement = (ParamElementDataModel)this.getChildAt( index );
+					
+					//Ha a parameterezett elem be van kapcsolva
+					if( parameterElement.isOn() ){
+					
+						//Bazis elem
+						BaseElementDataModelAdapter baseElement = parameterElement.getBaseElement();
+					
+						//Ha NORMAL
+						if( baseElement instanceof NormalBaseElementDataModel ){
+						
+							//TODO lehet, hogy ennek a framere varakozo idonek kulonboznie kellene
+							//a Bazis elemhez tartozo warakozasi ido
+							Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTime();
+							if( null == waitingTime ){
+								waitingTime = Settings.getInstance().getWaitingTime();
+							}
+							WebDriverWait wait = new WebDriverWait(driver, waitingTime);
+					
+							// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
+							String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
+
+							if( null != frameName && frameName.trim().length() > 0 ){				
+					
+		elementProgres.outputCommand( "		//Switch to the '" + frameName + "' frame" );
+		elementProgres.outputCommand( "		driver.switchTo().defaultContent();" );
+		elementProgres.outputCommand( "		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt( \"" + frameName + "\" ) );" );
+		elementProgres.outputCommand( "		driver.switchTo().defaultContent();" );
+		elementProgres.outputCommand( "		driver.switchTo().frame( \"" + frameName + "\" );" );
+		elementProgres.outputCommand( "" );
+								
+								driver.switchTo().defaultContent();
+								wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
+								driver.switchTo().defaultContent();
+								driver.switchTo().frame( frameName );		
+							}				
+						}
+						
+						try{
+							
+							//Elem muveletenek vegrehajtasa
+							parameterElement.doAction( driver, elementProgres );
+					
+						//Ha nem futott le rendesen a teszteset
+						}catch (ElementException f){
+							throw new PageException( this.getName(), f.getElementName(), f.getElementSelector(), f);					
+						}					
+					}								
+				}
+			
+			}catch( ElementException g	){
+				throw new PageException( this.getName(), g.getElementName(), g.getElementSelector(), g);
+			}
+			
+			//Ha azert lett vege a Loop-nak, mert elerte a maximalis szamot, 
+			if( actualLoop >= maxLoopNumber ){
+				
+				//Akkor egy uj hibat generalok
+				throw new LoopExceededMaxValueException( this.getName(), compareBaseElement.getName(), new Exception() );
+				
+			}
+			
+			actualDate = Calendar.getInstance().getTime();
+			long differenceTime = actualDate.getTime() - startDate.getTime();
+			long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;
+			if( neededToWait > 0 ){
+				
+				try{
+					Thread.sleep( neededToWait );
+				} catch(InterruptedException ex) {}
+			}
+			
+			//Jelzi, hogy befejezodott az oldal feldolgozasa
+			if( null != pageProgres ){
+				pageProgres.pageEnded( getName(), getNodeTypeToShow() );
+			}			
+		}
+
+
 	}
 	
+	@Override
+	public void add(ParamDataModelAdapter node) {
+		super.add( (MutableTreeNode)node );
+	}
 
 }

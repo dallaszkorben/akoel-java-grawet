@@ -2,7 +2,7 @@ package hu.akoel.grawit.exceptions;
 
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 
-public class LoopExceededMaxValueException extends ElementException{
+public class LoopExceededMaxValueException extends PageException{
 
 	private String compareValue;
 	private String elementName;
@@ -12,8 +12,8 @@ public class LoopExceededMaxValueException extends ElementException{
 
 	private static final long serialVersionUID = 7550969335856707072L;
 	
-	public LoopExceededMaxValueException( String elementName, Exception e ){
-		super( "The LOOP exceeded the maximum value but the LOOP condition is still not TRUE for the '" + elementName + "' base element", e );
+	public LoopExceededMaxValueException( String loopName, String baseElementName, Exception e ){
+		super( loopName, "The LOOP exceeded the maximum value but the LOOP condition is still not TRUE for the '" + baseElementName + "' element", e );
 		this.compareType = compareType;
 		this.compareValue = compareValue;
 		this.elementName = elementName;
