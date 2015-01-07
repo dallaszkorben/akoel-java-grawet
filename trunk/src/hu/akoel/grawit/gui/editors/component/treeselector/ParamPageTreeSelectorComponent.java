@@ -2,31 +2,31 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorLoopDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNormalDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorExecutableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<CollectorExecutableDataModelAdapter>{
+public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamCollectorDataModelAdapter>{
 
 	private static final long serialVersionUID = 1064181673121972602L;
 
-	public ParamPageTreeSelectorComponent( CollectorDataModelAdapter rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), CollectorExecutableDataModelAdapter.class, rootDataModel, null, false);
+	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, null, false);
 	}
 
-	public ParamPageTreeSelectorComponent( CollectorDataModelAdapter rootDataModel, CollectorExecutableDataModelAdapter selectedParamPageDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), CollectorExecutableDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, false);
+	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamCollectorDataModelAdapter selectedParamPageDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, false);
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( CollectorExecutableDataModelAdapter selectedDataModel) {
+	public String getSelectedDataModelToString( ParamCollectorDataModelAdapter selectedDataModel) {
 		StringBuffer out = new StringBuffer();
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){
@@ -47,7 +47,7 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<Collec
 
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
-		return !( path.getLastPathComponent() instanceof CollectorExecutableDataModelAdapter );
+		return !( path.getLastPathComponent() instanceof ParamCollectorDataModelAdapter );
 	}
 	
 	@Override
@@ -61,17 +61,17 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<Collec
     	ImageIcon loopClosedIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof CollectorNormalDataModel){
+    	if( actualNode instanceof ParamNormalCollectorDataModel){
             return pageIcon;    	
-    	}else if( actualNode instanceof CollectorParamElementDataModel ){
+    	}else if( actualNode instanceof ParamElementDataModel ){
             return elementIcon;
-    	}else if( actualNode instanceof CollectorLoopDataModel ){
+    	}else if( actualNode instanceof ParamLoopCollectorDataModel ){
     		if( expanded ){
     			return loopOpenIcon;
     		}else{
     			return loopClosedIcon;    			
     		}
-    	}else if( actualNode instanceof CollectorNodeDataModel){
+    	}else if( actualNode instanceof ParamNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{

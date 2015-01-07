@@ -9,7 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
@@ -61,7 +61,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCaseDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, CollectorDataModelAdapter paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
+	public TestcaseCaseDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamDataModelAdapter paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -193,7 +193,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 				Element testcaseElement = (Element)node;
 				
 				//Ha TESTCASEPARAM van alatta
-				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMPAGE.getName() )){
+				if( testcaseElement.getTagName().equals( Tag.TESTCASECOLLECTOR.getName() )){
 					
 					this.add(new TestcaseParamPageDataModel(testcaseElement, paramDataModel ));
 					

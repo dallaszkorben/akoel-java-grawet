@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.treenodedatamodel.collector;
+package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
 import java.util.Vector;
@@ -22,9 +22,9 @@ import hu.akoel.grawit.Player;
 import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -39,19 +39,19 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 
-public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
+public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
-	public static final Tag TAG = Tag.COLLECTORNORMAL;
+	public static final Tag TAG = Tag.PARAMNORMALCOLLECTOR;
 	
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
 	private static final String ATTR_ON = "on";
 	
-	private BasePageDataModel basePage = null;	
+	private BaseCollectorDataModel basePage = null;	
 	private String name;
 	
-	public CollectorNormalDataModel( String name, BasePageDataModel basePage){
+	public ParamNormalCollectorDataModel( String name, BaseCollectorDataModel basePage){
 		super();
 		
 		this.name = name;
@@ -65,7 +65,7 @@ public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapte
 	 * @param element
 	 * @throws XMLPharseException
 	 */
-	public CollectorNormalDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public ParamNormalCollectorDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -142,9 +142,9 @@ public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapte
 					}
 	    		
 				//Ha BASEPAGE
-				}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
-					attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
-					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEPAGE, attrName );
+				}else if( tagName.equals( BaseCollectorDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(BaseCollectorDataModel.ATTR_NAME);
+					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASECOLLECTOR, attrName );
 					if( null == baseDataModel ){
 
 						throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH) );
@@ -164,7 +164,7 @@ public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapte
 			}	    
 			try{
 	    	
-				basePage = (BasePageDataModel)baseDataModel;
+				basePage = (BaseCollectorDataModel)baseDataModel;
 	    	
 			}catch(ClassCastException e){
 
@@ -184,9 +184,9 @@ public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapte
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element paramElement = (Element)node;
-				if( paramElement.getTagName().equals( Tag.COLLECTORPARAMELEMENT.getName() )){					
+				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
 						
-					this.add(new CollectorParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+					this.add(new ParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 						
 				}
 			}			
@@ -194,7 +194,7 @@ public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapte
 	}
 	
 	@Override
-	public void add(CollectorDataModelAdapter node) {
+	public void add(ParamDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 
@@ -216,7 +216,7 @@ public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapte
 		this.name = name;
 	}
 
-	public BasePageDataModel getBasePage(){
+	public BaseCollectorDataModel getBasePage(){
 		return basePage;
 	}
 	
@@ -232,7 +232,7 @@ public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapte
 	@Override
 	public void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException, StoppedByUserException {
 		
-		CollectorParamElementDataModel parameterElement;
+		ParamElementDataModel parameterElement;
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
@@ -249,7 +249,7 @@ public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapte
 			}
 			
 			//Parameterezett elem
-			parameterElement = (CollectorParamElementDataModel)this.getChildAt( i );
+			parameterElement = (ParamElementDataModel)this.getChildAt( i );
 			
 			//Ha a parameterezett elem be van kapcsolva
 			if( parameterElement.isOn() ){
@@ -357,9 +357,9 @@ elementProgress.outputCommand( "" );
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof CollectorDataModelAdapter ){
+			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
 				
-				Element element = ((CollectorDataModelAdapter)object).getXMLElement( document );
+				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
 				pageElement.appendChild( element );		    		
 		    	
 			}
@@ -373,7 +373,7 @@ elementProgress.outputCommand( "" );
 	public Object clone(){
 		
 		//Leklonozza a ParamPage-et
-		CollectorNormalDataModel cloned = (CollectorNormalDataModel)super.clone();
+		ParamNormalCollectorDataModel cloned = (ParamNormalCollectorDataModel)super.clone();
 
 		//Ha vannak gyerekei (ELEMENT)
 		if( null != this.children ){
@@ -383,9 +383,9 @@ elementProgress.outputCommand( "" );
 							
 			for( Object o : this.children ){
 								
-				if( o instanceof CollectorDataModelAdapter ){
+				if( o instanceof ParamDataModelAdapter ){
 					
-					CollectorDataModelAdapter child = (CollectorDataModelAdapter) ((CollectorDataModelAdapter)o).clone();
+					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
 					
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					
@@ -403,7 +403,7 @@ elementProgress.outputCommand( "" );
 	@Override
 	public Object cloneWithParent() {
 		
-		CollectorNormalDataModel cloned = (CollectorNormalDataModel) this.clone();
+		ParamNormalCollectorDataModel cloned = (ParamNormalCollectorDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );

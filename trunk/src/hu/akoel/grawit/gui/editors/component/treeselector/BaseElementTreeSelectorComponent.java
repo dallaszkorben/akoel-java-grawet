@@ -5,7 +5,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 
@@ -47,7 +47,7 @@ public class BaseElementTreeSelectorComponent extends TreeSelectorComponent<Base
 		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
 
 		//Iconja a NODE-nak
-		if( actualNode instanceof BasePageDataModel){
+		if( actualNode instanceof BaseCollectorDataModel){
 			return (pageIcon);
 		}else if( actualNode instanceof NormalBaseElementDataModel ){
 			return (normalElementIcon);

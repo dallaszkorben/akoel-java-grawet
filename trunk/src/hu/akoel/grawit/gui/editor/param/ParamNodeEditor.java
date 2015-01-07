@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -19,8 +19,8 @@ public class ParamNodeEditor extends DataEditor{
 	private static final long serialVersionUID = 2644128362590221646L;
 	
 	private Tree tree;
-	private CollectorNodeDataModel nodeForModify;
-	private CollectorNodeDataModel nodeForCapture;
+	private ParamNodeDataModel nodeForModify;
+	private ParamNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -28,9 +28,9 @@ public class ParamNodeEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 
 	//Itt biztos beszuras van
-	public ParamNodeEditor( Tree tree, CollectorNodeDataModel selectedNode ){
+	public ParamNodeEditor( Tree tree, ParamNodeDataModel selectedNode ){
 
-		super( CollectorNodeDataModel.getModelNameToShowStatic() );
+		super( ParamNodeDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -47,7 +47,7 @@ public class ParamNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public ParamNodeEditor( Tree pageBaseTree, CollectorNodeDataModel selectedNode, EditMode mode ){		
+	public ParamNodeEditor( Tree pageBaseTree, ParamNodeDataModel selectedNode, EditMode mode ){		
 
 		super( mode, selectedNode.getNodeTypeToShow());
 
@@ -116,10 +116,10 @@ public class ParamNodeEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Node-rol van szo
-				if( levelNode instanceof CollectorNodeDataModel ){
+				if( levelNode instanceof ParamNodeDataModel ){
 					
 					//Ha azonos a nev
-					if( ((CollectorNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((ParamNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -156,7 +156,7 @@ public class ParamNodeEditor extends DataEditor{
 			
 				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
 				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
-				CollectorNodeDataModel newPageBaseNode = new CollectorNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				ParamNodeDataModel newPageBaseNode = new ParamNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
 				//parentNode.insert( newPageBaseNode, selectedNodeIndex);
 				nodeForCapture.add( newPageBaseNode );
 			

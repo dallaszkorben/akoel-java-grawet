@@ -15,7 +15,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
@@ -49,7 +49,7 @@ public class BaseTree extends Tree{
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
   
     	//Iconja a NODE-nak
-    	if( actualNode instanceof BasePageDataModel){
+    	if( actualNode instanceof BaseCollectorDataModel){
             return pageIcon;
     	}else if( actualNode instanceof NormalBaseElementDataModel ){
             return normalElementIcon;
@@ -77,8 +77,8 @@ public class BaseTree extends Tree{
 			BaseNodeEditor baseNodeEditor = new BaseNodeEditor(this, (BaseNodeDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( baseNodeEditor);								
 		
-		}else if( selectedNode instanceof BasePageDataModel ){
-			BasePageEditor basePageEditor = new BasePageEditor( this, (BasePageDataModel)selectedNode, EditMode.VIEW );								
+		}else if( selectedNode instanceof BaseCollectorDataModel ){
+			BasePageEditor basePageEditor = new BasePageEditor( this, (BaseCollectorDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( basePageEditor);				
 						
 		}else if( selectedNode instanceof NormalBaseElementDataModel ){
@@ -100,9 +100,9 @@ public class BaseTree extends Tree{
 			BaseNodeEditor baseNodeEditor = new BaseNodeEditor( this, (BaseNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( baseNodeEditor);								
 								
-		}else if( selectedNode instanceof BasePageDataModel ){
+		}else if( selectedNode instanceof BaseCollectorDataModel ){
 								
-			BasePageEditor basePageEditor = new BasePageEditor( this, (BasePageDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			BasePageEditor basePageEditor = new BasePageEditor( this, (BaseCollectorDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( basePageEditor);		
 								
 		}else if( selectedNode instanceof NormalBaseElementDataModel ){
@@ -192,7 +192,7 @@ public class BaseTree extends Tree{
 		// Page eseten
 		//
 		
-		if( selectedNode instanceof BasePageDataModel ){
+		if( selectedNode instanceof BaseCollectorDataModel ){
 
 			//Insert Normal Element
 			JMenuItem insertNormalElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.normalelement") );
@@ -202,7 +202,7 @@ public class BaseTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					NormalBaseElementEditor baseNodeEditor = new NormalBaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
+					NormalBaseElementEditor baseNodeEditor = new NormalBaseElementEditor( BaseTree.this, (BaseCollectorDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
@@ -217,7 +217,7 @@ public class BaseTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ScriptBaseElementEditor baseNodeEditor = new ScriptBaseElementEditor( BaseTree.this, (BasePageDataModel)selectedNode );								
+					ScriptBaseElementEditor baseNodeEditor = new ScriptBaseElementEditor( BaseTree.this, (BaseCollectorDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
@@ -333,15 +333,15 @@ public class BaseTree extends Tree{
 			return true;
 
 		//Page elhelyezese Node-ba de nem Root-ba	
-		}else if( draggedNode instanceof BasePageDataModel && dropObject instanceof BaseNodeDataModel && !( dropObject instanceof BaseRootDataModel ) ){
+		}else if( draggedNode instanceof BaseCollectorDataModel && dropObject instanceof BaseNodeDataModel && !( dropObject instanceof BaseRootDataModel ) ){
 			return true;
 		
 		//NormalElement elhelyezese Page-ben	
-		}else if( draggedNode instanceof NormalBaseElementDataModel && dropObject instanceof BasePageDataModel ){
+		}else if( draggedNode instanceof NormalBaseElementDataModel && dropObject instanceof BaseCollectorDataModel ){
 			return true;
 
 		//SpecialElement elhelyezese Page-ben	
-		}else if( draggedNode instanceof ScriptBaseElementDataModel && dropObject instanceof BasePageDataModel ){
+		}else if( draggedNode instanceof ScriptBaseElementDataModel && dropObject instanceof BaseCollectorDataModel ){
 			return true;
 
 		//NormalElement elhelyezese Node-ban	

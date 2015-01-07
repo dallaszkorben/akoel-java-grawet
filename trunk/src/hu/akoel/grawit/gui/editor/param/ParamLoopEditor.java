@@ -8,9 +8,9 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorLoopDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.CheckboxElementTypeOperationsCompareListEnum;
@@ -43,8 +43,8 @@ public class ParamLoopEditor extends DataEditor{
 	private static final long serialVersionUID = -8459964508143979145L;
 	
 	private Tree tree;
-	private CollectorLoopDataModel nodeForModify;
-	private CollectorNodeDataModel nodeForCapture;
+	private ParamLoopCollectorDataModel nodeForModify;
+	private ParamNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -66,9 +66,9 @@ public class ParamLoopEditor extends DataEditor{
 	VariableRootDataModel variableRootDataModel;
 
 	//Itt biztos beszuras van
-	public ParamLoopEditor( Tree tree, CollectorNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public ParamLoopEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 		
-		super( CollectorLoopDataModel.getModelNameToShowStatic() );
+		super( ParamLoopCollectorDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -92,7 +92,7 @@ public class ParamLoopEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public ParamLoopEditor( Tree tree, CollectorLoopDataModel selectedControlLoop, BaseRootDataModel baseRootDataModel, EditMode mode ){		
+	public ParamLoopEditor( Tree tree, ParamLoopCollectorDataModel selectedControlLoop, BaseRootDataModel baseRootDataModel, EditMode mode ){		
 		
 		super( mode, selectedControlLoop.getNodeTypeToShow());
 
@@ -309,10 +309,10 @@ public class ParamLoopEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof CollectorParamElementDataModel ){
+				if( levelNode instanceof ParamElementDataModel ){
 					
 					//Ha azonos a nev azzal amit most mentenek
-					if( ((CollectorParamElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((ParamElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -349,7 +349,7 @@ public class ParamLoopEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				CollectorLoopDataModel newParamLoop = new CollectorLoopDataModel(fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation);
+				ParamLoopCollectorDataModel newParamLoop = new ParamLoopCollectorDataModel(fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation);
 				
 				nodeForCapture.add( newParamLoop );
 				

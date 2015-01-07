@@ -9,12 +9,12 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -52,7 +52,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 		this.driver = driver;
 	}
 	
-	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, CollectorRootDataModel paramRootDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{		
+	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{		
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );

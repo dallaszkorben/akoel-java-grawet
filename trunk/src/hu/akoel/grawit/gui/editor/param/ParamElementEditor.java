@@ -7,13 +7,13 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNormalDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorExecutableDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ButtonElementTypeOperationsFullListEnum;
@@ -49,8 +49,8 @@ public class ParamElementEditor extends DataEditor{
 	private static final long serialVersionUID = -7285419881714492620L;
 	
 	private Tree tree;
-	private CollectorParamElementDataModel nodeForModify;	
-	private CollectorDataModelAdapter nodeForCapture;
+	private ParamElementDataModel nodeForModify;	
+	private ParamDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -71,9 +71,9 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
-	public ParamElementEditor( Tree tree, CollectorExecutableDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, CollectorRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ParamElementEditor( Tree tree, ParamCollectorDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
 
-		super( CollectorParamElementDataModel.getModelNameToShowStatic());
+		super( ParamElementDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedPage;
@@ -86,10 +86,10 @@ public class ParamElementEditor extends DataEditor{
 		//Name
 		fieldName.setText( "" );
 
-		if( selectedPage instanceof CollectorNormalDataModel ){
+		if( selectedPage instanceof ParamNormalCollectorDataModel ){
 
 			//Base Element
-			BasePageDataModel basePage = ((CollectorNormalDataModel)selectedPage).getBasePage();
+			BaseCollectorDataModel basePage = ((ParamNormalCollectorDataModel)selectedPage).getBasePage();
 			if( null != basePage ){
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage );
 				baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
@@ -116,7 +116,7 @@ public class ParamElementEditor extends DataEditor{
 	 * @param mode
 	 */
 	//public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){		
-	public ParamElementEditor( Tree tree, CollectorParamElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, CollectorRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){
+	public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){
 
 		super( mode, selectedElement.getNodeTypeToShow());
 
@@ -132,10 +132,10 @@ public class ParamElementEditor extends DataEditor{
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		
-		CollectorDataModelAdapter parent = (CollectorDataModelAdapter)selectedElement.getParent();
-		if( parent instanceof CollectorNormalDataModel ){
+		ParamDataModelAdapter parent = (ParamDataModelAdapter)selectedElement.getParent();
+		if( parent instanceof ParamNormalCollectorDataModel ){
 		
-			BasePageDataModel basePage = ((CollectorNormalDataModel)selectedElement.getParent()).getBasePage();
+			BaseCollectorDataModel basePage = ((ParamNormalCollectorDataModel)selectedElement.getParent()).getBasePage();
 			if( null != basePage ){
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
 				baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
@@ -151,7 +151,7 @@ public class ParamElementEditor extends DataEditor{
 		
 	}
 
-	private void commonPre( final BaseRootDataModel baseRootDataModel, final CollectorRootDataModel paramRootDataModel, final VariableRootDataModel variableRootDataModel ){
+	private void commonPre( final BaseRootDataModel baseRootDataModel, final ParamRootDataModel paramRootDataModel, final VariableRootDataModel variableRootDataModel ){
 				
 		//Name
 		fieldName = new TextFieldComponent();
@@ -336,10 +336,10 @@ public class ParamElementEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof CollectorParamElementDataModel ){
+				if( levelNode instanceof ParamElementDataModel ){
 					
 					//Ha azonos a nev azzal amit most mentenek
-					if( ((CollectorParamElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((ParamElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -376,7 +376,7 @@ public class ParamElementEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				CollectorParamElementDataModel newParamElement = new CollectorParamElementDataModel( fieldName.getText(), baseElement, elementOperation );			
+				ParamElementDataModel newParamElement = new ParamElementDataModel( fieldName.getText(), baseElement, elementOperation );			
 				
 				nodeForCapture.add( newParamElement );
 				
