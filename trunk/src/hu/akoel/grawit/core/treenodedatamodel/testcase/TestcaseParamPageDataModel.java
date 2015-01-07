@@ -8,13 +8,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageLikeDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamLoopDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageLikeDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -63,7 +63,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseParamPageDataModel( Element element, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
+	public TestcaseParamPageDataModel( Element element, CollectorDataModelAdapter paramDataModel ) throws XMLPharseException{
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -137,7 +137,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 	    	//Ha PARAMNODE
 	    	if( tagName.equals( ParamNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ParamNodeDataModel.ATTR_NAME);	    		
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNODE, attrName );
+	    		paramDataModel = (CollectorDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNODE, attrName );
 
 	    		if( null == paramDataModel ){
 
@@ -147,7 +147,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 	    	//Ha PARAMPAGE
 	    	}else if( tagName.equals( ParamPageDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ParamPageDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGE, attrName );
+	    		paramDataModel = (CollectorDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMPAGE, attrName );
 	    		if( null == paramDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
@@ -157,7 +157,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 //Ha PARAMLOOP
 	    	}else if( tagName.equals( ParamLoopDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ParamLoopDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMLOOP, attrName );
+	    		paramDataModel = (CollectorDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMLOOP, attrName );
 	    		if( null == paramDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );

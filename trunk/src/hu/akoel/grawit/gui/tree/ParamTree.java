@@ -13,15 +13,15 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamLoopDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -344,13 +344,13 @@ public class ParamTree extends Tree {
 				*/
 				
 				//Ha a kivalasztott csomopont szuloje ParamDataModel - annak kell lennie :)
-				if( selectedNode.getParent() instanceof ParamDataModelAdapter ){
+				if( selectedNode.getParent() instanceof CollectorDataModelAdapter ){
 					
 					//Akkor megduplikalja 
-					ParamDataModelAdapter duplicated = (ParamDataModelAdapter)selectedNode.clone();
+					CollectorDataModelAdapter duplicated = (CollectorDataModelAdapter)selectedNode.clone();
 					
 					//Es hozzaadja a szulohoz
-					((ParamDataModelAdapter)selectedNode.getParent()).add( duplicated );
+					((CollectorDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
 					ParamTree.this.changed();

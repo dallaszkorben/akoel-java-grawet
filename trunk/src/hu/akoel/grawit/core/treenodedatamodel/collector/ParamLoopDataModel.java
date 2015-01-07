@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.treenodedatamodel.param;
+package hu.akoel.grawit.core.treenodedatamodel.collector;
 
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
@@ -17,7 +17,7 @@ import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -361,9 +361,9 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
+			if( !object.equals(this) && object instanceof CollectorDataModelAdapter ){
 				
-				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
+				Element element = ((CollectorDataModelAdapter)object).getXMLElement( document );
 				elementElement.appendChild( element );		    		
 		    	
 			}
@@ -389,9 +389,9 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 			
 			for( Object o : this.children ){
 				
-				if( o instanceof ParamDataModelAdapter ){
+				if( o instanceof CollectorDataModelAdapter ){
 					
-					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
+					CollectorDataModelAdapter child = (CollectorDataModelAdapter) ((CollectorDataModelAdapter)o).clone();
 					
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					
@@ -547,7 +547,7 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 	}
 	
 	@Override
-	public void add(ParamDataModelAdapter node) {
+	public void add(CollectorDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 

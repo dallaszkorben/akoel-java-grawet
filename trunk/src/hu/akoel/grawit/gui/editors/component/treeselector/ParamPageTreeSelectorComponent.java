@@ -2,12 +2,12 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageLikeDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamLoopDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageLikeDataModelAdapter;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
@@ -17,11 +17,11 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamP
 
 	private static final long serialVersionUID = 1064181673121972602L;
 
-	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel ) {
+	public ParamPageTreeSelectorComponent( CollectorDataModelAdapter rootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamPageLikeDataModelAdapter.class, rootDataModel, null, false);
 	}
 
-	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamPageLikeDataModelAdapter selectedParamPageDataModel ) {
+	public ParamPageTreeSelectorComponent( CollectorDataModelAdapter rootDataModel, ParamPageLikeDataModelAdapter selectedParamPageDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamPageLikeDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, false);
 	}
 	

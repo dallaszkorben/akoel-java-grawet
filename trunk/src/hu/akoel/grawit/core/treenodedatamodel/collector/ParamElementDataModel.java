@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.treenodedatamodel.param;
+package hu.akoel.grawit.core.treenodedatamodel.collector;
 
 import java.io.StringReader;
 
@@ -18,7 +18,7 @@ import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -32,7 +32,7 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class ParamElementDataModel extends ParamDataModelAdapter {
+public class ParamElementDataModel extends CollectorDataModelAdapter {
 	
 	private static final long serialVersionUID = -8916078747948054716L;
 
@@ -620,7 +620,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	}
 	
 	@Override
-	public void add( ParamDataModelAdapter node ) {
+	public void add( CollectorDataModelAdapter node ) {
 		super.add( (MutableTreeNode)node );
 	}
 	
