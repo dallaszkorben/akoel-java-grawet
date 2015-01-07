@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.treenodedatamodel.param;
+package hu.akoel.grawit.core.treenodedatamodel.collector;
 
 import java.io.StringReader;
 import java.util.Vector;
@@ -22,7 +22,7 @@ import hu.akoel.grawit.Player;
 import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -194,7 +194,7 @@ public class ParamPageDataModel extends ParamPageLikeDataModelAdapter {//ParamDa
 	}
 	
 	@Override
-	public void add(ParamDataModelAdapter node) {
+	public void add(CollectorDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 
@@ -357,9 +357,9 @@ elementProgress.outputCommand( "" );
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
+			if( !object.equals(this) && object instanceof CollectorDataModelAdapter ){
 				
-				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
+				Element element = ((CollectorDataModelAdapter)object).getXMLElement( document );
 				pageElement.appendChild( element );		    		
 		    	
 			}
@@ -383,9 +383,9 @@ elementProgress.outputCommand( "" );
 							
 			for( Object o : this.children ){
 								
-				if( o instanceof ParamDataModelAdapter ){
+				if( o instanceof CollectorDataModelAdapter ){
 					
-					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
+					CollectorDataModelAdapter child = (CollectorDataModelAdapter) ((CollectorDataModelAdapter)o).clone();
 					
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					

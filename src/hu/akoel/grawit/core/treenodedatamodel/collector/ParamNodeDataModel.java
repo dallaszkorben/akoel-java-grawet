@@ -1,11 +1,11 @@
-package hu.akoel.grawit.core.treenodedatamodel.param;
+package hu.akoel.grawit.core.treenodedatamodel.collector;
 
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ParamNodeDataModel extends ParamDataModelAdapter{
+public class ParamNodeDataModel extends CollectorDataModelAdapter{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
@@ -82,7 +82,7 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 	}
 	
 	@Override
-	public void add(ParamDataModelAdapter node) {
+	public void add(CollectorDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -135,9 +135,9 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
+			if( !object.equals(this) && object instanceof CollectorDataModelAdapter ){
 				
-				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
+				Element element = ((CollectorDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
@@ -160,9 +160,9 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 					
 			for( Object o : this.children ){
 						
-				if( o instanceof ParamDataModelAdapter ){
+				if( o instanceof CollectorDataModelAdapter ){
 					
-					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
+					CollectorDataModelAdapter child = (CollectorDataModelAdapter) ((CollectorDataModelAdapter)o).clone();
 					
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					

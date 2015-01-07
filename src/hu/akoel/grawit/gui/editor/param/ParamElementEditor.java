@@ -7,13 +7,13 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageLikeDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageLikeDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.collector.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ButtonElementTypeOperationsFullListEnum;
@@ -50,7 +50,7 @@ public class ParamElementEditor extends DataEditor{
 	
 	private Tree tree;
 	private ParamElementDataModel nodeForModify;	
-	private ParamDataModelAdapter nodeForCapture;
+	private CollectorDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -132,7 +132,7 @@ public class ParamElementEditor extends DataEditor{
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		
-		ParamDataModelAdapter parent = (ParamDataModelAdapter)selectedElement.getParent();
+		CollectorDataModelAdapter parent = (CollectorDataModelAdapter)selectedElement.getParent();
 		if( parent instanceof ParamPageDataModel ){
 		
 			BasePageDataModel basePage = ((ParamPageDataModel)selectedElement.getParent()).getBasePage();
