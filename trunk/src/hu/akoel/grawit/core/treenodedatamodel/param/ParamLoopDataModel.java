@@ -443,14 +443,9 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 				
 				//LOOP kiertekelese
 				getElementOperation().doAction(driver, getCompareBaseElement(), elementProgres );
-			
-				//A feltetel igaz volt, tehat vege a Loopnak
-				break;
-
-			//Nem volt igaz a feltetel, igy a ujabb Loop veszi kezdetet
-			}catch( ElementCompareOperationException e	){
-
-				//Akkor elindul a gyermekein (ParamPage)
+				
+				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
+				//es vegrehajtja oket
 				int childCount = this.getChildCount();
     		
 				//testcaseProgress.testcaseStarted( actualTestcase.getName() );
@@ -512,7 +507,14 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 						}					
 					}								
 				}
+
+			//Nem volt igaz a feltetel, igy a ujabb Loop veszi kezdetet
+			}catch( ElementCompareOperationException e	){
+
+				//A feltetel igaz volt, tehat vege a Loopnak
+				break;
 			
+			//Ha egyebb problema volt a vegrehajtas soran, akkor azt tovabb kuldi
 			}catch( ElementException g	){
 				throw new PageException( this.getName(), g.getElementName(), g.getElementSelector(), g);
 			}

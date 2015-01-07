@@ -16,6 +16,8 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamPageDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
@@ -63,8 +65,14 @@ public class TestcaseTree extends Tree {
     	if( actualNode instanceof TestcaseCaseDataModel){
             return caseIcon;
             
-    	}else if( actualNode instanceof TestcaseParamPageDataModel ){    		   		
-    		return pageIcon;
+    	}else if( actualNode instanceof TestcaseParamPageDataModel ){
+    		
+    		TestcaseParamPageDataModel testCasePage = (TestcaseParamPageDataModel)actualNode;
+    	    if( testCasePage.getParamPage() instanceof ParamPageDataModel ){
+    	    	return pageIcon;	
+    	    }else if( testCasePage.getParamPage() instanceof ParamLoopDataModel ){
+    	    	return loopOpenIcon;
+    	    }
     		
     	}else if( actualNode instanceof TestcaseNodeDataModel){
     		if( expanded ){
