@@ -32,11 +32,11 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class ParamElementDataModel extends CollectorDataModelAdapter {
+public class CollectorParamElementDataModel extends CollectorDataModelAdapter {
 	
 	private static final long serialVersionUID = -8916078747948054716L;
 
-	public static Tag TAG = Tag.PARAMELEMENT;
+	public static Tag TAG = Tag.COLLECTORPARAMELEMENT;
 	
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementabsolutepath";
 	private static final String ATTR_OPERATION = "operation";
@@ -56,7 +56,7 @@ public class ParamElementDataModel extends CollectorDataModelAdapter {
 	 * @param baseElement
 	 * @param operation
 	 */
-	public ParamElementDataModel( String name, BaseElementDataModelAdapter baseElement, ElementOperationAdapter operation ){
+	public CollectorParamElementDataModel( String name, BaseElementDataModelAdapter baseElement, ElementOperationAdapter operation ){
 		this.name = name;
 		this.baseElement = baseElement;
 		this.elementOperation = operation;
@@ -76,7 +76,7 @@ public class ParamElementDataModel extends CollectorDataModelAdapter {
 	 * @param variableDataModel
 	 * @throws XMLPharseException
 	 */
-	public ParamElementDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public CollectorParamElementDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -698,7 +698,7 @@ public class ParamElementDataModel extends CollectorDataModelAdapter {
 	@Override
 	public Object clone(){
 		
-		ParamElementDataModel cloned = (ParamElementDataModel)super.clone();
+		CollectorParamElementDataModel cloned = (CollectorParamElementDataModel)super.clone();
 	
 //		cloned.baseElement = (BaseElementDataModel) this.baseElement.clone();
 		cloned.elementOperation = (ElementOperationAdapter) this.elementOperation.clone();
@@ -710,7 +710,7 @@ public class ParamElementDataModel extends CollectorDataModelAdapter {
 	@Override
 	public Object cloneWithParent() {
 		
-		ParamElementDataModel cloned = (ParamElementDataModel) this.clone();
+		CollectorParamElementDataModel cloned = (CollectorParamElementDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );

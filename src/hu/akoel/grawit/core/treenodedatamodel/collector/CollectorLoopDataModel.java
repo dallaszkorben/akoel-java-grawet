@@ -46,11 +46,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
+public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	public static final Tag TAG = Tag.PARAMLOOP;
+	public static final Tag TAG = Tag.COLLECTORLOOP;
 	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "compareelementabsolutepath";
 	private static final String ATTR_OPERATION = "operation";
@@ -66,7 +66,7 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 	private Integer maxLoopNumber = null;
 	//----
 	
-	public ParamLoopDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
+	public CollectorLoopDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
 		this.name = name;
 		this.compareBaseElement = compareBaseElement;
 		this.oneLoopLength = oneLoopLength;
@@ -78,7 +78,7 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 
 	}
 	
-	public ParamLoopDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public CollectorLoopDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -214,9 +214,9 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element paramElement = (Element)node;
-				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
+				if( paramElement.getTagName().equals( Tag.COLLECTORPARAMELEMENT.getName() )){					
 						
-					this.add(new ParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+					this.add(new CollectorParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 						
 				}
 			}			
@@ -379,7 +379,7 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 	public Object clone(){
 		
 		//Leklonozza a NODE-ot
-		ParamLoopDataModel cloned = (ParamLoopDataModel)super.clone();
+		CollectorLoopDataModel cloned = (CollectorLoopDataModel)super.clone();
 		
 		//Ha vannak gyerekei (NODE vagy CASE)
 		if( null != this.children ){
@@ -412,7 +412,7 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 	@Override
 	public Object cloneWithParent() {
 		
-		ParamElementDataModel cloned = (ParamElementDataModel) this.clone();
+		CollectorParamElementDataModel cloned = (CollectorParamElementDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
@@ -423,7 +423,7 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 	@Override
 	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgres, ElementProgressInterface elementProgres) throws PageException,	CompilationException, StoppedByUserException {
 		
-		ParamElementDataModel parameterElement;
+		CollectorParamElementDataModel parameterElement;
 		
 		Integer actualLoop = 0;
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
@@ -458,7 +458,7 @@ public class ParamLoopDataModel  extends ParamPageLikeDataModelAdapter {//ParamD
 					}
 					
 					//Parameterezett elem
-					parameterElement = (ParamElementDataModel)this.getChildAt( index );
+					parameterElement = (CollectorParamElementDataModel)this.getChildAt( index );
 					
 					//Ha a parameterezett elem be van kapcsolva
 					if( parameterElement.isOn() ){

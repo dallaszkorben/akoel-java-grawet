@@ -17,11 +17,11 @@ import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamLoopDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorLoopDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNormalDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -38,9 +38,9 @@ public class ParamTree extends Tree {
 	private GUIFrame guiFrame;	
 	private VariableRootDataModel variableRootDataModel;
 	private BaseRootDataModel baseRootDataModel;
-	private ParamRootDataModel paramRootDataModel;
+	private CollectorRootDataModel paramRootDataModel;
 	
-	public ParamTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel ) {
+	public ParamTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, CollectorRootDataModel paramRootDataModel ) {
 		super(guiFrame, paramRootDataModel);
 		
 		this.guiFrame = guiFrame;
@@ -64,9 +64,9 @@ public class ParamTree extends Tree {
     	ImageIcon loopClosedIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamPageDataModel){
+    	if( actualNode instanceof CollectorNormalDataModel){
     		
-    		if(null == ((ParamPageDataModel)actualNode).getBasePage() ){
+    		if(null == ((CollectorNormalDataModel)actualNode).getBasePage() ){
     			
     			return pageNonSpecificIcon;
     		
@@ -75,15 +75,15 @@ public class ParamTree extends Tree {
     			return pageSpecificIcon;
     		}
 
-    	}else if( actualNode instanceof ParamElementDataModel ){
+    	}else if( actualNode instanceof CollectorParamElementDataModel ){
     		
-    		if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof NormalBaseElementDataModel ){
+    		if( ((CollectorParamElementDataModel)actualNode).getBaseElement() instanceof NormalBaseElementDataModel ){
     			return normalElementIcon;
-    		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof ScriptBaseElementDataModel ){
+    		}else if( ((CollectorParamElementDataModel)actualNode).getBaseElement() instanceof ScriptBaseElementDataModel ){
     			return scriptElementIcon;
     		}
     		
-    	}else if( actualNode instanceof ParamLoopDataModel ){
+    	}else if( actualNode instanceof CollectorLoopDataModel ){
 
     		if( expanded ){
     			return loopOpenIcon;
@@ -92,7 +92,7 @@ public class ParamTree extends Tree {
     			
     		}
     		
-    	}else if( actualNode instanceof ParamNodeDataModel){
+    	}else if( actualNode instanceof CollectorNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
@@ -112,14 +112,14 @@ public class ParamTree extends Tree {
     	ImageIcon loopOffIcon = CommonOperations.createImageIcon("tree/param-loop-off-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamElementDataModel ){
-    		if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof NormalBaseElementDataModel ){
+    	if( actualNode instanceof CollectorParamElementDataModel ){
+    		if( ((CollectorParamElementDataModel)actualNode).getBaseElement() instanceof NormalBaseElementDataModel ){
     			return elementNormalOffIcon;
-    		}else if( ((ParamElementDataModel)actualNode).getBaseElement() instanceof ScriptBaseElementDataModel ){
+    		}else if( ((CollectorParamElementDataModel)actualNode).getBaseElement() instanceof ScriptBaseElementDataModel ){
     			return elementSpecialOffIcon;
     		}
     		
-    	}else if( actualNode instanceof ParamLoopDataModel ){
+    	}else if( actualNode instanceof CollectorLoopDataModel ){
             return loopOffIcon;            
 
     	}else{
@@ -133,24 +133,24 @@ public class ParamTree extends Tree {
 	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 		
 		//Ha a root-ot valasztottam
-		if( selectedNode instanceof ParamRootDataModel ){
+		if( selectedNode instanceof CollectorRootDataModel ){
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 			
-		}else if( selectedNode instanceof ParamNodeDataModel ){
-			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.VIEW);
+		}else if( selectedNode instanceof CollectorNodeDataModel ){
+			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (CollectorNodeDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( paramNodeEditor);								
 
-		}else if( selectedNode instanceof ParamPageDataModel ){
-			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamPageDataModel)selectedNode, EditMode.VIEW );								
+		}else if( selectedNode instanceof CollectorNormalDataModel ){
+			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (CollectorNormalDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( paramPageEditor);
 							
-		}else if( selectedNode instanceof ParamElementDataModel ){
-			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.VIEW );	
+		}else if( selectedNode instanceof CollectorParamElementDataModel ){
+			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (CollectorParamElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( pageBaseElementEditor);									
 			
-		}else if( selectedNode instanceof ParamLoopDataModel ){
-			ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( this, (ParamLoopDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );
+		}else if( selectedNode instanceof CollectorLoopDataModel ){
+			ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( this, (CollectorLoopDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 			
 		}
@@ -159,23 +159,23 @@ public class ParamTree extends Tree {
 
 	@Override
 	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
-		if( selectedNode instanceof ParamNodeDataModel ){
+		if( selectedNode instanceof CollectorNodeDataModel ){
 			
-			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.MODIFY );								
+			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (CollectorNodeDataModel)selectedNode, EditMode.MODIFY );								
 			guiFrame.showEditorPanel( paramNodeEditor);								
 			
-		}else if( selectedNode instanceof ParamPageDataModel ){
+		}else if( selectedNode instanceof CollectorNormalDataModel ){
 			
-			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamPageDataModel)selectedNode, EditMode.MODIFY );							                                            
+			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (CollectorNormalDataModel)selectedNode, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( paramPageEditor);		
 			
-		}else if( selectedNode instanceof ParamElementDataModel ){
+		}else if( selectedNode instanceof CollectorParamElementDataModel ){
 
-			ParamElementEditor paramElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.MODIFY );
+			ParamElementEditor paramElementEditor = new ParamElementEditor( this, (CollectorParamElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( paramElementEditor);		
 				
-		}else if( selectedNode instanceof ParamLoopDataModel ){
-			ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( this, (ParamLoopDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );
+		}else if( selectedNode instanceof CollectorLoopDataModel ){
+			ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( this, (CollectorLoopDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 
 		}		
@@ -187,7 +187,7 @@ public class ParamTree extends Tree {
 		//
 		// Csomopont eseten
 		//
-		if( selectedNode instanceof ParamNodeDataModel ){
+		if( selectedNode instanceof CollectorNodeDataModel ){
 
 			//Insert Node
 			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
@@ -197,7 +197,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (ParamNodeDataModel)selectedNode );								
+					ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (CollectorNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( paramNodeEditor);								
 				
 				}
@@ -211,7 +211,7 @@ public class ParamTree extends Tree {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ParamPageEditor paramPageEditor = new ParamPageEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
+					ParamPageEditor paramPageEditor = new ParamPageEditor( ParamTree.this, (CollectorNodeDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
 					guiFrame.showEditorPanel( paramPageEditor);								
 				
 				}
@@ -226,7 +226,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, baseRootDataModel );
+					ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( ParamTree.this, (CollectorNodeDataModel)selectedNode, baseRootDataModel );
 					guiFrame.showEditorPanel( testcaseControlLoopEditor);			
 					
 				
@@ -267,7 +267,7 @@ public class ParamTree extends Tree {
 		//
 		// Page eseten
 		//
-		if( selectedNode instanceof ParamPageDataModel ){
+		if( selectedNode instanceof CollectorNormalDataModel ){
 
 			//Insert Relative Element
 			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
@@ -277,7 +277,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (ParamPageDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (CollectorNormalDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
 					guiFrame.showEditorPanel( paramPageNodeEditor);								
 				
 				}
@@ -288,7 +288,7 @@ public class ParamTree extends Tree {
 		//
 		// Control LOOP eseten
 		//
-		if( selectedNode instanceof ParamLoopDataModel ){
+		if( selectedNode instanceof CollectorLoopDataModel ){
 
 			//Insert Page
 			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
@@ -298,7 +298,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamElementEditor testcaseParamPageEditor = new ParamElementEditor( ParamTree.this, (ParamLoopDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					ParamElementEditor testcaseParamPageEditor = new ParamElementEditor( ParamTree.this, (CollectorLoopDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
 					guiFrame.showEditorPanel( testcaseParamPageEditor);								
 				
 				}
@@ -416,7 +416,7 @@ public class ParamTree extends Tree {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (ParamNodeDataModel)selectedNode );								
+				ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (CollectorNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( paramNodeEditor);								
 			
 			}
@@ -429,23 +429,23 @@ public class ParamTree extends Tree {
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
 
 		//Node elhelyezese Node-ba vagy Root-ba
-		if( draggedNode instanceof ParamNodeDataModel && dropObject instanceof ParamNodeDataModel ){
+		if( draggedNode instanceof CollectorNodeDataModel && dropObject instanceof CollectorNodeDataModel ){
 			return true;
 
 		//Param Page elhelyezese Node-ba de nem Root-ba	
-		}else if( draggedNode instanceof ParamPageDataModel && dropObject instanceof ParamNodeDataModel && !( dropObject instanceof ParamRootDataModel ) ){
+		}else if( draggedNode instanceof CollectorNormalDataModel && dropObject instanceof CollectorNodeDataModel && !( dropObject instanceof CollectorRootDataModel ) ){
 			return true;
 
 		//Elem elhelyezese Specific Page-be	
-		}else if( draggedNode instanceof ParamElementDataModel && dropObject instanceof ParamPageDataModel ){
+		}else if( draggedNode instanceof CollectorParamElementDataModel && dropObject instanceof CollectorNormalDataModel ){
 			return true;
 
 		//Loop elhelyezese Node-ban
-		}else if( draggedNode instanceof ParamLoopDataModel && dropObject instanceof ParamNodeDataModel ){
+		}else if( draggedNode instanceof CollectorLoopDataModel && dropObject instanceof CollectorNodeDataModel ){
 			return true;
 
 		//Element elhelyezese Loop-ban
-		}else if( draggedNode instanceof ParamElementDataModel && dropObject instanceof ParamLoopDataModel ){
+		}else if( draggedNode instanceof CollectorParamElementDataModel && dropObject instanceof CollectorLoopDataModel ){
 			return true;
 
 		}	
