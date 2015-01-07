@@ -30,16 +30,16 @@ public class Test{
 	public Test(){
 			
 		
-		org.openqa.selenium.support.ui.WebDriverWait  wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, 10);
+//		org.openqa.selenium.support.ui.WebDriverWait  wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, 10);
 
 		//Switch to the 'mainFrame' frame
-		driver.switchTo().defaultContent();
-		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt( "mainFrame" ) );
-		driver.switchTo().defaultContent();
-		driver.switchTo().frame( "mainFrame" );
+//		driver.switchTo().defaultContent();
+//		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt( "mainFrame" ) );
+//		driver.switchTo().defaultContent();
+//		driver.switchTo().frame( "mainFrame" );
 
-		org.openqa.selenium.JavascriptExecutor executor = ((org.openqa.selenium.JavascriptExecutor) driver); 
-		executor.executeScript("window.onbeforeunload = function() {}; window.onunload = function() {};"); 
+//		org.openqa.selenium.JavascriptExecutor executor = ((org.openqa.selenium.JavascriptExecutor) driver); 
+//		executor.executeScript("window.onbeforeunload = function() {}; window.onunload = function() {};"); 
 		
 		profile = new FirefoxProfile();
 		profile.setPreference( "pdfjs.disabled", true );
