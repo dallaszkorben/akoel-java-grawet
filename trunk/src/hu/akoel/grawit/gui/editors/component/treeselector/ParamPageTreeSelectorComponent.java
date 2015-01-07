@@ -3,30 +3,30 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamLoopDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamPageLikeDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorLoopDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNormalDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorExecutableDataModelAdapter;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamPageLikeDataModelAdapter>{
+public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<CollectorExecutableDataModelAdapter>{
 
 	private static final long serialVersionUID = 1064181673121972602L;
 
 	public ParamPageTreeSelectorComponent( CollectorDataModelAdapter rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamPageLikeDataModelAdapter.class, rootDataModel, null, false);
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), CollectorExecutableDataModelAdapter.class, rootDataModel, null, false);
 	}
 
-	public ParamPageTreeSelectorComponent( CollectorDataModelAdapter rootDataModel, ParamPageLikeDataModelAdapter selectedParamPageDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamPageLikeDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, false);
+	public ParamPageTreeSelectorComponent( CollectorDataModelAdapter rootDataModel, CollectorExecutableDataModelAdapter selectedParamPageDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), CollectorExecutableDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, false);
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( ParamPageLikeDataModelAdapter selectedDataModel) {
+	public String getSelectedDataModelToString( CollectorExecutableDataModelAdapter selectedDataModel) {
 		StringBuffer out = new StringBuffer();
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){
@@ -47,7 +47,7 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamP
 
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
-		return !( path.getLastPathComponent() instanceof ParamPageLikeDataModelAdapter );
+		return !( path.getLastPathComponent() instanceof CollectorExecutableDataModelAdapter );
 	}
 	
 	@Override
@@ -61,17 +61,17 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamP
     	ImageIcon loopClosedIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamPageDataModel){
+    	if( actualNode instanceof CollectorNormalDataModel){
             return pageIcon;    	
-    	}else if( actualNode instanceof ParamElementDataModel ){
+    	}else if( actualNode instanceof CollectorParamElementDataModel ){
             return elementIcon;
-    	}else if( actualNode instanceof ParamLoopDataModel ){
+    	}else if( actualNode instanceof CollectorLoopDataModel ){
     		if( expanded ){
     			return loopOpenIcon;
     		}else{
     			return loopClosedIcon;    			
     		}
-    	}else if( actualNode instanceof ParamNodeDataModel){
+    	}else if( actualNode instanceof CollectorNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{

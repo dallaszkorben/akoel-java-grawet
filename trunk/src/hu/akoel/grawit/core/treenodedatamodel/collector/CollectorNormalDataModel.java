@@ -39,11 +39,11 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 
-public class ParamPageDataModel extends ParamPageLikeDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
+public class CollectorNormalDataModel extends CollectorExecutableDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
-	public static final Tag TAG = Tag.PARAMPAGE;
+	public static final Tag TAG = Tag.COLLECTORNORMAL;
 	
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
 	private static final String ATTR_ON = "on";
@@ -51,7 +51,7 @@ public class ParamPageDataModel extends ParamPageLikeDataModelAdapter {//ParamDa
 	private BasePageDataModel basePage = null;	
 	private String name;
 	
-	public ParamPageDataModel( String name, BasePageDataModel basePage){
+	public CollectorNormalDataModel( String name, BasePageDataModel basePage){
 		super();
 		
 		this.name = name;
@@ -65,7 +65,7 @@ public class ParamPageDataModel extends ParamPageLikeDataModelAdapter {//ParamDa
 	 * @param element
 	 * @throws XMLPharseException
 	 */
-	public ParamPageDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public CollectorNormalDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -184,9 +184,9 @@ public class ParamPageDataModel extends ParamPageLikeDataModelAdapter {//ParamDa
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element paramElement = (Element)node;
-				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
+				if( paramElement.getTagName().equals( Tag.COLLECTORPARAMELEMENT.getName() )){					
 						
-					this.add(new ParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+					this.add(new CollectorParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 						
 				}
 			}			
@@ -232,7 +232,7 @@ public class ParamPageDataModel extends ParamPageLikeDataModelAdapter {//ParamDa
 	@Override
 	public void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException, StoppedByUserException {
 		
-		ParamElementDataModel parameterElement;
+		CollectorParamElementDataModel parameterElement;
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
@@ -249,7 +249,7 @@ public class ParamPageDataModel extends ParamPageLikeDataModelAdapter {//ParamDa
 			}
 			
 			//Parameterezett elem
-			parameterElement = (ParamElementDataModel)this.getChildAt( i );
+			parameterElement = (CollectorParamElementDataModel)this.getChildAt( i );
 			
 			//Ha a parameterezett elem be van kapcsolva
 			if( parameterElement.isOn() ){
@@ -373,7 +373,7 @@ elementProgress.outputCommand( "" );
 	public Object clone(){
 		
 		//Leklonozza a ParamPage-et
-		ParamPageDataModel cloned = (ParamPageDataModel)super.clone();
+		CollectorNormalDataModel cloned = (CollectorNormalDataModel)super.clone();
 
 		//Ha vannak gyerekei (ELEMENT)
 		if( null != this.children ){
@@ -403,7 +403,7 @@ elementProgress.outputCommand( "" );
 	@Override
 	public Object cloneWithParent() {
 		
-		ParamPageDataModel cloned = (ParamPageDataModel) this.clone();
+		CollectorNormalDataModel cloned = (CollectorNormalDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );

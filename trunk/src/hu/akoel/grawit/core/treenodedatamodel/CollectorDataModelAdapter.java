@@ -10,7 +10,7 @@ public abstract class CollectorDataModelAdapter extends DataModelAdapter{
 	public abstract void add( CollectorDataModelAdapter node );
 	
 	public static Tag getRootTag(){
-		return Tag.PARAMROOT;
+		return Tag.COLLECTORROOT;
 	}
 }
 

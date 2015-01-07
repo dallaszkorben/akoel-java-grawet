@@ -6,11 +6,11 @@ public enum Tag{
 	BASEPAGE("page"),
 	BASEELEMENT("element"),
 	
-	PARAMROOT("parampage"),	
-	PARAMNODE("node"),
-	PARAMPAGE("page"),
-	PARAMLOOP("paramloop"),
-	PARAMELEMENT("element"),
+	COLLECTORROOT("parampage"),	
+	COLLECTORNODE("node"),
+	COLLECTORNORMAL("page"),
+	COLLECTORLOOP("paramloop"),
+	COLLECTORPARAMELEMENT("element"),
 	
 	VARIABLEROOT("variable"),
 	VARIABLENODE("node"),

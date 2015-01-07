@@ -9,7 +9,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -47,7 +47,7 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseNodeDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelInterface driverRootDataModel ) throws XMLPharseException{
+	public TestcaseNodeDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, CollectorRootDataModel paramRootDataModel, DriverDataModelInterface driverRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseNodeDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
