@@ -5,10 +5,10 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNormalDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorExecutableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
@@ -36,7 +36,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 	private ParamPageTreeSelectorComponent fieldParamPageTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcaseParamPageEditor( Tree tree, TestcaseDataModelAdapter selectedNode, CollectorDataModelAdapter paramDataModel ){
+	public TestcaseParamPageEditor( Tree tree, TestcaseDataModelAdapter selectedNode, ParamDataModelAdapter paramDataModel ){
 		super( TestcaseParamPageDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
@@ -57,7 +57,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcaseParamPageEditor( Tree testcaseTree, TestcaseParamPageDataModel selectedNode, CollectorDataModelAdapter paramDataModel, EditMode mode ){		
+	public TestcaseParamPageEditor( Tree testcaseTree, TestcaseParamPageDataModel selectedNode, ParamDataModelAdapter paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = testcaseTree;
@@ -181,7 +181,7 @@ public class TestcaseParamPageEditor extends DataEditor{
 		}else{
 
 			//A kivalasztott paramPage
-			CollectorExecutableDataModelAdapter paramPage = fieldParamPageTreeSelector.getSelectedDataModel();			
+			ParamCollectorDataModelAdapter paramPage = fieldParamPageTreeSelector.getSelectedDataModel();			
 			
 			//Uj rogzites eseten
 			if( null == mode ){

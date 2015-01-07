@@ -2,29 +2,29 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNormalDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<CollectorParamElementDataModel>{
+public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<ParamElementDataModel>{
 
 	private static final long serialVersionUID = 8754108739802478258L;
 
-	public ParamElementTreeSelectorComponent( CollectorDataModelAdapter paramRootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.paramelement"), CollectorParamElementDataModel.class, paramRootDataModel, null, false);
+	public ParamElementTreeSelectorComponent( ParamDataModelAdapter paramRootDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.paramelement"), ParamElementDataModel.class, paramRootDataModel, null, false);
 	}
 
-	public ParamElementTreeSelectorComponent( CollectorDataModelAdapter paramRootDataModel, CollectorParamElementDataModel selectedParamPageDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.paramelement"), CollectorParamElementDataModel.class, paramRootDataModel, selectedParamPageDataModel, false);
+	public ParamElementTreeSelectorComponent( ParamDataModelAdapter paramRootDataModel, ParamElementDataModel selectedParamPageDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.paramelement"), ParamElementDataModel.class, paramRootDataModel, selectedParamPageDataModel, false);
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( CollectorParamElementDataModel selectedDataModel) {
+	public String getSelectedDataModelToString( ParamElementDataModel selectedDataModel) {
 		StringBuffer out = new StringBuffer();
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){
@@ -45,7 +45,7 @@ public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<Col
 
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
-		return !( path.getLastPathComponent() instanceof CollectorParamElementDataModel );
+		return !( path.getLastPathComponent() instanceof ParamElementDataModel );
 	}
 	
 	@Override
@@ -57,11 +57,11 @@ public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<Col
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/param-node-open-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof CollectorNormalDataModel){
+    	if( actualNode instanceof ParamNormalCollectorDataModel){
             return pageIcon;
-    	}else if( actualNode instanceof CollectorParamElementDataModel ){
+    	}else if( actualNode instanceof ParamElementDataModel ){
             return elementIcon;
-    	}else if( actualNode instanceof CollectorNodeDataModel){
+    	}else if( actualNode instanceof ParamNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{

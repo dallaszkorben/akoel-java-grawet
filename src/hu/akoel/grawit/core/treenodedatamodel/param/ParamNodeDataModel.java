@@ -1,11 +1,11 @@
-package hu.akoel.grawit.core.treenodedatamodel.collector;
+package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ParamNodeDataModel extends CollectorDataModelAdapter{
+public class ParamNodeDataModel extends ParamDataModelAdapter{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
@@ -56,12 +56,12 @@ public class ParamNodeDataModel extends CollectorDataModelAdapter{
 				Element pageElement = (Element)node;
 				
 				//Ha PARAMPAGE van alatta
-				if( pageElement.getTagName().equals( Tag.PARAMPAGE.getName() )){					
-					this.add(new ParamPageDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
+				if( pageElement.getTagName().equals( Tag.PARAMNORMALCOLLECTOR.getName() )){					
+					this.add(new ParamNormalCollectorDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 
 				//Ha PARAMLOOP van alatta
-				}else if( pageElement.getTagName().equals( Tag.PARAMLOOP.getName() )){					
-					this.add(new ParamLoopDataModel(pageElement, variableRootDataModel, baseRootDataModel ) );
+				}else if( pageElement.getTagName().equals( Tag.PARAMLOOPCOLLECTOR.getName() )){					
+					this.add(new ParamLoopCollectorDataModel(pageElement, variableRootDataModel, baseRootDataModel ) );
 						
 				//Ha ujabb BASENODE van alatta
 				}else if( pageElement.getTagName().equals( Tag.PARAMNODE.getName() )){					
@@ -82,7 +82,7 @@ public class ParamNodeDataModel extends CollectorDataModelAdapter{
 	}
 	
 	@Override
-	public void add(CollectorDataModelAdapter node) {
+	public void add(ParamDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -135,9 +135,9 @@ public class ParamNodeDataModel extends CollectorDataModelAdapter{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof CollectorDataModelAdapter ){
+			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
 				
-				Element element = ((CollectorDataModelAdapter)object).getXMLElement( document );
+				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
@@ -160,9 +160,9 @@ public class ParamNodeDataModel extends CollectorDataModelAdapter{
 					
 			for( Object o : this.children ){
 						
-				if( o instanceof CollectorDataModelAdapter ){
+				if( o instanceof ParamDataModelAdapter ){
 					
-					CollectorDataModelAdapter child = (CollectorDataModelAdapter) ((CollectorDataModelAdapter)o).clone();
+					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
 					
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					

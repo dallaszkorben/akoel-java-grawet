@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.treenodedatamodel.collector;
+package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
@@ -17,9 +17,9 @@ import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -46,11 +46,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
+public class ParamLoopCollectorDataModel  extends ParamCollectorDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	public static final Tag TAG = Tag.COLLECTORLOOP;
+	public static final Tag TAG = Tag.PARAMLOOPCOLLECTOR;
 	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "compareelementabsolutepath";
 	private static final String ATTR_OPERATION = "operation";
@@ -66,7 +66,7 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 	private Integer maxLoopNumber = null;
 	//----
 	
-	public CollectorLoopDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
+	public ParamLoopCollectorDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
 		this.name = name;
 		this.compareBaseElement = compareBaseElement;
 		this.oneLoopLength = oneLoopLength;
@@ -78,7 +78,7 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 
 	}
 	
-	public CollectorLoopDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public ParamLoopCollectorDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -174,8 +174,8 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 				}
 					
 			//Ha BASEPAGE
-			}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
-				baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEPAGE, attrName );
+			}else if( tagName.equals( BaseCollectorDataModel.TAG.getName() ) ){
+				baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASECOLLECTOR, attrName );
 				if( null == baseDataModel ){
 
 					throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
@@ -214,9 +214,9 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element paramElement = (Element)node;
-				if( paramElement.getTagName().equals( Tag.COLLECTORPARAMELEMENT.getName() )){					
+				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
 						
-					this.add(new CollectorParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+					this.add(new ParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 						
 				}
 			}			
@@ -361,9 +361,9 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof CollectorDataModelAdapter ){
+			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
 				
-				Element element = ((CollectorDataModelAdapter)object).getXMLElement( document );
+				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
 				elementElement.appendChild( element );		    		
 		    	
 			}
@@ -379,7 +379,7 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 	public Object clone(){
 		
 		//Leklonozza a NODE-ot
-		CollectorLoopDataModel cloned = (CollectorLoopDataModel)super.clone();
+		ParamLoopCollectorDataModel cloned = (ParamLoopCollectorDataModel)super.clone();
 		
 		//Ha vannak gyerekei (NODE vagy CASE)
 		if( null != this.children ){
@@ -389,9 +389,9 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 			
 			for( Object o : this.children ){
 				
-				if( o instanceof CollectorDataModelAdapter ){
+				if( o instanceof ParamDataModelAdapter ){
 					
-					CollectorDataModelAdapter child = (CollectorDataModelAdapter) ((CollectorDataModelAdapter)o).clone();
+					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
 					
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					
@@ -412,7 +412,7 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 	@Override
 	public Object cloneWithParent() {
 		
-		CollectorParamElementDataModel cloned = (CollectorParamElementDataModel) this.clone();
+		ParamElementDataModel cloned = (ParamElementDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
@@ -423,7 +423,7 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 	@Override
 	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgres, ElementProgressInterface elementProgres) throws PageException,	CompilationException, StoppedByUserException {
 		
-		CollectorParamElementDataModel parameterElement;
+		ParamElementDataModel parameterElement;
 		
 		Integer actualLoop = 0;
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
@@ -458,7 +458,7 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 					}
 					
 					//Parameterezett elem
-					parameterElement = (CollectorParamElementDataModel)this.getChildAt( index );
+					parameterElement = (ParamElementDataModel)this.getChildAt( index );
 					
 					//Ha a parameterezett elem be van kapcsolva
 					if( parameterElement.isOn() ){
@@ -547,7 +547,7 @@ public class CollectorLoopDataModel  extends CollectorExecutableDataModelAdapter
 	}
 	
 	@Override
-	public void add(CollectorDataModelAdapter node) {
+	public void add(ParamDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 

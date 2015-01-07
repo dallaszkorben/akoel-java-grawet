@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.treenodedatamodel.collector;
+package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
 
@@ -18,9 +18,9 @@ import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -32,7 +32,7 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class ParamElementDataModel extends CollectorDataModelAdapter {
+public class ParamElementDataModel extends ParamDataModelAdapter {
 	
 	private static final long serialVersionUID = -8916078747948054716L;
 
@@ -147,8 +147,8 @@ public class ParamElementDataModel extends CollectorDataModelAdapter {
 				}
 					
 			//Ha BASEPAGE
-			}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
-				baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEPAGE, attrName );
+			}else if( tagName.equals( BaseCollectorDataModel.TAG.getName() ) ){
+				baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASECOLLECTOR, attrName );
 				if( null == baseDataModel ){
 
 					throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH) );
@@ -620,7 +620,7 @@ public class ParamElementDataModel extends CollectorDataModelAdapter {
 	}
 	
 	@Override
-	public void add( CollectorDataModelAdapter node ) {
+	public void add( ParamDataModelAdapter node ) {
 		super.add( (MutableTreeNode)node );
 	}
 	

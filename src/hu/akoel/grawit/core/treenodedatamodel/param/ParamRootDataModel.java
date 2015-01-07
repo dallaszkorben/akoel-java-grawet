@@ -1,9 +1,9 @@
-package hu.akoel.grawit.core.treenodedatamodel.collector;
+package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.util.Vector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.CollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -86,9 +86,9 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof CollectorDataModelAdapter ){
+			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
 				
-				Element element = ((CollectorDataModelAdapter)object).getXMLElement( document );
+				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
 				paramPageElement.appendChild( element );		    		
 		    	
 			}

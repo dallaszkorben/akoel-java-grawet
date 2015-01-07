@@ -19,7 +19,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -114,9 +114,9 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 	    		}	    		
 */	    	
 	    	//Ha BASEPAGE
-	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASEPAGE, attrName );
+	    	}else if( tagName.equals( BaseCollectorDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(BaseCollectorDataModel.ATTR_NAME);
+	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.BASECOLLECTOR, attrName );
 
 	    		if( null == baseDataModelForFillOut ){
 

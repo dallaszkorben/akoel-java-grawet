@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -20,7 +20,7 @@ public class BasePageEditor extends DataEditor{
 	private static final long serialVersionUID = -9038879802467565947L;
 
 	private Tree tree; 
-	private BasePageDataModel nodeForModify;
+	private BaseCollectorDataModel nodeForModify;
 	private BaseNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
@@ -32,7 +32,7 @@ public class BasePageEditor extends DataEditor{
 	//Itt biztos beszuras van
 	public BasePageEditor( Tree tree, BaseNodeDataModel selectedNode ){
 
-		super( BasePageDataModel.getModelNameToShowStatic());
+		super( BaseCollectorDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -49,7 +49,7 @@ public class BasePageEditor extends DataEditor{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public BasePageEditor( Tree tree, BasePageDataModel selectedNode, EditMode mode ){
+	public BasePageEditor( Tree tree, BaseCollectorDataModel selectedNode, EditMode mode ){
 
 		super( mode, selectedNode.getNodeTypeToShow());
 
@@ -117,10 +117,10 @@ public class BasePageEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Page-rol van szo (Lehetne meg NODE is)
-				if( levelNode instanceof BasePageDataModel ){
+				if( levelNode instanceof BaseCollectorDataModel ){
 					
 					//Ha azonos a nev
-					if( ((BasePageDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((BaseCollectorDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -154,7 +154,7 @@ public class BasePageEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				BasePageDataModel newBasePage = new BasePageDataModel( fieldName.getText(), fieldDetails.getText() );				
+				BaseCollectorDataModel newBasePage = new BaseCollectorDataModel( fieldName.getText(), fieldDetails.getText() );				
 				nodeForCapture.add( newBasePage );
 
 				//Ebbe a nodba kell majd visszaallni

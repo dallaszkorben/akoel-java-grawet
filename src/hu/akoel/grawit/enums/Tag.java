@@ -3,14 +3,14 @@ package hu.akoel.grawit.enums;
 public enum Tag{
 	BASEROOT("basepage"),
 	BASENODE("node"),
-	BASEPAGE("page"),
+	BASECOLLECTOR("page"), //BASECOLLECTOR("collector")
 	BASEELEMENT("element"),
 	
-	COLLECTORROOT("parampage"),	
-	COLLECTORNODE("node"),
-	COLLECTORNORMAL("page"),
-	COLLECTORLOOP("paramloop"),
-	COLLECTORPARAMELEMENT("element"),
+	PARAMROOT("parampage"), 	
+	PARAMNODE("node"),
+	PARAMNORMALCOLLECTOR("page"), //PARAMNORMALCOLLECTOR("normalcollector")
+	PARAMLOOPCOLLECTOR("paramloop"), //PARAMLOOPCOLLECTOR("loopcollector")
+	PARAMELEMENT("element"),
 	
 	VARIABLEROOT("variable"),
 	VARIABLENODE("node"),
@@ -20,7 +20,7 @@ public enum Tag{
 	TESTCASEROOT("testcase"),
 	TESTCASENODE("node"),
 	TESTCASECASE("case"),
-	TESTCASEPARAMPAGE("param"),
+	TESTCASECOLLECTOR("param"), //TESTCASECOLLECTOR("paramcollector")
 	TESTCASECUSTOMPAGE("custom"),	
 
 	RUNROOT("run"),

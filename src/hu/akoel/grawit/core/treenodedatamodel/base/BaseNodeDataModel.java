@@ -64,8 +64,8 @@ public class BaseNodeDataModel extends BaseDataModelAdapter{
 				
 				//Ha BASEPAGE van alatta
 				//if( baseElement.getTagName().equals( BasePageDataModel.getTagStatic().getName() )){
-				if( baseElement.getTagName().equals( Tag.BASEPAGE.getName() )){
-					this.add(new BasePageDataModel(baseElement));
+				if( baseElement.getTagName().equals( Tag.BASECOLLECTOR.getName() )){
+					this.add(new BaseCollectorDataModel(baseElement));
 				
 				//Ha ujabb BASENODE van alatta
 				//}else if( baseElement.getTagName().equals( TestcaseNodeDataModel.getTagStatic().getName() )){

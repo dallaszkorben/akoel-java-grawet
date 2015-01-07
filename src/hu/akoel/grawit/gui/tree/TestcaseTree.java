@@ -15,10 +15,10 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorLoopDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorNormalDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.collector.CollectorRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamPageDataModel;
@@ -37,10 +37,10 @@ public class TestcaseTree extends Tree {
 	private GUIFrame guiFrame;
 	
 //	private BaseRootDataModel baseRootDataModel;
-	private CollectorRootDataModel paramRootDataModel;
+	private ParamRootDataModel paramRootDataModel;
 	private DriverRootDataModel driverRootDataModel;
 	
-	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, CollectorRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
+	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
 		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
@@ -68,9 +68,9 @@ public class TestcaseTree extends Tree {
     	}else if( actualNode instanceof TestcaseParamPageDataModel ){
     		
     		TestcaseParamPageDataModel testCasePage = (TestcaseParamPageDataModel)actualNode;
-    	    if( testCasePage.getParamPage() instanceof CollectorNormalDataModel ){
+    	    if( testCasePage.getParamPage() instanceof ParamNormalCollectorDataModel ){
     	    	return pageIcon;	
-    	    }else if( testCasePage.getParamPage() instanceof CollectorLoopDataModel ){
+    	    }else if( testCasePage.getParamPage() instanceof ParamLoopCollectorDataModel ){
     	    	return loopOpenIcon;
     	    }
     		

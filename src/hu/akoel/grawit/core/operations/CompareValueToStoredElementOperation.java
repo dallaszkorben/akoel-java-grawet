@@ -19,7 +19,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BasePageDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -115,9 +115,9 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		    		}	
 		    		
 	    	//Ha BASEPAGE
-	    	}else if( tagName.equals( BasePageDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BasePageDataModel.ATTR_NAME);
-	    		baseDataModelForCompareValue = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForCompareValue, Tag.BASEPAGE, attrName );
+	    	}else if( tagName.equals( BaseCollectorDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(BaseCollectorDataModel.ATTR_NAME);
+	    		baseDataModelForCompareValue = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForCompareValue, Tag.BASECOLLECTOR, attrName );
 
 	    		if( null == baseDataModelForCompareValue ){
 
