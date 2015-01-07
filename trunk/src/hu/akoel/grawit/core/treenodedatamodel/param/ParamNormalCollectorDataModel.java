@@ -43,7 +43,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
-	public static final Tag TAG = Tag.PARAMNORMALCOLLECTOR;
+	public static final Tag TAG = Tag.PARAMNORMALELEMENTCOLLECTOR;
 	
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
 	private static final String ATTR_ON = "on";

@@ -1,6 +1,5 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
-import java.io.StringReader;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
@@ -12,13 +11,8 @@ import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -27,7 +21,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 
@@ -36,18 +29,19 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	public static final Tag TAG = Tag.TESTCASECASE;
 	
 	public static final String ATTR_DETAILS = "details";
-	public static final String ATTR_DRIVER_PATH = "driverpath";
+//	public static final String ATTR_DRIVER_PATH = "driverpath";
 	private static final String ATTR_ON = "on";
 	
 	private String name;
 	private String details;
-	private DriverBrowserDataModelInterface<?> driver;
+//	private DriverBrowserDataModelInterface<?> driver;
 	
-	public TestcaseCaseDataModel( String name, String details, DriverBrowserDataModelInterface<?> driver ){	
+//	public TestcaseCaseDataModel( String name, String details, DriverBrowserDataModelInterface<?> driver ){
+	public TestcaseCaseDataModel( String name, String details ){			
 		super( );
 		this.name = name;
 		this.details = details;
-		this.driver = driver;
+//		this.driver = driver;
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -105,7 +99,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		Document document = null;
 		Node actualNode = null;
 		
-	    //========
+/*	    //========
 		//
 		// Driver
 		//
@@ -125,7 +119,8 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	    	//Nem sikerult az atalakitas
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH ), e );
 	    } 	    
-	    
+*/
+/*		
 	    //Megkeresem a DRIVERROOT-ben az DRIVER-hez vezeto utat
 	    //Node 
 	    actualNode = document;
@@ -180,7 +175,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	    	//Nem sikerult az utvonalat megtalalni
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH), e );
 	    }
-			
+*/			
 	    //========
 		//
 		// Gyermekei
@@ -278,7 +273,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	
-
+/*
 		//========
 		//
 		// Driver
@@ -287,7 +282,12 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		attr = document.createAttribute( ATTR_DRIVER_PATH );
 		attr.setValue( driver.getPathTag() );
 		nodeElement.setAttributeNode(attr);	
-	
+*/	
+		//========
+		//
+		// Gyermekek
+		//
+		//========
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
 			
@@ -300,18 +300,19 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		    	
 			}
 		}
+		
 	
 		return nodeElement;		
 	}
 
-	public void setDriverDataModel( DriverBrowserDataModelInterface<?> driver ){
+/*	public void setDriverDataModel( DriverBrowserDataModelInterface<?> driver ){
 		this.driver = driver;
 	}
 	
 	public DriverBrowserDataModelInterface<?> getDriverDataModel(){
 		return driver;
 	}
-	
+*/	
 	@Override
 	public Object clone(){
 		
