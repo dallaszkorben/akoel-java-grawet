@@ -147,7 +147,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 	    	//Ha PARAMPAGE
 	    	}else if( tagName.equals( ParamNormalCollectorDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ParamNormalCollectorDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNORMALCOLLECTOR, attrName );
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNORMALELEMENTCOLLECTOR, attrName );
 	    		if( null == paramDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
@@ -157,7 +157,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 //Ha PARAMLOOP
 	    	}else if( tagName.equals( ParamLoopCollectorDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ParamLoopCollectorDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMLOOPCOLLECTOR, attrName );
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMLOOPELEMENTCOLLECTOR, attrName );
 	    		if( null == paramDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
@@ -251,6 +251,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 		// Node element
 		//
 		//========
+				
 		Element nodeElement = document.createElement( TestcaseParamPageDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );

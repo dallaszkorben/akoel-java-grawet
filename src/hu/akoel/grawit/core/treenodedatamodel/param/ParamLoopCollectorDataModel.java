@@ -50,7 +50,7 @@ public class ParamLoopCollectorDataModel  extends ParamCollectorDataModelAdapter
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	public static final Tag TAG = Tag.PARAMLOOPCOLLECTOR;
+	public static final Tag TAG = Tag.PARAMLOOPELEMENTCOLLECTOR;
 	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "compareelementabsolutepath";
 	private static final String ATTR_OPERATION = "operation";

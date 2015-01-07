@@ -11,7 +11,6 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.DriverTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -30,11 +29,12 @@ public class TestcaseCaseEditor extends DataEditor{
 	private TextFieldComponent fieldName;
 	private TextAreaComponent fieldDetails;
 	
-	private JLabel labelDriverTreeSelector;
-	private DriverTreeSelectorComponent fieldDriverTreeSelector;
+//	private JLabel labelDriverTreeSelector;
+//	private DriverTreeSelectorComponent fieldDriverTreeSelector;
 
 	//Itt biztos beszuras van
-	public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode, DriverDataModelInterface driverDataModel ){
+	//public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode, DriverDataModelInterface driverDataModel ){	
+	public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode ){
 		
 		super( TestcaseCaseDataModel.getModelNameToShowStatic() );
 		
@@ -49,7 +49,7 @@ public class TestcaseCaseEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( "", 5, 15);
 			
 		//DriverTreeSelector
-		fieldDriverTreeSelector = new DriverTreeSelectorComponent(driverDataModel);
+//		fieldDriverTreeSelector = new DriverTreeSelectorComponent(driverDataModel);
 		
 		common();
 		
@@ -71,7 +71,8 @@ public class TestcaseCaseEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
 
 		//DriverTreeSelector
-		fieldDriverTreeSelector = new DriverTreeSelectorComponent( driverDataModel, selectedNode.getDriverDataModel() );
+		//fieldDriverTreeSelector = new DriverTreeSelectorComponent( driverDataModel, selectedNode.getDriverDataModel() );
+//		fieldDriverTreeSelector = new DriverTreeSelectorComponent( driverDataModel );
 				
 		common();
 	}
@@ -82,14 +83,14 @@ public class TestcaseCaseEditor extends DataEditor{
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		
 		//WebDriver
-		labelDriverTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.driver") + ": ");
+//		labelDriverTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.driver") + ": ");
 		
 		//Details
 		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
 		
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );
-		this.add( labelDriverTreeSelector, fieldDriverTreeSelector );
+//		this.add( labelDriverTreeSelector, fieldDriverTreeSelector );
 		
 	}
 	
@@ -113,7 +114,7 @@ public class TestcaseCaseEditor extends DataEditor{
 					)
 			);
 		
-		}else if( null == fieldDriverTreeSelector.getSelectedDataModel() ){
+/*		}else if( null == fieldDriverTreeSelector.getSelectedDataModel() ){
 			errorList.put( 
 					fieldDriverTreeSelector,
 					MessageFormat.format(
@@ -121,7 +122,7 @@ public class TestcaseCaseEditor extends DataEditor{
 							"'"+labelDriverTreeSelector.getText()+"'"
 					)
 			);	
-			
+*/			
 		}else{
 
 			TreeNode nodeForSearch = null;
@@ -182,7 +183,8 @@ public class TestcaseCaseEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcaseCaseDataModel newTestcaseCase = new TestcaseCaseDataModel( fieldName.getText(), fieldDetails.getText(), fieldDriverTreeSelector.getSelectedDataModel() );				
+				//TestcaseCaseDataModel newTestcaseCase = new TestcaseCaseDataModel( fieldName.getText(), fieldDetails.getText(), fieldDriverTreeSelector.getSelectedDataModel() );				
+				TestcaseCaseDataModel newTestcaseCase = new TestcaseCaseDataModel( fieldName.getText(), fieldDetails.getText() );
 				nodeForCapture.add( newTestcaseCase );
 				
 			//Modositas eseten
@@ -191,7 +193,7 @@ public class TestcaseCaseEditor extends DataEditor{
 				//Modositja a valtozok erteket
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
-				nodeForModify.setDriverDataModel( fieldDriverTreeSelector.getSelectedDataModel() );
+				//nodeForModify.setDriverDataModel( fieldDriverTreeSelector.getSelectedDataModel() );
 			
 			}			
 			

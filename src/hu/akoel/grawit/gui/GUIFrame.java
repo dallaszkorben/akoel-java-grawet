@@ -526,14 +526,7 @@ public class GUIFrame extends JFrame{
 
 					//Konvertalas es mentes elvegzese
 					saveTestSuit(file);
-					
-					
-/*					// Stream letrehozasa
-					StreamResult result = new StreamResult(file);
-
-					// Iras
-					transformer.transform(source, result);
-*/
+										
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
 

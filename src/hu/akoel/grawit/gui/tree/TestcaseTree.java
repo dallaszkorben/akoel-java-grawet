@@ -183,7 +183,8 @@ public class TestcaseTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode, driverRootDataModel );								
+					//TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode, driverRootDataModel );								
+					TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode );
 					guiFrame.showEditorPanel( testcaseCaseEditor);								
 				
 				}
