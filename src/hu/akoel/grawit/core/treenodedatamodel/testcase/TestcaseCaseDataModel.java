@@ -190,7 +190,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 				//Ha TESTCASEPARAM van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASECOLLECTOR.getName() )){
 					
-					this.add(new TestcaseParamPageDataModel(testcaseElement, paramDataModel ));
+					this.add(new TestcaseParamCollectorDataModel(testcaseElement, paramDataModel ));
 					
 				}
 			}

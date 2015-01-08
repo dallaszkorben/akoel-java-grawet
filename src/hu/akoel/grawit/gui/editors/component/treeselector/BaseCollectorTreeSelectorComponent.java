@@ -12,14 +12,14 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BaseCollectorDataModel>{
+public class BaseCollectorTreeSelectorComponent extends TreeSelectorComponent<BaseCollectorDataModel>{
 	private static final long serialVersionUID = 1194717514083971251L;
 
-	public BasePageTreeSelectorComponent( BaseDataModelAdapter rootDataModel, boolean enableEmpty ) {
+	public BaseCollectorTreeSelectorComponent( BaseDataModelAdapter rootDataModel, boolean enableEmpty ) {
 		super(CommonOperations.getTranslation("window.title.selector.basepage"), BaseCollectorDataModel.class, rootDataModel, null, enableEmpty );
 	}
 
-	public BasePageTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BaseCollectorDataModel selectedBasePageDataModel, boolean enableEmpty ) {
+	public BaseCollectorTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BaseCollectorDataModel selectedBasePageDataModel, boolean enableEmpty ) {
 		super(CommonOperations.getTranslation("window.title.selector.basepage"), BaseCollectorDataModel.class, rootDataModel, selectedBasePageDataModel, enableEmpty);
 	}
 	
@@ -50,19 +50,19 @@ public class BasePageTreeSelectorComponent extends TreeSelectorComponent<BaseCol
 	
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
-		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
-		ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
-		ImageIcon specialElementIcon = CommonOperations.createImageIcon("tree/base-element-icon.png");
+		ImageIcon collectorIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
+//		ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-normal-icon.png");
+		ImageIcon scriptElementIcon = CommonOperations.createImageIcon("tree/base-element-script-icon.png");
 		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
 		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
 
 		//Iconja a NODE-nak
 		if( actualNode instanceof BaseCollectorDataModel){
-			return (pageIcon);
-		}else if( actualNode instanceof NormalBaseElementDataModel ){
-			return (normalElementIcon);
+			return (collectorIcon);
+//		}else if( actualNode instanceof NormalBaseElementDataModel ){
+//			return (normalElementIcon);
 		}else if( actualNode instanceof ScriptBaseElementDataModel ){
-			return (specialElementIcon);			
+			return (scriptElementIcon);			
 		}else if( actualNode instanceof BaseNodeDataModel){
 			if( expanded ){
 				return (nodeOpenIcon);

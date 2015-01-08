@@ -214,6 +214,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 
 	@Override
 	public String getName(){
+		//return "/";
 		return "Test Case Root";
 	}
 	

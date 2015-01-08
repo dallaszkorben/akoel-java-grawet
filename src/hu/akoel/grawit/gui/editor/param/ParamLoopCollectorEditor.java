@@ -38,7 +38,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.tree.TreeNode;
 
-public class ParamLoopEditor extends DataEditor{
+public class ParamLoopCollectorEditor extends DataEditor{
 
 	private static final long serialVersionUID = -8459964508143979145L;
 	
@@ -66,7 +66,7 @@ public class ParamLoopEditor extends DataEditor{
 	VariableRootDataModel variableRootDataModel;
 
 	//Itt biztos beszuras van
-	public ParamLoopEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public ParamLoopCollectorEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 		
 		super( ParamLoopCollectorDataModel.getModelNameToShowStatic() );
 		
@@ -92,7 +92,7 @@ public class ParamLoopEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public ParamLoopEditor( Tree tree, ParamLoopCollectorDataModel selectedControlLoop, BaseRootDataModel baseRootDataModel, EditMode mode ){		
+	public ParamLoopCollectorEditor( Tree tree, ParamLoopCollectorDataModel selectedControlLoop, BaseRootDataModel baseRootDataModel, EditMode mode ){		
 		
 		super( mode, selectedControlLoop.getNodeTypeToShow());
 
@@ -147,7 +147,7 @@ public class ParamLoopEditor extends DataEditor{
 					change();
 				}			
 				private void change(){
-					BaseElementDataModelAdapter baseElement = ParamLoopEditor.this.fieldCompareBaseElementSelector.getSelectedDataModel();
+					BaseElementDataModelAdapter baseElement = ParamLoopCollectorEditor.this.fieldCompareBaseElementSelector.getSelectedDataModel();
 					changeOperation( baseElement );
 				}
 			});
@@ -181,7 +181,7 @@ public class ParamLoopEditor extends DataEditor{
 	private void changeOperation( BaseElementDataModelAdapter baseElement ){
 
 		//Eltavolitja az ott levot
-		ParamLoopEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
+		ParamLoopCollectorEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
 		
 		ElementOperationAdapter elementOperation;
 		
@@ -244,8 +244,8 @@ public class ParamLoopEditor extends DataEditor{
 		}		
 		
 		//Elhelyezi az ujat		
-		ParamLoopEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
-		ParamLoopEditor.this.repaint();
+		ParamLoopCollectorEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
+		ParamLoopCollectorEditor.this.repaint();
 		
 	}
 	

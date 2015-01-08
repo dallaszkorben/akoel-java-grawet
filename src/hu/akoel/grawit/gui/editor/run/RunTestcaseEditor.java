@@ -37,7 +37,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcasePageModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -510,9 +510,9 @@ elementProgres.outputCommand( "	" );
 					TreeNode treeNode = actualTestcase.getChildAt(index);
 					
 					//Ha sima Page
-					if( treeNode instanceof TestcasePageModelAdapter ){
+					if( treeNode instanceof TestcaseParamCollectorDataModelAdapter ){
 						
-						TestcasePageModelAdapter pageToRun = (TestcasePageModelAdapter)treeNode;
+						TestcaseParamCollectorDataModelAdapter pageToRun = (TestcaseParamCollectorDataModelAdapter)treeNode;
 						pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
 
 					}					
