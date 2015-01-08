@@ -50,13 +50,15 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	 * @param identificationType
 	 * @param frame
 	 */
-	public NormalBaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTime, String frame){
+	public NormalBaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTimeForAppearance, Integer waitingTimeBeforeOperation, Integer waitingTimeAfterOperation, String frame){
 		super( name );
 		
 		this.elementType = elementType;
 		this.identifier = identifier;
 		this.identificationType = identificationType;
-		this.waitingTimeForAppearance = waitingTime;
+		this.waitingTimeForAppearance = waitingTimeForAppearance;
+		this.waitingTimeBeforeOperation = waitingTimeBeforeOperation;
+		this.waitingTimeAfterOperation = waitingTimeAfterOperation;
 		this.frame = frame;
 	}
 
@@ -282,7 +284,10 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		cloned.elementType = this.elementType;					//TODO Kerde, hogy jo-e
 		if( null != this.waitingTimeForAppearance )
 			cloned.waitingTimeForAppearance = new Integer(this.waitingTimeForAppearance);		
-		
+		if( null != this.waitingTimeBeforeOperation )
+			cloned.waitingTimeBeforeOperation = new Integer(this.waitingTimeBeforeOperation);
+		if( null != this.waitingTimeAfterOperation )
+			cloned.waitingTimeAfterOperation = new Integer(this.waitingTimeAfterOperation);
 		return cloned;
 		
 	}

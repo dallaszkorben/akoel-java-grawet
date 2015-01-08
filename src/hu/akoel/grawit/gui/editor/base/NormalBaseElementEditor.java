@@ -70,9 +70,15 @@ public class NormalBaseElementEditor extends DataEditor{
 		//Identifier
 		fieldIdentifier = new TextFieldComponent( "" );
 		
-    	//WaitingTime
+    	//Waiting Time For Appearance
     	fieldWaitingTimeForAppearance = new TextFieldComponent( "" );
 
+    	//Waiting Time Before Operation
+    	fieldWaitingTimeBeforeOperation = new TextFieldComponent( "" );
+    	
+    	//Waiting Time After Operation
+    	fieldWaitingTimeAfterOperation = new TextFieldComponent( "" );
+    	
 		//Identifier type
     	buttonID.setSelected( true );
     	
@@ -111,7 +117,7 @@ public class NormalBaseElementEditor extends DataEditor{
 		}
 
 		//Waiting time before operation
-		Integer waitingTimeBeforeOperation = selectedNode.getWaitingTimeForAppearance();
+		Integer waitingTimeBeforeOperation = selectedNode.getWaitingTimeBeforeOperation();
 		if( null == waitingTimeBeforeOperation ){
 			fieldWaitingTimeBeforeOperation = new TextFieldComponent( "" );
 		}else{
@@ -119,7 +125,7 @@ public class NormalBaseElementEditor extends DataEditor{
 		}
 		
 		//Waiting time after operation
-		Integer waitingTimeAfterOperation = selectedNode.getWaitingTimeForAppearance();
+		Integer waitingTimeAfterOperation = selectedNode.getWaitingTimeAfterOperation();
 		if( null == waitingTimeAfterOperation ){
 			fieldWaitingTimeAfterOperation = new TextFieldComponent( "" );
 		}else{
@@ -279,15 +285,25 @@ public class NormalBaseElementEditor extends DataEditor{
 				identificationType = SelectorType.CSS;
 			}
 			
-			Integer waitingTime = null;				
+			Integer waitingTimeForApperance = null;				
 			try{
-				waitingTime = new Integer( fieldWaitingTimeForAppearance.getText() );
+				waitingTimeForApperance = new Integer( fieldWaitingTimeForAppearance.getText() );
 			}catch( Exception e ){}
-			
+
+			Integer waitingTimeBeforeOperation = null;				
+			try{
+				waitingTimeBeforeOperation = new Integer( fieldWaitingTimeBeforeOperation.getText() );
+			}catch( Exception e ){}
+
+			Integer waitingTimeAfterOperation = null;				
+			try{
+				waitingTimeAfterOperation = new Integer( fieldWaitingTimeAfterOperation.getText() );
+			}catch( Exception e ){}
+
 			//Uj rogzites eseten
 			if( null == mode ){
 								
-				NormalBaseElementDataModel newBaseElement = new NormalBaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, waitingTime, fieldFrame.getText()  );
+				NormalBaseElementDataModel newBaseElement = new NormalBaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, waitingTimeForApperance, waitingTimeBeforeOperation, waitingTimeAfterOperation, fieldFrame.getText()  );
 			
 				nodeForCapture.add( newBaseElement );
 			
@@ -298,7 +314,9 @@ public class NormalBaseElementEditor extends DataEditor{
 				nodeForModify.setFrame( fieldFrame.getText() );
 				nodeForModify.setIdentifier( fieldIdentifier.getText() );
 				nodeForModify.setElementType(elementType);
-				nodeForModify.setWaitingTime( waitingTime );
+				nodeForModify.setWaitingTimeForAppearance(waitingTimeForApperance);
+				nodeForModify.setWaitingTimeBeforeOperation(waitingTimeBeforeOperation);
+				nodeForModify.setWaitingTimeAfterOperation(waitingTimeAfterOperation);
 				nodeForModify.setIdentificationType( identificationType );
 				
 			}
