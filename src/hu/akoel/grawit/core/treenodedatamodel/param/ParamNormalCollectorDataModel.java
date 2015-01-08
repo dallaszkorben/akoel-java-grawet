@@ -262,7 +262,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 				
 					//TODO lehet, hogy ennek a framere varakozo idonek kulonboznie kellene
 					//a Bazis elemhez tartozo warakozasi ido
-					Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTime();
+					Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
 					if( null == waitingTime ){
 						waitingTime = Settings.getInstance().getWaitingTime();
 					}

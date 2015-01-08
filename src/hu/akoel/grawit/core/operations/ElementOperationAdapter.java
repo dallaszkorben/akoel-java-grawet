@@ -46,14 +46,26 @@ elementProgress.outputCommand("		//" + baseElement.getName() );
 			By by = null;
 			WebElement webElement = null;
 		
-			//WAITING TIME
-			Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTime();
-			if( null == waitingTime ){
-				waitingTime = Settings.getInstance().getWaitingTime();
+			//WAITING TIME FOR APPEARANCE
+			Integer waitingTimeForAppearance = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
+			if( null == waitingTimeForAppearance ){
+				waitingTimeForAppearance = Settings.getInstance().getWaitingTime();
 			}
 			
-elementProgress.outputCommand( "		wait = new WebDriverWait(driver, " + waitingTime + ");" );
-			WebDriverWait wait = new WebDriverWait(driver, waitingTime);
+			//WAITING TIME BEFORE OPERATION
+			Integer waitingTimeBeforeOperation = ((NormalBaseElementDataModel)baseElement).getWaitingTimeBeforeOperation();
+			if( null == waitingTimeBeforeOperation ){
+				waitingTimeBeforeOperation = 0;
+			}
+
+			//WAITING TIME AFTER OPERATION
+			Integer waitingTimeAfterOperation = ((NormalBaseElementDataModel)baseElement).getWaitingTimeAfterOperation();
+			if( null == waitingTimeAfterOperation ){
+				waitingTimeAfterOperation = 0;
+			}
+			
+elementProgress.outputCommand( "		wait = new WebDriverWait(driver, " + waitingTimeForAppearance + ");" );
+			WebDriverWait wait = new WebDriverWait(driver, waitingTimeForAppearance);
 						
 			//Selector meszerzese
 			if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.ID)){
@@ -66,18 +78,21 @@ elementProgress.outputCommand( "		by = By.cssSelector( \"" + ((NormalBaseElement
 				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );
 			}
 						
-			//Varakozik az elem megjeleneseig, de max 10 mp-ig
+			//Varakozik az elem megjeleneseig - WAITING TIME FOR APPEARANCE
 			try{
 				
 				wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
 				//wait.until(ExpectedConditions.elementToBeClickable( by ) );
 elementProgress.outputCommand( "		wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );		
+			
+			//Ha nem jelenik meg idoben, akkor hibajelzessel megall
 			}catch( org.openqa.selenium.TimeoutException timeOutException ){
 				throw new ElementTimeoutException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), timeOutException );
 			}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){
 				throw new ElementUnreachableBrowserException( unreachableBrowserException);
 			}
 		
+			//Beazonositja az elemet
 			try{
 elementProgress.outputCommand( "		webElement = driver.findElement( by );" );					
 				webElement = driver.findElement( by );
@@ -91,10 +106,16 @@ elementProgress.outputCommand( "		webElement = driver.findElement( by );" );
 				throw new ElementNotFoundSelectorException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), new Exception() );
 			}
 		
+			//Varakozik, ha szukseges a muvelet elott
+			try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}			
+			
 			//OPERATION
 			doOperation( driver, baseElement, webElement, elementProgress );
 elementProgress.outputCommand("");	
-		
+
+			//Varakozik, ha szukseges a muvelet utan
+			try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}			
+
 		}else if( baseElement instanceof ScriptBaseElementDataModel ){
 			
 			//OPERATION
