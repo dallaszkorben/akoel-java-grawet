@@ -26,14 +26,18 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	public static final String ATTR_IDENTIFIER = "identifier";
 	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
 	public static final String ATTR_FRAME = "frame";
-	public static final String ATTR_WAITINGTIME = "waitingtime";
+	public static final String ATTR_WAITINGTIME_FOR_APPEARANCE = "waitingtimeforappearance";
+	public static final String ATTR_WAITINGTIME_BEFORE_OPERATION = "waitingtimebeforeoperation";
+	public static final String ATTR_WAITINGTIME_AFTER_OPERATION = "waitingtimeafteroperation";
 	
 	//Adatmodel ---
 	private ElementTypeListEnum elementType;
 	private String frame;
 	private String identifier;
 	private SelectorType identificationType;
-	private Integer waitingTime = null;
+	private Integer waitingTimeForAppearance = null;
+	private Integer waitingTimeBeforeOperation = null;
+	private Integer waitingTimeAfterOperation = null;
 	//----
 
 	/**
@@ -52,7 +56,7 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		this.elementType = elementType;
 		this.identifier = identifier;
 		this.identificationType = identificationType;
-		this.waitingTime = waitingTime;
+		this.waitingTimeForAppearance = waitingTime;
 		this.frame = frame;
 	}
 
@@ -101,18 +105,39 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 			throw new XMLWrongAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_IDENTIFICATION_TYPE, identificationTypeString ); 
 		}		
 		
-		//waiting time
-		if( !element.hasAttribute( ATTR_WAITINGTIME ) ){			
+		String waitingTimeString;
+		//waiting time for appearance
+		if( !element.hasAttribute( ATTR_WAITINGTIME_FOR_APPEARANCE ) ){			
 			//TODO majd visszarakni, hogy ha nem talalja, akkor hiba
-			//throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_WAITINGTIME );
+			//throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_WAITINGTIME_FOR_APPEARANCE );
 		}else{
-			String waitingTimeString = element.getAttribute( ATTR_WAITINGTIME );
+			waitingTimeString = element.getAttribute( ATTR_WAITINGTIME_FOR_APPEARANCE );
 			try{
-				waitingTime = new Integer( waitingTimeString );
-			}catch( Exception e ){}
-			
+				waitingTimeForAppearance = new Integer( waitingTimeString );
+			}catch( Exception e ){}			
 		}
-				
+		
+		//waiting time before operation
+		if( !element.hasAttribute( ATTR_WAITINGTIME_BEFORE_OPERATION ) ){			
+			//TODO majd visszarakni, hogy ha nem talalja, akkor hiba
+			//throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_WAITINGTIME_BEFORE_OPERATION );
+		}else{
+			waitingTimeString = element.getAttribute( ATTR_WAITINGTIME_BEFORE_OPERATION );
+			try{
+				waitingTimeBeforeOperation = new Integer( waitingTimeString );
+			}catch( Exception e ){}			
+		}
+		
+		//waiting time after operation
+		if( !element.hasAttribute( ATTR_WAITINGTIME_AFTER_OPERATION ) ){			
+			//TODO majd visszarakni, hogy ha nem talalja, akkor hiba
+			//throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_WAITINGTIME_AFTER_OPERATION );
+		}else{
+			waitingTimeString = element.getAttribute( ATTR_WAITINGTIME_AFTER_OPERATION );
+			try{
+				waitingTimeAfterOperation = new Integer( waitingTimeString );
+			}catch( Exception e ){}			
+		}						
 	}
 	
 	public static Tag getTagStatic(){
@@ -132,14 +157,30 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		this.elementType = elementType;
 	}
 	
-	public Integer getWaitingTime(){
-		return this.waitingTime;
+	public Integer getWaitingTimeForAppearance(){
+		return this.waitingTimeForAppearance;
 	}
 	
-	public void setWaitingTime( Integer waitingTime ){
-		this.waitingTime = waitingTime;
+	public void setWaitingTimeForAppearance( Integer waitingTime ){
+		this.waitingTimeForAppearance = waitingTime;
+	}
+
+	public Integer getWaitingTimeBeforeOperation(){
+		return this.waitingTimeBeforeOperation;
 	}
 	
+	public void setWaitingTimeBeforeOperation( Integer waitingTime ){
+		this.waitingTimeBeforeOperation = waitingTime;
+	}
+
+	public Integer getWaitingTimeAfterOperation(){
+		return this.waitingTimeAfterOperation;
+	}
+	
+	public void setWaitingTimeAfterOperation( Integer waitingTime ){
+		this.waitingTimeAfterOperation = waitingTime;
+	}
+
 	public String getSelector() {
 		return identifier;
 	}
@@ -202,11 +243,25 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		attr.setValue( getSelectorType().name() );
 		elementElement.setAttributeNode(attr);	
 		
-		attr = document.createAttribute( ATTR_WAITINGTIME );
-		if( null == getWaitingTime() ){
+		attr = document.createAttribute( ATTR_WAITINGTIME_FOR_APPEARANCE );
+		if( null == getWaitingTimeForAppearance() ){
 			attr.setValue( "" );	
 		}else{
-			attr.setValue( getWaitingTime().toString() );
+			attr.setValue( getWaitingTimeForAppearance().toString() );
+		}
+
+		attr = document.createAttribute( ATTR_WAITINGTIME_BEFORE_OPERATION );
+		if( null == getWaitingTimeBeforeOperation() ){
+			attr.setValue( "" );	
+		}else{
+			attr.setValue( getWaitingTimeBeforeOperation().toString() );
+		}
+
+		attr = document.createAttribute( ATTR_WAITINGTIME_AFTER_OPERATION );
+		if( null == getWaitingTimeAfterOperation() ){
+			attr.setValue( "" );	
+		}else{
+			attr.setValue( getWaitingTimeAfterOperation().toString() );
 		}
 		
 		elementElement.setAttributeNode(attr);	
@@ -225,8 +280,8 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		cloned.identifier = new String( this.identifier );
 		cloned.identificationType = this.identificationType;	//TODO kedes, hogy jo-e
 		cloned.elementType = this.elementType;					//TODO Kerde, hogy jo-e
-		if( null != this.waitingTime )
-			cloned.waitingTime = new Integer(this.waitingTime);		
+		if( null != this.waitingTimeForAppearance )
+			cloned.waitingTimeForAppearance = new Integer(this.waitingTimeForAppearance);		
 		
 		return cloned;
 		

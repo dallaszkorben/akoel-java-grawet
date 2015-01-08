@@ -153,7 +153,7 @@ public class ParamNormalCollectorEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.param.page") 
+										CommonOperations.getTranslation("tree.nodetype.param.normalcollector") 
 								) 
 							);
 							break;

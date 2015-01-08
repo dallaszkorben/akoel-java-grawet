@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.base;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +18,8 @@ import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 import javax.tools.JavaCompiler.CompilationTask;
 
@@ -40,16 +43,15 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 
 public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 	private static final long serialVersionUID = -8916078747948054716L;
-
-	//TODO torolni es a szulobe vinni mint baseelement
-	//public static Tag TAG = Tag.SPECIALBASEELEMENT;
 	
 	private ElementTypeListEnum elementType = ElementTypeListEnum.SCRIPT;
 	
-//	public static final String ATTR_ELEMENT_TYPE="elementtype";
 	public static final String ATTR_SCRIPT = "script";
 	
 	private ArrayList<String> parameters = new ArrayList<>();
+	
+	private static String customClassName = "CustomClass";
+	private static String customMethodName = "doAction";
 	
 	private static final String codePre = 
 			"import org.openqa.selenium.WebDriver;\n" +
@@ -63,23 +65,30 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 			" \n" +
 			"import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;\n" +
 			
-			"public class CustomClass {\n" +		
-			"   public CustomClass() {}\n" +		
-			"   public void doAction(WebDriver driver, ArrayList<String> parameters, BaseElementDataModelAdapter baseElement ) throws hu.akoel.grawit.exceptions.PageException{\n";
+			"public class " + customClassName + " {\n" +		
+			"   public " + customClassName + "() {}\n" +		
+			"   public void " + customMethodName + "(WebDriver driver, ArrayList<String> parameters, BaseElementDataModelAdapter baseElement ) throws hu.akoel.grawit.exceptions.PageException{\n";
 	private static final String codePost = 
 			"\n   }\n" +
 			"}\n";
 	
 	private JavaSourceFromString javaFile;
 	private DiagnosticCollector<JavaFileObject> diagnostics;
-	private String classOutputFolder = "";
+	//private String classOutputFolder = "";
 	
-	private String customClassName = "CustomClass";
-	private String customMethodName = "doAction";
+
+	
 	
 	//Adatmodel ---
 	private String script;
 	//----
+
+	private String workingPath = System.getProperty("user.dir") + System.getProperty("file.separator");
+	
+private int identification = this.hashCode();
+//private String identification = "";
+private StandardJavaFileManager stdFileManager;
+
 
 	/**
 	 * 
@@ -99,7 +108,7 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 	/**
 	 * Capture new
 	 * 
-	 * XML alapjan gyartja le a BASEELEMENT-et
+	 * XML alapjan gyartja le
 	 * 
 	 * @param element
 	 * @throws XMLPharseException 
@@ -164,6 +173,8 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 
 	public void doAction( WebDriver driver ) throws CompilationException, ElementException {
 		
+identification++;		
+
 		//Kod legyartasa
 		CompilationTask task = generateTheCode();
 
@@ -197,23 +208,32 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		diagnostics = new DiagnosticCollector<JavaFileObject>();
 		
+stdFileManager = compiler.getStandardFileManager(null, null, null);
+try {
+	stdFileManager.setLocation( StandardLocation.CLASS_OUTPUT, Arrays.asList(new File( workingPath )));
+} catch (IOException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+		
 		//Legyartom a kodot
 		StringWriter writer = new StringWriter();	
 		PrintWriter out = new PrintWriter(writer);
-
-		out.println( codePre );
+		
+		//out.println( codePre );
+		out.println( codePre.replace( customClassName, customClassName + identification ) );
 		out.println( source );
 		out.println( codePost );
 
 		out.close();
-	
-		javaFile = new JavaSourceFromString( customClassName, writer.toString() );
-		 
+
+		javaFile = new JavaSourceFromString( customClassName + identification, writer.toString() );
+
 	    Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(javaFile);
 
 	    CompilationTask task = null;
 	    
-	    task = compiler.getTask(null, null, diagnostics, null, null, compilationUnits);
+	    task = compiler.getTask(null, stdFileManager, diagnostics, null, null, compilationUnits);
 
 	    return task;
 	}
@@ -226,20 +246,38 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 	private void runTheCode( WebDriver driver ) throws ElementException{
 		try {	    	  
 			
-			File f = new File(classOutputFolder);
+			//File f = new File(classOutputFolder);
+			File f = new File(workingPath);
 
 			URL url = f.toURI().toURL();
 			URL[] urls = new URL[] { url };
 			@SuppressWarnings("resource")
 			ClassLoader loader = new URLClassLoader(urls);
-			Class<?> thisClass = loader.loadClass( customClassName );
+			Class<?> thisClass = loader.loadClass( customClassName + identification );
 			Object instance = thisClass.newInstance();
 			//Method thisMethod = thisClass.getDeclaredMethod("doAction", new Class[] { String[].class });
+			
 			Method thisMethod = thisClass.getDeclaredMethod( customMethodName, WebDriver.class, ArrayList.class, BaseElementDataModelAdapter.class );
+
 			//thisMethod.invoke(instance, new Object[] {null});	
 			thisMethod.invoke( instance, driver, parameters, this );
 			//loader = null;	    	  
-	    	  
+
+			//---------------------------------
+			// Torli a letrehozott class file-t
+			//---------------------------------
+			File fileToDelete = new File(workingPath + customClassName + identification + ".class");
+			fileToDelete.delete();
+			
+			//---------------------------------
+			// Lezarja a filemanager-t
+			//---------------------------------
+			try {
+				stdFileManager.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
         //Class.forName("HelloWorld").getDeclaredMethod("main", new Class[] { String[].class }).invoke(null, new Object[] { null });
 		//TODO sajat hibakezelot tenni ra				
 		} catch (ClassNotFoundException e) {
@@ -269,12 +307,6 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 						this.getName(),
 						((ElementException)e.getCause()));
 				
-/*				throw new PageException( 
-						this.getName(), 
-						((PageException)e.getCause()).getElementName(), 
-						((PageException)e.getCause()).getElementId(), 
-						((PageException)e.getCause()).getElementException() );
-*/										
 			}else{
 				System.err.println("Invocation target Exception: " + e.getCause());
 				throw new Error(e);

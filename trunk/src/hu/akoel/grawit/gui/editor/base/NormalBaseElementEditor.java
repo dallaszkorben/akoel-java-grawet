@@ -38,10 +38,17 @@ public class NormalBaseElementEditor extends DataEditor{
 	private TextFieldComponent fieldIdentifier;
 	private ComboBoxComponent<ElementTypeListEnum> comboElementType;
 	private RadioButtonComponent buttonID;
-	private RadioButtonComponent buttonCSS;	
-	private JLabel labelWaitingTime;
-	private TextFieldComponent fieldWaitingTime;
+	private RadioButtonComponent buttonCSS;
 	
+	private JLabel labelWaitingTimeForAppearance;
+	private TextFieldComponent fieldWaitingTimeForAppearance;
+
+	private JLabel labelWaitingTimeBeforeOperation;
+	private TextFieldComponent fieldWaitingTimeBeforeOperation;
+
+	private JLabel labelWaitingTimeAfterOperation;
+	private TextFieldComponent fieldWaitingTimeAfterOperation;
+
 	//Insert
 //	public NormalBaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
 	public NormalBaseElementEditor( Tree tree, BaseDataModelAdapter selectedNode ){
@@ -64,7 +71,7 @@ public class NormalBaseElementEditor extends DataEditor{
 		fieldIdentifier = new TextFieldComponent( "" );
 		
     	//WaitingTime
-    	fieldWaitingTime = new TextFieldComponent( "" );
+    	fieldWaitingTimeForAppearance = new TextFieldComponent( "" );
 
 		//Identifier type
     	buttonID.setSelected( true );
@@ -95,14 +102,30 @@ public class NormalBaseElementEditor extends DataEditor{
 		//Identifier
 		fieldIdentifier = new TextFieldComponent( selectedNode.getSelector() );
 		
-		//Waiting time
-		Integer waitingTime = selectedNode.getWaitingTime();
-		if( null == waitingTime ){
-			fieldWaitingTime = new TextFieldComponent( "" );
+		//Waiting time for appearance
+		Integer waitingTimeForAppearance = selectedNode.getWaitingTimeForAppearance();
+		if( null == waitingTimeForAppearance ){
+			fieldWaitingTimeForAppearance = new TextFieldComponent( "" );
 		}else{
-			fieldWaitingTime = new TextFieldComponent( waitingTime.toString() );
+			fieldWaitingTimeForAppearance = new TextFieldComponent( waitingTimeForAppearance.toString() );
 		}
-	
+
+		//Waiting time before operation
+		Integer waitingTimeBeforeOperation = selectedNode.getWaitingTimeForAppearance();
+		if( null == waitingTimeBeforeOperation ){
+			fieldWaitingTimeBeforeOperation = new TextFieldComponent( "" );
+		}else{
+			fieldWaitingTimeBeforeOperation = new TextFieldComponent( waitingTimeBeforeOperation.toString() );
+		}
+		
+		//Waiting time after operation
+		Integer waitingTimeAfterOperation = selectedNode.getWaitingTimeForAppearance();
+		if( null == waitingTimeAfterOperation ){
+			fieldWaitingTimeAfterOperation = new TextFieldComponent( "" );
+		}else{
+			fieldWaitingTimeAfterOperation = new TextFieldComponent( waitingTimeAfterOperation.toString() );
+		}
+
 		//Identifier type
 	    SelectorType idType = selectedNode.getSelectorType();	    
 	   	if( idType.equals( SelectorType.ID ) ){
@@ -140,16 +163,19 @@ public class NormalBaseElementEditor extends DataEditor{
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
 		labelFrame = new JLabel( CommonOperations.getTranslation("editor.label.base.frame") + ": ");
 		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.label.base.identifier") + ": ");
-		labelWaitingTime = new JLabel( CommonOperations.getTranslation("editor.label.base.waitingtime") + ": ");
+		labelWaitingTimeForAppearance = new JLabel( CommonOperations.getTranslation("editor.label.base.waitingtimeforappearance") + ": ");
+		labelWaitingTimeBeforeOperation = new JLabel( CommonOperations.getTranslation("editor.label.base.waitingtimebeforeoperation") + ": ");
+		labelWaitingTimeAfterOperation = new JLabel( CommonOperations.getTranslation("editor.label.base.waitingtimeafteroperation") + ": ");
+		
 		JLabel labelIdentifierType = new JLabel( CommonOperations.getTranslation("editor.label.base.identifiertype") + ": ");
 		JLabel labelElementType = new JLabel( CommonOperations.getTranslation("editor.label.base.elementtype") + ": ");
-		
-    	//WaitingTime
 		
 		this.add( labelName, fieldName );
 		this.add( labelElementType, comboElementType );
 		this.add( labelFrame, fieldFrame );
-		this.add( labelWaitingTime, fieldWaitingTime );
+		this.add( labelWaitingTimeForAppearance, fieldWaitingTimeForAppearance );
+		this.add( labelWaitingTimeBeforeOperation, fieldWaitingTimeBeforeOperation );
+		this.add( labelWaitingTimeAfterOperation, fieldWaitingTimeAfterOperation );
 		this.add( labelIdentifier, fieldIdentifier );
 		this.add( labelIdentifierType, buttonID );		
 		this.add( new JLabel(), buttonCSS );
@@ -255,7 +281,7 @@ public class NormalBaseElementEditor extends DataEditor{
 			
 			Integer waitingTime = null;				
 			try{
-				waitingTime = new Integer( fieldWaitingTime.getText() );
+				waitingTime = new Integer( fieldWaitingTimeForAppearance.getText() );
 			}catch( Exception e ){}
 			
 			//Uj rogzites eseten
