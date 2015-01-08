@@ -220,13 +220,13 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 		return basePage;
 	}
 	
-	public static String  getNodeTypeToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.param.page");
+	public static String  getModelNameToShowStatic(){
+		return CommonOperations.getTranslation( "tree.nodetype.param.normalcollector");
 	}
 	
 	@Override
 	public String getNodeTypeToShow(){
-		return getNodeTypeToShowStatic();
+		return getModelNameToShowStatic();
 	}
 	
 	@Override

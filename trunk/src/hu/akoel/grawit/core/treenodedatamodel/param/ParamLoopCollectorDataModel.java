@@ -46,7 +46,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class ParamLoopCollectorDataModel  extends ParamCollectorDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
+public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter {
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
@@ -226,7 +226,6 @@ public class ParamLoopCollectorDataModel  extends ParamCollectorDataModelAdapter
 		
 	}
 	
-	
 	public static Tag getTagStatic(){
 		return TAG;
 	}
@@ -246,7 +245,7 @@ public class ParamLoopCollectorDataModel  extends ParamCollectorDataModelAdapter
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.testcase.control.loop");
+		return CommonOperations.getTranslation( "tree.nodetype.param.loopcollector");
 	}
 	
 	@Override

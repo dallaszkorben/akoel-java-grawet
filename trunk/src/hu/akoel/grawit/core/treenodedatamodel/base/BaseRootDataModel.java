@@ -71,6 +71,7 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 
 	@Override
 	public String getName(){
+		//return "/";
 		return "Base Root";
 	}
 	

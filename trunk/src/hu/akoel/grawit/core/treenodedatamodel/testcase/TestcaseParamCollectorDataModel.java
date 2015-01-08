@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
+public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataModelAdapter{
 
 	private static final long serialVersionUID = 5313170692938571481L;
 
@@ -47,7 +47,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 	
 	private ParamCollectorDataModelAdapter paramPage;
 	
-	public TestcaseParamPageDataModel( String name, String details, ParamCollectorDataModelAdapter paramPage ){
+	public TestcaseParamCollectorDataModel( String name, String details, ParamCollectorDataModelAdapter paramPage ){
 		super( );
 		this.name = name;
 		this.details = details;
@@ -63,7 +63,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseParamPageDataModel( Element element, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
+	public TestcaseParamCollectorDataModel( Element element, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -74,7 +74,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcaseParamPageDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( TestcaseParamCollectorDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
@@ -97,7 +97,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcaseParamPageDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( TestcaseParamCollectorDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -205,7 +205,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.testcase.page");
+		return CommonOperations.getTranslation( "tree.nodetype.testcase.collector");
 	}
 	
 	@Override
@@ -252,7 +252,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 		//
 		//========
 				
-		Element nodeElement = document.createElement( TestcaseParamPageDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( TestcaseParamCollectorDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
@@ -300,7 +300,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 	public Object clone(){
 		
 		//Leklonozza a PARAM PAGE-et
-		TestcaseParamPageDataModel cloned = (TestcaseParamPageDataModel)super.clone();
+		TestcaseParamCollectorDataModel cloned = (TestcaseParamCollectorDataModel)super.clone();
 	
 		//Es a valtozokat is leklonozza
 		cloned.name = new String( this.name );
@@ -313,7 +313,7 @@ public class TestcaseParamPageDataModel extends TestcasePageModelAdapter{
 	@Override
 	public Object cloneWithParent() {
 		
-		TestcaseParamPageDataModel cloned = (TestcaseParamPageDataModel) this.clone();
+		TestcaseParamCollectorDataModel cloned = (TestcaseParamCollectorDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );

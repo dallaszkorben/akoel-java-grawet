@@ -11,13 +11,13 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.BasePageTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.BaseCollectorTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class ParamPageEditor extends DataEditor{
+public class ParamNormalCollectorEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -9038879802467565947L;
 
@@ -29,13 +29,13 @@ public class ParamPageEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelBasePageSelector;
-	private BasePageTreeSelectorComponent fieldBasePageSelector;
+	private BaseCollectorTreeSelectorComponent fieldBasePageSelector;
 	private BaseRootDataModel baseRootDataModel;
 	
 	//Itt biztos beszuras van
-	public ParamPageEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public ParamNormalCollectorEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 
-		super( ParamNormalCollectorDataModel.getNodeTypeToShowStatic());
+		super( ParamNormalCollectorDataModel.getModelNameToShowStatic());
 				
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -45,7 +45,7 @@ public class ParamPageEditor extends DataEditor{
 		fieldName = new TextFieldComponent( "" );
 		
 		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)	
-		fieldBasePageSelector = new BasePageTreeSelectorComponent( baseRootDataModel, true );
+		fieldBasePageSelector = new BaseCollectorTreeSelectorComponent( baseRootDataModel, true );
 		this.baseRootDataModel = baseRootDataModel;
 		
 		common();
@@ -53,22 +53,22 @@ public class ParamPageEditor extends DataEditor{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamPageEditor( Tree tree, ParamNormalCollectorDataModel selectedPage, EditMode mode ){
+	public ParamNormalCollectorEditor( Tree tree, ParamNormalCollectorDataModel selectedCollector, BaseRootDataModel baseRootDataModel, EditMode mode ){
 
-		super( mode, selectedPage.getNodeTypeToShow());
+		super( mode, selectedCollector.getNodeTypeToShow());
 
 		this.tree = tree;
-		this.nodeForModify = selectedPage;
+		this.nodeForModify = selectedCollector;
 		this.mode = mode;
 		
-		BaseCollectorDataModel basePage = selectedPage.getBasePage();
-		//BaseRootDataModel baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
+		BaseCollectorDataModel basePage = selectedCollector.getBasePage();
 		
 		//Name		
-		fieldName = new TextFieldComponent( selectedPage.getName());
+		fieldName = new TextFieldComponent( selectedCollector.getName());
 		
 		//PAGEBASEPAGE SELECTOR COMBO
-		fieldBasePageSelector =  new BasePageTreeSelectorComponent( baseRootDataModel, basePage, true );
+		fieldBasePageSelector =  new BaseCollectorTreeSelectorComponent( baseRootDataModel, basePage, true );
+		this.baseRootDataModel = baseRootDataModel;
 		
 		common();
 		

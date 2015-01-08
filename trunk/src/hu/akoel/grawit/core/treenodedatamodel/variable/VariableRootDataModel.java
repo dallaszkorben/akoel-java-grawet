@@ -63,6 +63,7 @@ public class VariableRootDataModel extends VariableNodeDataModel{
 	
 	@Override
 	public String getName(){
+		//return "/";
 		return "Variable Root";
 	}
 

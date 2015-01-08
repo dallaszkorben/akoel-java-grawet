@@ -28,9 +28,9 @@ import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.param.ParamElementEditor;
-import hu.akoel.grawit.gui.editor.param.ParamLoopEditor;
+import hu.akoel.grawit.gui.editor.param.ParamLoopCollectorEditor;
 import hu.akoel.grawit.gui.editor.param.ParamNodeEditor;
-import hu.akoel.grawit.gui.editor.param.ParamPageEditor;
+import hu.akoel.grawit.gui.editor.param.ParamNormalCollectorEditor;
 
 public class ParamTree extends Tree {
 
@@ -142,7 +142,7 @@ public class ParamTree extends Tree {
 			guiFrame.showEditorPanel( paramNodeEditor);								
 
 		}else if( selectedNode instanceof ParamNormalCollectorDataModel ){
-			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamNormalCollectorDataModel)selectedNode, EditMode.VIEW );								
+			ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( this, (ParamNormalCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );								
 			guiFrame.showEditorPanel( paramPageEditor);
 							
 		}else if( selectedNode instanceof ParamElementDataModel ){
@@ -150,7 +150,7 @@ public class ParamTree extends Tree {
 			guiFrame.showEditorPanel( pageBaseElementEditor);									
 			
 		}else if( selectedNode instanceof ParamLoopCollectorDataModel ){
-			ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );
+			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 			
 		}
@@ -166,7 +166,7 @@ public class ParamTree extends Tree {
 			
 		}else if( selectedNode instanceof ParamNormalCollectorDataModel ){
 			
-			ParamPageEditor paramPageEditor = new ParamPageEditor( this, (ParamNormalCollectorDataModel)selectedNode, EditMode.MODIFY );							                                            
+			ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( this, (ParamNormalCollectorDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( paramPageEditor);		
 			
 		}else if( selectedNode instanceof ParamElementDataModel ){
@@ -175,7 +175,7 @@ public class ParamTree extends Tree {
 			guiFrame.showEditorPanel( paramElementEditor);		
 				
 		}else if( selectedNode instanceof ParamLoopCollectorDataModel ){
-			ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );
+			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 
 		}		
@@ -204,29 +204,29 @@ public class ParamTree extends Tree {
 			});
 			popupMenu.add ( insertNodeMenu );
 
-			//Insert Page
-			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.page") );
+			//Insert Normal Param Collector
+			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.normalcollector") );
 			insertPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertPageMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ParamPageEditor paramPageEditor = new ParamPageEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
+					ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
 					guiFrame.showEditorPanel( paramPageEditor);								
 				
 				}
 			});
 			popupMenu.add ( insertPageMenu );
 			
-			//Insert Control Loop
-			JMenuItem insertLoopMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.control.loop") );
+			//Insert Loop Param Collector
+			JMenuItem insertLoopMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.loopcollector") );
 			insertLoopMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertLoopMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamLoopEditor testcaseControlLoopEditor = new ParamLoopEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, baseRootDataModel );
+					ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, baseRootDataModel );
 					guiFrame.showEditorPanel( testcaseControlLoopEditor);			
 					
 				
