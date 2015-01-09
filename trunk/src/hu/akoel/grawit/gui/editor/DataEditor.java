@@ -44,6 +44,8 @@ public abstract class DataEditor extends BaseEditor{
 	
 	private LinkedHashMap<Component, Component> statusIconList = new LinkedHashMap<>();
 	
+	public static int NOTE_ROWS = 15;
+	
 	public DataEditor( String element ){
 		super( element );
 		

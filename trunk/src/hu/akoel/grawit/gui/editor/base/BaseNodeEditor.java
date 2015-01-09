@@ -19,6 +19,7 @@ public class BaseNodeEditor extends DataEditor{
 	
 	private static final long serialVersionUID = 165396704460481021L;
 	
+	
 	private Tree tree;
 	private BaseNodeDataModel nodeForModify;
 	private BaseNodeDataModel nodeForCapture;
@@ -41,7 +42,7 @@ public class BaseNodeEditor extends DataEditor{
 		fieldName = new TextFieldComponent( "" );
 		
 		//Details
-		fieldDetails = new TextAreaComponent( "", 5, 15);
+		fieldDetails = new TextAreaComponent( "", NOTE_ROWS, 15);
 		
 		common();
 		
@@ -61,7 +62,7 @@ public class BaseNodeEditor extends DataEditor{
 		fieldName = new TextFieldComponent( selectedNode.getName());
 		
 		//Details
-		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
+		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), NOTE_ROWS, 15);
 		
 		common();
 	}

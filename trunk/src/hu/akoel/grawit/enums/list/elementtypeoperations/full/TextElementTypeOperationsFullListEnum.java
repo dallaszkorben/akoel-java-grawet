@@ -7,8 +7,10 @@ public enum TextElementTypeOperationsFullListEnum implements ElementTypeOperatio
 	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttovariable") ),
 	COMPARETEXT_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostored") ),
 	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostring") ),
-	GAINTEXT_TO_ELEMENT( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gainvaluetoelement") ),
-	OUTPUTSTORED( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.text.outputstored") ),
+	LEFT_CLICK( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.text.leftclick") ),
+	RIGHT_CLICK( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.text.rightclick") ),
+	GAINTEXT_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gainvaluetoelement") ),	
+	OUTPUTSTORED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.text.outputstored") ),
 	;
 	
 	private String translatedName;
@@ -39,8 +41,10 @@ public enum TextElementTypeOperationsFullListEnum implements ElementTypeOperatio
 		case 0: return COMPARETEXT_TO_VARIABLE;
 		case 1: return COMPARETEXT_TO_STORED;
 		case 2: return COMPARETEXT_TO_STRING;
-		case 3: return GAINTEXT_TO_ELEMENT;
-		case 4:	return OUTPUTSTORED;
+		case 3: return LEFT_CLICK;
+		case 4: return RIGHT_CLICK;		
+		case 5: return GAINTEXT_TO_ELEMENT;
+		case 6:	return OUTPUTSTORED;
 		default: return OUTPUTSTORED;
 		}
 	}

@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
-import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.SpecialBaseAddStoreToParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation;
@@ -149,7 +149,7 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 			//!!!Fontos a beallitasok sorrendje!!!
 			
 			//CLEAR PARAMETERS
-			if( elementOperation instanceof ClickOperation  ){
+			if( elementOperation instanceof ClickLeftOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.CLEAR_PARAMETERS.getIndex());
 							

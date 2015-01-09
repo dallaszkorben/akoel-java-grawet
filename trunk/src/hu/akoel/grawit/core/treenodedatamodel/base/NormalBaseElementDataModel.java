@@ -18,9 +18,6 @@ import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
 
 public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	private static final long serialVersionUID = -8916078747948054716L;
-
-//TODO torolni es a szulobe vinni mint baseelement
-	//public static Tag TAG = Tag.NORMALBASEELEMENT;
 	
 	public static final String ATTR_ELEMENT_TYPE="elementtype";
 	public static final String ATTR_IDENTIFIER = "identifier";
@@ -251,6 +248,7 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		}else{
 			attr.setValue( getWaitingTimeForAppearance().toString() );
 		}
+		elementElement.setAttributeNode(attr);
 
 		attr = document.createAttribute( ATTR_WAITINGTIME_BEFORE_OPERATION );
 		if( null == getWaitingTimeBeforeOperation() ){
@@ -258,14 +256,14 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		}else{
 			attr.setValue( getWaitingTimeBeforeOperation().toString() );
 		}
+		elementElement.setAttributeNode(attr);
 
 		attr = document.createAttribute( ATTR_WAITINGTIME_AFTER_OPERATION );
 		if( null == getWaitingTimeAfterOperation() ){
 			attr.setValue( "" );	
 		}else{
 			attr.setValue( getWaitingTimeAfterOperation().toString() );
-		}
-		
+		}		
 		elementElement.setAttributeNode(attr);	
 
 		return elementElement;	

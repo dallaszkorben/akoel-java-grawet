@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
-import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
@@ -195,7 +195,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		}else{
 			
 			//CLICK
-			if( elementOperation instanceof ClickOperation  ){
+			if( elementOperation instanceof ClickLeftOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
@@ -444,7 +444,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		
 		//CLICK
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){
-			return new ClickOperation();
+			return new ClickLeftOperation();
 				
 		//COMPARE TEXT TO STORED
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STORED.getIndex() ){

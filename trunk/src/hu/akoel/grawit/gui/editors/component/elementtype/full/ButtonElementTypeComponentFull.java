@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
-import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ButtonElementTypeOperationsFullListEnum;
@@ -133,7 +133,7 @@ public class ButtonElementTypeComponentFull<E extends ButtonElementTypeOperation
 			comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 		}else{
 			
-			if( elementOperation instanceof ClickOperation  ){
+			if( elementOperation instanceof ClickLeftOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
@@ -202,7 +202,7 @@ public class ButtonElementTypeComponentFull<E extends ButtonElementTypeOperation
 		
 		//CLICK
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){
-			return new ClickOperation();
+			return new ClickLeftOperation();
 		}
 		
 		return null;

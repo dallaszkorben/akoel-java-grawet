@@ -3,7 +3,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClearOperation;
-import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
@@ -187,7 +187,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 			//!!!Fontos a beallitasok sorrendje!!!
 			
 			//CLICK
-			if( elementOperation instanceof ClickOperation  ){
+			if( elementOperation instanceof ClickLeftOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
@@ -469,7 +469,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 			
 		//Click
 		}else if( comboOperationList.getSelectedIndex() ==  E.CLICK.getIndex() ){
-			return new ClickOperation();			
+			return new ClickLeftOperation();			
 		
 		//COMPARE VALUE TO STORED
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STORED.getIndex() ){

@@ -2,13 +2,12 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
-import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -182,7 +181,7 @@ public class RadiobuttonElementTypeComponentFull<E extends RadiobuttonElementTyp
 			//!!!Fontos a beallitasok sorrendje!!!
 			
 			//CLICK
-			if( elementOperation instanceof ClickOperation  ){
+			if( elementOperation instanceof ClickLeftOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 	
@@ -449,7 +448,7 @@ private void setValueContainer( E selectedOperation ){
 		
 		//CLICK
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){
-			return new ClickOperation();
+			return new ClickLeftOperation();
 		
 		//COMPARE VALUE TO STORED
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STORED.getIndex() ){
@@ -462,11 +461,7 @@ private void setValueContainer( E selectedOperation ){
 		//COMPARE VALUE TO STRING
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STRING.getIndex() ){
 			return new CompareValueToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
-/*			
-		//GAINVALUE TO VARIABLE
-		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_VARIABLE.getIndex() ){
-			return new GainValueToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText() );
-*/			
+			
 		//GAINVALUE TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINVALUE_TO_ELEMENTSTORAGE.getIndex() ){
 			return new GainValueToElementStorageOperation( fieldPattern.getText() );		

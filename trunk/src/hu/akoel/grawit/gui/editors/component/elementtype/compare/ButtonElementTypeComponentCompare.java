@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype.compare;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
-import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ButtonElementTypeOperationsCompareListEnum;
@@ -133,7 +133,7 @@ public class ButtonElementTypeComponentCompare<E extends ButtonElementTypeOperat
 			comboOperationList.setSelectedIndex(E.NONE.getIndex());
 		}else{
 			
-			if( elementOperation instanceof ClickOperation  ){
+			if( elementOperation instanceof ClickLeftOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.NONE.getIndex());
 				

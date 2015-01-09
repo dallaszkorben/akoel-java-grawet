@@ -46,7 +46,7 @@ public class DriverExplorerCapabilityEditor extends DataEditor{
 		fieldKeyValuePair = new KeyValuePairComponent();
 
 		//Details
-		fieldDetails = new TextAreaComponent( "", 5, 15);
+		fieldDetails = new TextAreaComponent( "", NOTE_ROWS, 15);
 		
 		common();
 		
@@ -65,7 +65,7 @@ public class DriverExplorerCapabilityEditor extends DataEditor{
 		fieldKeyValuePair = new KeyValuePairComponent( selectedNode.getName(), selectedNode.getValue() );
 		
 		//Details
-		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
+		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), NOTE_ROWS, 15);
 				
 		common();
 		
