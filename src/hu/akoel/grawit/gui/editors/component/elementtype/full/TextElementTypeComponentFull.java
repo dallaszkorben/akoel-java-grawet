@@ -2,6 +2,8 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
+import hu.akoel.grawit.core.operations.ClickLeftOperation;
+import hu.akoel.grawit.core.operations.ClickRightOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
@@ -215,6 +217,16 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STRING.getIndex());
 		
+			//LEFT MOUSE CLICK
+			}else if( elementOperation instanceof ClickLeftOperation ){
+									
+				comboOperationList.setSelectedIndex(E.LEFT_CLICK.getIndex());
+							
+			//RIGHT MOUSE CLICK
+			}else if( elementOperation instanceof ClickRightOperation ){
+										
+				comboOperationList.setSelectedIndex(E.RIGHT_CLICK.getIndex());
+					
 			//GAIN TEXT TO ELEMENT
 			}else if( elementOperation instanceof GainTextToElementOperation ){
 					
@@ -336,6 +348,19 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldString, c );
+
+		//CLICK
+		}else if( selectedOperation.equals( E.LEFT_CLICK ) || selectedOperation.equals( E.RIGHT_CLICK ) ){
+			
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );
 			
 		//GAINTEXT TO ELEMENT
 		}else if( selectedOperation.equals( E.GAINTEXT_TO_ELEMENT ) ){
@@ -408,6 +433,14 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 		//COMPARE TEXT TO STRING
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STRING.getIndex() ){
 			return new CompareTextToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
+
+		//LEFT MOUSE CLICK
+		}else if( comboOperationList.getSelectedIndex() ==  E.LEFT_CLICK.getIndex() ){
+			return new ClickLeftOperation();
+
+		//RIGHT MOUSE CLICK
+		}else if( comboOperationList.getSelectedIndex() ==  E.RIGHT_CLICK.getIndex() ){
+			return new ClickRightOperation();
 
 		//GAINTEXT TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_ELEMENT.getIndex() ){

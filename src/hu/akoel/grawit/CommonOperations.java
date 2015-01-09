@@ -1,7 +1,8 @@
 package hu.akoel.grawit;
 
 import hu.akoel.grawit.core.operations.ClearOperation;
-import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.ClickLeftOperation;
+import hu.akoel.grawit.core.operations.ClickRightOperation;
 import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareListToStringOperation;
 import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
@@ -317,9 +318,9 @@ public class CommonOperations {
 				if( baseElement.getElementType().equals( ElementTypeListEnum.LINK ) ){
 			
 					//CLICK
-					if( operationString.equals( ClickOperation.getStaticName() ) ){
+					if( operationString.equals( ClickLeftOperation.getStaticName() ) ){
 				
-						elementOperation = new ClickOperation();
+						elementOperation = new ClickLeftOperation();
 					
 					//COMPARE TEXT TO VARIABLE
 					}else if( operationString.equals( CompareTextToVariableOperation.getStaticName() ) ){
@@ -349,7 +350,7 @@ public class CommonOperations {
 					//Ha nem a tipusnak megfelelo a muvelet, akkor azt Click-nek vesszuk
 					}else{
 				
-						elementOperation = new ClickOperation();
+						elementOperation = new ClickLeftOperation();
 					}
 		
 				//---------------
@@ -358,14 +359,14 @@ public class CommonOperations {
 				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals(ElementTypeListEnum.BUTTON)){
 			
 					//CLICK
-					if( operationString.equals( ClickOperation.getStaticName() ) ){
+					if( operationString.equals( ClickLeftOperation.getStaticName() ) ){
 
-						elementOperation = new ClickOperation();
+						elementOperation = new ClickLeftOperation();
 				
 					//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
 					}else{
 					
-						elementOperation = new ClickOperation();				
+						elementOperation = new ClickLeftOperation();				
 					}
 			
 				//-----------------
@@ -374,9 +375,9 @@ public class CommonOperations {
 				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.CHECKBOX) ){
 			
 					//CLICK
-					if( operationString.equals( ClickOperation.getStaticName() ) ){
+					if( operationString.equals( ClickLeftOperation.getStaticName() ) ){
 				
-						elementOperation = new ClickOperation();
+						elementOperation = new ClickLeftOperation();
 				
 					//COMPARE VALUE TO VARIABLE
 					}else if( operationString.equals( CompareValueToVariableOperation.getStaticName() ) ){
@@ -411,7 +412,7 @@ public class CommonOperations {
 					//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
 					}else{
 				
-						elementOperation = new ClickOperation();
+						elementOperation = new ClickLeftOperation();
 				
 					}
 			
@@ -421,9 +422,9 @@ public class CommonOperations {
 				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.RADIOBUTTON ) ){
 			
 					//CLICK
-					if( operationString.equals( ClickOperation.getStaticName() ) ){
+					if( operationString.equals( ClickLeftOperation.getStaticName() ) ){
 				
-						elementOperation = new ClickOperation();
+						elementOperation = new ClickLeftOperation();
 				
 					//COMPARE TEXT TO VARIABLE
 					}else if( operationString.equals( CompareTextToVariableOperation.getStaticName() ) ){
@@ -473,7 +474,7 @@ public class CommonOperations {
 					//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
 					}else{
 					
-						elementOperation = new ClickOperation();
+						elementOperation = new ClickLeftOperation();
 					
 					}
 		
@@ -488,9 +489,9 @@ public class CommonOperations {
 						elementOperation = new ClearOperation();
 				
 					//CLICK
-					}else if( operationString.equals( ClickOperation.getStaticName() ) ){
+					}else if( operationString.equals( ClickLeftOperation.getStaticName() ) ){
 				
-						elementOperation = new ClickOperation();
+						elementOperation = new ClickLeftOperation();
 				
 					//TAB
 					}else if( operationString.equals( TabOperation.getStaticName() ) ){
@@ -568,6 +569,16 @@ public class CommonOperations {
 				
 						elementOperation = new CompareTextToStringOperation( element, rootTag, dataModel.getTag() );
 				
+					//LEFT MOUSE CLICK
+					}else if( operationString.equals( ClickLeftOperation.getStaticName() ) ){
+					
+						elementOperation = new ClickLeftOperation();						
+
+					//RIGHT MOUSE CLICK
+					}else if( operationString.equals( ClickRightOperation.getStaticName() ) ){
+						
+						elementOperation = new ClickRightOperation();						
+						
 					//GAIN TEXT TO ELEMENT
 					}else if( operationString.equals( GainTextToElementOperation.getStaticName() ) ){
 									
@@ -609,9 +620,9 @@ public class CommonOperations {
 						elementOperation = new SelectStringOperation( element, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 		
 					//Click
-					}else if( operationString.equals( ClickOperation.getStaticName() ) ){
+					}else if( operationString.equals( ClickLeftOperation.getStaticName() ) ){
 				
-						elementOperation = new ClickOperation( );
+						elementOperation = new ClickLeftOperation( );
 				
 					//Tab
 					}else if( operationString.equals( TabOperation.getStaticName() ) ){
@@ -650,7 +661,7 @@ public class CommonOperations {
 			
 					}else{
 				
-						elementOperation = new ClickOperation( );
+						elementOperation = new ClickLeftOperation( );
 				
 					}
 			

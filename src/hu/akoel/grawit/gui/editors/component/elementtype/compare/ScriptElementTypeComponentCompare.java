@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype.compare;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
-import hu.akoel.grawit.core.operations.ClickOperation;
+import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -125,7 +125,7 @@ public class ScriptElementTypeComponentCompare<E extends ScriptElementTypeOperat
 			comboOperationList.setSelectedIndex(E.NONE.getIndex());
 			
 		//CLEAR PARAMETERS
-		}else if( elementOperation instanceof ClickOperation  ){
+		}else if( elementOperation instanceof ClickLeftOperation  ){
 				
 			comboOperationList.setSelectedIndex(E.NONE.getIndex());			
 			

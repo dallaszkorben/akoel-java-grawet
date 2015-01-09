@@ -59,7 +59,7 @@ public class TestcaseRootEditor extends DataEditor{
 		labelDriverTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.driver") + ": ");		
 		
 		//Details
-		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), 5, 15);
+		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), NOTE_ROWS, 15);
 		
 		common();
 	}
