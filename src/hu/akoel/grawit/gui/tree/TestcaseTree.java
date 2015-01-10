@@ -21,7 +21,7 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataMode
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -65,9 +65,9 @@ public class TestcaseTree extends Tree {
     	if( actualNode instanceof TestcaseCaseDataModel){
             return caseIcon;
             
-    	}else if( actualNode instanceof TestcaseParamCollectorDataModel ){
+    	}else if( actualNode instanceof TestcaseParamDataModel ){
     		
-    		TestcaseParamCollectorDataModel testCasePage = (TestcaseParamCollectorDataModel)actualNode;
+    		TestcaseParamDataModel testCasePage = (TestcaseParamDataModel)actualNode;
     	    if( testCasePage.getParamPage() instanceof ParamNormalCollectorDataModel ){
     	    	return pageIcon;	
     	    }else if( testCasePage.getParamPage() instanceof ParamLoopCollectorDataModel ){
@@ -95,7 +95,7 @@ public class TestcaseTree extends Tree {
     	
     	if( actualNode instanceof TestcaseCaseDataModel){
             return caseOffIcon;
-    	}else if( actualNode instanceof TestcaseParamCollectorDataModel ){
+    	}else if( actualNode instanceof TestcaseParamDataModel ){
             return pageOffIcon;
     	}else{
     		return getIcon(actualNode, expanded);
@@ -109,6 +109,10 @@ public class TestcaseTree extends Tree {
 		if( selectedNode instanceof TestcaseRootDataModel ){
 			TestcaseRootEditor testcaseRootEditor = new TestcaseRootEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel, EditMode.VIEW);
 			guiFrame.showEditorPanel( testcaseRootEditor);
+
+		}else if( selectedNode instanceof TestcaseParamDataModel ){
+			TestcaseParamCollectorEditor testcaseParamPageEditor = new TestcaseParamCollectorEditor( this, (TestcaseParamDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
+			guiFrame.showEditorPanel( testcaseParamPageEditor);				
 			
 		}else if( selectedNode instanceof TestcaseNodeDataModel ){
 			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.VIEW);
@@ -117,10 +121,6 @@ public class TestcaseTree extends Tree {
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
 			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, driverRootDataModel, EditMode.VIEW );								
 			guiFrame.showEditorPanel( testcaseCaseEditor);				
-							
-		}else if( selectedNode instanceof TestcaseParamCollectorDataModel ){
-			TestcaseParamCollectorEditor testcaseParamPageEditor = new TestcaseParamCollectorEditor( this, (TestcaseParamCollectorDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
-			guiFrame.showEditorPanel( testcaseParamPageEditor);									
 			
 		}
 	}
@@ -133,7 +133,12 @@ public class TestcaseTree extends Tree {
 			
 			TestcaseRootEditor testcaseRootNodeEditor = new TestcaseRootEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel, EditMode.MODIFY);
 			guiFrame.showEditorPanel( testcaseRootNodeEditor);
-					
+
+		}else if( selectedNode instanceof TestcaseParamDataModel ){
+
+			TestcaseParamCollectorEditor testcaseParamPageEditor = new TestcaseParamCollectorEditor( this, (TestcaseParamDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
+			guiFrame.showEditorPanel( testcaseParamPageEditor);		
+			
 		}else if( selectedNode instanceof TestcaseNodeDataModel ){
 			
 			TestcaseNodeEditor testcaseNodeEditor = new TestcaseNodeEditor( this, (TestcaseNodeDataModel)selectedNode, EditMode.MODIFY );								
@@ -143,12 +148,7 @@ public class TestcaseTree extends Tree {
 			
 			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, driverRootDataModel, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( testcaseCaseEditor);		
-				
-		}else if( selectedNode instanceof TestcaseParamCollectorDataModel ){
 
-			TestcaseParamCollectorEditor testcaseParamPageEditor = new TestcaseParamCollectorEditor( this, (TestcaseParamCollectorDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
-			guiFrame.showEditorPanel( testcaseParamPageEditor);		
-			
 		}		
 	}
 
@@ -338,7 +338,7 @@ public class TestcaseTree extends Tree {
 			return true;
 		
 		//Page elhelyezese Case-ben
-		}else if( draggedNode instanceof TestcaseParamCollectorDataModel && dropObject instanceof TestcaseCaseDataModel ){
+		}else if( draggedNode instanceof TestcaseParamDataModel && dropObject instanceof TestcaseCaseDataModel ){
 			return true;
 
 		}

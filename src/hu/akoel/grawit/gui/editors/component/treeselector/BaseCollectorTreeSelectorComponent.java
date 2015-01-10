@@ -51,7 +51,7 @@ public class BaseCollectorTreeSelectorComponent extends TreeSelectorComponent<Ba
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 		ImageIcon collectorIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
-//		ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-normal-icon.png");
+		ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-normal-icon.png");
 		ImageIcon scriptElementIcon = CommonOperations.createImageIcon("tree/base-element-script-icon.png");
 		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
 		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
@@ -59,8 +59,8 @@ public class BaseCollectorTreeSelectorComponent extends TreeSelectorComponent<Ba
 		//Iconja a NODE-nak
 		if( actualNode instanceof BaseCollectorDataModel){
 			return (collectorIcon);
-//		}else if( actualNode instanceof NormalBaseElementDataModel ){
-//			return (normalElementIcon);
+		}else if( actualNode instanceof NormalBaseElementDataModel ){
+			return (normalElementIcon);
 		}else if( actualNode instanceof ScriptBaseElementDataModel ){
 			return (scriptElementIcon);			
 		}else if( actualNode instanceof BaseNodeDataModel){

@@ -148,10 +148,13 @@ public class BaseNodeDataModel extends BaseDataModelAdapter{
 		
 		//Node element
 		Element nodeElement = document.createElement( BaseNodeDataModel.this.getTag().getName() );
+		
+		//NAME attributum
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
 		
+		//DETAILS attributum
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	

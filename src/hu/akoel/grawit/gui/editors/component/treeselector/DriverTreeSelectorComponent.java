@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
@@ -18,11 +18,11 @@ public class DriverTreeSelectorComponent extends TreeSelectorComponent<DriverBro
 
 	private static final long serialVersionUID = -3698310168899684818L;
 
-	public DriverTreeSelectorComponent( DriverDataModelInterface rootDataModel ) {
+	public DriverTreeSelectorComponent( DriverDataModelAdapter rootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.driver"), DriverBrowserDataModelInterface.class, rootDataModel, null, false );
 	}
 
-	public DriverTreeSelectorComponent( DriverDataModelInterface rootDataModel, DriverBrowserDataModelInterface selectedSpecialDataModel ) {
+	public DriverTreeSelectorComponent( DriverDataModelAdapter rootDataModel, DriverBrowserDataModelInterface selectedSpecialDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.driver"), DriverBrowserDataModelInterface.class, rootDataModel, selectedSpecialDataModel, false);
 	}
 	

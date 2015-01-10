@@ -49,12 +49,14 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 	private static final String ATTR_ON = "on";
 	
 	private BaseCollectorDataModel basePage = null;	
-	private String name;
+//	private String name;
 	
 	public ParamNormalCollectorDataModel( String name, BaseCollectorDataModel basePage){
-		super();
+//TODO letrehozni DETAIL-t		
 		
-		this.name = name;
+		super( name, "" );
+		
+//		this.name = name;
 		this.basePage = basePage;
 
 	}
@@ -67,9 +69,11 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 	 */
 	public ParamNormalCollectorDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
+		super(element, baseRootDataModel, variableRootDataModel);
+		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
-		//========
+/*		//========
 		//
 		//name
 		//
@@ -79,7 +83,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
-		
+*/		
 		//========
 		//
 		// On
@@ -207,7 +211,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 		return getTagStatic();
 	}
 	
-	@Override
+/*	@Override
 	public String getName() {		
 		return name;
 	}
@@ -215,7 +219,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 	public void setName( String name ){
 		this.name = name;
 	}
-
+*/
 	public BaseCollectorDataModel getBasePage(){
 		return basePage;
 	}
@@ -374,7 +378,7 @@ elementProgress.outputCommand( "" );
 		
 		//Leklonozza a ParamPage-et
 		ParamNormalCollectorDataModel cloned = (ParamNormalCollectorDataModel)super.clone();
-
+/*
 		//Ha vannak gyerekei (ELEMENT)
 		if( null != this.children ){
 							
@@ -395,11 +399,11 @@ elementProgress.outputCommand( "" );
 				}
 			}
 		}
-		
+*/		
 		return cloned;
 		
 	}
-	
+/*	
 	@Override
 	public Object cloneWithParent() {
 		
@@ -410,5 +414,5 @@ elementProgress.outputCommand( "" );
 		
 		return cloned;
 	}
-	
+*/	
 }

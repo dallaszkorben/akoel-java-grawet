@@ -7,10 +7,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -22,25 +23,26 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
+public class TestcaseCaseDataModel extends TestcaseNodeDataModel{// TestcaseDataModelAdapter{
 
 	private static final long serialVersionUID = -2139557326147525999L;
 
 	public static final Tag TAG = Tag.TESTCASECASE;
+//TODO atnevezni TESTCOLECTOR-ra	
 	
 	public static final String ATTR_DETAILS = "details";
 //	public static final String ATTR_DRIVER_PATH = "driverpath";
 	private static final String ATTR_ON = "on";
 	
-	private String name;
-	private String details;
+//	private String name;
+//	private String details;
 //	private DriverBrowserDataModelInterface<?> driver;
 	
 //	public TestcaseCaseDataModel( String name, String details, DriverBrowserDataModelInterface<?> driver ){
 	public TestcaseCaseDataModel( String name, String details ){			
-		super( );
-		this.name = name;
-		this.details = details;
+		super( name, details );
+//		this.name = name;
+//		this.details = details;
 //		this.driver = driver;
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
@@ -55,11 +57,13 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCaseDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamDataModelAdapter paramDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{
+	public TestcaseCaseDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverDataModel ) throws XMLPharseException{
+		super( element, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel );
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
-		
+
+/*		
 		//========
 		//
 		// Name
@@ -70,7 +74,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
-		
+*/		
 		//========
 		//
 		// On
@@ -82,7 +86,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 			String enabledString = element.getAttribute( ATTR_ON );
 			this.setOn( Boolean.parseBoolean( enabledString ));
 		}				
-	
+/*	
 		//========
 		//
 		// Details
@@ -98,7 +102,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		DocumentBuilder builder = null;
 		Document document = null;
 		Node actualNode = null;
-		
+*/		
 /*	    //========
 		//
 		// Driver
@@ -190,7 +194,9 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 				//Ha TESTCASEPARAM van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASECOLLECTOR.getName() )){
 					
-					this.add(new TestcaseParamCollectorDataModel(testcaseElement, paramDataModel ));
+					//Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelInterface driverRootDataModel
+					this.add(new TestcaseParamDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
+					//this.add(new TestcaseParamCollectorDataModel(testcaseElement, paramDataModel ));
 					
 				}
 			}
@@ -219,7 +225,7 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
-	
+/*	
 	@Override
 	public String getName(){
 		return name;
@@ -241,11 +247,13 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 	public String toString(){
 		return name;
 	}
-	
+*/	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
-
+		
+//TODO meg kellene csinalni, hogy meghivja a super()-t
+		
 		//========
 		//
 		//Node element
@@ -313,6 +321,8 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		return driver;
 	}
 */	
+	
+/*	
 	@Override
 	public Object clone(){
 		
@@ -358,4 +368,6 @@ public class TestcaseCaseDataModel extends TestcaseDataModelAdapter{
 		
 		return cloned;
 	}
+*/
+	
 }

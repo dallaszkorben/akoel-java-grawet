@@ -132,8 +132,20 @@ public class ParamTree extends Tree {
 	@Override
 	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 		
+		if( selectedNode instanceof ParamNormalCollectorDataModel ){
+			ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( this, (ParamNormalCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );								
+			guiFrame.showEditorPanel( paramPageEditor);
+						
+		}else if( selectedNode instanceof ParamElementDataModel ){
+			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.VIEW );	
+			guiFrame.showEditorPanel( pageBaseElementEditor);									
+		
+		}else if( selectedNode instanceof ParamLoopCollectorDataModel ){
+			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );
+			guiFrame.showEditorPanel( testcaseControlLoopEditor);	
+		
 		//Ha a root-ot valasztottam
-		if( selectedNode instanceof ParamRootDataModel ){
+		}else if( selectedNode instanceof ParamRootDataModel ){
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 			
@@ -141,17 +153,7 @@ public class ParamTree extends Tree {
 			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( paramNodeEditor);								
 
-		}else if( selectedNode instanceof ParamNormalCollectorDataModel ){
-			ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( this, (ParamNormalCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );								
-			guiFrame.showEditorPanel( paramPageEditor);
-							
-		}else if( selectedNode instanceof ParamElementDataModel ){
-			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (ParamElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.VIEW );	
-			guiFrame.showEditorPanel( pageBaseElementEditor);									
-			
-		}else if( selectedNode instanceof ParamLoopCollectorDataModel ){
-			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );
-			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
+								
 			
 		}
 		
@@ -159,12 +161,8 @@ public class ParamTree extends Tree {
 
 	@Override
 	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
-		if( selectedNode instanceof ParamNodeDataModel ){
-			
-			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.MODIFY );								
-			guiFrame.showEditorPanel( paramNodeEditor);								
-			
-		}else if( selectedNode instanceof ParamNormalCollectorDataModel ){
+
+		if( selectedNode instanceof ParamNormalCollectorDataModel ){
 			
 			ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( this, (ParamNormalCollectorDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( paramPageEditor);		
@@ -178,6 +176,11 @@ public class ParamTree extends Tree {
 			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 
+		}else if( selectedNode instanceof ParamNodeDataModel ){
+				
+			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.MODIFY );								
+			guiFrame.showEditorPanel( paramNodeEditor);								
+				
 		}		
 	}
 
@@ -185,9 +188,50 @@ public class ParamTree extends Tree {
 	public void doPopupInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode) {
 		
 		//
+		// Normal gyujto eseten
+		//
+		if( selectedNode instanceof ParamNormalCollectorDataModel ){
+
+			//Insert Relative Element
+			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
+			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertElementMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (ParamNormalCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					guiFrame.showEditorPanel( paramPageNodeEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertElementMenu );		
+		
+		//
+		// Control LOOP eseten
+		//
+		} else if( selectedNode instanceof ParamLoopCollectorDataModel ){
+
+			//Insert Page
+			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
+			insertParamPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
+			insertParamPageMenu.addActionListener( new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					ParamElementEditor testcaseParamPageEditor = new ParamElementEditor( ParamTree.this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					guiFrame.showEditorPanel( testcaseParamPageEditor);								
+				
+				}
+			});
+			popupMenu.add ( insertParamPageMenu );
+		
+		
+		//
 		// Csomopont eseten
 		//
-		if( selectedNode instanceof ParamNodeDataModel ){
+		}else if( selectedNode instanceof ParamNodeDataModel ){
 
 			//Insert Node
 			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
@@ -262,48 +306,6 @@ public class ParamTree extends Tree {
 			});
 			popupMenu.add ( insertNoSignificantPageMenu );
 */			
-		}		
-		
-		//
-		// Page eseten
-		//
-		if( selectedNode instanceof ParamNormalCollectorDataModel ){
-
-			//Insert Relative Element
-			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
-			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
-			insertElementMenu.addActionListener( new ActionListener() {
-			
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (ParamNormalCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
-					guiFrame.showEditorPanel( paramPageNodeEditor);								
-				
-				}
-			});
-			popupMenu.add ( insertElementMenu );		
-		}
-		
-		//
-		// Control LOOP eseten
-		//
-		if( selectedNode instanceof ParamLoopCollectorDataModel ){
-
-			//Insert Page
-			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
-			insertParamPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
-			insertParamPageMenu.addActionListener( new ActionListener() {
-			
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					ParamElementEditor testcaseParamPageEditor = new ParamElementEditor( ParamTree.this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
-					guiFrame.showEditorPanel( testcaseParamPageEditor);								
-				
-				}
-			});
-			popupMenu.add ( insertParamPageMenu );
 		}
 		
 	}

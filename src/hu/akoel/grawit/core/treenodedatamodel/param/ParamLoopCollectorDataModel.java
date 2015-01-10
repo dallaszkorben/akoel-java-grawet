@@ -59,7 +59,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	private static final String ATTR_ON = "on";
 	
 	//Adatmodel ---
-	private String name;
+//	private String name;
 	private BaseElementDataModelAdapter compareBaseElement;
 	private ElementOperationAdapter elementOperation;
 	private Integer oneLoopLength = null;
@@ -67,7 +67,10 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	//----
 	
 	public ParamLoopCollectorDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
-		this.name = name;
+//TODO letrehozni DETAIL-t
+		super(name, "");
+		
+//		this.name = name;
 		this.compareBaseElement = compareBaseElement;
 		this.oneLoopLength = oneLoopLength;
 		this.maxLoopNumber = maxLoopNumber;
@@ -80,12 +83,14 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	
 	public ParamLoopCollectorDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
+		super(element, baseRootDataModel, variableRootDataModel);
+		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
 		
-		//========
+/*		//========
 		//
 		// Name
 		//
@@ -95,7 +100,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		}
 		String nameString = element.getAttribute( ATTR_NAME );		
 		this.name = nameString;
-		
+*/		
 		//========
 		//
 		// On
@@ -235,7 +240,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		return getTagStatic();
 	}
 
-	public void setName( String name ){
+/*	public void setName( String name ){
 		this.name = name;
 	}
 	
@@ -243,7 +248,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	public String getName(){
 		return this.name;
 	}
-	
+*/	
 	public static String  getModelNameToShowStatic(){
 		return CommonOperations.getTranslation( "tree.nodetype.param.loopcollector");
 	}
@@ -288,7 +293,9 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
-	
+		
+//TODO meg kellene csinalni, hogy meghivja a super()-t
+		
 		//========
 		//
 		//Node element
@@ -373,51 +380,6 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 				
 		return elementElement;	
 	}	
-
-	@Override
-	public Object clone(){
-		
-		//Leklonozza a NODE-ot
-		ParamLoopCollectorDataModel cloned = (ParamLoopCollectorDataModel)super.clone();
-		
-		//Ha vannak gyerekei (NODE vagy CASE)
-		if( null != this.children ){
-			
-			//Akkor azokat is leklonozza
-			cloned.children = new Vector<>();
-			
-			for( Object o : this.children ){
-				
-				if( o instanceof ParamDataModelAdapter ){
-					
-					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
-					
-					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
-					child.setParent( cloned );					
-					
-					cloned.children.add(child);
-			
-				}
-			}
-		}
-	
-		cloned.compareBaseElement = (BaseElementDataModelAdapter) this.compareBaseElement.clone();
-		cloned.elementOperation = (ElementOperationAdapter) this.elementOperation.clone();
-		
-		return cloned;
-		
-	}
-
-	@Override
-	public Object cloneWithParent() {
-		
-		ParamElementDataModel cloned = (ParamElementDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-			
-		return cloned;
-	}
 
 	@Override
 	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgres, ElementProgressInterface elementProgres) throws PageException,	CompilationException, StoppedByUserException {
@@ -550,4 +512,49 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		super.add( (MutableTreeNode)node );
 	}
 
+	@Override
+	public Object clone(){
+		
+		//Leklonozza a NODE-ot
+		ParamLoopCollectorDataModel cloned = (ParamLoopCollectorDataModel)super.clone();
+/*		
+		//Ha vannak gyerekei (NODE vagy CASE)
+		if( null != this.children ){
+			
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+			
+			for( Object o : this.children ){
+				
+				if( o instanceof ParamDataModelAdapter ){
+					
+					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
+					
+					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
+					child.setParent( cloned );					
+					
+					cloned.children.add(child);
+			
+				}
+			}
+		}
+*/	
+//		cloned.compareBaseElement = (BaseElementDataModelAdapter) this.compareBaseElement.clone();
+//		cloned.elementOperation = (ElementOperationAdapter) this.elementOperation.clone();
+		
+		return cloned;
+		
+	}
+/*
+	@Override
+	public Object cloneWithParent() {
+		
+		ParamElementDataModel cloned = (ParamElementDataModel) this.clone();
+		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+			
+		return cloned;
+	}
+*/	
 }

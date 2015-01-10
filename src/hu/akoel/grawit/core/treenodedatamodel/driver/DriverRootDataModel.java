@@ -3,7 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.driver;
 import java.util.Vector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -80,9 +80,9 @@ public class DriverRootDataModel extends DriverNodeDataModel{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof DriverDataModelInterface ){
+			if( !object.equals(this) && object instanceof DriverDataModelAdapter ){
 				
-				Element element = ((DriverDataModelInterface)object).getXMLElement( document );
+				Element element = ((DriverDataModelAdapter)object).getXMLElement( document );
 				paramPageElement.appendChild( element );		    		
 		    	
 			}

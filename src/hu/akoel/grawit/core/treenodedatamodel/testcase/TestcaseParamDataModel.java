@@ -8,13 +8,17 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -32,10 +36,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataModelAdapter{
+public class TestcaseParamDataModel extends TestcaseParamDataModelAdapter{
 
 	private static final long serialVersionUID = 5313170692938571481L;
-
+//TODO atnevezni TESTCASEPARAM -ra
 	public static final Tag TAG = Tag.TESTCASECOLLECTOR;
 	
 	public static final String ATTR_DETAILS = "details";
@@ -47,8 +51,8 @@ public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataM
 	
 	private ParamCollectorDataModelAdapter paramPage;
 	
-	public TestcaseParamCollectorDataModel( String name, String details, ParamCollectorDataModelAdapter paramPage ){
-		super( );
+	public TestcaseParamDataModel( String name, String details, ParamCollectorDataModelAdapter paramPage ){
+//		super( name, details );
 		this.name = name;
 		this.details = details;
 		this.paramPage = paramPage;
@@ -63,7 +67,10 @@ public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataM
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseParamCollectorDataModel( Element element, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
+	//public TestcaseParamCollectorDataModel( Element element, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
+	public TestcaseParamDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel) throws XMLPharseException{
+		
+//		super(element, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel);
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -74,7 +81,7 @@ public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataM
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcaseParamCollectorDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( TestcaseParamDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
@@ -97,7 +104,7 @@ public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataM
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcaseParamCollectorDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( TestcaseParamDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -124,7 +131,9 @@ public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataM
 	    	//Nem sikerult az atalakitas
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH), e );
 	    } 
-	    	    
+	    	  
+	    ParamDataModelAdapter paramDataModel = (ParamDataModelAdapter)paramRootDataModel.clone();
+	    
 	    //Megkeresem a PARAMPAGEROOT-ben a PARAMPAGE-hez vezeto utat
 	    Node actualNode = document;
 	    while( actualNode.hasChildNodes() ){
@@ -252,7 +261,7 @@ public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataM
 		//
 		//========
 				
-		Element nodeElement = document.createElement( TestcaseParamCollectorDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( TestcaseParamDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
@@ -300,12 +309,12 @@ public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataM
 	public Object clone(){
 		
 		//Leklonozza a PARAM PAGE-et
-		TestcaseParamCollectorDataModel cloned = (TestcaseParamCollectorDataModel)super.clone();
+		TestcaseParamDataModel cloned = (TestcaseParamDataModel)super.clone();
 	
-		//Es a valtozokat is leklonozza
+/*		//Es a valtozokat is leklonozza
 		cloned.name = new String( this.name );
 		cloned.details = new String( this.details );
-		
+*/		
 		return cloned;
 		
 	}
@@ -313,11 +322,12 @@ public class TestcaseParamCollectorDataModel extends TestcaseParamCollectorDataM
 	@Override
 	public Object cloneWithParent() {
 		
-		TestcaseParamCollectorDataModel cloned = (TestcaseParamCollectorDataModel) this.clone();
+		TestcaseParamDataModel cloned = (TestcaseParamDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
 		
 		return cloned;
 	}
+	
 }

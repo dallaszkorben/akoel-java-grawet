@@ -5,7 +5,7 @@ import java.util.Vector;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DriverNodeDataModel extends DriverDataModelInterface{
+public class DriverNodeDataModel extends DriverDataModelAdapter{
 
 	private static final long serialVersionUID = -5861123418343409565L;
 
@@ -87,7 +87,7 @@ public class DriverNodeDataModel extends DriverDataModelInterface{
 	}
 
 	@Override
-	public void add(DriverDataModelInterface node) {
+	public void add(DriverDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -141,9 +141,9 @@ public class DriverNodeDataModel extends DriverDataModelInterface{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof DriverDataModelInterface ){
+			if( !object.equals(this) && object instanceof DriverDataModelAdapter ){
 				
-				Element element = ((DriverDataModelInterface)object).getXMLElement( document );
+				Element element = ((DriverDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}

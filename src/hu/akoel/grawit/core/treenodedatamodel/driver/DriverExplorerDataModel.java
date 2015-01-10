@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -163,9 +163,9 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof DriverDataModelInterface ){
+			if( !object.equals(this) && object instanceof DriverDataModelAdapter ){
 				
-				Element elementCapability = ((DriverDataModelInterface)object).getXMLElement( document );
+				Element elementCapability = ((DriverDataModelAdapter)object).getXMLElement( document );
 				elementExplorer.appendChild( elementCapability );		    		
 		    	
 			}
