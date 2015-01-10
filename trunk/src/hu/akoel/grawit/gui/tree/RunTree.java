@@ -13,7 +13,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.run.RunTestcaseEditor;
@@ -55,7 +55,7 @@ public class RunTree extends Tree {
             return pageIcon;
     	}else if( actualNode instanceof TestcaseCustomDataModel ){
             return customIcon;            
-*/    	}else if( actualNode instanceof TestcaseNodeDataModel){
+*/    	}else if( actualNode instanceof TestcaseFolderDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
@@ -92,13 +92,13 @@ public class RunTree extends Tree {
 			}
 
 			guiFrame.showEditorPanel( editor );
-		}else if( selectedNode instanceof TestcaseNodeDataModel ){
+		}else if( selectedNode instanceof TestcaseFolderDataModel ){
 			//guiFrame.showEditorPanel( emptyPanel );
 		
 			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
 			if( null == editor ){
-				editor = new RunTestcaseEditor( this, (TestcaseNodeDataModel)selectedNode, driverRootDataModel );
-				testcaseMap.put((TestcaseNodeDataModel)selectedNode, editor );
+				editor = new RunTestcaseEditor( this, (TestcaseFolderDataModel)selectedNode, driverRootDataModel );
+				testcaseMap.put((TestcaseFolderDataModel)selectedNode, editor );
 			}
 
 			guiFrame.showEditorPanel( editor );

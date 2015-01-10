@@ -36,7 +36,7 @@ import hu.akoel.grawit.Player;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -92,7 +92,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 						CommonOperations.getTranslation( "editor.label.runtest.testrootwindowtitle" ) :
 				( testcaseDataModel instanceof TestcaseCaseDataModel ) ? 
 						CommonOperations.getTranslation( "editor.label.runtest.testcasewindowtitle" ) : 
-				( testcaseDataModel instanceof TestcaseNodeDataModel) ? 
+				( testcaseDataModel instanceof TestcaseFolderDataModel) ? 
 						CommonOperations.getTranslation( "editor.label.runtest.testnodewindowtitle" ) : 
 				
 				"");
@@ -442,7 +442,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			executeTestcase( (TestcaseCaseDataModel)testcase );
 			
 		//Ha egy csomopontot valasztottam ki, akkor annak elemein megyek keresztul
-		}else if( testcase instanceof TestcaseNodeDataModel){
+		}else if( testcase instanceof TestcaseFolderDataModel){
 				
 			//Vegig a teszteset csomopontjainak elemein
 			int childrens = testcase.getChildCount();

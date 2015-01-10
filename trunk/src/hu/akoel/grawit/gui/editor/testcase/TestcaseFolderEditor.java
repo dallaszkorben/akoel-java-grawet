@@ -5,8 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -15,13 +14,13 @@ import hu.akoel.grawit.gui.tree.Tree;
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class TestcaseNodeEditor extends DataEditor{
+public class TestcaseFolderEditor extends DataEditor{
 
 	private static final long serialVersionUID = 2644128362590221646L;
 	
 	private Tree tree;
-	private TestcaseNodeDataModel nodeForModify;
-	private TestcaseNodeDataModel nodeForCapture;
+	private TestcaseFolderDataModel nodeForModify;
+	private TestcaseFolderDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -29,8 +28,8 @@ public class TestcaseNodeEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 
 	//Itt biztos beszuras van
-	public TestcaseNodeEditor( Tree tree, TestcaseNodeDataModel selectedNode ){
-		super( TestcaseNodeDataModel.getModelNameToShowStatic() );
+	public TestcaseFolderEditor( Tree tree, TestcaseFolderDataModel selectedNode ){
+		super( TestcaseFolderDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -47,7 +46,7 @@ public class TestcaseNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public TestcaseNodeEditor( Tree testcaseTree, TestcaseNodeDataModel selectedNode, EditMode mode ){		
+	public TestcaseFolderEditor( Tree testcaseTree, TestcaseFolderDataModel selectedNode, EditMode mode ){		
 		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = testcaseTree;
@@ -115,10 +114,10 @@ public class TestcaseNodeEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Node-rol van szo
-				if( levelNode instanceof TestcaseNodeDataModel ){
+				if( levelNode instanceof TestcaseFolderDataModel ){
 					
 					//Ha azonos a nev
-					if( ((TestcaseNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((TestcaseFolderDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -153,7 +152,7 @@ public class TestcaseNodeEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcaseNodeDataModel newTestcaseNode = new TestcaseNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				TestcaseFolderDataModel newTestcaseNode = new TestcaseFolderDataModel( fieldName.getText(), fieldDetails.getText() );				
 				nodeForCapture.add( newTestcaseNode );
 				
 			//Modositas eseten

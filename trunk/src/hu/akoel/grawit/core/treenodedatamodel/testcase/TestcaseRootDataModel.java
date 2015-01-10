@@ -7,7 +7,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
@@ -29,13 +28,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class TestcaseRootDataModel extends TestcaseNodeDataModel{
+public class TestcaseRootDataModel extends TestcaseNodeDataModelAdapter{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
 	private static final Tag TAG = Tag.TESTCASEROOT;
-	
-	public static final String ATTR_NAME = "";
+
 	public static final String ATTR_DRIVER_PATH = "driverpath";
 	
 	private DriverBrowserDataModelInterface<?> driver;
@@ -182,6 +180,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 }
 				}
 				
+				
 				NodeList nodeList = testcaseRootNode.getChildNodes();
 				for( int i = 0; i < nodeList.getLength(); i++ ){
 			
@@ -190,9 +189,9 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 					if (testcaseNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element testcaseElement = (Element)testcaseNode;
 														
-						//Ha ujabb TESTCASENODE van alatta
-						if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() ) ){
-							this.add(new TestcaseNodeDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
+						//Ha ujabb TESTCASEFOLDER van alatta
+						if( testcaseElement.getTagName().equals( Tag.TESTCASEFOLDER.getName() ) ){
+							this.add(new TestcaseFolderDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
 						}
 					}
 				}
@@ -234,7 +233,9 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 	
 		Attr attr;
 		
-		//TestcaseElement
+		Element testcaseElement = super.getXMLElement(document);
+		
+/*		//TestcaseElement
 		Element testcaseElement = document.createElement( TAG.getName() );
 
 		//========
@@ -245,7 +246,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		testcaseElement.setAttributeNode(attr);	
-		
+*/		
 		//========
 		//
 		// Driver
@@ -257,6 +258,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 			testcaseElement.setAttributeNode(attr);
 		}
 		
+/*		
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
 			
@@ -269,7 +271,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 		    	
 			}
 		}
-
+*/
 		return testcaseElement;		
 	}
 	

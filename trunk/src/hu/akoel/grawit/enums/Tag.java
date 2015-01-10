@@ -18,9 +18,9 @@ public enum Tag{
 	VARIABLEPARAMETER("parameter"),		
 
 	TESTCASEROOT("testcase"),
-	TESTCASENODE("node"),
+	TESTCASEFOLDER("node"),
 	TESTCASECASE("case"),
-	TESTCASECOLLECTOR("paramcollector"),				
+	TESTCASEPARAMCONTAINER("paramcollector"),				
 	TESTCASECUSTOMPAGE("custom"),	
 
 	RUNROOT("run"),

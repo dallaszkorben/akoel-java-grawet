@@ -9,7 +9,7 @@ import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -24,7 +24,7 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 	private static final long serialVersionUID = -8169618880309437186L;
 	
 	private Tree tree;
-	private TestcaseParamDataModel nodeForModify;
+	private TestcaseParamContainerDataModel nodeForModify;
 	private TestcaseDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
@@ -37,7 +37,7 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 
 	//Itt biztos beszuras van
 	public TestcaseParamCollectorEditor( Tree tree, TestcaseDataModelAdapter selectedNode, ParamDataModelAdapter paramDataModel ){
-		super( TestcaseParamDataModel.getModelNameToShowStatic() );
+		super( TestcaseParamContainerDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -57,7 +57,7 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcaseParamCollectorEditor( Tree testcaseTree, TestcaseParamDataModel selectedNode, ParamDataModelAdapter paramDataModel, EditMode mode ){		
+	public TestcaseParamCollectorEditor( Tree testcaseTree, TestcaseParamContainerDataModel selectedNode, ParamDataModelAdapter paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = testcaseTree;
@@ -147,10 +147,10 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Case-rol van szo
-				if( levelNode instanceof TestcaseParamDataModel ){
+				if( levelNode instanceof TestcaseParamContainerDataModel ){
 					
 					//Ha azonos a nev
-					if( ((TestcaseParamDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((TestcaseParamContainerDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -186,7 +186,7 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcaseParamDataModel newTestcasePage = new TestcaseParamDataModel( fieldName.getText(), fieldDetails.getText(), paramPage );				
+				TestcaseParamContainerDataModel newTestcasePage = new TestcaseParamContainerDataModel( fieldName.getText(), fieldDetails.getText(), paramPage );				
 				nodeForCapture.add( newTestcasePage );
 				
 			//Modositas eseten

@@ -36,11 +36,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-public class TestcaseParamDataModel extends TestcaseParamDataModelAdapter{
+public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapter{
 
 	private static final long serialVersionUID = 5313170692938571481L;
 //TODO atnevezni TESTCASEPARAM -ra
-	public static final Tag TAG = Tag.TESTCASECOLLECTOR;
+	public static final Tag TAG = Tag.TESTCASEPARAMCONTAINER;
 	
 	public static final String ATTR_DETAILS = "details";
 	public static final String ATTR_PARAM_PAGE_PATH = "parampagepath";
@@ -51,7 +51,7 @@ public class TestcaseParamDataModel extends TestcaseParamDataModelAdapter{
 	
 	private ParamCollectorDataModelAdapter paramPage;
 	
-	public TestcaseParamDataModel( String name, String details, ParamCollectorDataModelAdapter paramPage ){
+	public TestcaseParamContainerDataModel( String name, String details, ParamCollectorDataModelAdapter paramPage ){
 //		super( name, details );
 		this.name = name;
 		this.details = details;
@@ -68,7 +68,7 @@ public class TestcaseParamDataModel extends TestcaseParamDataModelAdapter{
 	 * @throws XMLMissingAttributePharseException 
 	 */
 	//public TestcaseParamCollectorDataModel( Element element, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
-	public TestcaseParamDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel) throws XMLPharseException{
+	public TestcaseParamContainerDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel) throws XMLPharseException{
 		
 //		super(element, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel);
 		
@@ -81,7 +81,7 @@ public class TestcaseParamDataModel extends TestcaseParamDataModelAdapter{
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcaseParamDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( TestcaseParamContainerDataModel.getRootTag(), Tag.TESTCASEPARAMCONTAINER, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
@@ -104,7 +104,7 @@ public class TestcaseParamDataModel extends TestcaseParamDataModelAdapter{
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcaseParamDataModel.getRootTag(), Tag.TESTCASECOLLECTOR, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( TestcaseParamContainerDataModel.getRootTag(), Tag.TESTCASEPARAMCONTAINER, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -261,7 +261,7 @@ public class TestcaseParamDataModel extends TestcaseParamDataModelAdapter{
 		//
 		//========
 				
-		Element nodeElement = document.createElement( TestcaseParamDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( TestcaseParamContainerDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
@@ -309,7 +309,7 @@ public class TestcaseParamDataModel extends TestcaseParamDataModelAdapter{
 	public Object clone(){
 		
 		//Leklonozza a PARAM PAGE-et
-		TestcaseParamDataModel cloned = (TestcaseParamDataModel)super.clone();
+		TestcaseParamContainerDataModel cloned = (TestcaseParamContainerDataModel)super.clone();
 	
 /*		//Es a valtozokat is leklonozza
 		cloned.name = new String( this.name );
@@ -322,7 +322,7 @@ public class TestcaseParamDataModel extends TestcaseParamDataModelAdapter{
 	@Override
 	public Object cloneWithParent() {
 		
-		TestcaseParamDataModel cloned = (TestcaseParamDataModel) this.clone();
+		TestcaseParamContainerDataModel cloned = (TestcaseParamContainerDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
