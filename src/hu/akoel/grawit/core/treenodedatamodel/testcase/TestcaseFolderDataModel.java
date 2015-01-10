@@ -1,12 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
-import java.util.Vector;
-
-import javax.swing.tree.MutableTreeNode;
-
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -20,22 +15,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
+public class TestcaseFolderDataModel extends TestcaseNodeDataModelAdapter{
 
 	private static final long serialVersionUID = -2139557326147525999L;
-
-	public static final Tag TAG = Tag.TESTCASENODE;
 	
-//	public static final String ATTR_NAME = "name";
-	public static final String ATTR_DETAILS = "details";
+	public static final Tag TAG = Tag.TESTCASEFOLDER;
 	
-	private String name;
-	private String details;
-	
-	public TestcaseNodeDataModel( String name, String details ){
-		super( );
-		this.name = name;
-		this.details = details;
+	public TestcaseFolderDataModel( String name, String details ){
+		super( name, details );
 	}
 	
 	/**
@@ -45,30 +32,32 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseNodeDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel ) throws XMLPharseException{
+	public TestcaseFolderDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel ) throws XMLPharseException{
+
+		super( element, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel  );
 		
-		//========
+/*		//========
 		//
 		// Name
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcaseNodeDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( TestcaseFolderDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
-		
+	
 		//========
 		//
 		// Details
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcaseNodeDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( TestcaseFolderDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
-		
+*/		
 		//========
 		//
 		// Gyermekei
@@ -84,12 +73,13 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 				if( testcaseElement.getTagName().equals( Tag.TESTCASECASE.getName() )){
 					this.add(new TestcaseCaseDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel ));
 				
-				//Ha ujabb TESTCASENODE van alatta
-				}else if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() )){
-					this.add(new TestcaseNodeDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel ));
+				//Ha ujabb TESTCASEFOLDER van alatta
+				}else if( testcaseElement.getTagName().equals( Tag.TESTCASEFOLDER.getName() )){
+					this.add(new TestcaseFolderDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel ));
 				}
 			}
 		}
+		
 	}
 	
 	public static Tag getTagStatic(){
@@ -98,24 +88,24 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 
 	@Override
 	public Tag getTag() {
-//		return TAG;
 		return getTagStatic();
 	}
 
-	@Override
+/*	@Override
 	public void add(TestcaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
+*/	
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.testcase.node");
+		return CommonOperations.getTranslation( "tree.nodetype.testcase.folder");
 	}
 	
 	@Override
 	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
-	
+/*	
 	@Override
 	public String getName(){
 		return name;
@@ -136,21 +126,39 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 	public String toString(){
 		return name;
 	}
-
+*/
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
+
+		Element nodeElement = super.getXMLElement(document);
 		
-		//Node element
-		Element nodeElement = document.createElement( TestcaseNodeDataModel.this.getTag().getName() );
+/*		//========
+		//
+		// Name
+		//
+		//========	
+		Element nodeElement = document.createElement( TestcaseFolderDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
 		
+		//========
+		//
+		// Details
+		//
+		//========	
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	
-	
+*/	
+		
+/*		
+		//========
+		//
+		// Gyermekei
+		//
+		//========	
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
 			
@@ -163,17 +171,18 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 		    	
 			}
 		}
-	
+*/	
 		return nodeElement;		
 	}
 
+/*	
 	@Override
 	public Object clone(){
 		
 		//Leklonozza a NODE-ot
-		TestcaseNodeDataModel cloned = (TestcaseNodeDataModel)super.clone();
+		TestcaseFolderDataModel cloned = (TestcaseFolderDataModel)super.clone();
 	
-		//Ha vannak gyerekei (NODE vagy CASE)
+		//Ha vannak gyerekei 
 		if( null != this.children ){
 			
 			//Akkor azokat is leklonozza
@@ -205,11 +214,12 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 	@Override
 	public Object cloneWithParent() {
 		
-		TestcaseNodeDataModel cloned = (TestcaseNodeDataModel) this.clone();
+		TestcaseFolderDataModel cloned = (TestcaseFolderDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
 		
 		return cloned;
 	}
+*/	
 }

@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -22,19 +22,15 @@ public class TestcaseCaseEditor extends DataEditor{
 	
 	private Tree tree;
 	private TestcaseCaseDataModel nodeForModify;
-	private TestcaseNodeDataModel nodeForCapture;
+	private TestcaseFolderDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private TextAreaComponent fieldDetails;
-	
-//	private JLabel labelDriverTreeSelector;
-//	private DriverTreeSelectorComponent fieldDriverTreeSelector;
 
-	//Itt biztos beszuras van
-	//public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode, DriverDataModelInterface driverDataModel ){	
-	public TestcaseCaseEditor( Tree tree, TestcaseNodeDataModel selectedNode ){
+	//Itt biztos beszuras van	
+	public TestcaseCaseEditor( Tree tree, TestcaseFolderDataModel selectedNode ){
 		
 		super( TestcaseCaseDataModel.getModelNameToShowStatic() );
 		
@@ -47,9 +43,6 @@ public class TestcaseCaseEditor extends DataEditor{
 		
 		//Details
 		fieldDetails = new TextAreaComponent( "", NOTE_ROWS, 15);
-			
-		//DriverTreeSelector
-//		fieldDriverTreeSelector = new DriverTreeSelectorComponent(driverDataModel);
 		
 		common();
 		

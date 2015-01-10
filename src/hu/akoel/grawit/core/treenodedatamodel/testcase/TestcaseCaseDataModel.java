@@ -1,14 +1,8 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
-import java.util.Vector;
-
 import javax.swing.tree.MutableTreeNode;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
@@ -23,27 +17,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class TestcaseCaseDataModel extends TestcaseNodeDataModel{// TestcaseDataModelAdapter{
+public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// TestcaseDataModelAdapter{
 
 	private static final long serialVersionUID = -2139557326147525999L;
 
 	public static final Tag TAG = Tag.TESTCASECASE;
-//TODO atnevezni TESTCOLECTOR-ra	
 	
 	public static final String ATTR_DETAILS = "details";
-//	public static final String ATTR_DRIVER_PATH = "driverpath";
 	private static final String ATTR_ON = "on";
 	
-//	private String name;
-//	private String details;
-//	private DriverBrowserDataModelInterface<?> driver;
-	
-//	public TestcaseCaseDataModel( String name, String details, DriverBrowserDataModelInterface<?> driver ){
 	public TestcaseCaseDataModel( String name, String details ){			
 		super( name, details );
-//		this.name = name;
-//		this.details = details;
-//		this.driver = driver;
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -191,12 +175,10 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModel{// TestcaseData
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element testcaseElement = (Element)node;
 				
-				//Ha TESTCASEPARAM van alatta
-				if( testcaseElement.getTagName().equals( Tag.TESTCASECOLLECTOR.getName() )){
+				//Ha TESTCASEPARAMCONTAINER van alatta
+				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMCONTAINER.getName() )){
 					
-					//Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelInterface driverRootDataModel
-					this.add(new TestcaseParamDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
-					//this.add(new TestcaseParamCollectorDataModel(testcaseElement, paramDataModel ));
+					this.add(new TestcaseParamContainerDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
 					
 				}
 			}
