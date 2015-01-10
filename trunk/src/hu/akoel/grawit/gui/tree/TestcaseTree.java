@@ -60,9 +60,13 @@ public class TestcaseTree extends Tree {
     	ImageIcon folderClosedIcon = CommonOperations.createImageIcon("tree/testcase-folder-closed-icon.png");
     	ImageIcon folderOpenIcon = CommonOperations.createImageIcon("tree/testcase-folder-open-icon.png");
     	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
+    	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof TestcaseCaseDataModel){
+    	if( actualNode instanceof TestcaseRootDataModel){
+            return rootIcon;
+            
+    	}else if( actualNode instanceof TestcaseCaseDataModel){
             return caseIcon;
             
     	}else if( actualNode instanceof TestcaseParamContainerDataModel ){
@@ -180,8 +184,8 @@ public class TestcaseTree extends Tree {
 		//
 		}else if( selectedNode instanceof TestcaseFolderDataModel ){
 
-			//Insert Node
-			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+			//Insert Node  
+			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 			insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertNodeMenu.addActionListener( new ActionListener() {
 			
@@ -292,8 +296,8 @@ public class TestcaseTree extends Tree {
 	@Override
 	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode ) {
 		
-		//Insert Node
-		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+		//Insert Folder
+		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 		insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 		insertNodeMenu.addActionListener( new ActionListener() {
 		

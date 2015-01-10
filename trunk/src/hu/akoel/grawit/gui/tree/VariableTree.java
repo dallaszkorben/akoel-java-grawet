@@ -13,8 +13,9 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -41,9 +42,13 @@ public class VariableTree extends Tree{
     	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/variable-element-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/variable-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/variable-node-open-icon.png");
+    	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
   
     	//Iconja a NODE-nak
-    	if( actualNode instanceof VariableNodeDataModel){
+    	if( actualNode instanceof VariableRootDataModel){
+            return rootIcon;
+            
+    	}else if( actualNode instanceof VariableFolderNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
@@ -64,8 +69,8 @@ public class VariableTree extends Tree{
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 		
-		}else if( selectedNode instanceof VariableNodeDataModel ){
-			VariableNodeEditor variableNodeEditor = new VariableNodeEditor(this, (VariableNodeDataModel)selectedNode, EditMode.VIEW);
+		}else if( selectedNode instanceof VariableFolderNodeDataModel ){
+			VariableNodeEditor variableNodeEditor = new VariableNodeEditor(this, (VariableFolderNodeDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( variableNodeEditor);								
 		
 		}else if( selectedNode instanceof VariableElementDataModel ){
@@ -78,9 +83,9 @@ public class VariableTree extends Tree{
 	@Override
 	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
 		
-		if( selectedNode instanceof VariableNodeDataModel ){
+		if( selectedNode instanceof VariableFolderNodeDataModel ){
 			
-			VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( variableNodeEditor);								
 			
 		}else if( selectedNode instanceof VariableElementDataModel ){
@@ -96,17 +101,17 @@ public class VariableTree extends Tree{
 		//
 		// Csomopont eseten
 		//
-		if( selectedNode instanceof VariableNodeDataModel ){
+		if( selectedNode instanceof VariableFolderNodeDataModel ){
 
 			//Insert Node
-			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 			insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertNodeMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
+					VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableNodeEditor);								
 				
 				}
@@ -121,7 +126,7 @@ public class VariableTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 							
-					VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
+					VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableElementEditor);								
 				
 				}
@@ -213,14 +218,14 @@ public class VariableTree extends Tree{
 	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode ) {
 
 		//Insert Node
-		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 		insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 		insertNodeMenu.addActionListener( new ActionListener() {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
+				VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( variableNodeEditor);								
 			
 			}
@@ -236,7 +241,7 @@ public class VariableTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 							
-				VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableNodeDataModel)selectedNode );								
+				VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( variableElementEditor);								
 			
 			}
@@ -249,15 +254,15 @@ public class VariableTree extends Tree{
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
 
 		//Node elhelyezese Node-ba
-		if( draggedNode instanceof VariableNodeDataModel && dropObject instanceof VariableNodeDataModel ){
+		if( draggedNode instanceof VariableFolderNodeDataModel && dropObject instanceof VariableFolderNodeDataModel ){
 			return true;
 		
 		//Element elhelyezese Node-ba
-		}else if( draggedNode instanceof VariableElementDataModel && dropObject instanceof VariableNodeDataModel ){
+		}else if( draggedNode instanceof VariableElementDataModel && dropObject instanceof VariableFolderNodeDataModel ){
 			return true;
 		
 		//Node elhelyezese Root-ba			
-		}else if( draggedNode instanceof VariableNodeDataModel && dropObject instanceof VariableRootDataModel ){
+		}else if( draggedNode instanceof VariableFolderNodeDataModel && dropObject instanceof VariableRootDataModel ){
 			return true;
 		
 		//Elem elhelyezese Root-ba	

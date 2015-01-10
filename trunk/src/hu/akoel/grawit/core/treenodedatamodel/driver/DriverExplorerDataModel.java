@@ -58,13 +58,13 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 		
 		//Details
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVEREXPLORER, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( DriverFolderDataModel.getRootTag(), Tag.DRIVEREXPLORER, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		this.details = element.getAttribute( ATTR_DETAILS );	
 		
 		//WebDriver file
 		if( !element.hasAttribute( ATTR_WEBDRIVERPATH ) ){
-			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVEREXPLORER, ATTR_NAME, getName(), ATTR_WEBDRIVERPATH );			
+			throw new XMLMissingAttributePharseException( DriverFolderDataModel.getRootTag(), Tag.DRIVEREXPLORER, ATTR_NAME, getName(), ATTR_WEBDRIVERPATH );			
 		}
 				
 		String stringFile = element.getAttribute( ATTR_WEBDRIVERPATH );		

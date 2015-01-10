@@ -2,18 +2,18 @@ package hu.akoel.grawit.enums;
 
 public enum Tag{
 	BASEROOT("base"),									
-	BASENODE("node"),
+	BASEFOLDER("node"),
 	BASECOLLECTOR("collector"),							
 	BASEELEMENT("element"),
 	
 	PARAMROOT("param"),									
-	PARAMNODE("node"),
+	PARAMFOLDER("node"),
 	PARAMNORMALELEMENTCOLLECTOR("normalelementcollector"),		
 	PARAMLOOPELEMENTCOLLECTOR("loopelementcollector"),			
 	PARAMELEMENT("element"),
 	
 	VARIABLEROOT("variable"),
-	VARIABLENODE("node"),
+	VARIABLEFOLDER("node"),
 	VARIABLEELEMENT("element"),
 	VARIABLEPARAMETER("parameter"),		
 
@@ -37,7 +37,7 @@ public enum Tag{
 	SCRIPTELEMENT("element"),
 	
 	DRIVERROOT("driver"),
-	DRIVERNODE("node"),
+	DRIVERFOLDER("node"),
 	DRIVEREXPLORER("explorer"),
 	DRIVERFIREFOX("firefox"),
 	DRIVERFIREFOXPROPERTY("property"),

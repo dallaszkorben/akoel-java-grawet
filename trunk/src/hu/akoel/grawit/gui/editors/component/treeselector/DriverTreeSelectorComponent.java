@@ -3,12 +3,13 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
@@ -61,9 +62,12 @@ public class DriverTreeSelectorComponent extends TreeSelectorComponent<DriverBro
     	ImageIcon firefoxPropertyIcon = CommonOperations.createImageIcon("tree/driver-firefox-property-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/driver-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/driver-node-open-icon.png");
+    	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
   
     	//Iconja a NODE-nak
     	if( actualNode instanceof DriverRootDataModel){
+            return rootIcon;
+    	}else if( actualNode instanceof DriverRootDataModel){
             return nodeIcon;
     	}else if( actualNode instanceof DriverFirefoxPropertyDataModel ){
     		return firefoxPropertyIcon;
@@ -74,7 +78,7 @@ public class DriverTreeSelectorComponent extends TreeSelectorComponent<DriverBro
     	}else if( actualNode instanceof DriverFirefoxDataModel ){
     		return firefoxIcon;
     	
-    	}else if( actualNode instanceof DriverNodeDataModel){
+    	}else if( actualNode instanceof DriverFolderDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{

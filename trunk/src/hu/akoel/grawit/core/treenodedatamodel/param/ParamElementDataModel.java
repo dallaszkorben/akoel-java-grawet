@@ -19,8 +19,8 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -135,11 +135,11 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 			actualNode = actualNode.getFirstChild();
 			Element actualElement = (Element)actualNode;
 			String tagName = actualElement.getTagName();
-			String attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	  
+			String attrName = actualElement.getAttribute(BaseFolderDataModel.ATTR_NAME);	  
 	    	
 			//Ha BASENODE
-			if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
-				baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASENODE, attrName );
+			if( tagName.equals( BaseFolderDataModel.TAG.getName() ) ){
+				baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEFOLDER, attrName );
 
 				if( null == baseDataModel ){
 

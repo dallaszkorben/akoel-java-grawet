@@ -13,8 +13,8 @@ import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
@@ -143,10 +143,10 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    	String tagName = actualElement.getTagName();
 	    	String attrName = null;
 	    	
-	    	//Ha PARAMNODE
-	    	if( tagName.equals( ParamNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamNodeDataModel.ATTR_NAME);	    		
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNODE, attrName );
+	    	//Ha PARAMFOLDER
+	    	if( tagName.equals( ParamFolderDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(ParamFolderDataModel.ATTR_NAME);	    		
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMFOLDER, attrName );
 
 	    		if( null == paramDataModel ){
 

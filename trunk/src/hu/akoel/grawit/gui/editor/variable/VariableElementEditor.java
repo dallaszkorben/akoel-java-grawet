@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
 import hu.akoel.grawit.enums.list.VariableTypeListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
@@ -32,7 +32,7 @@ public class VariableElementEditor extends DataEditor{
 	
 	private Tree tree;
 	private VariableElementDataModel nodeForModify;
-	private VariableNodeDataModel nodeForCapture;
+	private VariableFolderNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -50,7 +50,7 @@ public class VariableElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedNode
 	 */
-	public VariableElementEditor( Tree tree, VariableNodeDataModel selectedNode ){
+	public VariableElementEditor( Tree tree, VariableFolderNodeDataModel selectedNode ){
 
 		super( VariableElementDataModel.getModelNameToShowStatic());
 

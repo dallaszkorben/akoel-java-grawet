@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFolderDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -25,7 +25,7 @@ public class DriverExplorerEditor extends DataEditor{
 	
 	private Tree tree; 
 	private DriverExplorerDataModel nodeForModify;
-	private DriverNodeDataModel nodeForCapture;
+	private DriverFolderDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -36,7 +36,7 @@ public class DriverExplorerEditor extends DataEditor{
 	private FileSelectorComponent fieldWebDriverPath;
 	
 	//Itt biztos beszuras van
-	public DriverExplorerEditor( Tree tree, DriverNodeDataModel selectedNode ){
+	public DriverExplorerEditor( Tree tree, DriverFolderDataModel selectedNode ){
 
 		super( DriverExplorerDataModel.getModelNameToShowStatic());
 		

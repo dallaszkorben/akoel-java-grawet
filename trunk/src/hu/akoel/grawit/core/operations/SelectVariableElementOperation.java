@@ -14,7 +14,7 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
@@ -86,9 +86,9 @@ public class SelectVariableElementOperation extends SelectOperationAdapter{
 	    	String attrName = null;
 	    	
 	    	//Ha VARIABLENODE
-	    	if( tagName.equals( VariableNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(VariableNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForSelect = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.VARIABLENODE, attrName );
+	    	if( tagName.equals( VariableFolderNodeDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(VariableFolderNodeDataModel.ATTR_NAME);	    		
+	    		variableDataModelForSelect = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.VARIABLEFOLDER, attrName );
 
 	    		if( null == variableDataModelForSelect ){
 

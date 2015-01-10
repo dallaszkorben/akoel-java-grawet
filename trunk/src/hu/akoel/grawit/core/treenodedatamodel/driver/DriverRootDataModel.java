@@ -12,7 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DriverRootDataModel extends DriverNodeDataModel{
+public class DriverRootDataModel extends DriverFolderDataModel{
 
 	private static final long serialVersionUID = -7771576293637635927L;
 
@@ -44,8 +44,8 @@ public class DriverRootDataModel extends DriverNodeDataModel{
 						Element element = (Element)node;
 							
 						//Ha ujabb DRIVERNODE van alatta
-						if( element.getTagName().equals( Tag.DRIVERNODE.getName() ) ){
-							this.add(new DriverNodeDataModel(element));
+						if( element.getTagName().equals( Tag.DRIVERFOLDER.getName() ) ){
+							this.add(new DriverFolderDataModel(element));
 						}
 					}
 				}

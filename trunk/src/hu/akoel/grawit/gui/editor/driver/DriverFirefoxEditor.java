@@ -5,10 +5,9 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFolderDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -23,7 +22,7 @@ public class DriverFirefoxEditor extends DataEditor{
 	
 	private Tree tree; 
 	private DriverFirefoxDataModel nodeForModify;
-	private DriverNodeDataModel nodeForCapture;
+	private DriverFolderDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -32,7 +31,7 @@ public class DriverFirefoxEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 	
 	//Itt biztos beszuras van
-	public DriverFirefoxEditor( Tree tree, DriverNodeDataModel selectedNode ){
+	public DriverFirefoxEditor( Tree tree, DriverFolderDataModel selectedNode ){
 
 		super( DriverFirefoxDataModel.getModelNameToShowStatic());
 		

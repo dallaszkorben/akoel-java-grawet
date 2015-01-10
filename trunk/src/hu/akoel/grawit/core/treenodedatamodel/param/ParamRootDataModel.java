@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ParamRootDataModel extends ParamNodeDataModel{
+public class ParamRootDataModel extends ParamNodeDataModelAdapter{
 
 	private static final long serialVersionUID = 9062567931430247371L;
 
@@ -50,9 +50,9 @@ public class ParamRootDataModel extends ParamNodeDataModel{
 					if (paramNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element paramElement = (Element)paramNode;
 					
-						//Ha ujabb PARAMNODE van alatta
-						if( paramElement.getTagName().equals( Tag.PARAMNODE.getName() ) ){						
-							this.add(new ParamNodeDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+						//Ha ujabb PARAMFOLDER van alatta
+						if( paramElement.getTagName().equals( Tag.PARAMFOLDER.getName() ) ){						
+							this.add(new ParamFolderDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 						}
 					}
 				}

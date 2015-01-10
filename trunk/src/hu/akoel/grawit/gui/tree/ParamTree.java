@@ -17,8 +17,8 @@ import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
@@ -29,7 +29,7 @@ import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.param.ParamElementEditor;
 import hu.akoel.grawit.gui.editor.param.ParamLoopCollectorEditor;
-import hu.akoel.grawit.gui.editor.param.ParamNodeEditor;
+import hu.akoel.grawit.gui.editor.param.ParamFolderEditor;
 import hu.akoel.grawit.gui.editor.param.ParamNormalCollectorEditor;
 
 public class ParamTree extends Tree {
@@ -58,13 +58,17 @@ public class ParamTree extends Tree {
 		ImageIcon pageNonSpecificIcon = CommonOperations.createImageIcon("tree/param-page-nonspecific-icon.png");
     	ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/param-element-normal-icon.png");
     	ImageIcon scriptElementIcon = CommonOperations.createImageIcon("tree/param-element-script-icon.png");
-    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-node-closed-icon.png");
-    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/param-node-open-icon.png");
+    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-folder-closed-icon.png");
+    	ImageIcon folderOpenIcon = CommonOperations.createImageIcon("tree/param-folder-open-icon.png");
     	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
     	ImageIcon loopClosedIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
+    	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamNormalCollectorDataModel){
+    	if( actualNode instanceof ParamRootDataModel){
+            return rootIcon;
+            
+    	}else if( actualNode instanceof ParamNormalCollectorDataModel){
     		
     		if(null == ((ParamNormalCollectorDataModel)actualNode).getBasePage() ){
     			
@@ -92,9 +96,9 @@ public class ParamTree extends Tree {
     			
     		}
     		
-    	}else if( actualNode instanceof ParamNodeDataModel){
+    	}else if( actualNode instanceof DataModelAdapter){
     		if( expanded ){
-    			return nodeOpenIcon;
+    			return folderOpenIcon;
     		}else{
     			return nodeClosedIcon;
     		}
@@ -149,8 +153,8 @@ public class ParamTree extends Tree {
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 			
-		}else if( selectedNode instanceof ParamNodeDataModel ){
-			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.VIEW);
+		}else if( selectedNode instanceof ParamFolderDataModel ){
+			ParamFolderEditor paramNodeEditor = new ParamFolderEditor( this, (ParamFolderDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( paramNodeEditor);								
 
 								
@@ -176,9 +180,9 @@ public class ParamTree extends Tree {
 			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 
-		}else if( selectedNode instanceof ParamNodeDataModel ){
+		}else if( selectedNode instanceof ParamFolderDataModel ){
 				
-			ParamNodeEditor paramNodeEditor = new ParamNodeEditor( this, (ParamNodeDataModel)selectedNode, EditMode.MODIFY );								
+			ParamFolderEditor paramNodeEditor = new ParamFolderEditor( this, (ParamFolderDataModel)selectedNode, EditMode.MODIFY );								
 			guiFrame.showEditorPanel( paramNodeEditor);								
 				
 		}		
@@ -231,17 +235,17 @@ public class ParamTree extends Tree {
 		//
 		// Csomopont eseten
 		//
-		}else if( selectedNode instanceof ParamNodeDataModel ){
+		}else if( selectedNode instanceof ParamFolderDataModel ){
 
 			//Insert Node
-			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 			insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertNodeMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (ParamNodeDataModel)selectedNode );								
+					ParamFolderEditor paramNodeEditor = new ParamFolderEditor( ParamTree.this, (ParamFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( paramNodeEditor);								
 				
 				}
@@ -255,7 +259,7 @@ public class ParamTree extends Tree {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
+					ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( ParamTree.this, (ParamFolderDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
 					guiFrame.showEditorPanel( paramPageEditor);								
 				
 				}
@@ -270,7 +274,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, baseRootDataModel );
+					ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( ParamTree.this, (ParamFolderDataModel)selectedNode, baseRootDataModel );
 					guiFrame.showEditorPanel( testcaseControlLoopEditor);			
 					
 				
@@ -410,15 +414,15 @@ public class ParamTree extends Tree {
 	@Override
 	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode ) {
 		
-		//Insert Node
-		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+		//Insert Folder
+		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 		insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 		insertNodeMenu.addActionListener( new ActionListener() {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				ParamNodeEditor paramNodeEditor = new ParamNodeEditor( ParamTree.this, (ParamNodeDataModel)selectedNode );								
+				ParamFolderEditor paramNodeEditor = new ParamFolderEditor( ParamTree.this, (ParamFolderDataModel)selectedNode );								
 				guiFrame.showEditorPanel( paramNodeEditor);								
 			
 			}
@@ -431,11 +435,11 @@ public class ParamTree extends Tree {
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
 
 		//Node elhelyezese Node-ba vagy Root-ba
-		if( draggedNode instanceof ParamNodeDataModel && dropObject instanceof ParamNodeDataModel ){
+		if( draggedNode instanceof ParamFolderDataModel && dropObject instanceof ParamFolderDataModel ){
 			return true;
 
 		//Param Page elhelyezese Node-ba de nem Root-ba	
-		}else if( draggedNode instanceof ParamNormalCollectorDataModel && dropObject instanceof ParamNodeDataModel && !( dropObject instanceof ParamRootDataModel ) ){
+		}else if( draggedNode instanceof ParamNormalCollectorDataModel && dropObject instanceof ParamFolderDataModel && !( dropObject instanceof ParamRootDataModel ) ){
 			return true;
 
 		//Elem elhelyezese Specific Page-be	
@@ -443,7 +447,7 @@ public class ParamTree extends Tree {
 			return true;
 
 		//Loop elhelyezese Node-ban
-		}else if( draggedNode instanceof ParamLoopCollectorDataModel && dropObject instanceof ParamNodeDataModel ){
+		}else if( draggedNode instanceof ParamLoopCollectorDataModel && dropObject instanceof ParamFolderDataModel ){
 			return true;
 
 		//Element elhelyezese Loop-ban

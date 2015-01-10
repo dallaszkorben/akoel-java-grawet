@@ -4,7 +4,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreePath;
@@ -40,11 +41,14 @@ public class VariableTreeSelectorComponent extends TreeSelectorComponent<Variabl
 		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/variable-element-icon.png");
 		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/variable-node-closed-icon.png");
 		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/variable-node-open-icon.png");
+		ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
 
 		//Iconja a NODE-nak
-		if( actualNode instanceof VariableElementDataModel ){
+		if( actualNode instanceof VariableRootDataModel){
+            return rootIcon;
+		}else if( actualNode instanceof VariableElementDataModel ){
 			return (elementIcon);
-		}else if( actualNode instanceof VariableNodeDataModel){
+		}else if( actualNode instanceof VariableFolderNodeDataModel){
 			if( expanded ){
 				return (nodeOpenIcon);
 			}else{

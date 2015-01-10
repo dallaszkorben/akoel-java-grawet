@@ -12,7 +12,7 @@ import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInter
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -122,9 +122,9 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 				    	String tagName = actualElement.getTagName();
 				    	String attrName = null;
 				    	
-				    	if( tagName.equals( DriverNodeDataModel.TAG.getName() ) ){
-				    		attrName = actualElement.getAttribute(DriverNodeDataModel.ATTR_NAME);	    		
-				    		dDataModel = (DriverDataModelAdapter) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVERNODE, attrName );
+				    	if( tagName.equals( DriverFolderDataModel.TAG.getName() ) ){
+				    		attrName = actualElement.getAttribute(DriverFolderDataModel.ATTR_NAME);	    		
+				    		dDataModel = (DriverDataModelAdapter) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVERFOLDER, attrName );
 
 				    		if( null == dDataModel ){
 

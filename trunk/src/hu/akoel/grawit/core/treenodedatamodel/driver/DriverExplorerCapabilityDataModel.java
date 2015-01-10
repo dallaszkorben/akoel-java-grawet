@@ -56,7 +56,7 @@ public class DriverExplorerCapabilityDataModel extends DriverDataModelAdapter{
 				
 		//Value
 		if( !element.hasAttribute( ATTR_VALUE ) ){
-			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVERFIREFOXPROPERTY, ATTR_NAME, getName(), ATTR_VALUE );			
+			throw new XMLMissingAttributePharseException( DriverFolderDataModel.getRootTag(), Tag.DRIVERFIREFOXPROPERTY, ATTR_NAME, getName(), ATTR_VALUE );			
 		}		
 		String stringValue = element.getAttribute( ATTR_VALUE );	
 		//String
