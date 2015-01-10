@@ -1,8 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
-import java.util.Vector;
-
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,8 +21,8 @@ import hu.akoel.grawit.Settings;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -34,7 +32,6 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
-import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
@@ -136,9 +133,9 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 				String attrName = null;
 	    	
 				//Ha BASENODE
-				if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
-					attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	    		
-					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASENODE, attrName );
+				if( tagName.equals( BaseFolderDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(BaseFolderDataModel.ATTR_NAME);	    		
+					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEFOLDER, attrName );
 
 					if( null == baseDataModel ){
 
@@ -315,7 +312,9 @@ elementProgress.outputCommand( "" );
 	public Element getXMLElement(Document document) {
 		Attr attr;
 
-		//========
+		Element pageElement = super.getXMLElement(document);
+		
+/*		//========
 		//
 		//Node element
 		//
@@ -330,7 +329,7 @@ elementProgress.outputCommand( "" );
 		attr = document.createAttribute(ATTR_NAME);
 		attr.setValue( getName() );
 		pageElement.setAttributeNode(attr);	
-		
+*/		
 		//========
 		//
 		// On
@@ -350,7 +349,7 @@ elementProgress.outputCommand( "" );
 			attr.setValue( basePage.getPathTag() );
 			pageElement.setAttributeNode(attr);		
 		}
-		
+/*		
 		//========
 		//
 		// Gyermekek
@@ -367,9 +366,8 @@ elementProgress.outputCommand( "" );
 				pageElement.appendChild( element );		    		
 		    	
 			}
-		}
-			
-		
+		}			
+*/		
 		return pageElement;	
 	}
 	

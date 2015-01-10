@@ -8,8 +8,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -44,7 +44,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 	
 	private Tree tree;
 	private ParamLoopCollectorDataModel nodeForModify;
-	private ParamNodeDataModel nodeForCapture;
+	private ParamFolderDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -66,7 +66,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 	VariableRootDataModel variableRootDataModel;
 
 	//Itt biztos beszuras van
-	public ParamLoopCollectorEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public ParamLoopCollectorEditor( Tree tree, ParamFolderDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 		
 		super( ParamLoopCollectorDataModel.getModelNameToShowStatic() );
 		

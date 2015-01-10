@@ -18,32 +18,27 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ParamNodeDataModel extends ParamDataModelAdapter{
+public class ParamFolderDataModel extends ParamNodeDataModelAdapter{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
-	public static final Tag TAG = Tag.PARAMNODE;
+	public static final Tag TAG = Tag.PARAMFOLDER;
 	
-	private static final String ATTR_DETAILS = "details";
-		
-	private String name;
-	private String details;
-	
-	public ParamNodeDataModel( String name, String details ){
-		super( );
-		this.name = name;
-		this.details = details;
+	public ParamFolderDataModel( String name, String details ){
+		super( name, details );
 	}
 	
-	public ParamNodeDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public ParamFolderDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+
+		super( element, baseRootDataModel, variableRootDataModel );
 		
-		//========
+/*		//========
 		//
 		// Name
 		//
 		//========
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( ParamNodeDataModel.getRootTag(), Tag.PARAMNODE, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( ParamFolderDataModel.getRootTag(), Tag.PARAMFOLDER, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
@@ -61,6 +56,7 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 			detailsString = element.getAttribute( ATTR_DETAILS );
 		}
 		this.details = detailsString;
+*/
 		
 	    //========
 		//
@@ -82,21 +78,21 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 					this.add(new ParamLoopCollectorDataModel(pageElement, variableRootDataModel, baseRootDataModel ) );
 						
 				//Ha ujabb PARAMNODE van alatta
-				}else if( pageElement.getTagName().equals( Tag.PARAMNODE.getName() )){					
-					this.add(new ParamNodeDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
+				}else if( pageElement.getTagName().equals( Tag.PARAMFOLDER.getName() )){					
+					this.add(new ParamFolderDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 				}
 			}
 		}
+		
 	}
 
-/*	public static Tag getTagStatic(){
+	public static Tag getTagStatic(){
 		return TAG;
 	}
-*/	
+	
 	@Override
 	public Tag getTag(){
-		return TAG;
-		//return getTagStatic();
+		return getTagStatic();
 	}
 	
 	@Override
@@ -105,40 +101,21 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.param.node");
+		return CommonOperations.getTranslation( "tree.nodetype.param.folder");
 	}
 	
 	@Override
 	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
-	
-	@Override
-	public String getName(){
-		return name;
-	}
-	
-	public String getDetails(){
-		return details;
-	}
-	
-	public void setDetails( String details ){
-		this.details = details;
-	}
-	
-	public void setName( String name ){
-		this.name = name;
-	}
-	
-	public String toString(){
-		return name;
-	}
 
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
 		
-		//Node element
+		Element nodeElement = super.getXMLElement(document); 
+		
+/*		//Node element
 		Element nodeElement = document.createElement("node");
 		attr = document.createAttribute("name");
 		attr.setValue( getName() );
@@ -160,15 +137,16 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 		    	
 			}
 		}
-			
+*/			
 		return nodeElement;		
 	}
 
+/*	
 	@Override
 	public Object clone(){
 		
 		//Leklonozza a NODE-ot
-		ParamNodeDataModel cloned = (ParamNodeDataModel)super.clone();
+		ParamFolderDataModel cloned = (ParamFolderDataModel)super.clone();
 	
 		//Ha vannak gyerekei (NODE vagy PAGE)
 		if( null != this.children ){
@@ -202,12 +180,13 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 	@Override
 	public Object cloneWithParent() {
 		
-		ParamNodeDataModel cloned = (ParamNodeDataModel) this.clone();
+		ParamFolderDataModel cloned = (ParamFolderDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
 		
 		return cloned;
 	}
+*/
 	
 }

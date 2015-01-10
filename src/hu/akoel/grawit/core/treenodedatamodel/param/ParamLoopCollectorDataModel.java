@@ -4,8 +4,6 @@ import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Vector;
-
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,8 +16,8 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -59,7 +57,6 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	private static final String ATTR_ON = "on";
 	
 	//Adatmodel ---
-//	private String name;
 	private BaseElementDataModelAdapter compareBaseElement;
 	private ElementOperationAdapter elementOperation;
 	private Integer oneLoopLength = null;
@@ -167,11 +164,11 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 			actualNode = actualNode.getFirstChild();
 			Element actualElement = (Element)actualNode;
 			String tagName = actualElement.getTagName();
-			String attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	  
+			String attrName = actualElement.getAttribute(BaseFolderDataModel.ATTR_NAME);	  
 	    	
 			//Ha BASENODE
-			if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
-				baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASENODE, attrName );
+			if( tagName.equals( BaseFolderDataModel.TAG.getName() ) ){
+				baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEFOLDER, attrName );
 
 				if( null == baseDataModel ){
 
@@ -240,15 +237,6 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		return getTagStatic();
 	}
 
-/*	public void setName( String name ){
-		this.name = name;
-	}
-	
-	@Override
-	public String getName(){
-		return this.name;
-	}
-*/	
 	public static String  getModelNameToShowStatic(){
 		return CommonOperations.getTranslation( "tree.nodetype.param.loopcollector");
 	}
@@ -294,9 +282,9 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	public Element getXMLElement(Document document) {
 		Attr attr;
 		
-//TODO meg kellene csinalni, hogy meghivja a super()-t
+		Element elementElement = super.getXMLElement(document);
 		
-		//========
+/*		//========
 		//
 		//Node element
 		//
@@ -311,7 +299,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		elementElement.setAttributeNode(attr);	
-
+*/
 		//========
 		//
 		//BaseElementAbsolutePath
@@ -362,7 +350,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		// Gyermekek
 		//
 		//========
-		int childrens = this.getChildCount();
+/*		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
 			
 			Object object = this.getChildAt( i );
@@ -374,7 +362,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		    	
 			}
 		}
-		
+*/		
 		//Minden Operation a sajat attributumaiert felelos
 		getElementOperation().setXMLAttribute( document, elementElement );
 				

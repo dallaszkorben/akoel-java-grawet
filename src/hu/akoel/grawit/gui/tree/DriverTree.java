@@ -13,11 +13,12 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -52,9 +53,12 @@ public class DriverTree extends Tree{
     	ImageIcon firefoxPropertyIcon = CommonOperations.createImageIcon("tree/driver-firefox-property-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/driver-node-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/driver-node-open-icon.png");
+    	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
   
     	//Iconja a NODE-nak
     	if( actualNode instanceof DriverRootDataModel){
+            return rootIcon;
+    	}else if( actualNode instanceof DriverRootDataModel){
             return nodeIcon;
     	}else if( actualNode instanceof DriverFirefoxPropertyDataModel ){
     		return firefoxPropertyIcon;
@@ -65,7 +69,7 @@ public class DriverTree extends Tree{
     	}else if( actualNode instanceof DriverFirefoxDataModel ){
     		return firefoxIcon;
     	
-    	}else if( actualNode instanceof DriverNodeDataModel){
+    	}else if( actualNode instanceof DriverFolderDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
@@ -87,8 +91,8 @@ public class DriverTree extends Tree{
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 		
-		}else if( selectedNode instanceof DriverNodeDataModel ){
-			DriverNodeEditor driverNodeEditor = new DriverNodeEditor(this, (DriverNodeDataModel)selectedNode, EditMode.VIEW);
+		}else if( selectedNode instanceof DriverFolderDataModel ){
+			DriverNodeEditor driverNodeEditor = new DriverNodeEditor(this, (DriverFolderDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( driverNodeEditor);								
 		
 		}else if( selectedNode instanceof DriverExplorerDataModel ){
@@ -116,9 +120,9 @@ public class DriverTree extends Tree{
 	@Override
 	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
 		
-		if( selectedNode instanceof DriverNodeDataModel ){
+		if( selectedNode instanceof DriverFolderDataModel ){
 							
-			DriverNodeEditor driverNodeEditor = new DriverNodeEditor( this, (DriverNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			DriverNodeEditor driverNodeEditor = new DriverNodeEditor( this, (DriverFolderDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( driverNodeEditor);								
 								
 		}else if( selectedNode instanceof DriverExplorerDataModel ){
@@ -148,17 +152,17 @@ public class DriverTree extends Tree{
 		//
 		// Csomopont eseten
 		//
-		if( selectedNode instanceof DriverNodeDataModel ){
+		if( selectedNode instanceof DriverFolderDataModel ){
 
-			//Insert Node
-			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+			//Insert Folder
+			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 			insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertNodeMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					DriverNodeEditor driverNodeEditor = new DriverNodeEditor( DriverTree.this, (DriverNodeDataModel)selectedNode );								
+					DriverNodeEditor driverNodeEditor = new DriverNodeEditor( DriverTree.this, (DriverFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( driverNodeEditor);								
 				
 				}
@@ -173,7 +177,7 @@ public class DriverTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					DriverExplorerEditor driverExplorerEditor = new DriverExplorerEditor( DriverTree.this, (DriverNodeDataModel)selectedNode );								
+					DriverExplorerEditor driverExplorerEditor = new DriverExplorerEditor( DriverTree.this, (DriverFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( driverExplorerEditor);								
 				
 				}
@@ -188,7 +192,7 @@ public class DriverTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					DriverFirefoxEditor baseNodeEditor = new DriverFirefoxEditor( DriverTree.this, (DriverNodeDataModel)selectedNode );								
+					DriverFirefoxEditor baseNodeEditor = new DriverFirefoxEditor( DriverTree.this, (DriverFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
@@ -292,15 +296,15 @@ public class DriverTree extends Tree{
 	@Override
 	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode ) {
 
-		//Insert Node
-		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+		//Insert Folder
+		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 		insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 		insertNodeMenu.addActionListener( new ActionListener() {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					
-				DriverNodeEditor driverNodeEditor = new DriverNodeEditor( DriverTree.this, (DriverNodeDataModel)selectedNode );								
+				DriverNodeEditor driverNodeEditor = new DriverNodeEditor( DriverTree.this, (DriverFolderDataModel)selectedNode );								
 				guiFrame.showEditorPanel( driverNodeEditor);								
 			
 			}
@@ -313,11 +317,11 @@ public class DriverTree extends Tree{
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
 
 		//Node elhelyezese Node-ba vagy Root-ba
-		if( draggedNode instanceof DriverNodeDataModel && dropObject instanceof DriverNodeDataModel ){
+		if( draggedNode instanceof DriverFolderDataModel && dropObject instanceof DriverFolderDataModel ){
 			return true;
 		
 		//Firefox elhelyezese Node-ba de nem Root-ba
-		}else if( draggedNode instanceof DriverFirefoxDataModel && dropObject instanceof DriverNodeDataModel && !( dropObject instanceof DriverRootDataModel ) ){
+		}else if( draggedNode instanceof DriverFirefoxDataModel && dropObject instanceof DriverFolderDataModel && !( dropObject instanceof DriverRootDataModel ) ){
 			return true;
 			
 		//Firefox property elhelyezese Firefox-ban
@@ -325,7 +329,7 @@ public class DriverTree extends Tree{
 			return true;
 		
 		//Explorer elhelyezese Node-ba de nem Root-ba
-		}else if( draggedNode instanceof DriverExplorerDataModel && dropObject instanceof DriverNodeDataModel && !( dropObject instanceof DriverRootDataModel ) ){
+		}else if( draggedNode instanceof DriverExplorerDataModel && dropObject instanceof DriverFolderDataModel && !( dropObject instanceof DriverRootDataModel ) ){
 			return true;
 
 		//Explorer property elhelyezese Explorer-ben

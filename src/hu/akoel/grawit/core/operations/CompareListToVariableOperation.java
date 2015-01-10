@@ -21,7 +21,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
@@ -113,9 +113,9 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 	    	String attrName = null;
 	    	
 	    	//Ha VARIABLENODE
-	    	if( tagName.equals( VariableNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(VariableNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForFillOut = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLENODE, attrName );
+	    	if( tagName.equals( VariableFolderNodeDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(VariableFolderNodeDataModel.ATTR_NAME);	    		
+	    		variableDataModelForFillOut = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLEFOLDER, attrName );
 
 	    		if( null == variableDataModelForFillOut ){
 

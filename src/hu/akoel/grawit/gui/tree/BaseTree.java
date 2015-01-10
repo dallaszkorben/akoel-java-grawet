@@ -14,8 +14,8 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
@@ -24,7 +24,7 @@ import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.base.NormalBaseElementEditor;
-import hu.akoel.grawit.gui.editor.base.BaseNodeEditor;
+import hu.akoel.grawit.gui.editor.base.BaseFolderEditor;
 import hu.akoel.grawit.gui.editor.base.BasePageEditor;
 import hu.akoel.grawit.gui.editor.base.ScriptBaseElementEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -45,17 +45,20 @@ public class BaseTree extends Tree{
     	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/base-page-icon.png");
     	ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/base-element-normal-icon.png");
     	ImageIcon scriptElementIcon = CommonOperations.createImageIcon("tree/base-element-script-icon.png");
-    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-node-closed-icon.png");
-    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-node-open-icon.png");
+    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/base-folder-closed-icon.png");
+    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/base-folder-open-icon.png");
+    	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
   
     	//Iconja a NODE-nak
-    	if( actualNode instanceof BaseCollectorDataModel){
+    	if( actualNode instanceof BaseRootDataModel){
+            return rootIcon;
+    	}else if( actualNode instanceof BaseCollectorDataModel){
             return pageIcon;
     	}else if( actualNode instanceof NormalBaseElementDataModel ){
             return normalElementIcon;
     	}else if( actualNode instanceof ScriptBaseElementDataModel ){
             return scriptElementIcon;
-    	}else if( actualNode instanceof BaseNodeDataModel){
+    	}else if( actualNode instanceof BaseFolderDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
@@ -73,8 +76,8 @@ public class BaseTree extends Tree{
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 		
-		}else if( selectedNode instanceof BaseNodeDataModel ){
-			BaseNodeEditor baseNodeEditor = new BaseNodeEditor(this, (BaseNodeDataModel)selectedNode, EditMode.VIEW);
+		}else if( selectedNode instanceof BaseFolderDataModel ){
+			BaseFolderEditor baseNodeEditor = new BaseFolderEditor(this, (BaseFolderDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( baseNodeEditor);								
 		
 		}else if( selectedNode instanceof BaseCollectorDataModel ){
@@ -95,9 +98,9 @@ public class BaseTree extends Tree{
 	@Override
 	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
 		
-		if( selectedNode instanceof BaseNodeDataModel ){
+		if( selectedNode instanceof BaseFolderDataModel ){
 							
-			BaseNodeEditor baseNodeEditor = new BaseNodeEditor( this, (BaseNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			BaseFolderEditor baseNodeEditor = new BaseFolderEditor( this, (BaseFolderDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( baseNodeEditor);								
 								
 		}else if( selectedNode instanceof BaseCollectorDataModel ){
@@ -124,17 +127,17 @@ public class BaseTree extends Tree{
 		//
 		// Csomopont eseten
 		//
-		if( selectedNode instanceof BaseNodeDataModel ){
+		if( selectedNode instanceof BaseFolderDataModel ){
 
-			//Insert Node
-			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+			//Insert Folder
+			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 			insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertNodeMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					BaseNodeEditor baseNodeEditor = new BaseNodeEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					BaseFolderEditor baseNodeEditor = new BaseFolderEditor( BaseTree.this, (BaseFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
@@ -149,7 +152,7 @@ public class BaseTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					BasePageEditor baseNodeEditor = new BasePageEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					BasePageEditor baseNodeEditor = new BasePageEditor( BaseTree.this, (BaseFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
@@ -164,7 +167,7 @@ public class BaseTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					NormalBaseElementEditor baseNodeEditor = new NormalBaseElementEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					NormalBaseElementEditor baseNodeEditor = new NormalBaseElementEditor( BaseTree.this, (BaseFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
@@ -179,7 +182,7 @@ public class BaseTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ScriptBaseElementEditor baseNodeEditor = new ScriptBaseElementEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+					ScriptBaseElementEditor baseNodeEditor = new ScriptBaseElementEditor( BaseTree.this, (BaseFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( baseNodeEditor);								
 				
 				}
@@ -307,8 +310,8 @@ public class BaseTree extends Tree{
 	@Override
 	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode ) {
 
-		//Insert Node
-		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.node") );
+		//Insert Folder
+		JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
 		insertNodeMenu.setActionCommand( ActionCommand.CAPTURE.name());
 		insertNodeMenu.addActionListener( new ActionListener() {
 		
@@ -316,7 +319,7 @@ public class BaseTree extends Tree{
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				BaseNodeEditor baseNodeEditor = new BaseNodeEditor( BaseTree.this, (BaseNodeDataModel)selectedNode );								
+				BaseFolderEditor baseNodeEditor = new BaseFolderEditor( BaseTree.this, (BaseFolderDataModel)selectedNode );								
 				guiFrame.showEditorPanel( baseNodeEditor);								
 			
 			}
@@ -329,11 +332,11 @@ public class BaseTree extends Tree{
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
 
 		//Node elhelyezese Node-ba vagy Root-ba
-		if( draggedNode instanceof BaseNodeDataModel && dropObject instanceof BaseNodeDataModel ){
+		if( draggedNode instanceof BaseFolderDataModel && dropObject instanceof BaseFolderDataModel ){
 			return true;
 
 		//Page elhelyezese Node-ba de nem Root-ba	
-		}else if( draggedNode instanceof BaseCollectorDataModel && dropObject instanceof BaseNodeDataModel && !( dropObject instanceof BaseRootDataModel ) ){
+		}else if( draggedNode instanceof BaseCollectorDataModel && dropObject instanceof BaseFolderDataModel && !( dropObject instanceof BaseRootDataModel ) ){
 			return true;
 		
 		//NormalElement elhelyezese Page-ben	
@@ -345,11 +348,11 @@ public class BaseTree extends Tree{
 			return true;
 
 		//NormalElement elhelyezese Node-ban	
-		}else if( draggedNode instanceof NormalBaseElementDataModel && dropObject instanceof BaseNodeDataModel ){
+		}else if( draggedNode instanceof NormalBaseElementDataModel && dropObject instanceof BaseFolderDataModel ){
 			return true;
 
 		//SpecialElement elhelyezese Node-ban	
-		}else if( draggedNode instanceof ScriptBaseElementDataModel && dropObject instanceof BaseNodeDataModel ){
+		}else if( draggedNode instanceof ScriptBaseElementDataModel && dropObject instanceof BaseFolderDataModel ){
 			return true;
 
 		}

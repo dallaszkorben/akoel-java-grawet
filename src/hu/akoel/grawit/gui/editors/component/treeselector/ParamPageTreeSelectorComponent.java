@@ -3,11 +3,13 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
@@ -55,13 +57,16 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamC
 	
 		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-icon.png");
     	ImageIcon elementIcon = CommonOperations.createImageIcon("tree/param-element-icon.png");
-    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-node-closed-icon.png");
-    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/param-node-open-icon.png");
+    	ImageIcon folderClosedIcon = CommonOperations.createImageIcon("tree/param-folder-closed-icon.png");
+    	ImageIcon folderOpenIcon = CommonOperations.createImageIcon("tree/param-folder-open-icon.png");
     	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
     	ImageIcon loopClosedIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
+    	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamNormalCollectorDataModel){
+    	if( actualNode instanceof ParamRootDataModel){
+            return rootIcon;
+    	}else if( actualNode instanceof ParamNormalCollectorDataModel){
             return pageIcon;    	
     	}else if( actualNode instanceof ParamElementDataModel ){
             return elementIcon;
@@ -71,11 +76,11 @@ public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamC
     		}else{
     			return loopClosedIcon;    			
     		}
-    	}else if( actualNode instanceof ParamNodeDataModel){
+    	}else if( actualNode instanceof ParamFolderDataModel){
     		if( expanded ){
-    			return nodeOpenIcon;
+    			return folderOpenIcon;
     		}else{
-    			return nodeClosedIcon;
+    			return folderClosedIcon;
     		}
         }
 		return null;

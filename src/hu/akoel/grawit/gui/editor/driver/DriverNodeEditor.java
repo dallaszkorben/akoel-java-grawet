@@ -5,8 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFolderDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -20,8 +19,8 @@ public class DriverNodeEditor extends DataEditor{
 	private static final long serialVersionUID = -1392601663741174352L;
 	
 	private Tree tree;
-	private DriverNodeDataModel nodeForModify;
-	private DriverNodeDataModel nodeForCapture;
+	private DriverFolderDataModel nodeForModify;
+	private DriverFolderDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -29,9 +28,9 @@ public class DriverNodeEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 
 	//Itt biztos beszuras van
-	public DriverNodeEditor( Tree tree, DriverNodeDataModel selectedNode ){
+	public DriverNodeEditor( Tree tree, DriverFolderDataModel selectedNode ){
 
-		super( BaseNodeDataModel.getModelNameToShowStatic() );
+		super( DriverFolderDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -48,7 +47,7 @@ public class DriverNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public DriverNodeEditor( Tree baseTree, DriverNodeDataModel selectedNode, EditMode mode ){		
+	public DriverNodeEditor( Tree baseTree, DriverFolderDataModel selectedNode, EditMode mode ){		
 
 		super( mode, selectedNode.getNodeTypeToShow());
 
@@ -119,10 +118,10 @@ public class DriverNodeEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Node-rol van szo
-				if( levelNode instanceof BaseNodeDataModel ){
+				if( levelNode instanceof DriverFolderDataModel ){
 					
 					//Ha azonos a nev
-					if( ((BaseNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((DriverFolderDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -155,7 +154,7 @@ public class DriverNodeEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				DriverNodeDataModel newPageBaseNode = new DriverNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				DriverFolderDataModel newPageBaseNode = new DriverFolderDataModel( fieldName.getText(), fieldDetails.getText() );				
 				nodeForCapture.add( newPageBaseNode );
 			
 			//Modositas eseten

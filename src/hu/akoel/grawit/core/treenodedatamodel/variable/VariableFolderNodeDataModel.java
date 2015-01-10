@@ -17,18 +17,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class VariableNodeDataModel extends VariableDataModelAdapter{
+public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	
-	public static final Tag TAG = Tag.VARIABLENODE;
+	public static final Tag TAG = Tag.VARIABLEFOLDER;
 	
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name;
 	private String details;
 	
-	public VariableNodeDataModel( String name, String details ){
+	public VariableFolderNodeDataModel( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;
@@ -41,16 +41,16 @@ public class VariableNodeDataModel extends VariableDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public VariableNodeDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public VariableFolderNodeDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( VariableNodeDataModel.getRootTag(), Tag.VARIABLENODE, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( VariableFolderNodeDataModel.getRootTag(), Tag.VARIABLEFOLDER, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( VariableNodeDataModel.getRootTag(), Tag.VARIABLENODE, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( VariableFolderNodeDataModel.getRootTag(), Tag.VARIABLEFOLDER, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -66,8 +66,8 @@ public class VariableNodeDataModel extends VariableDataModelAdapter{
 					this.add(new VariableElementDataModel(variableElement, baseRootDataModel ));
 				
 				//Ha ujabb VARIABLENODE van alatta
-				}else if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() )){
-					this.add(new VariableNodeDataModel(variableElement, baseRootDataModel ));
+				}else if( variableElement.getTagName().equals( Tag.VARIABLEFOLDER.getName() )){
+					this.add(new VariableFolderNodeDataModel(variableElement, baseRootDataModel ));
 				}
 			}
 		}
@@ -118,7 +118,7 @@ public class VariableNodeDataModel extends VariableDataModelAdapter{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( VariableNodeDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( VariableFolderNodeDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
@@ -147,7 +147,7 @@ public class VariableNodeDataModel extends VariableDataModelAdapter{
 	public Object clone(){
 		
 		//Leklonozza a NODE-ot
-		VariableNodeDataModel cloned = (VariableNodeDataModel)super.clone();
+		VariableFolderNodeDataModel cloned = (VariableFolderNodeDataModel)super.clone();
 
 		//Ha vannak gyerekei (NODE vagy ELEMENT)
 		if( null != this.children ){
@@ -180,7 +180,7 @@ public class VariableNodeDataModel extends VariableDataModelAdapter{
 	@Override
 	public Object cloneWithParent() {
 		
-		VariableNodeDataModel cloned = (VariableNodeDataModel) this.clone();
+		VariableFolderNodeDataModel cloned = (VariableFolderNodeDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );

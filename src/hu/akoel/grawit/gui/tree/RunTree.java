@@ -11,6 +11,7 @@ import javax.swing.tree.TreePath;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
@@ -46,10 +47,13 @@ public class RunTree extends Tree {
 //		ImageIcon customIcon = CommonOperations.createImageIcon("tree/testcase-custom-icon.png");
 //    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-icon.png");
     	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
-    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/testcase-node-closed-icon.png");
-    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/testcase-node-open-icon.png");
-    	  	
-    	if( actualNode instanceof TestcaseCaseDataModel){
+    	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/testcase-folder-closed-icon.png");
+    	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/testcase-folder-open-icon.png");
+    	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
+    	  
+    	if( actualNode instanceof TestcaseRootDataModel){
+            return rootIcon;
+    	}else if( actualNode instanceof TestcaseCaseDataModel){
             return caseIcon;
 /*    	}else if( actualNode instanceof TestcaseParamPageDataModel ){
             return pageIcon;

@@ -16,40 +16,40 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DriverNodeDataModel extends DriverDataModelAdapter{
+public class DriverFolderDataModel extends DriverDataModelAdapter{
 
 	private static final long serialVersionUID = -5861123418343409565L;
 
-	public static final Tag TAG = Tag.DRIVERNODE;
+	public static final Tag TAG = Tag.DRIVERFOLDER;
 	
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name;
 	private String details;
 	
-	public DriverNodeDataModel( String name, String details ){
+	public DriverFolderDataModel( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;
 	}
 	
 	/**
-	 * XML alapjan legyartja a DRIVERNODE-ot es az alatta elofordulo 
+	 * XML alapjan legyartja a DRIVERFOLDER-t es az alatta elofordulo 
 	 * DRIVERNODE-okat, illetve DRIVEREXPLORER, DRIVERFIREFOX-eket
 	 * 
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public DriverNodeDataModel( Element element ) throws XMLPharseException{
+	public DriverFolderDataModel( Element element ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVERNODE, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( DriverFolderDataModel.getRootTag(), Tag.DRIVERFOLDER, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVERNODE, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( DriverFolderDataModel.getRootTag(), Tag.DRIVERFOLDER, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -70,8 +70,8 @@ public class DriverNodeDataModel extends DriverDataModelAdapter{
 
 					
 				//Ha ujabb DRIVERNODE van alatta
-				}else if( driverElement.getTagName().equals( Tag.DRIVERNODE.getName() )){
-					this.add(new DriverNodeDataModel(driverElement));
+				}else if( driverElement.getTagName().equals( Tag.DRIVERFOLDER.getName() )){
+					this.add(new DriverFolderDataModel(driverElement));
 				}
 			}
 		}
@@ -126,7 +126,7 @@ public class DriverNodeDataModel extends DriverDataModelAdapter{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( DriverNodeDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( DriverFolderDataModel.this.getTag().getName() );
 		
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
@@ -155,7 +155,7 @@ public class DriverNodeDataModel extends DriverDataModelAdapter{
 	@Override
 	public Object clone(){
 		
-		DriverNodeDataModel cloned = (DriverNodeDataModel)super.clone();
+		DriverFolderDataModel cloned = (DriverFolderDataModel)super.clone();
 	
 		if( null != this.children ){
 			cloned.children = (Vector<?>) this.children.clone();
@@ -168,7 +168,7 @@ public class DriverNodeDataModel extends DriverDataModelAdapter{
 	@Override
 	public Object cloneWithParent() {
 		
-		DriverNodeDataModel cloned = (DriverNodeDataModel) this.clone();
+		DriverFolderDataModel cloned = (DriverFolderDataModel) this.clone();
 		
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );

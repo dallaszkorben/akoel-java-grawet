@@ -54,7 +54,7 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<Driv
 		
 		//Details
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( DriverNodeDataModel.getRootTag(), Tag.DRIVERNODE, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( DriverFolderDataModel.getRootTag(), Tag.DRIVERFOLDER, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		this.details = element.getAttribute( ATTR_DETAILS );		
 

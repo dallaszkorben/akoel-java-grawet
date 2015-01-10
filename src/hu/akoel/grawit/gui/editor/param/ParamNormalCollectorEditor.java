@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -23,17 +23,17 @@ public class ParamNormalCollectorEditor extends DataEditor{
 
 	private Tree tree; 
 	private ParamNormalCollectorDataModel nodeForModify;
-	private ParamNodeDataModel nodeForCapture;
+	private ParamFolderDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelBasePageSelector;
 	private BaseCollectorTreeSelectorComponent fieldBasePageSelector;
-	private BaseRootDataModel baseRootDataModel;
+//	private BaseRootDataModel baseRootDataModel;
 	
 	//Itt biztos beszuras van
-	public ParamNormalCollectorEditor( Tree tree, ParamNodeDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public ParamNormalCollectorEditor( Tree tree, ParamFolderDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 
 		super( ParamNormalCollectorDataModel.getModelNameToShowStatic());
 				
@@ -46,7 +46,7 @@ public class ParamNormalCollectorEditor extends DataEditor{
 		
 		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)	
 		fieldBasePageSelector = new BaseCollectorTreeSelectorComponent( baseRootDataModel, true );
-		this.baseRootDataModel = baseRootDataModel;
+//		this.baseRootDataModel = baseRootDataModel;
 		
 		common();
 		
@@ -68,7 +68,7 @@ public class ParamNormalCollectorEditor extends DataEditor{
 		
 		//PAGEBASEPAGE SELECTOR COMBO
 		fieldBasePageSelector =  new BaseCollectorTreeSelectorComponent( baseRootDataModel, basePage, true );
-		this.baseRootDataModel = baseRootDataModel;
+//		this.baseRootDataModel = baseRootDataModel;
 		
 		common();
 		

@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class BaseRootDataModel extends BaseNodeDataModel{
+public class BaseRootDataModel extends BaseNodeDataModelAdapter{
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
@@ -49,9 +49,9 @@ public class BaseRootDataModel extends BaseNodeDataModel{
 					if (baseNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element baseElement = (Element)baseNode;
 					
-						//Ha ujabb BASENODE van alatta
-						if( baseElement.getTagName().equals( Tag.BASENODE.getName() ) ){
-							this.add(new BaseNodeDataModel(baseElement));
+						//Ha ujabb BASEFOLDER van alatta
+						if( baseElement.getTagName().equals( Tag.BASEFOLDER.getName() ) ){
+							this.add(new BaseFolderDataModel(baseElement));
 						}
 					}
 				}

@@ -1,10 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.base;
 
-import java.util.Vector;
-
 import javax.swing.tree.MutableTreeNode;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,21 +15,17 @@ import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class BaseCollectorDataModel extends BaseNodeDataModel  {//BaseDataModelAdapter{
+public class BaseCollectorDataModel extends BaseNodeDataModelAdapter  {//BaseDataModelAdapter{
 
 	private static final long serialVersionUID = 8871077064641984017L;
 	
 	public static final Tag TAG = Tag.BASECOLLECTOR;
 	
 	public static final String ATTR_DETAILS = "details";
-	
-//	private String name ;
-//	private String details;
 		
 	public BaseCollectorDataModel( String name, String details ){
 		super( name, details );
-		//this.name = name;
-		//this.details = details;
+
 	}
 		
 	/**
@@ -44,21 +37,12 @@ public class BaseCollectorDataModel extends BaseNodeDataModel  {//BaseDataModelA
 	 */
 	public BaseCollectorDataModel( Element element ) throws XMLPharseException{
 		super( element );
-/*		
-		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME );			
-		}
-		String nameString = element.getAttribute( ATTR_NAME );
-		this.name = nameString;
-		
-		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_DETAILS );			
-		}
-		String detailsString = element.getAttribute( ATTR_DETAILS );
-		this.details = detailsString;
 
-		
-		//Vegig a BASEELEMENT-ekent
+		//========
+		//
+		// Gyermekein
+		//
+		//========
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
@@ -89,7 +73,7 @@ public class BaseCollectorDataModel extends BaseNodeDataModel  {//BaseDataModelA
 				
 			}
 		}
-*/				
+				
 	}
 	
 	@Override
@@ -135,8 +119,11 @@ public class BaseCollectorDataModel extends BaseNodeDataModel  {//BaseDataModelA
 */	
 	@Override
 	public Element getXMLElement(Document document) {
-		Attr attr;
+		//Attr attr;
 	
+		Element pageElement = super.getXMLElement(document); 
+
+/*		
 		//Node element
 		Element pageElement = document.createElement( BaseCollectorDataModel.this.getTag().getName() );
 		
@@ -149,7 +136,7 @@ public class BaseCollectorDataModel extends BaseNodeDataModel  {//BaseDataModelA
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		pageElement.setAttributeNode(attr);		
-
+		
 		int childrens = this.getChildCount();
 		for( int i = 0; i < childrens; i++ ){
 			
@@ -162,7 +149,7 @@ public class BaseCollectorDataModel extends BaseNodeDataModel  {//BaseDataModelA
 		    	
 			}
 		}
-		
+*/		
 		return pageElement;	
 	}
 /*	

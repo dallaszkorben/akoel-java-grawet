@@ -12,7 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class VariableRootDataModel extends VariableNodeDataModel{
+public class VariableRootDataModel extends VariableFolderNodeDataModel{
 
 	private static final long serialVersionUID = -4193611923372308352L;
 
@@ -48,8 +48,8 @@ public class VariableRootDataModel extends VariableNodeDataModel{
 						Element variableElement = (Element)variableNode;
 					
 						//Ha ujabb PARAMNODE van alatta
-						if( variableElement.getTagName().equals( Tag.VARIABLENODE.getName() ) ){						
-							this.add(new VariableNodeDataModel( variableElement, baseRootDataModel ));
+						if( variableElement.getTagName().equals( Tag.VARIABLEFOLDER.getName() ) ){						
+							this.add(new VariableFolderNodeDataModel( variableElement, baseRootDataModel ));
 					
 						//Ha rogton a rootban van elhelyezve egy elem
 						}else if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() ) ){

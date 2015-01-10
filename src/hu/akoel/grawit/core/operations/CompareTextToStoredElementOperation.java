@@ -18,8 +18,8 @@ import org.xml.sax.InputSource;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -95,9 +95,9 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	    	String attrName = null;
 	    	
 	    	//Ha BASENODE
-	    	if( tagName.equals( BaseNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(BaseNodeDataModel.ATTR_NAME);	    		
-	    		baseDataModelForCompareText = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForCompareText, Tag.BASENODE, attrName );
+	    	if( tagName.equals( BaseFolderDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(BaseFolderDataModel.ATTR_NAME);	    		
+	    		baseDataModelForCompareText = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForCompareText, Tag.BASEFOLDER, attrName );
 
 	    		if( null == baseDataModelForCompareText ){
 
