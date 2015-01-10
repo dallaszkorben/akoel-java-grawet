@@ -18,7 +18,7 @@ import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class BaseCollectorDataModel extends BaseDataModelAdapter{
+public class BaseCollectorDataModel extends BaseNodeDataModel  {//BaseDataModelAdapter{
 
 	private static final long serialVersionUID = 8871077064641984017L;
 	
@@ -26,12 +26,13 @@ public class BaseCollectorDataModel extends BaseDataModelAdapter{
 	
 	public static final String ATTR_DETAILS = "details";
 	
-	private String name ;
-	private String details;
+//	private String name ;
+//	private String details;
 		
 	public BaseCollectorDataModel( String name, String details ){
-		this.name = name;
-		this.details = details;
+		super( name, details );
+		//this.name = name;
+		//this.details = details;
 	}
 		
 	/**
@@ -42,7 +43,8 @@ public class BaseCollectorDataModel extends BaseDataModelAdapter{
 	 * @throws XMLPharseException 
 	 */
 	public BaseCollectorDataModel( Element element ) throws XMLPharseException{
-		
+		super( element );
+/*		
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME );			
 		}
@@ -54,6 +56,7 @@ public class BaseCollectorDataModel extends BaseDataModelAdapter{
 		}
 		String detailsString = element.getAttribute( ATTR_DETAILS );
 		this.details = detailsString;
+
 		
 		//Vegig a BASEELEMENT-ekent
 		NodeList nodelist = element.getChildNodes();
@@ -81,17 +84,12 @@ public class BaseCollectorDataModel extends BaseDataModelAdapter{
 						this.add(new NormalBaseElementDataModel(baseElement));
 					}
 				
-/*				if( baseElement.getTagName().equals( Tag.NORMALBASEELEMENT.getName() )){					
-					this.add(new NormalBaseElementDataModel(baseElement));
 				
-				}else if( baseElement.getTagName().equals( Tag.SPECIALBASEELEMENT.getName() ) ){
-
-					this.add( new SpecialBaseElementDataModel(baseElement));
-*/					
 				}
 				
 			}
-		}		
+		}
+*/				
 	}
 	
 	@Override
@@ -100,7 +98,7 @@ public class BaseCollectorDataModel extends BaseDataModelAdapter{
 		//return getTagStatic();
 	}
 
-	@Override
+/*	@Override
 	public String getName(){
 		return name;
 	}
@@ -116,7 +114,7 @@ public class BaseCollectorDataModel extends BaseDataModelAdapter{
 	public void setDetails(String details) {
 		this.details = details;
 	}
-
+*/
 	@Override
 	public void add(BaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
@@ -131,10 +129,10 @@ public class BaseCollectorDataModel extends BaseDataModelAdapter{
 		return getModelNameToShowStatic();
 	}
 
-	public String toString(){
+/*	public String toString(){
 		return name;
 	}
-	
+*/	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
@@ -167,7 +165,7 @@ public class BaseCollectorDataModel extends BaseDataModelAdapter{
 		
 		return pageElement;	
 	}
-	
+/*	
 	@Override
 	public Object clone(){
 		
@@ -213,5 +211,5 @@ public class BaseCollectorDataModel extends BaseDataModelAdapter{
 		
 		return cloned;
 	}
-	
+*/	
 }

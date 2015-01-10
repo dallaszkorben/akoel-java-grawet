@@ -37,18 +37,36 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 	
 	public ParamNodeDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
+		//========
+		//
+		// Name
+		//
+		//========
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( ParamNodeDataModel.getRootTag(), Tag.PARAMNODE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
-		
+
+		//========
+		//
+		// Details
+		//
+		//========
+		String detailsString;
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( ParamNodeDataModel.getRootTag(), Tag.PARAMNODE, ATTR_NAME, getName(), ATTR_DETAILS );			
-		}		
-		String detailsString = element.getAttribute( ATTR_DETAILS );		
+		//	throw new XMLMissingAttributePharseException( ParamNodeDataModel.getRootTag(), Tag.PARAMNODE, ATTR_NAME, getName(), ATTR_DETAILS );
+			detailsString = "";
+		}else{		
+			detailsString = element.getAttribute( ATTR_DETAILS );
+		}
 		this.details = detailsString;
 		
+	    //========
+		//
+		// Gyermekei
+		//
+	    //========
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
@@ -63,7 +81,7 @@ public class ParamNodeDataModel extends ParamDataModelAdapter{
 				}else if( pageElement.getTagName().equals( Tag.PARAMLOOPELEMENTCOLLECTOR.getName() )){					
 					this.add(new ParamLoopCollectorDataModel(pageElement, variableRootDataModel, baseRootDataModel ) );
 						
-				//Ha ujabb BASENODE van alatta
+				//Ha ujabb PARAMNODE van alatta
 				}else if( pageElement.getTagName().equals( Tag.PARAMNODE.getName() )){					
 					this.add(new ParamNodeDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 				}

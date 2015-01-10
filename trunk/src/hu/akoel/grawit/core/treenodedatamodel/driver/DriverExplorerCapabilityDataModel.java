@@ -7,13 +7,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
 
-public class DriverExplorerCapabilityDataModel extends DriverDataModelInterface{
+public class DriverExplorerCapabilityDataModel extends DriverDataModelAdapter{
 
 	private static final long serialVersionUID = 2921936584954476404L;
 
@@ -154,7 +154,7 @@ public class DriverExplorerCapabilityDataModel extends DriverDataModelInterface{
 	}
 
 	@Override
-	public void add( DriverDataModelInterface node ) {
+	public void add( DriverDataModelAdapter node ) {
 	}
 
 	@Override

@@ -5,11 +5,9 @@ import java.util.Vector;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -47,20 +45,35 @@ public class TestcaseNodeDataModel extends TestcaseDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseNodeDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelInterface driverRootDataModel ) throws XMLPharseException{
+	public TestcaseNodeDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel ) throws XMLPharseException{
 		
+		//========
+		//
+		// Name
+		//
+		//========	
 		if( !element.hasAttribute( ATTR_NAME ) ){
 			throw new XMLMissingAttributePharseException( TestcaseNodeDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
+		//========
+		//
+		// Details
+		//
+		//========	
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
 			throw new XMLMissingAttributePharseException( TestcaseNodeDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
 		
+		//========
+		//
+		// Gyermekei
+		//
+		//========	
 		NodeList nodelist = element.getChildNodes();
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );

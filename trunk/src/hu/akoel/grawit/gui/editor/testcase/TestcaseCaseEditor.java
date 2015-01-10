@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -56,7 +56,7 @@ public class TestcaseCaseEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcaseCaseEditor( Tree tree, TestcaseCaseDataModel selectedNode, DriverDataModelInterface driverDataModel, EditMode mode ){		
+	public TestcaseCaseEditor( Tree tree, TestcaseCaseDataModel selectedNode, DriverDataModelAdapter driverDataModel, EditMode mode ){		
 		
 		super( mode, selectedNode.getNodeTypeToShow());
 

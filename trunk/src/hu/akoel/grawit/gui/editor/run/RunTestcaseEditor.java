@@ -33,11 +33,11 @@ import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -85,7 +85,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		return needToStop;
 	}
 
-	public RunTestcaseEditor( Tree tree, TestcaseDataModelAdapter testcaseDataModel, DriverDataModelInterface driverDataModel ){	
+	public RunTestcaseEditor( Tree tree, TestcaseDataModelAdapter testcaseDataModel, DriverDataModelAdapter driverDataModel ){	
 
 		super(
 				( testcaseDataModel instanceof TestcaseRootDataModel) ? 
@@ -510,9 +510,9 @@ elementProgres.outputCommand( "	" );
 					TreeNode treeNode = actualTestcase.getChildAt(index);
 					
 					//Ha sima Page
-					if( treeNode instanceof TestcaseParamCollectorDataModelAdapter ){
+					if( treeNode instanceof TestcaseParamDataModelAdapter ){
 						
-						TestcaseParamCollectorDataModelAdapter pageToRun = (TestcaseParamCollectorDataModelAdapter)treeNode;
+						TestcaseParamDataModelAdapter pageToRun = (TestcaseParamDataModelAdapter)treeNode;
 						pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
 
 					}					

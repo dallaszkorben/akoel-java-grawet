@@ -6,7 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
@@ -29,8 +29,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-
-
 public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 
 	private static final long serialVersionUID = 5361088361756620748L;
@@ -52,7 +50,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 		this.driver = driver;
 	}
 	
-	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelInterface driverDataModel ) throws XMLPharseException{		
+	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverDataModel ) throws XMLPharseException{		
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -65,7 +63,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModel{
 		}else if( nList.getLength() == 1 ){
 		
 			//Clonozom, hogy az eredeti ROOT megmaradjon, amit atadok parameterkent a TestcaseNodeDataModel() Objektumnak
-			DriverDataModelInterface dDataModel = (DriverDataModelInterface) driverDataModel.clone();
+			DriverDataModelAdapter dDataModel = (DriverDataModelAdapter) driverDataModel.clone();
 			
 			Node testcaseRootNode = nList.item(0);
 			if (testcaseRootNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -128,7 +126,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 				    	
 				    	if( tagName.equals( DriverNodeDataModel.TAG.getName() ) ){
 				    		attrName = actualElement.getAttribute(DriverNodeDataModel.ATTR_NAME);	    		
-				    		dDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVERNODE, attrName );
+				    		dDataModel = (DriverDataModelAdapter) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVERNODE, attrName );
 
 				    		if( null == dDataModel ){
 
@@ -138,7 +136,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 				    	//Ha DRIVERFIREFOX
 				    	}else if( tagName.equals( DriverFirefoxDataModel.TAG.getName() ) ){
 				    		attrName = actualElement.getAttribute(DriverFirefoxDataModel.ATTR_NAME);
-				    		dDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVERFIREFOX, attrName );
+				    		dDataModel = (DriverDataModelAdapter) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVERFIREFOX, attrName );
 				    		
 				    		if( null == dDataModel ){
 				    		
@@ -148,7 +146,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 				    	//Ha DRIVERFIREFOXPROPERY
 				    	}else if( tagName.equals( DriverFirefoxPropertyDataModel.TAG.getName() ) ){
 				    		attrName = actualElement.getAttribute(DriverFirefoxPropertyDataModel.ATTR_NAME);
-				    		dDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVERFIREFOXPROPERTY, attrName );
+				    		dDataModel = (DriverDataModelAdapter) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVERFIREFOXPROPERTY, attrName );
 				    		
 				    		if( null == dDataModel ){
 				    			
@@ -158,7 +156,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 				    	//Ha EXPLORER
 				    	}else if( tagName.equals( DriverExplorerDataModel.TAG.getName() ) ){
 				    		attrName = actualElement.getAttribute(DriverExplorerDataModel.ATTR_NAME);
-				    		dDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVEREXPLORER, attrName );
+				    		dDataModel = (DriverDataModelAdapter) CommonOperations.getDataModelByNameInLevel( dDataModel, Tag.DRIVEREXPLORER, attrName );
 					    		
 				    		if( null == dDataModel ){
 					    		
