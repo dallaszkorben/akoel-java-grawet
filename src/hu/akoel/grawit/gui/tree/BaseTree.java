@@ -145,7 +145,7 @@ public class BaseTree extends Tree{
 			popupMenu.add ( insertNodeMenu );
 
 			//Insert Page
-			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.page") );
+			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.base.collector") );
 			insertPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertPageMenu.addActionListener( new ActionListener() {
 			

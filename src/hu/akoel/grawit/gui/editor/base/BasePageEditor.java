@@ -130,7 +130,7 @@ public class BasePageEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.base.page") 
+										CommonOperations.getTranslation("tree.nodetype.base.collector") 
 								) 
 							);
 							break;

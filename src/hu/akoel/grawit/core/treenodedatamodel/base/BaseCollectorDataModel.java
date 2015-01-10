@@ -105,7 +105,7 @@ public class BaseCollectorDataModel extends BaseNodeDataModelAdapter  {//BaseDat
 	}
 
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.base.page");
+		return CommonOperations.getTranslation( "tree.nodetype.base.collector");
 	}
 	
 	@Override

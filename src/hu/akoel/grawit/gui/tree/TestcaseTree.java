@@ -165,7 +165,7 @@ public class TestcaseTree extends Tree {
 		if( selectedNode instanceof TestcaseCaseDataModel ){
 
 			//Insert Page
-			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.parampage") );
+			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.paramcollector") );
 			insertParamPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertParamPageMenu.addActionListener( new ActionListener() {
 			
