@@ -56,7 +56,8 @@ public class DriverRootDataModel extends DriverFolderDataModel{
 	@Override
 	public String getName(){
 		//return "/";
-		return "Driver Root";
+		//return "Driver Root";
+		return CommonOperations.getTranslation( "tree.nodetype.driver.root.name");
 	}
 
 	@Override

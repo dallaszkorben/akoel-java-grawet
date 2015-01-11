@@ -80,32 +80,7 @@ public class ScriptBaseElementEditor extends DataEditor{
 		
 		//Name
 		fieldName = new TextFieldComponent( selectedNode.getName() );
-/*		
-		//Frame
-		fieldFrame = new TextFieldComponent( selectedNode.getFrame() );
-				
-		//Identifier
-		fieldIdentifier = new TextFieldComponent( selectedNode.getSelector() );
-		
-		//Waiting time
-		Integer waitingTime = selectedNode.getWaitingTime();
-		if( null == waitingTime ){
-			fieldWaitingTime = new TextFieldComponent( "" );
-		}else{
-			fieldWaitingTime = new TextFieldComponent( waitingTime.toString() );
-		}
-	
-		//Identifier type
-	    SelectorType idType = selectedNode.getSelectorType();	    
-	   	if( idType.equals( SelectorType.ID ) ){
-	   		buttonID.setSelected(true);
-	   	}else if( idType.equals( SelectorType.CSS ) ){
-	   		buttonCSS.setSelected(true);
-	   	}
-			
-	   	//Element type
-	   	comboElementType.setSelectedIndex( selectedNode.getElementType().getIndex() );
-*/	   	
+	   	
 		commonPost( selectedNode.getScript() );
 		
 	}
@@ -135,7 +110,6 @@ public class ScriptBaseElementEditor extends DataEditor{
 
 		//Ertekek trimmelese		
 		fieldName.setText( fieldName.getText().trim() );
-//		fieldIdentifier.setText( fieldIdentifier.getText().trim() );
 		
 		//
 		//Hibak eseten a hibas mezok osszegyujtese
@@ -203,21 +177,22 @@ public class ScriptBaseElementEditor extends DataEditor{
 		}else{
 		
 			//Akkor eloszor a kod szintaktikai ellenorzese kovetkezik
-			ScriptBaseElementDataModel specialBaseElement = new ScriptBaseElementDataModel( fieldName.getText(), fieldScript.getScript() );				
+			ScriptBaseElementDataModel scriptBaseElement = new ScriptBaseElementDataModel( fieldName.getText(), fieldScript.getScript() );				
 			
 			//Kod legyartasa
-			CompilationTask task = specialBaseElement.generateTheCode();
+			//CompilationTask task = specialBaseElement.generateTheCode();
 			
 			//Kod forditasa
-			boolean success = specialBaseElement.compileTheCode( task );
+			//boolean success = specialBaseElement.compileTheCode( task );
 
 			//Ha NEM sikerult a forditas
-			if( !success ){
+			//if( !success ){
+			if( !scriptBaseElement.isCodeOk() ){
 				errorList.put( 
 						fieldScript, 
 						//MessageFormat.format( 
 								CommonOperations.getTranslation("editor.errormessage.formaterrorcustomscript") + "\n\n" + 
-								specialBaseElement.getDiagnostic()
+								scriptBaseElement.getDiagnostic()
 								/*, 
 								fieldScript.getScript(), 
 								CommonOperations.getTranslation("tree.nodetype.special.custom")*/ 
@@ -233,7 +208,7 @@ public class ScriptBaseElementEditor extends DataEditor{
 				//Uj rogzites eseten
 				if( null == mode ){
 			
-					nodeForCapture.add( specialBaseElement );
+					nodeForCapture.add( scriptBaseElement );
 				
 					//Modositas eseten
 				}else if( mode.equals(EditMode.MODIFY ) ){

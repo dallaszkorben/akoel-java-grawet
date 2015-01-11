@@ -205,14 +205,14 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 
 	@Override
 	public Tag getTag() {
-		//return TAG;
 		return getTagStatic();
 	}
 
 	@Override
 	public String getName(){
 		//return "/";
-		return "Test Case Root";
+		//return "Test Case Root";
+		return CommonOperations.getTranslation( "tree.nodetype.testcase.root.name");
 	}
 	
 	@Override

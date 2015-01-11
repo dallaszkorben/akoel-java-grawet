@@ -63,8 +63,8 @@ public class VariableRootDataModel extends VariableFolderNodeDataModel{
 	
 	@Override
 	public String getName(){
-		//return "/";
-		return "Variable Root";
+		//return "Variable Root";
+		return CommonOperations.getTranslation( "tree.nodetype.variable.root.name");
 	}
 
 	@Override

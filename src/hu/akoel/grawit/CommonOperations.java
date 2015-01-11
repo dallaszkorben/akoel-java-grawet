@@ -85,11 +85,11 @@ public class CommonOperations {
 	}
 	
 	public static String getTranslation( String code ){
-		return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Translation", Settings.getInstance().getLocale() ).getString( code );
+		return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Translation", WorkingDirectory.getInstance().getLocale() ).getString( code );
 	}
 	
 	public static DateFormat getDateFormat(){
-		return DateFormat.getDateInstance(DateFormat.SHORT, Settings.getInstance().getLocale() );
+		return DateFormat.getDateInstance(DateFormat.SHORT, WorkingDirectory.getInstance().getLocale() );
 	}
 
 	public static SimpleDateFormat getYearFormat(){

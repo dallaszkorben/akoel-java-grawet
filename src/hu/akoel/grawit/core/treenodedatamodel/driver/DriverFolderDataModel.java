@@ -92,7 +92,7 @@ public class DriverFolderDataModel extends DriverDataModelAdapter{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.driver.node");
+		return CommonOperations.getTranslation( "tree.nodetype.driver.folder");
 	}
 	
 	@Override
