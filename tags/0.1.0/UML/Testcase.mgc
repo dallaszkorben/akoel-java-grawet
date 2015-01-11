@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel"
+        x="537" y="332">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamCollectorDataModel"
+        x="77" y="443">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamCollectorDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"
+        x="407" y="127">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel"
+        x="120" y="157">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter"
+        x="347" y="31">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamCollectorDataModelAdapter"
+        x="76" y="333">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModel"/>
+    </Class>
+</ClassDiagram>
