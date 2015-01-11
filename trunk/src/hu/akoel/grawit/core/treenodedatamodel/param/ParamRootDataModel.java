@@ -63,7 +63,8 @@ public class ParamRootDataModel extends ParamNodeDataModelAdapter{
 	@Override
 	public String getName(){
 		//return "/";
-		return "Param Root";
+		//return "Param Root";
+		return CommonOperations.getTranslation( "tree.nodetype.param.root.name");
 	}
 
 	@Override

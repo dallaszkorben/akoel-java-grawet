@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.Settings;
+import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
@@ -49,7 +49,7 @@ elementProgress.outputCommand("		//" + baseElement.getName() );
 			//WAITING TIME FOR APPEARANCE
 			Integer waitingTimeForAppearance = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
 			if( null == waitingTimeForAppearance ){
-				waitingTimeForAppearance = Settings.getInstance().getWaitingTime();
+				waitingTimeForAppearance = WorkingDirectory.getInstance().getWaitingTime();
 			}
 			
 			//WAITING TIME BEFORE OPERATION

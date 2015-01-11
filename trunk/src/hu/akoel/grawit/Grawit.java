@@ -7,12 +7,12 @@ import org.openqa.selenium.WebDriver;
 
 public class Grawit {
 	private static final String title = "Grawit";
-	private static final String version = "0.0.6";
+	private static final String version = "0.0.7";
 	private static final String designer = "akoelSoft";
 	
 	//private static final String grawitIniDirectory = ".grawit";
 	
-	private static int frameWidth = 1000;
+	private static int frameWidth = 1200;
 	private static int frameHeight = 600;
 	
 	WebDriver driver;
@@ -34,7 +34,7 @@ public class Grawit {
 		//
 		// Settings betoltese
 		//
-		Settings.getInstance().load();
+		WorkingDirectory.getInstance();
 		 
 		//
 		// Window letrehzasa

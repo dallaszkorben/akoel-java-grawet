@@ -12,11 +12,6 @@ public class JavaSourceFromString extends SimpleJavaFileObject {
 		this.sourceCode = sourceCode;
 	}
 
-/*	@Override
-	public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-		return sourceCode;
-	}
-*/	
 	public String getSourceCode(){
 		return sourceCode;
 	}

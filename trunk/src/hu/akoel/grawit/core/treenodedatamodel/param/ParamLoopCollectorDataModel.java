@@ -10,7 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.Settings;
+import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
@@ -422,7 +422,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 							//a Bazis elemhez tartozo warakozasi ido
 							Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
 							if( null == waitingTime ){
-								waitingTime = Settings.getInstance().getWaitingTime();
+								waitingTime = WorkingDirectory.getInstance().getWaitingTime();
 							}
 							WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 					

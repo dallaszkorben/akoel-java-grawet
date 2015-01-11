@@ -65,14 +65,14 @@ public class BaseRootDataModel extends BaseNodeDataModelAdapter{
 
 	@Override
 	public Tag getTag() {
-		//return TAG;
 		return getTagStatic();
 	}
 
 	@Override
 	public String getName(){
 		//return "/";
-		return "Base Root";
+		//return "Base Root";
+		return CommonOperations.getTranslation( "tree.nodetype.base.root.name");
 	}
 	
 	@Override

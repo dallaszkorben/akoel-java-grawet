@@ -30,6 +30,7 @@ import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.JavaSourceFromString;
+import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
@@ -50,7 +51,7 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 	
 	private ArrayList<String> parameters = new ArrayList<>();
 	
-	private static String customClassName = "CustomClass";
+	private static String customClassName = WorkingDirectory.getDynamicallyCompiledClassName();//"CustomClass"; //Ez a nev le lesz majd cserelve
 	private static String customMethodName = "doAction";
 	
 	private static final String codePre = 
@@ -76,19 +77,14 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 	private DiagnosticCollector<JavaFileObject> diagnostics;
 	//private String classOutputFolder = "";
 	
-
-	
-	
 	//Adatmodel ---
 	private String script;
 	//----
 
-	private String workingPath = System.getProperty("user.dir") + System.getProperty("file.separator");
+	private String classPath = WorkingDirectory.getClassDirectory().getAbsolutePath() + System.getProperty("file.separator");
 	
 private int identification = this.hashCode();
-//private String identification = "";
 private StandardJavaFileManager stdFileManager;
-
 
 	/**
 	 * 
@@ -140,13 +136,11 @@ private StandardJavaFileManager stdFileManager;
 	public Tag getTag() {
 		return getTagStatic();
 	}
-
 	
 	public ElementTypeListEnum getElementType(){
 		return elementType;
 	}
-	
-	
+		
 	public void addParameter( String parameter ){
 		this.parameters.add( parameter );
 	}
@@ -173,10 +167,11 @@ private StandardJavaFileManager stdFileManager;
 
 	public void doAction( WebDriver driver ) throws CompilationException, ElementException {
 		
-identification++;		
+		identification++;		
+		String actualClassName = getFileName(customClassName, identification);
 
 		//Kod legyartasa
-		CompilationTask task = generateTheCode();
+		CompilationTask task = generateTheCode( getScript(), actualClassName );
 
 		//Kod forditasa
 		boolean success = compileTheCode( task );
@@ -185,7 +180,7 @@ identification++;
 		if( success ){
 		
 			//Akkor futtatja a kodot
-			runTheCode( driver );
+			runTheCode( driver, actualClassName );
 
 		//Forditas alatt hiba tortent
 		}else{
@@ -199,35 +194,30 @@ identification++;
 			}
 		}		
 	}
-	
-	public  CompilationTask generateTheCode( ){
-		return generateTheCode( getScript() );
-	}
-	
-	private CompilationTask generateTheCode( String source ){
+		
+	private CompilationTask generateTheCode( String source, String actualClassName ){
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		diagnostics = new DiagnosticCollector<JavaFileObject>();
 		
 stdFileManager = compiler.getStandardFileManager(null, null, null);
 try {
-	stdFileManager.setLocation( StandardLocation.CLASS_OUTPUT, Arrays.asList(new File( workingPath )));
+	stdFileManager.setLocation( StandardLocation.CLASS_OUTPUT, Arrays.asList(new File( classPath )));
 } catch (IOException e) {
 	// TODO Auto-generated catch block
 	e.printStackTrace();
 }
-		
 		//Legyartom a kodot
 		StringWriter writer = new StringWriter();	
 		PrintWriter out = new PrintWriter(writer);
 		
 		//out.println( codePre );
-		out.println( codePre.replace( customClassName, customClassName + identification ) );
+		out.println( codePre.replace( customClassName, actualClassName ) );
 		out.println( source );
 		out.println( codePost );
 
 		out.close();
 
-		javaFile = new JavaSourceFromString( customClassName + identification, writer.toString() );
+		javaFile = new JavaSourceFromString( actualClassName, writer.toString() );
 
 	    Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(javaFile);
 
@@ -238,22 +228,23 @@ try {
 	    return task;
 	}
 	
-	public boolean compileTheCode( CompilationTask task ){
+	private boolean compileTheCode( CompilationTask task ){
 		boolean success = task.call();
 		return success;
 	}
 	
-	private void runTheCode( WebDriver driver ) throws ElementException{
+	private void runTheCode( WebDriver driver, String actualClassName ) throws ElementException{
 		try {	    	  
-			
-			//File f = new File(classOutputFolder);
-			File f = new File(workingPath);
+						
+			//File f = new File(workingPath);
+			File f = WorkingDirectory.getClassDirectory();
 
 			URL url = f.toURI().toURL();
 			URL[] urls = new URL[] { url };
+			
 			@SuppressWarnings("resource")
 			ClassLoader loader = new URLClassLoader(urls);
-			Class<?> thisClass = loader.loadClass( customClassName + identification );
+			Class<?> thisClass = loader.loadClass( actualClassName );
 			Object instance = thisClass.newInstance();
 			//Method thisMethod = thisClass.getDeclaredMethod("doAction", new Class[] { String[].class });
 			
@@ -261,22 +252,9 @@ try {
 
 			//thisMethod.invoke(instance, new Object[] {null});	
 			thisMethod.invoke( instance, driver, parameters, this );
-			//loader = null;	    	  
 
-			//---------------------------------
 			// Torli a letrehozott class file-t
-			//---------------------------------
-			File fileToDelete = new File(workingPath + customClassName + identification + ".class");
-			fileToDelete.delete();
-			
-			//---------------------------------
-			// Lezarja a filemanager-t
-			//---------------------------------
-			try {
-				stdFileManager.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			deleteClassFile(actualClassName);
 			
         //Class.forName("HelloWorld").getDeclaredMethod("main", new Class[] { String[].class }).invoke(null, new Object[] { null });
 		//TODO sajat hibakezelot tenni ra				
@@ -314,6 +292,46 @@ try {
 		}
 	}
 
+	private String getFileName(String customClassName, Integer identification ){
+		return customClassName + "_" + identification;
+	}
+	
+	private void deleteClassFile( String actualClassName ){
+		
+		//---------------------------------
+		// Torli a letrehozott class file-t
+		//---------------------------------
+		//File fileToDelete = new File( workingPath + customClassName + identification + ".class");
+		File fileToDelete = new File( classPath + actualClassName + ".class");
+		fileToDelete.delete();
+		
+		//---------------------------------
+		// Lezarja a filemanager-t
+		//---------------------------------
+		try {
+			stdFileManager.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean isCodeOk(){
+		
+		identification++;		
+		String actualClassName = getFileName(customClassName, identification);
+
+		//Kod legyartasa
+		CompilationTask task = generateTheCode( getScript(), actualClassName );
+
+		//Kod forditasa
+		boolean success = compileTheCode( task );
+
+		//Torli a letrehozott class file-t
+		deleteClassFile(actualClassName);
+		
+		return success;
+	}
+	
 	public List<Diagnostic<? extends JavaFileObject>> getDiagnostic(){
 		return diagnostics.getDiagnostics();
 	}

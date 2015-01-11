@@ -17,7 +17,7 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.Settings;
+import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
@@ -265,7 +265,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 					//a Bazis elemhez tartozo warakozasi ido
 					Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
 					if( null == waitingTime ){
-						waitingTime = Settings.getInstance().getWaitingTime();
+						waitingTime = WorkingDirectory.getInstance().getWaitingTime();
 					}
 					WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 			
