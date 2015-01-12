@@ -74,16 +74,7 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 		String origText = "";
 		
 		//GAIN TEXT
-		//Ha LIST
-/*		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
-
-			Select select = new Select(webElement);
-			origText = select.getFirstSelectedOption().getText();
-*/			
-		//Ha FIELD/CHECKBOX/RADIOBUTTON
-//		}else{		
-			origText = webElement.getText();
-//		}
+		origText = webElement.getText();
 	
 		//EXECUTE_SCRIPT OPERATION = Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){

@@ -161,7 +161,7 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.testcase.page") 
+										CommonOperations.getTranslation("tree.nodetype.testcase.collector") 
 								) 
 							);	
 							break;
