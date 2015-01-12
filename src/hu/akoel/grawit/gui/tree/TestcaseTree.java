@@ -55,11 +55,11 @@ public class TestcaseTree extends Tree {
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
-    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-specific-icon.png");
-    	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
     	ImageIcon folderClosedIcon = CommonOperations.createImageIcon("tree/testcase-folder-closed-icon.png");
     	ImageIcon folderOpenIcon = CommonOperations.createImageIcon("tree/testcase-folder-open-icon.png");
-    	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/param-loop-icon.png");
+    	ImageIcon paramContainer = CommonOperations.createImageIcon("tree/testcase-container-icon.png");
+    	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
+    	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/testcase-loop-icon.png");
     	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
     	
     	//Iconja a NODE-nak
@@ -73,7 +73,7 @@ public class TestcaseTree extends Tree {
     		
     		TestcaseParamContainerDataModel testCasePage = (TestcaseParamContainerDataModel)actualNode;
     	    if( testCasePage.getParamPage() instanceof ParamNormalCollectorDataModel ){
-    	    	return pageIcon;	
+    	    	return paramContainer;	
     	    }else if( testCasePage.getParamPage() instanceof ParamLoopCollectorDataModel ){
     	    	return loopOpenIcon;
     	    }
@@ -93,14 +93,24 @@ public class TestcaseTree extends Tree {
 	@Override
 	public ImageIcon getIconOff(DataModelAdapter actualNode, boolean expanded) {
 
-    	ImageIcon pageOffIcon = CommonOperations.createImageIcon("tree/testcase-page-off-icon.png");
+    	ImageIcon containerOffIcon = CommonOperations.createImageIcon("tree/testcase-container-off-icon.png");
+    	ImageIcon loopOffIcon = CommonOperations.createImageIcon("tree/testcase-loop-off-icon.png");
     	ImageIcon caseOffIcon = CommonOperations.createImageIcon("tree/testcase-case-off-icon.png");
 
     	
     	if( actualNode instanceof TestcaseCaseDataModel){
             return caseOffIcon;
+
     	}else if( actualNode instanceof TestcaseParamContainerDataModel ){
-            return pageOffIcon;
+    		
+    		TestcaseParamContainerDataModel testCasePage = (TestcaseParamContainerDataModel)actualNode;
+    	    if( testCasePage.getParamPage() instanceof ParamNormalCollectorDataModel ){
+    	    	return containerOffIcon;	
+    	    }else if( testCasePage.getParamPage() instanceof ParamLoopCollectorDataModel ){
+    	    	return loopOffIcon;
+    	    }
+    	    return containerOffIcon;
+    	    
     	}else{
     		return getIcon(actualNode, expanded);
         }

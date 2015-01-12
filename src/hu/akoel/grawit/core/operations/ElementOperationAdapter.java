@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -109,8 +110,17 @@ elementProgress.outputCommand( "		webElement = driver.findElement( by );" );
 			//Varakozik, ha szukseges a muvelet elott
 			try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}			
 			
-			//OPERATION
-			doOperation( driver, baseElement, webElement, elementProgress );
+			try{
+
+				//OPERATION
+				doOperation( driver, baseElement, webElement, elementProgress );
+			}catch( StaleElementReferenceException e ){
+elementProgress.outputCommand("ujrakuldi mert StaleElementReferenceException volt");				
+doAction( driver, baseElement, elementProgress );
+				
+			}
+			
+			
 elementProgress.outputCommand("");	
 
 			//Varakozik, ha szukseges a muvelet utan

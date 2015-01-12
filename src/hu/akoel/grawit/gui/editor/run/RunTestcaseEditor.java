@@ -166,10 +166,10 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 						valuePanel.setText("");
 						statusPanel.setText("");
 						consolPanel.setText("");
-						
+//for(int i=0; i<20; i++){						
 						//Vegrehajtja a teszteset(ek)et
 						throughTestcases( RunTestcaseEditor.this.selectedTestcase );
-				    	
+//}				    	
 						//Engedelyezi az Inditas gombot
 				    	RunTestcaseEditor.this.startButton.setEnabled( true );
 				    	//Tiltja a Stop gombot
