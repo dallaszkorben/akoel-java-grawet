@@ -84,7 +84,7 @@ public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.variable.node");
+		return CommonOperations.getTranslation( "tree.nodetype.variable.folder");
 	}
 	
 	@Override
