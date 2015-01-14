@@ -97,6 +97,10 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 		
 	}
 	
+	public ListCompareByListEnum getCompareBy(){
+		return compareBy;
+	}
+	
 	public String getStringToShow() {
 		return stringToCompare;
 	}

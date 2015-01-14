@@ -37,7 +37,7 @@ import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
  * @author afoldvarszky
  *
  */
-public class GainListToVariableOperation extends ElementOperationAdapter{
+public class _GainListToVariableOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "GAINTOVARIABLE";
 	private static final String ATTR_PATTERN = "pattern";
@@ -52,7 +52,7 @@ public class GainListToVariableOperation extends ElementOperationAdapter{
 	private String stringPattern;
 	//---
 	
-	public GainListToVariableOperation( VariableElementDataModel variableElementDataModel, String stringPattern, ListGainByListEnum gainBy ){
+	public _GainListToVariableOperation( VariableElementDataModel variableElementDataModel, String stringPattern, ListGainByListEnum gainBy ){
 		this.stringPattern = stringPattern;		
 		this.variableElementDataModel = variableElementDataModel;
 		this.gainBy = gainBy;
@@ -60,7 +60,7 @@ public class GainListToVariableOperation extends ElementOperationAdapter{
 		common( stringPattern );
 	}
 	
-	public GainListToVariableOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLMissingAttributePharseException, XMLBaseConversionPharseException{
+	public _GainListToVariableOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLMissingAttributePharseException, XMLBaseConversionPharseException{
 		
 		VariableDataModelAdapter variableDataModelForFillOut = variableRootDataModel;
 		
@@ -159,6 +159,10 @@ public class GainListToVariableOperation extends ElementOperationAdapter{
 		
 	}
 	
+	public ListGainByListEnum getGainBy(){
+		return gainBy;
+	}
+	
 	public static String getStaticName(){
 		return NAME;
 	}
@@ -235,7 +239,7 @@ public class GainListToVariableOperation extends ElementOperationAdapter{
 		String stringPattern = new String( this.stringPattern );
 
 		
-		return new GainListToVariableOperation(variableElementDataModel, stringPattern, gainBy);
+		return new _GainListToVariableOperation(variableElementDataModel, stringPattern, gainBy);
 	}
 
 	

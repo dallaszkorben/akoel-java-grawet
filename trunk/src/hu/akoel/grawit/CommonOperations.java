@@ -17,7 +17,7 @@ import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
 import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainListToVariableOperation;
+import hu.akoel.grawit.core.operations._GainListToVariableOperation;
 import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
@@ -645,9 +645,9 @@ public class CommonOperations {
 						elementOperation = new CompareListToStringOperation( element, rootTag, dataModel.getTag() );
 				
 					//GAIN TO VARIABLE
-					}else if( operationString.equals( GainListToVariableOperation.getStaticName() ) ){
+					}else if( operationString.equals( _GainListToVariableOperation.getStaticName() ) ){
 						
-						elementOperation = new GainListToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new _GainListToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 
 					//GAIN TO ELEMENT
 					}else if( operationString.equals( GainListToElementStorageOperation.getStaticName() ) ){

@@ -8,7 +8,6 @@ import hu.akoel.grawit.core.operations.CompareListToStringOperation;
 import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainListToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
@@ -263,6 +262,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareListToVariableOperation)elementOperation).getVariableElement() );				
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_VARIABLE.getIndex());
 				comboCompareType.setSelectedIndex( ((CompareListToVariableOperation)elementOperation).getCompareType().getIndex() );
+				comboCompareBy.setSelectedIndex( ((CompareListToVariableOperation)elementOperation).getCompareBy().getIndex() );
 
 			//COMPARE TO STORED
 			}else if( elementOperation instanceof CompareListToStoredElementOperation ){
@@ -270,6 +270,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareListToStoredElementOperation)elementOperation).getBaseElement() );
 				comboCompareType.setSelectedIndex( ((CompareListToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_STORED.getIndex());
+				comboCompareBy.setSelectedIndex( ((CompareListToStoredElementOperation)elementOperation).getCompareBy().getIndex() );
 				
 			//COMPARE TO STRING
 			}else if( elementOperation instanceof CompareListToStringOperation ){
@@ -277,6 +278,8 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				fieldString.setText( ((CompareListToStringOperation)elementOperation).getStringToShow() );
 				comboCompareType.setSelectedIndex( ((CompareListToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_STRING.getIndex());
+				comboCompareBy.setSelectedIndex( ((CompareListToStringOperation)elementOperation).getCompareBy().getIndex() );
+				
 				
 /*			//GAIN TO VARIABLE
 			}else if( elementOperation instanceof GainListToVariableOperation ){
@@ -289,6 +292,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			}else if( elementOperation instanceof GainListToElementStorageOperation ){
 				
 				comboOperationList.setSelectedIndex(E.GAIN_TO_ELEMENT.getIndex());
+				comboGainBy.setSelectedIndex( ((GainListToElementStorageOperation)elementOperation).getGainBy().getIndex() );
 				fieldPattern.setText( ((GainListToElementStorageOperation)elementOperation).getStringPattern());	
 				
 			//OUTPUT STORED

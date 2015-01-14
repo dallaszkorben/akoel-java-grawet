@@ -479,6 +479,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 			actualDate = Calendar.getInstance().getTime();
 			long differenceTime = actualDate.getTime() - startDate.getTime();
 			long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;
+		
 			if( neededToWait > 0 ){
 				
 				try{

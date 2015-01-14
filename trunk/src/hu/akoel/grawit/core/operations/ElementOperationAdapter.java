@@ -115,7 +115,9 @@ elementProgress.outputCommand( "		webElement = driver.findElement( by );" );
 				//OPERATION
 				doOperation( driver, baseElement, webElement, elementProgress );
 			}catch( StaleElementReferenceException e ){
-elementProgress.outputCommand("ujrakuldi mert StaleElementReferenceException volt");				
+//TODO valahogy veget kell vetni a vegtelen ciklus lehetosegenek				
+elementProgress.outputCommand("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
+
 doAction( driver, baseElement, elementProgress );
 				
 			}
