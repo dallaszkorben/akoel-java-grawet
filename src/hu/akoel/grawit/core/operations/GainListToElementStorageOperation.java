@@ -74,6 +74,10 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 		
 	}
 	
+	public ListGainByListEnum getGainBy(){
+		return gainBy;
+	}
+	
 	public static String getStaticName(){
 		return NAME;
 	}

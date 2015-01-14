@@ -37,7 +37,7 @@ elementProgress.outputCommand( "		}" );
 			}catch (UnexpectedTagNameException e){
 				throw new ElementInvalidOperationException( "List Selection", baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), e );			
 			}
-				
+		
 			try{
 
 				if( getSelectionBy().equals( ListSelectionByListEnum.BYVALUE ) ){

@@ -196,6 +196,10 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 		
 	}
 	
+	public ListCompareByListEnum getCompareBy(){
+		return compareBy;
+	}
+		
 	public BaseElementDataModelAdapter getBaseElement() {
 		return baseElementDataModel;
 	}

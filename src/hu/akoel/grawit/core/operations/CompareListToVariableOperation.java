@@ -167,6 +167,10 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 		
 	}
 	
+	public ListCompareByListEnum getCompareBy(){
+		return compareBy;
+	}
+	
 	public static String getStaticName(){
 		return NAME;
 	}
