@@ -16,6 +16,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
@@ -319,7 +320,7 @@ public class BaseTree extends Tree{
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				BaseFolderEditor baseNodeEditor = new BaseFolderEditor( BaseTree.this, (BaseFolderDataModel)selectedNode );								
+				BaseFolderEditor baseNodeEditor = new BaseFolderEditor( BaseTree.this, (BaseNodeDataModelAdapter)selectedNode );								
 				guiFrame.showEditorPanel( baseNodeEditor);								
 			
 			}

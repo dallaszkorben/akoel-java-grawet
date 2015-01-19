@@ -61,13 +61,13 @@ public class ParamNormalCollectorEditor extends DataEditor{
 		this.nodeForModify = selectedCollector;
 		this.mode = mode;
 		
-		BaseCollectorDataModel basePage = selectedCollector.getBasePage();
+		BaseCollectorDataModel baseCollector = selectedCollector.getBaseCollector();
 		
 		//Name		
 		fieldName = new TextFieldComponent( selectedCollector.getName());
 		
 		//PAGEBASEPAGE SELECTOR COMBO
-		fieldBasePageSelector =  new BaseCollectorTreeSelectorComponent( baseRootDataModel, basePage, true );
+		fieldBasePageSelector =  new BaseCollectorTreeSelectorComponent( baseRootDataModel, baseCollector, true );
 //		this.baseRootDataModel = baseRootDataModel;
 		
 		common();
@@ -181,7 +181,9 @@ public class ParamNormalCollectorEditor extends DataEditor{
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
-				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setName( fieldName.getText() );				
+				nodeForModify.setBaseCollector( fieldBasePageSelector.getSelectedDataModel() );
+				
 
 			}			
 			

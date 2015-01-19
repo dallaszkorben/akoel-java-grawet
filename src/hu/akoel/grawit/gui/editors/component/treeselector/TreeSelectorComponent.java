@@ -41,6 +41,7 @@ public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends 
 	private F selectedDataModel;
 	private Class<F> classForSelect;
 	private String title;
+	private boolean enableEmpty;
 	
 	public TreeSelectorComponent( String title, Class<F> classForSelect, DataModelAdapter rootDataModel, F selectedDataModel, boolean enableEmpty ){
 		super();
@@ -53,7 +54,7 @@ public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends 
 		
 	}
 	
-	private void common( String title, Class<F> classForSelect, final DataModelAdapter rootDataModel, F selectedDataModel, final boolean enableEmpty ){	
+	private void common( String title, Class<F> classForSelect, final DataModelAdapter rootDataModel, F selectedDataModel, final boolean enEmpty ){	
 
 @SuppressWarnings("unused")
 DataModelAdapter root = rootDataModel;
@@ -61,6 +62,7 @@ DataModelAdapter root = rootDataModel;
 		this.title = title;
 		this.classForSelect = classForSelect;
 		this.selectedDataModel = selectedDataModel;
+		this.enableEmpty = enEmpty;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -68,8 +70,7 @@ DataModelAdapter root = rootDataModel;
 		field.setBackground(FIELD_BACKGROUND);
 		field.addKeyListener( new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-		        if ( button.isEnabled() && enableEmpty && e.getKeyCode() == KeyEvent.VK_BACK_SPACE ) {
-		          field.setText( "" );
+		        if ( button.isEnabled() && enableEmpty && e.getKeyCode() == KeyEvent.VK_BACK_SPACE ) { field.setText( "" );
 		          TreeSelectorComponent.this.selectedDataModel = null;
 		        }
 		      }
@@ -114,7 +115,7 @@ DataModelAdapter root = rootDataModel;
 	}
 	
 	/**
-	 * A parameterkent megkapott kivalasztott elemet elhelyezi a valtozoban e megjeleniti a mezoben
+	 * A parameterkent megkapott kivalasztott elemet elhelyezi a valtozoban es megjeleniti a mezoben
 	 * 
 	 * @param selectedDataModel
 	 */
