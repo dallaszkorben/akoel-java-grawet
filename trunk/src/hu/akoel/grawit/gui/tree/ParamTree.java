@@ -19,6 +19,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
@@ -70,7 +71,7 @@ public class ParamTree extends Tree {
             
     	}else if( actualNode instanceof ParamNormalCollectorDataModel){
     		
-    		if(null == ((ParamNormalCollectorDataModel)actualNode).getBasePage() ){
+    		if(null == ((ParamNormalCollectorDataModel)actualNode).getBaseCollector() ){
     			
     			return pageNonSpecificIcon;
     		
@@ -422,7 +423,7 @@ public class ParamTree extends Tree {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				ParamFolderEditor paramNodeEditor = new ParamFolderEditor( ParamTree.this, (ParamFolderDataModel)selectedNode );								
+				ParamFolderEditor paramNodeEditor = new ParamFolderEditor( ParamTree.this, (ParamNodeDataModelAdapter)selectedNode );								
 				guiFrame.showEditorPanel( paramNodeEditor);								
 			
 			}

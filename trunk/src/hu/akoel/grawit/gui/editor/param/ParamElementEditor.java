@@ -8,10 +8,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -86,10 +84,12 @@ public class ParamElementEditor extends DataEditor{
 		//Name
 		fieldName.setText( "" );
 
-		if( selectedPage instanceof ParamNormalCollectorDataModel ){
+fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );		
+		
+/*		if( selectedPage instanceof ParamNormalCollectorDataModel ){
 
 			//Base Element
-			BaseCollectorDataModel basePage = ((ParamNormalCollectorDataModel)selectedPage).getBasePage();
+			BaseCollectorDataModel basePage = ((ParamNormalCollectorDataModel)selectedPage).getBaseCollector();
 			if( null != basePage ){
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage );
 				baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
@@ -101,7 +101,7 @@ public class ParamElementEditor extends DataEditor{
 		}else{
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
 		}
-			
+*/			
 		commonPost( null );
 	}
 		
@@ -132,10 +132,12 @@ public class ParamElementEditor extends DataEditor{
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		
-		ParamDataModelAdapter parent = (ParamDataModelAdapter)selectedElement.getParent();
+fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
+		
+/*		ParamDataModelAdapter parent = (ParamDataModelAdapter)selectedElement.getParent();
 		if( parent instanceof ParamNormalCollectorDataModel ){
 		
-			BaseCollectorDataModel basePage = ((ParamNormalCollectorDataModel)selectedElement.getParent()).getBasePage();
+			BaseCollectorDataModel basePage = ((ParamNormalCollectorDataModel)selectedElement.getParent()).getBaseCollector();
 			if( null != basePage ){
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
 				baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
@@ -146,7 +148,7 @@ public class ParamElementEditor extends DataEditor{
 		}else{
 			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
 		}
-		
+*/		
 		commonPost( baseElement );
 		
 	}

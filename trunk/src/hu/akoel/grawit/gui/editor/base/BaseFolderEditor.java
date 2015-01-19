@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
@@ -22,7 +23,7 @@ public class BaseFolderEditor extends DataEditor{
 	
 	private Tree tree;
 	private BaseFolderDataModel nodeForModify;
-	private BaseFolderDataModel nodeForCapture;
+	private BaseNodeDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -30,7 +31,7 @@ public class BaseFolderEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 
 	//Itt biztos beszuras van
-	public BaseFolderEditor( Tree tree, BaseFolderDataModel selectedNode ){
+	public BaseFolderEditor( Tree tree, BaseNodeDataModelAdapter selectedNode ){
 
 		super( BaseFolderDataModel.getModelNameToShowStatic() );
 		

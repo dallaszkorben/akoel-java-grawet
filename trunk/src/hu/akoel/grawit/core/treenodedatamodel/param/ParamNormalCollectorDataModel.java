@@ -45,16 +45,15 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
 	private static final String ATTR_ON = "on";
 	
-	private BaseCollectorDataModel basePage = null;	
+	private BaseCollectorDataModel baseCollector = null;	
 //	private String name;
 	
-	public ParamNormalCollectorDataModel( String name, BaseCollectorDataModel basePage){
+	public ParamNormalCollectorDataModel( String name, BaseCollectorDataModel baseCollector){
 //TODO letrehozni DETAIL-t		
 		
 		super( name, "" );
 		
-//		this.name = name;
-		this.basePage = basePage;
+		this.baseCollector = baseCollector;
 
 	}
 
@@ -69,18 +68,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 		super(element, baseRootDataModel, variableRootDataModel);
 		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
-		
-/*		//========
-		//
-		//name
-		//
-		//========
-		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME );			
-		}
-		String nameString = element.getAttribute( ATTR_NAME );		
-		this.name = nameString;
-*/		
+				
 		//========
 		//
 		// On
@@ -102,7 +90,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 		//No Specific Page
 		if( !element.hasAttribute( ATTR_BASE_PAGE_PATH ) ){
 			
-			basePage = null;
+			baseCollector = null;
 			
 		//Relative page	
 		}else{
@@ -123,6 +111,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 				throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH), e );
 	    	
 			} 
+			
 			//Megkeresem a BASEROOT-ben a BASEPAGE-hez vezeto utat
 			Node actualNode = document;
 			while( actualNode.hasChildNodes() ){
@@ -165,7 +154,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 			}	    
 			try{
 	    	
-				basePage = (BaseCollectorDataModel)baseDataModel;
+				baseCollector = (BaseCollectorDataModel)baseDataModel;
 	    	
 			}catch(ClassCastException e){
 
@@ -217,8 +206,12 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 		this.name = name;
 	}
 */
-	public BaseCollectorDataModel getBasePage(){
-		return basePage;
+	public BaseCollectorDataModel getBaseCollector(){
+		return baseCollector;
+	}
+	
+	public void setBaseCollector( BaseCollectorDataModel baseCollector ){
+		this.baseCollector = baseCollector;
 	}
 	
 	public static String  getModelNameToShowStatic(){
@@ -313,23 +306,7 @@ elementProgress.outputCommand( "" );
 		Attr attr;
 
 		Element pageElement = super.getXMLElement(document);
-		
-/*		//========
-		//
-		//Node element
-		//
-		//========
-		Element pageElement = document.createElement( getTag().getName() );
-		
-		//========
-		//
-		//NAME attributum
-		//
-		//========
-		attr = document.createAttribute(ATTR_NAME);
-		attr.setValue( getName() );
-		pageElement.setAttributeNode(attr);	
-*/		
+				
 		//========
 		//
 		// On
@@ -344,9 +321,9 @@ elementProgress.outputCommand( "" );
 		//PAGEBASEPAGE attributum
 		//
 		//========
-		if( null != basePage ){
+		if( null != baseCollector ){
 			attr = document.createAttribute( ATTR_BASE_PAGE_PATH );
-			attr.setValue( basePage.getPathTag() );
+			attr.setValue( baseCollector.getPathTag() );
 			pageElement.setAttributeNode(attr);		
 		}
 /*		

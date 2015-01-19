@@ -125,7 +125,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		} catch (Exception e) {  
 	    
 			//Nem sikerult az atalakitas
-				throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
+			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
 		} 
 	    
 		//Megkeresem a BASEROOT-ban az utvonalat a BASEELEMENT-hez
