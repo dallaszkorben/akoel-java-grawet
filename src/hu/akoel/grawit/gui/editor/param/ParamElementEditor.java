@@ -8,9 +8,11 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -84,7 +86,8 @@ public class ParamElementEditor extends DataEditor{
 		//Name
 		fieldName.setText( "" );
 
-fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );		
+BaseCollectorDataModel baseCollector = ((ParamNormalCollectorDataModel)selectedPage).getBaseCollector();		
+fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseCollector, null );		
 		
 /*		if( selectedPage instanceof ParamNormalCollectorDataModel ){
 
@@ -132,9 +135,9 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		
-fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
-		
-/*		ParamDataModelAdapter parent = (ParamDataModelAdapter)selectedElement.getParent();
+fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, null, baseElement );
+/*		
+		ParamDataModelAdapter parent = (ParamDataModelAdapter)selectedElement.getParent();
 		if( parent instanceof ParamNormalCollectorDataModel ){
 		
 			BaseCollectorDataModel basePage = ((ParamNormalCollectorDataModel)selectedElement.getParent()).getBaseCollector();

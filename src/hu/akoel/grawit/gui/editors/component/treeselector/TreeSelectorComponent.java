@@ -28,40 +28,65 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends JPanel implements EditorComponentInterface{
+public abstract class TreeSelectorComponent<E extends DataModelAdapter, F extends DataModelAdapter> extends JPanel implements EditorComponentInterface{
 
 	private static final long serialVersionUID = 2246129334894062585L;
 	
-	private static final Color FIELD_BACKGROUND = new Color(209,224,224);
+	private static final Color FIELD_BACKGROUND = new Color( 209, 224, 224 );
 	private JButton button;
 	private JTextField field = new JTextField();
-	private F selectedDataModel;
+	private F selectedElement;
 	private Class<F> classForSelect;
 	private String title;
 	private boolean enableEmpty;
+	private E openedNode;
 	
-	public TreeSelectorComponent( String title, Class<F> classForSelect, DataModelAdapter rootDataModel, F selectedDataModel, boolean enableEmpty ){
+	public TreeSelectorComponent( String title, Class<F> classForSelect, DataModelAdapter rootDataModel, E openedNode, F selectedElement, boolean enableEmpty ){
 		super();
 	
-		common( title, classForSelect, rootDataModel, selectedDataModel, enableEmpty );
+		common( title, classForSelect, rootDataModel, openedNode, selectedElement, enableEmpty );
 
-		if( null != selectedDataModel ){
-			setSelectedDataModelToField( selectedDataModel );
+		//Ha volt kivalaszott elem, akkor azt elhelyezi a mezoben 
+		if( null != selectedElement ){
+			setSelectedDataModelToField( selectedElement );
+		}
+		
+	}
+
+//TODO megszuntetendo	
+	/**
+	 * 
+	 * @param title A tree ablak cime
+	 * @param classForSelect Ezt a tipust lehet kivalasztani
+	 * @param rootDataModel Ez maga a tree
+	 * @param selectedElement A mar eleve kivalasztott elem
+	 * @param enableEmpty Engedelyezve van az ures mezo/Hasznalhato a BacksSpace
+	 */
+	public TreeSelectorComponent( String title, Class<F> classForSelect, DataModelAdapter rootDataModel, F selectedElement, boolean enableEmpty ){
+		super();
+	
+		common( title, classForSelect, rootDataModel, null, selectedElement, enableEmpty );
+
+		//Ha volt kivalaszott elem, akkor azt elhelyezi a mezoben 
+		if( null != selectedElement ){
+			setSelectedDataModelToField( selectedElement );
 		}
 		
 	}
 	
-	private void common( String title, Class<F> classForSelect, final DataModelAdapter rootDataModel, F selectedDataModel, final boolean enEmpty ){	
+	private void common( String title, Class<F> classForSelect, final DataModelAdapter rootDataModel, E openedNode, F selectedElement, final boolean enEmpty ){	
 
 @SuppressWarnings("unused")
 DataModelAdapter root = rootDataModel;
 
 		this.title = title;
 		this.classForSelect = classForSelect;
-		this.selectedDataModel = selectedDataModel;
+		this.selectedElement = selectedElement;
+		this.openedNode = openedNode;
 		this.enableEmpty = enEmpty;
 		
 		this.setLayout(new BorderLayout());
@@ -70,8 +95,10 @@ DataModelAdapter root = rootDataModel;
 		field.setBackground(FIELD_BACKGROUND);
 		field.addKeyListener( new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
+				
+				//BACK SPACE
 		        if ( button.isEnabled() && enableEmpty && e.getKeyCode() == KeyEvent.VK_BACK_SPACE ) { field.setText( "" );
-		          TreeSelectorComponent.this.selectedDataModel = null;
+		          TreeSelectorComponent.this.selectedElement = null;
 		        }
 		      }
 		});		
@@ -85,7 +112,7 @@ DataModelAdapter root = rootDataModel;
 			public void actionPerformed(ActionEvent e) {
 				
 				//Akkor megnyitja a Dialogus ablakot a Page valasztashoz
-				new SelectorDialog( TreeSelectorComponent.this.title, TreeSelectorComponent.this, rootDataModel, TreeSelectorComponent.this.selectedDataModel );
+				new SelectorDialog( TreeSelectorComponent.this.title, TreeSelectorComponent.this, rootDataModel, TreeSelectorComponent.this.openedNode, TreeSelectorComponent.this.selectedElement );
 			}
 		} );
 
@@ -109,9 +136,9 @@ DataModelAdapter root = rootDataModel;
 	}
 	
 	public F getSelectedDataModel(){
-		if( null == selectedDataModel ){
+		if( null == selectedElement ){
 			return null;
-		}		return selectedDataModel;
+		}		return selectedElement;
 	}
 	
 	/**
@@ -120,7 +147,7 @@ DataModelAdapter root = rootDataModel;
 	 * @param selectedDataModel
 	 */
 	public void setSelectedDataModelToField( F selectedDataModel ){
-		this.selectedDataModel = selectedDataModel;	
+		this.selectedElement = selectedDataModel;	
 		field.setText( getSelectedDataModelToString(selectedDataModel) );
 	}
 	
@@ -142,7 +169,7 @@ DataModelAdapter root = rootDataModel;
 
 	/**
 	 * Megmondja, hogy a parameterkent megadott Path nyiljon-e ki vagy sem
-	 * Ennak a metodusnak a segitsegevel bizonyos tipusu node-okat letilthatunk a kinyitastol
+	 * Ennek a metodusnak a segitsegevel bizonyos tipusu node-okat letilthatunk a kinyitastol
 	 * 
 	 *  return !( path.getLastPathComponent() instanceof BasePageDataModel ) );
 	 *  hasznalata eseten a BASEPAGE node hoz kapcsolodo ujabb agak mindig zarva maradnak
@@ -166,7 +193,7 @@ DataModelAdapter root = rootDataModel;
 
 		private static final long serialVersionUID = 1607956458285776550L;
 		
-		public SelectorDialog( String title, TreeSelectorComponent<F> treeSelectorComponent, DataModelAdapter rootDataModel, F selectedDataModel ){
+		public SelectorDialog( String title, TreeSelectorComponent<E,F> treeSelectorComponent, DataModelAdapter rootDataModel, E openedNode, F selectedElement ){
 
 			super( );
 			
@@ -194,8 +221,21 @@ DataModelAdapter root = rootDataModel;
 			//Elkesziti a BasePage faszerkezetet
 			TreeForSelect pageBaseTree = new TreeForSelect( rootDataModel );
 			
-			if( null != selectedDataModel ){
-				pageBaseTree.setSelectionPath( new TreePath( selectedDataModel.getPath() ) );
+//Ha volt nyitott node, akkor a tree-ben kivalasztja
+if( null != openedNode ){
+	
+	TreePath pathToOpen = new TreePath( openedNode.getPath() );
+
+	//Mindenkeppen kinyitja a gyujtot
+	pageBaseTree.expandPath( pathToOpen );
+	pageBaseTree.setSelectionPath( pathToOpen );
+	
+}	
+			
+			//Ha volt kivalasztott elem, akkor a tree-ben kivalasztja
+			if( null != selectedElement ){
+				TreePath path = new TreePath( selectedElement.getPath() );
+				pageBaseTree.setSelectionPath( new TreePath( selectedElement.getPath() ) );
 			}			
 		
 			//Becsomagolom a BasePage faszerkezetet hogy scroll-ozhato legyen
@@ -313,7 +353,7 @@ DataModelAdapter root = rootDataModel;
 		
 			/**
 			 * 
-			 * Letiltom az adott tipusu node lenyitasat, igy nem latszanak az Element-ek
+			 * Letiltom az adott tipusu node lenyitasat, igy nem latszanak az Elemei
 			 * 
 			 */
 			protected void setExpandedState(TreePath path, boolean state) {

@@ -10,7 +10,7 @@ import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreePath;
 
-public class VariableTreeSelectorComponent extends TreeSelectorComponent<VariableElementDataModel>{
+public class VariableTreeSelectorComponent extends TreeSelectorComponent<VariableFolderNodeDataModel, VariableElementDataModel>{
 
 	private static final long serialVersionUID = 5692189257383238770L;
 

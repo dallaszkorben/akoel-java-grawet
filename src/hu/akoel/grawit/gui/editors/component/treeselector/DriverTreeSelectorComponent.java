@@ -11,11 +11,13 @@ import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
+import hu.akoel.grawit.gui.editor.driver.DriverNodeEditor;
+
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class DriverTreeSelectorComponent extends TreeSelectorComponent<DriverBrowserDataModelInterface>{
+public class DriverTreeSelectorComponent extends TreeSelectorComponent<DriverFolderDataModel, DriverBrowserDataModelInterface>{
 
 	private static final long serialVersionUID = -3698310168899684818L;
 
