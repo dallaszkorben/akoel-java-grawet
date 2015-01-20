@@ -14,15 +14,16 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class BaseCollectorTreeSelectorComponent extends TreeSelectorComponent<BaseNodeDataModelAdapter, BaseCollectorDataModel>{
+public class BaseCollectorTreeSelectorComponent extends TreeSelectorComponent<BaseCollectorDataModel>{
 	private static final long serialVersionUID = 1194717514083971251L;
 
-	public BaseCollectorTreeSelectorComponent( BaseDataModelAdapter rootDataModel, boolean enableEmpty ) {
-		super(CommonOperations.getTranslation("window.title.selector.basepage"), BaseCollectorDataModel.class, rootDataModel, null, enableEmpty );
+	
+	public BaseCollectorTreeSelectorComponent( BaseDataModelAdapter rootDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.basepage"), BaseCollectorDataModel.class, rootDataModel, null, false, false );
 	}
 
-	public BaseCollectorTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BaseCollectorDataModel selectedBasePageDataModel, boolean enableEmpty ) {
-		super(CommonOperations.getTranslation("window.title.selector.basepage"), BaseCollectorDataModel.class, rootDataModel, selectedBasePageDataModel, enableEmpty);
+	public BaseCollectorTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BaseCollectorDataModel selectedBasePageDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.basepage"), BaseCollectorDataModel.class, rootDataModel, selectedBasePageDataModel, true, false);
 	}
 	
 	@Override

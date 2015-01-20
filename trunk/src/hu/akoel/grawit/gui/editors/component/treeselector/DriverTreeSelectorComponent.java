@@ -3,7 +3,6 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
@@ -17,16 +16,16 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class DriverTreeSelectorComponent extends TreeSelectorComponent<DriverFolderDataModel, DriverBrowserDataModelInterface>{
+public class DriverTreeSelectorComponent extends TreeSelectorComponent<DriverBrowserDataModelInterface>{
 
 	private static final long serialVersionUID = -3698310168899684818L;
 
 	public DriverTreeSelectorComponent( DriverDataModelAdapter rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.driver"), DriverBrowserDataModelInterface.class, rootDataModel, null, false );
+		super(CommonOperations.getTranslation("window.title.selector.driver"), DriverBrowserDataModelInterface.class, rootDataModel, null, false, false );
 	}
 
 	public DriverTreeSelectorComponent( DriverDataModelAdapter rootDataModel, DriverBrowserDataModelInterface selectedSpecialDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.driver"), DriverBrowserDataModelInterface.class, rootDataModel, selectedSpecialDataModel, false);
+		super(CommonOperations.getTranslation("window.title.selector.driver"), DriverBrowserDataModelInterface.class, rootDataModel, selectedSpecialDataModel, true, false);
 	}
 	
 	@Override

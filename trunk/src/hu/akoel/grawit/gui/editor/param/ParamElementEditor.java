@@ -8,7 +8,6 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -50,7 +49,8 @@ public class ParamElementEditor extends DataEditor{
 	
 	private Tree tree;
 	private ParamElementDataModel nodeForModify;	
-	private ParamDataModelAdapter nodeForCapture;
+	//private ParamDataModelAdapter nodeForCapture;
+	private ParamCollectorDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -86,8 +86,9 @@ public class ParamElementEditor extends DataEditor{
 		//Name
 		fieldName.setText( "" );
 
-BaseCollectorDataModel baseCollector = ((ParamNormalCollectorDataModel)selectedPage).getBaseCollector();		
-fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseCollector, null );		
+//BaseElementDataModelAdapter lastBaseElement = ((ParamNormalCollectorDataModel)selectedPage).getLastBaseElement();		
+BaseElementDataModelAdapter lastBaseElement = ((ParamCollectorDataModelAdapter)selectedPage).getLastBaseElement();
+fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, lastBaseElement, false );		
 		
 /*		if( selectedPage instanceof ParamNormalCollectorDataModel ){
 
@@ -135,7 +136,8 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		
-fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, null, baseElement );
+fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, true );
+
 /*		
 		ParamDataModelAdapter parent = (ParamDataModelAdapter)selectedElement.getParent();
 		if( parent instanceof ParamNormalCollectorDataModel ){
@@ -384,6 +386,7 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 				ParamElementDataModel newParamElement = new ParamElementDataModel( fieldName.getText(), baseElement, elementOperation );			
 				
 				nodeForCapture.add( newParamElement );
+
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){

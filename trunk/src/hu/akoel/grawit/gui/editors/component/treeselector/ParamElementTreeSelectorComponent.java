@@ -14,16 +14,16 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<ParamNodeDataModelAdapter, ParamElementDataModel>{
+public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<ParamElementDataModel>{
 
 	private static final long serialVersionUID = 8754108739802478258L;
 
 	public ParamElementTreeSelectorComponent( ParamDataModelAdapter paramRootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.paramelement"), ParamElementDataModel.class, paramRootDataModel, null, false);
+		super(CommonOperations.getTranslation("window.title.selector.paramelement"), ParamElementDataModel.class, paramRootDataModel, null, false, false);
 	}
 
 	public ParamElementTreeSelectorComponent( ParamDataModelAdapter paramRootDataModel, ParamElementDataModel selectedParamPageDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.paramelement"), ParamElementDataModel.class, paramRootDataModel, selectedParamPageDataModel, false);
+		super(CommonOperations.getTranslation("window.title.selector.paramelement"), ParamElementDataModel.class, paramRootDataModel, selectedParamPageDataModel, true, false);
 	}
 	
 	@Override

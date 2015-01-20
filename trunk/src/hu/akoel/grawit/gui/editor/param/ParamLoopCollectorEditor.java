@@ -114,7 +114,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 		//Max loop number
 		fieldMaxLoopNumber = new IntegerFieldComponent( selectedControlLoop.getMaxLoopNumber().toString() );
 		
-		fieldCompareBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
+		fieldCompareBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, true );
 		
 		commonPost( baseElement );
 	}
@@ -349,7 +349,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				ParamLoopCollectorDataModel newParamLoop = new ParamLoopCollectorDataModel(fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation);
+				ParamLoopCollectorDataModel newParamLoop = new ParamLoopCollectorDataModel(fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation, null);
 				
 				nodeForCapture.add( newParamLoop );
 				
