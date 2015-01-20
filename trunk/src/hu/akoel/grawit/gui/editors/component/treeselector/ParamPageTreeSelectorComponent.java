@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamCollectorDataModelAdapter>{
+public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamNormalCollectorDataModel, ParamCollectorDataModelAdapter>{
 
 	private static final long serialVersionUID = 1064181673121972602L;
 

@@ -5,6 +5,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
@@ -13,7 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<ParamElementDataModel>{
+public class ParamElementTreeSelectorComponent extends TreeSelectorComponent<ParamNodeDataModelAdapter, ParamElementDataModel>{
 
 	private static final long serialVersionUID = 8754108739802478258L;
 

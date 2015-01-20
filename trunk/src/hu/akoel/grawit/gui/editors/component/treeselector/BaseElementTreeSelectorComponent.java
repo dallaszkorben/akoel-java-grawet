@@ -6,6 +6,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
@@ -13,19 +14,32 @@ import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreePath;
 
-public class BaseElementTreeSelectorComponent extends TreeSelectorComponent<BaseElementDataModelAdapter>{
+public class BaseElementTreeSelectorComponent extends TreeSelectorComponent<BaseNodeDataModelAdapter, BaseElementDataModelAdapter>{
 
 	private static final long serialVersionUID = -5178610032767904794L;
 
-	//Specific Page egyik eleme - Parameterkent szukseges megkapni a BasePage elereset
+	//TODO torlendo
+	/**
+	 * 
+	 * @param rootDataModel A teljes faszerkezet amit lathatunk
+	 */
 	public BaseElementTreeSelectorComponent( BaseDataModelAdapter rootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.baseelement"), BaseElementDataModelAdapter.class, rootDataModel, null, false);
 	}
 
-	//NonSpecific Page Egyik eleme - Parameterkent szukseges megkapni a Root Base-t
-	public BaseElementTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BaseElementDataModelAdapter selectedBaseElementDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.baseelement"),BaseElementDataModelAdapter.class, rootDataModel, selectedBaseElementDataModel, false);
+	//TODO torlendo
+	/**
+	 * 
+	 * @param rootDataModel A teljes faszerkezet, amit lathatunk
+	 * @param selectedElement A faszerkezetben kivalasztott elem
+	 */
+	public BaseElementTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BaseElementDataModelAdapter selectedElement ) {
+		super(CommonOperations.getTranslation("window.title.selector.baseelement"),BaseElementDataModelAdapter.class, rootDataModel, selectedElement, false);
 	}
+	
+	public BaseElementTreeSelectorComponent( BaseDataModelAdapter rootDataModel, BaseCollectorDataModel openedCollector, BaseElementDataModelAdapter selectedElement ) {
+		super(CommonOperations.getTranslation("window.title.selector.baseelement"),BaseElementDataModelAdapter.class, rootDataModel, openedCollector, selectedElement, false);
+	}	
 	
 	@Override
 	public String getSelectedDataModelToString( BaseElementDataModelAdapter selectedDataModel) {

@@ -5,6 +5,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
@@ -13,7 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class BaseCollectorTreeSelectorComponent extends TreeSelectorComponent<BaseCollectorDataModel>{
+public class BaseCollectorTreeSelectorComponent extends TreeSelectorComponent<BaseNodeDataModelAdapter, BaseCollectorDataModel>{
 	private static final long serialVersionUID = 1194717514083971251L;
 
 	public BaseCollectorTreeSelectorComponent( BaseDataModelAdapter rootDataModel, boolean enableEmpty ) {

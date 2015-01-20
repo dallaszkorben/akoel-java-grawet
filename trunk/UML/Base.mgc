@@ -2,11 +2,11 @@
 <ClassDiagram>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel"
-        x="-94" y="183">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
+        x="346" y="301">
+        <AttributesDisplayFilter public-accepted="false"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
@@ -15,12 +15,12 @@
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter"
-        x="241" y="7">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
+        name="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter"
+        x="84" y="94">
+        <AttributesDisplayFilter public-accepted="false"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
@@ -28,8 +28,21 @@
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel"
-        x="416" y="184">
+        name="hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter"
+        x="379" y="105">
+        <AttributesDisplayFilter public-accepted="false"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="false"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel"
+        x="93" y="306">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -37,12 +50,27 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"/>
+    </Class>
+    <Class
+        name="hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel"
+        x="-47" y="306">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel"
-        x="557" y="185">
+        x="224" y="304">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -50,12 +78,12 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"
-        x="361" y="-82">
+        x="201" y="6">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -66,29 +94,16 @@
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel"
-        x="191" y="181">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
+        x="505" y="298">
+        <AttributesDisplayFilter public-accepted="false"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModel"
-        x="448" y="1">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter"/>
     </Class>
 </ClassDiagram>
