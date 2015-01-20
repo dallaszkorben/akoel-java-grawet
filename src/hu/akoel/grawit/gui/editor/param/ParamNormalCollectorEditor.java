@@ -10,6 +10,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
+import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseCollectorTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -27,10 +28,11 @@ public class ParamNormalCollectorEditor extends DataEditor{
 	private EditMode mode;
 	
 	private JLabel labelName;
+	private JLabel labelDetails;
 	private TextFieldComponent fieldName;
-	private JLabel labelBasePageSelector;
-	private BaseCollectorTreeSelectorComponent fieldBasePageSelector;
-//	private BaseRootDataModel baseRootDataModel;
+	private TextAreaComponent fieldDetails;
+	//private JLabel labelBasePageSelector;
+	//private BaseCollectorTreeSelectorComponent fieldBasePageSelector;
 	
 	//Itt biztos beszuras van
 	public ParamNormalCollectorEditor( Tree tree, ParamFolderDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
@@ -44,8 +46,11 @@ public class ParamNormalCollectorEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent( "" );
 		
+		//Details
+		fieldDetails = new TextAreaComponent( "", NOTE_ROWS, 15);
+		
 		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)	
-		fieldBasePageSelector = new BaseCollectorTreeSelectorComponent( baseRootDataModel, true );
+//		fieldBasePageSelector = new BaseCollectorTreeSelectorComponent( baseRootDataModel, true );
 //		this.baseRootDataModel = baseRootDataModel;
 		
 		common();
@@ -61,14 +66,16 @@ public class ParamNormalCollectorEditor extends DataEditor{
 		this.nodeForModify = selectedCollector;
 		this.mode = mode;
 		
-		BaseCollectorDataModel baseCollector = selectedCollector.getBaseCollector();
+//		BaseCollectorDataModel baseCollector = selectedCollector.getBaseCollector();
 		
 		//Name		
 		fieldName = new TextFieldComponent( selectedCollector.getName());
 		
+		//Details
+		fieldDetails = new TextAreaComponent( selectedCollector.getDetails(), NOTE_ROWS, 15);
+		
 		//PAGEBASEPAGE SELECTOR COMBO
-		fieldBasePageSelector =  new BaseCollectorTreeSelectorComponent( baseRootDataModel, baseCollector, true );
-//		this.baseRootDataModel = baseRootDataModel;
+//		fieldBasePageSelector =  new BaseCollectorTreeSelectorComponent( baseRootDataModel, baseCollector, true );
 		
 		common();
 		
@@ -77,10 +84,13 @@ public class ParamNormalCollectorEditor extends DataEditor{
 	private void common(){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.basepage") + ": ");
+		//labelBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.basepage") + ": ");
+		//Details
+		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");
 		
-		this.add( labelName, fieldName );		
-		this.add( labelBasePageSelector, fieldBasePageSelector );
+		this.add( labelName, fieldName );
+		this.add( labelDetails, fieldDetails );
+		//this.add( labelBasePageSelector, fieldBasePageSelector );
 		
 	}
 		
@@ -175,14 +185,16 @@ public class ParamNormalCollectorEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){				
 				
-				ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldBasePageSelector.getSelectedDataModel() );
+				//ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldBasePageSelector.getSelectedDataModel() );
+				ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldDetails.getText(), null );
 				nodeForCapture.add( newParamPage );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
-				nodeForModify.setName( fieldName.getText() );				
-				nodeForModify.setBaseCollector( fieldBasePageSelector.getSelectedDataModel() );
+				nodeForModify.setName( fieldName.getText() );	
+				nodeForModify.setDetails( fieldDetails.getText());
+				//nodeForModify.setBaseCollector( fieldBasePageSelector.getSelectedDataModel() );
 				
 
 			}			

@@ -32,7 +32,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-public abstract class TreeSelectorComponent<E extends DataModelAdapter, F extends DataModelAdapter> extends JPanel implements EditorComponentInterface{
+public abstract class TreeSelectorComponent<F extends DataModelAdapter> extends JPanel implements EditorComponentInterface{
 
 	private static final long serialVersionUID = 2246129334894062585L;
 	
@@ -43,21 +43,7 @@ public abstract class TreeSelectorComponent<E extends DataModelAdapter, F extend
 	private Class<F> classForSelect;
 	private String title;
 	private boolean enableEmpty;
-	private E openedNode;
-	
-	public TreeSelectorComponent( String title, Class<F> classForSelect, DataModelAdapter rootDataModel, E openedNode, F selectedElement, boolean enableEmpty ){
-		super();
-	
-		common( title, classForSelect, rootDataModel, openedNode, selectedElement, enableEmpty );
 
-		//Ha volt kivalaszott elem, akkor azt elhelyezi a mezoben 
-		if( null != selectedElement ){
-			setSelectedDataModelToField( selectedElement );
-		}
-		
-	}
-
-//TODO megszuntetendo	
 	/**
 	 * 
 	 * @param title A tree ablak cime
@@ -66,19 +52,19 @@ public abstract class TreeSelectorComponent<E extends DataModelAdapter, F extend
 	 * @param selectedElement A mar eleve kivalasztott elem
 	 * @param enableEmpty Engedelyezve van az ures mezo/Hasznalhato a BacksSpace
 	 */
-	public TreeSelectorComponent( String title, Class<F> classForSelect, DataModelAdapter rootDataModel, F selectedElement, boolean enableEmpty ){
+	public TreeSelectorComponent( String title, Class<F> classForSelect, DataModelAdapter rootDataModel, F selectedElement, boolean setSelectedElementToFieldFirst, boolean enableEmpty ){
 		super();
 	
-		common( title, classForSelect, rootDataModel, null, selectedElement, enableEmpty );
+		common( title, classForSelect, rootDataModel, selectedElement, enableEmpty );
 
 		//Ha volt kivalaszott elem, akkor azt elhelyezi a mezoben 
-		if( null != selectedElement ){
+		if( null != selectedElement && setSelectedElementToFieldFirst ){
 			setSelectedDataModelToField( selectedElement );
 		}
 		
 	}
 	
-	private void common( String title, Class<F> classForSelect, final DataModelAdapter rootDataModel, E openedNode, F selectedElement, final boolean enEmpty ){	
+	private void common( String title, Class<F> classForSelect, final DataModelAdapter rootDataModel, F selectedElement, final boolean enEmpty ){	
 
 @SuppressWarnings("unused")
 DataModelAdapter root = rootDataModel;
@@ -86,7 +72,6 @@ DataModelAdapter root = rootDataModel;
 		this.title = title;
 		this.classForSelect = classForSelect;
 		this.selectedElement = selectedElement;
-		this.openedNode = openedNode;
 		this.enableEmpty = enEmpty;
 		
 		this.setLayout(new BorderLayout());
@@ -112,7 +97,7 @@ DataModelAdapter root = rootDataModel;
 			public void actionPerformed(ActionEvent e) {
 				
 				//Akkor megnyitja a Dialogus ablakot a Page valasztashoz
-				new SelectorDialog( TreeSelectorComponent.this.title, TreeSelectorComponent.this, rootDataModel, TreeSelectorComponent.this.openedNode, TreeSelectorComponent.this.selectedElement );
+				new SelectorDialog( TreeSelectorComponent.this.title, TreeSelectorComponent.this, rootDataModel, TreeSelectorComponent.this.selectedElement );
 			}
 		} );
 
@@ -193,7 +178,7 @@ DataModelAdapter root = rootDataModel;
 
 		private static final long serialVersionUID = 1607956458285776550L;
 		
-		public SelectorDialog( String title, TreeSelectorComponent<E,F> treeSelectorComponent, DataModelAdapter rootDataModel, E openedNode, F selectedElement ){
+		public SelectorDialog( String title, TreeSelectorComponent<F> treeSelectorComponent, DataModelAdapter rootDataModel, F selectedElement ){
 
 			super( );
 			
@@ -220,17 +205,6 @@ DataModelAdapter root = rootDataModel;
 
 			//Elkesziti a BasePage faszerkezetet
 			TreeForSelect pageBaseTree = new TreeForSelect( rootDataModel );
-			
-//Ha volt nyitott node, akkor a tree-ben kivalasztja
-if( null != openedNode ){
-	
-	TreePath pathToOpen = new TreePath( openedNode.getPath() );
-
-	//Mindenkeppen kinyitja a gyujtot
-	pageBaseTree.expandPath( pathToOpen );
-	pageBaseTree.setSelectionPath( pathToOpen );
-	
-}	
 			
 			//Ha volt kivalasztott elem, akkor a tree-ben kivalasztja
 			if( null != selectedElement ){

@@ -54,9 +54,9 @@ public class ParamTree extends Tree {
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
-		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-icon.png");
+//		ImageIcon pageIcon = CommonOperations.createImageIcon("tree/param-page-icon.png");
 		ImageIcon pageSpecificIcon = CommonOperations.createImageIcon("tree/param-page-specific-icon.png");
-		ImageIcon pageNonSpecificIcon = CommonOperations.createImageIcon("tree/param-page-nonspecific-icon.png");
+//		ImageIcon pageNonSpecificIcon = CommonOperations.createImageIcon("tree/param-page-nonspecific-icon.png");
     	ImageIcon normalElementIcon = CommonOperations.createImageIcon("tree/param-element-normal-icon.png");
     	ImageIcon scriptElementIcon = CommonOperations.createImageIcon("tree/param-element-script-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/param-folder-closed-icon.png");
@@ -71,14 +71,14 @@ public class ParamTree extends Tree {
             
     	}else if( actualNode instanceof ParamNormalCollectorDataModel){
     		
-    		if(null == ((ParamNormalCollectorDataModel)actualNode).getBaseCollector() ){
+    		//if(null == ((ParamNormalCollectorDataModel)actualNode).getBaseCollector() ){
     			
-    			return pageNonSpecificIcon;
+    			//return pageNonSpecificIcon;
     		
-    		}else{
+    		//}else{
     			
     			return pageSpecificIcon;
-    		}
+    		//}
 
     	}else if( actualNode instanceof ParamElementDataModel ){
     		

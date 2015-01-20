@@ -55,19 +55,20 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	private static final String ATTR_ONE_LOOP_LENGTH = "onelooplength";
 	private static final String ATTR_MAX_LOOP_NUMBER = "maxloopnumber";
 	private static final String ATTR_ON = "on";
-	
+			
 	//Adatmodel ---
-	private BaseElementDataModelAdapter compareBaseElement;
+	private BaseElementDataModelAdapter lastBaseElement = null;
+	private BaseElementDataModelAdapter compareBaseElement;	
 	private ElementOperationAdapter elementOperation;
 	private Integer oneLoopLength = null;
 	private Integer maxLoopNumber = null;
 	//----
 	
-	public ParamLoopCollectorDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
+	public ParamLoopCollectorDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation, BaseElementDataModelAdapter lastBaseElement ){
 //TODO letrehozni DETAIL-t
 		super(name, "");
 		
-//		this.name = name;
+		this.lastBaseElement = lastBaseElement;
 		this.compareBaseElement = compareBaseElement;
 		this.oneLoopLength = oneLoopLength;
 		this.maxLoopNumber = maxLoopNumber;
@@ -86,18 +87,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
-		
-/*		//========
-		//
-		// Name
-		//
-		//========
-		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME );			
-		}
-		String nameString = element.getAttribute( ATTR_NAME );		
-		this.name = nameString;
-*/		
+				
 		//========
 		//
 		// On
@@ -206,6 +196,12 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	    	
 		}
 		
+		try{
+			lastBaseElement = (BaseElementDataModelAdapter) getBaseDataModelFromPath(element, baseRootDataModel, TAG, getName() );
+		}catch (XMLBaseConversionPharseException e){
+			lastBaseElement = null;
+		}
+		
 	    //========
 		//
 		// Gyermekei
@@ -226,6 +222,16 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		
 		elementOperation = CommonOperations.getElementOperation( element, compareBaseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, variableRootDataModel );
 		
+	}
+	
+	@Override
+	public BaseElementDataModelAdapter getLastBaseElement(){
+		return lastBaseElement;
+	}
+	
+	@Override
+	public void setLastBaseElement( BaseElementDataModelAdapter lastBaseElement ){
+		this.lastBaseElement = lastBaseElement;
 	}
 	
 	public static Tag getTagStatic(){
@@ -284,22 +290,6 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		
 		Element elementElement = super.getXMLElement(document);
 		
-/*		//========
-		//
-		//Node element
-		//
-		//========
-		Element elementElement = document.createElement( TAG.getName() );
-		
-		//========
-		//
-		//Name
-		//
-		//========
-		attr = document.createAttribute( ATTR_NAME );
-		attr.setValue( getName() );
-		elementElement.setAttributeNode(attr);	
-*/
 		//========
 		//
 		//BaseElementAbsolutePath
@@ -345,6 +335,19 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		attr.setValue( this.getMaxLoopNumber().toString() );
 		elementElement.setAttributeNode(attr);		
 		
+		//========
+		//
+		//LASTBASEELEMENT attributum
+		//
+		//========
+		//if( null != lastBaseElement ){
+			attr = document.createAttribute( ATTR_LAST_BASE_ELEMENT_PATH );
+			if( null != lastBaseElement ){
+				attr.setValue( lastBaseElement.getPathTag() );
+			}
+			elementElement.setAttributeNode(attr);		
+		//}
+			
 		//========
 		//
 		// Gyermekek
@@ -506,44 +509,9 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		
 		//Leklonozza a NODE-ot
 		ParamLoopCollectorDataModel cloned = (ParamLoopCollectorDataModel)super.clone();
-/*		
-		//Ha vannak gyerekei (NODE vagy CASE)
-		if( null != this.children ){
-			
-			//Akkor azokat is leklonozza
-			cloned.children = new Vector<>();
-			
-			for( Object o : this.children ){
-				
-				if( o instanceof ParamDataModelAdapter ){
-					
-					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
-					
-					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
-					child.setParent( cloned );					
-					
-					cloned.children.add(child);
-			
-				}
-			}
-		}
-*/	
-//		cloned.compareBaseElement = (BaseElementDataModelAdapter) this.compareBaseElement.clone();
-//		cloned.elementOperation = (ElementOperationAdapter) this.elementOperation.clone();
 		
 		return cloned;
 		
 	}
-/*
-	@Override
-	public Object cloneWithParent() {
-		
-		ParamElementDataModel cloned = (ParamElementDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-			
-		return cloned;
-	}
-*/	
+
 }

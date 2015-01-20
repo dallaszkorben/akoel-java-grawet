@@ -1,10 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
-import java.io.StringReader;
 import javax.swing.tree.MutableTreeNode;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,16 +9,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.WorkingDirectory;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -36,24 +27,21 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 
-public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapter {//ParamDataModelAdapter implements ExecutablePageInterface{
+public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapter {
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
 	public static final Tag TAG = Tag.PARAMNORMALELEMENTCOLLECTOR;
 	
-	private static final String ATTR_BASE_PAGE_PATH = "basepagepath";
 	private static final String ATTR_ON = "on";
 	
-	private BaseCollectorDataModel baseCollector = null;	
-//	private String name;
+	private BaseElementDataModelAdapter lastBaseElement = null;	
 	
-	public ParamNormalCollectorDataModel( String name, BaseCollectorDataModel baseCollector){
-//TODO letrehozni DETAIL-t		
+	public ParamNormalCollectorDataModel( String name, String details, BaseElementDataModelAdapter lastBaseElement){	
 		
-		super( name, "" );
+		super( name, details );
 		
-		this.baseCollector = baseCollector;
+		this.lastBaseElement = lastBaseElement;
 
 	}
 
@@ -67,7 +55,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 		
 		super(element, baseRootDataModel, variableRootDataModel);
 		
-		BaseDataModelAdapter baseDataModel = baseRootDataModel;
+		//BaseDataModelAdapter baseDataModel = baseRootDataModel;
 				
 		//========
 		//
@@ -87,15 +75,15 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 		//
 		//========
 
-		//No Specific Page
-		if( !element.hasAttribute( ATTR_BASE_PAGE_PATH ) ){
+/*		//No Specific Page
+		if( !element.hasAttribute( ATTR_LAST_BASE_ELEMENT_PATH ) ){
 			
-			baseCollector = null;
+			lastBaseElement = null;
 			
 		//Relative page	
 		}else{
 		
-			String paramPagePathString = element.getAttribute(ATTR_BASE_PAGE_PATH);				
+			String paramPagePathString = element.getAttribute(ATTR_LAST_BASE_ELEMENT_PATH);				
 			paramPagePathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramPagePathString;  
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 			DocumentBuilder builder; 
@@ -107,8 +95,9 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 	        
 			} catch (Exception e) { 
 	    	
-				//Nem sikerult az atalakitas
-				throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH), e );
+				lastBaseElement = null;
+				////Nem sikerult az atalakitas
+				//throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_PAGE_PATH, element.getAttribute(ATTR_BASE_PAGE_PATH), e );
 	    	
 			} 
 			
@@ -154,7 +143,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 			}	    
 			try{
 	    	
-				baseCollector = (BaseCollectorDataModel)baseDataModel;
+				lastBaseElement = (BaseElementDataModelAdapter)baseDataModel;
 	    	
 			}catch(ClassCastException e){
 
@@ -163,7 +152,14 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 			}
 				
 		}
+		*/
 		
+		try{
+			lastBaseElement = (BaseElementDataModelAdapter) getBaseDataModelFromPath(element, baseRootDataModel, TAG, getName() );
+		}catch (XMLBaseConversionPharseException e){
+			lastBaseElement = null;
+		}
+				
 	    //========
 		//
 		// Gyermekei
@@ -197,21 +193,14 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 		return getTagStatic();
 	}
 	
-/*	@Override
-	public String getName() {		
-		return name;
+	@Override
+	public BaseElementDataModelAdapter getLastBaseElement(){
+		return lastBaseElement;
 	}
 	
-	public void setName( String name ){
-		this.name = name;
-	}
-*/
-	public BaseCollectorDataModel getBaseCollector(){
-		return baseCollector;
-	}
-	
-	public void setBaseCollector( BaseCollectorDataModel baseCollector ){
-		this.baseCollector = baseCollector;
+	@Override
+	public void setLastBaseElement( BaseElementDataModelAdapter lastBaseElement ){
+		this.lastBaseElement = lastBaseElement;
 	}
 	
 	public static String  getModelNameToShowStatic(){
@@ -318,33 +307,17 @@ elementProgress.outputCommand( "" );
 		
 		//========
 		//
-		//PAGEBASEPAGE attributum
+		//LASTBASEELEMENT attributum
 		//
 		//========
-		if( null != baseCollector ){
-			attr = document.createAttribute( ATTR_BASE_PAGE_PATH );
-			attr.setValue( baseCollector.getPathTag() );
-			pageElement.setAttributeNode(attr);		
-		}
-/*		
-		//========
-		//
-		// Gyermekek
-		//
-		//========
-		int childrens = this.getChildCount();
-		for( int i = 0; i < childrens; i++ ){
-			
-			Object object = this.getChildAt( i );
-			
-			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
-				
-				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
-				pageElement.appendChild( element );		    		
-		    	
+		//if( null != lastBaseElement ){
+			attr = document.createAttribute( ATTR_LAST_BASE_ELEMENT_PATH );
+			if( null != lastBaseElement ){
+				attr.setValue( lastBaseElement.getPathTag() );
 			}
-		}			
-*/		
+			pageElement.setAttributeNode(attr);		
+		//}
+		
 		return pageElement;	
 	}
 	
@@ -353,41 +326,10 @@ elementProgress.outputCommand( "" );
 		
 		//Leklonozza a ParamPage-et
 		ParamNormalCollectorDataModel cloned = (ParamNormalCollectorDataModel)super.clone();
-/*
-		//Ha vannak gyerekei (ELEMENT)
-		if( null != this.children ){
-							
-			//Akkor azokat is leklonozza
-			cloned.children = new Vector<>();
-							
-			for( Object o : this.children ){
-								
-				if( o instanceof ParamDataModelAdapter ){
-					
-					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
-					
-					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
-					child.setParent( cloned );					
-					
-					cloned.children.add(child);
-			
-				}
-			}
-		}
-*/		
+		
 		return cloned;
 		
 	}
-/*	
-	@Override
-	public Object cloneWithParent() {
-		
-		ParamNormalCollectorDataModel cloned = (ParamNormalCollectorDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
+	
+
 }

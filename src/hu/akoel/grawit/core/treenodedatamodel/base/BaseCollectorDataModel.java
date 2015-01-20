@@ -82,23 +82,6 @@ public class BaseCollectorDataModel extends BaseNodeDataModelAdapter  {//BaseDat
 		//return getTagStatic();
 	}
 
-/*	@Override
-	public String getName(){
-		return name;
-	}
-	
-	public String getDetails(){
-		return details;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setDetails(String details) {
-		this.details = details;
-	}
-*/
 	@Override
 	public void add(BaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
@@ -112,11 +95,7 @@ public class BaseCollectorDataModel extends BaseNodeDataModelAdapter  {//BaseDat
 	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
-
-/*	public String toString(){
-		return name;
-	}
-*/	
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		//Attr attr;

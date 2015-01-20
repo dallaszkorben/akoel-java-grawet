@@ -15,16 +15,16 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamNormalCollectorDataModel, ParamCollectorDataModelAdapter>{
+public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamCollectorDataModelAdapter>{
 
 	private static final long serialVersionUID = 1064181673121972602L;
 
 	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, null, false);
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, null, false, false);
 	}
 
 	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamCollectorDataModelAdapter selectedParamPageDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, false);
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, true, false);
 	}
 	
 	@Override
