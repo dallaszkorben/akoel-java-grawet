@@ -13,6 +13,7 @@ import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
 import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
@@ -89,14 +90,16 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		return(E)comboOperationList.getSelectedItem();
 	}
 
-	public ListElementTypeComponentFull( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ListElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
-		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );		
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+		
+		ElementTypeListEnum elementType = baseElement.getElementType();
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.pattern") + ": ");

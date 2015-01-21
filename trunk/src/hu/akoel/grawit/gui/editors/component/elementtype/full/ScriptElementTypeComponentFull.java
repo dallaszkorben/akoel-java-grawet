@@ -9,6 +9,7 @@ import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation
 import hu.akoel.grawit.core.operations.SpecialBaseAddVariableToParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -53,15 +54,19 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 	
 	private JLabel labelFiller;
 	
-	public ScriptElementTypeComponentFull( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	//public ScriptElementTypeComponentFull( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ScriptElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+		
 		super();
 		
-		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );		
 		
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+		
+		ElementTypeListEnum elementType = baseElement.getElementType();
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");

@@ -4,6 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ButtonElementTypeOperationsFullListEnum;
 
@@ -34,10 +35,10 @@ public class ButtonElementTypeComponentFull<E extends ButtonElementTypeOperation
 	 * Uj
 	 * 
 	 */
-	public ButtonElementTypeComponentFull( ElementTypeListEnum elementType ){
+	public ButtonElementTypeComponentFull( BaseElementDataModelAdapter baseElement ){
 		super();
 
-		common( elementType, null );
+		common( baseElement, null );
 		
 	}
 	
@@ -48,14 +49,16 @@ public class ButtonElementTypeComponentFull<E extends ButtonElementTypeOperation
 	 * @param key
 	 * @param value
 	 */
-	public ButtonElementTypeComponentFull( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation ){
+	public ButtonElementTypeComponentFull( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation ){
 		super();
 		
-		common( elementType, elementOperation );		
+		common( baseElement, elementOperation );		
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType, ElementOperationAdapter elementOperation ){
+	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation ){
+		
+		ElementTypeListEnum elementType = baseElement.getElementType();
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");

@@ -187,7 +187,11 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 				public void changedUpdate(DocumentEvent e) {
 					change();
 				}			
+				
+				//Ha megvaltozott a BaseElement
 				private void change(){
+					
+					//Akkor ezt a valtozast jelzem a changeOperation()-nak
 					BaseElementDataModelAdapter baseElement = ParamElementEditor.this.fieldBaseElementSelector.getSelectedDataModel();
 					changeOperation( baseElement );
 				}
@@ -239,42 +243,42 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 		//SCRIPT
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SCRIPT.name() ) ){
 				
-			elementTypeComponent = new ScriptElementTypeComponentFull<ScriptElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new ScriptElementTypeComponentFull<ScriptElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
 			
-			elementTypeComponent = new FieldElementTypeComponentFull<FieldElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new FieldElementTypeComponentFull<FieldElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//TEXT
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
 
-			elementTypeComponent = new TextElementTypeComponentFull<TextElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new TextElementTypeComponentFull<TextElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//LINK	
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LINK.name() ) ){
 
-			elementTypeComponent = new LinkElementTypeComponentFull<LinkElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new LinkElementTypeComponentFull<LinkElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//LIST
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LIST.name() ) ){
 			
-			elementTypeComponent = new ListElementTypeComponentFull<ListElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new ListElementTypeComponentFull<ListElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
 			
-			elementTypeComponent = new ButtonElementTypeComponentFull<ButtonElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation );
+			elementTypeComponent = new ButtonElementTypeComponentFull<ButtonElementTypeOperationsFullListEnum>( baseElement, elementOperation );
 			
 		//RADIOBUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.RADIOBUTTON.name() ) ){
 
-			elementTypeComponent = new RadiobuttonElementTypeComponentFull<RadiobuttonElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new RadiobuttonElementTypeComponentFull<RadiobuttonElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
 			
 		//CHECKBOX
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.CHECKBOX.name() ) ){
 			
-			elementTypeComponent = new CheckboxElementTypeComponentFull<CheckboxElementTypeOperationsFullListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new CheckboxElementTypeComponentFull<CheckboxElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
 					
 		}		
 		
