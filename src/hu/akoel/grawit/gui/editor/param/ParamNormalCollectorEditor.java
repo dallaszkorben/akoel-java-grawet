@@ -5,14 +5,12 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.BaseCollectorTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -28,7 +26,6 @@ public class ParamNormalCollectorEditor extends DataEditor{
 	private EditMode mode;
 	
 	private JLabel labelName;
-	private JLabel labelDetails;
 	private TextFieldComponent fieldName;
 	private TextAreaComponent fieldDetails;
 	//private JLabel labelBasePageSelector;
@@ -186,7 +183,8 @@ public class ParamNormalCollectorEditor extends DataEditor{
 			if( null == mode ){				
 				
 				//ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldBasePageSelector.getSelectedDataModel() );
-				ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldDetails.getText(), null );
+				//ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldDetails.getText(), null );
+				ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldDetails.getText() );
 				nodeForCapture.add( newParamPage );
 				
 			//Modositas eseten

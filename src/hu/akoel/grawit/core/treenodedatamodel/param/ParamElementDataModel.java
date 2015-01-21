@@ -63,6 +63,12 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
+		
+		//A gyujtoben beallitja az utoljara vegrehajtott baseElement eleresi utvonalat
+		MutableTreeNode mtn = (MutableTreeNode)this.getParent();
+		if( mtn instanceof ParamCollectorDataModelAdapter ){
+			((ParamCollectorDataModelAdapter)mtn).setLastBaseElement( baseElement );
+		}
 
 	}
 	
@@ -171,10 +177,8 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 				}catch(ClassCastException e){
 
 					throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_BASE_ELEMENT_PATH, element.getAttribute(ATTR_BASE_ELEMENT_PATH), e );
-				}
-	    						    		
-			}
-	    	
+				}	    						    		
+			}	    	
 		}
 		
 //TODO duplikacio megszuntetese. ugyan ez van a SpecialElementTypeComponent.java-ban TestCaseControlLoop is, csak egy kicsit maskent	    
@@ -222,6 +226,13 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 
 	public void setBaseElement( BaseElementDataModelAdapter baseElement ){
 		this.baseElement = baseElement;
+		
+		//A gyujtoben beallitja az utoljara vegrehajtott baseElement eleresi utvonalat
+		MutableTreeNode mtn = (MutableTreeNode)this.getParent();
+		if( mtn instanceof ParamCollectorDataModelAdapter ){
+			((ParamCollectorDataModelAdapter)mtn).setLastBaseElement( baseElement );
+		}
+		
 	}
 	
 	public BaseElementDataModelAdapter getBaseElement(){

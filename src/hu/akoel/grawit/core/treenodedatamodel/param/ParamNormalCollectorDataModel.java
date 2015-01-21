@@ -37,11 +37,13 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 	
 	private BaseElementDataModelAdapter lastBaseElement = null;	
 	
-	public ParamNormalCollectorDataModel( String name, String details, BaseElementDataModelAdapter lastBaseElement){	
+//	public ParamNormalCollectorDataModel( String name, String details, BaseElementDataModelAdapter lastBaseElement){	
+	public ParamNormalCollectorDataModel( String name, String details ){		
 		
 		super( name, details );
 		
-		this.lastBaseElement = lastBaseElement;
+		//Nem bantom a lastBaseElement-et
+		//this.lastBaseElement = lastBaseElement;
 
 	}
 
