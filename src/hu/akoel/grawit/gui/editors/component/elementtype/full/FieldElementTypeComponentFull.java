@@ -15,6 +15,7 @@ import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
@@ -72,14 +73,16 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 	
 	private JLabel labelFiller;
 	
-	public FieldElementTypeComponentFull( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public FieldElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
-		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );		
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+		
+		ElementTypeListEnum elementType = baseElement.getElementType();
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
@@ -171,7 +174,11 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 		
 		//Valtozok letrehozase
 		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
-		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
+					
+		//Arra az esetre, ha a muvelethez hasznalt baseElement meg nem kivalasztott akkor az alap alapElemet javasolja hasznalni
+		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, false );
+//		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
+			
 		fieldString = new JTextField( "" );
 		
 		//Default value for CompareType
@@ -181,7 +188,8 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 		if( null == elementOperation ){
 			
 			comboOperationList.setSelectedIndex(E.CLICK.getIndex());
-			
+		
+		//Modositas
 		}else{
 			
 			//!!!Fontos a beallitasok sorrendje!!!
@@ -209,8 +217,8 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 
 			//FILL_BASELEMENT
 			}else if( elementOperation instanceof FillWithBaseElementOperation ){
-								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((FillWithBaseElementOperation)elementOperation).getBaseElement() );
+							
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((FillWithBaseElementOperation)elementOperation).getBaseElement(), true );
 				comboOperationList.setSelectedIndex(E.FILL_ELEMENT.getIndex());
 
 			//FILL_STRING
@@ -228,8 +236,8 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 
 			//COMPARE VALUE TO STORED
 			}else if( elementOperation instanceof CompareValueToStoredElementOperation ){
-								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElement() );
+					
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElement(), true );								
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STORED.getIndex());
 				

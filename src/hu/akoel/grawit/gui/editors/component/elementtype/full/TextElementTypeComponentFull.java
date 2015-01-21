@@ -10,6 +10,7 @@ import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
@@ -71,10 +72,10 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 	 * Uj
 	 * 
 	 */
-	public TextElementTypeComponentFull( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public TextElementTypeComponentFull( BaseElementDataModelAdapter baseElement, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 
-		common( elementType, null, baseRootDataModel, variableRootDataModel );
+		common( baseElement, null, baseRootDataModel, variableRootDataModel );
 		
 	}
 	
@@ -85,14 +86,16 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 	 * @param key
 	 * @param value
 	 */
-	public TextElementTypeComponentFull( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public TextElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		super();
 		
-		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );		
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+		
+		ElementTypeListEnum elementType = baseElement.getElementType();
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
@@ -183,9 +186,13 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 		comboOperationList.setSelectedIndex(-1);
 		comboCompareTypeList.setSelectedIndex( -1 );		
 		
-		//Valtozok letrehozase
+		//Valtozok letrehozasa
 		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
-		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
+		
+		//Arra az esetre, ha a muvelethez hasznalt baseElement meg nem kivalasztott akkor az alap alapElemet javasolja hasznalni
+		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, false );
+		//fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
+		
 		fieldString = new JTextField( "" );
 		
 		//Default value for CompareType
