@@ -62,7 +62,14 @@ public abstract class ParamCollectorDataModelAdapter extends ParamNodeDataModelA
 		//Van utvonal
 		}else{
 		
-			String paramPagePathString = element.getAttribute(attribute);				
+			String paramPagePathString = element.getAttribute(attribute);
+			
+			if( paramPagePathString.trim().isEmpty() ){
+				
+				//Else [Fatal Error] :-1:-1: Premature end of file.  
+				return null;
+			}
+			
 			paramPagePathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramPagePathString;  
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 			DocumentBuilder builder; 
@@ -71,8 +78,13 @@ public abstract class ParamCollectorDataModelAdapter extends ParamNodeDataModelA
 				
 				//attributum-kent tarolt utvonal atalakitasa Documentum-ma
 				builder = factory.newDocumentBuilder();  
+				
+				
+				StringReader sr = new StringReader( paramPagePathString );
+				InputSource is = new InputSource( sr );
+				
 				document = builder.parse( new InputSource( new StringReader( paramPagePathString ) ) ); 
-	        
+     
 			} catch (Exception e) {	    	
 				
 				//Nem sikerult az atalakitas
@@ -99,7 +111,7 @@ public abstract class ParamCollectorDataModelAdapter extends ParamNodeDataModelA
 						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
 					}
 	    		
-				//Ha BASEPAGE
+				//Ha BASECOLLECTOR
 				}else if( tagName.equals( BaseCollectorDataModel.TAG.getName() ) ){
 					attrName = actualElement.getAttribute(BaseCollectorDataModel.ATTR_NAME);
 					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASECOLLECTOR, attrName );
@@ -110,19 +122,24 @@ public abstract class ParamCollectorDataModelAdapter extends ParamNodeDataModelA
 	    
 				//Ha BASEELEMENT
 				}else if( tagName.equals( BaseElementDataModelAdapter.TAG.getName() ) ){
-					attrName = actualElement.getAttribute(BaseElementDataModelAdapter.ATTR_NAME);
-
-					throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );	    		
+					attrName = actualElement.getAttribute(BaseElementDataModelAdapter.ATTR_NAME);						    		
 	    	
+					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEELEMENT, attrName );
+					if( null == baseDataModel ){
+
+						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
+					}
+					
 				}else{
 	    		
 					throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );	    		
 				}	    	
 	    	
 			}	    
-			try{
-	    	
-				return (BaseElementDataModelAdapter)baseDataModel;
+			try{				
+				
+				//return (BaseElementDataModelAdapter)baseDataModel;
+				return baseDataModel;
 	    	
 			}catch(ClassCastException e){
 
