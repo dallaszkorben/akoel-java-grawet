@@ -95,6 +95,7 @@ public class RunTree extends Tree {
 			}
 
 			guiFrame.showEditorPanel( editor );
+			
 		}else if( selectedNode instanceof TestcaseFolderDataModel ){
 			//guiFrame.showEditorPanel( emptyPanel );
 		

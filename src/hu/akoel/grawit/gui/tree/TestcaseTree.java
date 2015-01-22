@@ -21,6 +21,7 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataMode
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
@@ -263,44 +264,70 @@ public class TestcaseTree extends Tree {
 	@Override
 	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
 	
-		if( selectedNode.getChildCount() == 0 ){
-			
-			
-			JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.delete") );
-			deleteMenu.setActionCommand( ActionCommand.UP.name());
-			deleteMenu.addActionListener( new ActionListener() {
+		JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.delete") );
+		deleteMenu.setActionCommand( ActionCommand.UP.name());
+		deleteMenu.addActionListener( new ActionListener() {
 				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					//Megerosito kerdes
-					Object[] options = {
-							CommonOperations.getTranslation("button.no"),
-							CommonOperations.getTranslation("button.yes")								
-					};
+			@Override
+			public void actionPerformed(ActionEvent e) {				
+				
+				//Megerosito kerdes
+				Object[] options = {
+						CommonOperations.getTranslation("button.no"),
+						CommonOperations.getTranslation("button.yes")								
+				};
+					
+				//Ha nincsenek gyermekei
+				if( selectedNode.getChildCount() == 0 ){
 					
 					int n = JOptionPane.showOptionDialog(guiFrame,							
 							MessageFormat.format( 
-									CommonOperations.getTranslation("mesage.question.delete.treeelement"), 
+									CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
 									selectedNode.getNodeTypeToShow(),
 									selectedNode.getName()
-							),							
-							CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
-							JOptionPane.YES_NO_CANCEL_OPTION,
-							JOptionPane.QUESTION_MESSAGE,
-							null,
-							options,
-							options[0]);
-
+									),							
+									CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
+									JOptionPane.YES_NO_CANCEL_OPTION,
+									JOptionPane.QUESTION_MESSAGE,
+									null,
+									options,
+									options[0]);
+					
+					//A tenyleges torles
 					if( n == 1 ){
 						totalTreeModel.removeNodeFromParent( selectedNode);
 						TestcaseTree.this.setSelectionRow(selectedRow - 1);
-					}							
-				}
-			});
-			popupMenu.add ( deleteMenu );
+					}
+					
+				//Ha vannak gyerekei
+				}else{
+					
+					int n = JOptionPane.showOptionDialog(guiFrame,							
+							MessageFormat.format( 
+									CommonOperations.getTranslation("mesage.question.delete.treeelement.withchildren"), 
+									selectedNode.getNodeTypeToShow(),
+									selectedNode.getName()
+									),							
+									CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
+									JOptionPane.YES_NO_CANCEL_OPTION,
+									JOptionPane.WARNING_MESSAGE,
+									null,
+									options,
+									options[0]);					
+
+					//A tenyleges torles
+					if( n == 1 ){
+						totalTreeModel.removeNodeFromParent( selectedNode);
+						TestcaseTree.this.setSelectionRow(selectedRow - 1);
+					}
+					
+				}					
+					
+			}
+		});
+		popupMenu.add ( deleteMenu );
 			
-		}		
+//		}		
 	}
 
 	@Override
@@ -314,7 +341,7 @@ public class TestcaseTree extends Tree {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				TestcaseFolderEditor paramNodeEditor = new TestcaseFolderEditor( TestcaseTree.this, (TestcaseFolderDataModel)selectedNode );								
+				TestcaseFolderEditor paramNodeEditor = new TestcaseFolderEditor( TestcaseTree.this, (TestcaseNodeDataModelAdapter)selectedNode );								
 				guiFrame.showEditorPanel( paramNodeEditor);								
 			
 			}

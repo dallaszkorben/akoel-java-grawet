@@ -285,7 +285,7 @@ public class BaseTree extends Tree{
 					
 					int n = JOptionPane.showOptionDialog(guiFrame,							
 							MessageFormat.format( 
-									CommonOperations.getTranslation("mesage.question.delete.treeelement"), 
+									CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
 									selectedNode.getNodeTypeToShow(),
 									selectedNode.getName()
 							),							
