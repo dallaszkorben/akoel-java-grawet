@@ -5,21 +5,24 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.ParamPageTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.ParamCollectorTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class TestcaseParamCollectorEditor extends DataEditor{
+public class TestcaseParamContainerEditor extends DataEditor{
 
 	private static final long serialVersionUID = -8169618880309437186L;
 	
@@ -33,10 +36,10 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 	private JLabel labelDetails;
 	private TextAreaComponent fieldDetails;
 	private JLabel labelParamPageTreeSelector;
-	private ParamPageTreeSelectorComponent fieldParamPageTreeSelector;	
+	private ParamCollectorTreeSelectorComponent fieldParamPageTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcaseParamCollectorEditor( Tree tree, TestcaseDataModelAdapter selectedNode, ParamDataModelAdapter paramDataModel ){
+	public TestcaseParamContainerEditor( Tree tree, TestcaseCaseDataModel selectedNode, ParamDataModelAdapter paramDataModel ){
 		super( TestcaseParamContainerDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
@@ -50,14 +53,16 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( "", NOTE_ROWS, 15);
 		
 		//ParamPageTreeSelector
-		fieldParamPageTreeSelector = new ParamPageTreeSelectorComponent(paramDataModel);
+		//fieldParamPageTreeSelector = new ParamPageTreeSelectorComponent(paramDataModel);
+		ParamCollectorDataModelAdapter lastParamCollector = selectedNode.getLastParamCollector();
+		fieldParamPageTreeSelector = new ParamCollectorTreeSelectorComponent( paramDataModel, lastParamCollector, false );		
 		
 		common();
 		
 	}
 	
 	//Itt modositas van
-	public TestcaseParamCollectorEditor( Tree testcaseTree, TestcaseParamContainerDataModel selectedNode, ParamDataModelAdapter paramDataModel, EditMode mode ){		
+	public TestcaseParamContainerEditor( Tree testcaseTree, TestcaseParamContainerDataModel selectedNode, ParamDataModelAdapter paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = testcaseTree;
@@ -71,7 +76,7 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), NOTE_ROWS, 15);
 		
 		//ParamPageTreeSelector
-		fieldParamPageTreeSelector = new ParamPageTreeSelectorComponent( paramDataModel, selectedNode.getParamPage() );
+		fieldParamPageTreeSelector = new ParamCollectorTreeSelectorComponent( paramDataModel, selectedNode.getParamPage() );
 				
 		common();
 	}
@@ -181,13 +186,16 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 		}else{
 
 			//A kivalasztott paramPage
-			ParamCollectorDataModelAdapter paramPage = fieldParamPageTreeSelector.getSelectedDataModel();			
+			ParamCollectorDataModelAdapter paramCollector = fieldParamPageTreeSelector.getSelectedDataModel();			
 			
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcaseParamContainerDataModel newTestcasePage = new TestcaseParamContainerDataModel( fieldName.getText(), fieldDetails.getText(), paramPage );				
-				nodeForCapture.add( newTestcasePage );
+				TestcaseParamContainerDataModel newTestcaseParamContainer = new TestcaseParamContainerDataModel( fieldName.getText(), fieldDetails.getText(), paramCollector );				
+				nodeForCapture.add( newTestcaseParamContainer );
+				
+				//A new ParamElementDataModel()-ben nem vegrehajthato, mert akkor meg nincs a tree-hez rendelve es igy nincs szuloje
+				newTestcaseParamContainer.setParamCollector(paramCollector);
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -195,7 +203,7 @@ public class TestcaseParamCollectorEditor extends DataEditor{
 				//Modositja a valtozok erteket
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
-				nodeForModify.setParamPage(paramPage);
+				nodeForModify.setParamCollector(paramCollector);
 			
 			}			
 			

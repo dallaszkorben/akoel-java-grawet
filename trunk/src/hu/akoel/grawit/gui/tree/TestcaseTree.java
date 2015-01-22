@@ -29,7 +29,7 @@ import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseFolderEditor;
-import hu.akoel.grawit.gui.editor.testcase.TestcaseParamCollectorEditor;
+import hu.akoel.grawit.gui.editor.testcase.TestcaseParamContainerEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseRootEditor;
 
 public class TestcaseTree extends Tree {
@@ -126,7 +126,7 @@ public class TestcaseTree extends Tree {
 			guiFrame.showEditorPanel( testcaseRootEditor);
 
 		}else if( selectedNode instanceof TestcaseParamContainerDataModel ){
-			TestcaseParamCollectorEditor testcaseParamPageEditor = new TestcaseParamCollectorEditor( this, (TestcaseParamContainerDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
+			TestcaseParamContainerEditor testcaseParamPageEditor = new TestcaseParamContainerEditor( this, (TestcaseParamContainerDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( testcaseParamPageEditor);				
 			
 		}else if( selectedNode instanceof TestcaseFolderDataModel ){
@@ -151,7 +151,7 @@ public class TestcaseTree extends Tree {
 
 		}else if( selectedNode instanceof TestcaseParamContainerDataModel ){
 
-			TestcaseParamCollectorEditor testcaseParamPageEditor = new TestcaseParamCollectorEditor( this, (TestcaseParamContainerDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
+			TestcaseParamContainerEditor testcaseParamPageEditor = new TestcaseParamContainerEditor( this, (TestcaseParamContainerDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseParamPageEditor);		
 			
 		}else if( selectedNode instanceof TestcaseFolderDataModel ){
@@ -183,7 +183,7 @@ public class TestcaseTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcaseParamCollectorEditor testcaseParamPageEditor = new TestcaseParamCollectorEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
+					TestcaseParamContainerEditor testcaseParamPageEditor = new TestcaseParamContainerEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
 					guiFrame.showEditorPanel( testcaseParamPageEditor);								
 				
 				}

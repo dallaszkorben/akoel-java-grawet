@@ -1,9 +1,10 @@
 package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
@@ -15,16 +16,22 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamPageTreeSelectorComponent extends TreeSelectorComponent<ParamCollectorDataModelAdapter>{
+public class ParamCollectorTreeSelectorComponent extends TreeSelectorComponent<ParamCollectorDataModelAdapter>{
 
 	private static final long serialVersionUID = 1064181673121972602L;
 
-	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel ) {
+	//TODO torlendo
+	public ParamCollectorTreeSelectorComponent( ParamDataModelAdapter rootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, null, false, false);
 	}
 
-	public ParamPageTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamCollectorDataModelAdapter selectedParamPageDataModel ) {
+	//TODO torlendo
+	public ParamCollectorTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamCollectorDataModelAdapter selectedParamPageDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, true, false);
+	}
+	
+	public ParamCollectorTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamCollectorDataModelAdapter selectedParamPageDataModel, boolean setSelectedElementToFieldFirst ) {
+		super(CommonOperations.getTranslation("window.title.selector.baseelement"), ParamCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, setSelectedElementToFieldFirst, false);
 	}
 	
 	@Override

@@ -49,13 +49,13 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	private String name;
 	private String details;
 	
-	private ParamCollectorDataModelAdapter paramPage;
+	private ParamCollectorDataModelAdapter paramCollector;
 	
 	public TestcaseParamContainerDataModel( String name, String details, ParamCollectorDataModelAdapter paramPage ){
 //		super( name, details );
 		this.name = name;
 		this.details = details;
-		this.paramPage = paramPage;
+		this.paramCollector = paramPage;
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -188,7 +188,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    try{
 	    	
 	    	//paramPage = (ParamPageDataModel)paramDataModel;
-	    	paramPage = (ParamCollectorDataModelAdapter)paramDataModel;
+	    	paramCollector = (ParamCollectorDataModelAdapter)paramDataModel;
 	    	
 	    }catch(ClassCastException e){
 
@@ -243,12 +243,18 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		return name;
 	}
 
-	public void setParamPage( ParamCollectorDataModelAdapter paramPage ){
-		this.paramPage = paramPage;		
+	public void setParamCollector( ParamCollectorDataModelAdapter paramCollector ){
+		this.paramCollector = paramCollector;		
+		
+		//A Gyujtoben beallitja az utoljara vegrehajtott paramPage eleresi utvonalat
+		MutableTreeNode mtn = (MutableTreeNode)this.getParent();
+		if( mtn instanceof TestcaseCaseDataModel ){
+			((TestcaseCaseDataModel)mtn).setLastParamCollector( paramCollector );
+		}
 	}
 	
 	public ParamCollectorDataModelAdapter getParamPage(){
-		return paramPage;
+		return paramCollector;
 	}
 	
 	@Override
@@ -290,7 +296,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		//
 		//========
 		attr = document.createAttribute( ATTR_PARAM_PAGE_PATH );
-		attr.setValue( paramPage.getPathTag() );
+		attr.setValue( paramCollector.getPathTag() );
 		nodeElement.setAttributeNode( attr );
 			
 		return nodeElement;		
@@ -301,7 +307,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		
 		//Ha Be van kapcsolava a TestParamPage oldal
 		if( this.isOn() ){
-			paramPage.doAction( driver, player, pageProgress, elementProgress );
+			paramCollector.doAction( driver, player, pageProgress, elementProgress );
 		}
 	}
 	
