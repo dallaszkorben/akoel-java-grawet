@@ -318,7 +318,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 		//Compare element
 		if( selectedOperation.equals( E.COMPARETEXT_TO_STORED ) ){
 			
-			c.gridy = 0;
+			c.gridy = 1;
 			c.gridx = 4;
 			c.gridwidth = 1;
 			c.weighty = 0;
@@ -334,7 +334,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 		//Compare variable
 		}else if( selectedOperation.equals( E.COMPARETEXT_TO_VARIABLE ) ){
 			
-			c.gridy = 0;
+			c.gridy = 1;
 			c.gridx = 4;
 			c.gridwidth = 1;
 			c.weighty = 0;
@@ -350,7 +350,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 		//Compare string
 		}else if( selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ){
 		
-			c.gridy = 0;
+			c.gridy = 1;
 			c.gridx = 4;
 			c.gridwidth = 1;
 			c.weighty = 0;
@@ -376,7 +376,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
 			
-		//GAINTEXT TO ELEMENT
+/*		//GAINTEXT TO ELEMENT
 		}else if( selectedOperation.equals( E.GAINTEXT_TO_ELEMENT ) ){
 			
 			//PATTERN
@@ -392,7 +392,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldPattern, c );	
-			
+*/			
 		//OUTPUTSTORED
 		}else if( selectedOperation.equals(E.OUTPUTSTORED)){
 
@@ -410,6 +410,31 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 			this.add( fieldMessage, c );	
 			
 		}
+		
+		
+		
+		if( 
+				selectedOperation.equals( E.COMPARETEXT_TO_STORED )  || 
+				selectedOperation.equals( E.COMPARETEXT_TO_VARIABLE ) || 
+				selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ||
+				selectedOperation.equals( E.GAINTEXT_TO_ELEMENT )
+				){
+			
+			//PATTERN
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelPattern, c );
+							
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );
+		}
+		
 		
 		//Compare element
 		if( selectedOperation.equals( E.COMPARETEXT_TO_STORED ) || selectedOperation.equals( E.COMPARETEXT_TO_VARIABLE ) || selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ){

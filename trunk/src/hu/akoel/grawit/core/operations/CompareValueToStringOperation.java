@@ -76,6 +76,10 @@ public class CompareValueToStringOperation extends ElementOperationAdapter{
 		}		
 	}
 	
+	public String getStringPattern(){
+		return stringPattern;
+	}
+	
 	public String getStringToShow() {
 		return stringToCompare;
 	}

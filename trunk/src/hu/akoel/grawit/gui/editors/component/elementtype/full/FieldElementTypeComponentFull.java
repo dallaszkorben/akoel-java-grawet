@@ -248,6 +248,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 				fieldString.setText( ((CompareValueToStringOperation)elementOperation).getStringToShow() );
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STRING.getIndex());
+				fieldPattern.setText( ((CompareValueToStringOperation)elementOperation).getStringPattern());
 				
 			//GAIN VALUE TO ELEMENT STORAGE
 			}else if( elementOperation instanceof GainValueToElementStorageOperation ){
@@ -314,20 +315,6 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 		//Fill element / Compare value to element
 		if( selectedOperation.equals( E.FILL_ELEMENT ) || selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) ){
 			
-			//PATTERN
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelPattern, c );
-							
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldPattern, c );
-			
 			//ELEMENT SELECTOR
 			c.gridy = 1;
 			c.gridx = 4;
@@ -345,7 +332,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 		//Fill variable / Compare value to variable
 		}else if( selectedOperation.equals( E.FILL_VARIABLE ) || selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) ){
 			
-			c.gridy = 0;
+			c.gridy = 1;
 			c.gridx = 4;
 			c.gridwidth = 1;
 			c.weighty = 0;
@@ -361,7 +348,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 		//Fill string / Compare value to string
 		}else if( selectedOperation.equals( E.FILL_STRING ) || selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
 		
-			c.gridy = 0;
+			c.gridy = 1;
 			c.gridx = 4;
 			c.gridwidth = 1;
 			c.weighty = 0;
@@ -413,7 +400,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
 	
-		//GAINVALUE TO ELEMENT
+/*		//GAINVALUE TO ELEMENT
 		}else if( selectedOperation.equals( E.GAINVALUE_TO_ELEMENTSTORAGE ) ){
 			
 			//PATTERN
@@ -429,7 +416,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldPattern, c );
-
+*/
 		//Output STORED
 		}else if( selectedOperation.equals( E.OUTPUTSTORED ) ){
 	
@@ -448,6 +435,31 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 			
 		}	
 
+		if( 
+				selectedOperation.equals( E.FILL_ELEMENT ) || 
+				selectedOperation.equals( E.FILL_VARIABLE ) ||
+				selectedOperation.equals( E.FILL_STRING ) ||
+				selectedOperation.equals( E.COMPAREVALUE_TO_STORED )  || 
+				selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) || 
+				selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ||
+				selectedOperation.equals( E.GAINVALUE_TO_ELEMENTSTORAGE )
+				){
+			
+			//PATTERN
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelPattern, c );
+							
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );
+		}
+		
 		//Compare element
 		if( selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) || selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) || selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
 				
