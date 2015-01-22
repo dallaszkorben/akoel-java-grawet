@@ -226,6 +226,10 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		this.elementOperation = elementOperation;
 	}	
 
+	/**
+	 * Az Elemhez rendel egy BaseElement-et - kotelezo
+	 * @param baseElement
+	 */
 	public void setBaseElement( BaseElementDataModelAdapter baseElement ){
 		this.baseElement = baseElement;
 		
