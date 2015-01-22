@@ -140,6 +140,10 @@ public class ButtonElementTypeComponentFull<E extends ButtonElementTypeOperation
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
+			//Minden egyeb esetben
+			}else{
+				
+				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 			}
 			
 		}

@@ -180,7 +180,8 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 			}else if( elementOperation instanceof SpecialBaseExecuteOperation ){
 				
 				comboOperationList.setSelectedIndex(E.EXECUTE_SCRIPT.getIndex());
-					
+				
+			//Minden egyeb esetben
 			}else{
 				
 				comboOperationList.setSelectedIndex(E.CLEAR_PARAMETERS.getIndex());

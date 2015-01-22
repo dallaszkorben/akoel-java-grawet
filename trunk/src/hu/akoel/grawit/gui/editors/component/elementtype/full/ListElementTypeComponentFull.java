@@ -286,15 +286,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				comboCompareType.setSelectedIndex( ((CompareListToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_STRING.getIndex());
 				comboCompareBy.setSelectedIndex( ((CompareListToStringOperation)elementOperation).getCompareBy().getIndex() );
-				
-				
-/*			//GAIN TO VARIABLE
-			}else if( elementOperation instanceof GainListToVariableOperation ){
-				
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainListToVariableOperation)elementOperation).getVariableElement() );
-				comboOperationList.setSelectedIndex(E.GAIN_TO_VARIABLE.getIndex());
-				fieldPattern.setText( ((GainListToVariableOperation)elementOperation).getStringPattern());	
-*/			
+		
 			//GAIN TO ELEMENT
 			}else if( elementOperation instanceof GainListToElementStorageOperation ){
 				
@@ -308,7 +300,15 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
 				
-			}			
+			//Minden egyebb esetben
+			}else{
+				
+				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
+				comboSelectionBy.setSelectedIndex( ListSelectionByListEnum.BYVALUE.getIndex() );
+				comboGainBy.setSelectedIndex(ListGainByListEnum.BYVALUE.getIndex());
+				comboCompareBy.setSelectedIndex(ListCompareByListEnum.BYVALUE.getIndex());
+				
+			}
 		}
 	}	
 	

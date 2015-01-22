@@ -200,7 +200,9 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 		
 		//Kezdo ertek beallitasa
 		if( null == elementOperation ){
+			
 			comboOperationList.setSelectedIndex(E.OUTPUTSTORED.getIndex());
+			
 		}else{
 							
 			//COMPARE TEXT TO VARIABLE
@@ -241,11 +243,16 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 				fieldPattern.setText( ((GainTextToElementOperation)elementOperation).getStringPattern());			
 				
 			//OUTPUT STORED
-			}if ( elementOperation instanceof OutputStoredElementOperation ){
+			}else if ( elementOperation instanceof OutputStoredElementOperation ){
 	
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 	
+			//Minden egyeb esetben
+			}else{
+				
+				comboOperationList.setSelectedIndex(E.OUTPUTSTORED.getIndex());
+				
 			}
 		}
 	}	
