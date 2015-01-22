@@ -140,7 +140,7 @@ public class ButtonElementTypeComponentFull<E extends ButtonElementTypeOperation
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
-			//Minden egyeb esetben
+			//Ha megvaltozott az alapElem es kulonbozik a tipusa
 			}else{
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());

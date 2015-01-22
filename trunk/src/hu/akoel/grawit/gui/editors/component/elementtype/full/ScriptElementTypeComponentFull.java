@@ -181,7 +181,7 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 				
 				comboOperationList.setSelectedIndex(E.EXECUTE_SCRIPT.getIndex());
 				
-			//Minden egyeb esetben
+			//Ha megvaltozott az alapElem es kulonbozik a tipusa
 			}else{
 				
 				comboOperationList.setSelectedIndex(E.CLEAR_PARAMETERS.getIndex());

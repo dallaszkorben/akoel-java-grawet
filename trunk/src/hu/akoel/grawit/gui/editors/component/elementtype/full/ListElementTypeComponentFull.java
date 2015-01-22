@@ -299,8 +299,8 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
-				
-			//Minden egyebb esetben
+
+			//Ha megvaltozott az alapElem es kulonbozik a tipusa
 			}else{
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
@@ -667,11 +667,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		//COMPARE TO STRING
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_STRING.getIndex() ){
 			return new CompareListToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareBy.getSelectedItem()) );
-/*			
-		//GAIN TO VARIABLE
-		}else if( comboOperationList.getSelectedIndex() == E.GAIN_TO_VARIABLE.getIndex() ){
-			return new GainListToVariableOperation( fieldVariableSelector.getSelectedDataModel(), fieldPattern.getText(), (ListGainByListEnum)(comboGainBy.getSelectedItem()) );
-*/
+
 		//GAIN TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAIN_TO_ELEMENT.getIndex() ){
 			return new GainListToElementStorageOperation( fieldPattern.getText(), (ListGainByListEnum)(comboGainBy.getSelectedItem()) );

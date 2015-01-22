@@ -221,7 +221,7 @@ public class CheckboxElementTypeComponentFull<E extends CheckboxElementTypeOpera
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
 			
-			//Minden egyeb esetben
+			//Ha megvaltozott az alapElem es kulonbozik a tipusa
 			}else{
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 			}
