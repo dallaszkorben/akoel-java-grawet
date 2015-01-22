@@ -64,12 +64,14 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
 		
-		//A gyujtoben beallitja az utoljara vegrehajtott baseElement eleresi utvonalat
+/*		//A gyujtoben beallitja az utoljara vegrehajtott baseElement eleresi utvonalat
+		//Ezt a szulojetol vaszi, ha az Collector		
 		MutableTreeNode mtn = (MutableTreeNode)this.getParent();
 		if( mtn instanceof ParamCollectorDataModelAdapter ){
 			((ParamCollectorDataModelAdapter)mtn).setLastBaseElement( baseElement );
 		}
-
+*/
+		
 	}
 	
 	/**
@@ -227,7 +229,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	public void setBaseElement( BaseElementDataModelAdapter baseElement ){
 		this.baseElement = baseElement;
 		
-		//A gyujtoben beallitja az utoljara vegrehajtott baseElement eleresi utvonalat
+		//A Gyujtoben beallitja az utoljara vegrehajtott baseElement eleresi utvonalat
 		MutableTreeNode mtn = (MutableTreeNode)this.getParent();
 		if( mtn instanceof ParamCollectorDataModelAdapter ){
 			((ParamCollectorDataModelAdapter)mtn).setLastBaseElement( baseElement );

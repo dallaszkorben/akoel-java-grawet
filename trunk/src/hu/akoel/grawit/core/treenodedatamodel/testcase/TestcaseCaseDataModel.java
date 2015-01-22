@@ -1,13 +1,29 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
+import java.io.StringReader;
+
 import javax.swing.tree.MutableTreeNode;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -16,6 +32,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// TestcaseDataModelAdapter{
 
@@ -23,8 +40,11 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// Testc
 
 	public static final Tag TAG = Tag.TESTCASECASE;
 	
+	public static final String ATTR_LAST_SELECTED_PARAM_COLLECTOR_PATH = "lastparamcollectorpath";
 	public static final String ATTR_DETAILS = "details";
 	private static final String ATTR_ON = "on";
+	
+	private ParamCollectorDataModelAdapter lastParamCollector = null;	
 	
 	public TestcaseCaseDataModel( String name, String details ){			
 		super( name, details );
@@ -46,19 +66,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// Testc
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
-
-/*		
-		//========
-		//
-		// Name
-		//
-		//========
-		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcaseCaseDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME );			
-		}
-		String nameString = element.getAttribute( ATTR_NAME );
-		this.name = nameString;
-*/		
+	
 		//========
 		//
 		// On
@@ -70,100 +78,13 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// Testc
 			String enabledString = element.getAttribute( ATTR_ON );
 			this.setOn( Boolean.parseBoolean( enabledString ));
 		}				
-/*	
-		//========
-		//
-		// Details
-		//
-		//========
-		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcaseCaseDataModel.getRootTag(), Tag.TESTCASENODE, ATTR_NAME, getName(), ATTR_DETAILS );			
+			
+		try{
+			lastParamCollector = (ParamCollectorDataModelAdapter) getParamDataModelFromPath(element, paramRootDataModel, TAG, getName() );
+		}catch (XMLBaseConversionPharseException e){
+			lastParamCollector = null;
 		}		
-		String detailsString = element.getAttribute( ATTR_DETAILS );		
-		this.details = detailsString;
-	
-		DocumentBuilderFactory factory = null;  
-		DocumentBuilder builder = null;
-		Document document = null;
-		Node actualNode = null;
-*/		
-/*	    //========
-		//
-		// Driver
-		//
-	    //========
-		if( !element.hasAttribute( ATTR_DRIVER_PATH ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH );			
-		}	
-		String driverPathString = element.getAttribute(ATTR_DRIVER_PATH );				
-		driverPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + driverPathString;  
-		factory = DocumentBuilderFactory.newInstance();  
-	    try  
-	    {  
-	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( driverPathString ) ) );  
-	    } catch (Exception e) {  
-	    
-	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH ), e );
-	    } 	    
-*/
-/*		
-	    //Megkeresem a DRIVERROOT-ben az DRIVER-hez vezeto utat
-	    //Node 
-	    actualNode = document;
-	    while( actualNode.hasChildNodes() ){
 		
-	    	actualNode = actualNode.getFirstChild();
-	    	Element actualElement = (Element)actualNode;
-	    	String tagName = actualElement.getTagName();
-	    	String attrName = null;
-	    	
-	    	//Ha DRIVERNODE
-	    	if( tagName.equals( DriverNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(DriverNodeDataModel.ATTR_NAME);	    		
-	    		driverDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( driverDataModel, Tag.DRIVERNODE, attrName );
-
-	    		if( null == driverDataModel ){
-
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH ) );
-	    		}
-	    		
-	    	//Ha DRIVERFIREFOX
-	    	}else if( tagName.equals( DriverFirefoxDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(DriverFirefoxDataModel.ATTR_NAME);
-	    		driverDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( driverDataModel, Tag.DRIVERFIREFOX, attrName );
-	    		
-	    		if( null == driverDataModel ){
-	    		
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH) );
-	    		}
-	    		
-	    	//Ha DRIVERFIREFOXPROPERY
-	    	}else if( tagName.equals( DriverFirefoxPropertyDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(DriverFirefoxPropertyDataModel.ATTR_NAME);
-	    		driverDataModel = (DriverDataModelInterface) CommonOperations.getDataModelByNameInLevel( driverDataModel, Tag.DRIVERFIREFOXPROPERTY, attrName );
-	    		
-	    		if( null == driverDataModel ){
-	    			
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH) );
-	    		}
-	    		
-	    	//}else{
-	    		
-	    	//	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_OPEN_PAGE_PATH, element.getAttribute(ATTR_OPEN_PAGE_PATH) );	    		
-	    	}
-	    }	    
-	    try{
-	    	
-	    	driver = (DriverBrowserDataModelInterface<?>)driverDataModel;
-	    	
-	    }catch(ClassCastException e){
-
-	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_DRIVER_PATH, element.getAttribute(ATTR_DRIVER_PATH), e );
-	    }
-*/			
 	    //========
 		//
 		// Gyermekei
@@ -183,6 +104,14 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// Testc
 				}
 			}
 		}
+	}
+	
+	public ParamCollectorDataModelAdapter getLastParamCollector(){
+		return lastParamCollector;
+	}
+	
+	public void setLastParamCollector( ParamCollectorDataModelAdapter lastParamCollector ){
+		this.lastParamCollector = lastParamCollector;
 	}
 	
 	public static Tag getTagStatic(){
@@ -207,29 +136,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// Testc
 	public String getNodeTypeToShow(){
 		return getModelNameToShowStatic();
 	}
-/*	
-	@Override
-	public String getName(){
-		return name;
-	}
 	
-	public String getDetails(){
-		return details;
-	}
-	
-	public void setDetails( String details ){
-		this.details = details;
-	}
-	
-	public void setName( String name ){
-		this.name = name;
-	}
-	
-	
-	public String toString(){
-		return name;
-	}
-*/	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;
@@ -263,16 +170,18 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// Testc
 		attr = document.createAttribute( ATTR_DETAILS );
 		attr.setValue( getDetails() );
 		nodeElement.setAttributeNode(attr);	
-/*
+		
 		//========
 		//
-		// Driver
+		//LASTBASEELEMENT attributum
 		//
 		//========
-		attr = document.createAttribute( ATTR_DRIVER_PATH );
-		attr.setValue( driver.getPathTag() );
-		nodeElement.setAttributeNode(attr);	
-*/	
+		attr = document.createAttribute( ATTR_LAST_SELECTED_PARAM_COLLECTOR_PATH );
+		if( null != lastParamCollector){
+			attr.setValue( lastParamCollector.getPathTag() );
+		}
+		nodeElement.setAttributeNode(attr);
+		
 		//========
 		//
 		// Gyermekek
@@ -290,66 +199,128 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// Testc
 		    	
 			}
 		}
-		
 	
 		return nodeElement;		
 	}
-
-/*	public void setDriverDataModel( DriverBrowserDataModelInterface<?> driver ){
-		this.driver = driver;
-	}
 	
-	public DriverBrowserDataModelInterface<?> getDriverDataModel(){
-		return driver;
-	}
-*/	
-	
-/*	
-	@Override
-	public Object clone(){
+	public static ParamDataModelAdapter getParamDataModelFromPath(Element element, ParamRootDataModel paramRootDataModel, Tag tag, String name ) throws XMLBaseConversionPharseException{
 		
-		//Leklonozza a NODE-ot
-		TestcaseCaseDataModel cloned = (TestcaseCaseDataModel)super.clone();
-	
-		//Ha vannak gyerekei (PAGE)
-		if( null != this.children ){
+		String attribute = ATTR_LAST_SELECTED_PARAM_COLLECTOR_PATH;
+		ParamDataModelAdapter paramDataModel = paramRootDataModel;
+		
+		//Nincs megadva eleresi utvonal egyaltalan
+		if( !element.hasAttribute( attribute ) ){
 			
-			//Akkor azokat is leklonozza
-			cloned.children = new Vector<>();
+			return null;
 			
-			for( Object o : this.children ){
+		//Van utvonal
+		}else{
+		
+			String paramPagePathString = element.getAttribute(attribute);
+			
+			if( paramPagePathString.trim().isEmpty() ){
 				
-				if( o instanceof TestcaseDataModelAdapter ){					
-					
-					TestcaseDataModelAdapter child = (TestcaseDataModelAdapter) ((TestcaseDataModelAdapter)o).clone();
-					
-					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
-					child.setParent( cloned );					
-					
-					cloned.children.add(child);
-					
-				}
+				//Else [Fatal Error] :-1:-1: Premature end of file.  
+				return null;
 			}
+			
+			paramPagePathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramPagePathString;  
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
+			DocumentBuilder builder; 
+			Document document = null;
+			try {
+				
+				//attributum-kent tarolt utvonal atalakitasa Documentum-ma
+				builder = factory.newDocumentBuilder();  
+				
+				
+				StringReader sr = new StringReader( paramPagePathString );
+				InputSource is = new InputSource( sr );
+				
+				document = builder.parse( new InputSource( new StringReader( paramPagePathString ) ) ); 
+     
+			} catch (Exception e) {	    	
+				
+				//Nem sikerult az atalakitas
+				throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute), e );
+	    	
+			} 
+			
+			//Megkeresem a PARAMROOT-ben a PARAMELEMENT-hez vezeto utat
+			Node actualNode = document;
+			while( actualNode.hasChildNodes() ){
+	
+				actualNode = actualNode.getFirstChild();
+				Element actualElement = (Element)actualNode;
+				String tagName = actualElement.getTagName();
+				String attrName = null;
+	    	
+				//Ha BASEFOLDER
+				if( tagName.equals( ParamFolderDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(ParamFolderDataModel.ATTR_NAME);	    		
+					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMFOLDER, attrName );
+
+					if( null == paramDataModel ){
+
+						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
+					}
+	    		
+				//Ha PARAMNORMALCOLLECTOR
+				}else if( tagName.equals( ParamNormalCollectorDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(ParamNormalCollectorDataModel.ATTR_NAME);
+					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNORMALELEMENTCOLLECTOR, attrName );
+					if( null == paramDataModel ){
+
+						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
+					}
+	    
+				//Ha PARAMLOOPCOLLECTOR
+				}else if( tagName.equals( ParamLoopCollectorDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(ParamLoopCollectorDataModel.ATTR_NAME);
+					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMLOOPELEMENTCOLLECTOR, attrName );
+					if( null == paramDataModel ){
+
+						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
+					}
+				
+				//Ha PARAMLOOPCOLLECTOR
+				}else if( tagName.equals( ParamLoopCollectorDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(ParamLoopCollectorDataModel.ATTR_NAME);
+					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMLOOPELEMENTCOLLECTOR, attrName );
+					if( null == paramDataModel ){
+
+						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
+					}
+						
+				//Ha PARAMELEMENT
+				}else if( tagName.equals( ParamElementDataModel.TAG.getName() ) ){
+					attrName = actualElement.getAttribute(ParamElementDataModel.ATTR_NAME);						    		
+	    	
+					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMELEMENT, attrName );
+					if( null == paramDataModel ){
+
+						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
+					}
+					
+				}else{
+	    		
+					throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );	    		
+				}	    	
+	    	
+			}	    
+			try{				
+				
+				//return (ParamElementDataModelAdapter)paramDataModel;
+				return paramDataModel;
+	    	
+			}catch(ClassCastException e){
+
+				//Nem sikerult az utvonalat megtalalni
+				throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute), e );
+			}
+				
 		}
 		
-		//Es a valtozokat is leklonozza
-		cloned.name = new String( this.name );
-		cloned.details = new String( this.details );
-		
-		return cloned;
-		
 	}
-	
-	@Override
-	public Object cloneWithParent() {
-		
-		TestcaseCaseDataModel cloned = (TestcaseCaseDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/
 	
 }

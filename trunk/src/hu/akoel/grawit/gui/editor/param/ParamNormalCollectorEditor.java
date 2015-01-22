@@ -182,8 +182,6 @@ public class ParamNormalCollectorEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){				
 				
-				//ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldBasePageSelector.getSelectedDataModel() );
-				//ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldDetails.getText(), null );
 				ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldDetails.getText() );
 				nodeForCapture.add( newParamPage );
 				
@@ -192,8 +190,6 @@ public class ParamNormalCollectorEditor extends DataEditor{
 				
 				nodeForModify.setName( fieldName.getText() );	
 				nodeForModify.setDetails( fieldDetails.getText());
-				//nodeForModify.setBaseCollector( fieldBasePageSelector.getSelectedDataModel() );
-				
 
 			}			
 			

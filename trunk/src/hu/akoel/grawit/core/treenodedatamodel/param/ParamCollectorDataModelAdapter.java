@@ -101,7 +101,7 @@ public abstract class ParamCollectorDataModelAdapter extends ParamNodeDataModelA
 				String tagName = actualElement.getTagName();
 				String attrName = null;
 	    	
-				//Ha BASENODE
+				//Ha BASEFOLDER
 				if( tagName.equals( BaseFolderDataModel.TAG.getName() ) ){
 					attrName = actualElement.getAttribute(BaseFolderDataModel.ATTR_NAME);	    		
 					baseDataModel = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModel, Tag.BASEFOLDER, attrName );
