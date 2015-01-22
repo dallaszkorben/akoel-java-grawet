@@ -248,7 +248,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 	
-			//Minden egyeb esetben
+			//Ha megvaltozott az alapElem es kulonbozik a tipusa
 			}else{
 				
 				comboOperationList.setSelectedIndex(E.OUTPUTSTORED.getIndex());
