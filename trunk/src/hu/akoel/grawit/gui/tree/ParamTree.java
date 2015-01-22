@@ -333,7 +333,7 @@ public class ParamTree extends Tree {
 				
 				int n = JOptionPane.showOptionDialog(guiFrame,							
 						MessageFormat.format( 
-								CommonOperations.getTranslation("mesage.question.delete.treeelement"), 
+								CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
 								selectedNode.getNodeTypeToShow(),									
 								selectedNode.getName()
 						),							
@@ -390,7 +390,7 @@ public class ParamTree extends Tree {
 					
 					int n = JOptionPane.showOptionDialog(guiFrame,							
 							MessageFormat.format( 
-									CommonOperations.getTranslation("mesage.question.delete.treeelement"), 
+									CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
 									selectedNode.getNodeTypeToShow(),									
 									selectedNode.getName()
 							),							
