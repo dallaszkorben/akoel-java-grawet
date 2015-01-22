@@ -385,10 +385,11 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				ParamElementDataModel newParamElement = new ParamElementDataModel( fieldName.getText(), baseElement, elementOperation );			
-				
+				ParamElementDataModel newParamElement = new ParamElementDataModel( fieldName.getText(), baseElement, elementOperation );				
 				nodeForCapture.add( newParamElement );
-
+				
+				//A new ParamElementDataModel()-ben nem vegrehajthato, mert akkor meg nincs a tree-hez rendelve es igy nincs szuloje
+				newParamElement.setBaseElement(baseElement);
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){

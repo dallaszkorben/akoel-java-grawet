@@ -64,11 +64,10 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	private Integer maxLoopNumber = null;
 	//----
 	
-	public ParamLoopCollectorDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation, BaseElementDataModelAdapter lastBaseElement ){
+	public ParamLoopCollectorDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
 //TODO letrehozni DETAIL-t
 		super(name, "");
 		
-		this.lastBaseElement = lastBaseElement;
 		this.compareBaseElement = compareBaseElement;
 		this.oneLoopLength = oneLoopLength;
 		this.maxLoopNumber = maxLoopNumber;

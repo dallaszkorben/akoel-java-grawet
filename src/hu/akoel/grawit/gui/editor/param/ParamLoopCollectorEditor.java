@@ -349,7 +349,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				ParamLoopCollectorDataModel newParamLoop = new ParamLoopCollectorDataModel(fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation, null);
+				ParamLoopCollectorDataModel newParamLoop = new ParamLoopCollectorDataModel( fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation );
 				
 				nodeForCapture.add( newParamLoop );
 				
