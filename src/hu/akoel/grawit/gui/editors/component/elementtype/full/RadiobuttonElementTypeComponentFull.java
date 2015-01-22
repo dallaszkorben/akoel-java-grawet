@@ -209,13 +209,6 @@ public class RadiobuttonElementTypeComponentFull<E extends RadiobuttonElementTyp
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STRING.getIndex());
 				
-/*			//GAIN VALUE TO VARIABLE
-			}else if( elementOperation instanceof GainValueToVariableOperation ){
-			
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((GainValueToVariableOperation)elementOperation).getVariableElement() );
-				comboOperationList.setSelectedIndex(E.GAINVALUE_TO_VARIABLE.getIndex());
-				//fieldPattern.setText( ((GainValueToVariableOperation)elementOperation).getStringPattern());	
-*/
 			//GAIN VALUE TO ELEMENT STORAGE
 			}else if( elementOperation instanceof GainValueToElementStorageOperation ){
 			
@@ -227,7 +220,8 @@ public class RadiobuttonElementTypeComponentFull<E extends RadiobuttonElementTyp
 				
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
-				
+			
+			//Minden egyeb esetben
 			}else{
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 			}

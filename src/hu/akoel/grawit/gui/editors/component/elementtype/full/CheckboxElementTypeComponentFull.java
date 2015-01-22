@@ -220,7 +220,8 @@ public class CheckboxElementTypeComponentFull<E extends CheckboxElementTypeOpera
 				
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
-				
+			
+			//Minden egyeb esetben
 			}else{
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 			}

@@ -261,6 +261,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
 				
 			}else{
+				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 			}
 		}		

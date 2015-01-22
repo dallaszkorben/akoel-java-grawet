@@ -239,7 +239,10 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );		
 				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
 								
-			}			
+			//Minden egyeb esetben
+			}else{
+				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
+			}
 		}
 	}	
 	
