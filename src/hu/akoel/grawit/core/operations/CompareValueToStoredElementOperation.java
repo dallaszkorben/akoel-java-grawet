@@ -162,6 +162,10 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		
 	}
 	
+	public String getStringPattern(){
+		return stringPattern;
+	}
+	
 	public BaseElementDataModelAdapter getBaseElement() {
 		return baseElementDataModel;
 	}

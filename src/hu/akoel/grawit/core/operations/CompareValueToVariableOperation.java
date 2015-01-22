@@ -138,6 +138,10 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 
 	}
 	
+	public String getStringPattern(){
+		return stringPattern;
+	}
+	
 	public static String getStaticName(){
 		return NAME;
 	}
