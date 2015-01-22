@@ -12,7 +12,6 @@ import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
@@ -233,6 +232,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareValueToVariableOperation)elementOperation).getVariableElement() );				
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_VARIABLE.getIndex());
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToVariableOperation)elementOperation).getCompareType().getIndex() );
+				fieldPattern.setText( (( CompareValueToVariableOperation)elementOperation).getStringPattern());
 
 			//COMPARE VALUE TO STORED
 			}else if( elementOperation instanceof CompareValueToStoredElementOperation ){
@@ -240,6 +240,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElement(), true );								
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STORED.getIndex());
+				fieldPattern.setText( ((CompareValueToStoredElementOperation)elementOperation).getStringPattern());
 				
 			//COMPARE VALUE TO STRING
 			}else if( elementOperation instanceof CompareValueToStringOperation ){
@@ -313,7 +314,22 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 		//Fill element / Compare value to element
 		if( selectedOperation.equals( E.FILL_ELEMENT ) || selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) ){
 			
+			//PATTERN
 			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelPattern, c );
+							
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add( fieldPattern, c );
+			
+			//ELEMENT SELECTOR
+			c.gridy = 1;
 			c.gridx = 4;
 			c.gridwidth = 1;
 			c.weighty = 0;

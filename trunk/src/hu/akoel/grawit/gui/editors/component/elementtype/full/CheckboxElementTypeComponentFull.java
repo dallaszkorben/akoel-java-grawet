@@ -168,7 +168,11 @@ public class CheckboxElementTypeComponentFull<E extends CheckboxElementTypeOpera
 		
 		//Valtozok letrehozase
 		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
-		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
+		
+		//Arra az esetre, ha a muvelethez hasznalt baseElement meg nem kivalasztott akkor az alap alapElemet javasolja hasznalni
+		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, false );
+		//fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
+				
 		fieldString = new JTextField( "" );
 		
 		//Default value for CompareType

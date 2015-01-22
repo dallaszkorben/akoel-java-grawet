@@ -40,6 +40,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
+	private Matcher matcher;
 	
 	//--- Data model
 	private String stringPattern;
@@ -114,29 +115,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 		    			
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH) );
 	    		}	
-/*		    		
-	    	//Ha NORMALBASEELEMENT
-	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.NORMALBASEELEMENT, attrName );
-	
-	    		if( null == baseDataModelForFillOut ){
-
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH) );
-	    		}
-	    		
-	    		
-
-	    	//Ha NORMALBASEELEMENT
-	    	}else if( tagName.equals( SpecialBaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.SPECIALBASEELEMENT, attrName );
-		
-	    		if( null == baseDataModelForFillOut ){
-
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_STORED_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_STORED_BASE_ELEMENT_PATH) );
-	    		}
-*/	    	
+    	
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BaseCollectorDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseCollectorDataModel.ATTR_NAME);
