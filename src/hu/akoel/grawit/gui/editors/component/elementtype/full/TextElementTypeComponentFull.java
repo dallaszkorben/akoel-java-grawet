@@ -7,6 +7,7 @@ import hu.akoel.grawit.core.operations.ClickRightOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
@@ -211,6 +212,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareTextToVariableOperation)elementOperation).getVariableElement() );				
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_VARIABLE.getIndex());
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToVariableOperation)elementOperation).getCompareType().getIndex() );
+				fieldPattern.setText( ((CompareTextToVariableOperation)elementOperation).getStringPattern());
 
 			//COMPARE TEXT TO STORED
 			}else if( elementOperation instanceof CompareTextToStoredElementOperation ){
@@ -218,6 +220,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareTextToStoredElementOperation)elementOperation).getBaseElement() );
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STORED.getIndex());
+				fieldPattern.setText( ((CompareTextToStoredElementOperation)elementOperation).getStringPattern());
 
 			//COMPARE TEXT TO STRING
 			}else if( elementOperation instanceof CompareTextToStringOperation ){
@@ -225,6 +228,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 				fieldString.setText( ((CompareTextToStringOperation)elementOperation).getStringToShow() );
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STRING.getIndex());
+				fieldPattern.setText( ((CompareTextToStringOperation)elementOperation).getStringPattern());
 		
 			//LEFT MOUSE CLICK
 			}else if( elementOperation instanceof ClickLeftOperation ){
