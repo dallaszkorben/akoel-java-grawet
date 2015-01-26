@@ -137,6 +137,10 @@ public class CompareTextToVariableOperation extends ElementOperationAdapter{
 
 	}
 	
+	public String getStringPattern(){
+		return stringPattern;
+	}
+	
 	private void common( String stringPattern ){
 		
 		if( stringPattern.trim().length() == 0 ){

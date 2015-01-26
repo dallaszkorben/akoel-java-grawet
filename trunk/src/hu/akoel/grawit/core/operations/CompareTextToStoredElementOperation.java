@@ -165,6 +165,10 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 		
 	}
 	
+	public String getStringPattern(){
+		return stringPattern;
+	}
+	
 	public BaseElementDataModelAdapter getBaseElement() {
 		return baseElementDataModel;
 	}
