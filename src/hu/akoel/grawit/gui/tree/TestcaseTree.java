@@ -295,6 +295,8 @@ public class TestcaseTree extends Tree {
 					
 					//A tenyleges torles
 					if( n == 1 ){
+						
+						//Tulajdonkeppen csak levalasztom a fastrukturarol
 						totalTreeModel.removeNodeFromParent( selectedNode);
 						TestcaseTree.this.setSelectionRow(selectedRow - 1);
 					}
@@ -317,6 +319,8 @@ public class TestcaseTree extends Tree {
 
 					//A tenyleges torles
 					if( n == 1 ){
+						
+						//Tulajdonkeppen csak levalasztom a fastrukturarol
 						totalTreeModel.removeNodeFromParent( selectedNode);
 						TestcaseTree.this.setSelectionRow(selectedRow - 1);
 					}

@@ -3,6 +3,8 @@ package hu.akoel.grawit.gui.tree;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -14,15 +16,20 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -40,14 +47,16 @@ public class ParamTree extends Tree {
 	private VariableRootDataModel variableRootDataModel;
 	private BaseRootDataModel baseRootDataModel;
 	private ParamRootDataModel paramRootDataModel;
+	private TestcaseRootDataModel testcaseRootDataModel;
 	
-	public ParamTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel ) {
+	public ParamTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
 		super(guiFrame, paramRootDataModel);
 		
 		this.guiFrame = guiFrame;
 		this.baseRootDataModel = baseRootDataModel;
 		this.variableRootDataModel = variableRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
+		this.testcaseRootDataModel = testcaseRootDataModel;
 		
 	}
 
@@ -282,35 +291,7 @@ public class ParamTree extends Tree {
 				}
 			});
 			popupMenu.add ( insertLoopMenu );			
-/*			
-			//Insert Page
-			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.page") );
-			insertPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
-			insertPageMenu.addActionListener( new ActionListener() {
 			
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ParamPageEditor paramPageEditor = new ParamPageEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
-					guiFrame.showEditorPanel( paramPageEditor);								
-				
-				}
-			});
-			popupMenu.add ( insertPageMenu );
-			
-			//Insert NoSpecific Page
-			JMenuItem insertNoSignificantPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.nospecificpage") );
-			insertNoSignificantPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
-			insertNoSignificantPageMenu.addActionListener( new ActionListener() {
-			
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ParamPageNoSpecificEditor paramPageEditor = new ParamPageNoSpecificEditor( ParamTree.this, (ParamNodeDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
-					guiFrame.showEditorPanel( paramPageEditor);								
-				
-				}
-			});
-			popupMenu.add ( insertNoSignificantPageMenu );
-*/			
 		}
 		
 	}
@@ -324,31 +305,6 @@ public class ParamTree extends Tree {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				/*//Megerosito kerdes
-				Object[] options = {
-						CommonOperations.getTranslation("button.no"),
-						CommonOperations.getTranslation("button.yes")								
-				};
-				
-				int n = JOptionPane.showOptionDialog(guiFrame,							
-						MessageFormat.format( 
-								CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
-								selectedNode.getNodeTypeToShow(),									
-								selectedNode.getName()
-						),							
-						CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options,
-						options[0]);
-
-				if( n == 1 ){
-					totalTreeModel.removeNodeFromParent( selectedNode);
-					ParamTree.this.setSelectionRow(selectedRow - 1);
-				}
-				*/
 				
 				//Ha a kivalasztott csomopont szuloje ParamDataModel - annak kell lennie :)
 				if( selectedNode.getParent() instanceof ParamDataModelAdapter ){
@@ -372,23 +328,25 @@ public class ParamTree extends Tree {
 	@Override
 	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow,	final DefaultTreeModel totalTreeModel) {
 	
-		if( selectedNode.getChildCount() == 0 ){
-			
-			
-			JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.delete") );
-			deleteMenu.setActionCommand( ActionCommand.UP.name());
-			deleteMenu.addActionListener( new ActionListener() {
+		JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.delete") );
+		deleteMenu.setActionCommand( ActionCommand.UP.name());
+		deleteMenu.addActionListener( new ActionListener() {
 				
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
-					//Megerosito kerdes
-					Object[] options = {
-							CommonOperations.getTranslation("button.no"),
-							CommonOperations.getTranslation("button.yes")								
-					};
+				//Megerosito kerdes
+				Object[] options = {
+						CommonOperations.getTranslation("button.no"),
+						CommonOperations.getTranslation("button.yes")								
+				};
 					
-					int n = JOptionPane.showOptionDialog(guiFrame,							
+				int n;
+				
+				//Egy ures elemrol van szo, nyugodtan torolhetem
+				if( selectedNode.getChildCount() == 0 ){
+
+					n = JOptionPane.showOptionDialog(guiFrame,							
 							MessageFormat.format( 
 									CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
 									selectedNode.getNodeTypeToShow(),									
@@ -401,17 +359,85 @@ public class ParamTree extends Tree {
 							options,
 							options[0]);
 
-					if( n == 1 ){
-						totalTreeModel.removeNodeFromParent( selectedNode);
-						ParamTree.this.setSelectionRow(selectedRow - 1);
-					}							
+				//Ha nincsenek gyermekei, akkor egy megerosito kerdest teszek fel, es torolhetek 
+				//ha viszont vannak gyermekei, akkor meg kell vizsgalni, hogy valamelyik elemere van-e hivatkozas
+				}else{
+					
+					n = JOptionPane.showOptionDialog(guiFrame,							
+							MessageFormat.format( 
+									CommonOperations.getTranslation("mesage.question.delete.treeelement.withchildren"), 
+									selectedNode.getNodeTypeToShow(),
+									selectedNode.getName()
+									),							
+									CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
+									JOptionPane.YES_NO_CANCEL_OPTION,
+									JOptionPane.WARNING_MESSAGE,
+									null,
+									options,
+									options[0]);					
 				}
-			});
-			popupMenu.add ( deleteMenu );
+				
+				
+				//Ha megengedi a torlest a felhasznalo a gyermekek lete ellenere is
+				if( n == 1 ){
+												 						
+					ArrayList<TestcaseParamContainerDataModel> foundDataModelList = findAllParamInTestcase( (ParamDataModelAdapter)selectedNode, testcaseRootDataModel, new ArrayList<TestcaseParamContainerDataModel>() );
+
+for( TestcaseParamContainerDataModel foundParamContainer: foundDataModelList ){
+	System.err.println( foundParamContainer.getName() + "   =   " + foundParamContainer.getParamPage().getName() + " = " + foundParamContainer.getParamPage().getParent());
+}
+						 
+										
+				}
+			}
 			
-		}		
+			
+		});
+		popupMenu.add ( deleteMenu );
+			
+	
 	}
 
+	private ArrayList<TestcaseParamContainerDataModel> findAllParamInTestcase( ParamDataModelAdapter nodeToDelete, TestcaseDataModelAdapter rootTestcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
+		
+		findOneParamInTestcase( nodeToDelete, rootTestcaseDataModel, foundDataModel );
+		
+		//Most pedig vegig megyek a torlendo ParamModel gyermekein is
+		Enumeration<ParamDataModelAdapter> enumForParamModel = nodeToDelete.children();
+		while( enumForParamModel.hasMoreElements() ){
+		
+			ParamDataModelAdapter childrenOfParam = enumForParamModel.nextElement();
+		
+			findAllParamInTestcase( childrenOfParam, rootTestcaseDataModel, foundDataModel );
+		}
+		return foundDataModel;
+	}
+	
+	private ArrayList<TestcaseParamContainerDataModel> findOneParamInTestcase( ParamDataModelAdapter nodeToDelete, TestcaseDataModelAdapter testcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
+				
+		TestcaseDataModelAdapter copyTestcaseModel = (TestcaseDataModelAdapter) testcaseDataModel.clone();
+		@SuppressWarnings("unchecked")
+		Enumeration<TestcaseDataModelAdapter> enumForTestcaseModel = copyTestcaseModel.children();
+		ParamCollectorDataModelAdapter paramCollector;
+		while( enumForTestcaseModel.hasMoreElements() ){
+			TestcaseDataModelAdapter nextTestcaseModel = (TestcaseDataModelAdapter)enumForTestcaseModel.nextElement();
+		
+			if( nextTestcaseModel instanceof TestcaseParamContainerDataModel ){
+				paramCollector = ((TestcaseParamContainerDataModel)nextTestcaseModel).getParamPage();
+				if( paramCollector.equals( nodeToDelete ) ){
+					foundDataModel.add((TestcaseParamContainerDataModel)nextTestcaseModel);
+				}
+			
+			//Ha vannak gyerekei
+			}else if( !nextTestcaseModel.isLeaf() ){
+				findOneParamInTestcase( nodeToDelete, nextTestcaseModel, foundDataModel );
+			}
+		}
+
+		return foundDataModel; 
+	}
+	
+	
 	@Override
 	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode ) {
 		
