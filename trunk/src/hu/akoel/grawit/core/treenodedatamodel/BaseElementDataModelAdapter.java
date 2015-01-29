@@ -121,10 +121,13 @@ public abstract class BaseElementDataModelAdapter extends BaseDataModelAdapter{
 		//Es a valtozoit is klonozni kell
 		cloned.name = new String( this.name );		
 	
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
 		return cloned;
 		
 	}
-	
+/*	
 	@Override
 	public Object cloneWithParent() {
 		
@@ -135,4 +138,5 @@ public abstract class BaseElementDataModelAdapter extends BaseDataModelAdapter{
 		
 		return cloned;
 	}
+*/	
 }

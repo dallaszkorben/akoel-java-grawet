@@ -211,10 +211,13 @@ public abstract class ParamNodeDataModelAdapter extends ParamDataModelAdapter{
 		cloned.name = new String( this.name );
 		cloned.details = new String( this.details );		
 		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
 		return cloned;
 		
 	}
-	
+/*	
 	@Override
 	public Object cloneWithParent() {
 		
@@ -225,5 +228,5 @@ public abstract class ParamNodeDataModelAdapter extends ParamDataModelAdapter{
 		
 		return cloned;
 	}
-	
+*/	
 }

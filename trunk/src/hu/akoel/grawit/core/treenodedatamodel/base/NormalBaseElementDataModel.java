@@ -289,7 +289,7 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		return cloned;
 		
 	}
-	
+/*	
 	@Override
 	public Object cloneWithParent() {
 		
@@ -297,4 +297,5 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		
 		return cloned;
 	}
+*/	
 }

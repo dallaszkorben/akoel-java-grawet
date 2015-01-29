@@ -203,7 +203,8 @@ public class GainTextToVariableOperation extends ElementOperationAdapter{
 	public Object clone() {
 
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
+		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
 		String stringPattern = new String( this.stringPattern );
 		
 		return new GainTextToVariableOperation(variableElementDataModel, stringPattern);

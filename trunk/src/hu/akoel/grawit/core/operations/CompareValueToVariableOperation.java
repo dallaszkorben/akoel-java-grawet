@@ -244,7 +244,8 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 		String stringPattern = new String( this.stringPattern );
 		
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
+		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
 		CompareTypeListEnum compareType = this.compareType;
 		
 		return new CompareValueToVariableOperation(variableElementDataModel, compareType, stringPattern);

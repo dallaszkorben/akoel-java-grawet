@@ -329,10 +329,13 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 //		cloned.baseElement = (BaseElementDataModel) this.baseElement.clone();
 		cloned.elementOperation = (ElementOperationAdapter) this.elementOperation.clone();
 		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
 		return cloned;
 		
 	}
-	
+/*	
 	@Override
 	public Object cloneWithParent() {
 		
@@ -343,5 +346,5 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		
 		return cloned;
 	}
-	
+*/	
 }

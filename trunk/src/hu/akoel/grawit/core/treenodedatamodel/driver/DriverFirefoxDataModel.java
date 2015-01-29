@@ -187,10 +187,14 @@ elementProgres.outputCommand( "		driver = new FirefoxDriver(profile);");
 			cloned.children = (Vector<?>) this.children.clone();
 		}
 		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
 		return cloned;
 		
 	}
-	
+
+/*	
 	@Override
 	public Object cloneWithParent() {
 		
@@ -201,4 +205,5 @@ elementProgres.outputCommand( "		driver = new FirefoxDriver(profile);");
 		
 		return cloned;
 	}
+*/	
 }

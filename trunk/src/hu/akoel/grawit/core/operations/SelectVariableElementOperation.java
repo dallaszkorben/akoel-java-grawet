@@ -159,7 +159,8 @@ public class SelectVariableElementOperation extends SelectOperationAdapter{
 	public Object clone() {
 		
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
+		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
+		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
 		ListSelectionByListEnum selectionBy = this.selectionBy;
 		
 		return new SelectVariableElementOperation(variableElementDataModel, selectionBy);
