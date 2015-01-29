@@ -191,7 +191,8 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	public Object clone() {
 		
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.cloneWithParent();
+		//BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.cloneWithParent();
+		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.clone();
 		
 		return new SpecialBaseAddStoreToParametersOperation(baseElementDataModel);
 	}

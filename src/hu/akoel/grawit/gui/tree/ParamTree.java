@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
@@ -28,6 +29,7 @@ import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataMode
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -343,10 +345,54 @@ public class ParamTree extends Tree {
 					
 				int n;
 				
-				//Egy ures elemrol van szo, nyugodtan torolhetem
-				if( selectedNode.getChildCount() == 0 ){
+				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas az elemre vagy valamelyik gyermekere a Testcase-ben
+				//Akkor megnezi, hogy van-e hivatkozas a tartalmazott elemekre a Testcase fastrukturaban
+				ArrayList<TestcaseParamContainerDataModel> foundTestcaseContainerList = findAllParamInTestcase( (ParamDataModelAdapter)selectedNode, testcaseRootDataModel, new ArrayList<TestcaseParamContainerDataModel>() );
 
-					n = JOptionPane.showOptionDialog(guiFrame,							
+				StringBuilder listMessage = new StringBuilder();
+				int rows = 0;
+				
+				//Ha van eleme a listanak, akkor volt hivatkozas, es ossze kell gyujteni a hivatkozasi pontokat (max 10 db)
+				for( TestcaseParamContainerDataModel foundTestcaseContainer: foundTestcaseContainerList ){
+
+					StringBuilder pathToTestCaseContainerString = new StringBuilder();	
+					TreeNode[] pathArray = foundTestcaseContainer.getPath();
+					pathToTestCaseContainerString.append( "(" + foundTestcaseContainer.getParamPage().getName() + ") => "  ); //Mit talalat
+					for( int i = 0; i < pathArray.length; i++ ){							
+						pathToTestCaseContainerString.append( (i == 0 ? "": " -> ") );
+						pathToTestCaseContainerString.append( ( (TestcaseDataModelAdapter)pathArray[i] ).getName() ); //Hol talalhato
+					}
+					
+					listMessage.append( pathToTestCaseContainerString.toString() + "\n");
+					
+					
+					rows++;
+					if( rows >= 10 ){
+						listMessage.append( "...\n" );
+						break;
+					}
+
+				}
+				
+				//Ha van fuggo elem akkor nem torolheto
+				if( listMessage.length() != 0 ){
+					
+					JOptionPane.showMessageDialog(
+							guiFrame,
+							"Nem torolheto\n Hivatkozas tortenik a (Parameter elemre) => a megadott eleresu Tesztesetekben\n\n"+ 
+							
+							listMessage,
+							"ablak cime",
+							JOptionPane.ERROR_MESSAGE
+					);
+				
+				//kulonben egy megerosito kerdest kell feltennem
+				}else{								
+				
+					//Egy ures elemrol van szo, nyugodtan torolhetem
+					if( selectedNode.getChildCount() == 0 ){
+
+						n = JOptionPane.showOptionDialog(guiFrame,							
 							MessageFormat.format( 
 									CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
 									selectedNode.getNodeTypeToShow(),									
@@ -359,35 +405,33 @@ public class ParamTree extends Tree {
 							options,
 							options[0]);
 
-				//Ha nincsenek gyermekei, akkor egy megerosito kerdest teszek fel, es torolhetek 
-				//ha viszont vannak gyermekei, akkor meg kell vizsgalni, hogy valamelyik elemere van-e hivatkozas
-				}else{
+					//ha vannak gyermekei, akkor mas a kerdes
+					}else{
 					
-					n = JOptionPane.showOptionDialog(guiFrame,							
+						n = JOptionPane.showOptionDialog(
+							guiFrame,							
 							MessageFormat.format( 
 									CommonOperations.getTranslation("mesage.question.delete.treeelement.withchildren"), 
 									selectedNode.getNodeTypeToShow(),
 									selectedNode.getName()
-									),							
-									CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
-									JOptionPane.YES_NO_CANCEL_OPTION,
-									JOptionPane.WARNING_MESSAGE,
-									null,
-									options,
-									options[0]);					
-				}
+							),							
+							CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
+							JOptionPane.YES_NO_CANCEL_OPTION,
+							JOptionPane.WARNING_MESSAGE,
+							null,
+							options,
+							options[0]);					
+					}
 				
 				
-				//Ha megengedi a torlest a felhasznalo a gyermekek lete ellenere is
-				if( n == 1 ){
-												 						
-					ArrayList<TestcaseParamContainerDataModel> foundDataModelList = findAllParamInTestcase( (ParamDataModelAdapter)selectedNode, testcaseRootDataModel, new ArrayList<TestcaseParamContainerDataModel>() );
-
-for( TestcaseParamContainerDataModel foundParamContainer: foundDataModelList ){
-	System.err.println( foundParamContainer.getName() + "   =   " + foundParamContainer.getParamPage().getName() + " = " + foundParamContainer.getParamPage().getParent());
-}
-						 
-										
+					//Ha megengedi a torlest a felhasznalo 
+					if( n == 1 ){
+												 					
+						//Tulajdonkeppen csak levalasztom a fastrukturarol
+						totalTreeModel.removeNodeFromParent( selectedNode );
+						ParamTree.this.setSelectionRow(selectedRow - 1);
+						
+					}										
 				}
 			}
 			
@@ -398,6 +442,14 @@ for( TestcaseParamContainerDataModel foundParamContainer: foundDataModelList ){
 	
 	}
 
+	/**
+	 * A megadott nodeToDelete Node es az osszes gyermekenek megletet keresi a Testcase fastrukturaban.
+	 * 
+	 * @param nodeToDelete
+	 * @param rootTestcaseDataModel
+	 * @param foundDataModel
+	 * @return
+	 */
 	private ArrayList<TestcaseParamContainerDataModel> findAllParamInTestcase( ParamDataModelAdapter nodeToDelete, TestcaseDataModelAdapter rootTestcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
 		
 		findOneParamInTestcase( nodeToDelete, rootTestcaseDataModel, foundDataModel );
@@ -413,22 +465,37 @@ for( TestcaseParamContainerDataModel foundParamContainer: foundDataModelList ){
 		return foundDataModel;
 	}
 	
+	/**
+	 * A megadott nodeToDelete Node-ot keresi meg a testcaseDataModel-ben.
+	 * Vegig megy a testcaseDataModel-en. Ha talal egy TestcaseParamContainerDataModel tipusu Node-ot, akkor
+	 * megnezi, hogy ebben a Node-ban van-e hivatkozas a nodeToDelete Node-ra. Ha igen, akkor elhelyezi a
+	 * foundDataModel-ben a megtalalt TestcaseParamContainerDataModel-t
+	 * 
+	 * @param nodeToDelete
+	 * @param testcaseDataModel
+	 * @param foundDataModel
+	 * @return
+	 */
 	private ArrayList<TestcaseParamContainerDataModel> findOneParamInTestcase( ParamDataModelAdapter nodeToDelete, TestcaseDataModelAdapter testcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
 				
 		TestcaseDataModelAdapter copyTestcaseModel = (TestcaseDataModelAdapter) testcaseDataModel.clone();
 		@SuppressWarnings("unchecked")
 		Enumeration<TestcaseDataModelAdapter> enumForTestcaseModel = copyTestcaseModel.children();
 		ParamCollectorDataModelAdapter paramCollector;
+		
+		//Vegig megy a teszt fastrukturan es megnezi, hogy az ott levo Node hivatkozik-e a megadott nodeToDelet-re
 		while( enumForTestcaseModel.hasMoreElements() ){
 			TestcaseDataModelAdapter nextTestcaseModel = (TestcaseDataModelAdapter)enumForTestcaseModel.nextElement();
 		
 			if( nextTestcaseModel instanceof TestcaseParamContainerDataModel ){
 				paramCollector = ((TestcaseParamContainerDataModel)nextTestcaseModel).getParamPage();
+				
+				//Ha igen, akkor az adott Testcase Node-ot elhelyezi a visszatero parameter-listaba
 				if( paramCollector.equals( nodeToDelete ) ){
 					foundDataModel.add((TestcaseParamContainerDataModel)nextTestcaseModel);
 				}
 			
-			//Ha vannak gyerekei
+			//Ha vannak gyerekei a Testcase Node-nak
 			}else if( !nextTestcaseModel.isLeaf() ){
 				findOneParamInTestcase( nodeToDelete, nextTestcaseModel, foundDataModel );
 			}

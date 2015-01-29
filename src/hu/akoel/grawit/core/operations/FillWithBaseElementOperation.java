@@ -187,7 +187,8 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 	public Object clone() {
 		
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.cloneWithParent();
+		//BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.cloneWithParent();
+		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.clone();
 		
 		return new FillWithBaseElementOperation(baseElementDataModel);
 	}

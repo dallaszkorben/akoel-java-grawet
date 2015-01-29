@@ -125,5 +125,5 @@ public abstract class DataModelAdapter extends DefaultMutableTreeNode{
 		return "</" + this.getTag().getName() + ">";
 	}
 	
-	public abstract Object cloneWithParent();
+//	public abstract Object cloneWithParent();
 }

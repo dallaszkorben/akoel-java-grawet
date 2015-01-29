@@ -382,7 +382,8 @@ try {
 		return cloned;
 		
 	}
-	
+
+/*	
 	@Override
 	public Object cloneWithParent() {
 		
@@ -390,5 +391,5 @@ try {
 		
 		return cloned;
 	}
-
+*/
 }

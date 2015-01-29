@@ -52,7 +52,6 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	private ParamCollectorDataModelAdapter paramCollector;
 	
 	public TestcaseParamContainerDataModel( String name, String details, ParamCollectorDataModelAdapter paramPage ){
-//		super( name, details );
 		this.name = name;
 		this.details = details;
 		this.paramCollector = paramPage;
@@ -69,8 +68,6 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	 */
 	//public TestcaseParamCollectorDataModel( Element element, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
 	public TestcaseParamContainerDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel) throws XMLPharseException{
-		
-//		super(element, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel);
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -317,6 +314,9 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		//Leklonozza a PARAM PAGE-et
 		TestcaseParamContainerDataModel cloned = (TestcaseParamContainerDataModel)super.clone();
 	
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
 /*		//Es a valtozokat is leklonozza
 		cloned.name = new String( this.name );
 		cloned.details = new String( this.details );
@@ -325,7 +325,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		
 	}
 	
-	@Override
+/*	@Override
 	public Object cloneWithParent() {
 		
 		TestcaseParamContainerDataModel cloned = (TestcaseParamContainerDataModel) this.clone();
@@ -335,5 +335,5 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		
 		return cloned;
 	}
-	
+*/	
 }

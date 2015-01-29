@@ -283,9 +283,11 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 	
 		//Es a valtozokat is leklonozza
 		if( driver instanceof DriverFirefoxDataModel ){
-			cloned.driver = (DriverBrowserDataModelInterface<?>) ((DriverBrowserDataModelInterface<?>)driver).cloneWithParent();
+			//cloned.driver = (DriverBrowserDataModelInterface<?>) ((DriverBrowserDataModelInterface<?>)driver).cloneWithParent();
+			cloned.driver = (DriverBrowserDataModelInterface<?>) ((DriverBrowserDataModelInterface<?>)driver).clone();
 		}else if( driver instanceof DriverExplorerDataModel ){
-			cloned.driver = (DriverBrowserDataModelInterface<?>) ((DriverBrowserDataModelInterface<?>)driver).cloneWithParent();
+			//cloned.driver = (DriverBrowserDataModelInterface<?>) ((DriverBrowserDataModelInterface<?>)driver).cloneWithParent();
+			cloned.driver = (DriverBrowserDataModelInterface<?>) ((DriverBrowserDataModelInterface<?>)driver).clone();
 		}
 		
 		return cloned;

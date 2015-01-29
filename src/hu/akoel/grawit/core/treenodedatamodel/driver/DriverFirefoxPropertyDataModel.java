@@ -162,10 +162,13 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelAdapter{
 		
 		DriverFirefoxPropertyDataModel cloned = (DriverFirefoxPropertyDataModel)super.clone();
 	
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
 		return cloned;
 		
 	}
-	
+/*	
 	@Override
 	public Object cloneWithParent() {
 		
@@ -176,4 +179,5 @@ public class DriverFirefoxPropertyDataModel extends DriverDataModelAdapter{
 		
 		return cloned;
 	}
+*/	
 }

@@ -235,7 +235,7 @@ public class _GainListToVariableOperation extends ElementOperationAdapter{
 		ListGainByListEnum gainBy = this.gainBy;
 		
 		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
+//		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
 		String stringPattern = new String( this.stringPattern );
 
 		

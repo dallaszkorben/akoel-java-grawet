@@ -210,10 +210,13 @@ public class VariableElementDataModel extends VariableDataModelAdapter{
 		cloned.type = this.type;
 		cloned.parameters = (ArrayList<Object>) this.parameters.clone();
 		
+		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
+		cloned.setParent( (MutableTreeNode) this.getParent() );
+		
 		return cloned;
 		
 	}
-
+/*
 	@Override
 	public Object cloneWithParent() {
 		
@@ -224,4 +227,5 @@ public class VariableElementDataModel extends VariableDataModelAdapter{
 		
 		return cloned;
 	}
+*/
 }
