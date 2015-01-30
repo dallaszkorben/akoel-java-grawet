@@ -3,6 +3,7 @@ package hu.akoel.grawit.gui.tree;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -11,9 +12,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -170,25 +174,27 @@ public class VariableTree extends Tree{
 	@Override
 	public void doPopupDelete( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel ) {
 	
-		// Torles
-		// Ha nincs alatta ujabb elem
-		//
-		if( selectedNode.getChildCount() == 0 ){
-			
-			
-			JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.delete") );
-			deleteMenu.setActionCommand( ActionCommand.UP.name());
-			deleteMenu.addActionListener( new ActionListener() {
+		JMenuItem deleteMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.delete") );
+		deleteMenu.setActionCommand( ActionCommand.UP.name());
+		deleteMenu.addActionListener( new ActionListener() {
 				
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
-					//Megerosito kerdes
-					Object[] options = {
-							CommonOperations.getTranslation("button.no"),
-							CommonOperations.getTranslation("button.yes")								
-					};
+				//Megerosito kerdes
+				Object[] options = {
+						CommonOperations.getTranslation("button.no"),
+						CommonOperations.getTranslation("button.yes")								
+				};
 					
+/*				
+				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas a Variable-re vagy valamelyik gyermekere a Testcase-ben
+				//Akkor megnezi, hogy van-e hivatkozas a tartalmazott elemekre a Testcase fastrukturaban
+				ArrayList<ParamDataModelAdapter> foundParamNodeList = findAllBaseInParam( (BaseDataModelAdapter)selectedNode, paramRootDataModel, new ArrayList<ParamDataModelAdapter>() );
+
+				
+				
+				
 					int n = JOptionPane.showOptionDialog(guiFrame,							
 							MessageFormat.format( 
 									CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
@@ -205,12 +211,13 @@ public class VariableTree extends Tree{
 					if( n == 1 ){
 						totalTreeModel.removeNodeFromParent( selectedNode);
 						VariableTree.this.setSelectionRow(selectedRow - 1);
-					}							
+					}	
+*/											
 				}
 			});
 			popupMenu.add ( deleteMenu );
 			
-		}	
+
 		
 	}
 
