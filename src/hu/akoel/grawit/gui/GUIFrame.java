@@ -742,7 +742,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			BaseTree tree = new BaseTree( GUIFrame.this, baseRootDataModel );
+			BaseTree tree = new BaseTree( GUIFrame.this, baseRootDataModel, paramRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );
