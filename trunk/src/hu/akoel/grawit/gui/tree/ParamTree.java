@@ -357,7 +357,7 @@ public class ParamTree extends Tree {
 
 					StringBuilder pathToTestCaseContainerString = new StringBuilder();	
 					TreeNode[] pathArray = foundTestcaseContainer.getPath();
-					pathToTestCaseContainerString.append( "(" + foundTestcaseContainer.getParamPage().getName() + ") => "  ); //Mit talalat
+					pathToTestCaseContainerString.append( "(" + foundTestcaseContainer.getParamPage().getName() + ") <= "  ); //Mit talalat
 					for( int i = 0; i < pathArray.length; i++ ){							
 						pathToTestCaseContainerString.append( (i == 0 ? "": " -> ") );
 						pathToTestCaseContainerString.append( ( (TestcaseDataModelAdapter)pathArray[i] ).getName() ); //Hol talalhato
@@ -433,8 +433,7 @@ public class ParamTree extends Tree {
 						
 					}										
 				}
-			}
-			
+			}			
 			
 		});
 		popupMenu.add ( deleteMenu );
