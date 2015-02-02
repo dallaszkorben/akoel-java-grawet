@@ -509,6 +509,9 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		//Leklonozza a NODE-ot
 		ParamLoopCollectorDataModel cloned = (ParamLoopCollectorDataModel)super.clone();
 		
+		cloned.oneLoopLength  = new Integer( oneLoopLength);
+		cloned.maxLoopNumber = new Integer( maxLoopNumber );
+		
 		return cloned;
 		
 	}

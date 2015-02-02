@@ -104,10 +104,6 @@ public class ParamRootDataModel extends ParamNodeDataModelAdapter{
 		
 		ParamRootDataModel cloned = (ParamRootDataModel)super.clone();
 	
-		if( null != this.children ){
-			cloned.children = (Vector<?>) this.children.clone();
-		}
-		
 		return cloned;
 		
 	}

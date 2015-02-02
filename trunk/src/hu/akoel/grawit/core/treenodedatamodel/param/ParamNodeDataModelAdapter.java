@@ -217,16 +217,5 @@ public abstract class ParamNodeDataModelAdapter extends ParamDataModelAdapter{
 		return cloned;
 		
 	}
-/*	
-	@Override
-	public Object cloneWithParent() {
-		
-		ParamNodeDataModelAdapter cloned = (ParamNodeDataModelAdapter) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
+
 }

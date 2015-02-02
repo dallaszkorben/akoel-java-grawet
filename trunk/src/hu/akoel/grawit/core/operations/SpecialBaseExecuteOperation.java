@@ -63,8 +63,6 @@ public class SpecialBaseExecuteOperation extends ElementOperationAdapter{
 	@Override
 	public Object clone() {
 
-/*		String stringToCompare = new String( this.stringToParameter );
-*/		
 		return new SpecialBaseExecuteOperation();
 		
 	}

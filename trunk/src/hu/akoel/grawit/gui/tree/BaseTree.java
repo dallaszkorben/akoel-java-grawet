@@ -44,8 +44,8 @@ public class BaseTree extends Tree{
 	private GUIFrame guiFrame;
 	ParamRootDataModel paramRootDataModel;
 	
-	public BaseTree(GUIFrame guiFrame, BaseRootDataModel rootDataModel, ParamRootDataModel paramRootDataModel ) {
-		super(guiFrame, rootDataModel);
+	public BaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel ) {
+		super(guiFrame, baseRootDataModel);
 		this.guiFrame = guiFrame;
 		this.paramRootDataModel = paramRootDataModel;
 	}
@@ -409,10 +409,10 @@ public class BaseTree extends Tree{
 		findOneBaseInParam( nodeToDelete, rootParamDataModel, foundDataModel );
 		
 		//Most pedig vegig megy az adott BaseNode gyermekein is
-		Enumeration<BaseDataModelAdapter> enumForParamModel = nodeToDelete.children();
-		while( enumForParamModel.hasMoreElements() ){
+		Enumeration<BaseDataModelAdapter> enumForBaseModel = nodeToDelete.children();
+		while( enumForBaseModel.hasMoreElements() ){
 		
-			BaseDataModelAdapter childrenOfParam = enumForParamModel.nextElement();
+			BaseDataModelAdapter childrenOfParam = enumForBaseModel.nextElement();
 		
 			//Es megnezi, hogy van-e ra hivatkozas a ParamData strukturaban
 			findAllBaseInParam( childrenOfParam, rootParamDataModel, foundDataModel );
@@ -423,9 +423,10 @@ public class BaseTree extends Tree{
 	
 	private ArrayList<ParamDataModelAdapter> findOneBaseInParam( BaseDataModelAdapter nodeToDelete, ParamDataModelAdapter paramDataModel, ArrayList<ParamDataModelAdapter> foundDataModel ){
 		
-		ParamDataModelAdapter copyParamModel = (ParamDataModelAdapter) paramDataModel.clone();
+		//ParamDataModelAdapter copyParamModel = (ParamDataModelAdapter) paramDataModel.clone();
 		@SuppressWarnings("unchecked")
-		Enumeration<ParamDataModelAdapter> enumForParamModel = copyParamModel.children();
+		//Enumeration<ParamDataModelAdapter> enumForParamModel = copyParamModel.children();
+		Enumeration<ParamDataModelAdapter> enumForParamModel = paramDataModel.children();
 		BaseElementDataModelAdapter baseCollector;
 		
 		//Vegig megy a param fastrukturan es megnezi, hogy az ott levo Node hivatkozik-e a megadott nodeToDelet-re

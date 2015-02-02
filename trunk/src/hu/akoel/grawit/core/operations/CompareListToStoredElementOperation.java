@@ -291,13 +291,11 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	@Override
 	public Object clone() {
 		
-		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		//BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.cloneWithParent();
 		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.clone();
 		
-		CompareTypeListEnum compareType = this.compareType;		//TODO ez kedes, hogy jo-e
+		//CompareTypeListEnum compareType = this.compareType;	
 		String stringPattern = new String( this.stringPattern );
-		ListCompareByListEnum compareBy = this.compareBy;		//TODO ez kerdes, hogy jo-e
+		//ListCompareByListEnum compareBy = this.compareBy;	
 				
 		return new CompareListToStoredElementOperation(baseElementDataModel, compareType, stringPattern, compareBy);
 	}

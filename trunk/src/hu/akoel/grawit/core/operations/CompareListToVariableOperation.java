@@ -33,7 +33,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class CompareListToVariableOperation extends ElementOperationAdapter{
+public class CompareListToVariableOperation extends ElementOperationAdapter implements HasVariableOperationInterface{
 	
 	private static final String NAME = "COMPARETOVARIABLE";	
 	private static final String ATTR_COMPARE_VARIABLE_ELEMENT_PATH = "comparevariableelementpath";
@@ -180,6 +180,7 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 		return getStaticName();
 	}
 	
+	@Override
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
@@ -265,11 +266,9 @@ public class CompareListToVariableOperation extends ElementOperationAdapter{
 		
 		String stringPattern = new String( this.stringPattern );
 		
-		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
-		CompareTypeListEnum compareType = this.compareType;
-		ListCompareByListEnum compareBy = this.compareBy;
+		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		//CompareTypeListEnum compareType = this.compareType;
+		//ListCompareByListEnum compareBy = this.compareBy;
 		
 		return new CompareListToVariableOperation(variableElementDataModel, compareType, stringPattern, compareBy); 
 

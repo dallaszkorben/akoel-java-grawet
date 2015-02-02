@@ -26,7 +26,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class SpecialBaseAddVariableToParametersOperation extends ElementOperationAdapter{
+public class SpecialBaseAddVariableToParametersOperation extends ElementOperationAdapter implements HasVariableOperationInterface{
 	
 	private static final String NAME = "ADDVARIABLETOPARAMETERS";	
 	private static final String ADD_VARIABLE_TO_PARAMETERS_PATH = "variablepath";
@@ -114,6 +114,7 @@ public class SpecialBaseAddVariableToParametersOperation extends ElementOperatio
 		return getStaticName();
 	}
 	
+	@Override
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
@@ -140,9 +141,7 @@ public class SpecialBaseAddVariableToParametersOperation extends ElementOperatio
 	@Override
 	public Object clone() {
 		
-		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
 		
 		return new SpecialBaseAddVariableToParametersOperation(variableElementDataModel);
 	}

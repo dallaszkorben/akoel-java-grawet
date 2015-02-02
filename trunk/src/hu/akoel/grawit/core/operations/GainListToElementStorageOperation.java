@@ -137,7 +137,7 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 	public Object clone() {
 		
 		String stringPattern = new String( this.stringPattern );
-		ListGainByListEnum gainBy = this.gainBy;
+//		ListGainByListEnum gainBy = this.gainBy;
 
 		return new GainListToElementStorageOperation(stringPattern, gainBy);
 	}

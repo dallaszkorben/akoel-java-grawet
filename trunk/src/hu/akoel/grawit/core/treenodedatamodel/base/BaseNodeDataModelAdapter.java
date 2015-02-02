@@ -17,8 +17,6 @@ public abstract class BaseNodeDataModelAdapter extends BaseDataModelAdapter{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	
-//	public static final Tag TAG = Tag.BASENODE;
-	
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name;
@@ -237,16 +235,5 @@ public abstract class BaseNodeDataModelAdapter extends BaseDataModelAdapter{
 		return cloned;
 		
 	}
-/*	
-	@Override
-	public Object cloneWithParent() {
-		
-		BaseNodeDataModelAdapter cloned = (BaseNodeDataModelAdapter) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
+
 }

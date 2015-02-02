@@ -29,7 +29,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class FillWithVariableElementOperation extends ElementOperationAdapter{
+public class FillWithVariableElementOperation extends ElementOperationAdapter implements HasVariableOperationInterface{
 	
 	private static final String NAME = "FILLVARIABLE";	
 	private static final String ATTR_FILL_VARIABLE_ELEMENT_PATH = "fillvariableelementpath";
@@ -117,6 +117,7 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter{
 		return getStaticName();
 	}
 	
+	@Override
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
@@ -148,9 +149,7 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter{
 	@Override
 	public Object clone() {
 		
-		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
 		
 		return new FillWithVariableElementOperation(variableElementDataModel);
 	}

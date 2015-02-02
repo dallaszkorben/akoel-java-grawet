@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
+import java.util.Vector;
+
 import javax.swing.tree.MutableTreeNode;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -237,6 +239,27 @@ elementProgress.outputCommand( "" );
 		
 		//Leklonozza a ParamPage-et
 		ParamNormalCollectorDataModel cloned = (ParamNormalCollectorDataModel)super.clone();
+		
+		//Ha vannak gyerekei (NODE vagy PAGE)
+		if( null != this.children ){
+							
+			//Akkor azokat is leklonozza
+			cloned.children = new Vector<>();
+							
+			for( Object o : this.children ){
+								
+				if( o instanceof ParamDataModelAdapter ){
+							
+					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
+							
+					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
+					child.setParent( cloned );					
+							
+					cloned.children.add(child);
+							
+				}
+			}
+		}
 		
 		return cloned;
 		
