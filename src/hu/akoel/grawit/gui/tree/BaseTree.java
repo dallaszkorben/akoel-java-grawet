@@ -258,6 +258,9 @@ public class BaseTree extends Tree{
 					//Akkor megduplikalja 
 					BaseDataModelAdapter duplicated = (BaseDataModelAdapter)selectedNode.clone();
 					
+					//!!! Ki kell torolni a szulot, hiszen a kovetkezo add() fuggveny fogja ezt neki adni !!!
+					duplicated.setParent(null);
+
 					//Es hozzaadja a szulohoz
 					((BaseDataModelAdapter)selectedNode.getParent()).add( duplicated );
 

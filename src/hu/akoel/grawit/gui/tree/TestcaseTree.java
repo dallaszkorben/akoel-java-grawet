@@ -248,6 +248,9 @@ public class TestcaseTree extends Tree {
 					//Akkor megduplikalja 
 					TestcaseDataModelAdapter duplicated = (TestcaseDataModelAdapter)selectedNode.clone();
 					
+					//!!! Ki kell torolni a szulot, hiszen a kovetkezo add() fuggveny fogja ezt neki adni !!!
+					duplicated.setParent(null);
+
 					//Es hozzaadja a szulohoz
 					((TestcaseDataModelAdapter)selectedNode.getParent()).add( duplicated );
 

@@ -314,6 +314,9 @@ public class ParamTree extends Tree {
 					//Akkor megduplikalja 
 					ParamDataModelAdapter duplicated = (ParamDataModelAdapter)selectedNode.clone();
 					
+					//!!! Ki kell torolni a szulot, hiszen a kovetkezo add() fuggveny fogja ezt neki adni !!!
+					duplicated.setParent(null);
+					
 					//Es hozzaadja a szulohoz
 					((ParamDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
