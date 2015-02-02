@@ -158,6 +158,9 @@ public class VariableTree extends Tree{
 					//Akkor megduplikalja 
 					VariableDataModelAdapter duplicated = (VariableDataModelAdapter)selectedNode.clone();
 					
+					//!!! Ki kell torolni a szulot, hiszen a kovetkezo add() fuggveny fogja ezt neki adni !!!
+					duplicated.setParent(null);
+
 					//Es hozzaadja a szulohoz
 					((VariableDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
