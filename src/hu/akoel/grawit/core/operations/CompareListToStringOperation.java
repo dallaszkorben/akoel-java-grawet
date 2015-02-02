@@ -193,9 +193,10 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 	@Override
 	public Object clone() {
 		String stringToCompare = new String( this.stringToCompare );
-		CompareTypeListEnum compareType = this.compareType;			//TODO ez kerdes, hogy jo-e
 		String stringPattern = new String( this.stringPattern );
-		ListCompareByListEnum compareBy = this.compareBy;			//TODO ez kerdes, hogy jo-e
+
+		//CompareTypeListEnum compareType = this.compareType;			
+		//ListCompareByListEnum compareBy = this.compareBy;	
 		
 		return new CompareListToStringOperation(stringToCompare, compareType, stringPattern, compareBy);
 	}

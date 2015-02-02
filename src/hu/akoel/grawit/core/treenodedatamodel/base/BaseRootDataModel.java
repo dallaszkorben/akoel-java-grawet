@@ -28,13 +28,6 @@ public class BaseRootDataModel extends BaseNodeDataModelAdapter{
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
 		
-//		//Ha tobb mint  1 db basepage tag van, akkor az gaz
-//		if( nList.getLength() > 1 ){
-					
-//			throw new XMLExtraRootTagPharseException( TAG );
-					
-//		}else 
-		
 		//Ha pontosan 1 db root van definialva
 		if( nList.getLength() == 1 ){
 		

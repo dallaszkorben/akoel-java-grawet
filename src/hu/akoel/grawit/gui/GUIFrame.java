@@ -721,7 +721,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			VariableTree tree = new VariableTree( GUIFrame.this, variableRootDataModel );
+			VariableTree tree = new VariableTree( GUIFrame.this, variableRootDataModel, paramRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

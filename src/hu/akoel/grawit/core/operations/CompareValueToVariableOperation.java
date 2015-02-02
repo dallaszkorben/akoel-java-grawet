@@ -31,7 +31,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class CompareValueToVariableOperation extends ElementOperationAdapter{
+public class CompareValueToVariableOperation extends ElementOperationAdapter implements HasVariableOperationInterface{
 	
 	private static final String NAME = "COMPAREVALUETOVARIABLE";	
 	private static final String ATTR_COMPARE_VARIABLE_ELEMENT_PATH = "comparevariableelementpath";
@@ -161,6 +161,7 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 		
 	}
 	
+	@Override
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
@@ -243,10 +244,7 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter{
 		
 		String stringPattern = new String( this.stringPattern );
 		
-		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
-		CompareTypeListEnum compareType = this.compareType;
+		//Tovabb nem klonozok, mert az mar hivatkozas egy elemre
 		
 		return new CompareValueToVariableOperation(variableElementDataModel, compareType, stringPattern);
 	}

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -11,12 +12,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.operations.HasVariableOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
@@ -33,10 +46,13 @@ public class VariableTree extends Tree{
 
 	private static final long serialVersionUID = 6810815920672285062L;
 	private GUIFrame guiFrame;
+	ParamRootDataModel paramRootDataModel;
 	
-	public VariableTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel) {
+	public VariableTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel) {
 		super(guiFrame, variableRootDataModel);
 		this.guiFrame = guiFrame;
+		
+		this.paramRootDataModel = paramRootDataModel;
 	}
 
 	@Override
@@ -189,41 +205,197 @@ public class VariableTree extends Tree{
 						CommonOperations.getTranslation("button.no"),
 						CommonOperations.getTranslation("button.yes")								
 				};
-					
-/*				
-				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas a Variable-re vagy valamelyik gyermekere a Testcase-ben
+				
+				int n = 0;
+				
+				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas a Variable-re vagy valamelyik gyermekere a Param-ban
 				//Akkor megnezi, hogy van-e hivatkozas a tartalmazott elemekre a Testcase fastrukturaban
-				ArrayList<ParamDataModelAdapter> foundParamNodeList = findAllBaseInParam( (BaseDataModelAdapter)selectedNode, paramRootDataModel, new ArrayList<ParamDataModelAdapter>() );
+				ArrayList<ParamDataModelAdapter> foundParamNodeList = findAllVariableInParam( (VariableDataModelAdapter)selectedNode, paramRootDataModel, new ArrayList<ParamDataModelAdapter>() );
+				
+				StringBuilder listMessage = new StringBuilder();
+				int rows = 0;
+				
+				//Ha van eleme a listanak, akkor volt hivatkozas, es ossze kell gyujteni a hivatkozasi pontokat (max 10 db)
+				for( ParamDataModelAdapter foundParamNode: foundParamNodeList ){
 
+					StringBuilder pathToParamNodeString = new StringBuilder();	
+					TreeNode[] pathArray = foundParamNode.getPath();
+		
+					if( foundParamNode instanceof ParamElementDataModel ){
+						
+						pathToParamNodeString.append( "(" + ((ParamElementDataModel)foundParamNode).getBaseElement().getName() + ") <= "  ); //Mit talalat
+						
+					}else if( foundParamNode instanceof ParamLoopCollectorDataModel ){
+						
+						pathToParamNodeString.append( "(" + ((ParamLoopCollectorDataModel)foundParamNode).getCompareBaseElement().getName() + ") <= "  ); //Mit talalat
+						
+					}
+					
+					for( int i = 0; i < pathArray.length; i++ ){							
+						pathToParamNodeString.append( (i == 0 ? "": " -> ") );
+						pathToParamNodeString.append( ( (ParamDataModelAdapter)pathArray[i] ).getName() ); //Hol talalhato
+					}
+					
+					listMessage.append( pathToParamNodeString.toString() + "\n");
+
+					rows++;
+					if( rows >= 10 ){
+						listMessage.append( "...\n" );
+						break;
+					}
+
+				}
 				
+				//Ha van fuggo elem akkor nem torolheto
+				if( listMessage.length() != 0 ){
+					
+					JOptionPane.showMessageDialog(
+							guiFrame,
+							"Nem torolheto\n Hivatkozas tortenik a (Base elemre) => a megadott eleresu Param elemekben\n\n"+ 
+							
+							listMessage,
+							"ablak cime",
+							JOptionPane.ERROR_MESSAGE
+					);
 				
+				//kulonben egy megerosito kerdest kell feltennem
+				}else{								
 				
-					int n = JOptionPane.showOptionDialog(guiFrame,							
+					//Egy ures elemrol van szo, nyugodtan torolhetem
+					if( selectedNode.getChildCount() == 0 ){
+
+						n = JOptionPane.showOptionDialog(guiFrame,							
+								MessageFormat.format( 
+										CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
+										selectedNode.getNodeTypeToShow(),
+										selectedNode.getName()
+								),							
+								CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
+								JOptionPane.YES_NO_CANCEL_OPTION,
+								JOptionPane.QUESTION_MESSAGE,
+								null,
+								options,
+								options[0]);
+	
+					//ha vannak gyermekei, akkor mas a kerdes
+					}else{
+					
+						n = JOptionPane.showOptionDialog(
+							guiFrame,							
 							MessageFormat.format( 
-									CommonOperations.getTranslation("mesage.question.delete.treeelement.alone"), 
+									CommonOperations.getTranslation("mesage.question.delete.treeelement.withchildren"), 
 									selectedNode.getNodeTypeToShow(),
 									selectedNode.getName()
 							),							
 							CommonOperations.getTranslation("editor.windowtitle.confirmation.delete"),
 							JOptionPane.YES_NO_CANCEL_OPTION,
-							JOptionPane.QUESTION_MESSAGE,
+							JOptionPane.WARNING_MESSAGE,
 							null,
 							options,
-							options[0]);
-					
+							options[0]);					
+					}
+				
+				
+					//Ha megengedi a torlest a felhasznalo 
 					if( n == 1 ){
-						totalTreeModel.removeNodeFromParent( selectedNode);
-						VariableTree.this.setSelectionRow(selectedRow - 1);
-					}	
-*/											
+												 					
+						//Tulajdonkeppen csak levalasztom a fastrukturarol
+//						totalTreeModel.removeNodeFromParent( selectedNode );
+//						VariableTree.this.setSelectionRow(selectedRow - 1);
+						
+					}										
 				}
-			});
-			popupMenu.add ( deleteMenu );
+				
+				
+				
+				
+				
+				
+				
+			}
+											
+				
+		});
+		popupMenu.add ( deleteMenu );
 			
-
-		
 	}
 
+	private ArrayList<ParamDataModelAdapter> findAllVariableInParam( VariableDataModelAdapter nodeToDelete, ParamDataModelAdapter rootParamDataModel, ArrayList<ParamDataModelAdapter> foundDataModel ){
+		
+		//Megnezi, hogy az adott BaseNode-ra van-e hivatkozas a Param strukturaban
+		findOneVariableInParam( nodeToDelete, rootParamDataModel, foundDataModel );
+		
+		//Most pedig vegig megy az adott VariableNode gyermekein is
+		Enumeration<VariableDataModelAdapter> enumForVariableModel = nodeToDelete.children();
+		while( enumForVariableModel.hasMoreElements() ){
+		
+			VariableDataModelAdapter childrenOfParam = enumForVariableModel.nextElement();
+		
+			//Es megnezi, hogy van-e ra hivatkozas a ParamData strukturaban
+			findAllVariableInParam( childrenOfParam, rootParamDataModel, foundDataModel );
+		}
+		return foundDataModel;
+	}
+	
+	
+	private ArrayList<ParamDataModelAdapter> findOneVariableInParam( VariableDataModelAdapter nodeToDelete, ParamDataModelAdapter paramDataModel, ArrayList<ParamDataModelAdapter> foundDataModel ){
+		
+		ParamDataModelAdapter copyParamModel = (ParamDataModelAdapter) paramDataModel.clone();
+		@SuppressWarnings("unchecked")
+//Enumeration<ParamDataModelAdapter> enumForParamModel = copyParamModel.children();
+		Enumeration<ParamDataModelAdapter> enumForParamModel = paramDataModel.children();
+		//BaseElementDataModelAdapter baseCollector;
+		ElementOperationAdapter operation;
+		VariableElementDataModel variableElement;
+		
+		//Vegig megy a param fastrukturan es megnezi, hogy az ott levo Node hivatkozik-e a megadott nodeToDelet-re
+		while( enumForParamModel.hasMoreElements() ){
+			ParamDataModelAdapter nextParamModel = (ParamDataModelAdapter)enumForParamModel.nextElement();
+		
+			//Ha ParamElementDataModel a vizsgalt node
+			if( nextParamModel instanceof ParamElementDataModel ){
+				
+				//Megszerzi a ParamElement muveletet
+				operation = ((ParamElementDataModel)nextParamModel).getElementOperation();
+				
+				//Van benne Variable vonatkozas
+				if( operation instanceof HasVariableOperationInterface ){
+					variableElement = ((HasVariableOperationInterface)operation).getVariableElement();
+				
+					//Es ha ez megegyezik a keresett nodeToDelete-vel
+					if( variableElement.equals( nodeToDelete ) ){
+						foundDataModel.add((ParamElementDataModel)nextParamModel);
+					}					
+				}				
+			
+			//Ha ParamLoop
+			}else if( nextParamModel instanceof ParamLoopCollectorDataModel ){
+				
+				//Megszerzi a hivatkoztott VariableElement-et
+				operation = ((ParamLoopCollectorDataModel)nextParamModel).getElementOperation();
+				
+				//Van benne Variable vonatkozas
+				if( operation instanceof HasVariableOperationInterface ){
+					variableElement = ((HasVariableOperationInterface)operation).getVariableElement();
+				
+					//Es ha ez megegyezik a keresett nodeToDelete-vel
+					if( variableElement.equals( nodeToDelete ) ){
+						foundDataModel.add((ParamElementDataModel)nextParamModel);
+					}					
+				}				
+			}
+			
+			//Ha vannak gyerekei a Testcase Node-nak
+			if( !nextParamModel.isLeaf() ){
+				
+				//Akkor tovabb keres
+				findOneVariableInParam( nodeToDelete, nextParamModel, foundDataModel );
+			}
+		}
+
+		return foundDataModel; 
+	}
+	
 	@Override
 	public void doPopupRootInsert( JPopupMenu popupMenu, final DataModelAdapter selectedNode ) {
 

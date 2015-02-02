@@ -480,9 +480,10 @@ public class ParamTree extends Tree {
 	 */
 	private ArrayList<TestcaseParamContainerDataModel> findOneParamInTestcase( ParamDataModelAdapter nodeToDelete, TestcaseDataModelAdapter testcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
 				
-		TestcaseDataModelAdapter copyTestcaseModel = (TestcaseDataModelAdapter) testcaseDataModel.clone();
+		//TestcaseDataModelAdapter copyTestcaseModel = (TestcaseDataModelAdapter) testcaseDataModel.clone();
 		@SuppressWarnings("unchecked")
-		Enumeration<TestcaseDataModelAdapter> enumForTestcaseModel = copyTestcaseModel.children();
+		//Enumeration<TestcaseDataModelAdapter> enumForTestcaseModel = copyTestcaseModel.children();
+		Enumeration<TestcaseDataModelAdapter> enumForTestcaseModel = testcaseDataModel.children();
 		ParamCollectorDataModelAdapter paramCollector;
 		
 		//Vegig megy a teszt fastrukturan es megnezi, hogy az ott levo Node hivatkozik-e a megadott nodeToDelet-re

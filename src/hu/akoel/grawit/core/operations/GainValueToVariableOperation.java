@@ -34,7 +34,7 @@ import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
  * @author afoldvarszky
  *
  */
-public class GainValueToVariableOperation extends ElementOperationAdapter{
+public class GainValueToVariableOperation extends ElementOperationAdapter implements HasVariableOperationInterface{
 	
 	private static final String NAME = "GAINVALUETOVARIABLE";
 	private static final String ATTR_PATTERN = "pattern";
@@ -152,6 +152,7 @@ public class GainValueToVariableOperation extends ElementOperationAdapter{
 		return stringPattern;
 	}
 
+	@Override
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
@@ -205,9 +206,7 @@ public class GainValueToVariableOperation extends ElementOperationAdapter{
 	@Override
 	public Object clone() {
 		
-		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
 		String stringPattern = new String( this.stringPattern );
 		
 		return new GainValueToVariableOperation(variableElementDataModel, stringPattern);

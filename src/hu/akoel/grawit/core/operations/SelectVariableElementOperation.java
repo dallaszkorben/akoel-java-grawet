@@ -21,7 +21,7 @@ import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class SelectVariableElementOperation extends SelectOperationAdapter{
+public class SelectVariableElementOperation extends SelectOperationAdapter implements HasVariableOperationInterface{
 	
 	private static final String NAME = "SELECTVARIABLEELEMENT";
 	private static final String ATTR_SELECTION_BY = "selectionby";
@@ -131,6 +131,7 @@ public class SelectVariableElementOperation extends SelectOperationAdapter{
 		return variableElementDataModel.getValue();
 	}
 
+	@Override
 	public VariableElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
@@ -158,10 +159,8 @@ public class SelectVariableElementOperation extends SelectOperationAdapter{
 	@Override
 	public Object clone() {
 		
-		//Fontos, hogy cloneWithParent() mert szukseges, hogy legyen szuloje
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.cloneWithParent();
-		VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
-		ListSelectionByListEnum selectionBy = this.selectionBy;
+		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
+		//ListSelectionByListEnum selectionBy = this.selectionBy;
 		
 		return new SelectVariableElementOperation(variableElementDataModel, selectionBy);
 	}

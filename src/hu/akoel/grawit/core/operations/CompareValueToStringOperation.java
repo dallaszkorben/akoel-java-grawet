@@ -172,7 +172,7 @@ public class CompareValueToStringOperation extends ElementOperationAdapter{
 	
 		String stringPattern = new String( this.stringPattern );
 		String stringToCompare = new String( this.stringToCompare );
-		CompareTypeListEnum compareType = this.compareType;
+		//ompareTypeListEnum compareType = this.compareType;
 		
 		return new CompareValueToStringOperation(stringToCompare, compareType, stringPattern);
 	}

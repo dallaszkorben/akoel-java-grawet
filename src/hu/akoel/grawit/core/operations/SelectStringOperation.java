@@ -83,7 +83,7 @@ public class SelectStringOperation extends SelectOperationAdapter{
 	public Object clone() {
 
 		String string = new String( this.string );
-		ListSelectionByListEnum selectionBy = this.selectionBy;
+		//ListSelectionByListEnum selectionBy = this.selectionBy;
 		
 		return new SelectStringOperation(string, selectionBy);
 	}
