@@ -244,9 +244,6 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	public Object clone() {
 
 		String stringPattern = new String( this.stringPattern );
-		
-		//BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.clone();
-		//CompareTypeListEnum compareType = this.compareType;
 
 		return new CompareTextToStoredElementOperation(baseElementDataModel, compareType, stringPattern);
 	}

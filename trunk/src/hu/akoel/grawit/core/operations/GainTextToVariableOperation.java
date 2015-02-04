@@ -203,7 +203,6 @@ public class GainTextToVariableOperation extends ElementOperationAdapter impleme
 	@Override
 	public Object clone() {
 
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
 		String stringPattern = new String( this.stringPattern );
 		
 		return new GainTextToVariableOperation(variableElementDataModel, stringPattern);

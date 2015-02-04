@@ -148,9 +148,7 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 
 	@Override
 	public Object clone() {
-		
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
-		
+
 		return new FillWithVariableElementOperation(variableElementDataModel);
 	}
 	

@@ -191,9 +191,6 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 	@Override
 	public Object clone() {
 		
-//		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.clone();
-//		ListSelectionByListEnum selectionBy = this.selectionBy;
-		
 		return new SelectBaseElementOperation(baseElementDataModel, selectionBy);
 	}
 

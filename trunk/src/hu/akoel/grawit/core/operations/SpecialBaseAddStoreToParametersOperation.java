@@ -189,9 +189,7 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 
 	@Override
 	public Object clone() {
-		
-		//BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.clone();
-		
+	
 		return new SpecialBaseAddStoreToParametersOperation(baseElementDataModel);
 	}
 	

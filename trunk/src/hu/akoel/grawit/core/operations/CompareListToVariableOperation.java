@@ -266,10 +266,6 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 		
 		String stringPattern = new String( this.stringPattern );
 		
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
-		//CompareTypeListEnum compareType = this.compareType;
-		//ListCompareByListEnum compareBy = this.compareBy;
-		
 		return new CompareListToVariableOperation(variableElementDataModel, compareType, stringPattern, compareBy); 
 
 	}

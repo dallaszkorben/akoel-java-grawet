@@ -185,9 +185,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 
 	@Override
 	public Object clone() {
-		
-		//BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.clone();
-		
+				
 		return new FillWithBaseElementOperation(baseElementDataModel);
 	}
 	

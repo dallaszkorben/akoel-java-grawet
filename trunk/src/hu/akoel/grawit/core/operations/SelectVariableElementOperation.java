@@ -159,9 +159,6 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 	@Override
 	public Object clone() {
 		
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
-		//ListSelectionByListEnum selectionBy = this.selectionBy;
-		
 		return new SelectVariableElementOperation(variableElementDataModel, selectionBy);
 	}
 

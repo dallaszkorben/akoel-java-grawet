@@ -215,7 +215,7 @@ public abstract class Tree extends JTree{
    			
     		}				
 							
-			setText( ((DataModelAdapter)value).getName() );
+			setText( ((DataModelAdapter)value).getName()  + " - " + ((DataModelAdapter)value).hashCode());
 			
 			return this;
 	    }	

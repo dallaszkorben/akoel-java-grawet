@@ -140,9 +140,7 @@ public class SpecialBaseAddVariableToParametersOperation extends ElementOperatio
 
 	@Override
 	public Object clone() {
-		
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
-		
+
 		return new SpecialBaseAddVariableToParametersOperation(variableElementDataModel);
 	}
 	
