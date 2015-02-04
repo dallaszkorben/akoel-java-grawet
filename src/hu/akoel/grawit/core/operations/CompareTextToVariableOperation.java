@@ -229,10 +229,7 @@ public class CompareTextToVariableOperation extends ElementOperationAdapter impl
 	public Object clone() {
 		
 		String stringPattern = new String( this.stringPattern );
-		
-		//VariableElementDataModel variableElementDataModel = (VariableElementDataModel) this.variableElementDataModel.clone();
-		//CompareTypeListEnum compareType = this.compareType;
-	
+
 		return new CompareTextToVariableOperation(variableElementDataModel, compareType, stringPattern);
 	}
 

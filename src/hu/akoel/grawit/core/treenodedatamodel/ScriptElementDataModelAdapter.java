@@ -127,16 +127,4 @@ public abstract class ScriptElementDataModelAdapter extends ScriptDataModelAdapt
 		
 	}
 	
-/*	
-	@Override
-	public Object cloneWithParent() {
-		
-		ScriptElementDataModelAdapter cloned = (ScriptElementDataModelAdapter) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
 }

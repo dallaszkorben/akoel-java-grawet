@@ -66,14 +66,10 @@ public class BaseCollectorDataModel extends BaseNodeDataModelAdapter  {//BaseDat
 					}else{						
 					
 						this.add(new NormalBaseElementDataModel(baseElement));
-					}
-				
-				
-				}
-				
+					}					
+				}				
 			}
-		}
-				
+		}				
 	}
 	
 	@Override
@@ -101,81 +97,8 @@ public class BaseCollectorDataModel extends BaseNodeDataModelAdapter  {//BaseDat
 		//Attr attr;
 	
 		Element pageElement = super.getXMLElement(document); 
-
-/*		
-		//Node element
-		Element pageElement = document.createElement( BaseCollectorDataModel.this.getTag().getName() );
-		
-		//NAME attributum
-		attr = document.createAttribute( ATTR_NAME );
-		attr.setValue( getName() );
-		pageElement.setAttributeNode(attr);	
-		
-		//DETAILS attributum
-		attr = document.createAttribute( ATTR_DETAILS );
-		attr.setValue( getDetails() );
-		pageElement.setAttributeNode(attr);		
-		
-		int childrens = this.getChildCount();
-		for( int i = 0; i < childrens; i++ ){
-			
-			Object object = this.getChildAt( i );
-			
-			if( !object.equals(this) && object instanceof BaseDataModelAdapter ){
-				
-				Element element = ((BaseDataModelAdapter)object).getXMLElement( document );
-				pageElement.appendChild( element );		    		
-		    	
-			}
-		}
-*/		
+	
 		return pageElement;	
 	}
-/*	
-	@Override
-	public Object clone(){
-		
-		//Leklonozza a PAGE-et
-		BaseCollectorDataModel cloned = (BaseCollectorDataModel)super.clone();
-	
-		//Ha vannak gyerekei (NODE vagy ELEMENT)
-		if( null != this.children ){
-			
-			//Akkor azokat is leklonozza
-			cloned.children = new Vector<>();
-			
-			for( Object o : this.children ){
-				
-				if( o instanceof BaseDataModelAdapter ){
-					
-					BaseDataModelAdapter child = (BaseDataModelAdapter) ((BaseDataModelAdapter)o).clone();
-					
-					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
-					child.setParent( cloned );					
-					
-					cloned.children.add(child);
-					
-				}
-			}
-		}
-		
-		//Es a valtozokat is leklonozza
-		cloned.name = new String( this.name );
-		cloned.details = new String( this.details );
-		
-		return cloned;
-		
-	}
-	
-	@Override
-	public Object cloneWithParent() {
-		
-		BaseCollectorDataModel cloned = (BaseCollectorDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
+
 }

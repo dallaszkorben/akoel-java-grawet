@@ -340,11 +340,8 @@ public class VariableTree extends Tree{
 	
 	private ArrayList<ParamDataModelAdapter> findOneVariableInParam( VariableDataModelAdapter nodeToDelete, ParamDataModelAdapter paramDataModel, ArrayList<ParamDataModelAdapter> foundDataModel ){
 		
-		ParamDataModelAdapter copyParamModel = (ParamDataModelAdapter) paramDataModel.clone();
 		@SuppressWarnings("unchecked")
-//Enumeration<ParamDataModelAdapter> enumForParamModel = copyParamModel.children();
 		Enumeration<ParamDataModelAdapter> enumForParamModel = paramDataModel.children();
-		//BaseElementDataModelAdapter baseCollector;
 		ElementOperationAdapter operation;
 		VariableElementDataModel variableElement;
 		

@@ -292,10 +292,8 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	public Object clone() {
 		
 		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.clone();
-		
-		//CompareTypeListEnum compareType = this.compareType;	
+			
 		String stringPattern = new String( this.stringPattern );
-		//ListCompareByListEnum compareBy = this.compareBy;	
 				
 		return new CompareListToStoredElementOperation(baseElementDataModel, compareType, stringPattern, compareBy);
 	}

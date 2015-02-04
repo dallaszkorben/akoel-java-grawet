@@ -383,13 +383,4 @@ try {
 		
 	}
 
-/*	
-	@Override
-	public Object cloneWithParent() {
-		
-		ScriptBaseElementDataModel cloned = (ScriptBaseElementDataModel) super.cloneWithParent();
-		
-		return cloned;
-	}
-*/
 }

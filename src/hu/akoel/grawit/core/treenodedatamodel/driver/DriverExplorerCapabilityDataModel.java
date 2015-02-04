@@ -169,16 +169,4 @@ public class DriverExplorerCapabilityDataModel extends DriverDataModelAdapter{
 		
 	}
 
-/*	
-	@Override
-	public Object cloneWithParent() {
-		
-		DriverExplorerCapabilityDataModel cloned = (DriverExplorerCapabilityDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
 }

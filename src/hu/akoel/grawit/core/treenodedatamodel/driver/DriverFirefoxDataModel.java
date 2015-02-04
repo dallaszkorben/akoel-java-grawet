@@ -194,16 +194,4 @@ elementProgres.outputCommand( "		driver = new FirefoxDriver(profile);");
 		
 	}
 
-/*	
-	@Override
-	public Object cloneWithParent() {
-		
-		DriverFirefoxDataModel cloned = (DriverFirefoxDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
 }
