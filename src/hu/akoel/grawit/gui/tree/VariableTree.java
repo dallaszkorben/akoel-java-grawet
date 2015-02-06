@@ -377,7 +377,7 @@ public class VariableTree extends Tree{
 				
 					//Es ha ez megegyezik a keresett nodeToDelete-vel
 					if( variableElement.equals( nodeToDelete ) ){
-						foundDataModel.add((ParamElementDataModel)nextParamModel);
+						foundDataModel.add((ParamLoopCollectorDataModel)nextParamModel);
 					}					
 				}				
 			}
