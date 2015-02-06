@@ -212,16 +212,5 @@ public abstract class TestcaseNodeDataModelAdapter extends TestcaseDataModelAdap
 		return cloned;
 		
 	}
-/*	
-	@Override
-	public Object cloneWithParent() {
-		
-		TestcaseNodeDataModelAdapter cloned = (TestcaseNodeDataModelAdapter) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
+
 }

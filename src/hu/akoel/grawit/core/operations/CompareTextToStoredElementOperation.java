@@ -30,7 +30,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class CompareTextToStoredElementOperation extends ElementOperationAdapter{
+public class CompareTextToStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface{
 	
 	//TODO rendbe kell tenni a neveket!!!
 	
@@ -169,6 +169,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 		return stringPattern;
 	}
 	
+	@Override
 	public BaseElementDataModelAdapter getBaseElement() {
 		return baseElementDataModel;
 	}

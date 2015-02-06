@@ -29,7 +29,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class FillWithBaseElementOperation extends ElementOperationAdapter{
+public class FillWithBaseElementOperation extends ElementOperationAdapter implements HasElementOperationInterface{
 	
 	private static final String NAME = "FILLELEMENT";	
 	private static final String ATTR_FILL_BASE_ELEMENT_PATH = "fillelementpath";
@@ -150,6 +150,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter{
 		return getStaticName();
 	}
 		
+	@Override
 	public BaseElementDataModelAdapter getBaseElement() {
 		return baseElementDataModel;
 	}
