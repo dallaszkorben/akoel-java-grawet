@@ -31,7 +31,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class CompareValueToStoredElementOperation extends ElementOperationAdapter{
+public class CompareValueToStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface{
 	
 	private static final String NAME = "COMPAREVALUETOSTOREDELEMENT";	
 	private static final String ATTR_COMPARE_STORED_BASE_ELEMENT_PATH = "comparestoredbaseelementpath";
@@ -166,6 +166,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		return stringPattern;
 	}
 	
+	@Override
 	public BaseElementDataModelAdapter getBaseElement() {
 		return baseElementDataModel;
 	}

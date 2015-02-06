@@ -15,6 +15,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.operations.HasElementOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
@@ -425,7 +427,8 @@ public class BaseTree extends Tree{
 		
 		@SuppressWarnings("unchecked")
 		Enumeration<ParamDataModelAdapter> enumForParamModel = paramDataModel.children();
-		BaseElementDataModelAdapter baseCollector;
+		BaseElementDataModelAdapter baseElement;
+		ElementOperationAdapter elementOperation;
 		
 		//Vegig megy a param fastrukturan es megnezi, hogy az ott levo Node hivatkozik-e a megadott nodeToDelet-re
 		while( enumForParamModel.hasMoreElements() ){
@@ -434,24 +437,66 @@ public class BaseTree extends Tree{
 			//Ha ParamElementDataModel a vizsgalt node
 			if( nextParamModel instanceof ParamElementDataModel ){
 				
+				//-------------
+				// BASE ELEMENT
+				//-------------
 				//Megszerzi a hivatkoztott BaseElement-et
-				baseCollector = ((ParamElementDataModel)nextParamModel).getBaseElement();
+				baseElement = ((ParamElementDataModel)nextParamModel).getBaseElement();
 				
 				//Ha ez megegyezik a keresett nodeToDelete-vel
-				if( baseCollector.equals( nodeToDelete ) ){
+				if( baseElement.equals( nodeToDelete ) ){
 					foundDataModel.add((ParamElementDataModel)nextParamModel);
+				
+				}else{
+				
+					//-----------------------
+					// OPERATION-BASE ELEMENT
+					//-----------------------
+					//Megszerzi a hivatkoztott elem Operation-jat
+					elementOperation = ((ParamElementDataModel)nextParamModel).getElementOperation();
+					if( elementOperation instanceof HasElementOperationInterface ){
+						baseElement = ((HasElementOperationInterface)elementOperation).getBaseElement();
+					
+						//Ha ez megegyezik a keresett nodeToDelete-vel
+						if( baseElement.equals( nodeToDelete ) ){
+							foundDataModel.add((ParamElementDataModel)nextParamModel);
+						}
+					
+					}
+					
 				}
 			
 			//Ha ParamLoop
 			}else if( nextParamModel instanceof ParamLoopCollectorDataModel ){
 				
+				//-------------
+				// BASE ELEMENT
+				//-------------
 				//Megszerzi a hivatkoztott BaseElement-et
-				baseCollector = ((ParamLoopCollectorDataModel)nextParamModel).getCompareBaseElement();
+				baseElement = ((ParamLoopCollectorDataModel)nextParamModel).getCompareBaseElement();
 				
 				//Ha ez megegyezik a keresett nodeToDelete-vel
-				if( baseCollector.equals( nodeToDelete ) ){
+				if( baseElement.equals( nodeToDelete ) ){
 					foundDataModel.add((ParamLoopCollectorDataModel)nextParamModel);
-				}
+				
+				}else{
+					
+					//-----------------------
+					// OPERATION-BASE ELEMENT
+					//-----------------------
+					//Megszerzi a hivatkoztott elem Operation-jat
+					elementOperation = ((ParamLoopCollectorDataModel)nextParamModel).getElementOperation();
+					if( elementOperation instanceof HasElementOperationInterface ){
+						baseElement = ((HasElementOperationInterface)elementOperation).getBaseElement();
+					
+						//Ha ez megegyezik a keresett nodeToDelete-vel
+						if( baseElement.equals( nodeToDelete ) ){
+							foundDataModel.add((ParamLoopCollectorDataModel)nextParamModel);
+						}
+					
+					}
+					
+				}				
 				
 			}
 			

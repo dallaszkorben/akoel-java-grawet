@@ -129,7 +129,8 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH), e );
 	    } 
 	    	  
-	    ParamDataModelAdapter paramDataModel = (ParamDataModelAdapter)paramRootDataModel.clone();
+	    //ParamDataModelAdapter paramDataModel = (ParamDataModelAdapter)paramRootDataModel.clone();
+	    ParamDataModelAdapter paramDataModel = paramRootDataModel;
 	    
 	    //Megkeresem a PARAMPAGEROOT-ben a PARAMPAGE-hez vezeto utat
 	    Node actualNode = document;
@@ -325,15 +326,4 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		
 	}
 	
-/*	@Override
-	public Object cloneWithParent() {
-		
-		TestcaseParamContainerDataModel cloned = (TestcaseParamContainerDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
 }
