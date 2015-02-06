@@ -24,8 +24,18 @@ import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public abstract class ElementOperationAdapter implements Cloneable{
 		
+	/**
+	 * Name for XML
+	 * @return
+	 */
 	public abstract String getName();
 		
+	/**
+	 * Name for display
+	 * @return
+	 */
+	public abstract String getOperationToString();
+	
 	public abstract void setXMLAttribute( Document document, Element element );
 
 	public abstract void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException;
@@ -38,7 +48,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
 				
 		if( null != elementProgress ){
-			elementProgress.elementStarted( baseElement.getName() );
+			elementProgress.elementStarted( baseElement.getName(), getOperationToString() );
 		}
 
 		if( baseElement instanceof NormalBaseElementDataModel ){			
@@ -136,7 +146,7 @@ elementProgress.outputCommand("");
 		}
 
 		if( null != elementProgress ){
-			elementProgress.elementEnded( baseElement.getName() );
+			elementProgress.elementEnded( baseElement.getName(), getOperationToString() );
 		}		
 		
 	}

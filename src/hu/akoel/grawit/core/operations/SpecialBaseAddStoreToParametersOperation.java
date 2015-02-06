@@ -192,5 +192,9 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	
 		return new SpecialBaseAddStoreToParametersOperation(baseElementDataModel);
 	}
-	
+		
+	@Override
+	public String getOperationToString() {		
+		return "AddElementStorageToScriptElementParameter()";
+	}
 }

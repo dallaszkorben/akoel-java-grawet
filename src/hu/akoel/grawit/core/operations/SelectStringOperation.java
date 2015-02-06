@@ -88,5 +88,8 @@ public class SelectStringOperation extends SelectOperationAdapter{
 		return new SelectStringOperation(string, selectionBy);
 	}
 
-
+	@Override
+	public String getOperationToString() {		
+		return "SelectListElementByString()";
+	}
 }

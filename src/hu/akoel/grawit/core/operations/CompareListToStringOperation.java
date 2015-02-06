@@ -201,4 +201,8 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 		return new CompareListToStringOperation(stringToCompare, compareType, stringPattern, compareBy);
 	}
 	
+	@Override
+	public String getOperationToString() {		
+		return "CompareListToString()";
+	}
 }

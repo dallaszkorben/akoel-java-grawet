@@ -50,4 +50,8 @@ elementProgress.outputCommand( "		executor.executeScript(\"arguments[0].click();
 		return new ClickLeftOperation();
 	}
 
+	@Override
+	public String getOperationToString() {		
+		return "LeftClick()";
+	}
 }

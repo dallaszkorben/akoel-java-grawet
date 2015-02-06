@@ -261,4 +261,8 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		return new CompareValueToStoredElementOperation(baseElementDataModel, compareType, stringPattern);
 	}
 	
+	@Override
+	public String getOperationToString() {		
+		return "CompareValueToStoredElement()";
+	}
 }

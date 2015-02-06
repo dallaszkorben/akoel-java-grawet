@@ -123,6 +123,10 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 		return new GainValueToElementStorageOperation(stringPattern);
 	}
 
+	@Override
+	public String getOperationToString() {		
+		return "GainValueToElementStorage()";
+	}
 
 	
 }

@@ -15,7 +15,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class GainTextToElementOperation extends ElementOperationAdapter{
+public class GainTextToElementStorageOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "GAINTEXTTOELEMENT";
 	private static final String ATTR_PATTERN = "pattern";
@@ -27,13 +27,13 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 	private String stringPattern;
 	//---
 	
-	public GainTextToElementOperation( String stringPattern ){
+	public GainTextToElementStorageOperation( String stringPattern ){
 		this.stringPattern = stringPattern;
 		
 		common( stringPattern );
 	}
 	
-	public GainTextToElementOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public GainTextToElementStorageOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		if( !element.hasAttribute( ATTR_PATTERN ) ){
 			stringPattern = "";
@@ -100,8 +100,13 @@ public class GainTextToElementOperation extends ElementOperationAdapter{
 		
 		String stringPattern = new String( this.stringPattern );
 		
-		return new GainTextToElementOperation(stringPattern);
+		return new GainTextToElementStorageOperation(stringPattern);
 	}
 	
+	@Override
+	public String getOperationToString() {		
+		return "GainTextToElementStorage()";
+	}
+
 }
 

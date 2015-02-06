@@ -233,5 +233,8 @@ public class CompareTextToVariableOperation extends ElementOperationAdapter impl
 		return new CompareTextToVariableOperation(variableElementDataModel, compareType, stringPattern);
 	}
 
-	
+	@Override
+	public String getOperationToString() {		
+		return "CompareTextToVariable()";
+	}
 }

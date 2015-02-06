@@ -142,7 +142,10 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 		return new GainListToElementStorageOperation(stringPattern, gainBy);
 	}
 
-
+	@Override
+	public String getOperationToString() {		
+		return "GainListElementToElementStorage()";
+	}
 	
 }
 

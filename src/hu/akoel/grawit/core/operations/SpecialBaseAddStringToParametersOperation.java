@@ -78,5 +78,10 @@ public class SpecialBaseAddStringToParametersOperation extends ElementOperationA
 		
 		return new SpecialBaseAddStringToParametersOperation(stringToCompare);
 	}
+		
+	@Override
+	public String getOperationToString() {		
+		return "AddStringToScriptElementParameter()";
+	}
 	
 }

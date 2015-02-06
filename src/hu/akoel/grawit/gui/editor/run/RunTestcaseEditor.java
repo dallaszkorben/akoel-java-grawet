@@ -647,7 +647,7 @@ elementProgres.outputCommand( "}");
 		public void pageStarted(String pageID, String nodeType) {			
 			try {
 				consolDocument.insertString(
-						consolDocument.getLength(), "    " +  
+						consolDocument.getLength(), "        " +  
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.pagestarted"), 
 								pageID, nodeType
@@ -659,45 +659,57 @@ elementProgres.outputCommand( "}");
 
 		@Override
 		public void pageEnded(String pageID, String nodeType) {
-		
+			
 			try {
 				consolDocument.insertString(
-						consolDocument.getLength(), "    " + 
+						consolDocument.getLength(), "        " + 
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.pageended"), 
 								pageID, nodeType
 						) + "\n", 
 						attributePageFinished 
-				);				
+				);								
 			} catch (BadLocationException e) {e.printStackTrace();}
+		
 		}		
 	}
 	
 	class ElementProgress implements ElementProgressInterface{
 		
 		@Override
-		public void elementStarted(String name ) {
+		public void elementStarted(String name, String operation ) {
 			try {
-				consolDocument.insertString(consolDocument.getLength(), "        " + 
+				//consolDocument.insertString(consolDocument.getLength(), "        " + 
+				consolDocument.insertString(consolDocument.getLength(), "                " + 
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.elementstarted"), 
-								name
-						) + "\n", null 
+								operation, name
+						) + " - ", null 
 				);
 			} catch (BadLocationException e) {e.printStackTrace();}			
 		}
 	
+		
+		
 		@Override
-		public void elementEnded(String name) {
+		public void elementEnded(String name, String operation ) {
 			
 			try {
+				consolDocument.insertString(consolDocument.getLength(), 
+				CommonOperations.getTranslation("editor.runtestcase.message.elementended-short") 
+				 + "\n", null 
+				);
+			} catch (BadLocationException e) {e.printStackTrace();}		
+			
+/*			try {
 				consolDocument.insertString(consolDocument.getLength(), "        " + 
 						MessageFormat.format(
 								CommonOperations.getTranslation("editor.runtestcase.message.elementended"), 
-								name
+								operation, name
 						) + "\n", null 
 				);
-			} catch (BadLocationException e) {e.printStackTrace();}			
+			} catch (BadLocationException e) {e.printStackTrace();}
+*/						
 		}
 
 		@Override

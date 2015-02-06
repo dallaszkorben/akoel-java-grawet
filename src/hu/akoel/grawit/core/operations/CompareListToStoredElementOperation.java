@@ -131,26 +131,6 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
 	    		}	    		
 	    		
-/*	    	//Ha NORMALBASEELEMENT
-	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.NORMALBASEELEMENT, attrName );
-	
-	    		if( null == baseDataModelForFillOut ){
-
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
-	    		}
-
-	    	//Ha SPECIALBASEELEMENT
-	    	}else if( tagName.equals( SpecialBaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.SPECIALBASEELEMENT, attrName );
-		
-	    		if( null == baseDataModelForFillOut ){
-
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_BASE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_BASE_ELEMENT_PATH) );
-	    		}	    		
-*/	    	
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BaseCollectorDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseCollectorDataModel.ATTR_NAME);
@@ -297,6 +277,11 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 		String stringPattern = new String( this.stringPattern );
 				
 		return new CompareListToStoredElementOperation(baseElementDataModel, compareType, stringPattern, compareBy);
+	}
+	
+	@Override
+	public String getOperationToString() {		
+		return "CompareListToStoredElement()";
 	}
 	
 }

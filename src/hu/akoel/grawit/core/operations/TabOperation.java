@@ -55,4 +55,8 @@ elementProgress.outputCommand( "		webElement.sendKeys( Keys.TAB );" );
 		return new TabOperation();
 	}
 
+	@Override
+	public String getOperationToString() {		
+		return "Tab()";
+	}
 }

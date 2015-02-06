@@ -58,4 +58,8 @@ public class ClearParametersOperation extends ElementOperationAdapter{
 		return new ClearParametersOperation();
 	}
 	
+	@Override
+	public String getOperationToString() {		
+		return "ClearParameters()";
+	}
 }
