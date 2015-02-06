@@ -74,9 +74,6 @@ public class VariableElementDataModel extends VariableDataModelAdapter{
 		}else if( VariableTypeListEnum.TODAY_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
 			type = VariableTypeListEnum.TODAY_DATE_PARAMETER;
 			
-/*		}else if( VariableTypeListEnum.STORE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableTypeListEnum.STORE_PARAMETER;			
-*/			
 		//Default
 		}else{
 			type = VariableTypeListEnum.STRING_PARAMETER;

@@ -15,7 +15,7 @@ import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public class BaseCollectorDataModel extends BaseNodeDataModelAdapter  {//BaseDataModelAdapter{
+public class BaseCollectorDataModel extends BaseNodeDataModelAdapter  {
 
 	private static final long serialVersionUID = 8871077064641984017L;
 	

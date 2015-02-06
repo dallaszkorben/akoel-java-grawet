@@ -7,13 +7,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
@@ -34,7 +30,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// TestcaseDataModelAdapter{
+public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 
 	private static final long serialVersionUID = -2139557326147525999L;
 
@@ -97,7 +93,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{// Testc
 				Element testcaseElement = (Element)node;
 				
 				//Ha TESTCASEPARAMCONTAINER van alatta
-				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMCONTAINER.getName() )){
+				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMCOLLECTOR.getName() )){
 					
 					this.add(new TestcaseParamContainerDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
 					

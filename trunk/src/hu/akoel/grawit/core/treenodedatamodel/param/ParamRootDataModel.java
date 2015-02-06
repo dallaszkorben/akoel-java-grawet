@@ -1,7 +1,5 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
-import java.util.Vector;
-
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
