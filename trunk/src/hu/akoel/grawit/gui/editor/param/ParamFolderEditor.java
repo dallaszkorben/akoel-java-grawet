@@ -155,10 +155,7 @@ public class ParamFolderEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
-				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
 				ParamFolderDataModel newPageBaseNode = new ParamFolderDataModel( fieldName.getText(), fieldDetails.getText() );				
-				//parentNode.insert( newPageBaseNode, selectedNodeIndex);
 				nodeForCapture.add( newPageBaseNode );
 			
 				//Ebbe a nodba kell majd visszaallni

@@ -64,9 +64,8 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	private Integer maxLoopNumber = null;
 	//----
 	
-	public ParamLoopCollectorDataModel( String name, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
-//TODO letrehozni DETAIL-t
-		super(name, "");
+	public ParamLoopCollectorDataModel( String name, String details, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
+		super(name, details);
 		
 		this.compareBaseElement = compareBaseElement;
 		this.oneLoopLength = oneLoopLength;
@@ -347,24 +346,6 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 			elementElement.setAttributeNode(attr);		
 		//}
 			
-		//========
-		//
-		// Gyermekek
-		//
-		//========
-/*		int childrens = this.getChildCount();
-		for( int i = 0; i < childrens; i++ ){
-			
-			Object object = this.getChildAt( i );
-			
-			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
-				
-				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
-				elementElement.appendChild( element );		    		
-		    	
-			}
-		}
-*/		
 		//Minden Operation a sajat attributumaiert felelos
 		getElementOperation().setXMLAttribute( document, elementElement );
 				

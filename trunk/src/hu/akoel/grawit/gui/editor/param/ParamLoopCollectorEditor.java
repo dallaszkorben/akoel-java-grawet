@@ -21,6 +21,7 @@ import hu.akoel.grawit.enums.list.elementtypeoperations.compare.RadiobuttonEleme
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.TextElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.IntegerFieldComponent;
+import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.CheckboxElementTypeComponentCompare;
 import hu.akoel.grawit.gui.editors.component.elementtype.compare.ElementTypeComponentCompareInterface;
@@ -49,6 +50,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
+	private TextAreaComponent fieldDetails;
 
 	private JLabel labelOneLoopLength;
 	private IntegerFieldComponent fieldOneLoopLength;
@@ -79,6 +81,9 @@ public class ParamLoopCollectorEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent( "" );
 		
+		//Details
+		fieldDetails = new TextAreaComponent( "", NOTE_ROWS, 15);
+				
 		//One loop length
 		fieldOneLoopLength = new IntegerFieldComponent( "1" );
 		
@@ -105,6 +110,9 @@ public class ParamLoopCollectorEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent( selectedControlLoop.getName());
 
+		//Details
+		fieldDetails = new TextAreaComponent( selectedControlLoop.getDetails(), NOTE_ROWS, 15);
+		
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedControlLoop.getCompareBaseElement();
 		
@@ -158,8 +166,10 @@ public class ParamLoopCollectorEditor extends DataEditor{
 		labelElementTypeSelector = new JLabel( "");
 		labelOneLoopLength = new JLabel( CommonOperations.getTranslation("editor.label.param.loop.onelooplength") + ": " );
 		labelMaxLoopNumber = new JLabel( CommonOperations.getTranslation("editor.label.param.loop.maxloopnumber") + ": " );
+		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
 		
 		this.add( labelName, fieldName );
+		this.add( labelDetails, fieldDetails );
 		this.add( labelOneLoopLength, fieldOneLoopLength );
 		this.add( labelMaxLoopNumber, fieldMaxLoopNumber );
 		
@@ -349,7 +359,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				ParamLoopCollectorDataModel newParamLoop = new ParamLoopCollectorDataModel( fieldName.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation );
+				ParamLoopCollectorDataModel newParamLoop = new ParamLoopCollectorDataModel( fieldName.getText(), fieldDetails.getText(), baseElement, oneLoopLength, maxLoopNumber, elementOperation );
 				
 				nodeForCapture.add( newParamLoop );
 				
@@ -357,6 +367,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
 				nodeForModify.setName( fieldName.getText() );
+				nodeForModify.setDetails( fieldDetails.getText() );
 				nodeForModify.setOneLoopLength(oneLoopLength);
 				nodeForModify.setMaxLoopNumber(maxLoopNumber);
 				nodeForModify.setCompareBaseElement(baseElement);

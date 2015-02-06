@@ -1,7 +1,5 @@
 package hu.akoel.grawit.core.treenodedatamodel.param;
 
-import java.util.Vector;
-
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
@@ -9,7 +7,6 @@ import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
 import org.w3c.dom.Attr;
@@ -31,32 +28,6 @@ public class ParamFolderDataModel extends ParamNodeDataModelAdapter{
 	public ParamFolderDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 
 		super( element, baseRootDataModel, variableRootDataModel );
-		
-/*		//========
-		//
-		// Name
-		//
-		//========
-		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( ParamFolderDataModel.getRootTag(), Tag.PARAMFOLDER, ATTR_NAME );			
-		}
-		String nameString = element.getAttribute( ATTR_NAME );
-		this.name = nameString;
-
-		//========
-		//
-		// Details
-		//
-		//========
-		String detailsString;
-		if( !element.hasAttribute( ATTR_DETAILS ) ){
-		//	throw new XMLMissingAttributePharseException( ParamNodeDataModel.getRootTag(), Tag.PARAMNODE, ATTR_NAME, getName(), ATTR_DETAILS );
-			detailsString = "";
-		}else{		
-			detailsString = element.getAttribute( ATTR_DETAILS );
-		}
-		this.details = detailsString;
-*/
 		
 	    //========
 		//
