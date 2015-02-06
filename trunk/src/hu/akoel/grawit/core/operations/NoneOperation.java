@@ -39,4 +39,10 @@ public class NoneOperation extends ElementOperationAdapter{
 		return cloned;
 		
 	}
+	
+	@Override
+	public String getOperationToString() {		
+		return "Nop()";
+	}
+
 }

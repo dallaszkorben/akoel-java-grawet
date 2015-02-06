@@ -162,5 +162,8 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 		return new SelectVariableElementOperation(variableElementDataModel, selectionBy);
 	}
 
-
+	@Override
+	public String getOperationToString() {		
+		return "SelectListElementByVariable()";
+	}
 }

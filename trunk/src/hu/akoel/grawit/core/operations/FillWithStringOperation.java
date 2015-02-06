@@ -83,4 +83,9 @@ public class FillWithStringOperation extends ElementOperationAdapter{
 		return new FillWithStringOperation(stringToShow);
 	}
 	
+	@Override
+	public String getOperationToString() {		
+		return "FillFieldWithString()";
+	}
+
 }

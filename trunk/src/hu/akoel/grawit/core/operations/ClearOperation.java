@@ -54,4 +54,9 @@ elementProgress.outputCommand( "		webElement.clear();" );
 		return cloned;
 		
 	}
+
+	@Override
+	public String getOperationToString() {		
+		return "Clear Field()";
+	}
 }

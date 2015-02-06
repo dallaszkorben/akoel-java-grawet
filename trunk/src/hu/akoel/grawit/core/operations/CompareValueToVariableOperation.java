@@ -244,9 +244,13 @@ public class CompareValueToVariableOperation extends ElementOperationAdapter imp
 		
 		String stringPattern = new String( this.stringPattern );
 		
-		//Tovabb nem klonozok, mert az mar hivatkozas egy elemre
-		
+		//Tovabb nem klonozok, mert az mar hivatkozas egy elemre		
 		return new CompareValueToVariableOperation(variableElementDataModel, compareType, stringPattern);
 	}
 
+	@Override
+	public String getOperationToString() {		
+		return "CompareValueToVariable()";
+	}
+	
 }

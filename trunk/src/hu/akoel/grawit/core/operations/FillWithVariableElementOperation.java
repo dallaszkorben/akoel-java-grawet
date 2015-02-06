@@ -152,4 +152,8 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 		return new FillWithVariableElementOperation(variableElementDataModel);
 	}
 	
+	@Override
+	public String getOperationToString() {		
+		return "FillFieldWithVariable()";
+	}
 }

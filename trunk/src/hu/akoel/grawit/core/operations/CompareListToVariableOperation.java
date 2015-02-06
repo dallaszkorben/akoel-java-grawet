@@ -270,5 +270,9 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 
 	}
 
+	@Override
+	public String getOperationToString() {		
+		return "CompareListToVariable()";
+	}
 	
 }

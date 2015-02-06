@@ -17,9 +17,8 @@ import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
 import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainTextToElementOperation;
+import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainValueToVariableOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
@@ -337,9 +336,9 @@ public class CommonOperations {
 						elementOperation = new CompareTextToStringOperation( element, rootTag, dataModel.getTag() );
 					
 					//GAIN TEXT TO ELEMENT
-					}else if( operationString.equals( GainTextToElementOperation.getStaticName() ) ){
+					}else if( operationString.equals( GainTextToElementStorageOperation.getStaticName() ) ){
 										
-						elementOperation = new GainTextToElementOperation( element, rootTag, dataModel.getTag() );				
+						elementOperation = new GainTextToElementStorageOperation( element, rootTag, dataModel.getTag() );				
 			
 					//OUTPUT STORED
 					}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
@@ -393,11 +392,11 @@ public class CommonOperations {
 				
 						elementOperation = new CompareValueToStringOperation( element, rootTag, dataModel.getTag() );				
 				
-					//GAIN VALUE TO VARIABLE
+/*					//GAIN VALUE TO VARIABLE
 					}else if( operationString.equals( GainValueToVariableOperation.getStaticName() ) ){
 					
 						elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
-
+*/
 					//GAIN VALUE TO ELEMENT STORAGE
 					}else if( operationString.equals( GainValueToElementStorageOperation.getStaticName() ) ){
 						
@@ -455,11 +454,11 @@ public class CommonOperations {
 				
 						elementOperation = new CompareValueToStringOperation( element, rootTag, dataModel.getTag() );
 				
-					//GAIN VALUE TO VARIABLE
+/*					//GAIN VALUE TO VARIABLE
 					}else if( operationString.equals( GainValueToVariableOperation.getStaticName() ) ){
 					
 						elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
-
+*/
 					//GAIN VALUE TO ELEMENT STORAGE
 					}else if( operationString.equals( GainValueToElementStorageOperation.getStaticName() ) ){
 						
@@ -528,10 +527,10 @@ public class CommonOperations {
 						elementOperation = new CompareValueToStringOperation( element, rootTag, dataModel.getTag() );
 			
 					//GAIN VALUE TO VARIABLE
-					}else if( operationString.equals( GainValueToVariableOperation.getStaticName() ) ){
+/*					}else if( operationString.equals( GainValueToVariableOperation.getStaticName() ) ){
 					
 						elementOperation = new GainValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
-
+*/
 					//GAIN VALUE TO ELEMENT STORAGE
 					}else if( operationString.equals( GainValueToElementStorageOperation.getStaticName() ) ){
 						
@@ -579,9 +578,9 @@ public class CommonOperations {
 						elementOperation = new ClickRightOperation();						
 						
 					//GAIN TEXT TO ELEMENT
-					}else if( operationString.equals( GainTextToElementOperation.getStaticName() ) ){
+					}else if( operationString.equals( GainTextToElementStorageOperation.getStaticName() ) ){
 									
-						elementOperation = new GainTextToElementOperation( element, rootTag, dataModel.getTag() );				
+						elementOperation = new GainTextToElementStorageOperation( element, rootTag, dataModel.getTag() );				
 				
 					//OUTPUT STORED
 					}else if( operationString.equals( OutputStoredElementOperation.getStaticName() ) ){ 
@@ -592,7 +591,7 @@ public class CommonOperations {
 					}else{
 				
 						//Default muvelet
-						elementOperation = new GainTextToElementOperation( element, rootTag, dataModel.getTag() );	
+						elementOperation = new GainTextToElementStorageOperation( element, rootTag, dataModel.getTag() );	
 				
 						//throw new XMLWrongAttributePharseException( BaseDataModelInterface.getRootTag(), BaseElementDataModel.TAG, DataModelAdapter.ATTR_NAME, baseElement.getName(), BaseElementDataModel.ATTR_ELEMENT_TYPE, baseElement.getElementType().name() );
 						//TODO ez nem jo uzenet

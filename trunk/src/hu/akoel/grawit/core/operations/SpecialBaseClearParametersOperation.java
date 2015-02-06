@@ -56,4 +56,8 @@ public class SpecialBaseClearParametersOperation extends ElementOperationAdapter
 		return new SpecialBaseClearParametersOperation();
 	}
 	
+	@Override
+	public String getOperationToString() {		
+		return "ClearParametersForScriptElement()";
+	}
 }

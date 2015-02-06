@@ -71,4 +71,10 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 		return new OutputStoredElementOperation(message);
 	}
 
+	@Override
+	public String getOperationToString() {		
+		return "OutputElementStorage()";
+	}
+
+	
 }

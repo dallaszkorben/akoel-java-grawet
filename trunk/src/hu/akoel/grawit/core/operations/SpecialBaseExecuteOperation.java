@@ -66,5 +66,10 @@ public class SpecialBaseExecuteOperation extends ElementOperationAdapter{
 		return new SpecialBaseExecuteOperation();
 		
 	}
+		
+	@Override
+	public String getOperationToString() {		
+		return "ExecuteScriptElement";
+	}
 	
 }

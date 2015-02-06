@@ -194,5 +194,9 @@ public class SelectBaseElementOperation extends SelectOperationAdapter{
 		return new SelectBaseElementOperation(baseElementDataModel, selectionBy);
 	}
 
+	@Override
+	public String getOperationToString() {		
+		return "SelectListElementByElementStorage()";
+	}
 
 }

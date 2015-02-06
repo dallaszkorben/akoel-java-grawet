@@ -2,9 +2,9 @@ package hu.akoel.grawit.gui.interfaces.progress;
 
 public interface ElementProgressInterface {
 	
-	public void elementStarted( String name );
+	public void elementStarted( String name, String operation );
 	
-	public void elementEnded( String name );
+	public void elementEnded( String name, String operation );
 	
 	public void outputValue( String outputValue, String message );
 	

@@ -47,4 +47,8 @@ public class ClickRightOperation extends ElementOperationAdapter{
 		return new ClickRightOperation();
 	}
 
+	@Override
+	public String getOperationToString() {		
+		return "RightClick()";
+	}
 }

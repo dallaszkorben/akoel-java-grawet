@@ -165,4 +165,9 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 		return new CompareTextToStringOperation(stringToCompare, compareType, stringPattern);
 	}
 	
+	@Override
+	public String getOperationToString() {		
+		return "CompareTextToString()";
+	}
+	
 }

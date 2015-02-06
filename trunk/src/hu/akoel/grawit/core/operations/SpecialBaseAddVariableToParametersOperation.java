@@ -144,4 +144,9 @@ public class SpecialBaseAddVariableToParametersOperation extends ElementOperatio
 		return new SpecialBaseAddVariableToParametersOperation(variableElementDataModel);
 	}
 	
+	@Override
+	public String getOperationToString() {		
+		return "AddVariableToScriptElementParameter()";
+	}
+	
 }
