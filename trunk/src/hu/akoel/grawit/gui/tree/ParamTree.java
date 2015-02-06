@@ -157,7 +157,7 @@ public class ParamTree extends Tree {
 			guiFrame.showEditorPanel( pageBaseElementEditor);									
 		
 		}else if( selectedNode instanceof ParamLoopCollectorDataModel ){
-			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );
+			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, variableRootDataModel, baseRootDataModel, EditMode.VIEW );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);	
 		
 		//Ha a root-ot valasztottam
@@ -189,7 +189,7 @@ public class ParamTree extends Tree {
 			guiFrame.showEditorPanel( paramElementEditor);		
 				
 		}else if( selectedNode instanceof ParamLoopCollectorDataModel ){
-			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );
+			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (ParamLoopCollectorDataModel)selectedNode, variableRootDataModel, baseRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 
 		}else if( selectedNode instanceof ParamFolderDataModel ){
@@ -286,7 +286,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( ParamTree.this, (ParamFolderDataModel)selectedNode, baseRootDataModel );
+					ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( ParamTree.this, (ParamFolderDataModel)selectedNode, variableRootDataModel, baseRootDataModel );
 					guiFrame.showEditorPanel( testcaseControlLoopEditor);			
 					
 				
