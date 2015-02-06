@@ -66,7 +66,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 	VariableRootDataModel variableRootDataModel;
 
 	//Itt biztos beszuras van
-	public ParamLoopCollectorEditor( Tree tree, ParamFolderDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public ParamLoopCollectorEditor( Tree tree, ParamFolderDataModel selectedNode, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ){
 		
 		super( ParamLoopCollectorDataModel.getModelNameToShowStatic() );
 		
@@ -92,7 +92,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public ParamLoopCollectorEditor( Tree tree, ParamLoopCollectorDataModel selectedControlLoop, BaseRootDataModel baseRootDataModel, EditMode mode ){		
+	public ParamLoopCollectorEditor( Tree tree, ParamLoopCollectorDataModel selectedControlLoop, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, EditMode mode ){		
 		
 		super( mode, selectedControlLoop.getNodeTypeToShow());
 
