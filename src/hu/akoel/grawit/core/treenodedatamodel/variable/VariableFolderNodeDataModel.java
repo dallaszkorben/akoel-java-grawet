@@ -180,16 +180,4 @@ public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 		
 	}
 	
-/*	
-	@Override
-	public Object cloneWithParent() {
-		
-		VariableFolderNodeDataModel cloned = (VariableFolderNodeDataModel) this.clone();
-		
-		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
-		cloned.setParent( (MutableTreeNode) this.getParent() );
-		
-		return cloned;
-	}
-*/	
 }

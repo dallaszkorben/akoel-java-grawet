@@ -19,8 +19,6 @@ public abstract class ParamNodeDataModelAdapter extends ParamDataModelAdapter{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
-//	public static final Tag TAG = Tag.PARAMNODE;
-	
 	private static final String ATTR_DETAILS = "details";
 		
 	private String name;

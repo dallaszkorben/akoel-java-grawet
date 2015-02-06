@@ -17,21 +17,10 @@ public abstract class ScriptElementDataModelAdapter extends ScriptDataModelAdapt
 	
 	public static Tag TAG = Tag.BASEELEMENT;
 	
-//	public static final String ATTR_ELEMENT_TYPE="elementtype";
-//	public static final String ATTR_IDENTIFIER = "identifier";
-//	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
-//	public static final String ATTR_FRAME = "frame";
-//	public static final String ATTR_WAITINGTIME = "waitingtime";
-	
 	//Adatmodel ---
 	private String name;
-//	private ElementTypeListEnum elementType;
-//	private String frame;
-//	private String identifier;
-//	private SelectorType identificationType;
-//	private Integer waitingTime = null;
+
 	//----
-	
 	//Ide menti az erre a mezore hivatkozo ParamElement Mezo mentett erteket
 	private String storedValue = "";
 	//---

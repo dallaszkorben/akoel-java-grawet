@@ -39,8 +39,7 @@ import org.xml.sax.InputSource;
 public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapter{
 
 	private static final long serialVersionUID = 5313170692938571481L;
-//TODO atnevezni TESTCASEPARAM -ra
-	public static final Tag TAG = Tag.TESTCASEPARAMCONTAINER;
+	public static final Tag TAG = Tag.TESTCASEPARAMCOLLECTOR;
 	
 	public static final String ATTR_DETAILS = "details";
 	public static final String ATTR_PARAM_PAGE_PATH = "parampagepath";
@@ -66,7 +65,6 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	//public TestcaseParamCollectorDataModel( Element element, ParamDataModelAdapter paramDataModel ) throws XMLPharseException{
 	public TestcaseParamContainerDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel) throws XMLPharseException{
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
@@ -78,7 +76,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( TestcaseParamContainerDataModel.getRootTag(), Tag.TESTCASEPARAMCONTAINER, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( TestcaseParamContainerDataModel.getRootTag(), Tag.TESTCASEPARAMCOLLECTOR, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
@@ -101,7 +99,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		//
 		//========	
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( TestcaseParamContainerDataModel.getRootTag(), Tag.TESTCASEPARAMCONTAINER, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( TestcaseParamContainerDataModel.getRootTag(), Tag.TESTCASEPARAMCOLLECTOR, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;

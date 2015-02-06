@@ -61,55 +61,14 @@ public abstract class TestcaseNodeDataModelAdapter extends TestcaseDataModelAdap
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
-/*		
-		//========
-		//
-		// Gyermekei
-		//
-		//========	
-		NodeList nodelist = element.getChildNodes();
-		for( int i = 0; i < nodelist.getLength(); i++ ){
-			Node node = nodelist.item( i );
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element testcaseElement = (Element)node;
-				
-				//Ha TESTCASECASE van alatta
-				if( testcaseElement.getTagName().equals( Tag.TESTCASECASE.getName() )){
-					this.add(new TestcaseCaseDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel ));
-				
-				//Ha ujabb TESTCASENODE van alatta
-				}else if( testcaseElement.getTagName().equals( Tag.TESTCASENODE.getName() )){
-					this.add(new TestcaseNodeDataModelAdapter(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel ));
-				}
-			}
-		}
-*/		
+		
 	}
 	
-/*	public static Tag getTagStatic(){
-		return TAG;
-	}
-
-	@Override
-	public Tag getTag() {
-//		return TAG;
-		return getTagStatic();
-	}
-*/
 	@Override
 	public void add(TestcaseDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
-/*	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.testcase.node");
-	}
-	
-	@Override
-	public String getNodeTypeToShow(){
-		return getModelNameToShowStatic();
-	}
-*/	
 	@Override
 	public String getName(){
 		return name;

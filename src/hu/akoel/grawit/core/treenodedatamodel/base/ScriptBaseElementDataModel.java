@@ -75,7 +75,6 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 	
 	private JavaSourceFromString javaFile;
 	private DiagnosticCollector<JavaFileObject> diagnostics;
-	//private String classOutputFolder = "";
 	
 	//Adatmodel ---
 	private String script;

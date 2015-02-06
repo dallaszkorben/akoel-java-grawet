@@ -20,7 +20,7 @@ public enum Tag{
 	TESTCASEROOT("testcase"),
 	TESTCASEFOLDER("node"),
 	TESTCASECASE("case"),
-	TESTCASEPARAMCONTAINER("paramcollector"),				
+	TESTCASEPARAMCOLLECTOR("paramcollector"),				
 	TESTCASECUSTOMPAGE("custom"),	
 
 	RUNROOT("run"),
