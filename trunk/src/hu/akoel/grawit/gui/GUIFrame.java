@@ -999,25 +999,37 @@ public class GUIFrame extends JFrame{
 		
 		public EditorPanel(){
 			this.setLayout( new BorderLayout(0,0));
-//			this.setBackground( Color.red);		
+this.setBorder(BorderFactory.createEmptyBorder());
+this.setBackground(Color.red);
 		}
 
 		public void show( BaseEditor panel ){
+			this.removeAll();
+
+			if( panel.isScrollEnabled() ){
+				
+				panelToView = new JScrollPane( (Component)panel );	
+				panelToView.setBorder(BorderFactory.createEmptyBorder());
+				this.add( panelToView, BorderLayout.CENTER );				
+				
+			}else{
+				this.add( panel, BorderLayout.CENTER );		
+			}
 
 			//Ha volt valamilyen mas EditorPanel az ablakban akkor azt eltavolitom
-			if( null != panelToView ){
-				this.remove( panelToView );
-			}
+//			if( null != panelToView ){
+//				this.remove( panelToView );
+//			}
 			
-			//Becsomagolom az EditorPanel-t hogy scroll-ozhato legyen
-			panelToView = new JScrollPane( (Component)panel );		
-				
+//			//Becsomagolom az EditorPanel-t hogy scroll-ozhato legyen
+//			panelToView = new JScrollPane( (Component)panel );		
+			
 			//Valamiert generalodik egy boder, amit most el kell tuntetnem
-			panelToView.setBorder(BorderFactory.createEmptyBorder());
+//			panelToView.setBorder(BorderFactory.createEmptyBorder());
 			
 			//Kiteszem az ablakba
-			this.add( panelToView, BorderLayout.CENTER );
-			
+//			this.add( panelToView, BorderLayout.CENTER );
+	
 			//Ujrarajzoltatom
 			this.revalidate();
 
@@ -1026,30 +1038,16 @@ public class GUIFrame extends JFrame{
 		public void hide(){
 			
 			//Ha volt valamilyen Tree az ablakban, azt eltavolitom
-			if( null != panelToView ){
-				this.remove( panelToView );
-			}
-			
+//			if( null != panelToView ){
+//				this.remove( panelToView );
+//			}
+this.removeAll();			
 			//Ujrarajzoltatom
 			this.repaint();
 			this.revalidate();
 		}
 		
 	}
-	
-	/**
-	 * 
-	 * @author afoldvarszky
-	 *
-	 */
-/*	class AssistantPanel extends JPanel{
-		
-		public AssistantPanel(){
-			this.setBackground(Color.blue);
-		}
-
-	}
-*/
 	
 	/**
 	 * 

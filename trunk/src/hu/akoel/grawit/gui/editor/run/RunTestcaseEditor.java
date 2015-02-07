@@ -2,16 +2,17 @@ package hu.akoel.grawit.gui.editor.run;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.text.MessageFormat;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -97,6 +98,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 				
 				"");
 		
+		this.setScrollEnabled(false);
 		this.selectedTestcase = testcaseDataModel;
 
 		pageProgress = new PageProgress();
@@ -254,10 +256,17 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		StyleContext consolrStyleContext = new StyleContext();
 		consolDocument = new DefaultStyledDocument(consolrStyleContext);
 		consolPanel = new JTextPane(consolDocument);
-		consolPanel.setEditable( false );
+//		consolPanel.setEditable( false );
 		DefaultCaret consolCaret = (DefaultCaret)consolPanel.getCaret();
 		consolCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		JScrollPane lowerPanel = new JScrollPane(consolPanel);
+//		JScrollPane lowerPanel = new JScrollPane(consolPanel);
+		
+		
+JScrollPane consolScrollablePanel = new JScrollPane(consolPanel);		
+JPanel lowerPanel = new JPanel();
+lowerPanel.setLayout( new BorderLayout() );
+lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
+
 		//scrollPaneForConsolPanel.setPreferredSize(new Dimension(10,100));
 		lowerPanel.setAutoscrolls(true);
 
@@ -422,10 +431,27 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		upperPanel.add( dataSection, c );	
 		
-		
-		MyHorizontalSplitPane horizontalSplitPane = new MyHorizontalSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
+		final JSplitPane horizontalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
 		horizontalSplitPane.setOneTouchExpandable(false);
-		horizontalSplitPane.setFlippedDividerLocation( 200 );	        
+/*		horizontalSplitPane.addComponentListener(new ComponentListener() {
+			@Override
+			public void componentShown(ComponentEvent e) {}
+			
+			@Override
+			public void componentResized(ComponentEvent e) {
+				int loc = horizontalSplitPane.getDividerLocation();
+				int height = RunTestcaseEditor.this.getHeight();
+System.err.println(height);				
+				horizontalSplitPane.setDividerLocation( 400 );
+				
+			}			
+			@Override
+			public void componentMoved(ComponentEvent e) {}			
+			@Override
+			public void componentHidden(ComponentEvent e) {}
+		});
+*/		
+		horizontalSplitPane.setDividerLocation( 400 );		
 		this.add( horizontalSplitPane, BorderLayout.CENTER);
 		
 	}
@@ -565,7 +591,7 @@ elementProgres.outputCommand( "}");
 	}
 	
 	private void setStatusOfTestCase( TestcaseCaseDataModel selectedTestcase, boolean ok ){
-	
+
 		try {
 			statusDocument.insertString(statusDocument.getLength(), selectedTestcase.getName(), null );
 			
@@ -577,39 +603,6 @@ elementProgres.outputCommand( "}");
 			
 		} catch (BadLocationException e) {e.printStackTrace();}
 
-	}
-	
-	public class MyHorizontalSplitPane extends JSplitPane {
-
-		private static final long serialVersionUID = 5556490319250974754L;
-	    
-		private boolean hasAbsoluteLocation = false;
-		private int absoluteLocation = 200;
-	    private boolean isPainted = false;
-
-	    public MyHorizontalSplitPane( int orientation, Component upperComponent, Component lowerComponent ){
-	    	super( orientation, upperComponent, lowerComponent );
-	    }
-	    	    
-	    public void setFlippedDividerLocation(int absoluteLocation) {
-	        if (!isPainted) {
-	            hasAbsoluteLocation = true;
-	            this.absoluteLocation = absoluteLocation;
-	        } else {
-	            super.setDividerLocation(absoluteLocation);
-	        }
-	        setResizeWeight( 1.0 );
-	    }
-	    
-	    public void paint(Graphics g) {
-	        super.paint(g);
-	        if (!isPainted) {
-	            if (hasAbsoluteLocation) {
-	                super.setDividerLocation( this.getHeight() - absoluteLocation);
-	            }
-	            isPainted = true;
-	        }
-	    }
 	}
 	
 	class TestcaseProgress implements TestcaseProgressInterface{

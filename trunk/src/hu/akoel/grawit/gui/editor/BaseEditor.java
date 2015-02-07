@@ -16,6 +16,7 @@ public abstract class BaseEditor extends JPanel{
 	private JPanel labelSection;
 	private JLabel operationSection;
 	private JPanel dataSection = new JPanel();
+	private boolean scrollEnabled = true;
 	
 	public JPanel getLabelSection(){
 		return labelSection;
@@ -29,11 +30,19 @@ public abstract class BaseEditor extends JPanel{
 		return dataSection;
 	}
 	
+	public boolean isScrollEnabled(){
+		return scrollEnabled;
+	}
+	
+	public void setScrollEnabled( boolean enabledScroll ){
+		this.scrollEnabled = enabledScroll;
+	}
+	
 	public BaseEditor( String element ){
 		
 		this.setLayout( new BorderLayout() );
 		this.setBorder( BorderFactory.createLoweredBevelBorder());
-
+		
 		//
 		// Headline terulet
 		//
