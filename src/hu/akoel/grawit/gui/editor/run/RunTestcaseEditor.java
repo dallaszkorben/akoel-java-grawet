@@ -68,7 +68,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	private JTextPane consolPanel;
 	private ResultPanel resultPanel;	
-	private JTextArea valuePanel;
+	private JTextArea outputPanel;
 	private DefaultStyledDocument consolDocument;
 	
 	private SimpleAttributeSet attributeOK;
@@ -167,7 +167,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 						RunTestcaseEditor.this.stopButton.setEnabled( true );
 
 						//Torli a panelek tartalmat
-						valuePanel.setText("");
+						outputPanel.setText("");
 						resultPanel.clear();
 						consolPanel.setText("");
 //for(int i=0; i<20; i++){						
@@ -258,18 +258,14 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		StyleContext consolrStyleContext = new StyleContext();
 		consolDocument = new DefaultStyledDocument(consolrStyleContext);
 		consolPanel = new JTextPane(consolDocument);
-//		consolPanel.setEditable( false );
+		consolPanel.setEditable( false );
 		DefaultCaret consolCaret = (DefaultCaret)consolPanel.getCaret();
 		consolCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-//		JScrollPane lowerPanel = new JScrollPane(consolPanel);
 		
-		
-JScrollPane consolScrollablePanel = new JScrollPane(consolPanel);		
-JPanel lowerPanel = new JPanel();
-lowerPanel.setLayout( new BorderLayout() );
-lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
-
-		//scrollPaneForConsolPanel.setPreferredSize(new Dimension(10,100));
+		JScrollPane consolScrollablePanel = new JScrollPane(consolPanel);		
+		JPanel lowerPanel = new JPanel();
+		lowerPanel.setLayout( new BorderLayout() );
+		lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		lowerPanel.setAutoscrolls(true);
 
 		//Result
@@ -317,13 +313,13 @@ lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		// Value panel
 		//
 		// -----------
-		valuePanel = new JTextArea(2, 15);
-		valuePanel.setEditable(false);
+		outputPanel = new JTextArea(2, 15);
+		outputPanel.setEditable(false);
 		
-		JScrollPane scrollPaneForValuePanel = new JScrollPane(valuePanel);
-		scrollPaneForValuePanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPaneForValuePanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-		scrollPaneForValuePanel.setSize(1, 200);
+		JScrollPane scrollPaneForOutputPanel = new JScrollPane(outputPanel);
+		scrollPaneForOutputPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPaneForOutputPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+		scrollPaneForOutputPanel.setSize(1, 200);
 
 		// ------------------------
 		//	STATUS PANEL felirat
@@ -337,10 +333,10 @@ lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( new JLabel("Status"), c );
+		upperPanel.add( new JLabel("Result"), c );
 
 		// ------------------------
-		// VALUE PANEL felirat
+		// OUTPUT PANEL felirat
 		// ------------------------
 		c.gridx = 2;
 		c.gridy = 0;
@@ -351,7 +347,7 @@ lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( new JLabel("Value"), c );
+		upperPanel.add( new JLabel("Output"), c );
 
 
 		// ------------------------
@@ -369,7 +365,7 @@ lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		upperPanel.add( scrollPaneForResultPanel, c );
 		
 		// ------------------------
-		// VALUE PANEL elhelyezese
+		// OUTPUT PANEL elhelyezese
 		// ------------------------
 		c.gridx = 2;
 		c.gridy = 1;
@@ -380,7 +376,7 @@ lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		c.weightx = 0;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( scrollPaneForValuePanel, c );
+		upperPanel.add( scrollPaneForOutputPanel, c );
 
 
 		
@@ -679,12 +675,12 @@ elementProgres.outputCommand( "}");
 		public void outputValue(String outputValue, String message ) {
 		
 			if( null == message || message.trim().length() == 0 ){
-				RunTestcaseEditor.this.valuePanel.append( outputValue + "\n" );
+				RunTestcaseEditor.this.outputPanel.append( outputValue + "\n" );
 			}else{
-				RunTestcaseEditor.this.valuePanel.append( message + ": " + outputValue + "\n" );
+				RunTestcaseEditor.this.outputPanel.append( message + ": " + outputValue + "\n" );
 			}
-			valuePanel.revalidate();
-			valuePanel.repaint();
+			outputPanel.revalidate();
+			outputPanel.repaint();
 		}
 
 		@Override
