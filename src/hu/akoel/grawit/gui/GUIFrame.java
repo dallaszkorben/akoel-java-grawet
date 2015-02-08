@@ -999,8 +999,7 @@ public class GUIFrame extends JFrame{
 		
 		public EditorPanel(){
 			this.setLayout( new BorderLayout(0,0));
-this.setBorder(BorderFactory.createEmptyBorder());
-this.setBackground(Color.red);
+			this.setBorder(BorderFactory.createEmptyBorder());
 		}
 
 		public void show( BaseEditor panel ){

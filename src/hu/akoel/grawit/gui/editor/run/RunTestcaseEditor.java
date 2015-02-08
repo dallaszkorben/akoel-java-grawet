@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -64,10 +65,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	private JButton pauseButton;
 	
 	private JTextPane consolPanel;
-	private JTextPane statusPanel;	
+	private StatusPanel statusPanel;	
 	private JTextArea valuePanel;
 	private DefaultStyledDocument consolDocument;
-	private DefaultStyledDocument statusDocument;
 	
 	private SimpleAttributeSet attributeOK;
 	private SimpleAttributeSet attributeFailed;
@@ -166,7 +166,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 						//Torli a panelek tartalmat
 						valuePanel.setText("");
-						statusPanel.setText("");
+						statusPanel.clear();
 						consolPanel.setText("");
 //for(int i=0; i<20; i++){						
 						//Vegrehajtja a teszteset(ek)et
@@ -271,19 +271,12 @@ lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		lowerPanel.setAutoscrolls(true);
 
 		//Status document
-		StyleContext statusStyleContext = new StyleContext();
-		statusDocument = new DefaultStyledDocument(statusStyleContext);
-		statusPanel = new JTextPane(statusDocument);
-		statusPanel.setEditable( false );
+		StyleContext statusStyleContext = new StyleContext();		
+		statusPanel = new StatusPanel();
 		statusPanel.setPreferredSize(new Dimension(170,1));
-		DefaultCaret statusCaret = (DefaultCaret)statusPanel.getCaret();
-		statusCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		JScrollPane scrollPaneForStatusPanel = new JScrollPane(statusPanel);
 		scrollPaneForStatusPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneForStatusPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    //scrollPaneForStatusPanel.setPreferredSize(new Dimension(70,100));
-		//scrollPaneForStatusPanel.setAutoscrolls(true);
-		
 
 		//OK attribute
 		attributeOK = new SimpleAttributeSet();
@@ -325,8 +318,6 @@ lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		valuePanel = new JTextArea(2, 15);
 		valuePanel.setEditable(false);
 		
-		DefaultCaret valueCaret = (DefaultCaret)statusPanel.getCaret();
-		valueCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		JScrollPane scrollPaneForValuePanel = new JScrollPane(valuePanel);
 		scrollPaneForValuePanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneForValuePanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
@@ -433,7 +424,8 @@ lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		
 		final JSplitPane horizontalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
 		horizontalSplitPane.setOneTouchExpandable(false);
-/*		horizontalSplitPane.addComponentListener(new ComponentListener() {
+//		horizontalSplitPane.setDividerLocation( 400 );	
+		horizontalSplitPane.addComponentListener(new ComponentListener() {
 			@Override
 			public void componentShown(ComponentEvent e) {}
 			
@@ -441,17 +433,15 @@ lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 			public void componentResized(ComponentEvent e) {
 				int loc = horizontalSplitPane.getDividerLocation();
 				int height = RunTestcaseEditor.this.getHeight();
-System.err.println(height);				
-				horizontalSplitPane.setDividerLocation( 400 );
+				horizontalSplitPane.setDividerLocation( height - 300 );
 				
 			}			
 			@Override
 			public void componentMoved(ComponentEvent e) {}			
 			@Override
 			public void componentHidden(ComponentEvent e) {}
-		});
-*/		
-		horizontalSplitPane.setDividerLocation( 400 );		
+		});		
+			
 		this.add( horizontalSplitPane, BorderLayout.CENTER);
 		
 	}
@@ -547,7 +537,7 @@ elementProgres.outputCommand( "	" );
     		
 				testcaseProgress.testcaseEnded( actualTestcase.getName() );
     		
-				setStatusOfTestCase( actualTestcase, true );
+				statusPanel.addNewStatus( actualTestcase, StatusValue.SUCCESS );
 
 			}catch( CompilationException compillationException ){
     		
@@ -555,7 +545,7 @@ elementProgres.outputCommand( "	" );
 					consolDocument.insertString(consolDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
 				} catch (BadLocationException e) {e.printStackTrace();}
     		
-				setStatusOfTestCase( actualTestcase, false );
+				statusPanel.addNewStatus( actualTestcase, StatusValue.FAILED );
     		
 			}catch( PageException pageException ){
     		
@@ -563,7 +553,7 @@ elementProgres.outputCommand( "	" );
 					consolDocument.insertString(consolDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
 				} catch (BadLocationException e) {e.printStackTrace();}
     	
-				setStatusOfTestCase( actualTestcase, false );
+				statusPanel.addNewStatus( actualTestcase, StatusValue.FAILED );
     		
 			}catch( StoppedByUserException stoppedByUserException ){
     		
@@ -571,7 +561,7 @@ elementProgres.outputCommand( "	" );
 					consolDocument.insertString(consolDocument.getLength(), stoppedByUserException.getMessage() + "\n\n", attributeError );
 				} catch (BadLocationException e) {e.printStackTrace();}
     		
-				setStatusOfTestCase( actualTestcase, false );
+				statusPanel.addNewStatus( actualTestcase, StatusValue.FAILED );
     		
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
@@ -580,7 +570,7 @@ elementProgres.outputCommand( "	" );
 					consolDocument.insertString(consolDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
 				} catch (BadLocationException e) {e.printStackTrace();}
 				
-				setStatusOfTestCase( actualTestcase, false );
+				statusPanel.addNewStatus( actualTestcase, StatusValue.FAILED );
     		
 			}
     	
@@ -590,20 +580,7 @@ elementProgres.outputCommand( "}");
 		}
 	}
 	
-	private void setStatusOfTestCase( TestcaseCaseDataModel selectedTestcase, boolean ok ){
 
-		try {
-			statusDocument.insertString(statusDocument.getLength(), selectedTestcase.getName(), null );
-			
-			if( ok ){
-				statusDocument.insertString(statusDocument.getLength(), " OK\n", attributeOK );
-			}else{
-				statusDocument.insertString(statusDocument.getLength(), " Failed\n", attributeFailed );
-			}
-			
-		} catch (BadLocationException e) {e.printStackTrace();}
-
-	}
 	
 	class TestcaseProgress implements TestcaseProgressInterface{
 
@@ -693,16 +670,7 @@ elementProgres.outputCommand( "}");
 				 + "\n", null 
 				);
 			} catch (BadLocationException e) {e.printStackTrace();}		
-			
-/*			try {
-				consolDocument.insertString(consolDocument.getLength(), "        " + 
-						MessageFormat.format(
-								CommonOperations.getTranslation("editor.runtestcase.message.elementended"), 
-								operation, name
-						) + "\n", null 
-				);
-			} catch (BadLocationException e) {e.printStackTrace();}
-*/						
+									
 		}
 
 		@Override
@@ -723,6 +691,107 @@ elementProgres.outputCommand( "}");
 			System.out.println( command );
 			
 		}		
+	}
+	
+	public class StatusPanel extends JPanel{
+
+		private static final long serialVersionUID = -7503019119455856208L;
+		
+		private JLabel outputLabel;
+		private JLabel filler;
+		private GridBagConstraints c;
+		private int actualLine = 0;
+		private int positionStatus = 1;
+		private int positionTestcase = 0;
+		
+		public StatusPanel(){
+			
+			c = new GridBagConstraints();
+			
+			this.setBackground( Color.white );
+			this.setLayout( new GridBagLayout() );
+			this.filler = new JLabel("");
+			
+			c.insets = new Insets( -2, -2, -2, -2 );
+			c.ipadx = 0;
+			c.ipady = 0;
+			
+		}
+		
+		public void clear(){
+			this.removeAll();
+			this.revalidate();
+			this.repaint();
+		}
+		
+		public void addNewStatus( TestcaseCaseDataModel testcase, StatusValue statusValue ){
+
+			//Ha volt filler, akkor ezt eltavolitja
+			this.remove( filler );
+			
+			c.gridy = actualLine;
+			c.weighty = 0;
+			
+			//Testcase
+			c.gridx = positionTestcase;
+			c.gridwidth = 1;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			outputLabel = new JLabel(testcase.getName() );
+			outputLabel.setForeground( Color.black );
+			this.add( outputLabel, c );
+			
+			//Status
+			c.gridx = positionStatus;
+			c.gridwidth = 1;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;	
+			outputLabel = new JLabel( statusValue.getName() );
+			
+			if( statusValue.equals( StatusValue.FAILED ) ){
+				outputLabel.setForeground( Color.red );
+			}else if( statusValue.equals( StatusValue.SUCCESS ) ){
+				outputLabel.setForeground( Color.green );
+			}
+			
+			outputLabel.setFont( new Font( outputLabel.getFont().getName(), Font.BOLD, outputLabel.getFont().getSize() ) );
+			this.add( outputLabel, c );
+			
+			//Filler
+			c.gridy = c.gridy + 1;
+			c.gridx = 0;
+			c.gridwidth = 1;
+			c.weighty = 1;
+			c.fill = GridBagConstraints.VERTICAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( filler, c );
+			
+			
+			
+			actualLine++;
+			
+			this.revalidate();
+			this.repaint();
+			
+		}
+	}
+	
+	public static enum StatusValue{
+		SUCCESS( "Succes" ),
+		FAILED( "Failed" );
+		
+		String name;
+		
+		private StatusValue( String name ){
+			this.name = name;
+		}
+		
+		public String getName(){
+			return name;
+		}
 	}
 
 }
