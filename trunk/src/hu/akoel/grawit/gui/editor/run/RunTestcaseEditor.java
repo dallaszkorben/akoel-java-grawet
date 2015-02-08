@@ -540,7 +540,7 @@ elementProgres.outputCommand( "	" );
 			}catch( CompilationException compillationException ){
     		
 				try {
-					consolDocument.insertString(consolDocument.getLength(), compillationException.getMessage() + "\n\n", attributeError );
+					consolDocument.insertString( consolDocument.getLength(), "\n" + compillationException.getMessage() + "\n\n", attributeError );
 				} catch (BadLocationException e) {e.printStackTrace();}
     		
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
@@ -548,7 +548,7 @@ elementProgres.outputCommand( "	" );
 			}catch( PageException pageException ){
     		
 				try {
-					consolDocument.insertString(consolDocument.getLength(), pageException.getMessage() + "\n\n", attributeError );
+					consolDocument.insertString(consolDocument.getLength(), "\n" + pageException.getMessage() + "\n\n", attributeError );
 				} catch (BadLocationException e) {e.printStackTrace();}
     	
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
@@ -556,7 +556,7 @@ elementProgres.outputCommand( "	" );
 			}catch( StoppedByUserException stoppedByUserException ){
     		
 				try {
-					consolDocument.insertString(consolDocument.getLength(), stoppedByUserException.getMessage() + "\n\n", attributeError );
+					consolDocument.insertString(consolDocument.getLength(), "\n" + stoppedByUserException.getMessage() + "\n\n", attributeError );
 				} catch (BadLocationException e) {e.printStackTrace();}
     		
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.STOPPED );
@@ -565,7 +565,7 @@ elementProgres.outputCommand( "	" );
 			}catch( Exception exception ){
     		
 				try {
-					consolDocument.insertString(consolDocument.getLength(), exception.getMessage() + "\n\n", attributeError );
+					consolDocument.insertString(consolDocument.getLength(), "\n" + exception.getMessage() + "\n\n", attributeError );
 				} catch (BadLocationException e) {e.printStackTrace();}
 				
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
@@ -691,6 +691,12 @@ elementProgres.outputCommand( "}");
 		}		
 	}
 		
+	/**
+	 * Result Panel
+	 * 
+	 * @author akoel
+	 *
+	 */
 	public class ResultPanel extends JPanel{
 
 		private static final long serialVersionUID = -7503019119455856208L;

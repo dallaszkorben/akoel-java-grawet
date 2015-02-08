@@ -188,6 +188,8 @@ elementProgress.outputCommand( "" );
 			
 				//Ha nem futott le rendesen a teszteset
 				}catch (ElementException e){
+					
+					//Akkor becsomagolja egy PageException-ba es tovabb kuldi
 					throw new PageException( this.getName(), e.getElementName(), e.getElementSelector(), e);
 			
 				}

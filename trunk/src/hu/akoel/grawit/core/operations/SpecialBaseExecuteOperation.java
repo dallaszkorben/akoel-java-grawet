@@ -40,12 +40,8 @@ public class SpecialBaseExecuteOperation extends ElementOperationAdapter{
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
-//TODO muvelet kiirasa
-			
-			//Iterator<String> it = ((SpecialBaseElementDataModel)element.getBaseElement()).getParameterIterator();
-			//if( it.hasNext() ){
-				((ScriptBaseElementDataModel)baseElement).doAction(driver);
-			//}
+
+			((ScriptBaseElementDataModel)baseElement).doAction(driver);
 			
 		}
 	
