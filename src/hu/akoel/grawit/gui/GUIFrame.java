@@ -84,15 +84,12 @@ public class GUIFrame extends JFrame{
 	
 	private TreePanel treePanel;
 	private EditorPanel editorPanel;
-	//private AssistantPanel assistantPanel;
-	
+
 	private VariableRootDataModel variableRootDataModel = new VariableRootDataModel();
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
 	private ParamRootDataModel paramRootDataModel = new ParamRootDataModel();	
 	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
-//	private ScriptRootDataModel scriptRootDataModel = new ScriptRootDataModel();
 	private DriverRootDataModel driverRootDataModel = new DriverRootDataModel();
-//	private SpecialRootDataModel specialRootDataModel = new SpecialRootDataModel(); //TODO delete
 	
 	private File usedDirectory = null;
 	
@@ -1014,20 +1011,6 @@ public class GUIFrame extends JFrame{
 			}else{
 				this.add( panel, BorderLayout.CENTER );		
 			}
-
-			//Ha volt valamilyen mas EditorPanel az ablakban akkor azt eltavolitom
-//			if( null != panelToView ){
-//				this.remove( panelToView );
-//			}
-			
-//			//Becsomagolom az EditorPanel-t hogy scroll-ozhato legyen
-//			panelToView = new JScrollPane( (Component)panel );		
-			
-			//Valamiert generalodik egy boder, amit most el kell tuntetnem
-//			panelToView.setBorder(BorderFactory.createEmptyBorder());
-			
-			//Kiteszem az ablakba
-//			this.add( panelToView, BorderLayout.CENTER );
 	
 			//Ujrarajzoltatom
 			this.revalidate();
@@ -1054,9 +1037,7 @@ this.removeAll();
 	 *
 	 */
 	class StatusPanel  extends JPanel{
-		/**
-		 * 
-		 */
+
 		private static final long serialVersionUID = 1L;
 
 		public StatusPanel(){
