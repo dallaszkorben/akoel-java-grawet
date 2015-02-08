@@ -37,7 +37,7 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.InvocationTargetSpecialBaseElementException;
+import hu.akoel.grawit.exceptions.InvocationTargetScriptBaseElementException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -255,7 +255,6 @@ try {
 			// Torli a letrehozott class file-t
 			deleteClassFile(actualClassName);
 			
-        //Class.forName("HelloWorld").getDeclaredMethod("main", new Class[] { String[].class }).invoke(null, new Object[] { null });
 		//TODO sajat hibakezelot tenni ra				
 		} catch (ClassNotFoundException e) {
 			System.err.println("Class not found: " + e);
@@ -274,20 +273,12 @@ try {
 			System.err.println("Malformed URL exception: " + e);
 			throw new Error( e );
 		} catch (InvocationTargetException e) {
-			if( e.getCause() instanceof PageException ){
-				//Hogy kezelni tudjam a nem megtalalt elemet
-				//A tobbi hiba mind programozasi hiba, tehat Error
-				//TODO valszeg le kell zarnom a program futasat a tobbi esetben
 								
-				throw new InvocationTargetSpecialBaseElementException( 
-						SpecialBaseExecuteOperation.getStaticName(),
-						this.getName(),
-						((ElementException)e.getCause()));
+			throw new InvocationTargetScriptBaseElementException( 
+					SpecialBaseExecuteOperation.getStaticName(),
+					this.getName(),
+					e);
 				
-			}else{
-				System.err.println("Invocation target Exception: " + e.getCause());
-				throw new Error(e);
-			}
 		}
 	}
 

@@ -3,6 +3,7 @@ package hu.akoel.grawit.core.operations;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -87,30 +88,48 @@ elementProgress.outputCommand( "		by = By.id( \"" + ((NormalBaseElementDataModel
 			}else if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.CSS)){
 elementProgress.outputCommand( "		by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );
+			
 			}
-						
-			//Varakozik az elem megjeleneseig - WAITING TIME FOR APPEARANCE
-			try{
 				
-				wait.until(ExpectedConditions.visibilityOfElementLocated( by ));
+			//
+			//Varakozik az elem megjeleneseig - WAITING TIME FOR APPEARANCE
+			//
+			try{			
+				wait.until(ExpectedConditions.visibilityOfElementLocated( by ));			
 				//wait.until(ExpectedConditions.elementToBeClickable( by ) );
 elementProgress.outputCommand( "		wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );		
 			
 			//Ha nem jelenik meg idoben, akkor hibajelzessel megall
 			}catch( org.openqa.selenium.TimeoutException timeOutException ){
 				throw new ElementTimeoutException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), timeOutException );
-			}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){
-				throw new ElementUnreachableBrowserException( unreachableBrowserException);
+	
+			}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){		
+				throw new ElementUnreachableBrowserException( unreachableBrowserException );
+
+			//Egyeb hiba
+			}catch( Exception e ){				
+				System.out.println("!!!!!!!!!!! Not handled exception while waitionf for appearance of element - MUST implement. " + e.getMessage() + "!!!!!!!!!!!!!");	
 			}
 		
+			//
 			//Beazonositja az elemet
+			//
 			try{
 elementProgress.outputCommand( "		webElement = driver.findElement( by );" );					
 				webElement = driver.findElement( by );
+			
 			}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
 				throw new ElementInvalidSelectorException(baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), invalidSelectorException );
+			
 			}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
 				throw new ElementNotFoundSelectorException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), noSuchElementException );
+
+			}catch ( org.openqa.selenium.NoSuchWindowException noSuchWindowExceptioin ){
+				throw new ElementUnreachableBrowserException( noSuchWindowExceptioin );
+				
+			//Egyeb hiba. Peldaul kilottek alola a bongeszot
+			}catch( Exception e ){
+				System.out.println("!!!!!!!!!!! Not handled exception while Identifying - MUST implement. " + e.getMessage() + "!!!!!!!!!!!!!");					
 			}
 		
 			if( null == webElement ){
@@ -124,7 +143,9 @@ elementProgress.outputCommand( "		webElement = driver.findElement( by );" );
 
 				//OPERATION
 				doOperation( driver, baseElement, webElement, elementProgress );
+
 			}catch( StaleElementReferenceException e ){
+				
 //TODO valahogy veget kell vetni a vegtelen ciklus lehetosegenek				
 elementProgress.outputCommand("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
 
