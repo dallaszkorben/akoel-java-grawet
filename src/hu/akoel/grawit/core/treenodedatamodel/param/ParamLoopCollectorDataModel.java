@@ -363,13 +363,18 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 		Date startDate = Calendar.getInstance().getTime();			
 		Date actualDate;
 		
+		//Jelzi, hogy elindult a ciklus
+		if( null != pageProgres ){
+			pageProgres.pageStarted( getName(), getNodeTypeToShow() );
+		}	
+		
 		//Annyiszor megy vegig a gyermekeken, amennyi a megengedett ciklusszam (es ha nem igaz a feltetel)
 		while( actualLoop++ < maxLoopNumber ){		
 			
 			//Jelzi, hogy elindult az oldal feldolgozasa
-			if( null != pageProgres ){
-				pageProgres.pageStarted( getName(), getNodeTypeToShow() );
-			}	
+//			if( null != pageProgres ){
+//				pageProgres.pageStarted( getName(), getNodeTypeToShow() );
+//			}	
 			
 			try {
 				
@@ -379,8 +384,6 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
 				//es vegrehajtja oket
 				int childCount = this.getChildCount();
-    		
-				//testcaseProgress.testcaseStarted( actualTestcase.getName() );
 		
 				//A LOOP element-jeinek futtatasa
 				for( int index = 0; index < childCount; index++ ){
@@ -440,10 +443,10 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 					}								
 				}
 
-			//Nem volt igaz a feltetel, igy a ujabb Loop veszi kezdetet
+			//Nem volt igaz a feltetel, tehat megszakitja a LOOP-ot
 			}catch( ElementCompareOperationException e	){
 
-				//A feltetel igaz volt, tehat vege a Loopnak
+				//Vege a Loopnak
 				break;
 			
 			//Ha egyebb problema volt a vegrehajtas soran, akkor azt tovabb kuldi
@@ -470,13 +473,18 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 				} catch(InterruptedException ex) {}
 			}
 			
-			//Jelzi, hogy befejezodott az oldal feldolgozasa
-			if( null != pageProgres ){
-				pageProgres.pageEnded( getName(), getNodeTypeToShow() );
-			}			
+//			//Jelzi, hogy befejezodott az oldal feldolgozasa
+//			if( null != pageProgres ){
+//				pageProgres.pageEnded( getName(), getNodeTypeToShow() );
+//			}
+			
 		}
 
-
+		//Jelzi, hogy befejezodott a cikus
+		if( null != pageProgres ){
+			pageProgres.pageEnded( getName(), getNodeTypeToShow() );
+		}
+		
 	}
 	
 	@Override
