@@ -270,9 +270,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 		//Result
 		resultPanel = new ResultPanel();
-//		resultPanel.setPreferredSize(new Dimension(110,1));
 		JScrollPane scrollPaneForResultPanel = new JScrollPane(resultPanel);
-		//scrollPaneForResultPanel.setPreferredSize( new Dimension(150, 1 ));
 		scrollPaneForResultPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneForResultPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
