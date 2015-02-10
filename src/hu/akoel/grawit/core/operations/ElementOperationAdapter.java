@@ -16,6 +16,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.exceptions.CompilationException;
+import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
@@ -45,8 +46,13 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	 * Make it visible
 	 */
     public abstract Object clone();
-  
-	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
+
+    public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
+    	
+    	doAction( driver, baseElement, elementProgress, false ); 
+    }
+    
+	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, boolean needElementEndedAtException ) throws ElementException, CompilationException{
 				
 		if( null != elementProgress ){
 			elementProgress.elementStarted( baseElement.getName(), getOperationToString() );
@@ -146,10 +152,22 @@ elementProgress.outputCommand( "		webElement = driver.findElement( by );" );
 
 			}catch( StaleElementReferenceException e ){
 				
-//TODO valahogy veget kell vetni a vegtelen ciklus lehetosegenek				
-elementProgress.outputCommand("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
+				//TODO valahogy veget kell vetni a vegtelen ciklus lehetosegenek				
+				elementProgress.outputCommand("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
 
-doAction( driver, baseElement, elementProgress );
+				//Ujra hiv
+				doAction( driver, baseElement, elementProgress );
+				
+			//Ha az operation vegrehajtasa soran kivetel generalodott
+			}catch(   ElementException e ){
+				
+				//Ha az osszehasonlitas generalta a hibat es ettol fuggetlenul kell lezaras
+				if( needElementEndedAtException && null != elementProgress && e instanceof ElementCompareOperationException ){
+					sendelementEndedMessage( elementProgress, baseElement );
+				}	
+				
+				//De vegul megis csak tovabb kuldi a kivetelt
+				throw e;
 				
 			}
 			
@@ -161,15 +179,31 @@ elementProgress.outputCommand("");
 
 		}else if( baseElement instanceof ScriptBaseElementDataModel ){
 			
-			//OPERATION
-			doOperation( driver, baseElement, null, elementProgress );
+			try{
+
+				//OPERATION
+				doOperation( driver, baseElement, null, elementProgress );
+				
+			}catch( ElementException|CompilationException e){
+				
+				//Exception eseten is zarja le az uzenetet
+				if( needElementEndedAtException ){
+					
+				}
+				
+			}
 			
 		}
 
 		if( null != elementProgress ){
-			elementProgress.elementEnded( baseElement.getName(), getOperationToString() );
+			sendelementEndedMessage( elementProgress, baseElement );
 		}		
 		
+	}
+	
+	
+	private void sendelementEndedMessage( ElementProgressInterface elementProgress, BaseElementDataModelAdapter baseElement ){
+		elementProgress.elementEnded( baseElement.getName(), getOperationToString() );
 	}
 
 }

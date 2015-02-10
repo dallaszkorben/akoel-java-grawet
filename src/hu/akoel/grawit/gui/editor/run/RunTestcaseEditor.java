@@ -9,6 +9,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -273,7 +274,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		JScrollPane scrollPaneForResultPanel = new JScrollPane(resultPanel);
 		scrollPaneForResultPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneForResultPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
+		scrollPaneForResultPanel.setPreferredSize( new Dimension( 300, 1 ) );
+		
 		//OK attribute
 		attributeOK = new SimpleAttributeSet();
 		StyleConstants.setForeground( attributeOK, Color.GREEN );
@@ -732,7 +734,7 @@ elementProgres.outputCommand( "}");
 			widthOfLongestResult = Math.max( resultLabelSuccess.getPreferredSize().width, resultLabelFailed.getPreferredSize().width );
 			widthOfLongestResult = Math.max( widthOfLongestResult, resultLabelStopped.getPreferredSize().width );
 			
-			this.setPreferredSize( new Dimension( 300, 1 ) );
+//			this.setPreferredSize( new Dimension( 300, 1 ) );
 		}
 		
 		public void clear(){
