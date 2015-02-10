@@ -142,7 +142,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter implem
 		if( baseElement instanceof NormalBaseElementDataModel ){
 
 			try{
-			
+System.err.println("Kitoltom: " + baseElementDataModel.getStoredValue() );				
 				//Execute the operation
 				//webElement.clear();				
 				elementProgress.outputCommand( "		webElement.sendKeys(\"" + baseElementDataModel.getStoredValue() + "\");     //" + baseElement.getName() );

@@ -378,8 +378,8 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 			
 			try {
 				
-				//LOOP kiertekelese
-				getElementOperation().doAction(driver, getCompareBaseElement(), elementProgres );
+				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
+				getElementOperation().doAction(driver, getCompareBaseElement(), elementProgres, true );
 				
 				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
 				//es vegrehajtja oket
