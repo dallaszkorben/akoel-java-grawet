@@ -3,7 +3,7 @@ package hu.akoel.grawit.core.treenodedatamodel.step;
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -67,12 +67,12 @@ public class StepFolderDataModel extends StepNodeDataModelAdapter{
 	}
 	
 	@Override
-	public void add(ParamDataModelAdapter node) {
+	public void add(StepDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.param.folder");
+		return CommonOperations.getTranslation( "tree.nodetype.step.folder");
 	}
 	
 	@Override

@@ -15,7 +15,7 @@ import hu.akoel.grawit.gui.tree.Tree;
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class ParamFolderEditor extends DataEditor{
+public class StepFolderEditor extends DataEditor{
 
 	private static final long serialVersionUID = 2644128362590221646L;
 	
@@ -29,7 +29,7 @@ public class ParamFolderEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 
 	//Itt biztos beszuras van
-	public ParamFolderEditor( Tree tree, StepNodeDataModelAdapter selectedNode ){
+	public StepFolderEditor( Tree tree, StepNodeDataModelAdapter selectedNode ){
 
 		super( StepFolderDataModel.getModelNameToShowStatic() );
 		
@@ -48,7 +48,7 @@ public class ParamFolderEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public ParamFolderEditor( Tree pageBaseTree, StepFolderDataModel selectedNode, EditMode mode ){		
+	public StepFolderEditor( Tree pageBaseTree, StepFolderDataModel selectedNode, EditMode mode ){		
 
 		super( mode, selectedNode.getNodeTypeToShow());
 
@@ -131,7 +131,7 @@ public class ParamFolderEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.param.node") 
+										CommonOperations.getTranslation("tree.nodetype.step.node") 
 								) 
 							);	
 							break;
@@ -149,8 +149,6 @@ public class ParamFolderEditor extends DataEditor{
 		
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
-
-			//TreePath pathToOpen = null;
 			
 			//Uj rogzites eseten
 			if( null == mode ){

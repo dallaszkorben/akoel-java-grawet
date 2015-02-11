@@ -39,7 +39,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.tree.TreeNode;
 
-public class ParamLoopCollectorEditor extends DataEditor{
+public class StepLoopCollectorEditor extends DataEditor{
 
 	private static final long serialVersionUID = -8459964508143979145L;
 	
@@ -68,7 +68,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 	VariableRootDataModel variableRootDataModel;
 
 	//Itt biztos beszuras van
-	public ParamLoopCollectorEditor( Tree tree, StepFolderDataModel selectedNode, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ){
+	public StepLoopCollectorEditor( Tree tree, StepFolderDataModel selectedNode, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ){
 		
 		super( StepLoopCollectorDataModel.getModelNameToShowStatic() );
 		
@@ -97,7 +97,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public ParamLoopCollectorEditor( Tree tree, StepLoopCollectorDataModel selectedControlLoop, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, EditMode mode ){		
+	public StepLoopCollectorEditor( Tree tree, StepLoopCollectorDataModel selectedControlLoop, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, EditMode mode ){		
 		
 		super( mode, selectedControlLoop.getNodeTypeToShow());
 
@@ -155,17 +155,17 @@ public class ParamLoopCollectorEditor extends DataEditor{
 					change();
 				}			
 				private void change(){
-					BaseElementDataModelAdapter baseElement = ParamLoopCollectorEditor.this.fieldCompareBaseElementSelector.getSelectedDataModel();
+					BaseElementDataModelAdapter baseElement = StepLoopCollectorEditor.this.fieldCompareBaseElementSelector.getSelectedDataModel();
 					changeOperation( baseElement );
 				}
 			});
 		}
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": " );
-		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": " );
+		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": " );
 		labelElementTypeSelector = new JLabel( "");
-		labelOneLoopLength = new JLabel( CommonOperations.getTranslation("editor.label.param.loop.onelooplength") + ": " );
-		labelMaxLoopNumber = new JLabel( CommonOperations.getTranslation("editor.label.param.loop.maxloopnumber") + ": " );
+		labelOneLoopLength = new JLabel( CommonOperations.getTranslation("editor.label.step.loop.onelooplength") + ": " );
+		labelMaxLoopNumber = new JLabel( CommonOperations.getTranslation("editor.label.step.loop.maxloopnumber") + ": " );
 		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
 		
 		this.add( labelName, fieldName );
@@ -191,7 +191,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 	private void changeOperation( BaseElementDataModelAdapter baseElement ){
 
 		//Eltavolitja az ott levot
-		ParamLoopCollectorEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
+		StepLoopCollectorEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
 		
 		ElementOperationAdapter elementOperation;
 		
@@ -254,8 +254,8 @@ public class ParamLoopCollectorEditor extends DataEditor{
 		}		
 		
 		//Elhelyezi az ujat		
-		ParamLoopCollectorEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
-		ParamLoopCollectorEditor.this.repaint();
+		StepLoopCollectorEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
+		StepLoopCollectorEditor.this.repaint();
 		
 	}
 	
@@ -332,7 +332,7 @@ public class ParamLoopCollectorEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.param.element") 
+										CommonOperations.getTranslation("tree.nodetype.step.element") 
 								) 
 							);
 							break;

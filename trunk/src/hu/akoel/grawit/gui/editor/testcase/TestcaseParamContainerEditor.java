@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
@@ -39,7 +39,7 @@ public class TestcaseParamContainerEditor extends DataEditor{
 	private ParamCollectorTreeSelectorComponent fieldParamPageTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcaseParamContainerEditor( Tree tree, TestcaseCaseDataModel selectedNode, ParamDataModelAdapter paramDataModel ){
+	public TestcaseParamContainerEditor( Tree tree, TestcaseCaseDataModel selectedNode, StepDataModelAdapter paramDataModel ){
 		super( TestcaseParamContainerDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
@@ -62,7 +62,7 @@ public class TestcaseParamContainerEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcaseParamContainerEditor( Tree testcaseTree, TestcaseParamContainerDataModel selectedNode, ParamDataModelAdapter paramDataModel, EditMode mode ){		
+	public TestcaseParamContainerEditor( Tree testcaseTree, TestcaseParamContainerDataModel selectedNode, StepDataModelAdapter paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = testcaseTree;

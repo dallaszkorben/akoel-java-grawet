@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -15,7 +15,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public abstract class StepNodeDataModelAdapter extends ParamDataModelAdapter{
+public abstract class StepNodeDataModelAdapter extends StepDataModelAdapter{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
@@ -97,12 +97,12 @@ public abstract class StepNodeDataModelAdapter extends ParamDataModelAdapter{
 	}
 */	
 	@Override
-	public void add(ParamDataModelAdapter node) {
+	public void add(StepDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 /*	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.param.node");
+		return CommonOperations.getTranslation( "tree.nodetype.step.node");
 	}
 	
 	@Override
@@ -167,9 +167,9 @@ public abstract class StepNodeDataModelAdapter extends ParamDataModelAdapter{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
+			if( !object.equals(this) && object instanceof StepDataModelAdapter ){
 				
-				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
+				Element element = ((StepDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
@@ -192,9 +192,9 @@ public abstract class StepNodeDataModelAdapter extends ParamDataModelAdapter{
 					
 			for( Object o : this.children ){
 						
-				if( o instanceof ParamDataModelAdapter ){
+				if( o instanceof StepDataModelAdapter ){
 					
-					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
+					StepDataModelAdapter child = (StepDataModelAdapter) ((StepDataModelAdapter)o).clone();
 					
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					

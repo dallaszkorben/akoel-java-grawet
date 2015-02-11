@@ -4,11 +4,11 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ScriptElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{	
-	ADD_VARIABLE_TO_PARAMETERS( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.script.addvariabletoparameters") ),
-	ADD_STORED_TO_PARAMETERS( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.script.addstoredtoparameters") ),
-	ADD_STRING_TO_PARAMETERS( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.script.addstringtoparameters") ),
-	CLEAR_PARAMETERS( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.script.clearparameters") ),
-	EXECUTE_SCRIPT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.script.executescript") ),
+	ADD_VARIABLE_TO_PARAMETERS( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.script.addvariabletoparameters") ),
+	ADD_STORED_TO_PARAMETERS( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.script.addstoredtoparameters") ),
+	ADD_STRING_TO_PARAMETERS( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.script.addstringtoparameters") ),
+	CLEAR_PARAMETERS( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.script.clearparameters") ),
+	EXECUTE_SCRIPT( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.script.executescript") ),
 	;
 	
 	private String translatedName;

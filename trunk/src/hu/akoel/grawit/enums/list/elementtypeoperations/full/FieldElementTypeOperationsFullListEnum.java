@@ -4,17 +4,17 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum FieldElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
-	FILL_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillvariable") ),
-	FILL_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillelement") ),
-	FILL_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.field.fillstring") ),
-	CLEAR( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.field.clear") ),
-	TAB( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.field.tab") ),
-	CLICK( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.field.click") ),	
-	COMPAREVALUE_TO_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevaluetovariable") ),
-	COMPAREVALUE_TO_STORED( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevaluetostored") ),
-	COMPAREVALUE_TO_STRING( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.field.comparevaluetostring") ),
-	GAINVALUE_TO_ELEMENTSTORAGE( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.field.gainvaluetoelementstorage") ),
-	OUTPUTSTORED( 10, CommonOperations.getTranslation( "editor.label.param.elementtype.field.outputstored") ),
+	FILL_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.field.fillvariable") ),
+	FILL_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.field.fillelement") ),
+	FILL_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.field.fillstring") ),
+	CLEAR( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.field.clear") ),
+	TAB( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.field.tab") ),
+	CLICK( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.field.click") ),	
+	COMPAREVALUE_TO_VARIABLE( 6, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetovariable") ),
+	COMPAREVALUE_TO_STORED( 7, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetostored") ),
+	COMPAREVALUE_TO_STRING( 8, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetostring") ),
+	GAINVALUE_TO_ELEMENTSTORAGE( 9, CommonOperations.getTranslation( "editor.label.step.elementtype.field.gainvaluetoelementstorage") ),
+	OUTPUTSTORED( 10, CommonOperations.getTranslation( "editor.label.step.elementtype.field.outputstored") ),
 	;
 	
 	private String translatedName;

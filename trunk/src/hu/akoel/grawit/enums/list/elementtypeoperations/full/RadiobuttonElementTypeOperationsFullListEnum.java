@@ -4,13 +4,13 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum RadiobuttonElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
-	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.click") ),
-	COMPAREVALUE_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetovariable") ),
-	COMPAREVALUE_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostored") ),
-	COMPAREVALUE_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostring") ),
-//	GAINVALUE_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.gainvaluetovariable") ),
-	GAINVALUE_TO_ELEMENTSTORAGE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.gainvaluetoelement") ),
-	OUTPUTSTORED( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.outputstored") ),
+	CLICK( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.click") ),
+	COMPAREVALUE_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.comparevaluetovariable") ),
+	COMPAREVALUE_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.comparevaluetostored") ),
+	COMPAREVALUE_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.comparevaluetostring") ),
+//	GAINVALUE_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.gainvaluetovariable") ),
+	GAINVALUE_TO_ELEMENTSTORAGE( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.gainvaluetoelement") ),
+	OUTPUTSTORED( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.outputstored") ),
 	;
 	
 	private String translatedName;

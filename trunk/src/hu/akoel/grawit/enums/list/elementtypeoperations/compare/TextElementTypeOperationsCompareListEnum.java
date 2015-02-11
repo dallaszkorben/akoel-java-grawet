@@ -4,9 +4,9 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum TextElementTypeOperationsCompareListEnum implements ElementTypeOperationsListEnumInterface{		
-	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttovariable") ),
-	COMPARETEXT_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostored") ),
-	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostring") ),	
+	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttovariable") ),
+	COMPARETEXT_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttostored") ),
+	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttostring") ),	
 	;
 	
 	private String translatedName;

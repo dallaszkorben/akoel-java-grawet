@@ -68,11 +68,11 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
 		
-		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
-		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
-		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
-		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": ");
+		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
+		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
+		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
+		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.variable") + ": ");
+		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );

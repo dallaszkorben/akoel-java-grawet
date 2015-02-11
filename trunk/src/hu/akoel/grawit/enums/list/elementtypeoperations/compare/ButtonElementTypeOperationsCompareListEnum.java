@@ -5,7 +5,7 @@ import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsLis
 
 public enum ButtonElementTypeOperationsCompareListEnum implements ElementTypeOperationsListEnumInterface{		
 	NONE( 0, "------------" ),	
-	//CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.button.click") ),	
+	//CLICK( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.button.click") ),	
 	;
 	
 	private String translatedName;

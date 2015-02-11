@@ -4,8 +4,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum CompareTypeListEnum implements ElementTypeOperationsListEnumInterface{		
-	EQUAL( 0, CommonOperations.getTranslation( "editor.label.param.comparetype.equal") ),
-	DIFFERENT( 1, CommonOperations.getTranslation( "editor.label.param.comparetype.different") ),
+	EQUAL( 0, CommonOperations.getTranslation( "editor.label.step.comparetype.equal") ),
+	DIFFERENT( 1, CommonOperations.getTranslation( "editor.label.step.comparetype.different") ),
 	;
 	
 	private String translatedName;

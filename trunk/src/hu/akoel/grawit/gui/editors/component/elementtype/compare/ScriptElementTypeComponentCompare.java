@@ -47,9 +47,9 @@ public class ScriptElementTypeComponentCompare<E extends ScriptElementTypeOperat
 	@SuppressWarnings("unchecked")
 	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		
-		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
-		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
-		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
+		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
+		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
+		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
 		labelFiller = new JLabel("");
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );

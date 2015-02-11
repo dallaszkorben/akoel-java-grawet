@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClassDiagram>
-    <Class name="hu.akoel.grawit.gui.editor.param.ParamFolderEditor"
+    <Class name="hu.akoel.grawit.gui.editor.step.ParamFolderEditor"
         x="285" y="102">
         <AttributesDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
@@ -24,7 +24,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.gui.editor.param.ParamNormalCollectorEditor"
+        name="hu.akoel.grawit.gui.editor.step.ParamNormalCollectorEditor"
         x="-151" y="104">
         <AttributesDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
@@ -40,7 +40,7 @@
         <Communication destinationClassName="hu.akoel.grawit.gui.editor.DataEditor"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.gui.editor.param.ParamLoopCollectorEditor"
+        name="hu.akoel.grawit.gui.editor.step.ParamLoopCollectorEditor"
         x="11" y="103">
         <AttributesDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
@@ -64,7 +64,7 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
-    <Class name="hu.akoel.grawit.gui.editor.param.ParamElementEditor"
+    <Class name="hu.akoel.grawit.gui.editor.step.ParamElementEditor"
         x="163" y="101">
         <AttributesDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"

@@ -4,13 +4,13 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum LinkElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
-	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.link.click") ),
-	COMPARETEXT_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttovariable") ),
-	COMPARETEXT_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttostored") ),
-	COMPARETEXT_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.link.comparetexttostring") ),
-//	GAINTEXT_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttovariable") ),
-	GAINTEXT_TO_ELEMENT( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.link.gaintexttoelement") ),
-	OUTPUTSTORED( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.link.outputstored") ),	
+	CLICK( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.link.click") ),
+	COMPARETEXT_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.link.comparetexttovariable") ),
+	COMPARETEXT_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.link.comparetexttostored") ),
+	COMPARETEXT_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.link.comparetexttostring") ),
+//	GAINTEXT_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.link.gaintexttovariable") ),
+	GAINTEXT_TO_ELEMENT( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.link.gaintexttoelement") ),
+	OUTPUTSTORED( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.link.outputstored") ),	
 	;
 	
 	private String translatedName;

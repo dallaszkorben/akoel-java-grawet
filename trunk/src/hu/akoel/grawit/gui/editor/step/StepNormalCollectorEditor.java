@@ -16,7 +16,7 @@ import hu.akoel.grawit.gui.tree.Tree;
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class ParamNormalCollectorEditor extends DataEditor{
+public class StepNormalCollectorEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -9038879802467565947L;
 
@@ -28,11 +28,9 @@ public class ParamNormalCollectorEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private TextAreaComponent fieldDetails;
-	//private JLabel labelBasePageSelector;
-	//private BaseCollectorTreeSelectorComponent fieldBasePageSelector;
 	
 	//Itt biztos beszuras van
-	public ParamNormalCollectorEditor( Tree tree, StepFolderDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public StepNormalCollectorEditor( Tree tree, StepFolderDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 
 		super( StepNormalCollectorDataModel.getModelNameToShowStatic());
 				
@@ -46,16 +44,12 @@ public class ParamNormalCollectorEditor extends DataEditor{
 		//Details
 		fieldDetails = new TextAreaComponent( "", NOTE_ROWS, 15);
 		
-		//BasePage - letrehozasa uresen (nincs kivalasztott PAGEBASE)	
-//		fieldBasePageSelector = new BaseCollectorTreeSelectorComponent( baseRootDataModel, true );
-//		this.baseRootDataModel = baseRootDataModel;
-		
 		common();
 		
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamNormalCollectorEditor( Tree tree, StepNormalCollectorDataModel selectedCollector, BaseRootDataModel baseRootDataModel, EditMode mode ){
+	public StepNormalCollectorEditor( Tree tree, StepNormalCollectorDataModel selectedCollector, BaseRootDataModel baseRootDataModel, EditMode mode ){
 
 		super( mode, selectedCollector.getNodeTypeToShow());
 
@@ -81,7 +75,7 @@ public class ParamNormalCollectorEditor extends DataEditor{
 	private void common(){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		//labelBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.basepage") + ": ");
+		//labelBasePageSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.basepage") + ": ");
 		//Details
 		JLabel labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");
 		
@@ -110,17 +104,6 @@ public class ParamNormalCollectorEditor extends DataEditor{
 					)
 			);
 		}
-		
-		/*if( null == fieldBasePageSelector.getSelectedDataModel() ){
-			errorList.put( 
-					fieldBasePageSelector,
-					MessageFormat.format(
-							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelBasePageSelector.getText()+"'"
-					)
-			);
-		}
-		*/
 		
 		//
 		//Ha nem volt hiba, akkor rogzitheto
@@ -160,7 +143,7 @@ public class ParamNormalCollectorEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.param.normalcollector") 
+										CommonOperations.getTranslation("tree.nodetype.step.normalcollector") 
 								) 
 							);
 							break;

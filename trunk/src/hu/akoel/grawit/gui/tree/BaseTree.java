@@ -20,7 +20,7 @@ import hu.akoel.grawit.core.operations.HasElementOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter;
@@ -296,13 +296,13 @@ public class BaseTree extends Tree{
 				
 				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas az elemre vagy valamelyik gyermekere a Param-ben
 				//Akkor megnezi, hogy van-e hivatkozas a tartalmazott elemekre a Testcase fastrukturaban
-				ArrayList<ParamDataModelAdapter> foundParamNodeList = findAllBaseInParam( (BaseDataModelAdapter)selectedNode, paramRootDataModel, new ArrayList<ParamDataModelAdapter>() );
+				ArrayList<StepDataModelAdapter> foundParamNodeList = findAllBaseInParam( (BaseDataModelAdapter)selectedNode, paramRootDataModel, new ArrayList<StepDataModelAdapter>() );
 
 				StringBuilder listMessage = new StringBuilder();
 				int rows = 0;
 				
 				//Ha van eleme a listanak, akkor volt hivatkozas, es ossze kell gyujteni a hivatkozasi pontokat (max 10 db)
-				for( ParamDataModelAdapter foundParamNode: foundParamNodeList ){
+				for( StepDataModelAdapter foundParamNode: foundParamNodeList ){
 
 					StringBuilder pathToParamNodeString = new StringBuilder();	
 					TreeNode[] pathArray = foundParamNode.getPath();
@@ -319,7 +319,7 @@ public class BaseTree extends Tree{
 					
 					for( int i = 0; i < pathArray.length; i++ ){							
 						pathToParamNodeString.append( (i == 0 ? "": " -> ") );
-						pathToParamNodeString.append( ( (ParamDataModelAdapter)pathArray[i] ).getName() ); //Hol talalhato
+						pathToParamNodeString.append( ( (StepDataModelAdapter)pathArray[i] ).getName() ); //Hol talalhato
 					}
 					
 					listMessage.append( pathToParamNodeString.toString() + "\n");
@@ -405,7 +405,7 @@ public class BaseTree extends Tree{
 	 * @param foundDataModel
 	 * @return
 	 */
-	private ArrayList<ParamDataModelAdapter> findAllBaseInParam( BaseDataModelAdapter nodeToDelete, ParamDataModelAdapter rootParamDataModel, ArrayList<ParamDataModelAdapter> foundDataModel ){
+	private ArrayList<StepDataModelAdapter> findAllBaseInParam( BaseDataModelAdapter nodeToDelete, StepDataModelAdapter rootParamDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
 		
 		//Megnezi, hogy az adott BaseNode-ra van-e hivatkozas a Param strukturaban
 		findOneBaseInParam( nodeToDelete, rootParamDataModel, foundDataModel );
@@ -423,16 +423,16 @@ public class BaseTree extends Tree{
 	}
 	
 	
-	private ArrayList<ParamDataModelAdapter> findOneBaseInParam( BaseDataModelAdapter nodeToDelete, ParamDataModelAdapter paramDataModel, ArrayList<ParamDataModelAdapter> foundDataModel ){
+	private ArrayList<StepDataModelAdapter> findOneBaseInParam( BaseDataModelAdapter nodeToDelete, StepDataModelAdapter paramDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
 		
 		@SuppressWarnings("unchecked")
-		Enumeration<ParamDataModelAdapter> enumForParamModel = paramDataModel.children();
+		Enumeration<StepDataModelAdapter> enumForParamModel = paramDataModel.children();
 		BaseElementDataModelAdapter baseElement;
 		ElementOperationAdapter elementOperation;
 		
 		//Vegig megy a param fastrukturan es megnezi, hogy az ott levo Node hivatkozik-e a megadott nodeToDelet-re
 		while( enumForParamModel.hasMoreElements() ){
-			ParamDataModelAdapter nextParamModel = (ParamDataModelAdapter)enumForParamModel.nextElement();
+			StepDataModelAdapter nextParamModel = (StepDataModelAdapter)enumForParamModel.nextElement();
 		
 			//Ha ParamElementDataModel a vizsgalt node
 			if( nextParamModel instanceof StepElementDataModel ){

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClassDiagram>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel"
+        name="hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel"
         x="327" y="201">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
@@ -10,8 +10,8 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamNodeDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamNodeDataModelAdapter"/>
     </Class>
     <Class
         name="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter"
@@ -25,7 +25,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel"
+        name="hu.akoel.grawit.core.treenodedatamodel.step.ParamNormalCollectorDataModel"
         x="196" y="344">
         <AttributesDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
@@ -34,13 +34,13 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamCollectorDataModelAdapter"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamNodeDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamElementDataModel"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter"
+        name="hu.akoel.grawit.core.treenodedatamodel.step.ParamNodeDataModelAdapter"
         x="94" y="12">
         <AttributesDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
@@ -53,7 +53,7 @@
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter"
+        name="hu.akoel.grawit.core.treenodedatamodel.step.ParamCollectorDataModelAdapter"
         x="91" y="198">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
@@ -62,10 +62,10 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamNodeDataModelAdapter"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel"
+        name="hu.akoel.grawit.core.treenodedatamodel.step.ParamFolderDataModel"
         x="-62" y="199">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
@@ -74,10 +74,10 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamNodeDataModelAdapter"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"
+        name="hu.akoel.grawit.core.treenodedatamodel.step.ParamElementDataModel"
         x="385" y="13">
         <AttributesDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
@@ -90,7 +90,7 @@
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter"/>
     </Class>
     <Class
-        name="hu.akoel.grawit.core.treenodedatamodel.param.ParamLoopCollectorDataModel"
+        name="hu.akoel.grawit.core.treenodedatamodel.step.ParamLoopCollectorDataModel"
         x="3" y="342">
         <AttributesDisplayFilter public-accepted="false"
             private-accepted="false" protected-accepted="false"
@@ -99,9 +99,9 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamCollectorDataModelAdapter"/>
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamCollectorDataModelAdapter"/>
         <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter"/>
-        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamNodeDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.ParamElementDataModel"/>
     </Class>
 </ClassDiagram>

@@ -18,7 +18,7 @@ import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -32,7 +32,7 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class StepElementDataModel extends ParamDataModelAdapter {
+public class StepElementDataModel extends StepDataModelAdapter {
 	
 	private static final long serialVersionUID = -8916078747948054716L;
 
@@ -246,7 +246,7 @@ public class StepElementDataModel extends ParamDataModelAdapter {
 	}
 	
 	@Override
-	public void add( ParamDataModelAdapter node ) {
+	public void add( StepDataModelAdapter node ) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -260,7 +260,7 @@ public class StepElementDataModel extends ParamDataModelAdapter {
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.param.element");
+		return CommonOperations.getTranslation( "tree.nodetype.step.element");
 	}
 	
 	@Override

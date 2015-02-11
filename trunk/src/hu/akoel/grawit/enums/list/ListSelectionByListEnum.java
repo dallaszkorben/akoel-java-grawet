@@ -4,9 +4,9 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ListSelectionByListEnum implements ElementTypeOperationsListEnumInterface{		
-	BYVALUE( 0, CommonOperations.getTranslation( "editor.label.param.operation.list.byvalue") ),	
-	BYVISIBLETEXT( 1, CommonOperations.getTranslation( "editor.label.param.operation.list.byvisibletext") ),
-	BYINDEX( 2, CommonOperations.getTranslation( "editor.label.param.operation.list.byindex") ),
+	BYVALUE( 0, CommonOperations.getTranslation( "editor.label.step.operation.list.byvalue") ),	
+	BYVISIBLETEXT( 1, CommonOperations.getTranslation( "editor.label.step.operation.list.byvisibletext") ),
+	BYINDEX( 2, CommonOperations.getTranslation( "editor.label.step.operation.list.byindex") ),
 	;
 	
 	private String translatedName;

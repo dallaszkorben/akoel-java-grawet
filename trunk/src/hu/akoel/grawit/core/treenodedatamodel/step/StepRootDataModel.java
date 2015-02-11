@@ -1,7 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.step;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -62,7 +62,7 @@ public class StepRootDataModel extends StepNodeDataModelAdapter{
 	public String getName(){
 		//return "/";
 		//return "Param Root";
-		return CommonOperations.getTranslation( "tree.nodetype.param.root.name");
+		return CommonOperations.getTranslation( "tree.nodetype.step.root.name");
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class StepRootDataModel extends StepNodeDataModelAdapter{
 
 	@Override
 	public String getNodeTypeToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.param.root");
+		return CommonOperations.getTranslation( "tree.nodetype.step.root");
 	}
 	
 	@Override
@@ -86,9 +86,9 @@ public class StepRootDataModel extends StepNodeDataModelAdapter{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof ParamDataModelAdapter ){
+			if( !object.equals(this) && object instanceof StepDataModelAdapter ){
 				
-				Element element = ((ParamDataModelAdapter)object).getXMLElement( document );
+				Element element = ((StepDataModelAdapter)object).getXMLElement( document );
 				paramPageElement.appendChild( element );		    		
 		    	
 			}
