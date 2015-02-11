@@ -1,4 +1,4 @@
-package hu.akoel.grawit.gui.editor.param;
+package hu.akoel.grawit.gui.editor.step;
 
 import java.awt.Component;
 import java.text.MessageFormat;

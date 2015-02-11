@@ -37,10 +37,10 @@ import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.param.ParamElementEditor;
-import hu.akoel.grawit.gui.editor.param.ParamLoopCollectorEditor;
-import hu.akoel.grawit.gui.editor.param.ParamFolderEditor;
-import hu.akoel.grawit.gui.editor.param.ParamNormalCollectorEditor;
+import hu.akoel.grawit.gui.editor.step.ParamElementEditor;
+import hu.akoel.grawit.gui.editor.step.ParamFolderEditor;
+import hu.akoel.grawit.gui.editor.step.ParamLoopCollectorEditor;
+import hu.akoel.grawit.gui.editor.step.ParamNormalCollectorEditor;
 
 public class ParamTree extends Tree {
 
