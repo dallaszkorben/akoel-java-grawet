@@ -58,6 +58,9 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			elementProgress.elementStarted( baseElement.getName(), getOperationToString() );
 		}
 
+		//
+		//Szukseges az elem beazonositasa
+		//
 		if( baseElement instanceof NormalBaseElementDataModel ){			
 elementProgress.outputCommand("		//" + baseElement.getName() );
 
@@ -177,22 +180,15 @@ elementProgress.outputCommand("");
 			//Varakozik, ha szukseges a muvelet utan
 			try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}			
 
+		//
+		//Script elem eseten nincs szukseg azonositasra
+		//
 		}else if( baseElement instanceof ScriptBaseElementDataModel ){
 			
-			try{
 
-				//OPERATION
-				doOperation( driver, baseElement, null, elementProgress );
-				
-			}catch( ElementException|CompilationException e){
-				
-				//Exception eseten is zarja le az uzenetet
-				if( needElementEndedAtException ){
-					
-				}
-				
-			}
-			
+			//OPERATION
+			doOperation( driver, baseElement, null, elementProgress );
+						
 		}
 
 		if( null != elementProgress ){

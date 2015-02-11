@@ -165,7 +165,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 					WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 			
 					// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
-					String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
+/*					String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
 
 					if( null != frameName && frameName.trim().length() > 0 ){				
 			
@@ -180,7 +180,8 @@ elementProgress.outputCommand( "" );
 						wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
 						driver.switchTo().defaultContent();
 						driver.switchTo().frame( frameName );		
-					}				
+					}
+*/									
 				}
 				
 				try{			

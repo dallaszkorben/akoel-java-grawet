@@ -2,6 +2,7 @@ package hu.akoel.grawit.core.treenodedatamodel.param;
 
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.tree.MutableTreeNode;
@@ -66,7 +67,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	
 	public ParamLoopCollectorDataModel( String name, String details, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
 		super(name, details);
-		
+	
 		this.compareBaseElement = compareBaseElement;
 		this.oneLoopLength = oneLoopLength;
 		this.maxLoopNumber = maxLoopNumber;
@@ -413,7 +414,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 							WebDriverWait wait = new WebDriverWait(driver, waitingTime);
 					
 							// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
-							String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
+/*							String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
 
 							if( null != frameName && frameName.trim().length() > 0 ){				
 					
@@ -428,7 +429,8 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 								wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
 								driver.switchTo().defaultContent();
 								driver.switchTo().frame( frameName );		
-							}				
+							}
+*/											
 						}
 						
 						try{
