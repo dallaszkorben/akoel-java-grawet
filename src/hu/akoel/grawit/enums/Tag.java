@@ -6,11 +6,11 @@ public enum Tag{
 	BASECOLLECTOR("collector"),							
 	BASEELEMENT("element"),
 	
-	PARAMROOT("param"),									
-	PARAMFOLDER("node"),
-	PARAMNORMALELEMENTCOLLECTOR("normalelementcollector"),		
-	PARAMLOOPELEMENTCOLLECTOR("loopelementcollector"),			
-	PARAMELEMENT("element"),
+	STEPROOT("param"),									
+	STEPFOLDER("node"),
+	STEPNORMALELEMENTCOLLECTOR("normalelementcollector"),		
+	STEPLOOPELEMENTCOLLECTOR("loopelementcollector"),			
+	STEPELEMENT("element"),
 	
 	VARIABLEROOT("variable"),
 	VARIABLEFOLDER("node"),

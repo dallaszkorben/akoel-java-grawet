@@ -29,17 +29,17 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 
-public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapter {
+public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter {
 	
 	private static final long serialVersionUID = -5098304990124055586L;
 	
-	public static final Tag TAG = Tag.PARAMNORMALELEMENTCOLLECTOR;
+	public static final Tag TAG = Tag.STEPNORMALELEMENTCOLLECTOR;
 	
 	private static final String ATTR_ON = "on";
 	
 	private BaseElementDataModelAdapter lastBaseElement = null;	
 	
-	public ParamNormalCollectorDataModel( String name, String details ){		
+	public StepNormalCollectorDataModel( String name, String details ){		
 		
 		super( name, details );
 		
@@ -51,7 +51,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 	 * @param element
 	 * @throws XMLPharseException
 	 */
-	public ParamNormalCollectorDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepNormalCollectorDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		super(element, baseRootDataModel, variableRootDataModel);
 				
@@ -83,9 +83,9 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element paramElement = (Element)node;
-				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
+				if( paramElement.getTagName().equals( Tag.STEPELEMENT.getName() )){					
 						
-					this.add(new ParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+					this.add(new StepElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 						
 				}
 			}			
@@ -128,7 +128,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 	@Override
 	public void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException, StoppedByUserException {
 		
-		ParamElementDataModel parameterElement;
+		StepElementDataModel parameterElement;
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
@@ -145,7 +145,7 @@ public class ParamNormalCollectorDataModel extends ParamCollectorDataModelAdapte
 			}
 			
 			//Parameterezett elem
-			parameterElement = (ParamElementDataModel)this.getChildAt( i );
+			parameterElement = (StepElementDataModel)this.getChildAt( i );
 			
 			//Ha a parameterezett elem be van kapcsolva
 			if( parameterElement.isOn() ){
@@ -241,7 +241,7 @@ elementProgress.outputCommand( "" );
 	public Object clone(){
 		
 		//Leklonozza a ParamPage-et
-		ParamNormalCollectorDataModel cloned = (ParamNormalCollectorDataModel)super.clone();
+		StepNormalCollectorDataModel cloned = (StepNormalCollectorDataModel)super.clone();
 		
 		//Ha vannak gyerekei (NODE vagy PAGE)
 		if( null != this.children ){

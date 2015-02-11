@@ -16,9 +16,9 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamNormalCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModelAdapter;
@@ -38,10 +38,10 @@ public class TestcaseTree extends Tree {
 	private GUIFrame guiFrame;
 	
 //	private BaseRootDataModel baseRootDataModel;
-	private ParamRootDataModel paramRootDataModel;
+	private StepRootDataModel paramRootDataModel;
 	private DriverRootDataModel driverRootDataModel;
 	
-	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
+	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
 		super(guiFrame, testcaseRootDataModel);
 		
 		this.guiFrame = guiFrame;
@@ -73,9 +73,9 @@ public class TestcaseTree extends Tree {
     	}else if( actualNode instanceof TestcaseParamContainerDataModel ){
     		
     		TestcaseParamContainerDataModel testCasePage = (TestcaseParamContainerDataModel)actualNode;
-    	    if( testCasePage.getParamPage() instanceof ParamNormalCollectorDataModel ){
+    	    if( testCasePage.getParamPage() instanceof StepNormalCollectorDataModel ){
     	    	return paramContainer;	
-    	    }else if( testCasePage.getParamPage() instanceof ParamLoopCollectorDataModel ){
+    	    }else if( testCasePage.getParamPage() instanceof StepLoopCollectorDataModel ){
     	    	return loopOpenIcon;
     	    }
     		
@@ -105,9 +105,9 @@ public class TestcaseTree extends Tree {
     	}else if( actualNode instanceof TestcaseParamContainerDataModel ){
     		
     		TestcaseParamContainerDataModel testCasePage = (TestcaseParamContainerDataModel)actualNode;
-    	    if( testCasePage.getParamPage() instanceof ParamNormalCollectorDataModel ){
+    	    if( testCasePage.getParamPage() instanceof StepNormalCollectorDataModel ){
     	    	return containerOffIcon;	
-    	    }else if( testCasePage.getParamPage() instanceof ParamLoopCollectorDataModel ){
+    	    }else if( testCasePage.getParamPage() instanceof StepLoopCollectorDataModel ){
     	    	return loopOffIcon;
     	    }
     	    return containerOffIcon;

@@ -13,19 +13,19 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ParamRootDataModel extends ParamNodeDataModelAdapter{
+public class StepRootDataModel extends StepNodeDataModelAdapter{
 
 	private static final long serialVersionUID = 9062567931430247371L;
 
-	private static final Tag TAG = Tag.PARAMROOT;
+	private static final Tag TAG = Tag.STEPROOT;
 	
 	public static final String ATTR_NAME = "";
 	
-	public ParamRootDataModel(){
+	public StepRootDataModel(){
 		super( "", "" );
 	}
 	
-	public ParamRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public StepRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -49,8 +49,8 @@ public class ParamRootDataModel extends ParamNodeDataModelAdapter{
 						Element paramElement = (Element)paramNode;
 					
 						//Ha ujabb PARAMFOLDER van alatta
-						if( paramElement.getTagName().equals( Tag.PARAMFOLDER.getName() ) ){						
-							this.add(new ParamFolderDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+						if( paramElement.getTagName().equals( Tag.STEPFOLDER.getName() ) ){						
+							this.add(new StepFolderDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 						}
 					}
 				}
@@ -100,7 +100,7 @@ public class ParamRootDataModel extends ParamNodeDataModelAdapter{
 	@Override
 	public Object clone(){
 		
-		ParamRootDataModel cloned = (ParamRootDataModel)super.clone();
+		StepRootDataModel cloned = (StepRootDataModel)super.clone();
 	
 		return cloned;
 		

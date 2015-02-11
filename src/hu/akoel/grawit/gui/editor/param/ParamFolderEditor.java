@@ -5,8 +5,8 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamFolderDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamNodeDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepNodeDataModelAdapter;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -20,8 +20,8 @@ public class ParamFolderEditor extends DataEditor{
 	private static final long serialVersionUID = 2644128362590221646L;
 	
 	private Tree tree;
-	private ParamFolderDataModel nodeForModify;
-	private ParamNodeDataModelAdapter nodeForCapture;
+	private StepFolderDataModel nodeForModify;
+	private StepNodeDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -29,9 +29,9 @@ public class ParamFolderEditor extends DataEditor{
 	private TextAreaComponent fieldDetails;
 
 	//Itt biztos beszuras van
-	public ParamFolderEditor( Tree tree, ParamNodeDataModelAdapter selectedNode ){
+	public ParamFolderEditor( Tree tree, StepNodeDataModelAdapter selectedNode ){
 
-		super( ParamFolderDataModel.getModelNameToShowStatic() );
+		super( StepFolderDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -48,7 +48,7 @@ public class ParamFolderEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public ParamFolderEditor( Tree pageBaseTree, ParamFolderDataModel selectedNode, EditMode mode ){		
+	public ParamFolderEditor( Tree pageBaseTree, StepFolderDataModel selectedNode, EditMode mode ){		
 
 		super( mode, selectedNode.getNodeTypeToShow());
 
@@ -117,10 +117,10 @@ public class ParamFolderEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Node-rol van szo
-				if( levelNode instanceof ParamFolderDataModel ){
+				if( levelNode instanceof StepFolderDataModel ){
 					
 					//Ha azonos a nev
-					if( ((ParamFolderDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((StepFolderDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -155,7 +155,7 @@ public class ParamFolderEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				ParamFolderDataModel newPageBaseNode = new ParamFolderDataModel( fieldName.getText(), fieldDetails.getText() );				
+				StepFolderDataModel newPageBaseNode = new StepFolderDataModel( fieldName.getText(), fieldDetails.getText() );				
 				nodeForCapture.add( newPageBaseNode );
 			
 				//Ebbe a nodba kell majd visszaallni

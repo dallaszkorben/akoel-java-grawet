@@ -3,7 +3,7 @@ package hu.akoel.grawit.gui;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -87,7 +87,7 @@ public class GUIFrame extends JFrame{
 
 	private VariableRootDataModel variableRootDataModel = new VariableRootDataModel();
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
-	private ParamRootDataModel paramRootDataModel = new ParamRootDataModel();	
+	private StepRootDataModel paramRootDataModel = new StepRootDataModel();	
 	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
 	private DriverRootDataModel driverRootDataModel = new DriverRootDataModel();
 	
@@ -630,7 +630,7 @@ public class GUIFrame extends JFrame{
 					variableRootDataModel = new VariableRootDataModel(doc, baseRootDataModel );
 					
 					// PARAMROOT
-					paramRootDataModel = new ParamRootDataModel(doc, variableRootDataModel, baseRootDataModel );
+					paramRootDataModel = new StepRootDataModel(doc, variableRootDataModel, baseRootDataModel );
 						
 					// TESTCASE
 					//testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel, driverRootDataModel, scriptRootDataModel );

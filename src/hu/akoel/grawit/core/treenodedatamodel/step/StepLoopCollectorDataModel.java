@@ -45,11 +45,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter {
+public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 
 	private static final long serialVersionUID = 5361088361756620748L;
 
-	public static final Tag TAG = Tag.PARAMLOOPELEMENTCOLLECTOR;
+	public static final Tag TAG = Tag.STEPLOOPELEMENTCOLLECTOR;
 	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "compareelementabsolutepath";
 	private static final String ATTR_OPERATION = "operation";
@@ -65,7 +65,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	private Integer maxLoopNumber = null;
 	//----
 	
-	public ParamLoopCollectorDataModel( String name, String details, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
+	public StepLoopCollectorDataModel( String name, String details, BaseElementDataModelAdapter compareBaseElement, Integer oneLoopLength, Integer maxLoopNumber, ElementOperationAdapter operation ){
 		super(name, details);
 	
 		this.compareBaseElement = compareBaseElement;
@@ -78,7 +78,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 
 	}
 	
-	public ParamLoopCollectorDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public StepLoopCollectorDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
 		super(element, baseRootDataModel, variableRootDataModel);
 		
@@ -211,9 +211,9 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element paramElement = (Element)node;
-				if( paramElement.getTagName().equals( Tag.PARAMELEMENT.getName() )){					
+				if( paramElement.getTagName().equals( Tag.STEPELEMENT.getName() )){					
 						
-					this.add(new ParamElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+					this.add(new StepElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
 						
 				}
 			}			
@@ -356,7 +356,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	@Override
 	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgres, ElementProgressInterface elementProgres) throws PageException,	CompilationException, StoppedByUserException {
 		
-		ParamElementDataModel parameterElement;
+		StepElementDataModel parameterElement;
 		
 		Integer actualLoop = 0;
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
@@ -394,7 +394,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 					}
 					
 					//Parameterezett elem
-					parameterElement = (ParamElementDataModel)this.getChildAt( index );
+					parameterElement = (StepElementDataModel)this.getChildAt( index );
 					
 					//Ha a parameterezett elem be van kapcsolva
 					if( parameterElement.isOn() ){
@@ -498,7 +498,7 @@ public class ParamLoopCollectorDataModel extends ParamCollectorDataModelAdapter 
 	public Object clone(){
 		
 		//Leklonozza a NODE-ot
-		ParamLoopCollectorDataModel cloned = (ParamLoopCollectorDataModel)super.clone();
+		StepLoopCollectorDataModel cloned = (StepLoopCollectorDataModel)super.clone();
 		
 		cloned.oneLoopLength  = new Integer( oneLoopLength);
 		cloned.maxLoopNumber = new Integer( maxLoopNumber );

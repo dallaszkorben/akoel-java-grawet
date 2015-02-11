@@ -32,11 +32,11 @@ import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class ParamElementDataModel extends ParamDataModelAdapter {
+public class StepElementDataModel extends ParamDataModelAdapter {
 	
 	private static final long serialVersionUID = -8916078747948054716L;
 
-	public static Tag TAG = Tag.PARAMELEMENT;
+	public static Tag TAG = Tag.STEPELEMENT;
 	
 	private static final String ATTR_BASE_ELEMENT_PATH = "baseelementabsolutepath";
 	private static final String ATTR_OPERATION = "operation";
@@ -56,7 +56,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	 * @param baseElement
 	 * @param operation
 	 */
-	public ParamElementDataModel( String name, BaseElementDataModelAdapter baseElement, ElementOperationAdapter operation ){
+	public StepElementDataModel( String name, BaseElementDataModelAdapter baseElement, ElementOperationAdapter operation ){
 		this.name = name;
 		this.baseElement = baseElement;
 		this.elementOperation = operation;
@@ -84,7 +84,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	 * @param variableDataModel
 	 * @throws XMLPharseException
 	 */
-	public ParamElementDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepElementDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -235,8 +235,8 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 		
 		//A Gyujtoben beallitja az utoljara vegrehajtott baseElement eleresi utvonalat
 		MutableTreeNode mtn = (MutableTreeNode)this.getParent();
-		if( mtn instanceof ParamCollectorDataModelAdapter ){
-			((ParamCollectorDataModelAdapter)mtn).setLastBaseElement( baseElement );
+		if( mtn instanceof StepCollectorDataModelAdapter ){
+			((StepCollectorDataModelAdapter)mtn).setLastBaseElement( baseElement );
 		}
 		
 	}
@@ -324,7 +324,7 @@ public class ParamElementDataModel extends ParamDataModelAdapter {
 	@Override
 	public Object clone(){
 		
-		ParamElementDataModel cloned = (ParamElementDataModel)super.clone();
+		StepElementDataModel cloned = (StepElementDataModel)super.clone();
 
 		//Leklonozza az Operation-t is
 		cloned.elementOperation = (ElementOperationAdapter) this.elementOperation.clone();

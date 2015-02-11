@@ -5,37 +5,37 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamCollectorDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamFolderDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamNormalCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamCollectorTreeSelectorComponent extends TreeSelectorComponent<ParamCollectorDataModelAdapter>{
+public class ParamCollectorTreeSelectorComponent extends TreeSelectorComponent<StepCollectorDataModelAdapter>{
 
 	private static final long serialVersionUID = 1064181673121972602L;
 
 	//TODO torlendo
 	public ParamCollectorTreeSelectorComponent( ParamDataModelAdapter rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, null, false, false);
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), StepCollectorDataModelAdapter.class, rootDataModel, null, false, false);
 	}
 
 	//TODO torlendo
-	public ParamCollectorTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamCollectorDataModelAdapter selectedParamPageDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.parampage"), ParamCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, true, false);
+	public ParamCollectorTreeSelectorComponent( ParamDataModelAdapter rootDataModel, StepCollectorDataModelAdapter selectedParamPageDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.parampage"), StepCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, true, false);
 	}
 	
-	public ParamCollectorTreeSelectorComponent( ParamDataModelAdapter rootDataModel, ParamCollectorDataModelAdapter selectedParamPageDataModel, boolean setSelectedElementToFieldFirst ) {
-		super(CommonOperations.getTranslation("window.title.selector.baseelement"), ParamCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, setSelectedElementToFieldFirst, false);
+	public ParamCollectorTreeSelectorComponent( ParamDataModelAdapter rootDataModel, StepCollectorDataModelAdapter selectedParamPageDataModel, boolean setSelectedElementToFieldFirst ) {
+		super(CommonOperations.getTranslation("window.title.selector.baseelement"), StepCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, setSelectedElementToFieldFirst, false);
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( ParamCollectorDataModelAdapter selectedDataModel) {
+	public String getSelectedDataModelToString( StepCollectorDataModelAdapter selectedDataModel) {
 		StringBuffer out = new StringBuffer();
 		boolean hasHyphen = false;
 		for( TreeNode node: selectedDataModel.getPath() ){
@@ -56,7 +56,7 @@ public class ParamCollectorTreeSelectorComponent extends TreeSelectorComponent<P
 
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
-		return !( path.getLastPathComponent() instanceof ParamCollectorDataModelAdapter );
+		return !( path.getLastPathComponent() instanceof StepCollectorDataModelAdapter );
 	}
 	
 	@Override
@@ -71,19 +71,19 @@ public class ParamCollectorTreeSelectorComponent extends TreeSelectorComponent<P
     	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
     	
     	//Iconja a NODE-nak
-    	if( actualNode instanceof ParamRootDataModel){
+    	if( actualNode instanceof StepRootDataModel){
             return rootIcon;
-    	}else if( actualNode instanceof ParamNormalCollectorDataModel){
+    	}else if( actualNode instanceof StepNormalCollectorDataModel){
             return pageIcon;    	
-    	}else if( actualNode instanceof ParamElementDataModel ){
+    	}else if( actualNode instanceof StepElementDataModel ){
             return elementIcon;
-    	}else if( actualNode instanceof ParamLoopCollectorDataModel ){
+    	}else if( actualNode instanceof StepLoopCollectorDataModel ){
     		if( expanded ){
     			return loopOpenIcon;
     		}else{
     			return loopClosedIcon;    			
     		}
-    	}else if( actualNode instanceof ParamFolderDataModel){
+    	}else if( actualNode instanceof StepFolderDataModel){
     		if( expanded ){
     			return folderOpenIcon;
     		}else{

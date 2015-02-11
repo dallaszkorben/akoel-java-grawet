@@ -15,7 +15,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public abstract class ParamNodeDataModelAdapter extends ParamDataModelAdapter{
+public abstract class StepNodeDataModelAdapter extends ParamDataModelAdapter{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
@@ -24,13 +24,13 @@ public abstract class ParamNodeDataModelAdapter extends ParamDataModelAdapter{
 	private String name;
 	private String details;
 	
-	public ParamNodeDataModelAdapter( String name, String details ){
+	public StepNodeDataModelAdapter( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;
 	}
 	
-	public ParamNodeDataModelAdapter( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepNodeDataModelAdapter( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		//========
 		//
@@ -38,7 +38,7 @@ public abstract class ParamNodeDataModelAdapter extends ParamDataModelAdapter{
 		//
 		//========
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( ParamNodeDataModelAdapter.getRootTag(), Tag.PARAMFOLDER, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( StepNodeDataModelAdapter.getRootTag(), Tag.STEPFOLDER, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
@@ -136,7 +136,7 @@ public abstract class ParamNodeDataModelAdapter extends ParamDataModelAdapter{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( ParamNodeDataModelAdapter.this.getTag().getName() );
+		Element nodeElement = document.createElement( StepNodeDataModelAdapter.this.getTag().getName() );
 				
 		//========
 		//
@@ -182,7 +182,7 @@ public abstract class ParamNodeDataModelAdapter extends ParamDataModelAdapter{
 	public Object clone(){
 		
 		//Leklonozza a NODE-ot
-		ParamNodeDataModelAdapter cloned = (ParamNodeDataModelAdapter)super.clone();
+		StepNodeDataModelAdapter cloned = (StepNodeDataModelAdapter)super.clone();
 	
 		//Ha vannak gyerekei (NODE vagy PAGE)
 		if( null != this.children ){
