@@ -16,7 +16,7 @@ import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -243,7 +243,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 	}
 
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.param.loopcollector");
+		return CommonOperations.getTranslation( "tree.nodetype.step.loopcollector");
 	}
 	
 	@Override
@@ -490,7 +490,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 	}
 	
 	@Override
-	public void add(ParamDataModelAdapter node) {
+	public void add(StepDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 

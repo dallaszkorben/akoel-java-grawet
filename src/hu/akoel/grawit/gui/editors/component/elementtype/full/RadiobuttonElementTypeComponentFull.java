@@ -78,14 +78,14 @@ public class RadiobuttonElementTypeComponentFull<E extends RadiobuttonElementTyp
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
 		
-		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
-		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
-		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.pattern") + ": ");
-		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
-		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": ");
-		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.param.message") + ": ");
-		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.param.comparetype") + ": ");
+		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
+		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
+		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.step.pattern") + ": ");
+		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
+		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.variable") + ": ");
+		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
+		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.step.message") + ": ");
+		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.step.comparetype") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );

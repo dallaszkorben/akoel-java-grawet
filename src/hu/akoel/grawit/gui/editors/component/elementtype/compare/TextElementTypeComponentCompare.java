@@ -90,14 +90,14 @@ public class TextElementTypeComponentCompare<E extends TextElementTypeOperations
 	
 	private void common( ElementTypeListEnum elementType, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		
-		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
-		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
-		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.pattern") + ": ");
-		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.param.message") + ": ");
-		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
-		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": ");
-		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.param.comparetype") + ": ");
+		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
+		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
+		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.step.pattern") + ": ");
+		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.step.message") + ": ");
+		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
+		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.variable") + ": ");
+		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
+		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.step.comparetype") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );

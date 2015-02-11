@@ -4,7 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ButtonElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
-	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.button.click") ),	
+	CLICK( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.button.click") ),	
 	;
 	
 	private String translatedName;

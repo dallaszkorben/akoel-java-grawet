@@ -60,8 +60,8 @@ public class ButtonElementTypeComponentFull<E extends ButtonElementTypeOperation
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
 		
-		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
-		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
+		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
+		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );

@@ -4,15 +4,15 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ElementTypeListEnum implements ElementTypeOperationsListEnumInterface{		
-	FIELD( 0, true, CommonOperations.getTranslation( "editor.label.param.elementtype.field") ),
-	TEXT( 1, true, CommonOperations.getTranslation( "editor.label.param.elementtype.text") ),
-	LINK( 2, true, CommonOperations.getTranslation( "editor.label.param.elementtype.link") ),
-	LIST( 3, true, CommonOperations.getTranslation( "editor.label.param.elementtype.list") ),
-	BUTTON( 4, true, CommonOperations.getTranslation( "editor.label.param.elementtype.button") ),
-	RADIOBUTTON( 5, true, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton") ),
-	CHECKBOX( 6, true, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox") ),
+	FIELD( 0, true, CommonOperations.getTranslation( "editor.label.step.elementtype.field") ),
+	TEXT( 1, true, CommonOperations.getTranslation( "editor.label.step.elementtype.text") ),
+	LINK( 2, true, CommonOperations.getTranslation( "editor.label.step.elementtype.link") ),
+	LIST( 3, true, CommonOperations.getTranslation( "editor.label.step.elementtype.list") ),
+	BUTTON( 4, true, CommonOperations.getTranslation( "editor.label.step.elementtype.button") ),
+	RADIOBUTTON( 5, true, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton") ),
+	CHECKBOX( 6, true, CommonOperations.getTranslation( "editor.label.step.elementtype.checkbox") ),
 	
-	SCRIPT( 7, false, CommonOperations.getTranslation( "editor.label.param.elementtype.script") ),	
+	SCRIPT( 7, false, CommonOperations.getTranslation( "editor.label.step.elementtype.script") ),	
 	;
 	
 	private String translatedName;

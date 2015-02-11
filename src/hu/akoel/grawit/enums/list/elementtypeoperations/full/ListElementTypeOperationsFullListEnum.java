@@ -4,17 +4,17 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ListElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
-	SELECT_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.list.selectvariable") ),
-	SELECT_BASE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.list.selectbase") ),
-	SELECT_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.list.selectstring") ),
-	TAB( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.list.tab") ),
-	CLICK( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.list.click") ),
-	COMPARE_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetovariable") ),
-	COMPARE_TO_STORED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetostored") ),
-	COMPARE_TO_STRING( 7, CommonOperations.getTranslation( "editor.label.param.elementtype.list.comparetostring") ),
-//	GAIN_TO_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintovariable") ),
-	GAIN_TO_ELEMENT( 8, CommonOperations.getTranslation( "editor.label.param.elementtype.list.gaintoelement") ),
-	OUTPUTSTORED( 9, CommonOperations.getTranslation( "editor.label.param.elementtype.list.outputstored") ),	
+	SELECT_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.list.selectvariable") ),
+	SELECT_BASE( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.list.selectbase") ),
+	SELECT_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.list.selectstring") ),
+	TAB( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.list.tab") ),
+	CLICK( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.list.click") ),
+	COMPARE_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparetovariable") ),
+	COMPARE_TO_STORED( 6, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparetostored") ),
+	COMPARE_TO_STRING( 7, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparetostring") ),
+//	GAIN_TO_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.step.elementtype.list.gaintovariable") ),
+	GAIN_TO_ELEMENT( 8, CommonOperations.getTranslation( "editor.label.step.elementtype.list.gaintoelement") ),
+	OUTPUTSTORED( 9, CommonOperations.getTranslation( "editor.label.step.elementtype.list.outputstored") ),	
 	;
 	
 	private String translatedName;

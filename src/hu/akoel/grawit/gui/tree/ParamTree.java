@@ -16,7 +16,7 @@ import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
@@ -37,10 +37,10 @@ import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.step.ParamElementEditor;
-import hu.akoel.grawit.gui.editor.step.ParamFolderEditor;
-import hu.akoel.grawit.gui.editor.step.ParamLoopCollectorEditor;
-import hu.akoel.grawit.gui.editor.step.ParamNormalCollectorEditor;
+import hu.akoel.grawit.gui.editor.step.StepElementEditor;
+import hu.akoel.grawit.gui.editor.step.StepFolderEditor;
+import hu.akoel.grawit.gui.editor.step.StepLoopCollectorEditor;
+import hu.akoel.grawit.gui.editor.step.StepNormalCollectorEditor;
 
 public class ParamTree extends Tree {
 
@@ -149,15 +149,15 @@ public class ParamTree extends Tree {
 	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 		
 		if( selectedNode instanceof StepNormalCollectorDataModel ){
-			ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );								
+			StepNormalCollectorEditor paramPageEditor = new StepNormalCollectorEditor( this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, EditMode.VIEW );								
 			guiFrame.showEditorPanel( paramPageEditor);
 						
 		}else if( selectedNode instanceof StepElementDataModel ){
-			ParamElementEditor pageBaseElementEditor = new ParamElementEditor( this, (StepElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.VIEW );	
+			StepElementEditor pageBaseElementEditor = new StepElementEditor( this, (StepElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( pageBaseElementEditor);									
 		
 		}else if( selectedNode instanceof StepLoopCollectorDataModel ){
-			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (StepLoopCollectorDataModel)selectedNode, variableRootDataModel, baseRootDataModel, EditMode.VIEW );
+			StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( this, (StepLoopCollectorDataModel)selectedNode, variableRootDataModel, baseRootDataModel, EditMode.VIEW );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);	
 		
 		//Ha a root-ot valasztottam
@@ -166,7 +166,7 @@ public class ParamTree extends Tree {
 			guiFrame.showEditorPanel( emptyPanel );
 			
 		}else if( selectedNode instanceof StepFolderDataModel ){
-			ParamFolderEditor paramNodeEditor = new ParamFolderEditor( this, (StepFolderDataModel)selectedNode, EditMode.VIEW);
+			StepFolderEditor paramNodeEditor = new StepFolderEditor( this, (StepFolderDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( paramNodeEditor);								
 
 								
@@ -180,21 +180,21 @@ public class ParamTree extends Tree {
 
 		if( selectedNode instanceof StepNormalCollectorDataModel ){
 			
-			ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );							                                            
+			StepNormalCollectorEditor paramPageEditor = new StepNormalCollectorEditor( this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( paramPageEditor);		
 			
 		}else if( selectedNode instanceof StepElementDataModel ){
 
-			ParamElementEditor paramElementEditor = new ParamElementEditor( this, (StepElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.MODIFY );
+			StepElementEditor paramElementEditor = new StepElementEditor( this, (StepElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( paramElementEditor);		
 				
 		}else if( selectedNode instanceof StepLoopCollectorDataModel ){
-			ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( this, (StepLoopCollectorDataModel)selectedNode, variableRootDataModel, baseRootDataModel, EditMode.MODIFY );
+			StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( this, (StepLoopCollectorDataModel)selectedNode, variableRootDataModel, baseRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 
 		}else if( selectedNode instanceof StepFolderDataModel ){
 				
-			ParamFolderEditor paramNodeEditor = new ParamFolderEditor( this, (StepFolderDataModel)selectedNode, EditMode.MODIFY );								
+			StepFolderEditor paramNodeEditor = new StepFolderEditor( this, (StepFolderDataModel)selectedNode, EditMode.MODIFY );								
 			guiFrame.showEditorPanel( paramNodeEditor);								
 				
 		}		
@@ -209,14 +209,14 @@ public class ParamTree extends Tree {
 		if( selectedNode instanceof StepNormalCollectorDataModel ){
 
 			//Insert Relative Element
-			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
+			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.step.element") );
 			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertElementMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamElementEditor paramPageNodeEditor = new ParamElementEditor( ParamTree.this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					StepElementEditor paramPageNodeEditor = new StepElementEditor( ParamTree.this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
 					guiFrame.showEditorPanel( paramPageNodeEditor);								
 				
 				}
@@ -229,14 +229,14 @@ public class ParamTree extends Tree {
 		} else if( selectedNode instanceof StepLoopCollectorDataModel ){
 
 			//Insert Page
-			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.element") );
+			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.step.element") );
 			insertParamPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertParamPageMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamElementEditor testcaseParamPageEditor = new ParamElementEditor( ParamTree.this, (StepLoopCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					StepElementEditor testcaseParamPageEditor = new StepElementEditor( ParamTree.this, (StepLoopCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
 					guiFrame.showEditorPanel( testcaseParamPageEditor);								
 				
 				}
@@ -257,7 +257,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamFolderEditor paramNodeEditor = new ParamFolderEditor( ParamTree.this, (StepFolderDataModel)selectedNode );								
+					StepFolderEditor paramNodeEditor = new StepFolderEditor( ParamTree.this, (StepFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( paramNodeEditor);								
 				
 				}
@@ -265,13 +265,13 @@ public class ParamTree extends Tree {
 			popupMenu.add ( insertNodeMenu );
 
 			//Insert Normal Param Collector
-			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.normalcollector") );
+			JMenuItem insertPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.step.normalcollector") );
 			insertPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertPageMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ParamNormalCollectorEditor paramPageEditor = new ParamNormalCollectorEditor( ParamTree.this, (StepFolderDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
+					StepNormalCollectorEditor paramPageEditor = new StepNormalCollectorEditor( ParamTree.this, (StepFolderDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
 					guiFrame.showEditorPanel( paramPageEditor);								
 				
 				}
@@ -279,14 +279,14 @@ public class ParamTree extends Tree {
 			popupMenu.add ( insertPageMenu );
 			
 			//Insert Loop Param Collector
-			JMenuItem insertLoopMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.param.loopcollector") );
+			JMenuItem insertLoopMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.step.loopcollector") );
 			insertLoopMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertLoopMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ParamLoopCollectorEditor testcaseControlLoopEditor = new ParamLoopCollectorEditor( ParamTree.this, (StepFolderDataModel)selectedNode, variableRootDataModel, baseRootDataModel );
+					StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( ParamTree.this, (StepFolderDataModel)selectedNode, variableRootDataModel, baseRootDataModel );
 					guiFrame.showEditorPanel( testcaseControlLoopEditor);			
 					
 				
@@ -309,16 +309,16 @@ public class ParamTree extends Tree {
 			public void actionPerformed(ActionEvent e) {
 				
 				//Ha a kivalasztott csomopont szuloje ParamDataModel - annak kell lennie :)
-				if( selectedNode.getParent() instanceof ParamDataModelAdapter ){
+				if( selectedNode.getParent() instanceof StepDataModelAdapter ){
 					
 					//Akkor megduplikalja 
-					ParamDataModelAdapter duplicated = (ParamDataModelAdapter)selectedNode.clone();
+					StepDataModelAdapter duplicated = (StepDataModelAdapter)selectedNode.clone();
 					
 					//!!! Ki kell torolni a szulot, hiszen a kovetkezo add() fuggveny fogja ezt neki adni !!!
 					duplicated.setParent(null);
 					
 					//Es hozzaadja a szulohoz
-					((ParamDataModelAdapter)selectedNode.getParent()).add( duplicated );
+					((StepDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
 					ParamTree.this.changed();
@@ -350,7 +350,7 @@ public class ParamTree extends Tree {
 				
 				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas az elemre vagy valamelyik gyermekere a Testcase-ben
 				//Akkor megnezi, hogy van-e hivatkozas a tartalmazott elemekre a Testcase fastrukturaban
-				ArrayList<TestcaseParamContainerDataModel> foundTestcaseContainerList = findAllParamInTestcase( (ParamDataModelAdapter)selectedNode, testcaseRootDataModel, new ArrayList<TestcaseParamContainerDataModel>() );
+				ArrayList<TestcaseParamContainerDataModel> foundTestcaseContainerList = findAllParamInTestcase( (StepDataModelAdapter)selectedNode, testcaseRootDataModel, new ArrayList<TestcaseParamContainerDataModel>() );
 
 				StringBuilder listMessage = new StringBuilder();
 				int rows = 0;
@@ -452,15 +452,15 @@ public class ParamTree extends Tree {
 	 * @param foundDataModel
 	 * @return
 	 */
-	private ArrayList<TestcaseParamContainerDataModel> findAllParamInTestcase( ParamDataModelAdapter nodeToDelete, TestcaseDataModelAdapter rootTestcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
+	private ArrayList<TestcaseParamContainerDataModel> findAllParamInTestcase( StepDataModelAdapter nodeToDelete, TestcaseDataModelAdapter rootTestcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
 		
 		findOneParamInTestcase( nodeToDelete, rootTestcaseDataModel, foundDataModel );
 		
 		//Most pedig vegig megyek a torlendo ParamModel gyermekein is
-		Enumeration<ParamDataModelAdapter> enumForParamModel = nodeToDelete.children();
+		Enumeration<StepDataModelAdapter> enumForParamModel = nodeToDelete.children();
 		while( enumForParamModel.hasMoreElements() ){
 		
-			ParamDataModelAdapter childrenOfParam = enumForParamModel.nextElement();
+			StepDataModelAdapter childrenOfParam = enumForParamModel.nextElement();
 		
 			findAllParamInTestcase( childrenOfParam, rootTestcaseDataModel, foundDataModel );
 		}
@@ -478,7 +478,7 @@ public class ParamTree extends Tree {
 	 * @param foundDataModel
 	 * @return
 	 */
-	private ArrayList<TestcaseParamContainerDataModel> findOneParamInTestcase( ParamDataModelAdapter nodeToDelete, TestcaseDataModelAdapter testcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
+	private ArrayList<TestcaseParamContainerDataModel> findOneParamInTestcase( StepDataModelAdapter nodeToDelete, TestcaseDataModelAdapter testcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
 				
 		@SuppressWarnings("unchecked")
 		Enumeration<TestcaseDataModelAdapter> enumForTestcaseModel = testcaseDataModel.children();
@@ -517,7 +517,7 @@ public class ParamTree extends Tree {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				ParamFolderEditor paramNodeEditor = new ParamFolderEditor( ParamTree.this, (StepNodeDataModelAdapter)selectedNode );								
+				StepFolderEditor paramNodeEditor = new StepFolderEditor( ParamTree.this, (StepNodeDataModelAdapter)selectedNode );								
 				guiFrame.showEditorPanel( paramNodeEditor);								
 			
 			}

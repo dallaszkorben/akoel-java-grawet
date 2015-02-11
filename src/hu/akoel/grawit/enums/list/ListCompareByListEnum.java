@@ -4,8 +4,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ListCompareByListEnum implements ElementTypeOperationsListEnumInterface{		
-	BYVALUE( 0, CommonOperations.getTranslation( "editor.label.param.operation.list.byvalue") ),	
-	BYVISIBLETEXT( 1, CommonOperations.getTranslation( "editor.label.param.operation.list.byvisibletext") ),
+	BYVALUE( 0, CommonOperations.getTranslation( "editor.label.step.operation.list.byvalue") ),	
+	BYVISIBLETEXT( 1, CommonOperations.getTranslation( "editor.label.step.operation.list.byvisibletext") ),
 	;
 	
 	private String translatedName;

@@ -4,9 +4,9 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum RadiobuttonElementTypeOperationsCompareListEnum implements ElementTypeOperationsListEnumInterface{		
-	COMPAREVALUE_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetovariable") ),
-	COMPAREVALUE_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostored") ),
-	COMPAREVALUE_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.radiobutton.comparevaluetostring") ),
+	COMPAREVALUE_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.comparevaluetovariable") ),
+	COMPAREVALUE_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.comparevaluetostored") ),
+	COMPAREVALUE_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.radiobutton.comparevaluetostring") ),
 	;
 	
 	private String translatedName;

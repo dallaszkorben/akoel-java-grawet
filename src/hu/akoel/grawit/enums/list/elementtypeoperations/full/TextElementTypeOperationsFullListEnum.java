@@ -4,13 +4,13 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum TextElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
-	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttovariable") ),
-	COMPARETEXT_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostored") ),
-	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.text.comparetexttostring") ),
-	LEFT_CLICK( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.text.leftclick") ),
-	RIGHT_CLICK( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.text.rightclick") ),
-	GAINTEXT_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.text.gainvaluetoelement") ),	
-	OUTPUTSTORED( 6, CommonOperations.getTranslation( "editor.label.param.elementtype.text.outputstored") ),
+	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttovariable") ),
+	COMPARETEXT_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttostored") ),
+	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttostring") ),
+	LEFT_CLICK( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.text.leftclick") ),
+	RIGHT_CLICK( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.text.rightclick") ),
+	GAINTEXT_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.text.gainvaluetoelement") ),	
+	OUTPUTSTORED( 6, CommonOperations.getTranslation( "editor.label.step.elementtype.text.outputstored") ),
 	;
 	
 	private String translatedName;

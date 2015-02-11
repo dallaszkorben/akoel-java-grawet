@@ -41,13 +41,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.tree.TreeNode;
 
-public class ParamElementEditor extends DataEditor{
+public class StepElementEditor extends DataEditor{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
 	private Tree tree;
 	private StepElementDataModel nodeForModify;	
-	//private ParamDataModelAdapter nodeForCapture;
+
 	private StepCollectorDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
@@ -69,41 +69,22 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
-	public ParamElementEditor( Tree tree, StepCollectorDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public StepElementEditor( Tree tree, StepCollectorDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
 
 		super( StepElementDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedPage;
 		this.mode = null;
-		
-		//this.baseRootDataModel = baseRootDataModel;
 
 		commonPre( baseRootDataModel, paramRootDataModel, variableRootDataModel );
 		
 		//Name
 		fieldName.setText( "" );
 
-//BaseElementDataModelAdapter lastBaseElement = ((ParamNormalCollectorDataModel)selectedPage).getLastBaseElement();		
-BaseElementDataModelAdapter lastBaseElement = ((StepCollectorDataModelAdapter)selectedPage).getLastBaseElement();
-fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, lastBaseElement, false );		
-		
-/*		if( selectedPage instanceof ParamNormalCollectorDataModel ){
-
-			//Base Element
-			BaseCollectorDataModel basePage = ((ParamNormalCollectorDataModel)selectedPage).getBaseCollector();
-			if( null != basePage ){
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage );
-				baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
-			
-			}else{
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
-			
-			}
-		}else{
-			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
-		}
-*/			
+			BaseElementDataModelAdapter lastBaseElement = ((StepCollectorDataModelAdapter)selectedPage).getLastBaseElement();
+			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, lastBaseElement, false );		
+					
 		commonPost( null );
 	}
 		
@@ -117,8 +98,7 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 	 * @param selectedElement
 	 * @param mode
 	 */
-	//public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){		
-	public ParamElementEditor( Tree tree, StepElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){
+	public StepElementEditor( Tree tree, StepElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){
 
 		super( mode, selectedElement.getNodeTypeToShow());
 
@@ -134,24 +114,8 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 		//Selector a BaseElement valasztashoz - A root a basePage (nem latszik)
 		BaseElementDataModelAdapter baseElement = selectedElement.getBaseElement();
 		
-fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, true );
-
-/*		
-		ParamDataModelAdapter parent = (ParamDataModelAdapter)selectedElement.getParent();
-		if( parent instanceof ParamNormalCollectorDataModel ){
+		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, true );
 		
-			BaseCollectorDataModel basePage = ((ParamNormalCollectorDataModel)selectedElement.getParent()).getBaseCollector();
-			if( null != basePage ){
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( basePage, baseElement );
-				baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
-			
-			}else{
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
-			}
-		}else{
-			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement );
-		}
-*/		
 		commonPost( baseElement );
 		
 	}
@@ -167,10 +131,6 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 	}
 	
 	private void commonPost(BaseElementDataModelAdapter baseElement ){
-		
-//		if( null != basePage ){
-//			baseRootDataModel = (BaseRootDataModel)basePage.getRoot();
-//		}	
 		
 		if( null != fieldBaseElementSelector ){
 		
@@ -192,14 +152,14 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 				private void change(){
 					
 					//Akkor ezt a valtozast jelzem a changeOperation()-nak
-					BaseElementDataModelAdapter baseElement = ParamElementEditor.this.fieldBaseElementSelector.getSelectedDataModel();
+					BaseElementDataModelAdapter baseElement = StepElementEditor.this.fieldBaseElementSelector.getSelectedDataModel();
 					changeOperation( baseElement );
 				}
 			});
 		}
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": " );
+		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": " );
 		labelElementTypeSelector = new JLabel( "");
 		
 		this.add( labelName, fieldName );
@@ -222,7 +182,7 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 	private void changeOperation( BaseElementDataModelAdapter baseElement ){
 
 		//Eltavolitja az ott levot
-		ParamElementEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
+		StepElementEditor.this.remove( labelElementTypeSelector, elementTypeComponent.getComponent() );
 		
 		ElementOperationAdapter elementOperation;
 		
@@ -283,8 +243,8 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 		}		
 		
 		//Elhelyezi az ujat		
-		ParamElementEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
-		ParamElementEditor.this.repaint();
+		StepElementEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
+		StepElementEditor.this.repaint();
 		
 	}
 	
@@ -358,7 +318,7 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.param.element") 
+										CommonOperations.getTranslation("tree.nodetype.step.element") 
 								) 
 							);
 							break;

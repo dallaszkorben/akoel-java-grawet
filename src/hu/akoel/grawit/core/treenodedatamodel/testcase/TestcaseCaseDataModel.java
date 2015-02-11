@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
@@ -199,10 +199,10 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 		return nodeElement;		
 	}
 	
-	public static ParamDataModelAdapter getParamDataModelFromPath(Element element, StepRootDataModel paramRootDataModel, Tag tag, String name ) throws XMLBaseConversionPharseException{
+	public static StepDataModelAdapter getParamDataModelFromPath(Element element, StepRootDataModel paramRootDataModel, Tag tag, String name ) throws XMLBaseConversionPharseException{
 		
 		String attribute = ATTR_LAST_SELECTED_PARAM_COLLECTOR_PATH;
-		ParamDataModelAdapter paramDataModel = paramRootDataModel;
+		StepDataModelAdapter paramDataModel = paramRootDataModel;
 		
 		//Nincs megadva eleresi utvonal egyaltalan
 		if( !element.hasAttribute( attribute ) ){
@@ -254,7 +254,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 				//Ha BASEFOLDER
 				if( tagName.equals( StepFolderDataModel.TAG.getName() ) ){
 					attrName = actualElement.getAttribute(StepFolderDataModel.ATTR_NAME);	    		
-					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPFOLDER, attrName );
+					paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPFOLDER, attrName );
 
 					if( null == paramDataModel ){
 
@@ -264,7 +264,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 				//Ha PARAMNORMALCOLLECTOR
 				}else if( tagName.equals( StepNormalCollectorDataModel.TAG.getName() ) ){
 					attrName = actualElement.getAttribute(StepNormalCollectorDataModel.ATTR_NAME);
-					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPNORMALELEMENTCOLLECTOR, attrName );
+					paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPNORMALELEMENTCOLLECTOR, attrName );
 					if( null == paramDataModel ){
 
 						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
@@ -273,7 +273,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 				//Ha PARAMLOOPCOLLECTOR
 				}else if( tagName.equals( StepLoopCollectorDataModel.TAG.getName() ) ){
 					attrName = actualElement.getAttribute(StepLoopCollectorDataModel.ATTR_NAME);
-					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPLOOPELEMENTCOLLECTOR, attrName );
+					paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPLOOPELEMENTCOLLECTOR, attrName );
 					if( null == paramDataModel ){
 
 						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
@@ -282,7 +282,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 				//Ha PARAMLOOPCOLLECTOR
 				}else if( tagName.equals( StepLoopCollectorDataModel.TAG.getName() ) ){
 					attrName = actualElement.getAttribute(StepLoopCollectorDataModel.ATTR_NAME);
-					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPLOOPELEMENTCOLLECTOR, attrName );
+					paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPLOOPELEMENTCOLLECTOR, attrName );
 					if( null == paramDataModel ){
 
 						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );
@@ -292,7 +292,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 				}else if( tagName.equals( StepElementDataModel.TAG.getName() ) ){
 					attrName = actualElement.getAttribute(StepElementDataModel.ATTR_NAME);						    		
 	    	
-					paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPELEMENT, attrName );
+					paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPELEMENT, attrName );
 					if( null == paramDataModel ){
 
 						throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute) );

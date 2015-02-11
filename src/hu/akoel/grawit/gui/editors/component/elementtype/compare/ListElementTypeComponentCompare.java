@@ -91,17 +91,17 @@ public class ListElementTypeComponentCompare<E extends ListElementTypeOperations
 	
 	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
 		
-		labelType = new JLabel( CommonOperations.getTranslation("editor.label.param.type") + ": ");
-		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.param.pattern") + ": ");
-		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.param.operation") + ": ");
-		labelString = new JLabel( CommonOperations.getTranslation("editor.label.param.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.variable") + ": ");
-		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.param.baseelement") + ": ");
-		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.param.message") + ": ");
-		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.param.comparetype") + ": ");
-		labelSelectionBy = new JLabel( CommonOperations.getTranslation("editor.label.param.selectionby") + ": ");
-		labelCompareBy = new JLabel( CommonOperations.getTranslation("editor.label.param.compareby") + ": ");
-		labelGainBy = new JLabel( CommonOperations.getTranslation("editor.label.param.gainby") + ": ");
+		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
+		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.step.pattern") + ": ");
+		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
+		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
+		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.variable") + ": ");
+		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
+		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.step.message") + ": ");
+		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.step.comparetype") + ": ");
+		labelSelectionBy = new JLabel( CommonOperations.getTranslation("editor.label.step.selectionby") + ": ");
+		labelCompareBy = new JLabel( CommonOperations.getTranslation("editor.label.step.compareby") + ": ");
+		labelGainBy = new JLabel( CommonOperations.getTranslation("editor.label.step.gainby") + ": ");
 		labelFiller = new JLabel();
 		
 		fieldType = new JTextField( elementType.getTranslatedName() );

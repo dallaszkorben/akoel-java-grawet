@@ -240,7 +240,7 @@ public class GUIFrame extends JFrame{
         menu.addSeparator();
         
         //Edit Param      
-        editParamMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.param") );
+        editParamMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.step") );
         editParamMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.param") ).getKeyCode() ); //KeyEvent.VK_P);
         editParamActionListener = new EditParamActionListener();
         editParamMenuItem.addActionListener( editParamActionListener );

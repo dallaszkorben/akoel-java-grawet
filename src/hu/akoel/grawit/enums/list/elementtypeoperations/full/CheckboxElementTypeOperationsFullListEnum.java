@@ -4,13 +4,13 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum CheckboxElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
-	CLICK( 0, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.click") ),	
-	COMPAREVALUE_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.comparevaluetovariable") ),
-	COMPAREVALUE_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.comparevaluetostored") ),
-	COMPAREVALUE_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.comparevaluetostring") ),
-//	GAINVALUE_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.gainvaluetovariable") ),
-	GAINVALUE_TO_ELEMENTSTORAGE( 4, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.gainvaluetoelementstorage") ),
-	OUTPUTSTORED( 5, CommonOperations.getTranslation( "editor.label.param.elementtype.checkbox.outputstored") ),
+	CLICK( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.checkbox.click") ),	
+	COMPAREVALUE_TO_VARIABLE( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.checkbox.comparevaluetovariable") ),
+	COMPAREVALUE_TO_STORED( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.checkbox.comparevaluetostored") ),
+	COMPAREVALUE_TO_STRING( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.checkbox.comparevaluetostring") ),
+//	GAINVALUE_TO_VARIABLE( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.checkbox.gainvaluetovariable") ),
+	GAINVALUE_TO_ELEMENTSTORAGE( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.checkbox.gainvaluetoelementstorage") ),
+	OUTPUTSTORED( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.checkbox.outputstored") ),
 	;
 	
 	private String translatedName;

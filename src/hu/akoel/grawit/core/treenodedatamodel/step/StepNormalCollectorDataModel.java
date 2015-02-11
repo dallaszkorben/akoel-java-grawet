@@ -15,7 +15,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
@@ -93,7 +93,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	}
 	
 	@Override
-	public void add(ParamDataModelAdapter node) {
+	public void add(StepDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 
@@ -117,7 +117,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.param.normalcollector");
+		return CommonOperations.getTranslation( "tree.nodetype.step.normalcollector");
 	}
 	
 	@Override
@@ -251,9 +251,9 @@ elementProgress.outputCommand( "" );
 							
 			for( Object o : this.children ){
 								
-				if( o instanceof ParamDataModelAdapter ){
+				if( o instanceof StepDataModelAdapter ){
 							
-					ParamDataModelAdapter child = (ParamDataModelAdapter) ((ParamDataModelAdapter)o).clone();
+					StepDataModelAdapter child = (StepDataModelAdapter) ((StepDataModelAdapter)o).clone();
 							
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					
