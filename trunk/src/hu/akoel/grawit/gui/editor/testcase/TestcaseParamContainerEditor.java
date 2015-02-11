@@ -8,8 +8,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamCollectorDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -54,7 +54,7 @@ public class TestcaseParamContainerEditor extends DataEditor{
 		
 		//ParamPageTreeSelector
 		//fieldParamPageTreeSelector = new ParamPageTreeSelectorComponent(paramDataModel);
-		ParamCollectorDataModelAdapter lastParamCollector = selectedNode.getLastParamCollector();
+		StepCollectorDataModelAdapter lastParamCollector = selectedNode.getLastParamCollector();
 		fieldParamPageTreeSelector = new ParamCollectorTreeSelectorComponent( paramDataModel, lastParamCollector, false );		
 		
 		common();
@@ -186,7 +186,7 @@ public class TestcaseParamContainerEditor extends DataEditor{
 		}else{
 
 			//A kivalasztott paramPage
-			ParamCollectorDataModelAdapter paramCollector = fieldParamPageTreeSelector.getSelectedDataModel();			
+			StepCollectorDataModelAdapter paramCollector = fieldParamPageTreeSelector.getSelectedDataModel();			
 			
 			//Uj rogzites eseten
 			if( null == mode ){

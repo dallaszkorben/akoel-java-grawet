@@ -12,12 +12,12 @@ import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamCollectorDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamFolderDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamNormalCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -48,9 +48,9 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	private String name;
 	private String details;
 	
-	private ParamCollectorDataModelAdapter paramCollector;
+	private StepCollectorDataModelAdapter paramCollector;
 	
-	public TestcaseParamContainerDataModel( String name, String details, ParamCollectorDataModelAdapter paramPage ){
+	public TestcaseParamContainerDataModel( String name, String details, StepCollectorDataModelAdapter paramPage ){
 		this.name = name;
 		this.details = details;
 		this.paramCollector = paramPage;
@@ -65,7 +65,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseParamContainerDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel) throws XMLPharseException{
+	public TestcaseParamContainerDataModel( Element element, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel) throws XMLPharseException{
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -140,9 +140,9 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    	String attrName = null;
 	    	
 	    	//Ha PARAMFOLDER
-	    	if( tagName.equals( ParamFolderDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamFolderDataModel.ATTR_NAME);	    		
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMFOLDER, attrName );
+	    	if( tagName.equals( StepFolderDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(StepFolderDataModel.ATTR_NAME);	    		
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPFOLDER, attrName );
 
 	    		if( null == paramDataModel ){
 
@@ -150,9 +150,9 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    		}
 	    		
 	    	//Ha PARAMPAGE
-	    	}else if( tagName.equals( ParamNormalCollectorDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamNormalCollectorDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMNORMALELEMENTCOLLECTOR, attrName );
+	    	}else if( tagName.equals( StepNormalCollectorDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(StepNormalCollectorDataModel.ATTR_NAME);
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPNORMALELEMENTCOLLECTOR, attrName );
 	    		if( null == paramDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
@@ -160,9 +160,9 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    		//paramPage = (ParamPageDataModel)paramDataModel;
 	    		
 //Ha PARAMLOOP
-	    	}else if( tagName.equals( ParamLoopCollectorDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamLoopCollectorDataModel.ATTR_NAME);
-	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.PARAMLOOPELEMENTCOLLECTOR, attrName );
+	    	}else if( tagName.equals( StepLoopCollectorDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(StepLoopCollectorDataModel.ATTR_NAME);
+	    		paramDataModel = (ParamDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPLOOPELEMENTCOLLECTOR, attrName );
 	    		if( null == paramDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
@@ -170,8 +170,8 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    		//paramPage = (ParamLoopDataModel)paramDataModel;
 		    		
 	    	//Ha PARAMELEMENT - ez nem lehet, torold ki ezt a feltetelt
-	    	}else if( tagName.equals( ParamElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(ParamElementDataModel.ATTR_NAME);
+	    	}else if( tagName.equals( StepElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(StepElementDataModel.ATTR_NAME);
 
 	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );	    		
 	    	}else{
@@ -184,7 +184,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    try{
 	    	
 	    	//paramPage = (ParamPageDataModel)paramDataModel;
-	    	paramCollector = (ParamCollectorDataModelAdapter)paramDataModel;
+	    	paramCollector = (StepCollectorDataModelAdapter)paramDataModel;
 	    	
 	    }catch(ClassCastException e){
 
@@ -239,7 +239,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		return name;
 	}
 
-	public void setParamCollector( ParamCollectorDataModelAdapter paramCollector ){
+	public void setParamCollector( StepCollectorDataModelAdapter paramCollector ){
 		this.paramCollector = paramCollector;		
 		
 		//A Gyujtoben beallitja az utoljara vegrehajtott paramPage eleresi utvonalat
@@ -249,7 +249,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		}
 	}
 	
-	public ParamCollectorDataModelAdapter getParamPage(){
+	public StepCollectorDataModelAdapter getParamPage(){
 		return paramCollector;
 	}
 	

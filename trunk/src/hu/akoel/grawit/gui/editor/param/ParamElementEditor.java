@@ -8,9 +8,9 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamCollectorDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ButtonElementTypeOperationsFullListEnum;
@@ -46,9 +46,9 @@ public class ParamElementEditor extends DataEditor{
 	private static final long serialVersionUID = -7285419881714492620L;
 	
 	private Tree tree;
-	private ParamElementDataModel nodeForModify;	
+	private StepElementDataModel nodeForModify;	
 	//private ParamDataModelAdapter nodeForCapture;
-	private ParamCollectorDataModelAdapter nodeForCapture;
+	private StepCollectorDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -69,9 +69,9 @@ public class ParamElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
-	public ParamElementEditor( Tree tree, ParamCollectorDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ParamElementEditor( Tree tree, StepCollectorDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
 
-		super( ParamElementDataModel.getModelNameToShowStatic());
+		super( StepElementDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedPage;
@@ -85,7 +85,7 @@ public class ParamElementEditor extends DataEditor{
 		fieldName.setText( "" );
 
 //BaseElementDataModelAdapter lastBaseElement = ((ParamNormalCollectorDataModel)selectedPage).getLastBaseElement();		
-BaseElementDataModelAdapter lastBaseElement = ((ParamCollectorDataModelAdapter)selectedPage).getLastBaseElement();
+BaseElementDataModelAdapter lastBaseElement = ((StepCollectorDataModelAdapter)selectedPage).getLastBaseElement();
 fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, lastBaseElement, false );		
 		
 /*		if( selectedPage instanceof ParamNormalCollectorDataModel ){
@@ -118,7 +118,7 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 	 * @param mode
 	 */
 	//public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){		
-	public ParamElementEditor( Tree tree, ParamElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){
+	public ParamElementEditor( Tree tree, StepElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){
 
 		super( mode, selectedElement.getNodeTypeToShow());
 
@@ -156,7 +156,7 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 		
 	}
 
-	private void commonPre( final BaseRootDataModel baseRootDataModel, final ParamRootDataModel paramRootDataModel, final VariableRootDataModel variableRootDataModel ){
+	private void commonPre( final BaseRootDataModel baseRootDataModel, final StepRootDataModel paramRootDataModel, final VariableRootDataModel variableRootDataModel ){
 				
 		//Name
 		fieldName = new TextFieldComponent();
@@ -345,10 +345,10 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof ParamElementDataModel ){
+				if( levelNode instanceof StepElementDataModel ){
 					
 					//Ha azonos a nev azzal amit most mentenek
-					if( ((ParamElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((StepElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -385,7 +385,7 @@ fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataMod
 			//Uj rogzites eseten
 			if( null == mode ){			
 				
-				ParamElementDataModel newParamElement = new ParamElementDataModel( fieldName.getText(), baseElement, elementOperation );				
+				StepElementDataModel newParamElement = new StepElementDataModel( fieldName.getText(), baseElement, elementOperation );				
 				nodeForCapture.add( newParamElement );
 				
 				//A new ParamElementDataModel()-ben nem vegrehajthato, mert akkor meg nincs a tree-hez rendelve es igy nincs szuloje

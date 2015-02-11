@@ -27,9 +27,9 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
@@ -46,9 +46,9 @@ public class VariableTree extends Tree{
 
 	private static final long serialVersionUID = 6810815920672285062L;
 	private GUIFrame guiFrame;
-	ParamRootDataModel paramRootDataModel;
+	StepRootDataModel paramRootDataModel;
 	
-	public VariableTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, ParamRootDataModel paramRootDataModel) {
+	public VariableTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, StepRootDataModel paramRootDataModel) {
 		super(guiFrame, variableRootDataModel);
 		this.guiFrame = guiFrame;
 		
@@ -221,13 +221,13 @@ public class VariableTree extends Tree{
 					StringBuilder pathToParamNodeString = new StringBuilder();	
 					TreeNode[] pathArray = foundParamNode.getPath();
 		
-					if( foundParamNode instanceof ParamElementDataModel ){
+					if( foundParamNode instanceof StepElementDataModel ){
 						
-						pathToParamNodeString.append( "(" + ((ParamElementDataModel)foundParamNode).getBaseElement().getName() + ") <= "  ); //Mit talalat
+						pathToParamNodeString.append( "(" + ((StepElementDataModel)foundParamNode).getBaseElement().getName() + ") <= "  ); //Mit talalat
 						
-					}else if( foundParamNode instanceof ParamLoopCollectorDataModel ){
+					}else if( foundParamNode instanceof StepLoopCollectorDataModel ){
 						
-						pathToParamNodeString.append( "(" + ((ParamLoopCollectorDataModel)foundParamNode).getCompareBaseElement().getName() + ") <= "  ); //Mit talalat
+						pathToParamNodeString.append( "(" + ((StepLoopCollectorDataModel)foundParamNode).getCompareBaseElement().getName() + ") <= "  ); //Mit talalat
 						
 					}
 					
@@ -350,10 +350,10 @@ public class VariableTree extends Tree{
 			ParamDataModelAdapter nextParamModel = (ParamDataModelAdapter)enumForParamModel.nextElement();
 		
 			//Ha ParamElementDataModel a vizsgalt node
-			if( nextParamModel instanceof ParamElementDataModel ){
+			if( nextParamModel instanceof StepElementDataModel ){
 				
 				//Megszerzi a ParamElement muveletet
-				operation = ((ParamElementDataModel)nextParamModel).getElementOperation();
+				operation = ((StepElementDataModel)nextParamModel).getElementOperation();
 				
 				//Van benne Variable vonatkozas
 				if( operation instanceof HasVariableOperationInterface ){
@@ -361,15 +361,15 @@ public class VariableTree extends Tree{
 				
 					//Es ha ez megegyezik a keresett nodeToDelete-vel
 					if( variableElement.equals( nodeToDelete ) ){
-						foundDataModel.add((ParamElementDataModel)nextParamModel);
+						foundDataModel.add((StepElementDataModel)nextParamModel);
 					}					
 				}				
 			
 			//Ha ParamLoop
-			}else if( nextParamModel instanceof ParamLoopCollectorDataModel ){
+			}else if( nextParamModel instanceof StepLoopCollectorDataModel ){
 				
 				//Megszerzi a hivatkoztott VariableElement-et
-				operation = ((ParamLoopCollectorDataModel)nextParamModel).getElementOperation();
+				operation = ((StepLoopCollectorDataModel)nextParamModel).getElementOperation();
 				
 				//Van benne Variable vonatkozas
 				if( operation instanceof HasVariableOperationInterface ){
@@ -377,7 +377,7 @@ public class VariableTree extends Tree{
 				
 					//Es ha ez megegyezik a keresett nodeToDelete-vel
 					if( variableElement.equals( nodeToDelete ) ){
-						foundDataModel.add((ParamLoopCollectorDataModel)nextParamModel);
+						foundDataModel.add((StepLoopCollectorDataModel)nextParamModel);
 					}					
 				}				
 			}

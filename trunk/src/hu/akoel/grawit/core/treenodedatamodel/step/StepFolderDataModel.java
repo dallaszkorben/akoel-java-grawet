@@ -15,17 +15,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ParamFolderDataModel extends ParamNodeDataModelAdapter{
+public class StepFolderDataModel extends StepNodeDataModelAdapter{
 
 	private static final long serialVersionUID = -2466202302741284519L;
 	
-	public static final Tag TAG = Tag.PARAMFOLDER;
+	public static final Tag TAG = Tag.STEPFOLDER;
 	
-	public ParamFolderDataModel( String name, String details ){
+	public StepFolderDataModel( String name, String details ){
 		super( name, details );
 	}
 	
-	public ParamFolderDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepFolderDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
 
 		super( element, baseRootDataModel, variableRootDataModel );
 		
@@ -41,16 +41,16 @@ public class ParamFolderDataModel extends ParamNodeDataModelAdapter{
 				Element pageElement = (Element)node;
 				
 				//Ha PARAMPAGE van alatta
-				if( pageElement.getTagName().equals( Tag.PARAMNORMALELEMENTCOLLECTOR.getName() )){					
-					this.add(new ParamNormalCollectorDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
+				if( pageElement.getTagName().equals( Tag.STEPNORMALELEMENTCOLLECTOR.getName() )){					
+					this.add(new StepNormalCollectorDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 
 				//Ha PARAMLOOP van alatta
-				}else if( pageElement.getTagName().equals( Tag.PARAMLOOPELEMENTCOLLECTOR.getName() )){					
-					this.add(new ParamLoopCollectorDataModel(pageElement, variableRootDataModel, baseRootDataModel ) );
+				}else if( pageElement.getTagName().equals( Tag.STEPLOOPELEMENTCOLLECTOR.getName() )){					
+					this.add(new StepLoopCollectorDataModel(pageElement, variableRootDataModel, baseRootDataModel ) );
 						
 				//Ha ujabb PARAMNODE van alatta
-				}else if( pageElement.getTagName().equals( Tag.PARAMFOLDER.getName() )){					
-					this.add(new ParamFolderDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
+				}else if( pageElement.getTagName().equals( Tag.STEPFOLDER.getName() )){					
+					this.add(new StepFolderDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
 				}
 			}
 		}

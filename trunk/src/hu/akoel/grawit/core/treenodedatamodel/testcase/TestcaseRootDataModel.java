@@ -13,7 +13,7 @@ import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFolderDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -48,7 +48,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModelAdapter{
 		this.driver = driver;
 	}
 	
-	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel, DriverDataModelAdapter driverDataModel ) throws XMLPharseException{		
+	public TestcaseRootDataModel( Document doc, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverDataModelAdapter driverDataModel ) throws XMLPharseException{		
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );

@@ -22,16 +22,16 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public abstract class ParamCollectorDataModelAdapter extends ParamNodeDataModelAdapter implements ExecutablePageInterface{ //extends ParamDataModelAdapter implements ExecutablePageInterface{
+public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAdapter implements ExecutablePageInterface{ //extends ParamDataModelAdapter implements ExecutablePageInterface{
 
 	public static final String ATTR_LAST_BASE_ELEMENT_PATH = "lastbaseelementpath";
 	
-	public ParamCollectorDataModelAdapter(Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel) throws XMLPharseException {
+	public StepCollectorDataModelAdapter(Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel) throws XMLPharseException {
 		super(element, baseRootDataModel, variableRootDataModel);
 
 	}
 
-	public ParamCollectorDataModelAdapter(String name, String details) {
+	public StepCollectorDataModelAdapter(String name, String details) {
 		super(name, details);
 	}
 

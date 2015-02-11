@@ -27,9 +27,9 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -44,9 +44,9 @@ public class BaseTree extends Tree{
 
 	private static final long serialVersionUID = -5965897830877262588L;
 	private GUIFrame guiFrame;
-	ParamRootDataModel paramRootDataModel;
+	StepRootDataModel paramRootDataModel;
 	
-	public BaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, ParamRootDataModel paramRootDataModel ) {
+	public BaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel ) {
 		super(guiFrame, baseRootDataModel);
 		this.guiFrame = guiFrame;
 		this.paramRootDataModel = paramRootDataModel;
@@ -307,13 +307,13 @@ public class BaseTree extends Tree{
 					StringBuilder pathToParamNodeString = new StringBuilder();	
 					TreeNode[] pathArray = foundParamNode.getPath();
 		
-					if( foundParamNode instanceof ParamElementDataModel ){
+					if( foundParamNode instanceof StepElementDataModel ){
 						
-						pathToParamNodeString.append( "(" + ((ParamElementDataModel)foundParamNode).getBaseElement().getName() + ") <= "  ); //Mit talalat
+						pathToParamNodeString.append( "(" + ((StepElementDataModel)foundParamNode).getBaseElement().getName() + ") <= "  ); //Mit talalat
 						
-					}else if( foundParamNode instanceof ParamLoopCollectorDataModel ){
+					}else if( foundParamNode instanceof StepLoopCollectorDataModel ){
 						
-						pathToParamNodeString.append( "(" + ((ParamLoopCollectorDataModel)foundParamNode).getCompareBaseElement().getName() + ") <= "  ); //Mit talalat
+						pathToParamNodeString.append( "(" + ((StepLoopCollectorDataModel)foundParamNode).getCompareBaseElement().getName() + ") <= "  ); //Mit talalat
 						
 					}
 					
@@ -435,17 +435,17 @@ public class BaseTree extends Tree{
 			ParamDataModelAdapter nextParamModel = (ParamDataModelAdapter)enumForParamModel.nextElement();
 		
 			//Ha ParamElementDataModel a vizsgalt node
-			if( nextParamModel instanceof ParamElementDataModel ){
+			if( nextParamModel instanceof StepElementDataModel ){
 				
 				//-------------
 				// BASE ELEMENT
 				//-------------
 				//Megszerzi a hivatkoztott BaseElement-et
-				baseElement = ((ParamElementDataModel)nextParamModel).getBaseElement();
+				baseElement = ((StepElementDataModel)nextParamModel).getBaseElement();
 				
 				//Ha ez megegyezik a keresett nodeToDelete-vel
 				if( baseElement.equals( nodeToDelete ) ){
-					foundDataModel.add((ParamElementDataModel)nextParamModel);
+					foundDataModel.add((StepElementDataModel)nextParamModel);
 				
 				}else{
 				
@@ -453,13 +453,13 @@ public class BaseTree extends Tree{
 					// OPERATION-BASE ELEMENT
 					//-----------------------
 					//Megszerzi a hivatkoztott elem Operation-jat
-					elementOperation = ((ParamElementDataModel)nextParamModel).getElementOperation();
+					elementOperation = ((StepElementDataModel)nextParamModel).getElementOperation();
 					if( elementOperation instanceof HasElementOperationInterface ){
 						baseElement = ((HasElementOperationInterface)elementOperation).getBaseElement();
 					
 						//Ha ez megegyezik a keresett nodeToDelete-vel
 						if( baseElement.equals( nodeToDelete ) ){
-							foundDataModel.add((ParamElementDataModel)nextParamModel);
+							foundDataModel.add((StepElementDataModel)nextParamModel);
 						}
 					
 					}
@@ -467,17 +467,17 @@ public class BaseTree extends Tree{
 				}
 			
 			//Ha ParamLoop
-			}else if( nextParamModel instanceof ParamLoopCollectorDataModel ){
+			}else if( nextParamModel instanceof StepLoopCollectorDataModel ){
 				
 				//-------------
 				// BASE ELEMENT
 				//-------------
 				//Megszerzi a hivatkoztott BaseElement-et
-				baseElement = ((ParamLoopCollectorDataModel)nextParamModel).getCompareBaseElement();
+				baseElement = ((StepLoopCollectorDataModel)nextParamModel).getCompareBaseElement();
 				
 				//Ha ez megegyezik a keresett nodeToDelete-vel
 				if( baseElement.equals( nodeToDelete ) ){
-					foundDataModel.add((ParamLoopCollectorDataModel)nextParamModel);
+					foundDataModel.add((StepLoopCollectorDataModel)nextParamModel);
 				
 				}else{
 					
@@ -485,13 +485,13 @@ public class BaseTree extends Tree{
 					// OPERATION-BASE ELEMENT
 					//-----------------------
 					//Megszerzi a hivatkoztott elem Operation-jat
-					elementOperation = ((ParamLoopCollectorDataModel)nextParamModel).getElementOperation();
+					elementOperation = ((StepLoopCollectorDataModel)nextParamModel).getElementOperation();
 					if( elementOperation instanceof HasElementOperationInterface ){
 						baseElement = ((HasElementOperationInterface)elementOperation).getBaseElement();
 					
 						//Ha ez megegyezik a keresett nodeToDelete-vel
 						if( baseElement.equals( nodeToDelete ) ){
-							foundDataModel.add((ParamLoopCollectorDataModel)nextParamModel);
+							foundDataModel.add((StepLoopCollectorDataModel)nextParamModel);
 						}
 					
 					}

@@ -6,8 +6,8 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamFolderDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.ParamNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -21,8 +21,8 @@ public class ParamNormalCollectorEditor extends DataEditor{
 	private static final long serialVersionUID = -9038879802467565947L;
 
 	private Tree tree; 
-	private ParamNormalCollectorDataModel nodeForModify;
-	private ParamFolderDataModel nodeForCapture;
+	private StepNormalCollectorDataModel nodeForModify;
+	private StepFolderDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -32,9 +32,9 @@ public class ParamNormalCollectorEditor extends DataEditor{
 	//private BaseCollectorTreeSelectorComponent fieldBasePageSelector;
 	
 	//Itt biztos beszuras van
-	public ParamNormalCollectorEditor( Tree tree, ParamFolderDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
+	public ParamNormalCollectorEditor( Tree tree, StepFolderDataModel selectedNode, BaseRootDataModel baseRootDataModel ){
 
-		super( ParamNormalCollectorDataModel.getModelNameToShowStatic());
+		super( StepNormalCollectorDataModel.getModelNameToShowStatic());
 				
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -55,7 +55,7 @@ public class ParamNormalCollectorEditor extends DataEditor{
 	}
 	
 	//Itt lehet hogy modositas vagy megtekintes van
-	public ParamNormalCollectorEditor( Tree tree, ParamNormalCollectorDataModel selectedCollector, BaseRootDataModel baseRootDataModel, EditMode mode ){
+	public ParamNormalCollectorEditor( Tree tree, StepNormalCollectorDataModel selectedCollector, BaseRootDataModel baseRootDataModel, EditMode mode ){
 
 		super( mode, selectedCollector.getNodeTypeToShow());
 
@@ -147,10 +147,10 @@ public class ParamNormalCollectorEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Page-rol van szo (Lehetne meg NODE is)
-				if( levelNode instanceof ParamNormalCollectorDataModel ){
+				if( levelNode instanceof StepNormalCollectorDataModel ){
 					
 					//Ha azonos a nev
-					if( ((ParamNormalCollectorDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((StepNormalCollectorDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -182,7 +182,7 @@ public class ParamNormalCollectorEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){				
 				
-				ParamNormalCollectorDataModel newParamPage = new ParamNormalCollectorDataModel( fieldName.getText(), fieldDetails.getText() );
+				StepNormalCollectorDataModel newParamPage = new StepNormalCollectorDataModel( fieldName.getText(), fieldDetails.getText() );
 				nodeForCapture.add( newParamPage );
 				
 			//Modositas eseten

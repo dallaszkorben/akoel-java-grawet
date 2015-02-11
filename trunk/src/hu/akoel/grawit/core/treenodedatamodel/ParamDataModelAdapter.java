@@ -10,7 +10,7 @@ public abstract class ParamDataModelAdapter extends DataModelAdapter{
 	public abstract void add( ParamDataModelAdapter node );
 	
 	public static Tag getRootTag(){
-		return Tag.PARAMROOT;
+		return Tag.STEPROOT;
 	}
 }
 
