@@ -26,14 +26,11 @@ public class NormalBaseElementEditor extends DataEditor{
 	
 	private Tree tree;
 	private NormalBaseElementDataModel nodeForModify;
-//	private BasePageDataModel nodeForCapture;
 	private BaseDataModelAdapter nodeForCapture;	
 	private EditMode mode;
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
-	private JLabel labelFrame;
-	private TextFieldComponent fieldFrame;
 	private JLabel labelIdentifier;
 	private TextFieldComponent fieldIdentifier;
 	private ComboBoxComponent<ElementTypeListEnum> comboElementType;
@@ -63,9 +60,6 @@ public class NormalBaseElementEditor extends DataEditor{
 		
 		//Name
 		fieldName = new TextFieldComponent( "" );
-		
-		//Frame
-		fieldFrame = new TextFieldComponent( "" );
 
 		//Identifier
 		fieldIdentifier = new TextFieldComponent( "" );
@@ -101,9 +95,6 @@ public class NormalBaseElementEditor extends DataEditor{
 		
 		//Name
 		fieldName = new TextFieldComponent( selectedNode.getName() );
-		
-		//Frame
-		fieldFrame = new TextFieldComponent( selectedNode.getFrame() );
 				
 		//Identifier
 		fieldIdentifier = new TextFieldComponent( selectedNode.getSelector() );
@@ -167,7 +158,6 @@ public class NormalBaseElementEditor extends DataEditor{
 	private void commonPost(){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelFrame = new JLabel( CommonOperations.getTranslation("editor.label.base.frame") + ": ");
 		labelIdentifier = new JLabel( CommonOperations.getTranslation("editor.label.base.identifier") + ": ");
 		labelWaitingTimeForAppearance = new JLabel( CommonOperations.getTranslation("editor.label.base.waitingtimeforappearance") + ": ");
 		labelWaitingTimeBeforeOperation = new JLabel( CommonOperations.getTranslation("editor.label.base.waitingtimebeforeoperation") + ": ");
@@ -178,7 +168,6 @@ public class NormalBaseElementEditor extends DataEditor{
 		
 		this.add( labelName, fieldName );
 		this.add( labelElementType, comboElementType );
-		this.add( labelFrame, fieldFrame );
 		this.add( labelWaitingTimeForAppearance, fieldWaitingTimeForAppearance );
 		this.add( labelWaitingTimeBeforeOperation, fieldWaitingTimeBeforeOperation );
 		this.add( labelWaitingTimeAfterOperation, fieldWaitingTimeAfterOperation );
@@ -303,7 +292,7 @@ public class NormalBaseElementEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 								
-				NormalBaseElementDataModel newBaseElement = new NormalBaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, waitingTimeForApperance, waitingTimeBeforeOperation, waitingTimeAfterOperation, fieldFrame.getText()  );
+				NormalBaseElementDataModel newBaseElement = new NormalBaseElementDataModel( fieldName.getText(), elementType, fieldIdentifier.getText(), identificationType, waitingTimeForApperance, waitingTimeBeforeOperation, waitingTimeAfterOperation );
 			
 				nodeForCapture.add( newBaseElement );
 			
@@ -311,7 +300,7 @@ public class NormalBaseElementEditor extends DataEditor{
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
 				nodeForModify.setName( fieldName.getText() );
-				nodeForModify.setFrame( fieldFrame.getText() );
+
 				nodeForModify.setIdentifier( fieldIdentifier.getText() );
 				nodeForModify.setElementType(elementType);
 				nodeForModify.setWaitingTimeForAppearance(waitingTimeForApperance);

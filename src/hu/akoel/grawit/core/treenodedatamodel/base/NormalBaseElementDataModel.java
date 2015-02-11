@@ -22,14 +22,12 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	public static final String ATTR_ELEMENT_TYPE="elementtype";
 	public static final String ATTR_IDENTIFIER = "identifier";
 	public static final String ATTR_IDENTIFICATION_TYPE = "identificationtype";
-	public static final String ATTR_FRAME = "frame";
 	public static final String ATTR_WAITINGTIME_FOR_APPEARANCE = "waitingtimeforappearance";
 	public static final String ATTR_WAITINGTIME_BEFORE_OPERATION = "waitingtimebeforeoperation";
 	public static final String ATTR_WAITINGTIME_AFTER_OPERATION = "waitingtimeafteroperation";
 	
 	//Adatmodel ---
 	private ElementTypeListEnum elementType;
-	private String frame;
 	private String identifier;
 	private SelectorType identificationType;
 	private Integer waitingTimeForAppearance = null;
@@ -47,7 +45,7 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	 * @param identificationType
 	 * @param frame
 	 */
-	public NormalBaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTimeForAppearance, Integer waitingTimeBeforeOperation, Integer waitingTimeAfterOperation, String frame){
+	public NormalBaseElementDataModel(String name, ElementTypeListEnum elementType, String identifier, SelectorType identificationType, Integer waitingTimeForAppearance, Integer waitingTimeBeforeOperation, Integer waitingTimeAfterOperation){
 		super( name );
 		
 		this.elementType = elementType;
@@ -56,7 +54,7 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		this.waitingTimeForAppearance = waitingTimeForAppearance;
 		this.waitingTimeBeforeOperation = waitingTimeBeforeOperation;
 		this.waitingTimeAfterOperation = waitingTimeAfterOperation;
-		this.frame = frame;
+//		this.frame = frame;
 	}
 
 	/**
@@ -69,14 +67,7 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	 */
 	public NormalBaseElementDataModel( Element element ) throws XMLPharseException{
 		super( element );
-		
-		//frame             
-		if( !element.hasAttribute( ATTR_FRAME ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_FRAME );			
-		}
-		String frameString = element.getAttribute( ATTR_FRAME );
-		this.frame = frameString;
-		
+			
 		//identifier             
 		if( !element.hasAttribute( ATTR_IDENTIFIER ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_IDENTIFIER );			
@@ -195,14 +186,6 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	public void setIdentificationType(SelectorType identificationType) {
 		this.identificationType = identificationType;
 	}
-
-	public String getFrame(){
-		return frame;
-	}
-	
-	public void setFrame( String frame ){
-		this.frame = frame;
-	}
 	
 	@Override
 	public void add(BaseDataModelAdapter node) {
@@ -225,10 +208,7 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		
 		Attr attr;
 
-		//Node element
-		attr = document.createAttribute( ATTR_FRAME);
-		attr.setValue( getFrame() );
-		elementElement.setAttributeNode(attr);	
+		//Node elements
 		
 		attr = document.createAttribute( ATTR_IDENTIFIER );
 		attr.setValue( getSelector() );
@@ -276,7 +256,6 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 		NormalBaseElementDataModel cloned = (NormalBaseElementDataModel)super.clone();
 	
 		//Es a valtozoit is klonozni kell
-		cloned.frame = new String(this.frame);
 		cloned.identifier = new String( this.identifier );
 		cloned.identificationType = this.identificationType;	//TODO kedes, hogy jo-e
 		cloned.elementType = this.elementType;					//TODO Kerde, hogy jo-e
