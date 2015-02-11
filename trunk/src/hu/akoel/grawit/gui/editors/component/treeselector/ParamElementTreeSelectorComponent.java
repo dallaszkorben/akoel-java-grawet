@@ -4,11 +4,11 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamFolderDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNodeDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamNormalCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.param.ParamRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.ParamElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.ParamFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.ParamNodeDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.ParamNormalCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.ParamRootDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
