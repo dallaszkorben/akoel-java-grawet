@@ -183,8 +183,6 @@ public class StepElementDataModel extends StepDataModelAdapter {
 			}	    	
 		}
 		
-//TODO duplikacio megszuntetese. ugyan ez van a SpecialElementTypeComponent.java-ban TestCaseControlLoop is, csak egy kicsit maskent	    
-	    
 		//=============================
 		//
 		// Operation a muvelet alapjan
@@ -193,7 +191,6 @@ public class StepElementDataModel extends StepDataModelAdapter {
 		if( !element.hasAttribute( ATTR_OPERATION ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_OPERATION );			
 		}
-		String operationString = element.getAttribute( ATTR_OPERATION );		
 
 		elementOperation = CommonOperations.getElementOperation( element, baseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, variableRootDataModel );
 
