@@ -12,9 +12,11 @@ public enum ListElementTypeOperationsFullListEnum implements ElementTypeOperatio
 	COMPARE_TO_VARIABLE( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparetovariable") ),
 	COMPARE_TO_STORED( 6, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparetostored") ),
 	COMPARE_TO_STRING( 7, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparetostring") ),
-//	GAIN_TO_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.step.elementtype.list.gaintovariable") ),
-	GAIN_TO_ELEMENT( 8, CommonOperations.getTranslation( "editor.label.step.elementtype.list.gaintoelement") ),
-	OUTPUTSTORED( 9, CommonOperations.getTranslation( "editor.label.step.elementtype.list.outputstored") ),	
+	CONTAIN_VARIABLE( 8, CommonOperations.getTranslation( "editor.label.step.elementtype.list.containsvariable") ),
+	CONTAIN_STORED( 9, CommonOperations.getTranslation( "editor.label.step.elementtype.list.containsstored") ),
+	CONTAIN_STRING( 10, CommonOperations.getTranslation( "editor.label.step.elementtype.list.containsstring") ),
+	GAIN_TO_ELEMENT( 11, CommonOperations.getTranslation( "editor.label.step.elementtype.list.gaintoelement") ),
+	OUTPUTSTORED( 12, CommonOperations.getTranslation( "editor.label.step.elementtype.list.outputstored") ),	
 	;
 	
 	private String translatedName;
@@ -50,9 +52,11 @@ public enum ListElementTypeOperationsFullListEnum implements ElementTypeOperatio
 		case 5: return COMPARE_TO_VARIABLE;
 		case 6: return COMPARE_TO_STORED;
 		case 7: return COMPARE_TO_STRING;
-//		case 8: return GAIN_TO_VARIABLE;
-		case 8: return GAIN_TO_ELEMENT;	
-		case 9: return OUTPUTSTORED;
+		case 8: return CONTAIN_VARIABLE;
+		case 9: return CONTAIN_STORED;
+		case 10: return CONTAIN_STRING;		
+		case 11: return GAIN_TO_ELEMENT;	
+		case 12: return OUTPUTSTORED;
 		default: return CLICK;		
 		
 		}
