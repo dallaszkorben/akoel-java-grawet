@@ -131,7 +131,7 @@ public class StepFolderEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.step.node") 
+										CommonOperations.getTranslation("tree.nodetype.step.folder") 
 								) 
 							);	
 							break;

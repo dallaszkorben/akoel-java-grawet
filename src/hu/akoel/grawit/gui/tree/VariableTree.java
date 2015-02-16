@@ -251,7 +251,7 @@ public class VariableTree extends Tree{
 					
 					JOptionPane.showMessageDialog(
 							guiFrame,
-							"Nem torolheto\n Hivatkozas tortenik a (Base elemre) => a megadott eleresu Param elemekben\n\n"+ 
+							"Nem torolheto\n Hivatkozas tortenik a (Variable-re) => a megadott eleresu Step elemekben\n\n"+ 
 							
 							listMessage,
 							"ablak cime",
