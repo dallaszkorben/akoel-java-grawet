@@ -6,13 +6,13 @@ public enum Tag{
 	BASECOLLECTOR("collector"),							
 	BASEELEMENT("element"),
 	
-	STEPROOT("param"),									
+	STEPROOT("step"),									
 	STEPFOLDER("node"),
 	STEPNORMALELEMENTCOLLECTOR("normalelementcollector"),		
 	STEPLOOPELEMENTCOLLECTOR("loopelementcollector"),			
 	STEPELEMENT("element"),
 	
-	CONSTANTROOT("variable"),
+	CONSTANTROOT("constant"),
 	CONSTANTFOLDER("node"),
 	CONSTANTELEMENT("element"),
 	CONSTANTPARAMETER("parameter"),		
@@ -20,7 +20,7 @@ public enum Tag{
 	TESTCASEROOT("testcase"),
 	TESTCASEFOLDER("node"),
 	TESTCASECASE("case"),
-	TESTCASEPARAMCOLLECTOR("paramcollector"),				
+	TESTCASESTEPCOLLECTOR("stepcollector"),				
 	TESTCASECUSTOMPAGE("custom"),	
 
 	RUNROOT("run"),
