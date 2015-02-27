@@ -15,12 +15,12 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
-import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
-import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
+import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.operations.HasVariableOperationInterface;
+import hu.akoel.grawit.core.operations.HasConstantOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
@@ -356,8 +356,8 @@ public class VariableTree extends Tree{
 				operation = ((StepElementDataModel)nextParamModel).getElementOperation();
 				
 				//Van benne Variable vonatkozas
-				if( operation instanceof HasVariableOperationInterface ){
-					variableElement = ((HasVariableOperationInterface)operation).getVariableElement();
+				if( operation instanceof HasConstantOperationInterface ){
+					variableElement = ((HasConstantOperationInterface)operation).getConstantElement();
 				
 					//Es ha ez megegyezik a keresett nodeToDelete-vel
 					if( variableElement.equals( nodeToDelete ) ){
@@ -372,8 +372,8 @@ public class VariableTree extends Tree{
 				operation = ((StepLoopCollectorDataModel)nextParamModel).getElementOperation();
 				
 				//Van benne Variable vonatkozas
-				if( operation instanceof HasVariableOperationInterface ){
-					variableElement = ((HasVariableOperationInterface)operation).getVariableElement();
+				if( operation instanceof HasConstantOperationInterface ){
+					variableElement = ((HasConstantOperationInterface)operation).getConstantElement();
 				
 					//Es ha ez megegyezik a keresett nodeToDelete-vel
 					if( variableElement.equals( nodeToDelete ) ){

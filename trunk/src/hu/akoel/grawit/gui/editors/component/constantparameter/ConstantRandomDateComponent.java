@@ -3,7 +3,7 @@ package hu.akoel.grawit.gui.editors.component.constantparameter;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.enums.list.DateFormListEnum;
-import hu.akoel.grawit.enums.list.VariableTypeListEnum;
+import hu.akoel.grawit.enums.list.ConstantTypeListEnum;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -52,7 +52,7 @@ public class ConstantRandomDateComponent extends JPanel implements ConstantCompo
 	 * 
 	 * @param type
 	 */
-	public ConstantRandomDateComponent( VariableTypeListEnum type ){
+	public ConstantRandomDateComponent( ConstantTypeListEnum type ){
 		super();
 		
 		this.parameterList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class ConstantRandomDateComponent extends JPanel implements ConstantCompo
 	 * @param type
 	 * @param parameterList
 	 */
-	public ConstantRandomDateComponent( VariableTypeListEnum type, ArrayList<Object> parameterList ){
+	public ConstantRandomDateComponent( ConstantTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -82,7 +82,7 @@ public class ConstantRandomDateComponent extends JPanel implements ConstantCompo
 		
 	}
 	
-	private void common( VariableTypeListEnum type ){
+	private void common( ConstantTypeListEnum type ){
 		
 		this.setLayout( new GridBagLayout() );
 		

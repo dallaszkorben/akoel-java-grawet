@@ -6,7 +6,7 @@ import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.SpecialBaseAddStoreToParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddVariableToParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseAddConstantToParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
@@ -159,9 +159,9 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 				comboOperationList.setSelectedIndex(E.CLEAR_PARAMETERS.getIndex());
 							
 			//ADD_VARIABLE_TO_PARAMETERS
-			}else if( elementOperation instanceof SpecialBaseAddVariableToParametersOperation ){
+			}else if( elementOperation instanceof SpecialBaseAddConstantToParametersOperation ){
 								
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((SpecialBaseAddVariableToParametersOperation)elementOperation).getVariableElement() );
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((SpecialBaseAddConstantToParametersOperation)elementOperation).getConstantElement() );
 				comboOperationList.setSelectedIndex(E.ADD_VARIABLE_TO_PARAMETERS.getIndex());
 
 			//ADD_STORED_TO_PARAMETERS
@@ -301,7 +301,7 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 			
 		//ADD_VARIABLE_TO_PARAMETERS
 		}else if(comboOperationList.getSelectedIndex() ==  E.ADD_VARIABLE_TO_PARAMETERS.getIndex() ){
-			return new SpecialBaseAddVariableToParametersOperation( fieldVariableSelector.getSelectedDataModel() );
+			return new SpecialBaseAddConstantToParametersOperation( fieldVariableSelector.getSelectedDataModel() );
 			
 		//ADD_STRING_TO_PARAMETERS
 		}else if( comboOperationList.getSelectedIndex() ==  E.ADD_STRING_TO_PARAMETERS.getIndex() ){

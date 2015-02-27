@@ -21,27 +21,25 @@ import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 
-public class SelectVariableElementOperation extends SelectOperationAdapter implements HasVariableOperationInterface{
+public class SelectConstantElementOperation extends SelectOperationAdapter implements HasConstantOperationInterface{
 	
 	private static final String NAME = "SELECTVARIABLEELEMENT";
 	private static final String ATTR_SELECTION_BY = "selectionby";
-	private static final String ATTR_SELECT_VARIABLE_ELEMENT_PATH = "selectvariableelementpath";
-//	private static final String ATTR_SELECT_BASE_ELEMENT_PATH = "selectbaseelementpath";
-//	private static final String ATTR_SELECT_STRING = "selectstring";
+	private static final String ATTR_SELECT_CONSTANT_ELEMENT_PATH = "selectvariableelementpath";
 	
 	//--- Data model
-	private ConstantElementDataModel variableElementDataModel;
+	private ConstantElementDataModel constantElementDataModel;
 	private ListSelectionByListEnum selectionBy;
 	//----
 	
-	public SelectVariableElementOperation( ConstantElementDataModel variableElementDataModel, ListSelectionByListEnum selectionBy ){
-		this.variableElementDataModel = variableElementDataModel;
+	public SelectConstantElementOperation( ConstantElementDataModel constantElementDataModel, ListSelectionByListEnum selectionBy ){
+		this.constantElementDataModel = constantElementDataModel;
 		this.selectionBy = selectionBy;
 	}
 	
-	public SelectVariableElementOperation( Element element, ConstantRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public SelectConstantElementOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		ConstantDataModelAdapter variableDataModelForSelect = variableRootDataModel;
+		ConstantDataModelAdapter constantDataModelForSelect = constantRootDataModel;
 		
 		//SELECTION BY
 		if( !element.hasAttribute( ATTR_SELECTION_BY ) ){
@@ -58,25 +56,25 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 			selectionBy = ListSelectionByListEnum.BYVISIBLETEXT;
 		}		
 		
-		//SELECT VARIABLE ELEMENT
-		if( !element.hasAttribute( ATTR_SELECT_VARIABLE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_SELECT_VARIABLE_ELEMENT_PATH );	
+		//SELECT CONSTANT ELEMENT
+		if( !element.hasAttribute( ATTR_SELECT_CONSTANT_ELEMENT_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_SELECT_CONSTANT_ELEMENT_PATH );	
 		}
-		String variableElementPathString = element.getAttribute(ATTR_SELECT_VARIABLE_ELEMENT_PATH);				
-		variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
+		String constantElementPathString = element.getAttribute(ATTR_SELECT_CONSTANT_ELEMENT_PATH);				
+		constantElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + constantElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
 	    Document document = null;
 	    try{  
 	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( variableElementPathString ) ) );  
+	        document = builder.parse( new InputSource( new StringReader( constantElementPathString ) ) );  
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_SELECT_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_VARIABLE_ELEMENT_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_SELECT_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_CONSTANT_ELEMENT_PATH), e );
 	    } 
 
-	    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
+	    //Megkeresem a CONSTANTROOT-ben a CONSTANTELEMENT-hez vezeto utat
 	    Node actualNode = document;
 	    while( actualNode.hasChildNodes() ){
 		
@@ -85,39 +83,39 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 	    	String tagName = actualElement.getTagName();
 	    	String attrName = null;
 	    	
-	    	//Ha VARIABLENODE
+	    	//Ha CONSTANTNODE
 	    	if( tagName.equals( ConstantFolderNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ConstantFolderNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForSelect = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.CONSTANTFOLDER, attrName );
+	    		constantDataModelForSelect = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( constantDataModelForSelect, Tag.CONSTANTFOLDER, attrName );
 
-	    		if( null == variableDataModelForSelect ){
+	    		if( null == constantDataModelForSelect ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_SELECT_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_SELECT_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_CONSTANT_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha VARIABLEELEMENT
+	    	//Ha CONSTANTELEMENT
 	    	}else if( tagName.equals( ConstantElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ConstantElementDataModel.ATTR_NAME);
-	    		variableDataModelForSelect = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.CONSTANTELEMENT, attrName );
+	    		constantDataModelForSelect = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( constantDataModelForSelect, Tag.CONSTANTELEMENT, attrName );
 	    		
-	    		if( null == variableDataModelForSelect ){
+	    		if( null == constantDataModelForSelect ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_SELECT_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_SELECT_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_CONSTANT_ELEMENT_PATH) );
 	    		}
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_SELECT_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_VARIABLE_ELEMENT_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_SELECT_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_CONSTANT_ELEMENT_PATH) );	    		
 	    	}
 	    }	    
 	    try{
 	    	
-	    	this.variableElementDataModel = (ConstantElementDataModel)variableDataModelForSelect;
+	    	this.constantElementDataModel = (ConstantElementDataModel)constantDataModelForSelect;
 	    	
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_SELECT_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_VARIABLE_ELEMENT_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_SELECT_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_SELECT_CONSTANT_ELEMENT_PATH ), e );
 	    }
 	}
 	
@@ -128,12 +126,12 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 
 	@Override
 	public String getStringToSelection() {	
-		return variableElementDataModel.getValue();
+		return constantElementDataModel.getValue();
 	}
 
 	@Override
-	public ConstantElementDataModel getVariableElement() {
-		return variableElementDataModel;
+	public ConstantElementDataModel getConstantElement() {
+		return constantElementDataModel;
 	}
 	
 	public static String getStaticName(){
@@ -147,8 +145,8 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		Attr attr = document.createAttribute( ATTR_SELECT_VARIABLE_ELEMENT_PATH );
-		attr.setValue( variableElementDataModel.getPathTag() );
+		Attr attr = document.createAttribute( ATTR_SELECT_CONSTANT_ELEMENT_PATH );
+		attr.setValue( constantElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );		
 		
 		attr = document.createAttribute( ATTR_SELECTION_BY );
@@ -159,11 +157,11 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 	@Override
 	public Object clone() {
 		
-		return new SelectVariableElementOperation(variableElementDataModel, selectionBy);
+		return new SelectConstantElementOperation(constantElementDataModel, selectionBy);
 	}
 
 	@Override
 	public String getOperationToString() {		
-		return "SelectListElementByVariable()";
+		return "SelectListElementByConstant()";
 	}
 }

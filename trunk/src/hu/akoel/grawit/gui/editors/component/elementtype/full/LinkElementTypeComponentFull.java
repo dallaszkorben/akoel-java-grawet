@@ -5,7 +5,7 @@ import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
-import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
@@ -207,11 +207,11 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
 			//COMPARE TEXT TO VARIABLE
-			}else if( elementOperation instanceof CompareTextToVariableOperation ){
+			}else if( elementOperation instanceof CompareTextToConstantOperation ){
 				
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareTextToVariableOperation)elementOperation).getVariableElement() );				
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareTextToConstantOperation)elementOperation).getConstantElement() );				
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_VARIABLE.getIndex());
-				comboCompareTypeList.setSelectedIndex( ((CompareTextToVariableOperation)elementOperation).getCompareType().getIndex() );
+				comboCompareTypeList.setSelectedIndex( ((CompareTextToConstantOperation)elementOperation).getCompareType().getIndex() );
 
 			//COMPARE TEXT TO STORED
 			}else if( elementOperation instanceof CompareTextToStoredElementOperation ){
@@ -462,7 +462,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 						
 		//COMPARE TEXT TO VARIABLE
 		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_VARIABLE.getIndex() ){
-			return new CompareTextToVariableOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
+			return new CompareTextToConstantOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 						
 		//COMPARE TEXT TO STRING
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STRING.getIndex() ){

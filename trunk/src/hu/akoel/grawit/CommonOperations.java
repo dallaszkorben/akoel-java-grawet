@@ -5,30 +5,30 @@ import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ClickRightOperation;
 import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareListToStringOperation;
-import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
-import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
-import hu.akoel.grawit.core.operations.CompareValueToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
 import hu.akoel.grawit.core.operations.ContainListStoredElementOperation;
 import hu.akoel.grawit.core.operations.ContainListStringOperation;
-import hu.akoel.grawit.core.operations.ContainListVariableOperation;
+import hu.akoel.grawit.core.operations.ContainListConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
-import hu.akoel.grawit.core.operations.FillWithVariableElementOperation;
+import hu.akoel.grawit.core.operations.FillWithConstantElementOperation;
 import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
-import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
+import hu.akoel.grawit.core.operations.SelectConstantElementOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseAddStoreToParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddVariableToParametersOperation;
+import hu.akoel.grawit.core.operations.SpecialBaseAddConstantToParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
@@ -41,7 +41,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
-import hu.akoel.grawit.enums.list.VariableTypeListEnum;
+import hu.akoel.grawit.enums.list.ConstantTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLWrongAttributePharseException;
@@ -224,11 +224,11 @@ public class CommonOperations {
 		 private ArrayList<Object> parameterList;
 		 private String defaultValue;
 		 private int parameterOrder;
-		 private VariableTypeListEnum type;
+		 private ConstantTypeListEnum type;
 			
 		 String goodValue = defaultValue;
 			
-		 public ValueVerifier( ArrayList<Object> parameterList, VariableTypeListEnum type, String defaultValue, int parameterOrder ){
+		 public ValueVerifier( ArrayList<Object> parameterList, ConstantTypeListEnum type, String defaultValue, int parameterOrder ){
 			 this.parameterList = parameterList;
 			 this.defaultValue = defaultValue;
 			 this.parameterOrder = parameterOrder;
@@ -283,8 +283,8 @@ public class CommonOperations {
 						elementOperation = new SpecialBaseAddStoreToParametersOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName()  );
 					
 						//ADD_VARIABLE_TO_PARAMETERS
-					}else if( operationString.equals( SpecialBaseAddVariableToParametersOperation.getStaticName() ) ){
-						elementOperation = new SpecialBaseAddVariableToParametersOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+					}else if( operationString.equals( SpecialBaseAddConstantToParametersOperation.getStaticName() ) ){
+						elementOperation = new SpecialBaseAddConstantToParametersOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 					
 						//ADD_STRING_TO_PARAMETERS
 					}else if( operationString.equals( SpecialBaseAddStringToParametersOperation.getStaticName() ) ){
@@ -324,9 +324,9 @@ public class CommonOperations {
 						elementOperation = new ClickLeftOperation();
 					
 					//COMPARE TEXT TO VARIABLE
-					}else if( operationString.equals( CompareTextToVariableOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareTextToConstantOperation.getStaticName() ) ){
 				
-						elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareTextToConstantOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 				
 					//COMPARE TEXT TO STORED
 					}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
@@ -381,9 +381,9 @@ public class CommonOperations {
 						elementOperation = new ClickLeftOperation();
 				
 					//COMPARE VALUE TO VARIABLE
-					}else if( operationString.equals( CompareValueToVariableOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareValueToConstantOperation.getStaticName() ) ){
 				
-						elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareValueToConstantOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 
 					//COMPARE VALUE TO STORED
 					}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
@@ -428,9 +428,9 @@ public class CommonOperations {
 						elementOperation = new ClickLeftOperation();
 				
 					//COMPARE TEXT TO VARIABLE
-					}else if( operationString.equals( CompareTextToVariableOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareTextToConstantOperation.getStaticName() ) ){
 	
-						elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareTextToConstantOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 	
 					//COMPARE TEXT TO STORED
 					}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
@@ -443,9 +443,9 @@ public class CommonOperations {
 						elementOperation = new CompareTextToStringOperation( element, rootTag, dataModel.getTag() );
 				
 					//COMPARE VALUE TO VARIABLE
-					}else if( operationString.equals( CompareValueToVariableOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareValueToConstantOperation.getStaticName() ) ){
 				
-						elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareValueToConstantOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 
 					//COMPARE VALUE TO STORED
 					}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
@@ -500,9 +500,9 @@ public class CommonOperations {
 						elementOperation = new TabOperation();
 				
 					//FILL VARIABLE
-					}else if( operationString.equals( FillWithVariableElementOperation.getStaticName() ) ){
+					}else if( operationString.equals( FillWithConstantElementOperation.getStaticName() ) ){
 				
-						elementOperation = new FillWithVariableElementOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new FillWithConstantElementOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 				
 					//FILL BASEELEMENT
 					}else if( operationString.equals( FillWithBaseElementOperation.getStaticName() ) ){
@@ -515,9 +515,9 @@ public class CommonOperations {
 						elementOperation = new FillWithStringOperation( element, rootTag, dataModel.getTag() );
 				
 					//COMPARE VALUE TO VARIABLE
-					}else if( operationString.equals( CompareValueToVariableOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareValueToConstantOperation.getStaticName() ) ){
 				
-						elementOperation = new CompareValueToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareValueToConstantOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 
 					//COMPARE VALUE TO STORED
 					}else if( operationString.equals( CompareValueToStoredElementOperation.getStaticName() ) ){
@@ -556,9 +556,9 @@ public class CommonOperations {
 				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.TEXT ) ){
 			
 					//COMPARE TEXT TO VARIABLE
-					if( operationString.equals( CompareTextToVariableOperation.getStaticName() ) ){
+					if( operationString.equals( CompareTextToConstantOperation.getStaticName() ) ){
 				
-						elementOperation = new CompareTextToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareTextToConstantOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 				
 					//COMPARE TEXT TO STORED
 					}else if( operationString.equals( CompareTextToStoredElementOperation.getStaticName() ) ){
@@ -606,9 +606,9 @@ public class CommonOperations {
 				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.LIST ) ){
 						
 					//Select Variable Element
-					if( operationString.equals( SelectVariableElementOperation.getStaticName() ) ){
+					if( operationString.equals( SelectConstantElementOperation.getStaticName() ) ){
 				
-						elementOperation = new SelectVariableElementOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new SelectConstantElementOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 				
 					//Select Base Element
 					}else if( operationString.equals( SelectBaseElementOperation.getStaticName() ) ){
@@ -631,9 +631,9 @@ public class CommonOperations {
 						elementOperation = new TabOperation( );
 	
 					//CONTAIN VARIABLE
-					}else if( operationString.equals( ContainListVariableOperation.getStaticName() ) ){
+					}else if( operationString.equals( ContainListConstantOperation.getStaticName() ) ){
 					
-						elementOperation = new ContainListVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new ContainListConstantOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 
 					//CONTAIN STORED
 					}else if( operationString.equals( ContainListStoredElementOperation.getStaticName() ) ){
@@ -647,9 +647,9 @@ public class CommonOperations {
 						
 						
 					//COMPARE TO VARIABLE
-					}else if( operationString.equals( CompareListToVariableOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareListToConstantOperation.getStaticName() ) ){
 				
-						elementOperation = new CompareListToVariableOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareListToConstantOperation( element, variableRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 
 					//COMPARE TO STORED
 					}else if( operationString.equals( CompareListToStoredElementOperation.getStaticName() ) ){

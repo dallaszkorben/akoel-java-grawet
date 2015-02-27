@@ -33,10 +33,10 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class CompareListToVariableOperation extends ElementOperationAdapter implements HasVariableOperationInterface{
+public class CompareListToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
 	
 	private static final String NAME = "COMPARETOVARIABLE";	
-	private static final String ATTR_COMPARE_VARIABLE_ELEMENT_PATH = "comparevariableelementpath";
+	private static final String ATTR_COMPARE_CONSTANT_ELEMENT_PATH = "comparevariableelementpath";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_COMPARE_BY = "compareby";
@@ -44,14 +44,14 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 	// Model
 	private String stringPattern;
 	private ListCompareByListEnum compareBy;
-	private ConstantElementDataModel variableElementDataModel;
+	private ConstantElementDataModel constantElementDataModel;
 	private CompareTypeListEnum compareType;
 	//---
 	
 	private Pattern pattern;
 	
-	public CompareListToVariableOperation( ConstantElementDataModel variableElementDataModel, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
-		this.variableElementDataModel = variableElementDataModel;
+	public CompareListToConstantOperation( ConstantElementDataModel constantElementDataModel, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
+		this.constantElementDataModel = constantElementDataModel;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
 		this.compareBy = compareBy;
@@ -59,9 +59,9 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 		common( stringPattern );
 	}
 	
-	public CompareListToVariableOperation( Element element, ConstantRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public CompareListToConstantOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		ConstantDataModelAdapter variableDataModelForFillOut = variableRootDataModel;
+		ConstantDataModelAdapter constantDataModelForFillOut = constantRootDataModel;
 		
 		//COMPARE BY
 		String stringCompareBy = "";
@@ -86,21 +86,21 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 		this.compareType = CompareTypeListEnum.valueOf( typeString );
 		
 		//ATTR_COMPARE_VARIABLE_ELEMENT_PATH
-		if( !element.hasAttribute( ATTR_COMPARE_VARIABLE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_VARIABLE_ELEMENT_PATH );		
+		if( !element.hasAttribute( ATTR_COMPARE_CONSTANT_ELEMENT_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_CONSTANT_ELEMENT_PATH );		
 		}
-		String variableElementPathString = element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH);				
-		variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
+		String constantElementPathString = element.getAttribute(ATTR_COMPARE_CONSTANT_ELEMENT_PATH);				
+		constantElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + constantElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
 	    Document document = null;
 	    try{  
 	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( variableElementPathString ) ) );  
+	        document = builder.parse( new InputSource( new StringReader( constantElementPathString ) ) );  
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_CONSTANT_ELEMENT_PATH), e );
 	    } 
 
 	    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
@@ -115,36 +115,36 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 	    	//Ha VARIABLENODE
 	    	if( tagName.equals( ConstantFolderNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ConstantFolderNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.CONSTANTFOLDER, attrName );
+	    		constantDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( constantDataModelForFillOut, Tag.CONSTANTFOLDER, attrName );
 
-	    		if( null == variableDataModelForFillOut ){
+	    		if( null == constantDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_CONSTANT_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha VARIABLEELEMENT
+	    	//Ha CONSTANT ELEMENT
 	    	}else if( tagName.equals( ConstantElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ConstantElementDataModel.ATTR_NAME);
-	    		variableDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.CONSTANTELEMENT, attrName );
+	    		constantDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( constantDataModelForFillOut, Tag.CONSTANTELEMENT, attrName );
 	    		
-	    		if( null == variableDataModelForFillOut ){
+	    		if( null == constantDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_COMPARE_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_CONSTANT_ELEMENT_PATH) );
 	    		}
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_COMPARE_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_CONSTANT_ELEMENT_PATH) );	    		
 	    	}
 	    }	    
 	    try{
 	    	
-	    	this.variableElementDataModel = (ConstantElementDataModel)variableDataModelForFillOut;
+	    	this.constantElementDataModel = (ConstantElementDataModel)constantDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_VARIABLE_ELEMENT_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_CONSTANT_ELEMENT_PATH ), e );
 	    }
 	    
 	    //PATTERN
@@ -181,8 +181,8 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 	}
 	
 	@Override
-	public ConstantElementDataModel getVariableElement() {
-		return variableElementDataModel;
+	public ConstantElementDataModel getConstantElement() {
+		return constantElementDataModel;
 	}
 
 	public CompareTypeListEnum getCompareType(){
@@ -219,23 +219,23 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
-			if( !origText.equals( variableElementDataModel.getValue() ) ){
+			if( !origText.equals( constantElementDataModel.getValue() ) ){
 				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), baseElement.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( origText.equals( variableElementDataModel.getValue() ) ){
+			if( origText.equals( constantElementDataModel.getValue() ) ){
 				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, variableElementDataModel.getValue(), baseElement.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 			}
 			
@@ -244,8 +244,8 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		Attr attr = document.createAttribute( ATTR_COMPARE_VARIABLE_ELEMENT_PATH );
-		attr.setValue( variableElementDataModel.getPathTag() );
+		Attr attr = document.createAttribute( ATTR_COMPARE_CONSTANT_ELEMENT_PATH );
+		attr.setValue( constantElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );		
 		
 		attr = document.createAttribute( ATTR_COMPARE_TYPE );
@@ -266,13 +266,13 @@ public class CompareListToVariableOperation extends ElementOperationAdapter impl
 		
 		String stringPattern = new String( this.stringPattern );
 		
-		return new CompareListToVariableOperation(variableElementDataModel, compareType, stringPattern, compareBy); 
+		return new CompareListToConstantOperation(constantElementDataModel, compareType, stringPattern, compareBy); 
 
 	}
 
 	@Override
 	public String getOperationToString() {		
-		return "CompareListToVariable()";
+		return "CompareListToString()";
 	}
 	
 }

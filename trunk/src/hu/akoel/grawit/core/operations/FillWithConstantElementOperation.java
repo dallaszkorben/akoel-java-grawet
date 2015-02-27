@@ -29,41 +29,41 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class FillWithVariableElementOperation extends ElementOperationAdapter implements HasVariableOperationInterface{
+public class FillWithConstantElementOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
 	
 	private static final String NAME = "FILLVARIABLE";	
-	private static final String ATTR_FILL_VARIABLE_ELEMENT_PATH = "fillvariableelementpath";
+	private static final String ATTR_FILL_CONSTANT_ELEMENT_PATH = "fillvariableelementpath";
 	
 	//--- Data model
-	private ConstantElementDataModel variableElementDataModel;
+	private ConstantElementDataModel constantElementDataModel;
 	//---
 	
-	public FillWithVariableElementOperation( ConstantElementDataModel variableElementDataModel ){
-		this.variableElementDataModel = variableElementDataModel;
+	public FillWithConstantElementOperation( ConstantElementDataModel constantElementDataModel ){
+		this.constantElementDataModel = constantElementDataModel;
 	}
 	
-	public FillWithVariableElementOperation( Element element, ConstantRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public FillWithConstantElementOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		ConstantDataModelAdapter variableDataModelForFillOut = variableRootDataModel;
+		ConstantDataModelAdapter constantDataModelForFillOut = constantRootDataModel;
 		
-		if( !element.hasAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_FILL_VARIABLE_ELEMENT_PATH );		
+		if( !element.hasAttribute( ATTR_FILL_CONSTANT_ELEMENT_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_FILL_CONSTANT_ELEMENT_PATH );		
 		}
-		String variableElementPathString = element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH);				
-		variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
+		String constantElementPathString = element.getAttribute(ATTR_FILL_CONSTANT_ELEMENT_PATH);				
+		constantElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + constantElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
 	    Document document = null;
 	    try{  
 	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( variableElementPathString ) ) );  
+	        document = builder.parse( new InputSource( new StringReader( constantElementPathString ) ) );  
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_FILL_CONSTANT_ELEMENT_PATH), e );
 	    } 
 
-	    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
+	    //Megkeresem a CONSTANTROOT-ben a CONSTANTELEMENT-hez vezeto utat
 	    Node actualNode = document;
 	    while( actualNode.hasChildNodes() ){
 		
@@ -72,39 +72,39 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 	    	String tagName = actualElement.getTagName();
 	    	String attrName = null;
 	    	
-	    	//Ha VARIABLENODE
+	    	//Ha CONSTANTNODE
 	    	if( tagName.equals( ConstantFolderNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ConstantFolderNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.CONSTANTFOLDER, attrName );
+	    		constantDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( constantDataModelForFillOut, Tag.CONSTANTFOLDER, attrName );
 
-	    		if( null == variableDataModelForFillOut ){
+	    		if( null == constantDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_FILL_CONSTANT_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha VARIABLEELEMENT
+	    	//Ha CONSTANTELEMENT
 	    	}else if( tagName.equals( ConstantElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ConstantElementDataModel.ATTR_NAME);
-	    		variableDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.CONSTANTELEMENT, attrName );
+	    		constantDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( constantDataModelForFillOut, Tag.CONSTANTELEMENT, attrName );
 	    		
-	    		if( null == variableDataModelForFillOut ){
+	    		if( null == constantDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_FILL_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_FILL_CONSTANT_ELEMENT_PATH) );
 	    		}
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_FILL_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_FILL_CONSTANT_ELEMENT_PATH) );	    		
 	    	}
 	    }	    
 	    try{
 	    	
-	    	this.variableElementDataModel = (ConstantElementDataModel)variableDataModelForFillOut;
+	    	this.constantElementDataModel = (ConstantElementDataModel)constantDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_FILL_VARIABLE_ELEMENT_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_FILL_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_FILL_CONSTANT_ELEMENT_PATH ), e );
 	    }
 	}
 	
@@ -118,8 +118,8 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 	}
 	
 	@Override
-	public ConstantElementDataModel getVariableElement() {
-		return variableElementDataModel;
+	public ConstantElementDataModel getConstantElement() {
+		return constantElementDataModel;
 	}
 
 	@Override
@@ -128,10 +128,10 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 		if( baseElement instanceof NormalBaseElementDataModel ){
 			try{
 				//Execute the operation
-				elementProgress.outputCommand( "		webElement.sendKeys(\"" + variableElementDataModel.getValue() + "\");     //" + baseElement.getName() );
+				elementProgress.outputCommand( "		webElement.sendKeys(\"" + constantElementDataModel.getValue() + "\");     //" + baseElement.getName() );
 				elementProgress.outputCommand( "		webElement.sendKeys(Keys.TAB);" );
 				
-				webElement.sendKeys( variableElementDataModel.getValue() );				
+				webElement.sendKeys( constantElementDataModel.getValue() );				
 				webElement.sendKeys(Keys.TAB);
 			}catch (WebDriverException webDriverException){
 				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
@@ -141,19 +141,19 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		Attr attr = document.createAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH );		
-		attr.setValue( variableElementDataModel.getPathTag() );
+		Attr attr = document.createAttribute( ATTR_FILL_CONSTANT_ELEMENT_PATH );		
+		attr.setValue( constantElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );			
 	}
 
 	@Override
 	public Object clone() {
 
-		return new FillWithVariableElementOperation(variableElementDataModel);
+		return new FillWithConstantElementOperation(constantElementDataModel);
 	}
 	
 	@Override
 	public String getOperationToString() {		
-		return "FillFieldWithVariable()";
+		return "FillFieldWithConstant()";
 	}
 }

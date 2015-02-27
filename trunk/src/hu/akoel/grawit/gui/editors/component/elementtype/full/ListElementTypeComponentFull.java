@@ -5,16 +5,16 @@ import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareListToStringOperation;
-import hu.akoel.grawit.core.operations.CompareListToVariableOperation;
+import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
 import hu.akoel.grawit.core.operations.ContainListStoredElementOperation;
 import hu.akoel.grawit.core.operations.ContainListStringOperation;
-import hu.akoel.grawit.core.operations.ContainListVariableOperation;
+import hu.akoel.grawit.core.operations.ContainListConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
-import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
+import hu.akoel.grawit.core.operations.SelectConstantElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -280,12 +280,12 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				comboOperationList.setSelectedIndex(E.TAB.getIndex());
 				
 			//SELECT VARIABLE
-			}else if( elementOperation instanceof SelectVariableElementOperation ){
+			}else if( elementOperation instanceof SelectConstantElementOperation ){
 								
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((SelectVariableElementOperation)elementOperation).getVariableElement() );
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((SelectConstantElementOperation)elementOperation).getConstantElement() );
 				comboOperationList.setSelectedIndex(E.SELECT_VARIABLE.getIndex());
 				
-				comboSelectionBy.setSelectedIndex( ((SelectVariableElementOperation)elementOperation).getSelectionBy().getIndex() );
+				comboSelectionBy.setSelectedIndex( ((SelectConstantElementOperation)elementOperation).getSelectionBy().getIndex() );
 				
 			//SELECT BASE 
 			}else if( elementOperation instanceof SelectBaseElementOperation ){
@@ -304,12 +304,12 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				comboSelectionBy.setSelectedIndex( ((SelectStringOperation)elementOperation).getSelectionBy().getIndex() );
 		
 			//CONTAIN VARIABLE
-			}else if( elementOperation instanceof ContainListVariableOperation ){
+			}else if( elementOperation instanceof ContainListConstantOperation ){
 					
-					fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((ContainListVariableOperation)elementOperation).getVariableElement() );				
+					fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((ContainListConstantOperation)elementOperation).getConstantElement() );				
 					comboOperationList.setSelectedIndex(E.CONTAIN_VARIABLE.getIndex());
-					comboContainListType.setSelectedIndex( ((ContainListVariableOperation)elementOperation).getContainType().getIndex() );
-					comboContainListBy.setSelectedIndex( ((ContainListVariableOperation)elementOperation).getContainBy().getIndex() );
+					comboContainListType.setSelectedIndex( ((ContainListConstantOperation)elementOperation).getContainType().getIndex() );
+					comboContainListBy.setSelectedIndex( ((ContainListConstantOperation)elementOperation).getContainBy().getIndex() );
 
 			//CONTAIN TO STORED
 			}else if( elementOperation instanceof ContainListStoredElementOperation ){
@@ -328,12 +328,12 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 					comboContainListBy.setSelectedIndex( ((ContainListStringOperation)elementOperation).getContainBy().getIndex() );
 				
 			//COMPARE TO VARIABLE
-			}else if( elementOperation instanceof CompareListToVariableOperation ){
+			}else if( elementOperation instanceof CompareListToConstantOperation ){
 				
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareListToVariableOperation)elementOperation).getVariableElement() );				
+				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareListToConstantOperation)elementOperation).getConstantElement() );				
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_VARIABLE.getIndex());
-				comboCompareSelectedListElementType.setSelectedIndex( ((CompareListToVariableOperation)elementOperation).getCompareType().getIndex() );
-				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareListToVariableOperation)elementOperation).getCompareBy().getIndex() );
+				comboCompareSelectedListElementType.setSelectedIndex( ((CompareListToConstantOperation)elementOperation).getCompareType().getIndex() );
+				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareListToConstantOperation)elementOperation).getCompareBy().getIndex() );
 
 			//COMPARE TO STORED
 			}else if( elementOperation instanceof CompareListToStoredElementOperation ){
@@ -781,7 +781,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			
 		//Fill variable
 		}else if(comboOperationList.getSelectedIndex() ==  E.SELECT_VARIABLE.getIndex() ){
-			return new SelectVariableElementOperation( fieldVariableSelector.getSelectedDataModel(), (ListSelectionByListEnum)comboSelectionBy.getSelectedItem() );
+			return new SelectConstantElementOperation( fieldVariableSelector.getSelectedDataModel(), (ListSelectionByListEnum)comboSelectionBy.getSelectedItem() );
 			
 		//Fill string
 		}else if( comboOperationList.getSelectedIndex() ==  E.SELECT_STRING.getIndex() ){
@@ -802,7 +802,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 					
 		//CONTAIN VARIABLE
 		}else if(comboOperationList.getSelectedIndex() ==  E.CONTAIN_VARIABLE.getIndex() ){
-			return new ContainListVariableOperation( fieldVariableSelector.getSelectedDataModel(), (ContainTypeListEnum)(comboContainListType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboContainListBy.getSelectedItem()) );
+			return new ContainListConstantOperation( fieldVariableSelector.getSelectedDataModel(), (ContainTypeListEnum)(comboContainListType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboContainListBy.getSelectedItem()) );
 					
 		//CONTAIN STRING
 		}else if( comboOperationList.getSelectedIndex() ==  E.CONTAIN_STRING.getIndex() ){
@@ -815,7 +815,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				
 		//COMPARE TO VARIABLE
 		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_VARIABLE.getIndex() ){
-			return new CompareListToVariableOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareSelectedListElementType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareSelectedListElementBy.getSelectedItem()) );
+			return new CompareListToConstantOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareSelectedListElementType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareSelectedListElementBy.getSelectedItem()) );
 				
 		//COMPARE TO STRING
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_STRING.getIndex() ){

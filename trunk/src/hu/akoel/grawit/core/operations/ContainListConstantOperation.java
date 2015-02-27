@@ -36,10 +36,10 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class ContainListVariableOperation extends ElementOperationAdapter implements HasVariableOperationInterface{
+public class ContainListConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
 	
 	private static final String NAME = "CONTAINVARIABLE";	
-	private static final String ATTR_CONTAIN_VARIABLE_ELEMENT_PATH = "containvariableelementpath";
+	private static final String ATTR_CONTAIN_CONSTANT_ELEMENT_PATH = "containvariableelementpath";
 	private static final String ATTR_CONTAIN_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_CONTAIN_BY = "containby";
@@ -47,14 +47,14 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 	// Model
 	private String stringPattern;
 	private ListCompareByListEnum containBy;
-	private ConstantElementDataModel variableElementDataModel;
+	private ConstantElementDataModel constantElementDataModel;
 	private ContainTypeListEnum containType;
 	//---
 	
 	private Pattern pattern;
 	
-	public ContainListVariableOperation( ConstantElementDataModel variableElementDataModel, ContainTypeListEnum containType, String stringPattern, ListCompareByListEnum compareBy ){
-		this.variableElementDataModel = variableElementDataModel;
+	public ContainListConstantOperation( ConstantElementDataModel constantElementDataModel, ContainTypeListEnum containType, String stringPattern, ListCompareByListEnum compareBy ){
+		this.constantElementDataModel = constantElementDataModel;
 		this.containType = containType;
 		this.stringPattern = stringPattern;
 		this.containBy = compareBy;
@@ -62,9 +62,9 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 		common( stringPattern );
 	}
 	
-	public ContainListVariableOperation( Element element, ConstantRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public ContainListConstantOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		ConstantDataModelAdapter variableDataModelForFillOut = variableRootDataModel;
+		ConstantDataModelAdapter constantDataModelForFillOut = constantRootDataModel;
 		
 		//COMPARE BY
 		String stringCompareBy = "";
@@ -88,25 +88,25 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 		String typeString = element.getAttribute(ATTR_CONTAIN_TYPE);
 		this.containType = ContainTypeListEnum.valueOf( typeString );
 		
-		//ATTR_COMPARE_VARIABLE_ELEMENT_PATH
-		if( !element.hasAttribute( ATTR_CONTAIN_VARIABLE_ELEMENT_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_CONTAIN_VARIABLE_ELEMENT_PATH );		
+		//ATTR_COMPARE_CONSTANT_ELEMENT_PATH
+		if( !element.hasAttribute( ATTR_CONTAIN_CONSTANT_ELEMENT_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_CONTAIN_CONSTANT_ELEMENT_PATH );		
 		}
-		String variableElementPathString = element.getAttribute(ATTR_CONTAIN_VARIABLE_ELEMENT_PATH);				
-		variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
+		String constantElementPathString = element.getAttribute(ATTR_CONTAIN_CONSTANT_ELEMENT_PATH);				
+		constantElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + constantElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
 	    Document document = null;
 	    try{  
 	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( variableElementPathString ) ) );  
+	        document = builder.parse( new InputSource( new StringReader( constantElementPathString ) ) );  
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_CONTAIN_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_VARIABLE_ELEMENT_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_CONTAIN_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_CONSTANT_ELEMENT_PATH), e );
 	    } 
 
-	    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
+	    //Megkeresem a CONSTANTROOT-ben a CONSTANTELEMENT-hez vezeto utat
 	    Node actualNode = document;
 	    while( actualNode.hasChildNodes() ){
 		
@@ -115,39 +115,39 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 	    	String tagName = actualElement.getTagName();
 	    	String attrName = null;
 	    	
-	    	//Ha VARIABLENODE
+	    	//Ha CONSTANTNODE
 	    	if( tagName.equals( ConstantFolderNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ConstantFolderNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.CONSTANTFOLDER, attrName );
+	    		constantDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( constantDataModelForFillOut, Tag.CONSTANTFOLDER, attrName );
 
-	    		if( null == variableDataModelForFillOut ){
+	    		if( null == constantDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_CONTAIN_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_CONTAIN_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_CONSTANT_ELEMENT_PATH) );
 	    		}
 	    		
-	    	//Ha VARIABLEELEMENT
+	    	//Ha CONSTANTELEMENT
 	    	}else if( tagName.equals( ConstantElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ConstantElementDataModel.ATTR_NAME);
-	    		variableDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.CONSTANTELEMENT, attrName );
+	    		constantDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( constantDataModelForFillOut, Tag.CONSTANTELEMENT, attrName );
 	    		
-	    		if( null == variableDataModelForFillOut ){
+	    		if( null == constantDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_CONTAIN_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_VARIABLE_ELEMENT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_CONTAIN_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_CONSTANT_ELEMENT_PATH) );
 	    		}
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_CONTAIN_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_VARIABLE_ELEMENT_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ATTR_CONTAIN_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_CONSTANT_ELEMENT_PATH) );	    		
 	    	}
 	    }	    
 	    try{
 	    	
-	    	this.variableElementDataModel = (ConstantElementDataModel)variableDataModelForFillOut;
+	    	this.constantElementDataModel = (ConstantElementDataModel)constantDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_CONTAIN_VARIABLE_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_VARIABLE_ELEMENT_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_CONTAIN_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_CONTAIN_CONSTANT_ELEMENT_PATH ), e );
 	    }
 	    
 	    //PATTERN
@@ -184,8 +184,8 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 	}
 	
 	@Override
-	public ConstantElementDataModel getVariableElement() {
-		return variableElementDataModel;
+	public ConstantElementDataModel getConstantElement() {
+		return constantElementDataModel;
 	}
 
 	public ContainTypeListEnum getContainType(){
@@ -232,7 +232,7 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 			}
 			
 			//Ha megtalalta a listaban a keresett erteket
-			if( optionText.equals( variableElementDataModel.getValue() ) ){
+			if( optionText.equals( constantElementDataModel.getValue() ) ){
 				found = true;
 				break;
 			}
@@ -244,7 +244,7 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 			
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, variableElementDataModel.getValue(), false, new Exception() );
+				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, constantElementDataModel.getValue(), false, new Exception() );
 
 			}
 			
@@ -253,7 +253,7 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 			
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, variableElementDataModel.getValue(), true, new Exception() );
+				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, constantElementDataModel.getValue(), true, new Exception() );
 			}			
 
 		}
@@ -262,8 +262,8 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		Attr attr = document.createAttribute( ATTR_CONTAIN_VARIABLE_ELEMENT_PATH );
-		attr.setValue( variableElementDataModel.getPathTag() );
+		Attr attr = document.createAttribute( ATTR_CONTAIN_CONSTANT_ELEMENT_PATH );
+		attr.setValue( constantElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );		
 		
 		attr = document.createAttribute( ATTR_CONTAIN_TYPE );
@@ -284,13 +284,13 @@ public class ContainListVariableOperation extends ElementOperationAdapter implem
 		
 		String stringPattern = new String( this.stringPattern );
 		
-		return new ContainListVariableOperation(variableElementDataModel, containType, stringPattern, containBy); 
+		return new ContainListConstantOperation(constantElementDataModel, containType, stringPattern, containBy); 
 
 	}
 
 	@Override
 	public String getOperationToString() {		
-		return "CompareListToVariable()";
+		return "CompareListToConstant()";
 	}
 	
 }
