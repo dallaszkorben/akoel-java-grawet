@@ -18,8 +18,8 @@ public class ConstantTreeSelectorComponent extends TreeSelectorComponent<Constan
 		super(CommonOperations.getTranslation("window.title.selector.constant"), ConstantElementDataModel.class, rootDataModel, null, false, false );
 	}
 
-	public ConstantTreeSelectorComponent( ConstantDataModelAdapter rootDataModel, ConstantElementDataModel selectedVariableElementDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.constant"), ConstantElementDataModel.class, rootDataModel, selectedVariableElementDataModel, true, false );
+	public ConstantTreeSelectorComponent( ConstantDataModelAdapter rootDataModel, ConstantElementDataModel selectedConstantElementDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.constant"), ConstantElementDataModel.class, rootDataModel, selectedConstantElementDataModel, true, false );
 	}
 	
 	@Override
@@ -32,12 +32,12 @@ public class ConstantTreeSelectorComponent extends TreeSelectorComponent<Constan
 	@Override
 	public boolean needToExpand(TreePath path, boolean state) {
 		return true;
-		//return !( path.getLastPathComponent() instanceof VariableElementDataModel );
+		//return !( path.getLastPathComponent() instanceof ConstantElementDataModel );
 	}
 	
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
-		//ImageIcon pageIcon = CommonOperations.createImageIcon("tree/variable-page-icon.png");
+		//ImageIcon pageIcon = CommonOperations.createImageIcon("tree/Constant-page-icon.png");
 		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/variable-element-icon.png");
 		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/variable-node-closed-icon.png");
 		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/variable-node-open-icon.png");

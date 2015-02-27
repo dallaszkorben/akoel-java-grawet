@@ -82,12 +82,12 @@ public class ConstantTree extends Tree{
 			guiFrame.showEditorPanel( emptyPanel );
 		
 		}else if( selectedNode instanceof ConstantFolderNodeDataModel ){
-			ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor(this, (ConstantFolderNodeDataModel)selectedNode, EditMode.VIEW);
-			guiFrame.showEditorPanel( variableNodeEditor);								
+			ConstantNodeEditor constantNodeEditor = new ConstantNodeEditor(this, (ConstantFolderNodeDataModel)selectedNode, EditMode.VIEW);
+			guiFrame.showEditorPanel( constantNodeEditor);								
 		
 		}else if( selectedNode instanceof ConstantElementDataModel ){
-			ConstantElementEditor variableElementEditor = new ConstantElementEditor( this, (ConstantElementDataModel)selectedNode, EditMode.VIEW );								
-			guiFrame.showEditorPanel( variableElementEditor);		
+			ConstantElementEditor constantElementEditor = new ConstantElementEditor( this, (ConstantElementDataModel)selectedNode, EditMode.VIEW );								
+			guiFrame.showEditorPanel( constantElementEditor);		
 								
 		}		
 	}
@@ -97,13 +97,13 @@ public class ConstantTree extends Tree{
 		
 		if( selectedNode instanceof ConstantFolderNodeDataModel ){
 			
-			ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( variableNodeEditor);								
+			ConstantNodeEditor constantNodeEditor = new ConstantNodeEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( constantNodeEditor);								
 			
 		}else if( selectedNode instanceof ConstantElementDataModel ){
 			
-			ConstantElementEditor variableElementEditor = new ConstantElementEditor( ConstantTree.this, (ConstantElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
-			guiFrame.showEditorPanel( variableElementEditor);	
+			ConstantElementEditor constantElementEditor = new ConstantElementEditor( ConstantTree.this, (ConstantElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			guiFrame.showEditorPanel( constantElementEditor);	
 		}
 	}
 
@@ -123,8 +123,8 @@ public class ConstantTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
-					guiFrame.showEditorPanel( variableNodeEditor);								
+					ConstantNodeEditor constantNodeEditor = new ConstantNodeEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( constantNodeEditor);								
 				
 				}
 			});
@@ -138,8 +138,8 @@ public class ConstantTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 							
-					ConstantElementEditor variableElementEditor = new ConstantElementEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
-					guiFrame.showEditorPanel( variableElementEditor);								
+					ConstantElementEditor constantElementEditor = new ConstantElementEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+					guiFrame.showEditorPanel( constantElementEditor);								
 				
 				}
 			});
@@ -160,7 +160,7 @@ public class ConstantTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//Ha a kivalasztott csomopont szuloje VariableDataModel - annak kell lennie :)
+				//Ha a kivalasztott csomopont szuloje ConstantDataModel - annak kell lennie :)
 				if( selectedNode.getParent() instanceof ConstantDataModelAdapter ){
 					
 					//Akkor megduplikalja 
@@ -200,9 +200,9 @@ public class ConstantTree extends Tree{
 				
 				int n = 0;
 				
-				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas a Variable-re vagy valamelyik gyermekere a Param-ban
+				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas a Constant-re vagy valamelyik gyermekere a Param-ban
 				//Akkor megnezi, hogy van-e hivatkozas a tartalmazott elemekre a Testcase fastrukturaban
-				ArrayList<StepDataModelAdapter> foundParamNodeList = findAllVariableInParam( (ConstantDataModelAdapter)selectedNode, paramRootDataModel, new ArrayList<StepDataModelAdapter>() );
+				ArrayList<StepDataModelAdapter> foundParamNodeList = findAllConstantInParam( (ConstantDataModelAdapter)selectedNode, paramRootDataModel, new ArrayList<StepDataModelAdapter>() );
 				
 				StringBuilder listMessage = new StringBuilder();
 				int rows = 0;
@@ -243,7 +243,7 @@ public class ConstantTree extends Tree{
 					
 					JOptionPane.showMessageDialog(
 							guiFrame,
-							"Nem torolheto\n Hivatkozas tortenik a (Variable-re) => a megadott eleresu Step elemekben\n\n"+ 
+							"Nem torolheto\n Hivatkozas tortenik a (Constant-re) => a megadott eleresu Step elemekben\n\n"+ 
 							
 							listMessage,
 							"ablak cime",
@@ -293,7 +293,7 @@ public class ConstantTree extends Tree{
 												 					
 						//Tulajdonkeppen csak levalasztom a fastrukturarol
 //						totalTreeModel.removeNodeFromParent( selectedNode );
-//						VariableTree.this.setSelectionRow(selectedRow - 1);
+//						ConstantTree.this.setSelectionRow(selectedRow - 1);
 						
 					}										
 				}
@@ -312,30 +312,30 @@ public class ConstantTree extends Tree{
 			
 	}
 
-	private ArrayList<StepDataModelAdapter> findAllVariableInParam( ConstantDataModelAdapter nodeToDelete, StepDataModelAdapter rootParamDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
+	private ArrayList<StepDataModelAdapter> findAllConstantInParam( ConstantDataModelAdapter nodeToDelete, StepDataModelAdapter rootParamDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
 		
 		//Megnezi, hogy az adott BaseNode-ra van-e hivatkozas a Param strukturaban
-		findOneVariableInParam( nodeToDelete, rootParamDataModel, foundDataModel );
+		findOneConstantInParam( nodeToDelete, rootParamDataModel, foundDataModel );
 		
-		//Most pedig vegig megy az adott VariableNode gyermekein is
-		Enumeration<ConstantDataModelAdapter> enumForVariableModel = nodeToDelete.children();
-		while( enumForVariableModel.hasMoreElements() ){
+		//Most pedig vegig megy az adott ConstantNode gyermekein is
+		Enumeration<ConstantDataModelAdapter> enumForConstantModel = nodeToDelete.children();
+		while( enumForConstantModel.hasMoreElements() ){
 		
-			ConstantDataModelAdapter childrenOfParam = enumForVariableModel.nextElement();
+			ConstantDataModelAdapter childrenOfParam = enumForConstantModel.nextElement();
 		
 			//Es megnezi, hogy van-e ra hivatkozas a ParamData strukturaban
-			findAllVariableInParam( childrenOfParam, rootParamDataModel, foundDataModel );
+			findAllConstantInParam( childrenOfParam, rootParamDataModel, foundDataModel );
 		}
 		return foundDataModel;
 	}
 	
 	
-	private ArrayList<StepDataModelAdapter> findOneVariableInParam( ConstantDataModelAdapter nodeToDelete, StepDataModelAdapter paramDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
+	private ArrayList<StepDataModelAdapter> findOneConstantInParam( ConstantDataModelAdapter nodeToDelete, StepDataModelAdapter paramDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
 		
 		@SuppressWarnings("unchecked")
 		Enumeration<StepDataModelAdapter> enumForParamModel = paramDataModel.children();
 		ElementOperationAdapter operation;
-		ConstantElementDataModel variableElement;
+		ConstantElementDataModel constantElement;
 		
 		//Vegig megy a param fastrukturan es megnezi, hogy az ott levo Node hivatkozik-e a megadott nodeToDelet-re
 		while( enumForParamModel.hasMoreElements() ){
@@ -347,12 +347,12 @@ public class ConstantTree extends Tree{
 				//Megszerzi a ParamElement muveletet
 				operation = ((StepElementDataModel)nextParamModel).getElementOperation();
 				
-				//Van benne Variable vonatkozas
+				//Van benne Constant vonatkozas
 				if( operation instanceof HasConstantOperationInterface ){
-					variableElement = ((HasConstantOperationInterface)operation).getConstantElement();
+					constantElement = ((HasConstantOperationInterface)operation).getConstantElement();
 				
 					//Es ha ez megegyezik a keresett nodeToDelete-vel
-					if( variableElement.equals( nodeToDelete ) ){
+					if( constantElement.equals( nodeToDelete ) ){
 						foundDataModel.add((StepElementDataModel)nextParamModel);
 					}					
 				}				
@@ -360,15 +360,15 @@ public class ConstantTree extends Tree{
 			//Ha ParamLoop
 			}else if( nextParamModel instanceof StepLoopCollectorDataModel ){
 				
-				//Megszerzi a hivatkoztott VariableElement-et
+				//Megszerzi a hivatkoztott ConstantElement-et
 				operation = ((StepLoopCollectorDataModel)nextParamModel).getElementOperation();
 				
-				//Van benne Variable vonatkozas
+				//Van benne Constant vonatkozas
 				if( operation instanceof HasConstantOperationInterface ){
-					variableElement = ((HasConstantOperationInterface)operation).getConstantElement();
+					constantElement = ((HasConstantOperationInterface)operation).getConstantElement();
 				
 					//Es ha ez megegyezik a keresett nodeToDelete-vel
-					if( variableElement.equals( nodeToDelete ) ){
+					if( constantElement.equals( nodeToDelete ) ){
 						foundDataModel.add((StepLoopCollectorDataModel)nextParamModel);
 					}					
 				}				
@@ -378,7 +378,7 @@ public class ConstantTree extends Tree{
 			if( !nextParamModel.isLeaf() ){
 				
 				//Akkor tovabb keres
-				findOneVariableInParam( nodeToDelete, nextParamModel, foundDataModel );
+				findOneConstantInParam( nodeToDelete, nextParamModel, foundDataModel );
 			}
 		}
 
@@ -396,8 +396,8 @@ public class ConstantTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
-				guiFrame.showEditorPanel( variableNodeEditor);								
+				ConstantNodeEditor constantNodeEditor = new ConstantNodeEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+				guiFrame.showEditorPanel( constantNodeEditor);								
 			
 			}
 		});
@@ -412,8 +412,8 @@ public class ConstantTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 							
-				ConstantElementEditor variableElementEditor = new ConstantElementEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
-				guiFrame.showEditorPanel( variableElementEditor);								
+				ConstantElementEditor constantElementEditor = new ConstantElementEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+				guiFrame.showEditorPanel( constantElementEditor);								
 			
 			}
 		});

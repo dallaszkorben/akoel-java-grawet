@@ -317,7 +317,7 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 		if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STORED.getIndex() ){
 			return new CompareValueToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 				
-		//COMPARE VALUE TO VARIABLE
+		//COMPARE VALUE TO CONSTANT
 		}else if(comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_CONSTANT.getIndex() ){
 			return new CompareValueToConstantOperation( fieldConstantSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 				
