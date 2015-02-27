@@ -38,8 +38,8 @@ import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
-import hu.akoel.grawit.gui.editor.variable.VariableElementEditor;
-import hu.akoel.grawit.gui.editor.variable.VariableNodeEditor;
+import hu.akoel.grawit.gui.editor.constant.ConstantElementEditor;
+import hu.akoel.grawit.gui.editor.constant.ConstantNodeEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
 public class VariableTree extends Tree{
@@ -90,11 +90,11 @@ public class VariableTree extends Tree{
 			guiFrame.showEditorPanel( emptyPanel );
 		
 		}else if( selectedNode instanceof ConstantFolderNodeDataModel ){
-			VariableNodeEditor variableNodeEditor = new VariableNodeEditor(this, (ConstantFolderNodeDataModel)selectedNode, EditMode.VIEW);
+			ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor(this, (ConstantFolderNodeDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( variableNodeEditor);								
 		
 		}else if( selectedNode instanceof ConstantElementDataModel ){
-			VariableElementEditor variableElementEditor = new VariableElementEditor( this, (ConstantElementDataModel)selectedNode, EditMode.VIEW );								
+			ConstantElementEditor variableElementEditor = new ConstantElementEditor( this, (ConstantElementDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( variableElementEditor);		
 								
 		}		
@@ -105,12 +105,12 @@ public class VariableTree extends Tree{
 		
 		if( selectedNode instanceof ConstantFolderNodeDataModel ){
 			
-			VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( variableNodeEditor);								
 			
 		}else if( selectedNode instanceof ConstantElementDataModel ){
 			
-			VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (ConstantElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			ConstantElementEditor variableElementEditor = new ConstantElementEditor( VariableTree.this, (ConstantElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( variableElementEditor);	
 		}
 	}
@@ -131,7 +131,7 @@ public class VariableTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+					ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableNodeEditor);								
 				
 				}
@@ -146,7 +146,7 @@ public class VariableTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 							
-					VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+					ConstantElementEditor variableElementEditor = new ConstantElementEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableElementEditor);								
 				
 				}
@@ -404,7 +404,7 @@ public class VariableTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+				ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( variableNodeEditor);								
 			
 			}
@@ -420,7 +420,7 @@ public class VariableTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 							
-				VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+				ConstantElementEditor variableElementEditor = new ConstantElementEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( variableElementEditor);								
 			
 			}
