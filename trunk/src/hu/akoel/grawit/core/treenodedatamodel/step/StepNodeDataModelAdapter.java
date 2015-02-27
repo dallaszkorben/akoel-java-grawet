@@ -30,7 +30,7 @@ public abstract class StepNodeDataModelAdapter extends StepDataModelAdapter{
 		this.details = details;
 	}
 	
-	public StepNodeDataModelAdapter( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepNodeDataModelAdapter( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ) throws XMLPharseException{
 		
 		//========
 		//

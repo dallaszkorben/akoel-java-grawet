@@ -65,25 +65,25 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 		String typeString = element.getAttribute(ATTR_COMPARE_TYPE);
 		this.compareType = CompareTypeListEnum.valueOf( typeString );
 		
-		//ATTR_COMPARE_VARIABLE_ELEMENT_PATH
+		//ATTR_COMPARE_CONSTANT_ELEMENT_PATH
 		if( !element.hasAttribute( ATTR_COMPARE_CONSTANT_ELEMENT_PATH ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_CONSTANT_ELEMENT_PATH );		
 		}
-		String variableElementPathString = element.getAttribute(ATTR_COMPARE_CONSTANT_ELEMENT_PATH);				
-		variableElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + variableElementPathString;  
+		String constantElementPathString = element.getAttribute(ATTR_COMPARE_CONSTANT_ELEMENT_PATH);				
+		constantElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + constantElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
 	    Document document = null;
 	    try{  
 	        builder = factory.newDocumentBuilder();  
-	        document = builder.parse( new InputSource( new StringReader( variableElementPathString ) ) );  
+	        document = builder.parse( new InputSource( new StringReader( constantElementPathString ) ) );  
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
 	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ATTR_COMPARE_CONSTANT_ELEMENT_PATH, element.getAttribute(ATTR_COMPARE_CONSTANT_ELEMENT_PATH), e );
 	    } 
 
-	    //Megkeresem a VARIABLEROOT-ben a VARIABLEELEMENT-hez vezeto utat
+	    //Megkeresem a CONSTANTROOT-ben a CONSTANTELEMENT-hez vezeto utat
 	    Node actualNode = document;
 	    while( actualNode.hasChildNodes() ){
 		
@@ -92,7 +92,7 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 	    	String tagName = actualElement.getTagName();
 	    	String attrName = null;
 	    	
-	    	//Ha VARIABLENODE
+	    	//Ha CONSTANTNODE
 	    	if( tagName.equals( ConstantFolderNodeDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(ConstantFolderNodeDataModel.ATTR_NAME);	    		
 	    		constantDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( constantDataModelForFillOut, Tag.CONSTANTFOLDER, attrName );

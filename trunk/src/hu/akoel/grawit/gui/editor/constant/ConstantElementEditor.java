@@ -20,7 +20,6 @@ import hu.akoel.grawit.gui.editors.component.constantparameter.ConstantRandomInt
 import hu.akoel.grawit.gui.editors.component.constantparameter.ConstantRandomStringComponent;
 import hu.akoel.grawit.gui.editors.component.constantparameter.ConstantStringComponent;
 import hu.akoel.grawit.gui.editors.component.constantparameter.ConstantTodayDateComponent;
-import hu.akoel.grawit.gui.editors.component.constantparameter.ConstantVariableComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -37,15 +36,15 @@ public class ConstantElementEditor extends DataEditor{
 	
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
-	private JLabel labelVariableType;
-	private ComboBoxComponent<ConstantTypeListEnum> fieldVariableType;
-	private JLabel labelVariableParameters;
-	private ConstantComponentInterface fieldVariableParameters;
+	private JLabel labelConstantType;
+	private ComboBoxComponent<ConstantTypeListEnum> fieldConstantType;
+	private JLabel labelConstantParameters;
+	private ConstantComponentInterface fieldConstantParameters;
 	
 	private ConstantTypeListEnum type;
 	
 	/**
-	 *  Uj VariableElement rogzitese - Insert
+	 *  Uj ConstantElement rogzitese - Insert
 	 *  
 	 * @param tree
 	 * @param selectedNode
@@ -66,16 +65,13 @@ public class ConstantElementEditor extends DataEditor{
 		//Type - String
 		type = ConstantTypeListEnum.STRING_PARAMETER;		
 				
-		//Parameters
-		//fieldVariableParameters = new VariableParametersStringComponent(type);				
-				
 		commonPost( );
 				
 	}
 		
 	/**
 	 * 
-	 * Mar letezo VariableElement modositasa vagy megtekintese
+	 * Mar letezo ConstantElement modositasa vagy megtekintese
 	 * 
 	 * @param tree
 	 * @param selectedElement
@@ -94,11 +90,8 @@ public class ConstantElementEditor extends DataEditor{
 		//Name
 		fieldName.setText( selectedElement.getName() );
 
-		//Variable Type
+		//Constant Type
 		type = selectedElement.getType();
-		
-		//Parameters
-		//fieldVariableParameters = new VariableParametersStringComponent(type, selectedElement.getParameters() );
 		
 		commonPost( );		
 		
@@ -109,158 +102,127 @@ public class ConstantElementEditor extends DataEditor{
 		//Name
 		fieldName = new TextFieldComponent();
 	
-		//VariableTypeSelector		
-		fieldVariableType = new ComboBoxComponent<>();
+		//CosntantTypeSelector		
+		fieldConstantType = new ComboBoxComponent<>();
 		for( int i = 0; i < ConstantTypeListEnum.getSize(); i++ ){
-			fieldVariableType.addItem( ConstantTypeListEnum.getVariableParameterTypeByIndex(i) );
+			fieldConstantType.addItem( ConstantTypeListEnum.getConstantParameterTypeByIndex(i) );
 		}
-		fieldVariableType.addItemListener( new ItemListener() {
+		fieldConstantType.addItemListener( new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 
-				int index = fieldVariableType.getSelectedIndex();					
+				int index = fieldConstantType.getSelectedIndex();					
 
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					type = ConstantTypeListEnum.getVariableParameterTypeByIndex(index);
+					type = ConstantTypeListEnum.getConstantParameterTypeByIndex(index);
 					
 					//STRING_PARAMETER
-					if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.STRING_PARAMETER ) ){
+					if( ConstantTypeListEnum.getConstantParameterTypeByIndex(index).equals(ConstantTypeListEnum.STRING_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
-						if( null != fieldVariableParameters ){
-							ConstantElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
-							fieldVariableParameters = new ConstantStringComponent(type);
+						if( null != fieldConstantParameters ){
+							ConstantElementEditor.this.remove(labelConstantParameters, fieldConstantParameters.getComponent());
+							fieldConstantParameters = new ConstantStringComponent(type);
 						}else{
 							//Modositas volt
 							if( null != nodeForModify ){
-								fieldVariableParameters = new ConstantStringComponent(type, nodeForModify.getParameters() );
+								fieldConstantParameters = new ConstantStringComponent(type, nodeForModify.getParameters() );
 							}else{
-								fieldVariableParameters = new ConstantStringComponent(type);
+								fieldConstantParameters = new ConstantStringComponent(type);
 							}
 						}
 						
-						
-/*					}else if( ParameterTypeListEnum.getVariableParameterTypeByIndex(index).equals(ParameterTypeListEnum.INTEGER_PARAMETER ) ){
-
-						//Nem ez az elso valtoztatas
-						if( null != fieldVariableParameters ){
-							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
-							fieldVariableParameters = new VariableParametersIntegerComponent(type);
-						}else{
-							//Modositas volt
-							if( null != nodeForModify ){
-								fieldVariableParameters = new VariableParametersIntegerComponent(type, nodeForModify.getParameters() );
-							}else{
-								fieldVariableParameters = new VariableParametersIntegerComponent(type);
-							}
-						}
-*/						
+												
 					//RANDOM_STRING_PARAMETER	
-					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_STRING_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getConstantParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_STRING_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
-						if( null != fieldVariableParameters ){
-							ConstantElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
-							fieldVariableParameters = new ConstantRandomStringComponent(type);
+						if( null != fieldConstantParameters ){
+							ConstantElementEditor.this.remove(labelConstantParameters, fieldConstantParameters.getComponent());
+							fieldConstantParameters = new ConstantRandomStringComponent(type);
 						}else{
 							//Modositas volt
 							if( null != nodeForModify ){
-								fieldVariableParameters = new ConstantRandomStringComponent(type, nodeForModify.getParameters() );
+								fieldConstantParameters = new ConstantRandomStringComponent(type, nodeForModify.getParameters() );
 							}else{
-								fieldVariableParameters = new ConstantRandomStringComponent(type);
+								fieldConstantParameters = new ConstantRandomStringComponent(type);
 							}
 						}
 						
 						
 					
 					//RANDOM_INTEGER_PARAMETER
-					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_INTEGER_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getConstantParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_INTEGER_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
-						if( null != fieldVariableParameters ){
-							ConstantElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
-							fieldVariableParameters = new ConstantRandomIntegerComponent(type);
+						if( null != fieldConstantParameters ){
+							ConstantElementEditor.this.remove(labelConstantParameters, fieldConstantParameters.getComponent());
+							fieldConstantParameters = new ConstantRandomIntegerComponent(type);
 						}else{
 							//Modositas volt
 							if( null != nodeForModify ){
-								fieldVariableParameters = new ConstantRandomIntegerComponent(type, nodeForModify.getParameters() );
+								fieldConstantParameters = new ConstantRandomIntegerComponent(type, nodeForModify.getParameters() );
 							}else{
-								fieldVariableParameters = new ConstantRandomIntegerComponent(type);
+								fieldConstantParameters = new ConstantRandomIntegerComponent(type);
 							}
 						}
 						
 						
 						
 					//RANDOM_DECIMAL_PARAMETER	
-					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_DOUBLE_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getConstantParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_DOUBLE_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
-						if( null != fieldVariableParameters ){
-							ConstantElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
-							fieldVariableParameters = new ConstantRandomDoubleComponent(type);
+						if( null != fieldConstantParameters ){
+							ConstantElementEditor.this.remove(labelConstantParameters, fieldConstantParameters.getComponent());
+							fieldConstantParameters = new ConstantRandomDoubleComponent(type);
 						}else{
 							//Modositas volt
 							if( null != nodeForModify ){
-								fieldVariableParameters = new ConstantRandomDoubleComponent(type, nodeForModify.getParameters() );
+								fieldConstantParameters = new ConstantRandomDoubleComponent(type, nodeForModify.getParameters() );
 							}else{
-								fieldVariableParameters = new ConstantRandomDoubleComponent(type);
+								fieldConstantParameters = new ConstantRandomDoubleComponent(type);
 							}
 						}
 										
 					//RANDOM_DATE_PARAMETER
-					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_DATE_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getConstantParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_DATE_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
-						if( null != fieldVariableParameters ){
-							ConstantElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
-							fieldVariableParameters = new ConstantRandomDateComponent(type);
+						if( null != fieldConstantParameters ){
+							ConstantElementEditor.this.remove(labelConstantParameters, fieldConstantParameters.getComponent());
+							fieldConstantParameters = new ConstantRandomDateComponent(type);
 						}else{
 							//Modositas volt
 							if( null != nodeForModify ){
-								fieldVariableParameters = new ConstantRandomDateComponent(type, nodeForModify.getParameters() );
+								fieldConstantParameters = new ConstantRandomDateComponent(type, nodeForModify.getParameters() );
 							}else{
-								fieldVariableParameters = new ConstantRandomDateComponent(type);
+								fieldConstantParameters = new ConstantRandomDateComponent(type);
 							}
 						}										
 						
 					//TODAY_DATE_PARAMETER
-					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.TODAY_DATE_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getConstantParameterTypeByIndex(index).equals(ConstantTypeListEnum.TODAY_DATE_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
-						if( null != fieldVariableParameters ){
-							ConstantElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
-							fieldVariableParameters = new ConstantTodayDateComponent(type);
+						if( null != fieldConstantParameters ){
+							ConstantElementEditor.this.remove(labelConstantParameters, fieldConstantParameters.getComponent());
+							fieldConstantParameters = new ConstantTodayDateComponent(type);
 						}else{
 							//Modositas volt
 							if( null != nodeForModify ){
-								fieldVariableParameters = new ConstantTodayDateComponent(type, nodeForModify.getParameters() );
+								fieldConstantParameters = new ConstantTodayDateComponent(type, nodeForModify.getParameters() );
 							}else{
-								fieldVariableParameters = new ConstantTodayDateComponent(type);
+								fieldConstantParameters = new ConstantTodayDateComponent(type);
 							}
 						}						
 						
-/*					//VARIABLE_PARAMETER
-					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.STORE_PARAMETER ) ){
-							
-						//Nem ez az elso valtoztatas
-						if( null != fieldVariableParameters ){
-							VariableElementEditor.this.remove(labelVariableParameters, fieldVariableParameters.getComponent());
-							fieldVariableParameters = new VariableVariableComponent(type);
-						}else{
-							//Modositas volt
-							if( null != nodeForModify ){
-								fieldVariableParameters = new VariableVariableComponent(type, nodeForModify.getParameters() );
-							}else{
-								fieldVariableParameters = new VariableVariableComponent(type);
-							}
-						}
-*/
 					}
 					
-					ConstantElementEditor.this.add( labelVariableParameters, fieldVariableParameters );
+					ConstantElementEditor.this.add( labelConstantParameters, fieldConstantParameters );
 					ConstantElementEditor.this.revalidate();
 				}
 			}
@@ -270,18 +232,16 @@ public class ConstantElementEditor extends DataEditor{
 	private void commonPost(){
 		
 		labelName = new JLabel( CommonOperations.getTranslation("editor.label.name") + ": ");
-		labelVariableType = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype") + ": ");
-		labelVariableParameters = new JLabel("");
+		labelConstantType = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype") + ": ");
+		labelConstantParameters = new JLabel("");
 		
-		//this.add( labelName, fieldName );
 		//jx
 		this.add( labelName, fieldName );
-		this.add( labelVariableType, fieldVariableType );
-//		this.add( labelVariableParameters, fieldVariableParameters );
+		this.add( labelConstantType, fieldConstantType );
 
 		//Arra kenyszeritem, hogy az elso igazi valasztas is kivaltson egy esemenyt
-		fieldVariableType.setSelectedIndex(-1);		
-		fieldVariableType.setSelectedIndex( type.getIndex() );	
+		fieldConstantType.setSelectedIndex(-1);		
+		fieldConstantType.setSelectedIndex( type.getIndex() );	
 	}
 		
 	@Override
@@ -339,7 +299,7 @@ public class ConstantElementEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.variable.element") 
+										CommonOperations.getTranslation("tree.nodetype.constant.element") 
 								) 
 							);
 							break;
@@ -364,15 +324,15 @@ public class ConstantElementEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){			
 
-				ConstantElementDataModel newVariableElement = new ConstantElementDataModel( fieldName.getText(), type, fieldVariableParameters.getParameters());
-				nodeForCapture.add( newVariableElement );
+				ConstantElementDataModel newConstantElement = new ConstantElementDataModel( fieldName.getText(), type, fieldConstantParameters.getParameters());
+				nodeForCapture.add( newConstantElement );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setType( type );
-				nodeForModify.setParameters( fieldVariableParameters.getParameters() );
+				nodeForModify.setParameters( fieldConstantParameters.getParameters() );
 				
 			}
 			

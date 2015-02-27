@@ -13,12 +13,12 @@ import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsLis
 
 public enum ConstantTypeListEnum implements ElementTypeOperationsListEnumInterface{	
 	
-	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.variable.parametertype.string"), new Class<?>[]{String.class}),
-	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),
-	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
-	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class}),
-	RANDOM_DATE_PARAMETER( 4, CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate"), new Class<?>[]{String.class, String.class, String.class, String.class }),
-	TODAY_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate"), new Class<?>[]{String.class, String.class, String.class, Integer.class }),
+	STRING_PARAMETER( 0, CommonOperations.getTranslation("editor.label.constant.parametertype.string"), new Class<?>[]{String.class}),
+	RANDOM_STRING_PARAMETER( 1, CommonOperations.getTranslation("editor.label.constant.parametertype.randomstring"), new Class<?>[]{String.class, Integer.class}),
+	RANDOM_INTEGER_PARAMETER( 2, CommonOperations.getTranslation("editor.label.constant.parametertype.randominteger"), new Class<?>[]{Integer.class, Integer.class}),
+	RANDOM_DOUBLE_PARAMETER( 3, CommonOperations.getTranslation("editor.label.constant.parametertype.randomdouble"), new Class<?>[]{Double.class, Double.class, Integer.class}),
+	RANDOM_DATE_PARAMETER( 4, CommonOperations.getTranslation("editor.label.constant.parametertype.randomdate"), new Class<?>[]{String.class, String.class, String.class, String.class }),
+	TODAY_DATE_PARAMETER( 5, CommonOperations.getTranslation("editor.label.constant.parametertype.todaydate"), new Class<?>[]{String.class, String.class, String.class, Integer.class }),
 	;
 	
 	private int index;
@@ -120,7 +120,7 @@ public enum ConstantTypeListEnum implements ElementTypeOperationsListEnumInterfa
 		return parameterClassList.size();
 	}
 	
-	public static ConstantTypeListEnum getVariableParameterTypeByIndex( int index ){
+	public static ConstantTypeListEnum getConstantParameterTypeByIndex( int index ){
 		switch(index){
 		case 0: return STRING_PARAMETER;		
 		case 1: return RANDOM_STRING_PARAMETER;

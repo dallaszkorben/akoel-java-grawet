@@ -27,7 +27,7 @@ import hu.akoel.grawit.enums.list.ListGainByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ListElementTypeOperationsFullListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.ConstantTreeSelectorComponent;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -57,7 +57,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 	
 	//Variable selector - Mezo kitoltes
 	private JLabel labelVariableSelector;
-	private VariableTreeSelectorComponent fieldVariableSelector;
+	private ConstantTreeSelectorComponent fieldVariableSelector;
 	
 	//BaseElement selector - Mezo kitoltes
 	private JLabel labelBaseElementSelector;
@@ -103,14 +103,14 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		return(E)comboOperationList.getSelectedItem();
 	}
 
-	public ListElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	public ListElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		super();
 		
-		common( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );		
 		
 	}
 	
-	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
 		
@@ -118,7 +118,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.step.pattern") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.variable") + ": ");
+		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.constant") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
 		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.step.message") + ": ");		
 		labelCompareSelectedListElementType = new JLabel( CommonOperations.getTranslation("editor.label.step.comparetype") + ": ");
@@ -249,7 +249,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		comboContainListBy.setSelectedIndex(ListCompareByListEnum.BYVALUE.getIndex());				
 		
 		//Valtozok letrehozase
-		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
+		fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel );
 		
 		//Arra az esetre, ha a muvelethez hasznalt baseElement meg nem kivalasztott akkor az alap alapElemet javasolja hasznalni
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, false );
@@ -282,8 +282,8 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			//SELECT VARIABLE
 			}else if( elementOperation instanceof SelectConstantElementOperation ){
 								
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((SelectConstantElementOperation)elementOperation).getConstantElement() );
-				comboOperationList.setSelectedIndex(E.SELECT_VARIABLE.getIndex());
+				fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((SelectConstantElementOperation)elementOperation).getConstantElement() );
+				comboOperationList.setSelectedIndex(E.SELECT_CONSTANT.getIndex());
 				
 				comboSelectionBy.setSelectedIndex( ((SelectConstantElementOperation)elementOperation).getSelectionBy().getIndex() );
 				
@@ -306,8 +306,8 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			//CONTAIN VARIABLE
 			}else if( elementOperation instanceof ContainListConstantOperation ){
 					
-					fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((ContainListConstantOperation)elementOperation).getConstantElement() );				
-					comboOperationList.setSelectedIndex(E.CONTAIN_VARIABLE.getIndex());
+					fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((ContainListConstantOperation)elementOperation).getConstantElement() );				
+					comboOperationList.setSelectedIndex(E.CONTAIN_CONSTANT.getIndex());
 					comboContainListType.setSelectedIndex( ((ContainListConstantOperation)elementOperation).getContainType().getIndex() );
 					comboContainListBy.setSelectedIndex( ((ContainListConstantOperation)elementOperation).getContainBy().getIndex() );
 
@@ -330,8 +330,8 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			//COMPARE TO VARIABLE
 			}else if( elementOperation instanceof CompareListToConstantOperation ){
 				
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareListToConstantOperation)elementOperation).getConstantElement() );				
-				comboOperationList.setSelectedIndex(E.COMPARE_TO_VARIABLE.getIndex());
+				fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((CompareListToConstantOperation)elementOperation).getConstantElement() );				
+				comboOperationList.setSelectedIndex(E.COMPARE_TO_CONSTANT.getIndex());
 				comboCompareSelectedListElementType.setSelectedIndex( ((CompareListToConstantOperation)elementOperation).getCompareType().getIndex() );
 				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareListToConstantOperation)elementOperation).getCompareBy().getIndex() );
 
@@ -451,8 +451,8 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			
 			putSelectionBy( c );
 			
-		//Fill variable
-		}else if( selectedOperation.equals( E.SELECT_VARIABLE )  ){
+		//Fill constant
+		}else if( selectedOperation.equals( E.SELECT_CONSTANT )  ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -506,7 +506,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			putListCompareSelectedListElementBy( c );
 	
 		//COMPARE TO VARIABLE
-		}else if( selectedOperation.equals( E.COMPARE_TO_VARIABLE ) ){
+		}else if( selectedOperation.equals( E.COMPARE_TO_CONSTANT ) ){
 	
 			c.gridy = 0;
 			c.gridx = 4;
@@ -560,7 +560,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			putListContainBy(c);
 		
 		//CONTAIN TO VARIABLE
-		}else if( selectedOperation.equals( E.CONTAIN_VARIABLE ) ){
+		}else if( selectedOperation.equals( E.CONTAIN_CONSTANT ) ){
 		
 			c.gridy = 0;
 			c.gridx = 4;
@@ -779,8 +779,8 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		if( comboOperationList.getSelectedIndex() ==  E.SELECT_BASE.getIndex() ){
 			return new SelectBaseElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (ListSelectionByListEnum)comboSelectionBy.getSelectedItem() );
 			
-		//Fill variable
-		}else if(comboOperationList.getSelectedIndex() ==  E.SELECT_VARIABLE.getIndex() ){
+		//Fill constant
+		}else if(comboOperationList.getSelectedIndex() ==  E.SELECT_CONSTANT.getIndex() ){
 			return new SelectConstantElementOperation( fieldVariableSelector.getSelectedDataModel(), (ListSelectionByListEnum)comboSelectionBy.getSelectedItem() );
 			
 		//Fill string
@@ -801,7 +801,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			return new ContainListStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (ContainTypeListEnum)(comboContainListType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboContainListBy.getSelectedItem()) );
 					
 		//CONTAIN VARIABLE
-		}else if(comboOperationList.getSelectedIndex() ==  E.CONTAIN_VARIABLE.getIndex() ){
+		}else if(comboOperationList.getSelectedIndex() ==  E.CONTAIN_CONSTANT.getIndex() ){
 			return new ContainListConstantOperation( fieldVariableSelector.getSelectedDataModel(), (ContainTypeListEnum)(comboContainListType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboContainListBy.getSelectedItem()) );
 					
 		//CONTAIN STRING
@@ -814,7 +814,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			return new CompareListToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareSelectedListElementType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareSelectedListElementBy.getSelectedItem()) );
 				
 		//COMPARE TO VARIABLE
-		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_VARIABLE.getIndex() ){
+		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_CONSTANT.getIndex() ){
 			return new CompareListToConstantOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareSelectedListElementType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareSelectedListElementBy.getSelectedItem()) );
 				
 		//COMPARE TO STRING

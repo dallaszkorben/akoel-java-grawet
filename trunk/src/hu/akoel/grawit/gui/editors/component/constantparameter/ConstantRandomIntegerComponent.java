@@ -70,7 +70,7 @@ public class ConstantRandomIntegerComponent extends JPanel implements ConstantCo
 		// From field
 		//
 		
-		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger.from") );
+		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randominteger.from") );
 		
 		fieldFrom = new JTextField( parameterList.get(PARAMETERORDER_FROM).toString());
 		fieldFrom.setColumns(5);
@@ -123,7 +123,7 @@ public class ConstantRandomIntegerComponent extends JPanel implements ConstantCo
 		//
 		// To field
 		//
-		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randominteger.to") );
+		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randominteger.to") );
 
 		fieldTo = new JTextField( parameterList.get(PARAMETERORDER_TO).toString());
 		fieldTo.setColumns(5);

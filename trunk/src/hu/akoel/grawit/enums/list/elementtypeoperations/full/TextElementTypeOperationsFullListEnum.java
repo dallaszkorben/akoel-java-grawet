@@ -4,7 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum TextElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
-	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttovariable") ),
+	COMPARETEXT_TO_CONSTANT( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttoconstant") ),
 	COMPARETEXT_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttostored") ),
 	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttostring") ),
 	LEFT_CLICK( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.text.leftclick") ),
@@ -38,7 +38,7 @@ public enum TextElementTypeOperationsFullListEnum implements ElementTypeOperatio
 	
 	public static TextElementTypeOperationsFullListEnum getElementTextOperationByIndex( int index ){
 		switch (index){		
-		case 0: return COMPARETEXT_TO_VARIABLE;
+		case 0: return COMPARETEXT_TO_CONSTANT;
 		case 1: return COMPARETEXT_TO_STORED;
 		case 2: return COMPARETEXT_TO_STRING;
 		case 3: return LEFT_CLICK;

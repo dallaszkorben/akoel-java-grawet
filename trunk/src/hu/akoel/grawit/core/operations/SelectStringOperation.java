@@ -41,7 +41,7 @@ public class SelectStringOperation extends SelectOperationAdapter{
 			selectionBy = ListSelectionByListEnum.BYVISIBLETEXT;
 		}		
 		
-		//SELECT VARIABLE ELEMENT
+		//SELECT CONSTANT ELEMENT
 		if( !element.hasAttribute( ATTR_SELECT_STRING ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_SELECT_STRING );
 		}

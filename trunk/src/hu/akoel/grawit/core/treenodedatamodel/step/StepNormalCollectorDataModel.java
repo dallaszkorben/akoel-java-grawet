@@ -51,9 +51,9 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	 * @param element
 	 * @throws XMLPharseException
 	 */
-	public StepNormalCollectorDataModel( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepNormalCollectorDataModel( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ) throws XMLPharseException{
 		
-		super(element, baseRootDataModel, variableRootDataModel);
+		super(element, baseRootDataModel, constantRootDataModel);
 				
 		//========
 		//
@@ -85,7 +85,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				Element paramElement = (Element)node;
 				if( paramElement.getTagName().equals( Tag.STEPELEMENT.getName() )){					
 						
-					this.add(new StepElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+					this.add(new StepElementDataModel(paramElement, baseRootDataModel, constantRootDataModel ));
 						
 				}
 			}			

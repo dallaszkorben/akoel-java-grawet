@@ -26,8 +26,8 @@ public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAda
 
 	public static final String ATTR_LAST_BASE_ELEMENT_PATH = "lastbaseelementpath";
 	
-	public StepCollectorDataModelAdapter(Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel) throws XMLPharseException {
-		super(element, baseRootDataModel, variableRootDataModel);
+	public StepCollectorDataModelAdapter(Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel) throws XMLPharseException {
+		super(element, baseRootDataModel, constantRootDataModel);
 
 	}
 

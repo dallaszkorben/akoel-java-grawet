@@ -10,16 +10,16 @@ import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreePath;
 
-public class VariableTreeSelectorComponent extends TreeSelectorComponent<ConstantElementDataModel>{
+public class ConstantTreeSelectorComponent extends TreeSelectorComponent<ConstantElementDataModel>{
 
 	private static final long serialVersionUID = 5692189257383238770L;
 
-	public VariableTreeSelectorComponent( ConstantDataModelAdapter rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.variable"), ConstantElementDataModel.class, rootDataModel, null, false, false );
+	public ConstantTreeSelectorComponent( ConstantDataModelAdapter rootDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.constant"), ConstantElementDataModel.class, rootDataModel, null, false, false );
 	}
 
-	public VariableTreeSelectorComponent( ConstantDataModelAdapter rootDataModel, ConstantElementDataModel selectedVariableElementDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.variable"), ConstantElementDataModel.class, rootDataModel, selectedVariableElementDataModel, true, false );
+	public ConstantTreeSelectorComponent( ConstantDataModelAdapter rootDataModel, ConstantElementDataModel selectedVariableElementDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.constant"), ConstantElementDataModel.class, rootDataModel, selectedVariableElementDataModel, true, false );
 	}
 	
 	@Override

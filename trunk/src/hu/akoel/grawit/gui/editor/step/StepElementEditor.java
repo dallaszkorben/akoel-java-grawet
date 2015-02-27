@@ -61,7 +61,7 @@ public class StepElementEditor extends DataEditor{
 	private ElementTypeComponentFullInterface<?> elementTypeComponent;
 	
 	BaseRootDataModel baseRootDataModel;
-	ConstantRootDataModel variableRootDataModel;
+	ConstantRootDataModel constantRootDataModel;
 	
 	/**
 	 *  Uj ParamPageElement rogzitese - Insert
@@ -69,7 +69,7 @@ public class StepElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
-	public StepElementEditor( Tree tree, StepCollectorDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	public StepElementEditor( Tree tree, StepCollectorDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, ConstantRootDataModel constantRootDataModel ){
 
 		super( StepElementDataModel.getModelNameToShowStatic());
 		
@@ -77,7 +77,7 @@ public class StepElementEditor extends DataEditor{
 		this.nodeForCapture = selectedPage;
 		this.mode = null;
 
-		commonPre( baseRootDataModel, paramRootDataModel, variableRootDataModel );
+		commonPre( baseRootDataModel, paramRootDataModel, constantRootDataModel );
 		
 		//Name
 		fieldName.setText( "" );
@@ -98,7 +98,7 @@ public class StepElementEditor extends DataEditor{
 	 * @param selectedElement
 	 * @param mode
 	 */
-	public StepElementEditor( Tree tree, StepElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, ConstantRootDataModel variableRootDataModel, EditMode mode ){
+	public StepElementEditor( Tree tree, StepElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, ConstantRootDataModel constantRootDataModel, EditMode mode ){
 
 		super( mode, selectedElement.getNodeTypeToShow());
 
@@ -106,7 +106,7 @@ public class StepElementEditor extends DataEditor{
 		this.nodeForModify = selectedElement;
 		this.mode = mode;	
 		
-		commonPre( baseRootDataModel, paramRootDataModel, variableRootDataModel );
+		commonPre( baseRootDataModel, paramRootDataModel, constantRootDataModel );
 		
 		//Name
 		fieldName.setText( selectedElement.getName() );
@@ -120,13 +120,13 @@ public class StepElementEditor extends DataEditor{
 		
 	}
 
-	private void commonPre( final BaseRootDataModel baseRootDataModel, final StepRootDataModel paramRootDataModel, final ConstantRootDataModel variableRootDataModel ){
+	private void commonPre( final BaseRootDataModel baseRootDataModel, final StepRootDataModel paramRootDataModel, final ConstantRootDataModel constantRootDataModel ){
 				
 		//Name
 		fieldName = new TextFieldComponent();
 		
 		this.baseRootDataModel = baseRootDataModel;
-		this.variableRootDataModel = variableRootDataModel;
+		this.constantRootDataModel = constantRootDataModel;
 
 	}
 	
@@ -203,27 +203,27 @@ public class StepElementEditor extends DataEditor{
 		//SCRIPT
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SCRIPT.name() ) ){
 				
-			elementTypeComponent = new ScriptElementTypeComponentFull<ScriptElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new ScriptElementTypeComponentFull<ScriptElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel);  
 			
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
 			
-			elementTypeComponent = new FieldElementTypeComponentFull<FieldElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new FieldElementTypeComponentFull<FieldElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel);  
 			
 		//TEXT
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
 
-			elementTypeComponent = new TextElementTypeComponentFull<TextElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new TextElementTypeComponentFull<TextElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );
 			
 		//LINK	
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LINK.name() ) ){
 
-			elementTypeComponent = new LinkElementTypeComponentFull<LinkElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new LinkElementTypeComponentFull<LinkElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );
 			
 		//LIST
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LIST.name() ) ){
 			
-			elementTypeComponent = new ListElementTypeComponentFull<ListElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new ListElementTypeComponentFull<ListElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );
 			
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
@@ -233,12 +233,12 @@ public class StepElementEditor extends DataEditor{
 		//RADIOBUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.RADIOBUTTON.name() ) ){
 
-			elementTypeComponent = new RadiobuttonElementTypeComponentFull<RadiobuttonElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new RadiobuttonElementTypeComponentFull<RadiobuttonElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );
 			
 		//CHECKBOX
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.CHECKBOX.name() ) ){
 			
-			elementTypeComponent = new CheckboxElementTypeComponentFull<CheckboxElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new CheckboxElementTypeComponentFull<CheckboxElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );
 					
 		}		
 		

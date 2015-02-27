@@ -4,7 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum LinkElementTypeOperationsCompareListEnum implements ElementTypeOperationsListEnumInterface{		
-	COMPARETEXT_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.link.comparetexttovariable") ),
+	COMPARETEXT_TO_CONSTANT( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.link.comparetexttoconstant") ),
 	COMPARETEXT_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.link.comparetexttostored") ),
 	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.link.comparetexttostring") ),
 	;
@@ -34,10 +34,10 @@ public enum LinkElementTypeOperationsCompareListEnum implements ElementTypeOpera
 	
 	public static LinkElementTypeOperationsCompareListEnum getElementFieldOperationByIndex( int index ){
 		switch (index){
-		case 0: return COMPARETEXT_TO_VARIABLE;
+		case 0: return COMPARETEXT_TO_CONSTANT;
 		case 1: return COMPARETEXT_TO_STORED;
 		case 2: return COMPARETEXT_TO_STRING;
-		default: return COMPARETEXT_TO_VARIABLE;
+		default: return COMPARETEXT_TO_CONSTANT;
 		}
 	}
 	

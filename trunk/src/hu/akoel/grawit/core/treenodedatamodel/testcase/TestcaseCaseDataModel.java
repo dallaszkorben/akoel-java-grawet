@@ -57,8 +57,8 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseCaseDataModel( Element element, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverDataModelAdapter driverDataModel ) throws XMLPharseException{
-		super( element, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel );
+	public TestcaseCaseDataModel( Element element, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverDataModelAdapter driverDataModel ) throws XMLPharseException{
+		super( element, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel );
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -95,7 +95,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 				//Ha TESTCASEPARAMCONTAINER van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASEPARAMCOLLECTOR.getName() )){
 					
-					this.add(new TestcaseParamContainerDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
+					this.add(new TestcaseParamContainerDataModel(testcaseElement, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
 					
 				}
 			}

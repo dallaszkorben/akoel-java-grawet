@@ -7,10 +7,9 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
-import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
-import hu.akoel.grawit.gui.tree.VariableTree;
+import hu.akoel.grawit.gui.tree.ConstantTree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
@@ -19,7 +18,7 @@ public class ConstantNodeEditor extends DataEditor{
 
 	private static final long serialVersionUID = -6272133454002585188L;
 	
-	private VariableTree tree;
+	private ConstantTree tree;
 	private ConstantFolderNodeDataModel nodeForModify;
 	private ConstantFolderNodeDataModel nodeForCapture;
 	private EditMode mode;
@@ -42,7 +41,7 @@ public class ConstantNodeEditor extends DataEditor{
 	}
 	
 	//Itt biztos beszuras van
-	public ConstantNodeEditor( VariableTree tree, ConstantFolderNodeDataModel selectedNode ){
+	public ConstantNodeEditor( ConstantTree tree, ConstantFolderNodeDataModel selectedNode ){
 
 		super( ConstantFolderNodeDataModel.getModelNameToShowStatic());
 		
@@ -61,11 +60,11 @@ public class ConstantNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public ConstantNodeEditor( VariableTree variableTree, ConstantFolderNodeDataModel selectedNode, EditMode mode ){		
+	public ConstantNodeEditor( ConstantTree constantTree, ConstantFolderNodeDataModel selectedNode, EditMode mode ){		
 
 		super( mode, selectedNode.getNodeTypeToShow());
 
-		this.tree = variableTree;
+		this.tree = constantTree;
 		this.nodeForModify = selectedNode;
 		this.mode = mode;		
 		
@@ -131,7 +130,7 @@ public class ConstantNodeEditor extends DataEditor{
 								MessageFormat.format( 
 										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
 										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.variable.node") 
+										CommonOperations.getTranslation("tree.nodetype.constant.node") 
 								) 
 							);	
 							break;
@@ -155,8 +154,8 @@ public class ConstantNodeEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				ConstantFolderNodeDataModel newVariableNode = new ConstantFolderNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
-				nodeForCapture.add( newVariableNode );
+				ConstantFolderNodeDataModel newConstantNode = new ConstantFolderNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				nodeForCapture.add( newConstantNode );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){

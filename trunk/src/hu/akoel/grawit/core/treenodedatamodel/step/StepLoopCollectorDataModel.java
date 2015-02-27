@@ -78,9 +78,9 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 
 	}
 	
-	public StepLoopCollectorDataModel( Element element, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public StepLoopCollectorDataModel( Element element, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
-		super(element, baseRootDataModel, variableRootDataModel);
+		super(element, baseRootDataModel, constantRootDataModel);
 		
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -213,13 +213,13 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 				Element paramElement = (Element)node;
 				if( paramElement.getTagName().equals( Tag.STEPELEMENT.getName() )){					
 						
-					this.add(new StepElementDataModel(paramElement, baseRootDataModel, variableRootDataModel ));
+					this.add(new StepElementDataModel(paramElement, baseRootDataModel, constantRootDataModel ));
 						
 				}
 			}			
 		}	
 		
-		elementOperation = CommonOperations.getElementOperation( element, compareBaseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, variableRootDataModel );
+		elementOperation = CommonOperations.getElementOperation( element, compareBaseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, constantRootDataModel );
 		
 	}
 	

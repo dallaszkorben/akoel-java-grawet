@@ -122,7 +122,7 @@ public class ConstantElementDataModel extends ConstantDataModelAdapter{
 	}
 	
 	public static String getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.variable.element" );
+		return CommonOperations.getTranslation( "tree.nodetype.constant.element" );
 	}
 	
 	@Override
@@ -199,7 +199,7 @@ public class ConstantElementDataModel extends ConstantDataModelAdapter{
 	@Override
 	public Object clone(){
 		
-		//Leklonozza az VariableElement-et
+		//Leklonozza az ConstantElement-et
 		ConstantElementDataModel cloned = (ConstantElementDataModel)super.clone();
 		
 		//Es a valtozoit is klonozni kell

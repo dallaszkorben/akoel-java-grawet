@@ -15,25 +15,17 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
-import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
-import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
-import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.HasConstantOperationInterface;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -42,14 +34,14 @@ import hu.akoel.grawit.gui.editor.constant.ConstantElementEditor;
 import hu.akoel.grawit.gui.editor.constant.ConstantNodeEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 
-public class VariableTree extends Tree{
+public class ConstantTree extends Tree{
 
 	private static final long serialVersionUID = 6810815920672285062L;
 	private GUIFrame guiFrame;
 	StepRootDataModel paramRootDataModel;
 	
-	public VariableTree(GUIFrame guiFrame, ConstantRootDataModel variableRootDataModel, StepRootDataModel paramRootDataModel) {
-		super(guiFrame, variableRootDataModel);
+	public ConstantTree(GUIFrame guiFrame, ConstantRootDataModel constantRootDataModel, StepRootDataModel paramRootDataModel) {
+		super(guiFrame, constantRootDataModel);
 		this.guiFrame = guiFrame;
 		
 		this.paramRootDataModel = paramRootDataModel;
@@ -105,12 +97,12 @@ public class VariableTree extends Tree{
 		
 		if( selectedNode instanceof ConstantFolderNodeDataModel ){
 			
-			ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( variableNodeEditor);								
 			
 		}else if( selectedNode instanceof ConstantElementDataModel ){
 			
-			ConstantElementEditor variableElementEditor = new ConstantElementEditor( VariableTree.this, (ConstantElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			ConstantElementEditor variableElementEditor = new ConstantElementEditor( ConstantTree.this, (ConstantElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( variableElementEditor);	
 		}
 	}
@@ -131,7 +123,7 @@ public class VariableTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+					ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableNodeEditor);								
 				
 				}
@@ -139,14 +131,14 @@ public class VariableTree extends Tree{
 			popupMenu.add ( insertNodeMenu );
 
 			//Insert Element
-			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.variable.element") );
+			JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.constant.element") );
 			insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertElementMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 							
-					ConstantElementEditor variableElementEditor = new ConstantElementEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+					ConstantElementEditor variableElementEditor = new ConstantElementEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableElementEditor);								
 				
 				}
@@ -181,7 +173,7 @@ public class VariableTree extends Tree{
 					((ConstantDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					VariableTree.this.changed();
+					ConstantTree.this.changed();
 				
 				}
 
@@ -404,7 +396,7 @@ public class VariableTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+				ConstantNodeEditor variableNodeEditor = new ConstantNodeEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( variableNodeEditor);								
 			
 			}
@@ -413,14 +405,14 @@ public class VariableTree extends Tree{
 		
 		
 		//Insert Element
-		JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.variable.element" ) );
+		JMenuItem insertElementMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.constant.element" ) );
 		insertElementMenu.setActionCommand( ActionCommand.CAPTURE.name());
 		insertElementMenu.addActionListener( new ActionListener() {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 							
-				ConstantElementEditor variableElementEditor = new ConstantElementEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
+				ConstantElementEditor variableElementEditor = new ConstantElementEditor( ConstantTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( variableElementEditor);								
 			
 			}

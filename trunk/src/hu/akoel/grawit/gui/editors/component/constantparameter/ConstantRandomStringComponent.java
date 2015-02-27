@@ -72,7 +72,7 @@ public class ConstantRandomStringComponent extends JPanel implements ConstantCom
 		// Sample field
 		//
 		
-		JLabel labelSample = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring.samplestring") );
+		JLabel labelSample = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randomstring.samplestring") );
 		
 		fieldSample = new JTextField( parameterList.get(PARAMETERORDER_SAMPLE).toString());
 		
@@ -124,7 +124,7 @@ public class ConstantRandomStringComponent extends JPanel implements ConstantCom
 		//
 		// Length field
 		//
-		JLabel labelLength = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomstring.length") );
+		JLabel labelLength = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randomstring.length") );
 
 		fieldLength = new JTextField( parameterList.get(PARAMETERORDER_LENGTH).toString());
 		fieldLength.setColumns(5);
