@@ -67,41 +67,11 @@ public class ConstantStringComponent extends JPanel implements ConstantComponent
 		//Mezo feltoltese
 		fieldString = new JTextField( parameterList.get(PARAMETERORDER_VALUE).toString());
 		fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );
-		/*fieldString.setInputVerifier(new InputVerifier() {
-			String goodValue = "";
-			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
-
-				try {
-					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersStringComponent.this.type.getParameterClass(0).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( 0, value );
-					goodValue = possibleValue;
-					
-				} catch (Exception e) {
-					text.setText( goodValue );
-					return false;
-				}				
-				return true;
-			}
-		});*/
 		
 		int gridY = 0;
 		GridBagConstraints c = new GridBagConstraints();		
 		c.insets = new Insets(0,0,0,0);
-/*		
-		c.gridy = gridY;
-		c.gridx = 0;
-		c.gridwidth = 0;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
-		c.anchor = GridBagConstraints.WEST;
-		this.add( labelString, c );
-*/		
+	
 		gridY++;
 		c.gridy = gridY;
 		c.gridx = 0;

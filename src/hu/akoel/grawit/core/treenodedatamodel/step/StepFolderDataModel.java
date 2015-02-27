@@ -25,9 +25,9 @@ public class StepFolderDataModel extends StepNodeDataModelAdapter{
 		super( name, details );
 	}
 	
-	public StepFolderDataModel( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepFolderDataModel( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ) throws XMLPharseException{
 
-		super( element, baseRootDataModel, variableRootDataModel );
+		super( element, baseRootDataModel, constantRootDataModel );
 		
 	    //========
 		//
@@ -42,15 +42,15 @@ public class StepFolderDataModel extends StepNodeDataModelAdapter{
 				
 				//Ha PARAMPAGE van alatta
 				if( pageElement.getTagName().equals( Tag.STEPNORMALELEMENTCOLLECTOR.getName() )){					
-					this.add(new StepNormalCollectorDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
+					this.add(new StepNormalCollectorDataModel(pageElement, baseRootDataModel, constantRootDataModel ) );
 
 				//Ha PARAMLOOP van alatta
 				}else if( pageElement.getTagName().equals( Tag.STEPLOOPELEMENTCOLLECTOR.getName() )){					
-					this.add(new StepLoopCollectorDataModel(pageElement, variableRootDataModel, baseRootDataModel ) );
+					this.add(new StepLoopCollectorDataModel(pageElement, constantRootDataModel, baseRootDataModel ) );
 						
 				//Ha ujabb PARAMNODE van alatta
 				}else if( pageElement.getTagName().equals( Tag.STEPFOLDER.getName() )){					
-					this.add(new StepFolderDataModel(pageElement, baseRootDataModel, variableRootDataModel ) );
+					this.add(new StepFolderDataModel(pageElement, baseRootDataModel, constantRootDataModel ) );
 				}
 			}
 		}

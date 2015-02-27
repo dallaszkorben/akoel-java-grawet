@@ -84,7 +84,7 @@ public class StepElementDataModel extends StepDataModelAdapter {
 	 * @param variableDataModel
 	 * @throws XMLPharseException
 	 */
-	public StepElementDataModel( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepElementDataModel( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ) throws XMLPharseException{
 
 		BaseDataModelAdapter baseDataModel = baseRootDataModel;
 		
@@ -192,7 +192,7 @@ public class StepElementDataModel extends StepDataModelAdapter {
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_OPERATION );			
 		}
 
-		elementOperation = CommonOperations.getElementOperation( element, baseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, variableRootDataModel );
+		elementOperation = CommonOperations.getElementOperation( element, baseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, constantRootDataModel );
 
 	}
 

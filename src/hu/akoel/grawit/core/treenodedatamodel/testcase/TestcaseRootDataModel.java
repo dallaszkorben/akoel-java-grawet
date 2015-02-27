@@ -48,7 +48,7 @@ public class TestcaseRootDataModel extends TestcaseNodeDataModelAdapter{
 		this.driver = driver;
 	}
 	
-	public TestcaseRootDataModel( Document doc, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverDataModelAdapter driverDataModel ) throws XMLPharseException{		
+	public TestcaseRootDataModel( Document doc, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverDataModelAdapter driverDataModel ) throws XMLPharseException{		
 		super("","");
 		
 		NodeList nList = doc.getElementsByTagName( TAG.getName() );
@@ -191,7 +191,7 @@ if( testcaseRootElement.hasAttribute( ATTR_DRIVER_PATH ) ){
 														
 						//Ha ujabb TESTCASEFOLDER van alatta
 						if( testcaseElement.getTagName().equals( Tag.TESTCASEFOLDER.getName() ) ){
-							this.add(new TestcaseFolderDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
+							this.add(new TestcaseFolderDataModel(testcaseElement, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
 						}
 					}
 				}

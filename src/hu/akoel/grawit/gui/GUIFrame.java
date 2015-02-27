@@ -15,7 +15,7 @@ import hu.akoel.grawit.gui.tree.ParamTree;
 import hu.akoel.grawit.gui.tree.RunTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.Tree;
-import hu.akoel.grawit.gui.tree.VariableTree;
+import hu.akoel.grawit.gui.tree.ConstantTree;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -77,7 +77,7 @@ public class GUIFrame extends JFrame{
 	private JMenuItem editDriverMenuItem;
 	private JMenuItem editBaseMenuItem;
 	private JMenuItem editParamMenuItem;
-	private JMenuItem editVariableMenuItem;
+	private JMenuItem editConstantMenuItem;
 	private JMenuItem editTestCaseMenuItem;
 	private JMenuItem runRunMenuItem;
 	private JMenuItem helpAboutMenuItem;
@@ -85,7 +85,7 @@ public class GUIFrame extends JFrame{
 	private TreePanel treePanel;
 	private EditorPanel editorPanel;
 
-	private ConstantRootDataModel variableRootDataModel = new ConstantRootDataModel();
+	private ConstantRootDataModel constantRootDataModel = new ConstantRootDataModel();
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
 	private StepRootDataModel paramRootDataModel = new StepRootDataModel();	
 	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
@@ -98,7 +98,7 @@ public class GUIFrame extends JFrame{
 	private OpenActionListener openActionListener;
 	private SaveAsActionListener saveAsActionListener;
 	private SaveActionListener saveActionListener;
-	private EditVariableActionListener editVariableActionListener;
+	private EditConstantActionListener editConstantActionListener;
 	private EditBaseActionListener editBaseActionListener;
 	private EditParamActionListener editParamActionListener;
 	private EditTestcaseActionListener editTestcaseActionListener;
@@ -219,13 +219,13 @@ public class GUIFrame extends JFrame{
         editDriverMenuItem.setEnabled( false );
         menu.add(editDriverMenuItem);  
         
-        //Edit Variable Parameter      
-        editVariableMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.variable") );
-        editVariableMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.variable") ).getKeyCode() ); //KeyEvent.VK_P);
-        editVariableActionListener = new EditVariableActionListener();
-        editVariableMenuItem.addActionListener( editVariableActionListener );
-        editVariableMenuItem.setEnabled( false );
-        menu.add(editVariableMenuItem);        
+        //Edit Constant Parameter      
+        editConstantMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.constant") );
+        editConstantMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.constant") ).getKeyCode() ); //KeyEvent.VK_P);
+        editConstantActionListener = new EditConstantActionListener();
+        editConstantMenuItem.addActionListener( editConstantActionListener );
+        editConstantMenuItem.setEnabled( false );
+        menu.add(editConstantMenuItem);        
         
         menu.addSeparator();
         
@@ -345,7 +345,7 @@ public class GUIFrame extends JFrame{
 		
 		//Kikapcsolom a PAGEBASE szerkesztesi menut
 		editDriverMenuItem.setEnabled( false );
-		editVariableMenuItem.setEnabled( false );
+		editConstantMenuItem.setEnabled( false );
 		editParamMenuItem.setEnabled( false );
 		editBaseMenuItem.setEnabled( false );
 		editTestCaseMenuItem.setEnabled( false );
@@ -356,7 +356,7 @@ public class GUIFrame extends JFrame{
 		
 		baseRootDataModel.removeAllChildren();
 		paramRootDataModel.removeAllChildren();
-		variableRootDataModel.removeAllChildren();
+		constantRootDataModel.removeAllChildren();
 		testcaseRootDataModel.removeAllChildren();
 				
 		JTree tree = treePanel.getTree();
@@ -368,7 +368,7 @@ public class GUIFrame extends JFrame{
 		
 		//Bekapcsolom a PAGEBASE szerkesztesi menut
 		editDriverMenuItem.setEnabled( true );
-		editVariableMenuItem.setEnabled( true );
+		editConstantMenuItem.setEnabled( true );
 		editParamMenuItem.setEnabled( true );
 		editBaseMenuItem.setEnabled( true );
 		editTestCaseMenuItem.setEnabled( true );
@@ -389,9 +389,9 @@ public class GUIFrame extends JFrame{
 		Element driverRootElement = driverRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( driverRootElement );
 		
-		//VARIABLE PARAMETER mentese
-		Element variableRootElement = variableRootDataModel.getXMLElement(doc);	
-		rootElement.appendChild( variableRootElement );
+		//CONSTANT PARAMETER mentese
+		Element constantRootElement = constantRootDataModel.getXMLElement(doc);	
+		rootElement.appendChild( constantRootElement );
 		
 		//PAGE BASEROOT mentese
 		Element baseRootElement = baseRootDataModel.getXMLElement(doc);	
@@ -566,7 +566,7 @@ public class GUIFrame extends JFrame{
 			//
 			editDriverMenuItem.setEnabled( false );
 			
-			editVariableMenuItem.setEnabled( false );
+			editConstantMenuItem.setEnabled( false );
 			
 			//Kikapcsolom a PAGEBASE szerkesztesi menut
 			editParamMenuItem.setEnabled( false );
@@ -626,15 +626,14 @@ public class GUIFrame extends JFrame{
 					// BASEROOT
 					baseRootDataModel = new BaseRootDataModel(doc);
 					
-					// VARIABLEPARAMETER
-					variableRootDataModel = new ConstantRootDataModel(doc, baseRootDataModel );
+					// CONSTANTPARAMETER
+					constantRootDataModel = new ConstantRootDataModel(doc, baseRootDataModel );
 					
 					// PARAMROOT
-					paramRootDataModel = new StepRootDataModel(doc, variableRootDataModel, baseRootDataModel );
+					paramRootDataModel = new StepRootDataModel(doc, constantRootDataModel, baseRootDataModel );
 						
 					// TESTCASE
-					//testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, paramRootDataModel, specialRootDataModel, driverRootDataModel, scriptRootDataModel );
-					testcaseRootDataModel = new TestcaseRootDataModel(doc, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel );
+					testcaseRootDataModel = new TestcaseRootDataModel(doc, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel );
 
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
@@ -667,7 +666,7 @@ public class GUIFrame extends JFrame{
 			
 			editDriverMenuItem.setEnabled( true );
 			
-			editVariableMenuItem.setEnabled( true );
+			editConstantMenuItem.setEnabled( true );
 			
 			//Bekapcsolom a PAGEBASE szerkesztesi menut
 			editBaseMenuItem.setEnabled( true );
@@ -707,18 +706,18 @@ public class GUIFrame extends JFrame{
 	
 	/**
 	 * 
-	 * Edit Variable menu selection listener
+	 * Edit Constant menu selection listener
 	 * 
 	 * @author akoel
 	 *
 	 */
-	class EditVariableActionListener implements ActionListener{
+	class EditConstantActionListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			VariableTree tree = new VariableTree( GUIFrame.this, variableRootDataModel, paramRootDataModel );
+			ConstantTree tree = new ConstantTree( GUIFrame.this, constantRootDataModel, paramRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );
@@ -759,7 +758,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamTree tree = new ParamTree( GUIFrame.this, variableRootDataModel, baseRootDataModel, paramRootDataModel, testcaseRootDataModel );
+			ParamTree tree = new ParamTree( GUIFrame.this, constantRootDataModel, baseRootDataModel, paramRootDataModel, testcaseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );

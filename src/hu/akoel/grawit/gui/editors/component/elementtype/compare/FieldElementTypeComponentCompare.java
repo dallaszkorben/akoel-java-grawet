@@ -12,7 +12,7 @@ import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.FieldElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.ConstantTreeSelectorComponent;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -42,8 +42,8 @@ public class FieldElementTypeComponentCompare<E extends FieldElementTypeOperatio
 	private JLabel labelPattern;
 	
 	//Variable selector - Mezo kitoltes
-	private JLabel labelVariableSelector;
-	private VariableTreeSelectorComponent fieldVariableSelector;
+	private JLabel labelConstantSelector;
+	private ConstantTreeSelectorComponent fieldVariableSelector;
 	
 	//BaseElement selector - Mezo kitoltes
 	private JLabel labelBaseElementSelector;
@@ -63,20 +63,20 @@ public class FieldElementTypeComponentCompare<E extends FieldElementTypeOperatio
 	
 	private JLabel labelFiller;
 	
-	public FieldElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	public FieldElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		super();
 		
-		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( elementType, elementOperation, baseRootDataModel, constantRootDataModel );		
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
 		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.step.pattern") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.variable") + ": ");
+		labelConstantSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.constant") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
 		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.step.message") + ": ");
 		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.step.comparetype") + ": ");
@@ -161,7 +161,7 @@ public class FieldElementTypeComponentCompare<E extends FieldElementTypeOperatio
 		comboCompareTypeList.setSelectedIndex( -1 );		
 		
 		//Valtozok letrehozase
-		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
+		fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel );
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
 		fieldString = new JTextField( "" );
 		
@@ -184,8 +184,8 @@ public class FieldElementTypeComponentCompare<E extends FieldElementTypeOperatio
 		//COMPARE VALUE TO VARIABLE
 		}else if( elementOperation instanceof CompareValueToConstantOperation ){
 				
-			fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareValueToConstantOperation)elementOperation).getConstantElement() );				
-			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_VARIABLE.getIndex());
+			fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((CompareValueToConstantOperation)elementOperation).getConstantElement() );				
+			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_CONSTANT.getIndex());
 			comboCompareTypeList.setSelectedIndex( ((CompareValueToConstantOperation)elementOperation).getCompareType().getIndex() );
 
 		//COMPARE VALUE TO STORED
@@ -231,7 +231,7 @@ public class FieldElementTypeComponentCompare<E extends FieldElementTypeOperatio
 		this.remove( fieldBaseElementSelector );
 		this.remove( labelString );
 		this.remove( fieldString );
-		this.remove( labelVariableSelector );
+		this.remove( labelConstantSelector );
 		this.remove( fieldVariableSelector );	
 		this.remove( labelFiller );	
 		this.remove( fieldMessage );
@@ -255,8 +255,8 @@ public class FieldElementTypeComponentCompare<E extends FieldElementTypeOperatio
 			c.weightx = 1;
 			this.add( fieldBaseElementSelector, c );
 			
-		//Fill variable / Compare value to variable
-		}else if( selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) ){
+		//Fill constant/ Compare value to constant
+		}else if( selectedOperation.equals( E.COMPAREVALUE_TO_CONSTANT ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -265,7 +265,7 @@ public class FieldElementTypeComponentCompare<E extends FieldElementTypeOperatio
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelVariableSelector, c );
+			this.add( labelConstantSelector, c );
 		
 			c.gridx = 5;
 			c.weightx = 1;
@@ -290,7 +290,7 @@ public class FieldElementTypeComponentCompare<E extends FieldElementTypeOperatio
 		}	
 
 		//Compare element
-		if( selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) || selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) || selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
+		if( selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) || selectedOperation.equals( E.COMPAREVALUE_TO_CONSTANT ) || selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
 				
 			c.gridy = 1;
 			c.gridx = 2;
@@ -319,7 +319,7 @@ public class FieldElementTypeComponentCompare<E extends FieldElementTypeOperatio
 			return new CompareValueToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 				
 		//COMPARE VALUE TO VARIABLE
-		}else if(comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_VARIABLE.getIndex() ){
+		}else if(comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_CONSTANT.getIndex() ){
 			return new CompareValueToConstantOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 				
 		//COMPARE VALUE TO STRING

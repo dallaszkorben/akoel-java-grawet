@@ -32,9 +32,9 @@ public class TestcaseFolderDataModel extends TestcaseNodeDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public TestcaseFolderDataModel( Element element, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel ) throws XMLPharseException{
+	public TestcaseFolderDataModel( Element element, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverDataModelAdapter driverRootDataModel ) throws XMLPharseException{
 
-		super( element, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel  );
+		super( element, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel  );
 				
 		//========
 		//
@@ -49,11 +49,11 @@ public class TestcaseFolderDataModel extends TestcaseNodeDataModelAdapter{
 				
 				//Ha TESTCASECASE van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASECASE.getName() )){
-					this.add(new TestcaseCaseDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel ));
+					this.add(new TestcaseCaseDataModel(testcaseElement, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel ));
 				
 				//Ha ujabb TESTCASEFOLDER van alatta
 				}else if( testcaseElement.getTagName().equals( Tag.TESTCASEFOLDER.getName() )){
-					this.add(new TestcaseFolderDataModel(testcaseElement, variableRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel ));
+					this.add(new TestcaseFolderDataModel(testcaseElement, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel ));
 				}
 			}
 		}

@@ -107,7 +107,7 @@ public class ConstantTodayDateComponent extends JPanel implements ConstantCompon
 		//
 		//DateForm
 		//
-		JLabel labelDateFormat = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate.format") );
+		JLabel labelDateFormat = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.todaydate.format") );
 		
 		fieldDateFormat = new DateFormComboBox();
 		for( int i = 0; i < DateFormListEnum.getSize(); i++ ){		
@@ -137,7 +137,7 @@ public class ConstantTodayDateComponent extends JPanel implements ConstantCompon
 		//
 		//DateDigression
 		//
-		JLabel labelDateDigression = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.todaydate.digression") );
+		JLabel labelDateDigression = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.todaydate.digression") );
 		
 		fieldDateDigression = new DateDigressionComboBox();
 		for( int i = 0; i < DateDigressionListEnum.getSize(); i++ ){		

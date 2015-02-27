@@ -16,7 +16,7 @@ import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.LinkElementTypeOperationsFullListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.ConstantTreeSelectorComponent;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -51,7 +51,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 	
 	//Variable selector - Mezo kitoltes
 	private JLabel labelVariableSelector;
-	private VariableTreeSelectorComponent fieldVariableSelector;
+	private ConstantTreeSelectorComponent fieldVariableSelector;
 	
 	//BaseElement selector - Mezo kitoltes
 	private JLabel labelBaseElementSelector;
@@ -71,10 +71,10 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 	 * Uj
 	 * 
 	 */
-	public LinkElementTypeComponentFull( BaseElementDataModelAdapter baseElement, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	public LinkElementTypeComponentFull( BaseElementDataModelAdapter baseElement, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		super();
 
-		common( baseElement, null, baseRootDataModel, variableRootDataModel );
+		common( baseElement, null, baseRootDataModel, constantRootDataModel );
 		
 	}
 	
@@ -85,14 +85,14 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 	 * @param key
 	 * @param value
 	 */
-	public LinkElementTypeComponentFull( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	public LinkElementTypeComponentFull( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		super();
 		
-		common( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );		
 		
 	}
 	
-	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
 		
@@ -101,7 +101,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.step.pattern") + ": ");
 		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.step.message") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.variable") + ": ");
+		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.constant") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
 		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.step.comparetype") + ": ");
 		labelFiller = new JLabel();
@@ -185,7 +185,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		comboCompareTypeList.setSelectedIndex( -1 );		
 		
 		//Valtozok letrehozase
-		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
+		fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel );
 		
 		//Arra az esetre, ha a muvelethez hasznalt baseElement meg nem kivalasztott akkor az alap alapElemet javasolja hasznalni
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, false );		
@@ -209,8 +209,8 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 			//COMPARE TEXT TO VARIABLE
 			}else if( elementOperation instanceof CompareTextToConstantOperation ){
 				
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareTextToConstantOperation)elementOperation).getConstantElement() );				
-				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_VARIABLE.getIndex());
+				fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((CompareTextToConstantOperation)elementOperation).getConstantElement() );				
+				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_CONSTANT.getIndex());
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToConstantOperation)elementOperation).getCompareType().getIndex() );
 
 			//COMPARE TEXT TO STORED
@@ -316,8 +316,8 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 			c.weightx = 1;
 			this.add( fieldBaseElementSelector, c );
 			
-		//Compare variable
-		}else if( selectedOperation.equals( E.COMPARETEXT_TO_VARIABLE ) ){
+		//Compare constant
+		}else if( selectedOperation.equals( E.COMPARETEXT_TO_CONSTANT ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -428,7 +428,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		
 		
 		//Compare element
-		if( selectedOperation.equals( E.COMPARETEXT_TO_STORED ) || selectedOperation.equals( E.COMPARETEXT_TO_VARIABLE ) || selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ){
+		if( selectedOperation.equals( E.COMPARETEXT_TO_STORED ) || selectedOperation.equals( E.COMPARETEXT_TO_CONSTANT ) || selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ){
 				
 			c.gridy = 1;
 			c.gridx = 2;
@@ -461,7 +461,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 			return new CompareTextToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 						
 		//COMPARE TEXT TO VARIABLE
-		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_VARIABLE.getIndex() ){
+		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_CONSTANT.getIndex() ){
 			return new CompareTextToConstantOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 						
 		//COMPARE TEXT TO STRING

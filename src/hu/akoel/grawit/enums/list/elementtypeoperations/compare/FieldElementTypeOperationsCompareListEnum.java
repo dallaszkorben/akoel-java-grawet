@@ -4,7 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum FieldElementTypeOperationsCompareListEnum implements ElementTypeOperationsListEnumInterface{		
-	COMPAREVALUE_TO_VARIABLE( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetovariable") ),
+	COMPAREVALUE_TO_CONSTANT( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetoconstant") ),
 	COMPAREVALUE_TO_STORED( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetostored") ),
 	COMPAREVALUE_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetostring") ),
 	;
@@ -34,7 +34,7 @@ public enum FieldElementTypeOperationsCompareListEnum implements ElementTypeOper
 	
 	public static FieldElementTypeOperationsCompareListEnum getElementFieldOperationByIndex( int index ){
 		switch (index){
-		case 0: return COMPAREVALUE_TO_VARIABLE;
+		case 0: return COMPAREVALUE_TO_CONSTANT;
 		case 1: return COMPAREVALUE_TO_STORED;
 		case 2: return COMPAREVALUE_TO_STRING;
 		default: return COMPAREVALUE_TO_STRING;

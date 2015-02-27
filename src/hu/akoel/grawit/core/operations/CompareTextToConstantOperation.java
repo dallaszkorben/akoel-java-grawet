@@ -64,7 +64,7 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 		String typeString = element.getAttribute(ATTR_COMPARE_TYPE);
 		this.compareType = CompareTypeListEnum.valueOf( typeString );
 		
-		//ATTR_COMPARE_VARIABLE_ELEMENT_PATH
+		//ATTR_COMPARE_CONSTANT_ELEMENT_PATH
 		if( !element.hasAttribute( ATTR_COMPARE_CONSTANT_ELEMENT_PATH ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_COMPARE_CONSTANT_ELEMENT_PATH );		
 		}

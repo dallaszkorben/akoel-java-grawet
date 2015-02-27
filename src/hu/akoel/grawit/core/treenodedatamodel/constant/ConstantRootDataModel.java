@@ -36,24 +36,24 @@ public class ConstantRootDataModel extends ConstantFolderNodeDataModel{
 					
 		}else if( nList.getLength() == 1 ){
 		
-			Node variablePageNode = nList.item(0);
-			if (variablePageNode.getNodeType() == Node.ELEMENT_NODE) {
+			Node constantPageNode = nList.item(0);
+			if (constantPageNode.getNodeType() == Node.ELEMENT_NODE) {
 			
-				NodeList nodeList = variablePageNode.getChildNodes();
+				NodeList nodeList = constantPageNode.getChildNodes();
 				for( int i = 0; i < nodeList.getLength(); i++ ){
 			
-					Node variableNode = nodeList.item( i );
+					Node constantNode = nodeList.item( i );
 				
-					if (variableNode.getNodeType() == Node.ELEMENT_NODE) {
-						Element variableElement = (Element)variableNode;
+					if (constantNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element constantElement = (Element)constantNode;
 					
 						//Ha ujabb PARAMNODE van alatta
-						if( variableElement.getTagName().equals( Tag.CONSTANTFOLDER.getName() ) ){						
-							this.add(new ConstantFolderNodeDataModel( variableElement, baseRootDataModel ));
+						if( constantElement.getTagName().equals( Tag.CONSTANTFOLDER.getName() ) ){						
+							this.add(new ConstantFolderNodeDataModel( constantElement, baseRootDataModel ));
 					
 						//Ha rogton a rootban van elhelyezve egy elem
-						}else if( variableElement.getTagName().equals( Tag.CONSTANTELEMENT.getName() ) ){
-							this.add(new ConstantElementDataModel(variableElement, baseRootDataModel ));
+						}else if( constantElement.getTagName().equals( Tag.CONSTANTELEMENT.getName() ) ){
+							this.add(new ConstantElementDataModel(constantElement, baseRootDataModel ));
 						}
 					}
 				}
@@ -63,8 +63,8 @@ public class ConstantRootDataModel extends ConstantFolderNodeDataModel{
 	
 	@Override
 	public String getName(){
-		//return "Variable Root";
-		return CommonOperations.getTranslation( "tree.nodetype.variable.root.name");
+		//return "Constant Root";
+		return CommonOperations.getTranslation( "tree.nodetype.constant.root.name");
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class ConstantRootDataModel extends ConstantFolderNodeDataModel{
 
 	@Override
 	public String getNodeTypeToShow(){
-		return CommonOperations.getTranslation( "tree.nodetype.variable.root");
+		return CommonOperations.getTranslation( "tree.nodetype.constant.root");
 	}
 	
 	@Override

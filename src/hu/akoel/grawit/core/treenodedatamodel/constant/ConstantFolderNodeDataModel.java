@@ -35,8 +35,8 @@ public class ConstantFolderNodeDataModel extends ConstantDataModelAdapter{
 	}
 	
 	/**
-	 * XML alapjan legyartja a VARIABLENODE-ot es az alatta elofordulo 
-	 * VARIABLENODE-okat, illetve VARIABLEPAGE-eket
+	 * XML alapjan legyartja a CONSTANTNODE-ot es az alatta elofordulo 
+	 * CONSTANTNODE-okat, illetve CONSTANTPAGE-eket
 	 * 
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
@@ -59,15 +59,15 @@ public class ConstantFolderNodeDataModel extends ConstantDataModelAdapter{
 		for( int i = 0; i < nodelist.getLength(); i++ ){
 			Node node = nodelist.item( i );
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element variableElement = (Element)node;
+				Element constantElement = (Element)node;
 				
-				//Ha VARIABLEELEMENT van alatta
-				if( variableElement.getTagName().equals( Tag.CONSTANTELEMENT.getName() )){
-					this.add(new ConstantElementDataModel(variableElement, baseRootDataModel ));
+				//Ha CONSTANTELEMENT van alatta
+				if( constantElement.getTagName().equals( Tag.CONSTANTELEMENT.getName() )){
+					this.add(new ConstantElementDataModel(constantElement, baseRootDataModel ));
 				
-				//Ha ujabb VARIABLENODE van alatta
-				}else if( variableElement.getTagName().equals( Tag.CONSTANTFOLDER.getName() )){
-					this.add(new ConstantFolderNodeDataModel(variableElement, baseRootDataModel ));
+				//Ha ujabb CONSTANTNODE van alatta
+				}else if( constantElement.getTagName().equals( Tag.CONSTANTFOLDER.getName() )){
+					this.add(new ConstantFolderNodeDataModel(constantElement, baseRootDataModel ));
 				}
 			}
 		}
@@ -84,7 +84,7 @@ public class ConstantFolderNodeDataModel extends ConstantDataModelAdapter{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.variable.folder");
+		return CommonOperations.getTranslation( "tree.nodetype.constant.folder");
 	}
 	
 	@Override

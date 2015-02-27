@@ -103,7 +103,7 @@ public class ConstantRandomDateComponent extends JPanel implements ConstantCompo
 		//
 		// From field
 		//		
-		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate.from") );
+		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randomdate.from") );
 		
 		fieldFrom = new JFormattedTextField( maskFormatterFrom );		
 		fieldFrom.setText( dateFormat.format( dateFrom ) );
@@ -143,7 +143,7 @@ public class ConstantRandomDateComponent extends JPanel implements ConstantCompo
 		//
 		// To field
 		//
-		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate.to") );
+		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randomdate.to") );
 		
 		fieldTo = new JFormattedTextField( maskFormatterTo );		
 		fieldTo.setText( dateFormat.format( dateTo ) );
@@ -181,7 +181,7 @@ public class ConstantRandomDateComponent extends JPanel implements ConstantCompo
 		//
 		//FormDate date
 		//
-		JLabel labelFormatDate = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomdate.format") );
+		JLabel labelFormatDate = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randomdate.format") );
 		
 		fieldFormatDate = new FormDateComboBox();
 		//Feltoltom a listat

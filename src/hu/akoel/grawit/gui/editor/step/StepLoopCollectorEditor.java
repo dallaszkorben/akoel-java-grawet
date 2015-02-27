@@ -65,10 +65,10 @@ public class StepLoopCollectorEditor extends DataEditor{
 	private ElementTypeComponentCompareInterface<?> elementTypeComponent;
 	
 	BaseRootDataModel baseRootDataModel;
-	ConstantRootDataModel variableRootDataModel;
+	ConstantRootDataModel constantRootDataModel;
 
 	//Itt biztos beszuras van
-	public StepLoopCollectorEditor( Tree tree, StepFolderDataModel selectedNode, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ){
+	public StepLoopCollectorEditor( Tree tree, StepFolderDataModel selectedNode, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel ){
 		
 		super( StepLoopCollectorDataModel.getModelNameToShowStatic() );
 		
@@ -76,7 +76,7 @@ public class StepLoopCollectorEditor extends DataEditor{
 		this.nodeForCapture = selectedNode;
 		this.mode = null;
 		
-		commonPre( baseRootDataModel, variableRootDataModel );
+		commonPre( baseRootDataModel, constantRootDataModel );
 		
 		//Name
 		fieldName = new TextFieldComponent( "" );
@@ -133,7 +133,7 @@ public class StepLoopCollectorEditor extends DataEditor{
 		fieldName = new TextFieldComponent();
 		
 		this.baseRootDataModel = baseRootDataModel;
-		this.variableRootDataModel = variableRootDataModel;
+		this.constantRootDataModel = variableRootDataModel;
 
 	}
 	
@@ -218,22 +218,22 @@ public class StepLoopCollectorEditor extends DataEditor{
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
 			
-			elementTypeComponent = new FieldElementTypeComponentCompare<FieldElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
+			elementTypeComponent = new FieldElementTypeComponentCompare<FieldElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, constantRootDataModel);  
 			
 		//TEXT
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.TEXT.name() ) ){
 
-			elementTypeComponent = new TextElementTypeComponentCompare<TextElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new TextElementTypeComponentCompare<TextElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, constantRootDataModel );
 			
 		//LINK	
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LINK.name() ) ){
 
-			elementTypeComponent = new LinkElementTypeComponentCompare<LinkElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new LinkElementTypeComponentCompare<LinkElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, constantRootDataModel );
 			
 		//LIST
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LIST.name() ) ){
 			
-			elementTypeComponent = new ListElementTypeComponentCompare<ListElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new ListElementTypeComponentCompare<ListElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, constantRootDataModel );
 			
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
@@ -244,12 +244,12 @@ public class StepLoopCollectorEditor extends DataEditor{
 		//RADIOBUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.RADIOBUTTON.name() ) ){
 
-			elementTypeComponent = new RadiobuttonElementTypeComponentCompare<RadiobuttonElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new RadiobuttonElementTypeComponentCompare<RadiobuttonElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, constantRootDataModel );
 			
 		//CHECKBOX
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.CHECKBOX.name() ) ){
 			
-			elementTypeComponent = new CheckboxElementTypeComponentCompare<CheckboxElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel );
+			elementTypeComponent = new CheckboxElementTypeComponentCompare<CheckboxElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, constantRootDataModel );
 					
 		}		
 		

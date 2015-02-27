@@ -4,7 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ScriptElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{	
-	ADD_VARIABLE_TO_PARAMETERS( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.script.addvariabletoparameters") ),
+	ADD_CONSTANT_TO_PARAMETERS( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.script.addconstanttoparameters") ),
 	ADD_STORED_TO_PARAMETERS( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.script.addstoredtoparameters") ),
 	ADD_STRING_TO_PARAMETERS( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.script.addstringtoparameters") ),
 	CLEAR_PARAMETERS( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.script.clearparameters") ),
@@ -36,7 +36,7 @@ public enum ScriptElementTypeOperationsFullListEnum implements ElementTypeOperat
 	
 	public static ScriptElementTypeOperationsFullListEnum getOperationByIndex( int index ){
 		switch (index){		
-		case 0:	return ADD_VARIABLE_TO_PARAMETERS;
+		case 0:	return ADD_CONSTANT_TO_PARAMETERS;
 		case 1:	return ADD_STORED_TO_PARAMETERS;
 		case 2:	return ADD_STRING_TO_PARAMETERS;
 		case 3:	return CLEAR_PARAMETERS;

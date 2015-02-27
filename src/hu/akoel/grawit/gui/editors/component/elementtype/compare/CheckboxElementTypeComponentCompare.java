@@ -12,7 +12,7 @@ import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.CheckboxElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.ConstantTreeSelectorComponent;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -41,9 +41,9 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 	private JTextField fieldPattern;	
 	private JLabel labelPattern;
 	
-	//Variable selector - Mezo kitoltes
-	private JLabel labelVariableSelector;
-	private VariableTreeSelectorComponent fieldVariableSelector;
+	//Constant selector - Mezo kitoltes
+	private JLabel labelConstantSelector;
+	private ConstantTreeSelectorComponent fieldConstantSelector;
 	
 	//BaseElement selector - Mezo kitoltes
 	private JLabel labelBaseElementSelector;
@@ -63,20 +63,20 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 	
 	private JLabel labelFiller;
 	
-	public CheckboxElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	public CheckboxElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		super();
 		
-		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );	
+		common( elementType, elementOperation, baseRootDataModel, constantRootDataModel );	
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
 		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.step.pattern") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.variable") + ": ");
+		labelConstantSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.constant") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
 		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.step.message") + ": ");
 		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.step.comparetype") + ": ");
@@ -161,7 +161,7 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 		comboCompareTypeList.setSelectedIndex( -1 );	
 		
 		//Valtozok letrehozase
-		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
+		fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel );
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
 		fieldString = new JTextField( "" );
 		
@@ -174,11 +174,11 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 			fieldString.setText( "" );
 			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STRING.getIndex());
 
-		//COMPARE VALUE TO VARIABLE
+		//COMPARE VALUE TO CONSTANT
 		}else if( elementOperation instanceof CompareValueToConstantOperation ){
 				
-			fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((CompareValueToConstantOperation)elementOperation).getConstantElement() );				
-			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_VARIABLE.getIndex());
+			fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((CompareValueToConstantOperation)elementOperation).getConstantElement() );				
+			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_CONSTANT.getIndex());
 			comboCompareTypeList.setSelectedIndex( ((CompareValueToConstantOperation)elementOperation).getCompareType().getIndex() );
 
 		//COMPARE VALUE TO STORED
@@ -208,7 +208,7 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 		comboOperationList.setEnabled( enable );		
 		fieldString.setEditable( enable );
 		fieldBaseElementSelector.setEnableModify(enable);		
-		fieldVariableSelector.setEnableModify( enable );
+		fieldConstantSelector.setEnableModify( enable );
 		fieldMessage.setEditable( enable );		
 		fieldPattern.setEditable( enable );
 		comboCompareTypeList.setEnabled( enable );
@@ -230,8 +230,8 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 		this.remove( fieldBaseElementSelector );
 		this.remove( labelString );
 		this.remove( fieldString );
-		this.remove( labelVariableSelector );
-		this.remove( fieldVariableSelector );	
+		this.remove( labelConstantSelector );
+		this.remove( fieldConstantSelector );	
 		this.remove( labelFiller );	
 		this.remove( fieldMessage );
 		this.remove( labelMessage );
@@ -254,8 +254,8 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 			c.weightx = 1;
 			this.add( fieldBaseElementSelector, c );
 			
-		//Compare value to variable
-		}else if( selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) ){
+		//Compare value to constant
+		}else if( selectedOperation.equals( E.COMPAREVALUE_TO_CONSTANT ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -264,11 +264,11 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelVariableSelector, c );
+			this.add( labelConstantSelector, c );
 		
 			c.gridx = 5;
 			c.weightx = 1;
-			this.add( fieldVariableSelector, c );
+			this.add( fieldConstantSelector, c );
 			
 		//Compare value to string
 		}else if( selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
@@ -289,7 +289,7 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 		}	
 
 		//Compare element
-		if( selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) || selectedOperation.equals( E.COMPAREVALUE_TO_VARIABLE ) || selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
+		if( selectedOperation.equals( E.COMPAREVALUE_TO_STORED ) || selectedOperation.equals( E.COMPAREVALUE_TO_CONSTANT ) || selectedOperation.equals( E.COMPAREVALUE_TO_STRING ) ){
 				
 			c.gridy = 1;
 			c.gridx = 2;
@@ -318,8 +318,8 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 			return new CompareValueToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 				
 		//COMPARE VALUE TO VARIABLE
-		}else if(comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_VARIABLE.getIndex() ){
-			return new CompareValueToConstantOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
+		}else if(comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_CONSTANT.getIndex() ){
+			return new CompareValueToConstantOperation( fieldConstantSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 				
 		//COMPARE VALUE TO STRING
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STRING.getIndex() ){

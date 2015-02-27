@@ -15,7 +15,7 @@ import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ScriptElementTypeOperationsFullListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.VariableTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.ConstantTreeSelectorComponent;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -40,9 +40,9 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 	private JLabel labelOperations;	
 	private JComboBox<E> comboOperationList;	
 	
-	//Variable selector - Mezo kitoltes
-	private JLabel labelVariableSelector;
-	private VariableTreeSelectorComponent fieldVariableSelector;
+	//Constant selector - Mezo kitoltes
+	private JLabel labelConstantSelector;
+	private ConstantTreeSelectorComponent fieldConstantSelector;
 	
 	//BaseElement selector - Mezo kitoltes
 	private JLabel labelBaseElementSelector;
@@ -54,24 +54,23 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 	
 	private JLabel labelFiller;
 	
-	//public ScriptElementTypeComponentFull( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
-	public ScriptElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	public ScriptElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		
 		super();
 		
-		common( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );		
 		
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void common( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.variable") + ": ");
+		labelConstantSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.constant") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
 		labelFiller = new JLabel();
 		
@@ -140,7 +139,7 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 		comboOperationList.setSelectedIndex(-1);
 		
 		//Valtozok letrehozase
-		fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel );
+		fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel );
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
 		fieldString = new JTextField( "" );
 		
@@ -158,11 +157,11 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 				
 				comboOperationList.setSelectedIndex(E.CLEAR_PARAMETERS.getIndex());
 							
-			//ADD_VARIABLE_TO_PARAMETERS
+			//ADD_CONSTANT_TO_PARAMETERS
 			}else if( elementOperation instanceof SpecialBaseAddConstantToParametersOperation ){
 								
-				fieldVariableSelector = new VariableTreeSelectorComponent( variableRootDataModel, ((SpecialBaseAddConstantToParametersOperation)elementOperation).getConstantElement() );
-				comboOperationList.setSelectedIndex(E.ADD_VARIABLE_TO_PARAMETERS.getIndex());
+				fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((SpecialBaseAddConstantToParametersOperation)elementOperation).getConstantElement() );
+				comboOperationList.setSelectedIndex(E.ADD_CONSTANT_TO_PARAMETERS.getIndex());
 
 			//ADD_STORED_TO_PARAMETERS
 			}else if( elementOperation instanceof SpecialBaseAddStoreToParametersOperation ){
@@ -203,7 +202,7 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 		comboOperationList.setEnabled( enable );		
 		fieldString.setEditable( enable );
 		fieldBaseElementSelector.setEnableModify(enable);		
-		fieldVariableSelector.setEnableModify( enable );
+		fieldConstantSelector.setEnableModify( enable );
 
 	}
 
@@ -221,8 +220,8 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 		this.remove( fieldBaseElementSelector );
 		this.remove( labelString );
 		this.remove( fieldString );
-		this.remove( labelVariableSelector );
-		this.remove( fieldVariableSelector );	
+		this.remove( labelConstantSelector );
+		this.remove( fieldConstantSelector );	
 		this.remove( labelFiller );
 		
 		//Fill element / Compare value to element
@@ -241,8 +240,8 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 			c.weightx = 1;
 			this.add( fieldBaseElementSelector, c );
 			
-		//Fill variable / Compare value to variable
-		}else if( selectedOperation.equals( E.ADD_VARIABLE_TO_PARAMETERS ) ){
+		//Fill constant / Compare value to constant
+		}else if( selectedOperation.equals( E.ADD_CONSTANT_TO_PARAMETERS ) ){
 			
 			c.gridy = 0;
 			c.gridx = 4;
@@ -251,11 +250,11 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelVariableSelector, c );
+			this.add( labelConstantSelector, c );
 		
 			c.gridx = 5;
 			c.weightx = 1;
-			this.add( fieldVariableSelector, c );
+			this.add( fieldConstantSelector, c );
 			
 		//Fill string / Compare value to string
 		}else if( selectedOperation.equals( E.ADD_STRING_TO_PARAMETERS ) ){
@@ -299,9 +298,9 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 		if( comboOperationList.getSelectedIndex() ==  E.ADD_STORED_TO_PARAMETERS.getIndex() ){
 			return new SpecialBaseAddStoreToParametersOperation( fieldBaseElementSelector.getSelectedDataModel() );
 			
-		//ADD_VARIABLE_TO_PARAMETERS
-		}else if(comboOperationList.getSelectedIndex() ==  E.ADD_VARIABLE_TO_PARAMETERS.getIndex() ){
-			return new SpecialBaseAddConstantToParametersOperation( fieldVariableSelector.getSelectedDataModel() );
+		//ADD_CONSTANT_TO_PARAMETERS
+		}else if(comboOperationList.getSelectedIndex() ==  E.ADD_CONSTANT_TO_PARAMETERS.getIndex() ){
+			return new SpecialBaseAddConstantToParametersOperation( fieldConstantSelector.getSelectedDataModel() );
 			
 		//ADD_STRING_TO_PARAMETERS
 		}else if( comboOperationList.getSelectedIndex() ==  E.ADD_STRING_TO_PARAMETERS.getIndex() ){

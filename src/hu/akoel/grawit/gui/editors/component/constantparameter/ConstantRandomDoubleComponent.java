@@ -75,32 +75,11 @@ public class ConstantRandomDoubleComponent extends JPanel implements ConstantCom
 		// From field
 		//
 		
-		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble.from") );
+		JLabel labelFrom = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randomdouble.from") );
 		
 		fieldFrom = new JTextField( parameterList.get(PARAMETERORDER_FROM).toString());
 		fieldFrom.setColumns(5);
 		fieldFrom.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_FROM, PARAMETERORDER_FROM) );
-		/*fieldFrom.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_FROM;
-			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
-
-				try {
-					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersRandomDoubleComponent.this.type.getParameterClass(PARAMETERORDER_FROM).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( PARAMETERORDER_FROM, value );
-					goodValue = possibleValue;
-					
-				} catch (Exception e) {
-					text.setText( goodValue );
-					return false;
-				}				
-				return true;
-			}
-		});*/
 		
 		int gridY = 0;
 		GridBagConstraints c = new GridBagConstraints();		
@@ -128,32 +107,11 @@ public class ConstantRandomDoubleComponent extends JPanel implements ConstantCom
 		//
 		// To field
 		//
-		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble.to") );
+		JLabel labelTo = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randomdouble.to") );
 
 		fieldTo = new JTextField( parameterList.get(PARAMETERORDER_TO).toString());
 		fieldTo.setColumns(5);
 		fieldTo.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_TO, PARAMETERORDER_TO) );
-		/*fieldTo.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_TO;
-			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
-
-				try {
-					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersRandomDoubleComponent.this.type.getParameterClass(PARAMETERORDER_TO).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( PARAMETERORDER_TO, value );
-					goodValue = possibleValue;
-					
-				} catch (Exception e) {
-					text.setText( goodValue );
-					return false;
-				}				
-				return true;
-			}
-		});*/
 		
 		gridY=0;
 
@@ -179,32 +137,11 @@ public class ConstantRandomDoubleComponent extends JPanel implements ConstantCom
 		//
 		// Decimal length field
 		//
-		JLabel labelDecimalLength = new JLabel( CommonOperations.getTranslation("editor.label.variable.parametertype.randomdouble.decimallength") );
+		JLabel labelDecimalLength = new JLabel( CommonOperations.getTranslation("editor.label.constant.parametertype.randomdouble.decimallength") );
 
 		fieldDecimalLength = new JTextField( parameterList.get(PARAMETERORDER_DECIMALLENGTH).toString());
 		fieldDecimalLength.setColumns(5);
 		fieldDecimalLength.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_DECIMALLENGTH, PARAMETERORDER_DECIMALLENGTH ) );
-		/*fieldDecimalLength.setInputVerifier(new InputVerifier() {
-			String goodValue = DEFAULT_DECIMALLENGTH;
-			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
-
-				try {
-					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersRandomDoubleComponent.this.type.getParameterClass(PARAMETERORDER_DECIMALLENGTH).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( PARAMETERORDER_DECIMALLENGTH, value );
-					goodValue = possibleValue;
-					
-				} catch (Exception e) {
-					text.setText( goodValue );
-					return false;
-				}				
-				return true;
-			}
-		});*/
 		
 		gridY=0;
 		
