@@ -8,10 +8,10 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ButtonElementTypeOperationsFullListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.CheckboxElementTypeOperationsFullListEnum;
@@ -61,7 +61,7 @@ public class StepElementEditor extends DataEditor{
 	private ElementTypeComponentFullInterface<?> elementTypeComponent;
 	
 	BaseRootDataModel baseRootDataModel;
-	VariableRootDataModel variableRootDataModel;
+	ConstantRootDataModel variableRootDataModel;
 	
 	/**
 	 *  Uj ParamPageElement rogzitese - Insert
@@ -69,7 +69,7 @@ public class StepElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedPage
 	 */
-	public StepElementEditor( Tree tree, StepCollectorDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public StepElementEditor( Tree tree, StepCollectorDataModelAdapter selectedPage, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, ConstantRootDataModel variableRootDataModel ){
 
 		super( StepElementDataModel.getModelNameToShowStatic());
 		
@@ -98,7 +98,7 @@ public class StepElementEditor extends DataEditor{
 	 * @param selectedElement
 	 * @param mode
 	 */
-	public StepElementEditor( Tree tree, StepElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, VariableRootDataModel variableRootDataModel, EditMode mode ){
+	public StepElementEditor( Tree tree, StepElementDataModel selectedElement, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, ConstantRootDataModel variableRootDataModel, EditMode mode ){
 
 		super( mode, selectedElement.getNodeTypeToShow());
 
@@ -120,7 +120,7 @@ public class StepElementEditor extends DataEditor{
 		
 	}
 
-	private void commonPre( final BaseRootDataModel baseRootDataModel, final StepRootDataModel paramRootDataModel, final VariableRootDataModel variableRootDataModel ){
+	private void commonPre( final BaseRootDataModel baseRootDataModel, final StepRootDataModel paramRootDataModel, final ConstantRootDataModel variableRootDataModel ){
 				
 		//Name
 		fieldName = new TextFieldComponent();

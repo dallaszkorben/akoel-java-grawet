@@ -7,7 +7,7 @@ import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToVariableOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.LinkElementTypeOperationsCompareListEnum;
@@ -67,7 +67,7 @@ public class LinkElementTypeComponentCompare<E extends LinkElementTypeOperations
 	 * Uj
 	 * 
 	 */
-	public LinkElementTypeComponentCompare( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public LinkElementTypeComponentCompare( ElementTypeListEnum elementType, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		super();
 
 		common( elementType, null, baseRootDataModel, variableRootDataModel );
@@ -81,14 +81,14 @@ public class LinkElementTypeComponentCompare<E extends LinkElementTypeOperations
 	 * @param key
 	 * @param value
 	 */
-	public LinkElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public LinkElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		super();
 		
 		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
 		
 	}
 	
-	private void common( ElementTypeListEnum elementType, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( ElementTypeListEnum elementType, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");

@@ -5,7 +5,7 @@ import javax.swing.tree.MutableTreeNode;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -25,7 +25,7 @@ public class StepFolderDataModel extends StepNodeDataModelAdapter{
 		super( name, details );
 	}
 	
-	public StepFolderDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepFolderDataModel( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ) throws XMLPharseException{
 
 		super( element, baseRootDataModel, variableRootDataModel );
 		

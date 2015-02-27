@@ -17,7 +17,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -26,7 +26,7 @@ public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAda
 
 	public static final String ATTR_LAST_BASE_ELEMENT_PATH = "lastbaseelementpath";
 	
-	public StepCollectorDataModelAdapter(Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel) throws XMLPharseException {
+	public StepCollectorDataModelAdapter(Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel) throws XMLPharseException {
 		super(element, baseRootDataModel, variableRootDataModel);
 
 	}

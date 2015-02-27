@@ -637,6 +637,9 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
     private Rectangle rect2D = new Rectangle();
     private boolean drawImage;
 
+    private Rectangle sourcePosition = new Rectangle();
+    private BufferedImage insertImage;
+
     protected AbstractTreeTransferHandler(Tree tree, int action, boolean drawIcon) {
          this.tree = tree;
          drawImage = drawIcon;
@@ -704,15 +707,25 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
               draggedNode = (DefaultMutableTreeNode)path.getLastPathComponent();
               draggedNodeParent = (DefaultMutableTreeNode)draggedNode.getParent();
               if (drawImage) {
-                   Rectangle pathBounds = tree.getPathBounds(path); //getpathbounds of selectionpath
-                   JComponent lbl = (JComponent)tree.getCellRenderer().getTreeCellRendererComponent(tree, draggedNode, false , tree.isExpanded(path),((DefaultTreeModel)tree.getModel()).isLeaf(path.getLastPathComponent()), 0,false);//returning the label
-                   lbl.setBounds(pathBounds);//setting bounds to lbl
-                   image = new BufferedImage(lbl.getWidth(), lbl.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);//buffered image reference passing the label's ht and width
-                   Graphics2D graphics = image.createGraphics();//creating the graphics for buffered image
-                   graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));     //Sets the Composite for the Graphics2D context
-                   lbl.setOpaque(false);
-                   lbl.paint(graphics); //painting the graphics to label
-                   graphics.dispose();                    
+            	  sourcePosition = tree.getPathBounds(path); //getpathbounds of selectionpath
+            	  JComponent lbl = (JComponent)tree.getCellRenderer().getTreeCellRendererComponent(tree, draggedNode, false , tree.isExpanded(path),((DefaultTreeModel)tree.getModel()).isLeaf(path.getLastPathComponent()), 0,false);//returning the label
+            	  lbl.setBounds(sourcePosition);//setting bounds to lbl
+            	  
+            	  image = new BufferedImage(lbl.getWidth(), lbl.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);//buffered image reference passing the label's ht and width
+            	  Graphics2D graphics = image.createGraphics();//creating the graphics for buffered image
+            	  graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));     //Sets the Composite for the Graphics2D context
+            	  lbl.setOpaque(false);
+            	  lbl.paint(graphics);
+            	  graphics.dispose();    
+           	  
+            	  insertImage = new BufferedImage(lbl.getWidth(), 1, java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);
+            	  Graphics2D gr = insertImage.createGraphics();
+            	  gr.setColor(Color.red);
+            	  gr.drawLine(0, 0, insertImage.getWidth(), 0);
+            	  lbl.paint( gr );
+            	  gr.dispose();
+            	  
+            	  
               }
               dragSource.startDrag(dge, DragSource.DefaultMoveNoDrop , image, new Point(0,0), new TransferableNode(draggedNode), this);               
          }      
@@ -728,8 +741,7 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
          }
          if (canPerformAction(tree, draggedNode, action, pt)) {
               dtde.acceptDrag(action);               
-         }
-         else {
+         }else {
               dtde.rejectDrag();
          }
     }
@@ -740,6 +752,7 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
          }
     }
 
+    //Folyamatosan hivodik
     public final void dragOver(DropTargetDragEvent dtde) {
          Point pt = dtde.getLocation();
          int action = dtde.getDropAction();
@@ -749,8 +762,7 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
          }
          if (canPerformAction(tree, draggedNode, action, pt)) {
               dtde.acceptDrag(action);               
-         }
-         else {
+         }else {
               dtde.rejectDrag();
          }
     }
@@ -763,8 +775,7 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
          }
          if (canPerformAction(tree, draggedNode, action, pt)) {
               dtde.acceptDrag(action);               
-         }
-         else {
+         }else {
               dtde.rejectDrag();
          }
     }
@@ -789,8 +800,7 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
               }
               dtde.rejectDrop();
               dtde.dropComplete(false);
-         }          
-         catch (Exception e) {     
+         }catch (Exception e) {     
               System.out.println(e);
               dtde.rejectDrop();
               dtde.dropComplete(false);
@@ -798,15 +808,32 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
     }
     
     private final void paintImage(Point pt) {
-//    	tree.repaint(rect2D.getBounds());
-    	tree.paintImmediately(rect2D.getBounds());
+    	int x = rect2D.x;
+    	int y = rect2D.y;
+    	if( pt.x != x || pt.y != y ){    	
+    		tree.repaint(rect2D.getBounds());
+    		tree.paintImmediately(rect2D.getBounds());
+    	}
     	rect2D.setRect((int) pt.getX(),(int) pt.getY(),image.getWidth(),image.getHeight());
     	tree.getGraphics().drawImage(image,(int) pt.getX(),(int) pt.getY(),tree);
+    	
+    	
+    	 TreePath path = tree.getPathForLocation(x, y);
+    	 if( null != path ){
+    	
+    	tree.getGraphics().drawImage(insertImage, sourcePosition.x, sourcePosition.y, tree);
+//    	tree.getGraphics().drawImage(insertImage, sourcePosition.x, sourcePosition.y, tree);
+    	
+    	 }
     }
 
     private final void clearImage() {
-//    	tree.repaint(rect2D.getBounds());
+    	tree.repaint(rect2D.getBounds());
     	tree.paintImmediately(rect2D.getBounds());
+    	
+    	tree.repaint( sourcePosition.x, sourcePosition.y, insertImage.getWidth(), 1 );
+    	tree.paintImmediately(sourcePosition.x, sourcePosition.y, insertImage.getWidth(), 1);
+    	
     }
 
     public abstract boolean canPerformAction(Tree target, DefaultMutableTreeNode draggedNode, int action, Point location);

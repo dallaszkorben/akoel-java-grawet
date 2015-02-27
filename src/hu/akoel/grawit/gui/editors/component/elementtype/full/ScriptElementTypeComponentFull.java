@@ -11,7 +11,7 @@ import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
 import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ScriptElementTypeOperationsFullListEnum;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
@@ -55,7 +55,7 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 	private JLabel labelFiller;
 	
 	//public ScriptElementTypeComponentFull( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
-	public ScriptElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ScriptElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		
 		super();
 		
@@ -64,7 +64,7 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void common( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
 		

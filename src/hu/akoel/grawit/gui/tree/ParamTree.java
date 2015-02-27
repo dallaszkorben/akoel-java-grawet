@@ -21,6 +21,7 @@ import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepFolderDataModel;
@@ -32,7 +33,6 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -46,12 +46,12 @@ public class ParamTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;	
-	private VariableRootDataModel variableRootDataModel;
+	private ConstantRootDataModel variableRootDataModel;
 	private BaseRootDataModel baseRootDataModel;
 	private StepRootDataModel paramRootDataModel;
 	private TestcaseRootDataModel testcaseRootDataModel;
 	
-	public ParamTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
+	public ParamTree(GUIFrame guiFrame, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
 		super(guiFrame, paramRootDataModel);
 		
 		this.guiFrame = guiFrame;

@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
@@ -20,8 +20,8 @@ public class VariableNodeEditor extends DataEditor{
 	private static final long serialVersionUID = -6272133454002585188L;
 	
 	private VariableTree tree;
-	private VariableFolderNodeDataModel nodeForModify;
-	private VariableFolderNodeDataModel nodeForCapture;
+	private ConstantFolderNodeDataModel nodeForModify;
+	private ConstantFolderNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -42,9 +42,9 @@ public class VariableNodeEditor extends DataEditor{
 	}
 	
 	//Itt biztos beszuras van
-	public VariableNodeEditor( VariableTree tree, VariableFolderNodeDataModel selectedNode ){
+	public VariableNodeEditor( VariableTree tree, ConstantFolderNodeDataModel selectedNode ){
 
-		super( VariableFolderNodeDataModel.getModelNameToShowStatic());
+		super( ConstantFolderNodeDataModel.getModelNameToShowStatic());
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -61,7 +61,7 @@ public class VariableNodeEditor extends DataEditor{
 	}
 	
 	//Itt modisitas van
-	public VariableNodeEditor( VariableTree variableTree, VariableFolderNodeDataModel selectedNode, EditMode mode ){		
+	public VariableNodeEditor( VariableTree variableTree, ConstantFolderNodeDataModel selectedNode, EditMode mode ){		
 
 		super( mode, selectedNode.getNodeTypeToShow());
 
@@ -117,10 +117,10 @@ public class VariableNodeEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Node-rol van szo
-				if( levelNode instanceof VariableFolderNodeDataModel ){
+				if( levelNode instanceof ConstantFolderNodeDataModel ){
 					
 					//Ha azonos a nev
-					if( ((VariableFolderNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((ConstantFolderNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -155,7 +155,7 @@ public class VariableNodeEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				VariableFolderNodeDataModel newVariableNode = new VariableFolderNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
+				ConstantFolderNodeDataModel newVariableNode = new ConstantFolderNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
 				nodeForCapture.add( newVariableNode );
 				
 			//Modositas eseten

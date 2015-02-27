@@ -5,7 +5,7 @@ import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.ScriptElementTypeOperationsCompareListEnum;
 import java.awt.Component;
@@ -37,7 +37,7 @@ public class ScriptElementTypeComponentCompare<E extends ScriptElementTypeOperat
 	
 	private JLabel labelFiller;
 	
-	public ScriptElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ScriptElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		super();
 		
 		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
@@ -45,7 +45,7 @@ public class ScriptElementTypeComponentCompare<E extends ScriptElementTypeOperat
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");

@@ -18,7 +18,7 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -51,7 +51,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	 * @param element
 	 * @throws XMLPharseException
 	 */
-	public StepNormalCollectorDataModel( Element element, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ) throws XMLPharseException{
+	public StepNormalCollectorDataModel( Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ) throws XMLPharseException{
 		
 		super(element, baseRootDataModel, variableRootDataModel);
 				

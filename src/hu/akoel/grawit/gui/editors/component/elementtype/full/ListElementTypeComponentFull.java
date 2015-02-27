@@ -18,7 +18,7 @@ import hu.akoel.grawit.core.operations.SelectVariableElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ContainTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -103,14 +103,14 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		return(E)comboOperationList.getSelectedItem();
 	}
 
-	public ListElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public ListElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		super();
 		
 		common( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );		
 		
 	}
 	
-	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
 		

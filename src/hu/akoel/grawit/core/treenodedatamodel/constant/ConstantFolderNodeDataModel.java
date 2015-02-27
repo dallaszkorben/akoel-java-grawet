@@ -1,11 +1,11 @@
-package hu.akoel.grawit.core.treenodedatamodel.variable;
+package hu.akoel.grawit.core.treenodedatamodel.constant;
 
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -17,18 +17,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
+public class ConstantFolderNodeDataModel extends ConstantDataModelAdapter{
 
 	private static final long serialVersionUID = -5125611897338677880L;
 	
-	public static final Tag TAG = Tag.VARIABLEFOLDER;
+	public static final Tag TAG = Tag.CONSTANTFOLDER;
 	
 	public static final String ATTR_DETAILS = "details";
 	
 	private String name;
 	private String details;
 	
-	public VariableFolderNodeDataModel( String name, String details ){
+	public ConstantFolderNodeDataModel( String name, String details ){
 		super( );
 		this.name = name;
 		this.details = details;
@@ -41,16 +41,16 @@ public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 	 * @param element
 	 * @throws XMLMissingAttributePharseException 
 	 */
-	public VariableFolderNodeDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
+	public ConstantFolderNodeDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
 		
 		if( !element.hasAttribute( ATTR_NAME ) ){
-			throw new XMLMissingAttributePharseException( VariableFolderNodeDataModel.getRootTag(), Tag.VARIABLEFOLDER, ATTR_NAME );			
+			throw new XMLMissingAttributePharseException( ConstantFolderNodeDataModel.getRootTag(), Tag.CONSTANTFOLDER, ATTR_NAME );			
 		}
 		String nameString = element.getAttribute( ATTR_NAME );
 		this.name = nameString;
 		
 		if( !element.hasAttribute( ATTR_DETAILS ) ){
-			throw new XMLMissingAttributePharseException( VariableFolderNodeDataModel.getRootTag(), Tag.VARIABLEFOLDER, ATTR_NAME, getName(), ATTR_DETAILS );			
+			throw new XMLMissingAttributePharseException( ConstantFolderNodeDataModel.getRootTag(), Tag.CONSTANTFOLDER, ATTR_NAME, getName(), ATTR_DETAILS );			
 		}		
 		String detailsString = element.getAttribute( ATTR_DETAILS );		
 		this.details = detailsString;
@@ -62,12 +62,12 @@ public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 				Element variableElement = (Element)node;
 				
 				//Ha VARIABLEELEMENT van alatta
-				if( variableElement.getTagName().equals( Tag.VARIABLEELEMENT.getName() )){
-					this.add(new VariableElementDataModel(variableElement, baseRootDataModel ));
+				if( variableElement.getTagName().equals( Tag.CONSTANTELEMENT.getName() )){
+					this.add(new ConstantElementDataModel(variableElement, baseRootDataModel ));
 				
 				//Ha ujabb VARIABLENODE van alatta
-				}else if( variableElement.getTagName().equals( Tag.VARIABLEFOLDER.getName() )){
-					this.add(new VariableFolderNodeDataModel(variableElement, baseRootDataModel ));
+				}else if( variableElement.getTagName().equals( Tag.CONSTANTFOLDER.getName() )){
+					this.add(new ConstantFolderNodeDataModel(variableElement, baseRootDataModel ));
 				}
 			}
 		}
@@ -79,7 +79,7 @@ public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 	}
 
 	@Override
-	public void add(VariableDataModelAdapter node) {
+	public void add(ConstantDataModelAdapter node) {
 		super.add( (MutableTreeNode)node );
 	}
 	
@@ -118,7 +118,7 @@ public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 		Attr attr;
 		
 		//Node element
-		Element nodeElement = document.createElement( VariableFolderNodeDataModel.this.getTag().getName() );
+		Element nodeElement = document.createElement( ConstantFolderNodeDataModel.this.getTag().getName() );
 		attr = document.createAttribute( ATTR_NAME );
 		attr.setValue( getName() );
 		nodeElement.setAttributeNode(attr);	
@@ -132,9 +132,9 @@ public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 			
 			Object object = this.getChildAt( i );
 			
-			if( !object.equals(this) && object instanceof VariableDataModelAdapter ){
+			if( !object.equals(this) && object instanceof ConstantDataModelAdapter ){
 				
-				Element element = ((VariableDataModelAdapter)object).getXMLElement( document );
+				Element element = ((ConstantDataModelAdapter)object).getXMLElement( document );
 				nodeElement.appendChild( element );		    		
 		    	
 			}
@@ -147,7 +147,7 @@ public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 	public Object clone(){
 		
 		//Leklonozza a NODE-ot
-		VariableFolderNodeDataModel cloned = (VariableFolderNodeDataModel)super.clone();
+		ConstantFolderNodeDataModel cloned = (ConstantFolderNodeDataModel)super.clone();
 
 		//Ha vannak gyerekei (NODE vagy ELEMENT)
 		if( null != this.children ){
@@ -157,9 +157,9 @@ public class VariableFolderNodeDataModel extends VariableDataModelAdapter{
 			
 			for( Object o : this.children ){
 				
-				if( o instanceof VariableDataModelAdapter ){
+				if( o instanceof ConstantDataModelAdapter ){
 					
-					VariableDataModelAdapter child = (VariableDataModelAdapter) ((VariableDataModelAdapter)o).clone();
+					ConstantDataModelAdapter child = (ConstantDataModelAdapter) ((ConstantDataModelAdapter)o).clone();
 					
 					//Szulo megadasa, mert hogy nem lett hozzaadva direkt modon a Tree-hez
 					child.setParent( cloned );					

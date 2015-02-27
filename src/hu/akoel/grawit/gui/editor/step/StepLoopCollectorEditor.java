@@ -8,10 +8,10 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.CheckboxElementTypeOperationsCompareListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.compare.FieldElementTypeOperationsCompareListEnum;
@@ -65,10 +65,10 @@ public class StepLoopCollectorEditor extends DataEditor{
 	private ElementTypeComponentCompareInterface<?> elementTypeComponent;
 	
 	BaseRootDataModel baseRootDataModel;
-	VariableRootDataModel variableRootDataModel;
+	ConstantRootDataModel variableRootDataModel;
 
 	//Itt biztos beszuras van
-	public StepLoopCollectorEditor( Tree tree, StepFolderDataModel selectedNode, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ){
+	public StepLoopCollectorEditor( Tree tree, StepFolderDataModel selectedNode, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel ){
 		
 		super( StepLoopCollectorDataModel.getModelNameToShowStatic() );
 		
@@ -97,7 +97,7 @@ public class StepLoopCollectorEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public StepLoopCollectorEditor( Tree tree, StepLoopCollectorDataModel selectedControlLoop, VariableRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, EditMode mode ){		
+	public StepLoopCollectorEditor( Tree tree, StepLoopCollectorDataModel selectedControlLoop, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, EditMode mode ){		
 		
 		super( mode, selectedControlLoop.getNodeTypeToShow());
 
@@ -127,7 +127,7 @@ public class StepLoopCollectorEditor extends DataEditor{
 		commonPost( baseElement );
 	}
 	
-	private void commonPre( final BaseRootDataModel baseRootDataModel, final VariableRootDataModel variableRootDataModel ){
+	private void commonPre( final BaseRootDataModel baseRootDataModel, final ConstantRootDataModel variableRootDataModel ){
 		
 		//Name
 		fieldName = new TextFieldComponent();

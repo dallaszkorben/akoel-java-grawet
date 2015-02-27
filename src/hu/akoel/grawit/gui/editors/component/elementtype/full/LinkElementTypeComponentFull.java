@@ -11,7 +11,7 @@ import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.LinkElementTypeOperationsFullListEnum;
@@ -71,7 +71,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 	 * Uj
 	 * 
 	 */
-	public LinkElementTypeComponentFull( BaseElementDataModelAdapter baseElement, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public LinkElementTypeComponentFull( BaseElementDataModelAdapter baseElement, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		super();
 
 		common( baseElement, null, baseRootDataModel, variableRootDataModel );
@@ -85,14 +85,14 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 	 * @param key
 	 * @param value
 	 */
-	public LinkElementTypeComponentFull( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	public LinkElementTypeComponentFull( BaseElementDataModelAdapter baseElement , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		super();
 		
 		common( baseElement, elementOperation, baseRootDataModel, variableRootDataModel );		
 		
 	}
 	
-	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, VariableRootDataModel variableRootDataModel ){
+	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
 		

@@ -2,28 +2,28 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreePath;
 
-public class VariableTreeSelectorComponent extends TreeSelectorComponent<VariableElementDataModel>{
+public class VariableTreeSelectorComponent extends TreeSelectorComponent<ConstantElementDataModel>{
 
 	private static final long serialVersionUID = 5692189257383238770L;
 
-	public VariableTreeSelectorComponent( VariableDataModelAdapter rootDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.variable"), VariableElementDataModel.class, rootDataModel, null, false, false );
+	public VariableTreeSelectorComponent( ConstantDataModelAdapter rootDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.variable"), ConstantElementDataModel.class, rootDataModel, null, false, false );
 	}
 
-	public VariableTreeSelectorComponent( VariableDataModelAdapter rootDataModel, VariableElementDataModel selectedVariableElementDataModel ) {
-		super(CommonOperations.getTranslation("window.title.selector.variable"), VariableElementDataModel.class, rootDataModel, selectedVariableElementDataModel, true, false );
+	public VariableTreeSelectorComponent( ConstantDataModelAdapter rootDataModel, ConstantElementDataModel selectedVariableElementDataModel ) {
+		super(CommonOperations.getTranslation("window.title.selector.variable"), ConstantElementDataModel.class, rootDataModel, selectedVariableElementDataModel, true, false );
 	}
 	
 	@Override
-	public String getSelectedDataModelToString( VariableElementDataModel selectedDataModel) {
+	public String getSelectedDataModelToString( ConstantElementDataModel selectedDataModel) {
 		StringBuffer out = new StringBuffer();
 		out.append( selectedDataModel.getName() );
 		return out.toString();
@@ -44,11 +44,11 @@ public class VariableTreeSelectorComponent extends TreeSelectorComponent<Variabl
 		ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
 
 		//Iconja a NODE-nak
-		if( actualNode instanceof VariableRootDataModel){
+		if( actualNode instanceof ConstantRootDataModel){
             return rootIcon;
-		}else if( actualNode instanceof VariableElementDataModel ){
+		}else if( actualNode instanceof ConstantElementDataModel ){
 			return (elementIcon);
-		}else if( actualNode instanceof VariableFolderNodeDataModel){
+		}else if( actualNode instanceof ConstantFolderNodeDataModel){
 			if( expanded ){
 				return (nodeOpenIcon);
 			}else{
