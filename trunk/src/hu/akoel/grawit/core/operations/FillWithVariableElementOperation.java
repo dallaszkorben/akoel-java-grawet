@@ -17,11 +17,11 @@ import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
@@ -35,16 +35,16 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 	private static final String ATTR_FILL_VARIABLE_ELEMENT_PATH = "fillvariableelementpath";
 	
 	//--- Data model
-	private VariableElementDataModel variableElementDataModel;
+	private ConstantElementDataModel variableElementDataModel;
 	//---
 	
-	public FillWithVariableElementOperation( VariableElementDataModel variableElementDataModel ){
+	public FillWithVariableElementOperation( ConstantElementDataModel variableElementDataModel ){
 		this.variableElementDataModel = variableElementDataModel;
 	}
 	
-	public FillWithVariableElementOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public FillWithVariableElementOperation( Element element, ConstantRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		VariableDataModelAdapter variableDataModelForFillOut = variableRootDataModel;
+		ConstantDataModelAdapter variableDataModelForFillOut = variableRootDataModel;
 		
 		if( !element.hasAttribute( ATTR_FILL_VARIABLE_ELEMENT_PATH ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_FILL_VARIABLE_ELEMENT_PATH );		
@@ -73,9 +73,9 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 	    	String attrName = null;
 	    	
 	    	//Ha VARIABLENODE
-	    	if( tagName.equals( VariableFolderNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(VariableFolderNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForFillOut = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLEFOLDER, attrName );
+	    	if( tagName.equals( ConstantFolderNodeDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(ConstantFolderNodeDataModel.ATTR_NAME);	    		
+	    		variableDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.CONSTANTFOLDER, attrName );
 
 	    		if( null == variableDataModelForFillOut ){
 
@@ -83,9 +83,9 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 	    		}
 	    		
 	    	//Ha VARIABLEELEMENT
-	    	}else if( tagName.equals( VariableElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(VariableElementDataModel.ATTR_NAME);
-	    		variableDataModelForFillOut = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.VARIABLEELEMENT, attrName );
+	    	}else if( tagName.equals( ConstantElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(ConstantElementDataModel.ATTR_NAME);
+	    		variableDataModelForFillOut = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForFillOut, Tag.CONSTANTELEMENT, attrName );
 	    		
 	    		if( null == variableDataModelForFillOut ){
 
@@ -99,7 +99,7 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 	    }	    
 	    try{
 	    	
-	    	this.variableElementDataModel = (VariableElementDataModel)variableDataModelForFillOut;
+	    	this.variableElementDataModel = (ConstantElementDataModel)variableDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
@@ -118,7 +118,7 @@ public class FillWithVariableElementOperation extends ElementOperationAdapter im
 	}
 	
 	@Override
-	public VariableElementDataModel getVariableElement() {
+	public ConstantElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
 

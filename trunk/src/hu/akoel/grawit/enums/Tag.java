@@ -12,10 +12,10 @@ public enum Tag{
 	STEPLOOPELEMENTCOLLECTOR("loopelementcollector"),			
 	STEPELEMENT("element"),
 	
-	VARIABLEROOT("variable"),
-	VARIABLEFOLDER("node"),
-	VARIABLEELEMENT("element"),
-	VARIABLEPARAMETER("parameter"),		
+	CONSTANTROOT("variable"),
+	CONSTANTFOLDER("node"),
+	CONSTANTELEMENT("element"),
+	CONSTANTPARAMETER("parameter"),		
 
 	TESTCASEROOT("testcase"),
 	TESTCASEFOLDER("node"),

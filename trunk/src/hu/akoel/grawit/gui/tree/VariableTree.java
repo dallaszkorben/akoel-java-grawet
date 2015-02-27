@@ -25,15 +25,15 @@ import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -48,7 +48,7 @@ public class VariableTree extends Tree{
 	private GUIFrame guiFrame;
 	StepRootDataModel paramRootDataModel;
 	
-	public VariableTree(GUIFrame guiFrame, VariableRootDataModel variableRootDataModel, StepRootDataModel paramRootDataModel) {
+	public VariableTree(GUIFrame guiFrame, ConstantRootDataModel variableRootDataModel, StepRootDataModel paramRootDataModel) {
 		super(guiFrame, variableRootDataModel);
 		this.guiFrame = guiFrame;
 		
@@ -65,17 +65,17 @@ public class VariableTree extends Tree{
     	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
   
     	//Iconja a NODE-nak
-    	if( actualNode instanceof VariableRootDataModel){
+    	if( actualNode instanceof ConstantRootDataModel){
             return rootIcon;
             
-    	}else if( actualNode instanceof VariableFolderNodeDataModel){
+    	}else if( actualNode instanceof ConstantFolderNodeDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{
     			return nodeClosedIcon;
     		}
         
-    	}if( actualNode instanceof VariableElementDataModel ){
+    	}if( actualNode instanceof ConstantElementDataModel ){
     		return elementIcon;
     	}
     	return null;
@@ -85,16 +85,16 @@ public class VariableTree extends Tree{
 	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 	
 		//Ha egyaltalan valamilyen egergombot benyomtam
-		if( selectedNode instanceof VariableRootDataModel ){
+		if( selectedNode instanceof ConstantRootDataModel ){
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			guiFrame.showEditorPanel( emptyPanel );
 		
-		}else if( selectedNode instanceof VariableFolderNodeDataModel ){
-			VariableNodeEditor variableNodeEditor = new VariableNodeEditor(this, (VariableFolderNodeDataModel)selectedNode, EditMode.VIEW);
+		}else if( selectedNode instanceof ConstantFolderNodeDataModel ){
+			VariableNodeEditor variableNodeEditor = new VariableNodeEditor(this, (ConstantFolderNodeDataModel)selectedNode, EditMode.VIEW);
 			guiFrame.showEditorPanel( variableNodeEditor);								
 		
-		}else if( selectedNode instanceof VariableElementDataModel ){
-			VariableElementEditor variableElementEditor = new VariableElementEditor( this, (VariableElementDataModel)selectedNode, EditMode.VIEW );								
+		}else if( selectedNode instanceof ConstantElementDataModel ){
+			VariableElementEditor variableElementEditor = new VariableElementEditor( this, (ConstantElementDataModel)selectedNode, EditMode.VIEW );								
 			guiFrame.showEditorPanel( variableElementEditor);		
 								
 		}		
@@ -103,14 +103,14 @@ public class VariableTree extends Tree{
 	@Override
 	public void doModifyWithPopupEdit(DataModelAdapter selectedNode) {
 		
-		if( selectedNode instanceof VariableFolderNodeDataModel ){
+		if( selectedNode instanceof ConstantFolderNodeDataModel ){
 			
-			VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( variableNodeEditor);								
 			
-		}else if( selectedNode instanceof VariableElementDataModel ){
+		}else if( selectedNode instanceof ConstantElementDataModel ){
 			
-			VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
+			VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (ConstantElementDataModel)selectedNode, DataEditor.EditMode.MODIFY );								
 			guiFrame.showEditorPanel( variableElementEditor);	
 		}
 	}
@@ -121,7 +121,7 @@ public class VariableTree extends Tree{
 		//
 		// Csomopont eseten
 		//
-		if( selectedNode instanceof VariableFolderNodeDataModel ){
+		if( selectedNode instanceof ConstantFolderNodeDataModel ){
 
 			//Insert Node
 			JMenuItem insertNodeMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.folder") );
@@ -131,7 +131,7 @@ public class VariableTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode );								
+					VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableNodeEditor);								
 				
 				}
@@ -146,7 +146,7 @@ public class VariableTree extends Tree{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 							
-					VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode );								
+					VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 					guiFrame.showEditorPanel( variableElementEditor);								
 				
 				}
@@ -169,16 +169,16 @@ public class VariableTree extends Tree{
 			public void actionPerformed(ActionEvent e) {
 
 				//Ha a kivalasztott csomopont szuloje VariableDataModel - annak kell lennie :)
-				if( selectedNode.getParent() instanceof VariableDataModelAdapter ){
+				if( selectedNode.getParent() instanceof ConstantDataModelAdapter ){
 					
 					//Akkor megduplikalja 
-					VariableDataModelAdapter duplicated = (VariableDataModelAdapter)selectedNode.clone();
+					ConstantDataModelAdapter duplicated = (ConstantDataModelAdapter)selectedNode.clone();
 					
 					//!!! Ki kell torolni a szulot, hiszen a kovetkezo add() fuggveny fogja ezt neki adni !!!
 					duplicated.setParent(null);
 
 					//Es hozzaadja a szulohoz
-					((VariableDataModelAdapter)selectedNode.getParent()).add( duplicated );
+					((ConstantDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
 					VariableTree.this.changed();
@@ -210,7 +210,7 @@ public class VariableTree extends Tree{
 				
 				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas a Variable-re vagy valamelyik gyermekere a Param-ban
 				//Akkor megnezi, hogy van-e hivatkozas a tartalmazott elemekre a Testcase fastrukturaban
-				ArrayList<StepDataModelAdapter> foundParamNodeList = findAllVariableInParam( (VariableDataModelAdapter)selectedNode, paramRootDataModel, new ArrayList<StepDataModelAdapter>() );
+				ArrayList<StepDataModelAdapter> foundParamNodeList = findAllVariableInParam( (ConstantDataModelAdapter)selectedNode, paramRootDataModel, new ArrayList<StepDataModelAdapter>() );
 				
 				StringBuilder listMessage = new StringBuilder();
 				int rows = 0;
@@ -320,16 +320,16 @@ public class VariableTree extends Tree{
 			
 	}
 
-	private ArrayList<StepDataModelAdapter> findAllVariableInParam( VariableDataModelAdapter nodeToDelete, StepDataModelAdapter rootParamDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
+	private ArrayList<StepDataModelAdapter> findAllVariableInParam( ConstantDataModelAdapter nodeToDelete, StepDataModelAdapter rootParamDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
 		
 		//Megnezi, hogy az adott BaseNode-ra van-e hivatkozas a Param strukturaban
 		findOneVariableInParam( nodeToDelete, rootParamDataModel, foundDataModel );
 		
 		//Most pedig vegig megy az adott VariableNode gyermekein is
-		Enumeration<VariableDataModelAdapter> enumForVariableModel = nodeToDelete.children();
+		Enumeration<ConstantDataModelAdapter> enumForVariableModel = nodeToDelete.children();
 		while( enumForVariableModel.hasMoreElements() ){
 		
-			VariableDataModelAdapter childrenOfParam = enumForVariableModel.nextElement();
+			ConstantDataModelAdapter childrenOfParam = enumForVariableModel.nextElement();
 		
 			//Es megnezi, hogy van-e ra hivatkozas a ParamData strukturaban
 			findAllVariableInParam( childrenOfParam, rootParamDataModel, foundDataModel );
@@ -338,12 +338,12 @@ public class VariableTree extends Tree{
 	}
 	
 	
-	private ArrayList<StepDataModelAdapter> findOneVariableInParam( VariableDataModelAdapter nodeToDelete, StepDataModelAdapter paramDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
+	private ArrayList<StepDataModelAdapter> findOneVariableInParam( ConstantDataModelAdapter nodeToDelete, StepDataModelAdapter paramDataModel, ArrayList<StepDataModelAdapter> foundDataModel ){
 		
 		@SuppressWarnings("unchecked")
 		Enumeration<StepDataModelAdapter> enumForParamModel = paramDataModel.children();
 		ElementOperationAdapter operation;
-		VariableElementDataModel variableElement;
+		ConstantElementDataModel variableElement;
 		
 		//Vegig megy a param fastrukturan es megnezi, hogy az ott levo Node hivatkozik-e a megadott nodeToDelet-re
 		while( enumForParamModel.hasMoreElements() ){
@@ -404,7 +404,7 @@ public class VariableTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode );								
+				VariableNodeEditor variableNodeEditor = new VariableNodeEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( variableNodeEditor);								
 			
 			}
@@ -420,7 +420,7 @@ public class VariableTree extends Tree{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 							
-				VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (VariableFolderNodeDataModel)selectedNode );								
+				VariableElementEditor variableElementEditor = new VariableElementEditor( VariableTree.this, (ConstantFolderNodeDataModel)selectedNode );								
 				guiFrame.showEditorPanel( variableElementEditor);								
 			
 			}
@@ -433,19 +433,19 @@ public class VariableTree extends Tree{
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
 
 		//Node elhelyezese Node-ba
-		if( draggedNode instanceof VariableFolderNodeDataModel && dropObject instanceof VariableFolderNodeDataModel ){
+		if( draggedNode instanceof ConstantFolderNodeDataModel && dropObject instanceof ConstantFolderNodeDataModel ){
 			return true;
 		
 		//Element elhelyezese Node-ba
-		}else if( draggedNode instanceof VariableElementDataModel && dropObject instanceof VariableFolderNodeDataModel ){
+		}else if( draggedNode instanceof ConstantElementDataModel && dropObject instanceof ConstantFolderNodeDataModel ){
 			return true;
 		
 		//Node elhelyezese Root-ba			
-		}else if( draggedNode instanceof VariableFolderNodeDataModel && dropObject instanceof VariableRootDataModel ){
+		}else if( draggedNode instanceof ConstantFolderNodeDataModel && dropObject instanceof ConstantRootDataModel ){
 			return true;
 		
 		//Elem elhelyezese Root-ba	
-		}else if( draggedNode instanceof VariableElementDataModel && dropObject instanceof VariableRootDataModel ){
+		}else if( draggedNode instanceof ConstantElementDataModel && dropObject instanceof ConstantRootDataModel ){
 			return true;
 			
 		}

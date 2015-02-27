@@ -38,7 +38,7 @@ import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.VariableTypeListEnum;
@@ -261,7 +261,7 @@ public class CommonOperations {
 	 }
 	 
 	 
-		public static ElementOperationAdapter getElementOperation( Element element, BaseElementDataModelAdapter baseElement, DataModelAdapter dataModel, ElementOperationAdapter elementOperation, Tag rootTag, String attr_operation, VariableRootDataModel variableRootDataModel ) throws XMLMissingAttributePharseException, XMLBaseConversionPharseException, XMLWrongAttributePharseException{		
+		public static ElementOperationAdapter getElementOperation( Element element, BaseElementDataModelAdapter baseElement, DataModelAdapter dataModel, ElementOperationAdapter elementOperation, Tag rootTag, String attr_operation, ConstantRootDataModel variableRootDataModel ) throws XMLMissingAttributePharseException, XMLBaseConversionPharseException, XMLWrongAttributePharseException{		
 		
 			//=============================
 			//

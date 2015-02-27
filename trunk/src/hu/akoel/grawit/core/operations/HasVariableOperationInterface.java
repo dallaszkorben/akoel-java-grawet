@@ -1,9 +1,9 @@
 package hu.akoel.grawit.core.operations;
 
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
 
 public interface HasVariableOperationInterface {
 
-	public VariableElementDataModel getVariableElement();
+	public ConstantElementDataModel getVariableElement();
 	
 }

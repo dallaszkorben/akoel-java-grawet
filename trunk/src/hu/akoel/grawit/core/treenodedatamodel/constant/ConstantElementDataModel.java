@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.treenodedatamodel.variable;
+package hu.akoel.grawit.core.treenodedatamodel.constant;
 
 import java.util.ArrayList;
 import javax.swing.tree.MutableTreeNode;
@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.VariableTypeListEnum;
@@ -17,12 +17,12 @@ import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
 
-public class VariableElementDataModel extends VariableDataModelAdapter{
+public class ConstantElementDataModel extends ConstantDataModelAdapter{
 
 	private static final long serialVersionUID = 598870035128239461L;
 	
-	public static Tag TAG = Tag.VARIABLEELEMENT; 				//element
-	public static Tag TAG_PARAMETER = Tag.VARIABLEPARAMETER;	//parameter
+	public static Tag TAG = Tag.CONSTANTELEMENT; 				//element
+	public static Tag TAG_PARAMETER = Tag.CONSTANTPARAMETER;	//parameter
 	
 	private static String ATTR_TYPE = "type";
 	private static String ATTR_VALUE = "value";
@@ -33,13 +33,13 @@ public class VariableElementDataModel extends VariableDataModelAdapter{
 	private ArrayList<Object> parameters;
 	//---
 		
-	public VariableElementDataModel( String name, VariableTypeListEnum type, ArrayList<Object> parameters){
+	public ConstantElementDataModel( String name, VariableTypeListEnum type, ArrayList<Object> parameters){
 		this.name = name;
 		this.type = type;
 		this.parameters = parameters;
 	}
 	
-	public VariableElementDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
+	public ConstantElementDataModel( Element element, BaseRootDataModel baseRootDataModel ) throws XMLMissingAttributePharseException, XMLMissingTagPharseException, XMLCastPharseException{
 		
 		if( !element.getTagName().equals( TAG.getName() ) ){
 			Element parentElement = (Element)element.getParentNode();
@@ -193,14 +193,14 @@ public class VariableElementDataModel extends VariableDataModelAdapter{
 	}
 
 	@Override
-	public void add(VariableDataModelAdapter node) {
+	public void add(ConstantDataModelAdapter node) {
 	}
 
 	@Override
 	public Object clone(){
 		
 		//Leklonozza az VariableElement-et
-		VariableElementDataModel cloned = (VariableElementDataModel)super.clone();
+		ConstantElementDataModel cloned = (ConstantElementDataModel)super.clone();
 		
 		//Es a valtozoit is klonozni kell
 		cloned.name = new String( this.name );

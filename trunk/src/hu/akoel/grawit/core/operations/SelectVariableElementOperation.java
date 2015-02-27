@@ -12,10 +12,10 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.VariableDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -30,18 +30,18 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 //	private static final String ATTR_SELECT_STRING = "selectstring";
 	
 	//--- Data model
-	private VariableElementDataModel variableElementDataModel;
+	private ConstantElementDataModel variableElementDataModel;
 	private ListSelectionByListEnum selectionBy;
 	//----
 	
-	public SelectVariableElementOperation( VariableElementDataModel variableElementDataModel, ListSelectionByListEnum selectionBy ){
+	public SelectVariableElementOperation( ConstantElementDataModel variableElementDataModel, ListSelectionByListEnum selectionBy ){
 		this.variableElementDataModel = variableElementDataModel;
 		this.selectionBy = selectionBy;
 	}
 	
-	public SelectVariableElementOperation( Element element, VariableRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public SelectVariableElementOperation( Element element, ConstantRootDataModel variableRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
-		VariableDataModelAdapter variableDataModelForSelect = variableRootDataModel;
+		ConstantDataModelAdapter variableDataModelForSelect = variableRootDataModel;
 		
 		//SELECTION BY
 		if( !element.hasAttribute( ATTR_SELECTION_BY ) ){
@@ -86,9 +86,9 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 	    	String attrName = null;
 	    	
 	    	//Ha VARIABLENODE
-	    	if( tagName.equals( VariableFolderNodeDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(VariableFolderNodeDataModel.ATTR_NAME);	    		
-	    		variableDataModelForSelect = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.VARIABLEFOLDER, attrName );
+	    	if( tagName.equals( ConstantFolderNodeDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(ConstantFolderNodeDataModel.ATTR_NAME);	    		
+	    		variableDataModelForSelect = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.CONSTANTFOLDER, attrName );
 
 	    		if( null == variableDataModelForSelect ){
 
@@ -96,9 +96,9 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 	    		}
 	    		
 	    	//Ha VARIABLEELEMENT
-	    	}else if( tagName.equals( VariableElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(VariableElementDataModel.ATTR_NAME);
-	    		variableDataModelForSelect = (VariableDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.VARIABLEELEMENT, attrName );
+	    	}else if( tagName.equals( ConstantElementDataModel.TAG.getName() ) ){
+	    		attrName = actualElement.getAttribute(ConstantElementDataModel.ATTR_NAME);
+	    		variableDataModelForSelect = (ConstantDataModelAdapter) CommonOperations.getDataModelByNameInLevel( variableDataModelForSelect, Tag.CONSTANTELEMENT, attrName );
 	    		
 	    		if( null == variableDataModelForSelect ){
 
@@ -112,7 +112,7 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 	    }	    
 	    try{
 	    	
-	    	this.variableElementDataModel = (VariableElementDataModel)variableDataModelForSelect;
+	    	this.variableElementDataModel = (ConstantElementDataModel)variableDataModelForSelect;
 	    	
 	    }catch(ClassCastException e){
 
@@ -132,7 +132,7 @@ public class SelectVariableElementOperation extends SelectOperationAdapter imple
 	}
 
 	@Override
-	public VariableElementDataModel getVariableElement() {
+	public ConstantElementDataModel getVariableElement() {
 		return variableElementDataModel;
 	}
 	

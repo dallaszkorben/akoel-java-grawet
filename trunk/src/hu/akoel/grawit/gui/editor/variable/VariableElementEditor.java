@@ -7,8 +7,8 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableElementDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableFolderNodeDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
 import hu.akoel.grawit.enums.list.VariableTypeListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
@@ -31,8 +31,8 @@ public class VariableElementEditor extends DataEditor{
 	private static final long serialVersionUID = -7285419881714492620L;
 	
 	private Tree tree;
-	private VariableElementDataModel nodeForModify;
-	private VariableFolderNodeDataModel nodeForCapture;
+	private ConstantElementDataModel nodeForModify;
+	private ConstantFolderNodeDataModel nodeForCapture;
 	private EditMode mode;
 	
 	private JLabel labelName;
@@ -50,9 +50,9 @@ public class VariableElementEditor extends DataEditor{
 	 * @param tree
 	 * @param selectedNode
 	 */
-	public VariableElementEditor( Tree tree, VariableFolderNodeDataModel selectedNode ){
+	public VariableElementEditor( Tree tree, ConstantFolderNodeDataModel selectedNode ){
 
-		super( VariableElementDataModel.getModelNameToShowStatic());
+		super( ConstantElementDataModel.getModelNameToShowStatic());
 
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -81,7 +81,7 @@ public class VariableElementEditor extends DataEditor{
 	 * @param selectedElement
 	 * @param mode
 	 */
-	public VariableElementEditor( Tree tree, VariableElementDataModel selectedElement, EditMode mode ){		
+	public VariableElementEditor( Tree tree, ConstantElementDataModel selectedElement, EditMode mode ){		
 
 		super( mode, selectedElement.getNodeTypeToShow() );
 
@@ -326,10 +326,10 @@ public class VariableElementEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Element-rol van szo 
-				if( levelNode instanceof VariableElementDataModel ){
+				if( levelNode instanceof ConstantElementDataModel ){
 					
 					//Ha azonos a nev
-					if( ((VariableElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((ConstantElementDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 					
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -364,7 +364,7 @@ public class VariableElementEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){			
 
-				VariableElementDataModel newVariableElement = new VariableElementDataModel( fieldName.getText(), type, fieldVariableParameters.getParameters());
+				ConstantElementDataModel newVariableElement = new ConstantElementDataModel( fieldName.getText(), type, fieldVariableParameters.getParameters());
 				nodeForCapture.add( newVariableElement );
 				
 			//Modositas eseten

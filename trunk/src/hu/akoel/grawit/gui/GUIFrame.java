@@ -2,10 +2,10 @@ package hu.akoel.grawit.gui;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.variable.VariableRootDataModel;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
@@ -85,7 +85,7 @@ public class GUIFrame extends JFrame{
 	private TreePanel treePanel;
 	private EditorPanel editorPanel;
 
-	private VariableRootDataModel variableRootDataModel = new VariableRootDataModel();
+	private ConstantRootDataModel variableRootDataModel = new ConstantRootDataModel();
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
 	private StepRootDataModel paramRootDataModel = new StepRootDataModel();	
 	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
@@ -627,7 +627,7 @@ public class GUIFrame extends JFrame{
 					baseRootDataModel = new BaseRootDataModel(doc);
 					
 					// VARIABLEPARAMETER
-					variableRootDataModel = new VariableRootDataModel(doc, baseRootDataModel );
+					variableRootDataModel = new ConstantRootDataModel(doc, baseRootDataModel );
 					
 					// PARAMROOT
 					paramRootDataModel = new StepRootDataModel(doc, variableRootDataModel, baseRootDataModel );
