@@ -36,7 +36,7 @@ import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 public class CompareListToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
 	
 	private static final String NAME = "COMPARETOVARIABLE";	
-	private static final String ATTR_COMPARE_CONSTANT_ELEMENT_PATH = "comparevariableelementpath";
+	private static final String ATTR_COMPARE_CONSTANT_ELEMENT_PATH = "compareconstantelementpath";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_COMPARE_BY = "compareby";

@@ -26,12 +26,6 @@ public enum Tag{
 	RUNROOT("run"),
 	RUNNODE("node"),
 	
-	SPECIALROOT("special"),
-	SPECIALNODE("node"),
-	SPECIALOPEN("open"),
-	SPECIALCLOSE("close"),
-	SPECIALCUSTOM("custom"),
-		
 	SCRIPTROOT("script"),
 	SCRIPTNODE("node"),
 	SCRIPTELEMENT("element"),
