@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
-import hu.akoel.grawit.enums.list.VariableTypeListEnum;
+import hu.akoel.grawit.enums.list.ConstantTypeListEnum;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.ComboBoxComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -38,11 +38,11 @@ public class ConstantElementEditor extends DataEditor{
 	private JLabel labelName;
 	private TextFieldComponent fieldName;
 	private JLabel labelVariableType;
-	private ComboBoxComponent<VariableTypeListEnum> fieldVariableType;
+	private ComboBoxComponent<ConstantTypeListEnum> fieldVariableType;
 	private JLabel labelVariableParameters;
 	private ConstantComponentInterface fieldVariableParameters;
 	
-	private VariableTypeListEnum type;
+	private ConstantTypeListEnum type;
 	
 	/**
 	 *  Uj VariableElement rogzitese - Insert
@@ -64,7 +64,7 @@ public class ConstantElementEditor extends DataEditor{
 		fieldName.setText( "" );
 		
 		//Type - String
-		type = VariableTypeListEnum.STRING_PARAMETER;		
+		type = ConstantTypeListEnum.STRING_PARAMETER;		
 				
 		//Parameters
 		//fieldVariableParameters = new VariableParametersStringComponent(type);				
@@ -111,8 +111,8 @@ public class ConstantElementEditor extends DataEditor{
 	
 		//VariableTypeSelector		
 		fieldVariableType = new ComboBoxComponent<>();
-		for( int i = 0; i < VariableTypeListEnum.getSize(); i++ ){
-			fieldVariableType.addItem( VariableTypeListEnum.getVariableParameterTypeByIndex(i) );
+		for( int i = 0; i < ConstantTypeListEnum.getSize(); i++ ){
+			fieldVariableType.addItem( ConstantTypeListEnum.getVariableParameterTypeByIndex(i) );
 		}
 		fieldVariableType.addItemListener( new ItemListener() {
 			
@@ -124,10 +124,10 @@ public class ConstantElementEditor extends DataEditor{
 				//Ha megvaltoztattam a tipust
 				if( e.getStateChange() == java.awt.event.ItemEvent.SELECTED ){ 
 					
-					type = VariableTypeListEnum.getVariableParameterTypeByIndex(index);
+					type = ConstantTypeListEnum.getVariableParameterTypeByIndex(index);
 					
 					//STRING_PARAMETER
-					if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.STRING_PARAMETER ) ){
+					if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.STRING_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -159,7 +159,7 @@ public class ConstantElementEditor extends DataEditor{
 						}
 */						
 					//RANDOM_STRING_PARAMETER	
-					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.RANDOM_STRING_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_STRING_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -177,7 +177,7 @@ public class ConstantElementEditor extends DataEditor{
 						
 					
 					//RANDOM_INTEGER_PARAMETER
-					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.RANDOM_INTEGER_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_INTEGER_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -195,7 +195,7 @@ public class ConstantElementEditor extends DataEditor{
 						
 						
 					//RANDOM_DECIMAL_PARAMETER	
-					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.RANDOM_DOUBLE_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_DOUBLE_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -211,7 +211,7 @@ public class ConstantElementEditor extends DataEditor{
 						}
 										
 					//RANDOM_DATE_PARAMETER
-					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.RANDOM_DATE_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.RANDOM_DATE_PARAMETER ) ){
 						
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){
@@ -227,7 +227,7 @@ public class ConstantElementEditor extends DataEditor{
 						}										
 						
 					//TODAY_DATE_PARAMETER
-					}else if( VariableTypeListEnum.getVariableParameterTypeByIndex(index).equals(VariableTypeListEnum.TODAY_DATE_PARAMETER ) ){
+					}else if( ConstantTypeListEnum.getVariableParameterTypeByIndex(index).equals(ConstantTypeListEnum.TODAY_DATE_PARAMETER ) ){
 
 						//Nem ez az elso valtoztatas
 						if( null != fieldVariableParameters ){

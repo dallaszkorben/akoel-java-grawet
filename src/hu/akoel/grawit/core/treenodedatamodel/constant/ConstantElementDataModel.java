@@ -12,7 +12,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.VariableTypeListEnum;
+import hu.akoel.grawit.enums.list.ConstantTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
@@ -29,11 +29,11 @@ public class ConstantElementDataModel extends ConstantDataModelAdapter{
 	
 	//--- Data model
 	private String name;
-	private VariableTypeListEnum type;
+	private ConstantTypeListEnum type;
 	private ArrayList<Object> parameters;
 	//---
 		
-	public ConstantElementDataModel( String name, VariableTypeListEnum type, ArrayList<Object> parameters){
+	public ConstantElementDataModel( String name, ConstantTypeListEnum type, ArrayList<Object> parameters){
 		this.name = name;
 		this.type = type;
 		this.parameters = parameters;
@@ -56,27 +56,27 @@ public class ConstantElementDataModel extends ConstantDataModelAdapter{
 		if( !element.hasAttribute( ATTR_TYPE ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_TYPE );			
 		}
-		if( VariableTypeListEnum.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableTypeListEnum.STRING_PARAMETER;
+		if( ConstantTypeListEnum.STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ConstantTypeListEnum.STRING_PARAMETER;
 			
-		}else if( VariableTypeListEnum.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableTypeListEnum.RANDOM_STRING_PARAMETER;
+		}else if( ConstantTypeListEnum.RANDOM_STRING_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ConstantTypeListEnum.RANDOM_STRING_PARAMETER;
 			
-		}else if( VariableTypeListEnum.RANDOM_INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableTypeListEnum.RANDOM_INTEGER_PARAMETER;
+		}else if( ConstantTypeListEnum.RANDOM_INTEGER_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ConstantTypeListEnum.RANDOM_INTEGER_PARAMETER;
 			
-		}else if( VariableTypeListEnum.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableTypeListEnum.RANDOM_DOUBLE_PARAMETER;
+		}else if( ConstantTypeListEnum.RANDOM_DOUBLE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ConstantTypeListEnum.RANDOM_DOUBLE_PARAMETER;
 			
-		}else if( VariableTypeListEnum.RANDOM_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableTypeListEnum.RANDOM_DATE_PARAMETER;
+		}else if( ConstantTypeListEnum.RANDOM_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ConstantTypeListEnum.RANDOM_DATE_PARAMETER;
 			
-		}else if( VariableTypeListEnum.TODAY_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
-			type = VariableTypeListEnum.TODAY_DATE_PARAMETER;
+		}else if( ConstantTypeListEnum.TODAY_DATE_PARAMETER.name().equals( element.getAttribute( ATTR_TYPE )) ){
+			type = ConstantTypeListEnum.TODAY_DATE_PARAMETER;
 			
 		//Default
 		}else{
-			type = VariableTypeListEnum.STRING_PARAMETER;
+			type = ConstantTypeListEnum.STRING_PARAMETER;
 			
 		}
 		
@@ -105,11 +105,11 @@ public class ConstantElementDataModel extends ConstantDataModelAdapter{
 		
 	}
 	
-	public VariableTypeListEnum getType(){
+	public ConstantTypeListEnum getType(){
 		return type;
 	}
 	
-	public void setType( VariableTypeListEnum type ){
+	public void setType( ConstantTypeListEnum type ){
 		this.type = type;
 	}
 	

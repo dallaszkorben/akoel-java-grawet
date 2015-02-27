@@ -1,7 +1,7 @@
 package hu.akoel.grawit.gui.editors.component.constantparameter;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.enums.list.VariableTypeListEnum;
+import hu.akoel.grawit.enums.list.ConstantTypeListEnum;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -23,7 +23,7 @@ public class ConstantVariableComponent extends JPanel implements ConstantCompone
 	private static final int PARAMETERORDER_SAMPLE = 0;
 	
 	private JTextField fieldValue;
-	private VariableTypeListEnum type;
+	private ConstantTypeListEnum type;
 	
 	private ArrayList<Object> parameterList;
 
@@ -32,7 +32,7 @@ public class ConstantVariableComponent extends JPanel implements ConstantCompone
 	 * 
 	 * @param type
 	 */
-	public ConstantVariableComponent( VariableTypeListEnum type ){
+	public ConstantVariableComponent( ConstantTypeListEnum type ){
 		super();
 
 		//parameter lista letrehozasa es feltoltese default ertekekkel
@@ -49,7 +49,7 @@ public class ConstantVariableComponent extends JPanel implements ConstantCompone
 	 * @param type
 	 * @param parameterList
 	 */
-	public ConstantVariableComponent( VariableTypeListEnum type, ArrayList<Object> parameterList ){
+	public ConstantVariableComponent( ConstantTypeListEnum type, ArrayList<Object> parameterList ){
 		super();
 		
 		//Parameter lista feltoltese a letezo ertekekkel
@@ -59,7 +59,7 @@ public class ConstantVariableComponent extends JPanel implements ConstantCompone
 		
 	}
 	
-	private void common( VariableTypeListEnum type ){
+	private void common( ConstantTypeListEnum type ){
 		this.type = type;
 		
 		this.setLayout( new GridBagLayout() );
