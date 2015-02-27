@@ -38,9 +38,9 @@ public class ConstantTreeSelectorComponent extends TreeSelectorComponent<Constan
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded ) {
 		//ImageIcon pageIcon = CommonOperations.createImageIcon("tree/Constant-page-icon.png");
-		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/variable-element-icon.png");
-		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/variable-node-closed-icon.png");
-		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/variable-node-open-icon.png");
+		ImageIcon elementIcon = CommonOperations.createImageIcon("tree/constant-element-icon.png");
+		ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/constant-node-closed-icon.png");
+		ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/constant-node-open-icon.png");
 		ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
 
 		//Iconja a NODE-nak
