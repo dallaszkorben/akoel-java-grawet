@@ -140,29 +140,6 @@ public class KeyValuePairComponent extends JPanel implements EditorComponentInte
 		//Azert kell, hogy a setEditable() hatasara ne szurkuljon el a felirat
 		fieldValueType.setRenderer(new MyRenderer());
 		
-		//fieldString.setInputVerifier( new CommonOperations.ValueVerifier(parameterList, type, DEFAULT_VALUE, PARAMETERORDER_VALUE) );
-		/*fieldString.setInputVerifier(new InputVerifier() {
-			String goodValue = "";
-			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
-
-				try {
-					//Kiprobalja, hogy konvertalhato-e
-					Object value = VariableParametersStringComponent.this.type.getParameterClass(0).getConstructor(String.class).newInstance(possibleValue);
-					parameterList.set( 0, value );
-					goodValue = possibleValue;
-					
-				} catch (Exception e) {
-					text.setText( goodValue );
-					return false;
-				}				
-				return true;
-			}
-		});*/
-		
 		int gridY = 1;
 		int gridX = 0;
 		GridBagConstraints c = new GridBagConstraints();		

@@ -37,15 +37,15 @@ public class ScriptElementTypeComponentCompare<E extends ScriptElementTypeOperat
 	
 	private JLabel labelFiller;
 	
-	public ScriptElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	public ScriptElementTypeComponentCompare( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		super();
 		
-		common( elementType, elementOperation, baseRootDataModel, variableRootDataModel );		
+		common( elementType, elementOperation, baseRootDataModel, constantRootDataModel );		
 		
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel variableRootDataModel ){
+	private void common( ElementTypeListEnum elementType , ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");

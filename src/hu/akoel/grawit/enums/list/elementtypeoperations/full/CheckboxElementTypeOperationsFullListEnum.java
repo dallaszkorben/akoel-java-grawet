@@ -41,7 +41,6 @@ public enum CheckboxElementTypeOperationsFullListEnum implements ElementTypeOper
 		case 1:	return COMPAREVALUE_TO_CONSTANT;
 		case 2:	return COMPAREVALUE_TO_STORED;
 		case 3:	return COMPAREVALUE_TO_STRING;
-//		case 4:	return GAINVALUE_TO_VARIABLE;
 		case 4:	return GAINVALUE_TO_ELEMENTSTORAGE;
 		case 5:	return OUTPUTSTORED;
 		default: return CLICK;

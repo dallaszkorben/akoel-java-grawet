@@ -49,9 +49,9 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 	private JLabel labelMessage;
 	private JTextField fieldMessage;
 	
-	//Variable selector - Mezo kitoltes
-	private JLabel labelVariableSelector;
-	private ConstantTreeSelectorComponent fieldVariableSelector;
+	//Constant selector - Mezo kitoltes
+	private JLabel labelConstantSelector;
+	private ConstantTreeSelectorComponent fieldConstantSelector;
 	
 	//BaseElement selector - Mezo kitoltes
 	private JLabel labelBaseElementSelector;
@@ -101,7 +101,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.step.pattern") + ": ");
 		labelMessage = new JLabel( CommonOperations.getTranslation("editor.label.step.message") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
-		labelVariableSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.constant") + ": ");
+		labelConstantSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.constant") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
 		labelCompareType = new JLabel( CommonOperations.getTranslation("editor.label.step.comparetype") + ": ");
 		labelFiller = new JLabel();
@@ -185,7 +185,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		comboCompareTypeList.setSelectedIndex( -1 );		
 		
 		//Valtozok letrehozase
-		fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel );
+		fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel );
 		
 		//Arra az esetre, ha a muvelethez hasznalt baseElement meg nem kivalasztott akkor az alap alapElemet javasolja hasznalni
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, false );		
@@ -206,10 +206,10 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
-			//COMPARE TEXT TO VARIABLE
+			//COMPARE TEXT TO CONSTANT
 			}else if( elementOperation instanceof CompareTextToConstantOperation ){
 				
-				fieldVariableSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((CompareTextToConstantOperation)elementOperation).getConstantElement() );				
+				fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((CompareTextToConstantOperation)elementOperation).getConstantElement() );				
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_CONSTANT.getIndex());
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToConstantOperation)elementOperation).getCompareType().getIndex() );
 
@@ -268,7 +268,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 
 		fieldBaseElementSelector.setEnableModify(enable);
 		
-		fieldVariableSelector.setEnableModify( enable );
+		fieldConstantSelector.setEnableModify( enable );
 
 		comboCompareTypeList.setEnabled( enable );
 		
@@ -293,8 +293,8 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		this.remove( fieldBaseElementSelector );
 		this.remove( labelString );
 		this.remove( fieldString );
-		this.remove( labelVariableSelector );
-		this.remove( fieldVariableSelector );	
+		this.remove( labelConstantSelector );
+		this.remove( fieldConstantSelector );	
 		this.remove( fieldMessage );
 		this.remove( labelMessage );
 		this.remove( comboCompareTypeList );
@@ -326,11 +326,11 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelVariableSelector, c );
+			this.add( labelConstantSelector, c );
 		
 			c.gridx = 5;
 			c.weightx = 1;
-			this.add( fieldVariableSelector, c );
+			this.add( fieldConstantSelector, c );
 			
 		//Compare string
 		}else if( selectedOperation.equals( E.COMPARETEXT_TO_STRING ) ){
@@ -376,38 +376,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 			c.gridx = 5;
 			c.weightx = 1;
 			this.add( fieldMessage, c );
-			
-/*		//GAINTEXT TO VARIABLE
-		}else if( selectedOperation.equals( E.GAINTEXT_TO_VARIABLE ) ){
-				
-			//VARIABLE
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelVariableSelector, c );
-				
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldVariableSelector, c );			
-				
-			//PATTERN
-			c.gridy = 1;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelPattern, c );
-								
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldPattern, c );	
-*/			
+						
 		//GAINTEXT TO ELEMENT
 		}else if( selectedOperation.equals( E.GAINTEXT_TO_ELEMENT ) ){
 			
@@ -460,9 +429,9 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STORED.getIndex() ){
 			return new CompareTextToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 						
-		//COMPARE TEXT TO VARIABLE
+		//COMPARE TEXT TO CONSTANT
 		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_CONSTANT.getIndex() ){
-			return new CompareTextToConstantOperation( fieldVariableSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
+			return new CompareTextToConstantOperation( fieldConstantSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 						
 		//COMPARE TEXT TO STRING
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STRING.getIndex() ){

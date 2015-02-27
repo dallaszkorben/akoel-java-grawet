@@ -97,7 +97,7 @@ public class StepLoopCollectorEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public StepLoopCollectorEditor( Tree tree, StepLoopCollectorDataModel selectedControlLoop, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, EditMode mode ){		
+	public StepLoopCollectorEditor( Tree tree, StepLoopCollectorDataModel selectedControlLoop, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel, EditMode mode ){		
 		
 		super( mode, selectedControlLoop.getNodeTypeToShow());
 
@@ -105,7 +105,7 @@ public class StepLoopCollectorEditor extends DataEditor{
 		this.nodeForModify = selectedControlLoop;
 		this.mode = mode;		
 	
-		commonPre( baseRootDataModel, variableRootDataModel );
+		commonPre( baseRootDataModel, constantRootDataModel );
 		
 		//Name
 		fieldName = new TextFieldComponent( selectedControlLoop.getName());
@@ -127,13 +127,13 @@ public class StepLoopCollectorEditor extends DataEditor{
 		commonPost( baseElement );
 	}
 	
-	private void commonPre( final BaseRootDataModel baseRootDataModel, final ConstantRootDataModel variableRootDataModel ){
+	private void commonPre( final BaseRootDataModel baseRootDataModel, final ConstantRootDataModel constantRootDataModel ){
 		
 		//Name
 		fieldName = new TextFieldComponent();
 		
 		this.baseRootDataModel = baseRootDataModel;
-		this.constantRootDataModel = variableRootDataModel;
+		this.constantRootDataModel = constantRootDataModel;
 
 	}
 	
@@ -213,7 +213,6 @@ public class StepLoopCollectorEditor extends DataEditor{
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SCRIPT.name() ) ){
 		
 			elementTypeComponent = new EmptyElementTypeComponentCompare();
-//			elementTypeComponent = new ScriptElementTypeComponentCompare<ScriptElementTypeOperationsCompareListEnum>( baseElement.getElementType(), elementOperation, baseRootDataModel, variableRootDataModel);  
 			
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){

@@ -199,7 +199,7 @@ public class TextElementTypeComponentCompare<E extends TextElementTypeOperations
 			comboCompareTypeList.setSelectedIndex( ((CompareTextToStringOperation)elementOperation).getCompareType().getIndex() );
 			comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STRING.getIndex());
 
-		//COMPARE TEXT TO VARIABLE
+		//COMPARE TEXT TO CONSTANT
 		}else if( elementOperation instanceof CompareTextToConstantOperation ){
 				
 			fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((CompareTextToConstantOperation)elementOperation).getConstantElement() );				
@@ -353,7 +353,7 @@ public class TextElementTypeComponentCompare<E extends TextElementTypeOperations
 		if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STORED.getIndex() ){
 			return new CompareTextToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 					
-		//COMPARE TEXT TO VARIABLE
+		//COMPARE TEXT TO CONSTANT
 		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_CONSTANT.getIndex() ){
 			return new CompareTextToConstantOperation( fieldConstantSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );
 					

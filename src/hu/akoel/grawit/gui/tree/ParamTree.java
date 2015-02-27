@@ -46,17 +46,17 @@ public class ParamTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;	
-	private ConstantRootDataModel variableRootDataModel;
+	private ConstantRootDataModel constantRootDataModel;
 	private BaseRootDataModel baseRootDataModel;
 	private StepRootDataModel paramRootDataModel;
 	private TestcaseRootDataModel testcaseRootDataModel;
 	
-	public ParamTree(GUIFrame guiFrame, ConstantRootDataModel variableRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
+	public ParamTree(GUIFrame guiFrame, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
 		super(guiFrame, paramRootDataModel);
 		
 		this.guiFrame = guiFrame;
 		this.baseRootDataModel = baseRootDataModel;
-		this.variableRootDataModel = variableRootDataModel;
+		this.constantRootDataModel = constantRootDataModel;
 		this.paramRootDataModel = paramRootDataModel;
 		this.testcaseRootDataModel = testcaseRootDataModel;
 		
@@ -153,11 +153,11 @@ public class ParamTree extends Tree {
 			guiFrame.showEditorPanel( paramPageEditor);
 						
 		}else if( selectedNode instanceof StepElementDataModel ){
-			StepElementEditor pageBaseElementEditor = new StepElementEditor( this, (StepElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.VIEW );	
+			StepElementEditor pageBaseElementEditor = new StepElementEditor( this, (StepElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, constantRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( pageBaseElementEditor);									
 		
 		}else if( selectedNode instanceof StepLoopCollectorDataModel ){
-			StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( this, (StepLoopCollectorDataModel)selectedNode, variableRootDataModel, baseRootDataModel, EditMode.VIEW );
+			StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( this, (StepLoopCollectorDataModel)selectedNode, constantRootDataModel, baseRootDataModel, EditMode.VIEW );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);	
 		
 		//Ha a root-ot valasztottam
@@ -185,11 +185,11 @@ public class ParamTree extends Tree {
 			
 		}else if( selectedNode instanceof StepElementDataModel ){
 
-			StepElementEditor paramElementEditor = new StepElementEditor( this, (StepElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel, EditMode.MODIFY );
+			StepElementEditor paramElementEditor = new StepElementEditor( this, (StepElementDataModel)selectedNode, baseRootDataModel, paramRootDataModel, constantRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( paramElementEditor);		
 				
 		}else if( selectedNode instanceof StepLoopCollectorDataModel ){
-			StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( this, (StepLoopCollectorDataModel)selectedNode, variableRootDataModel, baseRootDataModel, EditMode.MODIFY );
+			StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( this, (StepLoopCollectorDataModel)selectedNode, constantRootDataModel, baseRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseControlLoopEditor);									
 
 		}else if( selectedNode instanceof StepFolderDataModel ){
@@ -216,7 +216,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					StepElementEditor paramPageNodeEditor = new StepElementEditor( ParamTree.this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					StepElementEditor paramPageNodeEditor = new StepElementEditor( ParamTree.this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, constantRootDataModel );								
 					guiFrame.showEditorPanel( paramPageNodeEditor);								
 				
 				}
@@ -236,7 +236,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					StepElementEditor testcaseParamPageEditor = new StepElementEditor( ParamTree.this, (StepLoopCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, variableRootDataModel );								
+					StepElementEditor testcaseParamPageEditor = new StepElementEditor( ParamTree.this, (StepLoopCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, constantRootDataModel );								
 					guiFrame.showEditorPanel( testcaseParamPageEditor);								
 				
 				}
@@ -286,7 +286,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( ParamTree.this, (StepFolderDataModel)selectedNode, variableRootDataModel, baseRootDataModel );
+					StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( ParamTree.this, (StepFolderDataModel)selectedNode, constantRootDataModel, baseRootDataModel );
 					guiFrame.showEditorPanel( testcaseControlLoopEditor);			
 					
 				
