@@ -25,7 +25,7 @@ public class SelectConstantElementOperation extends SelectOperationAdapter imple
 	
 	private static final String NAME = "SELECTVARIABLEELEMENT";
 	private static final String ATTR_SELECTION_BY = "selectionby";
-	private static final String ATTR_SELECT_CONSTANT_ELEMENT_PATH = "selectvariableelementpath";
+	private static final String ATTR_SELECT_CONSTANT_ELEMENT_PATH = "selectconstantelementpath";
 	
 	//--- Data model
 	private ConstantElementDataModel constantElementDataModel;
