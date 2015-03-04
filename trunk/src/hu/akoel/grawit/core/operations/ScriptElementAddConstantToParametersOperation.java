@@ -26,20 +26,20 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class SpecialBaseAddConstantToParametersOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
+public class ScriptElementAddConstantToParametersOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
 	
-	private static final String NAME = "ADDVARIABLETOPARAMETERS";	
-	private static final String ADD_CONSTANT_TO_PARAMETERS_PATH = "variablepath";
+	private static final String NAME = "ADDCONSTANTTOPARAMETERS";	
+	private static final String ADD_CONSTANT_TO_PARAMETERS_PATH = "constantpath";
 	
 	//--- Data model
 	private ConstantElementDataModel constantElementDataModel;
 	//---
 	
-	public SpecialBaseAddConstantToParametersOperation( ConstantElementDataModel constantElementDataModel ){
+	public ScriptElementAddConstantToParametersOperation( ConstantElementDataModel constantElementDataModel ){
 		this.constantElementDataModel = constantElementDataModel;
 	}
 	
-	public SpecialBaseAddConstantToParametersOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public ScriptElementAddConstantToParametersOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
 		ConstantDataModelAdapter constantDataModelForFillOut = constantRootDataModel;
 		
@@ -141,7 +141,7 @@ public class SpecialBaseAddConstantToParametersOperation extends ElementOperatio
 	@Override
 	public Object clone() {
 
-		return new SpecialBaseAddConstantToParametersOperation(constantElementDataModel);
+		return new ScriptElementAddConstantToParametersOperation(constantElementDataModel);
 	}
 	
 	@Override

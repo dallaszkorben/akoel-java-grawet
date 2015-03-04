@@ -26,11 +26,11 @@ import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
 import hu.akoel.grawit.core.operations.SelectConstantElementOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddStoreToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddConstantToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
+import hu.akoel.grawit.core.operations.ScriptElementAddStoreToParametersOperation;
+import hu.akoel.grawit.core.operations.ScriptElementAddStringToParametersOperation;
+import hu.akoel.grawit.core.operations.ScriptElementAddConstantToParametersOperation;
+import hu.akoel.grawit.core.operations.ScriptElementClearParametersOperation;
+import hu.akoel.grawit.core.operations.ScriptElementExecuteOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
@@ -53,6 +53,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -86,7 +87,11 @@ public class CommonOperations {
 	}
 	
 	public static String getTranslation( String code ){
-		return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Translation", WorkingDirectory.getInstance().getLocale() ).getString( code );
+		try{
+			return ResourceBundle.getBundle("hu.akoel.grawit.resourcebundle.Translation", WorkingDirectory.getInstance().getLocale() ).getString( code );
+		}catch( MissingResourceException e ){
+			return code;
+		}
 	}
 	
 	public static DateFormat getDateFormat(){
@@ -279,24 +284,24 @@ public class CommonOperations {
 				if( baseElement.getElementType().equals( ElementTypeListEnum.SCRIPT ) ){
 
 					//ADD_STORED_TO_PARAMETERS
-					if( operationString.equals( SpecialBaseAddStoreToParametersOperation.getStaticName() ) ){
-						elementOperation = new SpecialBaseAddStoreToParametersOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName()  );
+					if( operationString.equals( ScriptElementAddStoreToParametersOperation.getStaticName() ) ){
+						elementOperation = new ScriptElementAddStoreToParametersOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName()  );
 					
 						//ADD_CONSTANT_TO_PARAMETERS
-					}else if( operationString.equals( SpecialBaseAddConstantToParametersOperation.getStaticName() ) ){
-						elementOperation = new SpecialBaseAddConstantToParametersOperation( element, constantRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+					}else if( operationString.equals( ScriptElementAddConstantToParametersOperation.getStaticName() ) ){
+						elementOperation = new ScriptElementAddConstantToParametersOperation( element, constantRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 					
 						//ADD_STRING_TO_PARAMETERS
-					}else if( operationString.equals( SpecialBaseAddStringToParametersOperation.getStaticName() ) ){
-						elementOperation = new SpecialBaseAddStringToParametersOperation( element, rootTag, dataModel.getTag() );
+					}else if( operationString.equals( ScriptElementAddStringToParametersOperation.getStaticName() ) ){
+						elementOperation = new ScriptElementAddStringToParametersOperation( element, rootTag, dataModel.getTag() );
 					
 						//CLEAR_PARAMETERS
-					}else if( operationString.equals( SpecialBaseClearParametersOperation.getStaticName() ) ){
-						elementOperation = new SpecialBaseClearParametersOperation();
+					}else if( operationString.equals( ScriptElementClearParametersOperation.getStaticName() ) ){
+						elementOperation = new ScriptElementClearParametersOperation();
 					
 						//EXECUTE_SCRIPT
-					}else if( operationString.equals( SpecialBaseExecuteOperation.getStaticName() ) ){
-						elementOperation = new SpecialBaseExecuteOperation();
+					}else if( operationString.equals( ScriptElementExecuteOperation.getStaticName() ) ){
+						elementOperation = new ScriptElementExecuteOperation();
 
 					}
 				

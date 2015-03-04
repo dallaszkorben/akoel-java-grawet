@@ -13,7 +13,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class SpecialBaseAddStringToParametersOperation extends ElementOperationAdapter{
+public class ScriptElementAddStringToParametersOperation extends ElementOperationAdapter{
 	
 	private static final String NAME = "ADDSTRINGTOPARAMETERS";
 	private static final String ADD_STRING_TO_PARAMETERS_PATH = "string";
@@ -22,12 +22,12 @@ public class SpecialBaseAddStringToParametersOperation extends ElementOperationA
 	private String stringToParameter;
 	//---
 	
-	public SpecialBaseAddStringToParametersOperation( String stringToParameter ){
+	public ScriptElementAddStringToParametersOperation( String stringToParameter ){
 		this.stringToParameter = stringToParameter;
 		
 	}
 	
-	public SpecialBaseAddStringToParametersOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public ScriptElementAddStringToParametersOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		//ADD_STRING_TO_PARAMETERS_PATH
 		if( !element.hasAttribute( ADD_STRING_TO_PARAMETERS_PATH ) ){
@@ -76,7 +76,7 @@ public class SpecialBaseAddStringToParametersOperation extends ElementOperationA
 
 		String stringToCompare = new String( this.stringToParameter );
 		
-		return new SpecialBaseAddStringToParametersOperation(stringToCompare);
+		return new ScriptElementAddStringToParametersOperation(stringToCompare);
 	}
 		
 	@Override
