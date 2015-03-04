@@ -4,11 +4,11 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.operations.SpecialBaseAddStoreToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddStringToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseAddConstantToParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseClearParametersOperation;
-import hu.akoel.grawit.core.operations.SpecialBaseExecuteOperation;
+import hu.akoel.grawit.core.operations.ScriptElementAddStoreToParametersOperation;
+import hu.akoel.grawit.core.operations.ScriptElementAddStringToParametersOperation;
+import hu.akoel.grawit.core.operations.ScriptElementAddConstantToParametersOperation;
+import hu.akoel.grawit.core.operations.ScriptElementClearParametersOperation;
+import hu.akoel.grawit.core.operations.ScriptElementExecuteOperation;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
@@ -158,25 +158,25 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 				comboOperationList.setSelectedIndex(E.CLEAR_PARAMETERS.getIndex());
 							
 			//ADD_CONSTANT_TO_PARAMETERS
-			}else if( elementOperation instanceof SpecialBaseAddConstantToParametersOperation ){
+			}else if( elementOperation instanceof ScriptElementAddConstantToParametersOperation ){
 								
-				fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((SpecialBaseAddConstantToParametersOperation)elementOperation).getConstantElement() );
+				fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((ScriptElementAddConstantToParametersOperation)elementOperation).getConstantElement() );
 				comboOperationList.setSelectedIndex(E.ADD_CONSTANT_TO_PARAMETERS.getIndex());
 
 			//ADD_STORED_TO_PARAMETERS
-			}else if( elementOperation instanceof SpecialBaseAddStoreToParametersOperation ){
+			}else if( elementOperation instanceof ScriptElementAddStoreToParametersOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((SpecialBaseAddStoreToParametersOperation)elementOperation).getBaseElement() );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((ScriptElementAddStoreToParametersOperation)elementOperation).getBaseElement() );
 				comboOperationList.setSelectedIndex(E.ADD_STORED_TO_PARAMETERS.getIndex());
 
 			//ADD_STRING_TO_PARAMETERS
-			}else if( elementOperation instanceof SpecialBaseAddStringToParametersOperation ){
+			}else if( elementOperation instanceof ScriptElementAddStringToParametersOperation ){
 								
-				fieldString.setText( ((SpecialBaseAddStringToParametersOperation)elementOperation).getStringToShow() );
+				fieldString.setText( ((ScriptElementAddStringToParametersOperation)elementOperation).getStringToShow() );
 				comboOperationList.setSelectedIndex(E.ADD_STRING_TO_PARAMETERS.getIndex());
 				
 			//EXECUTE_SCRIPT
-			}else if( elementOperation instanceof SpecialBaseExecuteOperation ){
+			}else if( elementOperation instanceof ScriptElementExecuteOperation ){
 				
 				comboOperationList.setSelectedIndex(E.EXECUTE_SCRIPT.getIndex());
 				
@@ -296,23 +296,23 @@ public class ScriptElementTypeComponentFull<E extends ScriptElementTypeOperation
 		
 		//ADD_STORED_TO_PARAMETERS
 		if( comboOperationList.getSelectedIndex() ==  E.ADD_STORED_TO_PARAMETERS.getIndex() ){
-			return new SpecialBaseAddStoreToParametersOperation( fieldBaseElementSelector.getSelectedDataModel() );
+			return new ScriptElementAddStoreToParametersOperation( fieldBaseElementSelector.getSelectedDataModel() );
 			
 		//ADD_CONSTANT_TO_PARAMETERS
 		}else if(comboOperationList.getSelectedIndex() ==  E.ADD_CONSTANT_TO_PARAMETERS.getIndex() ){
-			return new SpecialBaseAddConstantToParametersOperation( fieldConstantSelector.getSelectedDataModel() );
+			return new ScriptElementAddConstantToParametersOperation( fieldConstantSelector.getSelectedDataModel() );
 			
 		//ADD_STRING_TO_PARAMETERS
 		}else if( comboOperationList.getSelectedIndex() ==  E.ADD_STRING_TO_PARAMETERS.getIndex() ){
-			return new SpecialBaseAddStringToParametersOperation( fieldString.getText() );
+			return new ScriptElementAddStringToParametersOperation( fieldString.getText() );
 			
 		//CLEAR_PARAMETERS
 		}else if( comboOperationList.getSelectedIndex() ==  E.CLEAR_PARAMETERS.getIndex() ){
-			return new SpecialBaseClearParametersOperation();
+			return new ScriptElementClearParametersOperation();
 			
 		//EXECUTE_SCRIPT
 		}else if( comboOperationList.getSelectedIndex() ==  E.EXECUTE_SCRIPT.getIndex() ){
-			return new SpecialBaseExecuteOperation();
+			return new ScriptElementExecuteOperation();
 
 		}
 	

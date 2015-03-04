@@ -21,33 +21,34 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.base.VariableBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAdapter{
+public class VariableElementAddStoreOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "ADDSTORETOPARAMETERS";	
-	private static final String ADD_STORED_TO_PARAMETERS_PATH = "storedbaseelementtoparameterspath";
+	private static final String NAME = "ADDSTORETOVARIABLE";	
+	private static final String ADD_STORED_PATH = "storedbaseelementpath";
 	
 	//--- Data model
 	private BaseElementDataModelAdapter baseElementDataModel;
 	//---
 	
-	public SpecialBaseAddStoreToParametersOperation( BaseElementDataModelAdapter baseElementDataModel ){
+	public VariableElementAddStoreOperation( BaseElementDataModelAdapter baseElementDataModel ){
 		this.baseElementDataModel = baseElementDataModel;
 	}
 
-	public SpecialBaseAddStoreToParametersOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
+	public VariableElementAddStoreOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
 		BaseDataModelAdapter baseDataModelForAddToParameters = baseRootDataModel;
 		
-		if( !element.hasAttribute( ADD_STORED_TO_PARAMETERS_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ADD_STORED_TO_PARAMETERS_PATH );		
+		if( !element.hasAttribute( ADD_STORED_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, ADD_STORED_PATH );		
 		}	
-		String baseElementPathString = element.getAttribute(ADD_STORED_TO_PARAMETERS_PATH);				
+		String baseElementPathString = element.getAttribute(ADD_STORED_PATH);				
 		baseElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + baseElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -58,7 +59,7 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_TO_PARAMETERS_PATH, element.getAttribute(ADD_STORED_TO_PARAMETERS_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH), e );
 	    } 
 
 	    //Megkeresem a PARAMELEMENTROOT-ben a PARAMELEMENT-hez vezeto utat
@@ -78,7 +79,7 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 
 	    		if( null == baseDataModelForAddToParameters ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_TO_PARAMETERS_PATH, element.getAttribute(ADD_STORED_TO_PARAMETERS_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH) );
 	    		}
 	    	
 	    		
@@ -86,47 +87,13 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	    	}else if( tagName.equals( BaseElementDataModelAdapter.TAG.getName() ) ){	
 	    		
 	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
-	    		
-	    		//element type             
-/*				if( !actualElement.hasAttribute( BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE ) ){
-					throw new XMLMissingAttributePharseException( rootTag, tag, nameAttrName, nameAttrValue, BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE );			
-				}
-				String elementTypeString = actualElement.getAttribute( BaseElementDataModelAdapter.ATTR_ELEMENT_TYPE );
-*/				
+				
 				baseDataModelForAddToParameters = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForAddToParameters, Tag.BASEELEMENT, attrName );
 				if( null == baseDataModelForAddToParameters ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_TO_PARAMETERS_PATH, element.getAttribute(ADD_STORED_TO_PARAMETERS_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH) );
 	    		}
 				
-/*				//SPECIAL
-				if( elementTypeString.equals( ElementTypeListEnum.SPECIAL.name() )){								
-					
-				//FIELD, TEXT, LINK, LIST, BUTTON, RADIOBUTTON, CHECKBOX
-				}else{											
-		    		
-				}
-*/	    		
-/*	    	//Ha NORMALBASEELEMENT
-	    	}else if( tagName.equals( NormalBaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(NormalBaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.NORMALBASEELEMENT, attrName );
-	
-	    		if( null == baseDataModelForFillOut ){
-
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_TO_PARAMETERS_PATH, element.getAttribute(ADD_STORED_TO_PARAMETERS_PATH) );
-	    		}
-
-	    	//Ha SPECIALBASEELEMENT
-	    	}else if( tagName.equals( SpecialBaseElementDataModel.TAG.getName() ) ){
-	    		attrName = actualElement.getAttribute(SpecialBaseElementDataModel.ATTR_NAME);
-	    		baseDataModelForFillOut = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForFillOut, Tag.SPECIALBASEELEMENT, attrName );
-		
-	    		if( null == baseDataModelForFillOut ){
-
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_TO_PARAMETERS_PATH, element.getAttribute(ADD_STORED_TO_PARAMETERS_PATH) );
-	    		}	    		
-*/	    	
 	    	//Ha BASEPAGE
 	    	}else if( tagName.equals( BaseCollectorDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(BaseCollectorDataModel.ATTR_NAME);
@@ -134,13 +101,13 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 
 	    		if( null == baseDataModelForAddToParameters ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, ADD_STORED_TO_PARAMETERS_PATH, element.getAttribute(ADD_STORED_TO_PARAMETERS_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH) );
 	    		}
 	    	
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_TO_PARAMETERS_PATH, element.getAttribute(ADD_STORED_TO_PARAMETERS_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH) );	    		
 	    	}
 	    }	    
 	    try{
@@ -150,7 +117,7 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_TO_PARAMETERS_PATH, element.getAttribute(ADD_STORED_TO_PARAMETERS_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH ), e );
 	    }
 	    
 	}
@@ -171,10 +138,10 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
-		//HA SPECIALBASEELEMENT - annak kell lennie
-		if( baseElement instanceof ScriptBaseElementDataModel ){
+		//HA VARIABLEBASEELEMENT - annak kell lennie
+		if( baseElement instanceof VariableBaseElementDataModel ){
 
-			((ScriptBaseElementDataModel)baseElement).addParameter( baseElementDataModel.getStoredValue() );
+			(( VariableBaseElementDataModel)baseElement).setValue( baseElementDataModel.getStoredValue() );
 			
 		}
 		
@@ -182,7 +149,7 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	
 	@Override
 	public void setXMLAttribute(Document document, Element element) {		
-		Attr attr = document.createAttribute( ADD_STORED_TO_PARAMETERS_PATH );
+		Attr attr = document.createAttribute( ADD_STORED_PATH );
 		attr.setValue( baseElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );	
 	}
@@ -190,11 +157,11 @@ public class SpecialBaseAddStoreToParametersOperation extends ElementOperationAd
 	@Override
 	public Object clone() {
 	
-		return new SpecialBaseAddStoreToParametersOperation(baseElementDataModel);
+		return new VariableElementAddStoreOperation(baseElementDataModel);
 	}
 		
 	@Override
 	public String getOperationToString() {		
-		return "AddElementStorageToScriptElementParameter()";
+		return "AddElementStorageToVariableElement()";
 	}
 }

@@ -8,21 +8,22 @@ import org.w3c.dom.Element;
 import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class SpecialBaseClearParametersOperation extends ElementOperationAdapter{
+public class ScriptElementExecuteOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "CLEARPARAMETERS";
+	private static final String NAME = "EXECUTE_SCRIPT";
 	
 	//--- Data model
 	//---
 	
-	public SpecialBaseClearParametersOperation(){
+	public ScriptElementExecuteOperation(){
 	}
 	
-	public SpecialBaseClearParametersOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public ScriptElementExecuteOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 	}
 
 	public static String getStaticName(){
@@ -35,29 +36,36 @@ public class SpecialBaseClearParametersOperation extends ElementOperationAdapter
 	}
 		
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException, CompilationException{
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			((ScriptBaseElementDataModel)baseElement).clearParameters();
+			((ScriptBaseElementDataModel)baseElement).doAction(driver);
 			
 		}
 	
 	}
 	
 	@Override
-	public void setXMLAttribute(Document document, Element element) {	
+	public void setXMLAttribute(Document document, Element element) {
+		
+/*		Attr attr = document.createAttribute( ATTR_STRING );
+		attr.setValue( stringToParameter );
+		element.setAttributeNode(attr);	
+*/		
 	}
 
 	@Override
 	public Object clone() {
+
+		return new ScriptElementExecuteOperation();
 		
-		return new SpecialBaseClearParametersOperation();
 	}
-	
+		
 	@Override
 	public String getOperationToString() {		
-		return "ClearParametersForScriptElement()";
+		return "ExecuteScriptElement";
 	}
+	
 }
