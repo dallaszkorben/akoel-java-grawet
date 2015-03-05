@@ -27,27 +27,27 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class VariableElementAddConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
+public class VariableElementSetConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
 	
-	private static final String NAME = "ADDCONSTANTTOVARIABLE";	
-	private static final String ADD_CONSTANT_PATH = "constantpath";
+	private static final String NAME = "SETCONSTANTTOVARIABLE";	
+	private static final String SET_CONSTANT_PATH = "constantpath";
 	
 	//--- Data model
 	private ConstantElementDataModel constantElementDataModel;
 	//---
 	
-	public VariableElementAddConstantOperation( ConstantElementDataModel constantElementDataModel ){
+	public VariableElementSetConstantOperation( ConstantElementDataModel constantElementDataModel ){
 		this.constantElementDataModel = constantElementDataModel;
 	}
 	
-	public VariableElementAddConstantOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public VariableElementSetConstantOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
 		ConstantDataModelAdapter constantDataModelForFillOut = constantRootDataModel;
 		
-		if( !element.hasAttribute( ADD_CONSTANT_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ADD_CONSTANT_PATH );		
+		if( !element.hasAttribute( SET_CONSTANT_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, SET_CONSTANT_PATH );		
 		}
-		String constantElementPathString = element.getAttribute(ADD_CONSTANT_PATH);				
+		String constantElementPathString = element.getAttribute(SET_CONSTANT_PATH);				
 		constantElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + constantElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -58,7 +58,7 @@ public class VariableElementAddConstantOperation extends ElementOperationAdapter
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_CONSTANT_PATH, element.getAttribute(ADD_CONSTANT_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, SET_CONSTANT_PATH, element.getAttribute(SET_CONSTANT_PATH), e );
 	    } 
 
 	    //Megkeresem a CONSTANTROOT-ben a CONSTANTELEMENT-hez vezeto utat
@@ -77,7 +77,7 @@ public class VariableElementAddConstantOperation extends ElementOperationAdapter
 
 	    		if( null == constantDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_CONSTANT_PATH, element.getAttribute(ADD_CONSTANT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, SET_CONSTANT_PATH, element.getAttribute(SET_CONSTANT_PATH) );
 	    		}
 	    		
 	    	//Ha CONSTANTELEMENT
@@ -87,12 +87,12 @@ public class VariableElementAddConstantOperation extends ElementOperationAdapter
 	    		
 	    		if( null == constantDataModelForFillOut ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ADD_CONSTANT_PATH, element.getAttribute(ADD_CONSTANT_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), SET_CONSTANT_PATH, element.getAttribute(SET_CONSTANT_PATH) );
 	    		}
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), ADD_CONSTANT_PATH, element.getAttribute(ADD_CONSTANT_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, getName(), SET_CONSTANT_PATH, element.getAttribute(SET_CONSTANT_PATH) );	    		
 	    	}
 	    }	    
 	    try{
@@ -102,7 +102,7 @@ public class VariableElementAddConstantOperation extends ElementOperationAdapter
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_CONSTANT_PATH, element.getAttribute(ADD_CONSTANT_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, SET_CONSTANT_PATH, element.getAttribute(SET_CONSTANT_PATH ), e );
 	    }
 	}
 	
@@ -134,7 +134,7 @@ public class VariableElementAddConstantOperation extends ElementOperationAdapter
 
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
-		Attr attr = document.createAttribute( ADD_CONSTANT_PATH );		
+		Attr attr = document.createAttribute( SET_CONSTANT_PATH );		
 		attr.setValue( constantElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );			
 	}
@@ -142,12 +142,12 @@ public class VariableElementAddConstantOperation extends ElementOperationAdapter
 	@Override
 	public Object clone() {
 
-		return new VariableElementAddConstantOperation(constantElementDataModel);
+		return new VariableElementSetConstantOperation(constantElementDataModel);
 	}
 	
 	@Override
 	public String getOperationToString() {		
-		return "AddConstantToVariableElement()";
+		return "SetConstantToVariableElement()";
 	}
 	
 }

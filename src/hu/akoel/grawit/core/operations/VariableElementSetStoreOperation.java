@@ -28,27 +28,27 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class VariableElementAddStoreOperation extends ElementOperationAdapter{
+public class VariableElementSetStoreOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "ADDSTORETOVARIABLE";	
-	private static final String ADD_STORED_PATH = "storedbaseelementpath";
+	private static final String NAME = "SETSTORETOVARIABLE";	
+	private static final String SET_STORED_PATH = "storedbaseelementpath";
 	
 	//--- Data model
 	private BaseElementDataModelAdapter baseElementDataModel;
 	//---
 	
-	public VariableElementAddStoreOperation( BaseElementDataModelAdapter baseElementDataModel ){
+	public VariableElementSetStoreOperation( BaseElementDataModelAdapter baseElementDataModel ){
 		this.baseElementDataModel = baseElementDataModel;
 	}
 
-	public VariableElementAddStoreOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
+	public VariableElementSetStoreOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
 		BaseDataModelAdapter baseDataModelForAddToParameters = baseRootDataModel;
 		
-		if( !element.hasAttribute( ADD_STORED_PATH ) ){
-			throw new XMLMissingAttributePharseException( rootTag, tag, ADD_STORED_PATH );		
+		if( !element.hasAttribute( SET_STORED_PATH ) ){
+			throw new XMLMissingAttributePharseException( rootTag, tag, SET_STORED_PATH );		
 		}	
-		String baseElementPathString = element.getAttribute(ADD_STORED_PATH);				
+		String baseElementPathString = element.getAttribute(SET_STORED_PATH);				
 		baseElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + baseElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -59,7 +59,7 @@ public class VariableElementAddStoreOperation extends ElementOperationAdapter{
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, SET_STORED_PATH, element.getAttribute(SET_STORED_PATH), e );
 	    } 
 
 	    //Megkeresem a PARAMELEMENTROOT-ben a PARAMELEMENT-hez vezeto utat
@@ -79,7 +79,7 @@ public class VariableElementAddStoreOperation extends ElementOperationAdapter{
 
 	    		if( null == baseDataModelForAddToParameters ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, SET_STORED_PATH, element.getAttribute(SET_STORED_PATH) );
 	    		}
 	    	
 	    		
@@ -91,7 +91,7 @@ public class VariableElementAddStoreOperation extends ElementOperationAdapter{
 				baseDataModelForAddToParameters = (BaseDataModelAdapter) CommonOperations.getDataModelByNameInLevel( baseDataModelForAddToParameters, Tag.BASEELEMENT, attrName );
 				if( null == baseDataModelForAddToParameters ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, SET_STORED_PATH, element.getAttribute(SET_STORED_PATH) );
 	    		}
 				
 	    	//Ha BASEPAGE
@@ -101,13 +101,13 @@ public class VariableElementAddStoreOperation extends ElementOperationAdapter{
 
 	    		if( null == baseDataModelForAddToParameters ){
 
-	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH) );
+	    			throw new XMLBaseConversionPharseException( rootTag, tag,  nameAttrName, nameAttrValue, SET_STORED_PATH, element.getAttribute(SET_STORED_PATH) );
 	    		}
 	    	
 	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, SET_STORED_PATH, element.getAttribute(SET_STORED_PATH) );	    		
 	    	}
 	    }	    
 	    try{
@@ -117,7 +117,7 @@ public class VariableElementAddStoreOperation extends ElementOperationAdapter{
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, ADD_STORED_PATH, element.getAttribute(ADD_STORED_PATH ), e );
+	    	throw new XMLBaseConversionPharseException( rootTag, tag, nameAttrName, nameAttrValue, SET_STORED_PATH, element.getAttribute(SET_STORED_PATH ), e );
 	    }
 	    
 	}
@@ -149,7 +149,7 @@ public class VariableElementAddStoreOperation extends ElementOperationAdapter{
 	
 	@Override
 	public void setXMLAttribute(Document document, Element element) {		
-		Attr attr = document.createAttribute( ADD_STORED_PATH );
+		Attr attr = document.createAttribute( SET_STORED_PATH );
 		attr.setValue( baseElementDataModel.getPathTag() );
 		element.setAttributeNode( attr );	
 	}
@@ -157,11 +157,11 @@ public class VariableElementAddStoreOperation extends ElementOperationAdapter{
 	@Override
 	public Object clone() {
 	
-		return new VariableElementAddStoreOperation(baseElementDataModel);
+		return new VariableElementSetStoreOperation(baseElementDataModel);
 	}
 		
 	@Override
 	public String getOperationToString() {		
-		return "AddElementStorageToVariableElement()";
+		return "SetElementStorageToVariableElement()";
 	}
 }
