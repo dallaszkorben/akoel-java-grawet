@@ -204,7 +204,13 @@ public class StepElementEditor extends DataEditor{
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.SCRIPT.name() ) ){
 				
 			elementTypeComponent = new ScriptElementTypeComponentFull<ScriptElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel);  
-			
+
+		//VARIABLE
+		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.VARIABLE.name() ) ){
+					
+//			elementTypeComponent = new VariableElementTypeComponentFull<VariableElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel);
+//TODO folytatni			
+
 		//FIELD
 		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.FIELD.name() ) ){
 			
