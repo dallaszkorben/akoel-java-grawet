@@ -541,30 +541,34 @@ public class BaseTree extends Tree{
 	}
 
 	@Override
-	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
 
+		//Ha nem valamelyik elem ala, hanem az ugyan olyan tipusu elem melle szeretnem elhelyezni
+		if( !draggedNode.equals(targetObject) && draggedNode.getClass().equals( targetObject.getClass())){		
+			return true;
+			
 		//Node elhelyezese Node-ba vagy Root-ba
-		if( draggedNode instanceof BaseFolderDataModel && dropObject instanceof BaseFolderDataModel ){
+		}else if( draggedNode instanceof BaseFolderDataModel && targetObject instanceof BaseFolderDataModel ){
 			return true;
 
 		//Page elhelyezese Node-ba de nem Root-ba	
-		}else if( draggedNode instanceof BaseCollectorDataModel && dropObject instanceof BaseFolderDataModel && !( dropObject instanceof BaseRootDataModel ) ){
+		}else if( draggedNode instanceof BaseCollectorDataModel && targetObject instanceof BaseFolderDataModel && !( targetObject instanceof BaseRootDataModel ) ){
 			return true;
 		
 		//NormalElement elhelyezese Page-ben	
-		}else if( draggedNode instanceof NormalBaseElementDataModel && dropObject instanceof BaseCollectorDataModel ){
+		}else if( draggedNode instanceof NormalBaseElementDataModel && targetObject instanceof BaseCollectorDataModel ){
 			return true;
 
 		//SpecialElement elhelyezese Page-ben	
-		}else if( draggedNode instanceof ScriptBaseElementDataModel && dropObject instanceof BaseCollectorDataModel ){
+		}else if( draggedNode instanceof ScriptBaseElementDataModel && targetObject instanceof BaseCollectorDataModel ){
 			return true;
 
 		//NormalElement elhelyezese Node-ban	
-		}else if( draggedNode instanceof NormalBaseElementDataModel && dropObject instanceof BaseFolderDataModel ){
+		}else if( draggedNode instanceof NormalBaseElementDataModel && targetObject instanceof BaseFolderDataModel ){
 			return true;
 
 		//SpecialElement elhelyezese Node-ban	
-		}else if( draggedNode instanceof ScriptBaseElementDataModel && dropObject instanceof BaseFolderDataModel ){
+		}else if( draggedNode instanceof ScriptBaseElementDataModel && targetObject instanceof BaseFolderDataModel ){
 			return true;
 
 		}
