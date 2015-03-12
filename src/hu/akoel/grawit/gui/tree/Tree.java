@@ -10,7 +10,6 @@ import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
@@ -122,7 +121,7 @@ public abstract class Tree extends JTree{
 		this.addMouseListener( treeMouseListener );
 		this.addTreeSelectionListener( new SelectionChangedListener() );
 	
-		new TreeTransferHandler(this, DnDConstants.ACTION_MOVE, true );
+		new TreeTransferHandler(this, DnDConstants.ACTION_MOVE );
 		//this.setDragEnabled( true );
 	}
 	
@@ -562,6 +561,10 @@ public abstract class Tree extends JTree{
 /**
  * Fa csomopontjanak athelyezeset vegzo absztrakt osztaly
  * 
+ * Ket muveletet kulonboztetunk meg:
+ * InsertBetween: ket, az athelyezendo elemmmel azonos tipusu elem koze helyez
+ * AddAsChild: Gyermek kent heyezi el a kivalasztott elem ala az athelyezendo element (ha engedelyezett)
+ * 
  * @author akoel
  *
  */
@@ -578,14 +581,12 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     private Rectangle sourceBound = new Rectangle();
     private Rectangle targetBound = new Rectangle();    
     
-    private boolean drawImage;
     private Boolean insertLineUp = null; 
 
     
 
-    protected TreeTransferHandler(Tree tree, int action, boolean drawIcon) {
+    protected TreeTransferHandler(Tree tree, int action ) {
          this.tree = tree;
-         drawImage = drawIcon;
          dragSource = new DragSource();
          dragSource.createDefaultDragGestureRecognizer(tree, action, this);
          dropTarget = new DropTarget(tree, action, this);
@@ -657,19 +658,18 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
          if (path != null) { 
               draggedNode = (DefaultMutableTreeNode)path.getLastPathComponent();
               draggedNodeParent = (DefaultMutableTreeNode)draggedNode.getParent();
-              if (drawImage) {
-            	  sourceBound = tree.getPathBounds(path);
-            	  JComponent lbl = (JComponent)tree.getCellRenderer().getTreeCellRendererComponent(tree, draggedNode, false , tree.isExpanded(path),((DefaultTreeModel)tree.getModel()).isLeaf(path.getLastPathComponent()), 0,false);
-            	  lbl.setBounds(sourceBound);
+             
+              sourceBound = tree.getPathBounds(path);
+              JComponent lbl = (JComponent)tree.getCellRenderer().getTreeCellRendererComponent(tree, draggedNode, false , tree.isExpanded(path),((DefaultTreeModel)tree.getModel()).isLeaf(path.getLastPathComponent()), 0,false);
+              lbl.setBounds(sourceBound);
             	  
-            	  shadowImage = new BufferedImage(lbl.getWidth(), lbl.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);
-            	  Graphics2D graphics = shadowImage.createGraphics();
-            	  graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));   
-            	  lbl.setOpaque(false);
-            	  lbl.paint(graphics);
-            	  graphics.dispose();    
-            	  
-              }
+              shadowImage = new BufferedImage(lbl.getWidth(), lbl.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);
+              Graphics2D graphics = shadowImage.createGraphics();
+              graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));   
+              lbl.setOpaque(false);
+              lbl.paint(graphics);
+              graphics.dispose();    
+                         
               dragSource.startDrag(dge, DragSource.DefaultMoveNoDrop , shadowImage, new Point(0,0), new TransferableNode(draggedNode), this);               
          }      
     }
@@ -682,14 +682,27 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     public final void dragEnter(DropTargetDragEvent dtde) {
          Point pt = dtde.getLocation();
          int action = dtde.getDropAction();
-     
-         if (drawImage) {
-              paintImage(pt);
-paintInsertLine(pt, tree);              
+         boolean isAcceptDrag = false;
+         
+         //Kirajzolja a shadowSource-t
+       	 paintImage(pt);             
+         
+         //Ha gyermekkent elhelyezhetem a mozgatott elemet a fokuszban levo elem ala
+         if (canAddAsChild(tree, draggedNode, action, pt)) {
+        	 dtde.acceptDrag(action);
+        	 isAcceptDrag = true;
          }
-         if (canPerformAction(tree, draggedNode, action, pt)) {
-              dtde.acceptDrag(action);               
-         }else {
+         
+         //Ha beszurhatja a fokuszban levo elem ele vagy moge a mozgatott elemet
+         if (canInsertBetween(tree, draggedNode, action, pt)) {
+
+        	 //Kirajzolja az insertLine-t
+        	 paintInsertLine(pt, tree); 
+        	 dtde.acceptDrag(action);
+        	 isAcceptDrag = true;
+         }
+         
+         if( !isAcceptDrag) {
               dtde.rejectDrag();
          }
     }
@@ -700,23 +713,39 @@ paintInsertLine(pt, tree);
      * 
      */
     public final void dragExit(DropTargetEvent dte) {
-         if (drawImage) {
-              clearImage();
-         }
+    	clearImages();
     }
 
-    //Folyamatosan hivodik
+    /**
+     * 
+     * Folyamatosan mukodik a DRAG
+     * 
+     */
     public final void dragOver(DropTargetDragEvent dtde) {
          Point pt = dtde.getLocation();
          int action = dtde.getDropAction();
          tree.autoscroll(pt);
-         if (drawImage) {
-              paintImage(pt);
-paintInsertLine(pt, tree);              
+         boolean isAcceptDrag = false;
+       
+         //Kirajzolja a shadowSource-t
+       	 paintImage(pt);             
+         
+         //Ha gyermekkent elhelyezhetem a mozgatott elemet a fokuszban levo elem ala
+         if (canAddAsChild(tree, draggedNode, action, pt)) {
+        	 dtde.acceptDrag(action);
+        	 isAcceptDrag = true;
          }
-         if (canPerformAction(tree, draggedNode, action, pt)) {
-              dtde.acceptDrag(action);               
-         }else {
+         
+         //Ha beszurhatja a fokuszban levo elem ele vagy moge a mozgatott elemet
+         if (canInsertBetween(tree, draggedNode, action, pt)) {
+
+        	 //Kirajzolja az insertLine-t
+        	 paintInsertLine(pt, tree); 
+        	 dtde.acceptDrag(action);
+        	 isAcceptDrag = true;
+         }
+         
+         if( !isAcceptDrag) {
               dtde.rejectDrag();
          }
     }
@@ -724,13 +753,27 @@ paintInsertLine(pt, tree);
     public final void dropActionChanged(DropTargetDragEvent dtde) {
          Point pt = dtde.getLocation();
          int action = dtde.getDropAction();
-         if (drawImage) {
-              paintImage(pt);
-paintInsertLine(pt, tree);              
+         boolean isAcceptDrag = false;
+         
+         //Kirajzolja a shadowSource-t
+       	 paintImage(pt);             
+         
+         //Ha gyermekkent elhelyezhetem a mozgatott elemet a fokuszban levo elem ala
+         if (canAddAsChild(tree, draggedNode, action, pt)) {
+        	 dtde.acceptDrag(action);
+        	 isAcceptDrag = true;
          }
-         if (canPerformAction(tree, draggedNode, action, pt)) {
-              dtde.acceptDrag(action);               
-         }else {
+         
+         //Ha beszurhatja a fokuszban levo elem ele vagy moge a mozgatott elemet
+         if (canInsertBetween(tree, draggedNode, action, pt)) {
+        	 
+        	 //Kirajzolja az insertLine-t
+        	 paintInsertLine(pt, tree); 
+        	 dtde.acceptDrag(action);
+        	 isAcceptDrag = true;
+         }
+         
+         if( !isAcceptDrag) {
               dtde.rejectDrag();
          }
     }
@@ -742,28 +785,29 @@ paintInsertLine(pt, tree);
      */
     public final void drop(DropTargetDropEvent dtde) {
          try {
-              if (drawImage) {
-                   clearImage();
-              }
-              int action = dtde.getDropAction();
-              Transferable transferable = dtde.getTransferable();
-              Point pt = dtde.getLocation();
-              if (transferable.isDataFlavorSupported(TransferableNode.NODE_FLAVOR) && canPerformAction(tree, draggedNode, action, pt)) {
-                   TreePath pathTarget = tree.getPathForLocation(pt.x, pt.y);
-                   DefaultMutableTreeNode node = (DefaultMutableTreeNode) transferable.getTransferData(TransferableNode.NODE_FLAVOR);
-                   DefaultMutableTreeNode newParentNode =(DefaultMutableTreeNode)pathTarget.getLastPathComponent();
-                   if (executeDrop(tree, node, newParentNode, action)) {
-                        dtde.acceptDrop(action);                    
-                        dtde.dropComplete(true);
-                        return;                         
-                   }
-              }
-              dtde.rejectDrop();
-              dtde.dropComplete(false);
+        	 
+        	 //Torli a shadowSource-t es az InsertLine-t
+        	 clearImages();
+        	 
+        	 int action = dtde.getDropAction();
+        	 Transferable transferable = dtde.getTransferable();
+        	 Point pt = dtde.getLocation();
+        	 if (transferable.isDataFlavorSupported(TransferableNode.NODE_FLAVOR) && canAddAsChild(tree, draggedNode, action, pt)) {
+        		 TreePath pathTarget = tree.getPathForLocation(pt.x, pt.y);
+        		 DefaultMutableTreeNode node = (DefaultMutableTreeNode) transferable.getTransferData(TransferableNode.NODE_FLAVOR);
+        		 DefaultMutableTreeNode newParentNode =(DefaultMutableTreeNode)pathTarget.getLastPathComponent();
+        		 if (executeDrop(tree, node, newParentNode, action)) {
+        			 dtde.acceptDrop(action);                    
+        			 dtde.dropComplete(true);
+        			 return;                         
+        		 }
+        	 }
+        	 dtde.rejectDrop();
+        	 dtde.dropComplete(false);
          }catch (Exception e) {     
-              System.out.println(e);
-              dtde.rejectDrop();
-              dtde.dropComplete(false);
+        	 System.out.println(e);
+        	 dtde.rejectDrop();
+        	 dtde.dropComplete(false);
          }     
     }
     
@@ -786,7 +830,7 @@ paintInsertLine(pt, tree);
 
     /**
      * 
-     * Kirajzolja a megadott pozicioba az ele/utan beszuras vonalat
+     * Kirajzolja a megadott pozicioba az insertLine vonalat
      * 
      * @param pt
      */
@@ -806,8 +850,6 @@ paintInsertLine(pt, tree);
   	  	Graphics2D g2 = (Graphics2D)tree.getGraphics();
   	  	g2.setColor( Color.red );
 
-  	  	//g2.clearRect( targetBound.x, targetBound.y, targetBound.width, targetBound.height );
-  	  
   	  	double d = y - targetBound.y;
   	  	g2.setStroke(new BasicStroke(2));
   	  	
@@ -832,7 +874,12 @@ paintInsertLine(pt, tree);
     
     }
     
-    private final void clearImage() {
+    /**
+     * 
+     * Torli a shadowImage-t es az insertLineImage-t
+     * 
+     */
+    private final void clearImages() {
     	tree.repaint(shadowBound.getBounds());
     	tree.paintImmediately(shadowBound.getBounds());
     	
@@ -842,7 +889,45 @@ paintInsertLine(pt, tree);
     	insertLineUp = null;
     }
 
-    public boolean canPerformAction(Tree target, DefaultMutableTreeNode draggedNode, int action, Point location) {
+    /**
+     * 
+     * Azt vizsgalja, hogy a mozgatott elemmel azonos tipusu elem ele vagy moge szeretnem-e elhelyezni a mozgatott elemet
+     * 
+     * @param target
+     * @param draggedNode
+     * @param action
+     * @param location
+     * @return
+     */
+    public boolean canInsertBetween( Tree target, DefaultMutableTreeNode draggedNode, int action, Point location ){
+    	TreePath pathTarget = target.getPathForLocation(location.x, location.y);
+        if ( null == pathTarget ) {
+             target.setSelectionPath(null);
+             return(false);
+        }
+        target.setSelectionPath(pathTarget);
+
+        Object targetObject = pathTarget.getLastPathComponent();
+        
+		//Ha nem valamelyik elem ala, hanem az ugyan olyan tipusu elem melle szeretnem elhelyezni
+		if( !draggedNode.equals(targetObject) && draggedNode.getClass().equals( targetObject.getClass())){		
+			return true;
+		}else{
+			return false;
+		}			
+    }
+    
+    /**
+     * 
+     * Azt vizsgalja, hogya a strukturaban megengedett elem ala szeretnem-e elhelyezni a mozgatott elemet
+     * 
+     * @param target
+     * @param draggedNode
+     * @param action
+     * @param location
+     * @return
+     */
+    public boolean canAddAsChild(Tree target, DefaultMutableTreeNode draggedNode, int action, Point location) {
         TreePath pathTarget = target.getPathForLocation(location.x, location.y);
         if ( null == pathTarget ) {
              target.setSelectionPath(null);

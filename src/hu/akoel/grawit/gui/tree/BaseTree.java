@@ -542,13 +542,9 @@ public class BaseTree extends Tree{
 
 	@Override
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
-
-		//Ha nem valamelyik elem ala, hanem az ugyan olyan tipusu elem melle szeretnem elhelyezni
-		if( !draggedNode.equals(targetObject) && draggedNode.getClass().equals( targetObject.getClass())){		
-			return true;
 			
 		//Node elhelyezese Node-ba vagy Root-ba
-		}else if( draggedNode instanceof BaseFolderDataModel && targetObject instanceof BaseFolderDataModel ){
+		if( draggedNode instanceof BaseFolderDataModel && targetObject instanceof BaseFolderDataModel ){
 			return true;
 
 		//Page elhelyezese Node-ba de nem Root-ba	
