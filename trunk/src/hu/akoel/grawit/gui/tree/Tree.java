@@ -572,12 +572,16 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     private DropTarget dropTarget; //droptarget
     private static DefaultMutableTreeNode draggedNode; 
     private DefaultMutableTreeNode draggedNodeParent; 
-    private static BufferedImage image = null; //buff image
-    private Rectangle rect2D = new Rectangle();
+    private static BufferedImage shadowImage = null; //buff image
+    
+    private Rectangle shadowBound = new Rectangle();
+    private Rectangle sourceBound = new Rectangle();
+    private Rectangle targetBound = new Rectangle();    
+    
     private boolean drawImage;
+    private Boolean insertLineUp = null; 
 
-    private Rectangle sourcePosition = new Rectangle();
-//    private BufferedImage insertImage;
+    
 
     protected TreeTransferHandler(Tree tree, int action, boolean drawIcon) {
          this.tree = tree;
@@ -593,6 +597,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
               ((DefaultTreeModel)tree.getModel()).nodeStructureChanged(draggedNodeParent);                    
          }
     }
+    
     public final void dragEnter(DragSourceDragEvent dsde)  {
          int action = dsde.getDropAction();
          if (action == DnDConstants.ACTION_COPY)  {
@@ -607,6 +612,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
               }
          }
     }
+    
     public final void dragOver(DragSourceDragEvent dsde) {
          int action = dsde.getDropAction();
          if (action == DnDConstants.ACTION_COPY) {
@@ -621,6 +627,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
               }
          }
     }
+    
     public final void dropActionChanged(DragSourceDragEvent dsde)  {
          int action = dsde.getDropAction();
          if (action == DnDConstants.ACTION_COPY) {
@@ -635,39 +642,35 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
               }
          }
     }
+    
     public final void dragExit(DragSourceEvent dse) {
        dse.getDragSourceContext().setCursor(DragSource.DefaultMoveNoDrop);
     }     
          
-    /* Methods for DragGestureListener */
+    /**
+     * 
+     * Felismeri a DRAG mozdulatot
+     * 
+     */
     public final void dragGestureRecognized(DragGestureEvent dge) {
          TreePath path = tree.getSelectionPath(); 
          if (path != null) { 
               draggedNode = (DefaultMutableTreeNode)path.getLastPathComponent();
               draggedNodeParent = (DefaultMutableTreeNode)draggedNode.getParent();
               if (drawImage) {
-            	  sourcePosition = tree.getPathBounds(path);
-            	  JComponent lbl = (JComponent)tree.getCellRenderer().getTreeCellRendererComponent(tree, draggedNode, false , tree.isExpanded(path),((DefaultTreeModel)tree.getModel()).isLeaf(path.getLastPathComponent()), 0,false);//returning the label
-            	  lbl.setBounds(sourcePosition);//setting bounds to lbl
+            	  sourceBound = tree.getPathBounds(path);
+            	  JComponent lbl = (JComponent)tree.getCellRenderer().getTreeCellRendererComponent(tree, draggedNode, false , tree.isExpanded(path),((DefaultTreeModel)tree.getModel()).isLeaf(path.getLastPathComponent()), 0,false);
+            	  lbl.setBounds(sourceBound);
             	  
-            	  
-            	  image = new BufferedImage(lbl.getWidth(), lbl.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);//buffered image reference passing the label's ht and width
-            	  Graphics2D graphics = image.createGraphics();//creating the graphics for buffered image
-            	  graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));     //Sets the Composite for the Graphics2D context
+            	  shadowImage = new BufferedImage(lbl.getWidth(), lbl.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);
+            	  Graphics2D graphics = shadowImage.createGraphics();
+            	  graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));   
             	  lbl.setOpaque(false);
             	  lbl.paint(graphics);
             	  graphics.dispose();    
-           	  
-/*            	  insertImage = new BufferedImage(lbl.getWidth(), 1, java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);
-            	  Graphics2D gr = insertImage.createGraphics();
-            	  gr.setColor(Color.red);
-            	  gr.drawLine(0, 0, insertImage.getWidth(), 0);
-            	  lbl.paint( gr );
-            	  gr.dispose();
-*/            	  
             	  
               }
-              dragSource.startDrag(dge, DragSource.DefaultMoveNoDrop , image, new Point(0,0), new TransferableNode(draggedNode), this);               
+              dragSource.startDrag(dge, DragSource.DefaultMoveNoDrop , shadowImage, new Point(0,0), new TransferableNode(draggedNode), this);               
          }      
     }
 
@@ -682,6 +685,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
      
          if (drawImage) {
               paintImage(pt);
+paintInsertLine(pt, tree);              
          }
          if (canPerformAction(tree, draggedNode, action, pt)) {
               dtde.acceptDrag(action);               
@@ -722,6 +726,7 @@ paintInsertLine(pt, tree);
          int action = dtde.getDropAction();
          if (drawImage) {
               paintImage(pt);
+paintInsertLine(pt, tree);              
          }
          if (canPerformAction(tree, draggedNode, action, pt)) {
               dtde.acceptDrag(action);               
@@ -769,17 +774,14 @@ paintInsertLine(pt, tree);
      * @param pt
      */
     private final void paintImage(Point pt) {
-    	int x = rect2D.x;
-    	int y = rect2D.y;
+    	int x = shadowBound.x;
+    	int y = shadowBound.y;
     	if( pt.x != x || pt.y != y ){    	
-    		tree.repaint(rect2D.getBounds());
-    		tree.paintImmediately(rect2D.getBounds());
+    		tree.repaint(shadowBound.getBounds());
+    		tree.paintImmediately(shadowBound.getBounds());
     	}
-    	rect2D.setRect((int) pt.getX(),(int) pt.getY(),image.getWidth(),image.getHeight());
-    	tree.getGraphics().drawImage(image,(int) pt.getX(),(int) pt.getY(),tree);
-    	
-//    	tree.getGraphics().set( Color.red );
-//    	tree.getGraphics().drawLine( (int)pt.getX(), (int)pt.getY(), (int)pt.getX() + 50, (int)pt.getY() );
+    	shadowBound.setRect((int) pt.getX(),(int) pt.getY(),shadowImage.getWidth(),shadowImage.getHeight());
+    	tree.getGraphics().drawImage(shadowImage,(int) pt.getX(),(int) pt.getY(),tree);
     }
 
     /**
@@ -792,40 +794,52 @@ paintInsertLine(pt, tree);
     public boolean paintInsertLine(Point pt, Tree target) {
     	int x = pt.x;
     	int y = pt.y;
-    	
+ 	    	
         TreePath pathTarget = target.getPathForLocation(x, y);
         if ( null == pathTarget ) {
              target.setSelectionPath(null);
              return(false);
         }
+    	
+        targetBound = tree.getPathBounds(pathTarget);
+        
+  	  	Graphics2D g2 = (Graphics2D)tree.getGraphics();
+  	  	g2.setColor( Color.red );
 
-        Rectangle targetBound = tree.getPathBounds(pathTarget);
+  	  	//g2.clearRect( targetBound.x, targetBound.y, targetBound.width, targetBound.height );
   	  
-  	  	Graphics2D g = (Graphics2D)tree.getGraphics();
-  	  	g.setColor( Color.red );
-  	  	
   	  	double d = y - targetBound.y;
-  	  	g.setStroke(new BasicStroke(3));
+  	  	g2.setStroke(new BasicStroke(2));
   	  	
   	  	//Ha inkabb az alja fele van kozel a kurzor
   	  	if( d > targetBound.height / 2 ){
-  	  		g.drawLine( targetBound.x, targetBound.y + targetBound.height, targetBound.x + targetBound.width, targetBound.y + targetBound.height );
+  	  		if( null == insertLineUp || insertLineUp ){
+  	  			tree.repaint(targetBound.getBounds());
+  	  		}
+  	  		g2.drawLine( targetBound.x, targetBound.y + targetBound.height - 1, targetBound.x + targetBound.width, targetBound.y + targetBound.height - 1 );
+  	  		insertLineUp = false;
   	  	}else{
-  	  		g.drawLine( targetBound.x, targetBound.y, targetBound.x + targetBound.width, targetBound.y );
+  	  		if( null == insertLineUp || !insertLineUp ){
+  	  			tree.repaint(targetBound.getBounds());
+  	  		}
+  	  		g2.drawLine( targetBound.x, targetBound.y + 1, targetBound.x + targetBound.width, targetBound.y + 1 );
+  	  		insertLineUp = true;
   	  	}
+	  	    
+  	  	g2.dispose();
   	  	
-        
         return false;
     
     }
     
     private final void clearImage() {
-    	tree.repaint(rect2D.getBounds());
-    	tree.paintImmediately(rect2D.getBounds());
+    	tree.repaint(shadowBound.getBounds());
+    	tree.paintImmediately(shadowBound.getBounds());
     	
-//    	tree.repaint( sourcePosition.x, sourcePosition.y, insertImage.getWidth(), 1 );
-//    	tree.paintImmediately(sourcePosition.x, sourcePosition.y, insertImage.getWidth(), 1);
+    	tree.repaint(targetBound.getBounds());    	
+    	tree.paintImmediately(targetBound.getBounds());
     	
+    	insertLineUp = null;
     }
 
     public boolean canPerformAction(Tree target, DefaultMutableTreeNode draggedNode, int action, Point location) {
