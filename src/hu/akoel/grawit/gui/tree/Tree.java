@@ -7,8 +7,10 @@ import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
@@ -120,7 +122,7 @@ public abstract class Tree extends JTree{
 		this.addMouseListener( treeMouseListener );
 		this.addTreeSelectionListener( new SelectionChangedListener() );
 	
-		new DefaultTreeTransferHandler(this, DnDConstants.ACTION_MOVE);
+		new TreeTransferHandler(this, DnDConstants.ACTION_MOVE, true );
 		//this.setDragEnabled( true );
 	}
 	
@@ -145,7 +147,7 @@ public abstract class Tree extends JTree{
 	
 	public abstract void doPopupRootInsert( JPopupMenu popupMenu, DataModelAdapter selectedNode );
 	
-	public abstract boolean possibleHierarchy( DefaultMutableTreeNode draggedNode, Object dropObject );
+	public abstract boolean possibleHierarchy( DefaultMutableTreeNode draggedNode, Object targetObject );
 
 	public ImageIcon getIconOff( DataModelAdapter actualNode, boolean expanded ){
 		return getIcon(actualNode, expanded);
@@ -541,69 +543,6 @@ public abstract class Tree extends JTree{
 
 
 
-/**
- * 
- * A drag and drop kezeleset vegzo osztaly
- * 
- * @author akoel
- *
- */
-class DefaultTreeTransferHandler extends AbstractTreeTransferHandler {
-	private Tree tree;
-	
-    public DefaultTreeTransferHandler(Tree tree, int action) {
-         super(tree, action, true);
-         this.tree = tree;
-    }
-    
-    public boolean canPerformAction(Tree target, DefaultMutableTreeNode draggedNode, int action, Point location) {
-         TreePath pathTarget = target.getPathForLocation(location.x, location.y);
-         if (pathTarget == null) {
-              target.setSelectionPath(null);
-              return(false);
-         }
-         target.setSelectionPath(pathTarget);
-      
-         if( !tree.possibleHierarchy( draggedNode, pathTarget.getLastPathComponent() ) ){
-        	 return false;
-         }
-         
-         if(action == DnDConstants.ACTION_COPY) {
-              return(true);
-         }else if(action == DnDConstants.ACTION_MOVE) {     
-              DefaultMutableTreeNode parentNode =(DefaultMutableTreeNode)pathTarget.getLastPathComponent();                    
-              if (draggedNode.isRoot() || parentNode == draggedNode.getParent() || draggedNode.isNodeDescendant(parentNode)) {                         
-                   return(false);     
-              }
-              else {
-                   return(true);
-              }                     
-         }
-         else {          
-              return(false);     
-         }
-    }
-
-    public boolean executeDrop(Tree target, DefaultMutableTreeNode draggedNode, DefaultMutableTreeNode newParentNode, int action) { 
-         if (action == DnDConstants.ACTION_COPY) {
-              DefaultMutableTreeNode newNode = target.makeDeepCopy(draggedNode);
-              ((DefaultTreeModel)target.getModel()).insertNodeInto(newNode,newParentNode,newParentNode.getChildCount());
-              TreePath treePath = new TreePath(newNode.getPath());
-              target.scrollPathToVisible(treePath);
-              target.setSelectionPath(treePath);     
-              return(true);
-         }
-         if (action == DnDConstants.ACTION_MOVE) {
-              draggedNode.removeFromParent();
-              ((DefaultTreeModel)target.getModel()).insertNodeInto(draggedNode,newParentNode,newParentNode.getChildCount());
-              TreePath treePath = new TreePath(draggedNode.getPath());
-              target.scrollPathToVisible(treePath);
-              target.setSelectionPath(treePath);
-              return(true);
-         }
-         return(false);
-    }
-}
 
 
 
@@ -626,7 +565,7 @@ class DefaultTreeTransferHandler extends AbstractTreeTransferHandler {
  * @author akoel
  *
  */
-abstract class AbstractTreeTransferHandler implements DragGestureListener, DragSourceListener, DropTargetListener {
+class TreeTransferHandler implements DragGestureListener, DragSourceListener, DropTargetListener {
 
     private Tree tree;
     private DragSource dragSource; // dragsource
@@ -638,9 +577,9 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
     private boolean drawImage;
 
     private Rectangle sourcePosition = new Rectangle();
-    private BufferedImage insertImage;
+//    private BufferedImage insertImage;
 
-    protected AbstractTreeTransferHandler(Tree tree, int action, boolean drawIcon) {
+    protected TreeTransferHandler(Tree tree, int action, boolean drawIcon) {
          this.tree = tree;
          drawImage = drawIcon;
          dragSource = new DragSource();
@@ -707,9 +646,10 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
               draggedNode = (DefaultMutableTreeNode)path.getLastPathComponent();
               draggedNodeParent = (DefaultMutableTreeNode)draggedNode.getParent();
               if (drawImage) {
-            	  sourcePosition = tree.getPathBounds(path); //getpathbounds of selectionpath
+            	  sourcePosition = tree.getPathBounds(path);
             	  JComponent lbl = (JComponent)tree.getCellRenderer().getTreeCellRendererComponent(tree, draggedNode, false , tree.isExpanded(path),((DefaultTreeModel)tree.getModel()).isLeaf(path.getLastPathComponent()), 0,false);//returning the label
             	  lbl.setBounds(sourcePosition);//setting bounds to lbl
+            	  
             	  
             	  image = new BufferedImage(lbl.getWidth(), lbl.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);//buffered image reference passing the label's ht and width
             	  Graphics2D graphics = image.createGraphics();//creating the graphics for buffered image
@@ -718,24 +658,28 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
             	  lbl.paint(graphics);
             	  graphics.dispose();    
            	  
-            	  insertImage = new BufferedImage(lbl.getWidth(), 1, java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);
+/*            	  insertImage = new BufferedImage(lbl.getWidth(), 1, java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);
             	  Graphics2D gr = insertImage.createGraphics();
             	  gr.setColor(Color.red);
             	  gr.drawLine(0, 0, insertImage.getWidth(), 0);
             	  lbl.paint( gr );
             	  gr.dispose();
-            	  
+*/            	  
             	  
               }
               dragSource.startDrag(dge, DragSource.DefaultMoveNoDrop , image, new Point(0,0), new TransferableNode(draggedNode), this);               
          }      
     }
 
-    /* Methods for DropTargetListener */
-
+    /**
+     * 
+     * Elindult a DRAG
+     * 
+     */
     public final void dragEnter(DropTargetDragEvent dtde) {
          Point pt = dtde.getLocation();
          int action = dtde.getDropAction();
+     
          if (drawImage) {
               paintImage(pt);
          }
@@ -746,6 +690,11 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
          }
     }
 
+    /**
+     * 
+     * Veget ert a DRAG
+     * 
+     */
     public final void dragExit(DropTargetEvent dte) {
          if (drawImage) {
               clearImage();
@@ -759,6 +708,7 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
          tree.autoscroll(pt);
          if (drawImage) {
               paintImage(pt);
+paintInsertLine(pt, tree);              
          }
          if (canPerformAction(tree, draggedNode, action, pt)) {
               dtde.acceptDrag(action);               
@@ -780,6 +730,11 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
          }
     }
 
+    /**
+     * 
+     * Lehelyezi a felemelt elemet
+     * 
+     */
     public final void drop(DropTargetDropEvent dtde) {
          try {
               if (drawImage) {
@@ -807,6 +762,12 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
          }     
     }
     
+    /**
+     * 
+     * Kirajzolja a megadott pozicioba a felemelt elem arnyekat
+     * 
+     * @param pt
+     */
     private final void paintImage(Point pt) {
     	int x = rect2D.x;
     	int y = rect2D.y;
@@ -817,28 +778,107 @@ abstract class AbstractTreeTransferHandler implements DragGestureListener, DragS
     	rect2D.setRect((int) pt.getX(),(int) pt.getY(),image.getWidth(),image.getHeight());
     	tree.getGraphics().drawImage(image,(int) pt.getX(),(int) pt.getY(),tree);
     	
-    	
-    	 TreePath path = tree.getPathForLocation(x, y);
-    	 if( null != path ){
-    	
-    	tree.getGraphics().drawImage(insertImage, sourcePosition.x, sourcePosition.y, tree);
-//    	tree.getGraphics().drawImage(insertImage, sourcePosition.x, sourcePosition.y, tree);
-    	
-    	 }
+//    	tree.getGraphics().set( Color.red );
+//    	tree.getGraphics().drawLine( (int)pt.getX(), (int)pt.getY(), (int)pt.getX() + 50, (int)pt.getY() );
     }
 
+    /**
+     * 
+     * Kirajzolja a megadott pozicioba az ele/utan beszuras vonalat
+     * 
+     * @param pt
+     */
+    
+    public boolean paintInsertLine(Point pt, Tree target) {
+    	int x = pt.x;
+    	int y = pt.y;
+    	
+        TreePath pathTarget = target.getPathForLocation(x, y);
+        if ( null == pathTarget ) {
+             target.setSelectionPath(null);
+             return(false);
+        }
+
+        Rectangle targetBound = tree.getPathBounds(pathTarget);
+  	  
+  	  	Graphics2D g = (Graphics2D)tree.getGraphics();
+  	  	g.setColor( Color.red );
+  	  	
+  	  	double d = y - targetBound.y;
+  	  	g.setStroke(new BasicStroke(3));
+  	  	
+  	  	//Ha inkabb az alja fele van kozel a kurzor
+  	  	if( d > targetBound.height / 2 ){
+  	  		g.drawLine( targetBound.x, targetBound.y + targetBound.height, targetBound.x + targetBound.width, targetBound.y + targetBound.height );
+  	  	}else{
+  	  		g.drawLine( targetBound.x, targetBound.y, targetBound.x + targetBound.width, targetBound.y );
+  	  	}
+  	  	
+        
+        return false;
+    
+    }
+    
     private final void clearImage() {
     	tree.repaint(rect2D.getBounds());
     	tree.paintImmediately(rect2D.getBounds());
     	
-    	tree.repaint( sourcePosition.x, sourcePosition.y, insertImage.getWidth(), 1 );
-    	tree.paintImmediately(sourcePosition.x, sourcePosition.y, insertImage.getWidth(), 1);
+//    	tree.repaint( sourcePosition.x, sourcePosition.y, insertImage.getWidth(), 1 );
+//    	tree.paintImmediately(sourcePosition.x, sourcePosition.y, insertImage.getWidth(), 1);
     	
     }
 
-    public abstract boolean canPerformAction(Tree target, DefaultMutableTreeNode draggedNode, int action, Point location);
+    public boolean canPerformAction(Tree target, DefaultMutableTreeNode draggedNode, int action, Point location) {
+        TreePath pathTarget = target.getPathForLocation(location.x, location.y);
+        if ( null == pathTarget ) {
+             target.setSelectionPath(null);
+             return(false);
+        }
+        target.setSelectionPath(pathTarget);
+     
+        return tree.possibleHierarchy( draggedNode, pathTarget.getLastPathComponent() );
+/*        
+        if( !tree.possibleHierarchy( draggedNode, pathTarget.getLastPathComponent() ) ){
+        	return false;
+        }
+        
+        //Ha masolas vagy mozgatas
+        if(action == DnDConstants.ACTION_COPY || action == DnDConstants.ACTION_MOVE) {     
+             DefaultMutableTreeNode parentNode =(DefaultMutableTreeNode)pathTarget.getLastPathComponent();                    
+     
+             //Ha a mozgatando elem ROOT vagy ugyan olyan tipusu mint a 
+             if (draggedNode.isRoot() || parentNode == draggedNode.getParent() || draggedNode.isNodeDescendant(parentNode)) {                         
+                  return(false);     
+             }else {
+                  return(true);
+             }                     
+        }else {          
+             return(false);     
+        }
+*/        
+   }
 
-    public abstract boolean executeDrop(Tree tree, DefaultMutableTreeNode draggedNode, DefaultMutableTreeNode newParentNode, int action);
+   public boolean executeDrop(Tree target, DefaultMutableTreeNode draggedNode, DefaultMutableTreeNode newParentNode, int action) { 
+/*        if (action == DnDConstants.ACTION_COPY) {
+             DefaultMutableTreeNode newNode = target.makeDeepCopy(draggedNode);
+             ((DefaultTreeModel)target.getModel()).insertNodeInto(newNode,newParentNode,newParentNode.getChildCount());
+             TreePath treePath = new TreePath(newNode.getPath());
+             target.scrollPathToVisible(treePath);
+             target.setSelectionPath(treePath);     
+             return(true);
+        }
+*/        
+        if (action == DnDConstants.ACTION_MOVE) {
+             draggedNode.removeFromParent();
+             ((DefaultTreeModel)target.getModel()).insertNodeInto(draggedNode,newParentNode,newParentNode.getChildCount());
+             TreePath treePath = new TreePath(draggedNode.getPath());
+             target.scrollPathToVisible(treePath);
+             target.setSelectionPath(treePath);
+             return(true);
+        }
+        return(false);
+   }
+   
 }
 
 
