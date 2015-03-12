@@ -476,6 +476,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		//Ha be van kapcsolav		
 		if( actualTestcase.isOn() ){
 
+			
 elementProgres.outputCommand( "import org.openqa.selenium.By;" );
 elementProgres.outputCommand( "import org.openqa.selenium.WebDriver;" );
 elementProgres.outputCommand( "import org.openqa.selenium.WebElement;" );
@@ -507,8 +508,6 @@ elementProgres.outputCommand( "	" );
 elementProgres.outputCommand( "	public Test(){" );	
 elementProgres.outputCommand( "	" );
 
-//    	TestcaseCaseDataModel selectedTestcase = RunTestcaseEditor.this.selectedTestcase;
-//    	WebDriver webDriver = actualTestcase.getDriverDataModel().getDriver( elementProgres );
 
 			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver(elementProgres);
 

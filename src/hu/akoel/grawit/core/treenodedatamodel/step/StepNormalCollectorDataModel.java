@@ -4,8 +4,6 @@ import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -162,26 +160,8 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 					if( null == waitingTime ){
 						waitingTime = WorkingDirectory.getInstance().getWaitingTime();
 					}
-					WebDriverWait wait = new WebDriverWait(driver, waitingTime);
-			
-					// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
-/*					String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
-
-					if( null != frameName && frameName.trim().length() > 0 ){				
-			
-elementProgress.outputCommand( "		//Switch to the '" + frameName + "' frame" );
-elementProgress.outputCommand( "		driver.switchTo().defaultContent();" );
-elementProgress.outputCommand( "		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt( \"" + frameName + "\" ) );" );
-elementProgress.outputCommand( "		driver.switchTo().defaultContent();" );
-elementProgress.outputCommand( "		driver.switchTo().frame( \"" + frameName + "\" );" );
-elementProgress.outputCommand( "" );
-						
-						driver.switchTo().defaultContent();
-						wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
-						driver.switchTo().defaultContent();
-						driver.switchTo().frame( frameName );		
-					}
-*/									
+					//WebDriverWait wait = new WebDriverWait(driver, waitingTime);	
+								
 				}
 				
 				try{			
@@ -193,10 +173,8 @@ elementProgress.outputCommand( "" );
 					//Akkor becsomagolja egy PageException-ba es tovabb kuldi
 					throw new PageException( this.getName(), e.getElementName(), e.getElementSelector(), e);
 			
-				}
-			
-			}
-				
+				}			
+			}				
 		}
 		
 		//Jelzi, hogy befejezodott az oldal feldolgozasa
