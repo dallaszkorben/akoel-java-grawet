@@ -656,21 +656,21 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     public final void dragGestureRecognized(DragGestureEvent dge) {
          TreePath path = tree.getSelectionPath(); 
          if (path != null) { 
-              draggedNode = (DefaultMutableTreeNode)path.getLastPathComponent();
-              draggedNodeParent = (DefaultMutableTreeNode)draggedNode.getParent();
+        	 draggedNode = (DefaultMutableTreeNode)path.getLastPathComponent();
+        	 draggedNodeParent = (DefaultMutableTreeNode)draggedNode.getParent();
              
-              sourceBound = tree.getPathBounds(path);
-              JComponent lbl = (JComponent)tree.getCellRenderer().getTreeCellRendererComponent(tree, draggedNode, false , tree.isExpanded(path),((DefaultTreeModel)tree.getModel()).isLeaf(path.getLastPathComponent()), 0,false);
-              lbl.setBounds(sourceBound);
+        	 sourceBound = tree.getPathBounds(path);
+        	 JComponent lbl = (JComponent)tree.getCellRenderer().getTreeCellRendererComponent(tree, draggedNode, false , tree.isExpanded(path),((DefaultTreeModel)tree.getModel()).isLeaf(path.getLastPathComponent()), 0,false);
+        	 lbl.setBounds(sourceBound);
             	  
-              shadowImage = new BufferedImage(lbl.getWidth(), lbl.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);
-              Graphics2D graphics = shadowImage.createGraphics();
-              graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));   
-              lbl.setOpaque(false);
-              lbl.paint(graphics);
-              graphics.dispose();    
-                         
-              dragSource.startDrag(dge, DragSource.DefaultMoveNoDrop , shadowImage, new Point(0,0), new TransferableNode(draggedNode), this);               
+        	 shadowImage = new BufferedImage(lbl.getWidth(), lbl.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB_PRE);
+        	 Graphics2D graphics = shadowImage.createGraphics();
+        	 graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));   
+        	 lbl.setOpaque(false);
+        	 lbl.paint(graphics);
+        	 graphics.dispose();    
+        	 
+        	 dragSource.startDrag(dge, DragSource.DefaultMoveNoDrop , shadowImage, new Point(0,0), new TransferableNode(draggedNode), this);               
          }      
     }
 
@@ -994,16 +994,57 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
         	//Ha az AddAsChild muvelet megengedett
         	if( canAddAsChild(tree, draggedNode, action, pt) ) {
         	
-        		draggedNode.removeFromParent();
+        		//A mozgatott node-ot eloszor is torli az eredeti helyerol
+//        		draggedNode.removeFromParent();
         		((DefaultTreeModel)target.getModel()).insertNodeInto(draggedNode,targetNode,targetNode.getChildCount());
+
+        		//Kinyitja a fat
         		TreePath treePath = new TreePath(draggedNode.getPath());
         		target.scrollPathToVisible(treePath);
         		target.setSelectionPath(treePath);
+        		
         		return(true);
 
         	//Ha az InsertBetween muvelet megengedett
         	}else if( canInsertBetween( tree, draggedNode, action, pt ) ){
+            	Boolean up = isDraggedUp(pt, target);
             	
+            	//A mozgatott node-ot eloszor is torli az eredeti helyerol. Ez azert kell, mert kulonben,
+            	//ha a sajat node-jan belul helyezem el, akkor rosszul szamolja a poziciokat.
+        		draggedNode.removeFromParent();
+            	
+            	//Ez a szuloje annak a node-nak ami ele vagy moge kivanom szurni 
+            	DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)targetNode.getParent();
+            	int actualIndex = parentNode.getIndex( targetNode );            	
+            	
+            	//Ha nincs cel node
+            	if( null == up ){
+            		
+            		return false;
+            		
+            	}
+            	
+            	//A kivalasztott node ele
+        		if( up ){
+            		
+        			((DefaultTreeModel)target.getModel()).insertNodeInto(draggedNode, parentNode, actualIndex);
+            		//parentNode.insert( draggedNode, actualIndex );
+        			
+        		//A kivalasztott node moge helyezem
+            	}else if( !up ){
+            		
+            		((DefaultTreeModel)target.getModel()).insertNodeInto(draggedNode, parentNode, actualIndex + 1);
+            		//parentNode.insert( draggedNode, actualIndex + 1 );
+            		
+            	}
+ 
+        		((DefaultTreeModel)tree.getModel()).nodeChanged(parentNode);
+
+        		TreePath treePath = new TreePath(draggedNode.getPath());
+        		target.scrollPathToVisible(treePath);
+        		target.setSelectionPath(treePath);  		
+        		
+               	return(true);
         	}
         }
         return(false);
