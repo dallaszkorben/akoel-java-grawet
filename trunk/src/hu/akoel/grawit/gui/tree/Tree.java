@@ -876,6 +876,24 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
         return true;    
     }
     
+    
+    enum PossibleOperationByPosition{
+    	INSERT_UP,
+    	INSERT_DOWN,
+    	ADD_AS_CHILD,
+    	NONE
+    }
+    
+ /*   PossibleOperationByPosition getPossibleOperation( Tree target, DefaultMutableTreeNode draggedNode, int action, Point pt ){
+     
+    	Boolean canAdd = canAddAsChild(tree, draggedNode, action, pt);
+    	Boolean canIns = canInsertBetween(tree, draggedNode, action, pt);
+    	
+//    	if( canAdd && )
+
+    }
+*/        
+        
     /**
      * Megmondja, hogy a felkapott elem az aktualis pozicio alapjan beszuras eseten elore vagy hatra kerulne 
      * @param pt
