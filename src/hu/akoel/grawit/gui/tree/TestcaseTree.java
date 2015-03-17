@@ -358,18 +358,21 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
-	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
+		
+		if( draggedNode.equals( targetObject )){
+			return false;
 		
 		//Node elhelyezese Node-ba vagy Root-ba
-		if( draggedNode instanceof TestcaseFolderDataModel && dropObject instanceof TestcaseFolderDataModel ){
+		}else if( draggedNode instanceof TestcaseFolderDataModel && targetObject instanceof TestcaseFolderDataModel ){
 			return true;
 		
 		//Case elhelyezese Node-ba, de nem Root-ba
-		}else if( draggedNode instanceof TestcaseCaseDataModel && dropObject instanceof TestcaseFolderDataModel && !( dropObject instanceof TestcaseRootDataModel ) ){
+		}else if( draggedNode instanceof TestcaseCaseDataModel && targetObject instanceof TestcaseFolderDataModel && !( targetObject instanceof TestcaseRootDataModel ) ){
 			return true;
 		
 		//Page elhelyezese Case-ben
-		}else if( draggedNode instanceof TestcaseParamContainerDataModel && dropObject instanceof TestcaseCaseDataModel ){
+		}else if( draggedNode instanceof TestcaseParamContainerDataModel && targetObject instanceof TestcaseCaseDataModel ){
 			return true;
 
 		}

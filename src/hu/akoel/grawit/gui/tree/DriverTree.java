@@ -314,26 +314,29 @@ public class DriverTree extends Tree{
 	}
 
 	@Override
-	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
 
+		if( draggedNode.equals( targetObject )){
+			return false;
+		
 		//Node elhelyezese Node-ba vagy Root-ba
-		if( draggedNode instanceof DriverFolderDataModel && dropObject instanceof DriverFolderDataModel ){
+		}else if( draggedNode instanceof DriverFolderDataModel && targetObject instanceof DriverFolderDataModel ){
 			return true;
 		
 		//Firefox elhelyezese Node-ba de nem Root-ba
-		}else if( draggedNode instanceof DriverFirefoxDataModel && dropObject instanceof DriverFolderDataModel && !( dropObject instanceof DriverRootDataModel ) ){
+		}else if( draggedNode instanceof DriverFirefoxDataModel && targetObject instanceof DriverFolderDataModel && !( targetObject instanceof DriverRootDataModel ) ){
 			return true;
 			
 		//Firefox property elhelyezese Firefox-ban
-		}else if( draggedNode instanceof DriverFirefoxPropertyDataModel && dropObject instanceof DriverFirefoxDataModel ){
+		}else if( draggedNode instanceof DriverFirefoxPropertyDataModel && targetObject instanceof DriverFirefoxDataModel ){
 			return true;
 		
 		//Explorer elhelyezese Node-ba de nem Root-ba
-		}else if( draggedNode instanceof DriverExplorerDataModel && dropObject instanceof DriverFolderDataModel && !( dropObject instanceof DriverRootDataModel ) ){
+		}else if( draggedNode instanceof DriverExplorerDataModel && targetObject instanceof DriverFolderDataModel && !( targetObject instanceof DriverRootDataModel ) ){
 			return true;
 
 		//Explorer property elhelyezese Explorer-ben
-		}else if( draggedNode instanceof DriverExplorerCapabilityDataModel && dropObject instanceof DriverExplorerDataModel ){
+		}else if( draggedNode instanceof DriverExplorerCapabilityDataModel && targetObject instanceof DriverExplorerDataModel ){
 			return true;
 		
 		}

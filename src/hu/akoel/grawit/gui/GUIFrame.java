@@ -11,7 +11,7 @@ import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BaseTree;
 import hu.akoel.grawit.gui.tree.DriverTree;
-import hu.akoel.grawit.gui.tree.ParamTree;
+import hu.akoel.grawit.gui.tree.StepTree;
 import hu.akoel.grawit.gui.tree.RunTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.Tree;
@@ -758,7 +758,7 @@ public class GUIFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			ParamTree tree = new ParamTree( GUIFrame.this, constantRootDataModel, baseRootDataModel, paramRootDataModel, testcaseRootDataModel );
+			StepTree tree = new StepTree( GUIFrame.this, constantRootDataModel, baseRootDataModel, paramRootDataModel, testcaseRootDataModel );
 			
 			treePanel.hide();
 			treePanel.show( tree );
