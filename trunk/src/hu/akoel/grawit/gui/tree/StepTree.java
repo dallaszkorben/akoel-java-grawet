@@ -42,7 +42,7 @@ import hu.akoel.grawit.gui.editor.step.StepFolderEditor;
 import hu.akoel.grawit.gui.editor.step.StepLoopCollectorEditor;
 import hu.akoel.grawit.gui.editor.step.StepNormalCollectorEditor;
 
-public class ParamTree extends Tree {
+public class StepTree extends Tree {
 
 	private static final long serialVersionUID = -7537783206534337777L;
 	private GUIFrame guiFrame;	
@@ -51,7 +51,7 @@ public class ParamTree extends Tree {
 	private StepRootDataModel paramRootDataModel;
 	private TestcaseRootDataModel testcaseRootDataModel;
 	
-	public ParamTree(GUIFrame guiFrame, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
+	public StepTree(GUIFrame guiFrame, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
 		super(guiFrame, paramRootDataModel);
 		
 		this.guiFrame = guiFrame;
@@ -216,7 +216,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					StepElementEditor paramPageNodeEditor = new StepElementEditor( ParamTree.this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, constantRootDataModel );								
+					StepElementEditor paramPageNodeEditor = new StepElementEditor( StepTree.this, (StepNormalCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, constantRootDataModel );								
 					guiFrame.showEditorPanel( paramPageNodeEditor);								
 				
 				}
@@ -236,7 +236,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					StepElementEditor testcaseParamPageEditor = new StepElementEditor( ParamTree.this, (StepLoopCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, constantRootDataModel );								
+					StepElementEditor testcaseParamPageEditor = new StepElementEditor( StepTree.this, (StepLoopCollectorDataModel)selectedNode, baseRootDataModel, paramRootDataModel, constantRootDataModel );								
 					guiFrame.showEditorPanel( testcaseParamPageEditor);								
 				
 				}
@@ -257,7 +257,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					StepFolderEditor paramNodeEditor = new StepFolderEditor( ParamTree.this, (StepFolderDataModel)selectedNode );								
+					StepFolderEditor paramNodeEditor = new StepFolderEditor( StepTree.this, (StepFolderDataModel)selectedNode );								
 					guiFrame.showEditorPanel( paramNodeEditor);								
 				
 				}
@@ -271,7 +271,7 @@ public class ParamTree extends Tree {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					StepNormalCollectorEditor paramPageEditor = new StepNormalCollectorEditor( ParamTree.this, (StepFolderDataModel)selectedNode, ParamTree.this.baseRootDataModel );								
+					StepNormalCollectorEditor paramPageEditor = new StepNormalCollectorEditor( StepTree.this, (StepFolderDataModel)selectedNode, StepTree.this.baseRootDataModel );								
 					guiFrame.showEditorPanel( paramPageEditor);								
 				
 				}
@@ -286,7 +286,7 @@ public class ParamTree extends Tree {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( ParamTree.this, (StepFolderDataModel)selectedNode, constantRootDataModel, baseRootDataModel );
+					StepLoopCollectorEditor testcaseControlLoopEditor = new StepLoopCollectorEditor( StepTree.this, (StepFolderDataModel)selectedNode, constantRootDataModel, baseRootDataModel );
 					guiFrame.showEditorPanel( testcaseControlLoopEditor);			
 					
 				
@@ -321,7 +321,7 @@ public class ParamTree extends Tree {
 					((StepDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					ParamTree.this.changed();
+					StepTree.this.changed();
 				
 				}
 				
@@ -432,7 +432,7 @@ public class ParamTree extends Tree {
 												 					
 						//Tulajdonkeppen csak levalasztom a fastrukturarol
 						totalTreeModel.removeNodeFromParent( selectedNode );
-						ParamTree.this.setSelectionRow(selectedRow - 1);
+						StepTree.this.setSelectionRow(selectedRow - 1);
 						
 					}										
 				}
@@ -517,7 +517,7 @@ public class ParamTree extends Tree {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				StepFolderEditor paramNodeEditor = new StepFolderEditor( ParamTree.this, (StepNodeDataModelAdapter)selectedNode );								
+				StepFolderEditor paramNodeEditor = new StepFolderEditor( StepTree.this, (StepNodeDataModelAdapter)selectedNode );								
 				guiFrame.showEditorPanel( paramNodeEditor);								
 			
 			}
@@ -527,26 +527,29 @@ public class ParamTree extends Tree {
 	}
 
 	@Override
-	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
 
+		if( draggedNode.equals( targetObject )){
+			return false;
+		
 		//Node elhelyezese Node-ba vagy Root-ba
-		if( draggedNode instanceof StepFolderDataModel && dropObject instanceof StepFolderDataModel ){
+		}else if( draggedNode instanceof StepFolderDataModel && targetObject instanceof StepFolderDataModel ){
 			return true;
 
 		//Param Page elhelyezese Node-ba de nem Root-ba	
-		}else if( draggedNode instanceof StepNormalCollectorDataModel && dropObject instanceof StepFolderDataModel && !( dropObject instanceof StepRootDataModel ) ){
+		}else if( draggedNode instanceof StepNormalCollectorDataModel && targetObject instanceof StepFolderDataModel && !( targetObject instanceof StepRootDataModel ) ){
 			return true;
 
 		//Elem elhelyezese Specific Page-be	
-		}else if( draggedNode instanceof StepElementDataModel && dropObject instanceof StepNormalCollectorDataModel ){
+		}else if( draggedNode instanceof StepElementDataModel && targetObject instanceof StepNormalCollectorDataModel ){
 			return true;
 
 		//Loop elhelyezese Node-ban
-		}else if( draggedNode instanceof StepLoopCollectorDataModel && dropObject instanceof StepFolderDataModel ){
+		}else if( draggedNode instanceof StepLoopCollectorDataModel && targetObject instanceof StepFolderDataModel ){
 			return true;
 
 		//Element elhelyezese Loop-ban
-		}else if( draggedNode instanceof StepElementDataModel && dropObject instanceof StepLoopCollectorDataModel ){
+		}else if( draggedNode instanceof StepElementDataModel && targetObject instanceof StepLoopCollectorDataModel ){
 			return true;
 
 		}	

@@ -422,22 +422,25 @@ public class ConstantTree extends Tree{
 	}
 
 	@Override
-	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object dropObject) {
+	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
 
+		if( draggedNode.equals( targetObject )){
+			return false;
+		
 		//Node elhelyezese Node-ba
-		if( draggedNode instanceof ConstantFolderNodeDataModel && dropObject instanceof ConstantFolderNodeDataModel ){
+		}else if( draggedNode instanceof ConstantFolderNodeDataModel && targetObject instanceof ConstantFolderNodeDataModel ){
 			return true;
 		
 		//Element elhelyezese Node-ba
-		}else if( draggedNode instanceof ConstantElementDataModel && dropObject instanceof ConstantFolderNodeDataModel ){
+		}else if( draggedNode instanceof ConstantElementDataModel && targetObject instanceof ConstantFolderNodeDataModel ){
 			return true;
 		
 		//Node elhelyezese Root-ba			
-		}else if( draggedNode instanceof ConstantFolderNodeDataModel && dropObject instanceof ConstantRootDataModel ){
+		}else if( draggedNode instanceof ConstantFolderNodeDataModel && targetObject instanceof ConstantRootDataModel ){
 			return true;
 		
 		//Elem elhelyezese Root-ba	
-		}else if( draggedNode instanceof ConstantElementDataModel && dropObject instanceof ConstantRootDataModel ){
+		}else if( draggedNode instanceof ConstantElementDataModel && targetObject instanceof ConstantRootDataModel ){
 			return true;
 			
 		}
