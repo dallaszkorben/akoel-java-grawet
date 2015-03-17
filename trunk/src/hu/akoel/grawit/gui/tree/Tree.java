@@ -73,6 +73,8 @@ public abstract class Tree extends JTree{
 	private boolean needPopupModify = true;
 	private boolean needPopupModifyAtRoot = false;
 	
+	private TreeTransferHandler treeTransferHandler;
+	
 	Insets autoscrollInsets = new Insets(20, 20, 20, 20);
 	
 	public Tree( GUIFrame guiFrame, DataModelAdapter rootDataModel ){
@@ -121,7 +123,7 @@ public abstract class Tree extends JTree{
 		this.addMouseListener( treeMouseListener );
 		this.addTreeSelectionListener( new SelectionChangedListener() );
 	
-		new TreeTransferHandler(this, DnDConstants.ACTION_MOVE );
+		treeTransferHandler = new TreeTransferHandler(this, DnDConstants.ACTION_MOVE );
 		//this.setDragEnabled( true );
 	}
 	
@@ -243,7 +245,8 @@ public abstract class Tree extends JTree{
 			if( null == e.getNewLeadSelectionPath() ){
 				EmptyEditor emptyPanel = new EmptyEditor();								
 				guiFrame.showEditorPanel( emptyPanel);
-			}else{			
+			}else{	
+//treeTransferHandler.deleteInsertLine();
 				selectedNode = (DataModelAdapter)e.getNewLeadSelectionPath().getLastPathComponent();			
 				doViewWhenSelectionChanged( selectedNode );
 			}
@@ -500,12 +503,9 @@ public abstract class Tree extends JTree{
 						});
 						this.add ( editMenu );
 					}
-				}
-				
+				}				
 			}
-
-		}
-	
+		}	
 	}
 	
 	/**
@@ -579,10 +579,9 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     
     private Rectangle shadowBound = new Rectangle();
     private Rectangle sourceBound = new Rectangle();
-    private Rectangle targetBound = new Rectangle();    
-    
-    private boolean hasInsertLine = false; 
-
+//    private Rectangle targetBound = new Rectangle();    
+//    private boolean hasInsertLine = false; 
+    private TargetBound lastTargetBound;
     
 
     protected TreeTransferHandler(Tree tree, int action ) {
@@ -590,8 +589,9 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
          dragSource = new DragSource();
          dragSource.createDefaultDragGestureRecognizer(tree, action, this);
          dropTarget = new DropTarget(tree, action, this);
+         lastTargetBound = new TargetBound( tree );
     }
-
+    
     /* Methods for DragSourceListener */
     public void dragDropEnd(DragSourceDropEvent dsde) {
          if (dsde.getDropSuccess() && dsde.getDropAction()==DnDConstants.ACTION_MOVE && draggedNodeParent != null) {
@@ -680,12 +680,12 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
      * 
      */
     public final void dragEnter(DropTargetDragEvent dtde) {
-         Point pt = dtde.getLocation();
-         int action = dtde.getDropAction();
-         boolean isAcceptDrag = false;
+    	Point pt = dtde.getLocation();
+    	int action = dtde.getDropAction();
+    	boolean isAcceptDrag = false;
          
-         //Kirajzolja a shadowSource-t
-       	 paintImage(pt);             
+    	//Kirajzolja a shadowSource-t
+    	paintImage(pt);             
 
        	OperationByPosition possibleOperation = getPossibleOperation(tree, draggedNode, action, pt);
        	
@@ -699,7 +699,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
        	 if( possibleOperation.equals( OperationByPosition.INSERT_DOWN ) || possibleOperation.equals( OperationByPosition.INSERT_UP ) ){
 
         	 //Kirajzolja az insertLine-t
-        	 paintInsertLine(possibleOperation, pt, tree); 
+       		 lastTargetBound.paintInsertLine(possibleOperation, pt); 
         	 dtde.acceptDrag(action);
         	 isAcceptDrag = true;
          }
@@ -732,17 +732,18 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     	//Kirajzolja a shadowSource-t
     	paintImage(pt);             
          
-       	OperationByPosition possibleOperation = getPossibleOperation(tree, draggedNode, action, pt);
+    	OperationByPosition possibleOperation = getPossibleOperation(tree, draggedNode, action, pt);
      	 
+       	//Nem lehetseges az athelyezes az adott pozicioba vagy csak hierarchiaban egyel lejebb helyezheto 
+       	if( possibleOperation.equals( OperationByPosition.NONE ) || possibleOperation.equals( OperationByPosition.ADD_AS_CHILD ) ){
+
+       		//Akkor a regi vonal torlese, ha volt
+       		lastTargetBound.deleteInsertLine();
+       		
+       	}
+       	
         //Ha gyermekkent elhelyezhetem a mozgatott elemet a fokuszban levo elem ala
         if( possibleOperation.equals( OperationByPosition.ADD_AS_CHILD )){
-        	
-        	//Ha van kirajzolt Beszurast jelzo vonal
-        	if( hasInsertLine ){
-
-        		//Torli az insertLine-t
-        		clearInsertLine();
-        	}
         	
         	dtde.acceptDrag(action);
         	isAcceptDrag = true;
@@ -751,9 +752,11 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
         }else if( possibleOperation.equals( OperationByPosition.INSERT_DOWN ) || possibleOperation.equals( OperationByPosition.INSERT_UP ) ){
 
         	//Kirajzolja az insertLine-t
-        	paintInsertLine(possibleOperation, pt, tree); 
+        	lastTargetBound.paintInsertLine(possibleOperation, pt);
+        	
         	dtde.acceptDrag(action);
         	isAcceptDrag = true;
+        
         }
          
         if( !isAcceptDrag) {
@@ -762,26 +765,33 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     }
 
     public final void dropActionChanged(DropTargetDragEvent dtde) {
-         Point pt = dtde.getLocation();
-         int action = dtde.getDropAction();
-         boolean isAcceptDrag = false;
+    	Point pt = dtde.getLocation();
+    	int action = dtde.getDropAction();
+    	boolean isAcceptDrag = false;
          
-         //Kirajzolja a shadowSource-t
-       	 paintImage(pt);             
+    	//Kirajzolja a shadowSource-t
+    	paintImage(pt);             
          
        	OperationByPosition possibleOperation = getPossibleOperation(tree, draggedNode, action, pt);
        	
-         //Ha gyermekkent elhelyezhetem a mozgatott elemet a fokuszban levo elem ala
+     	//Nem lehetseges az athelyezes az adott pozicioba vagy csak hierarchiaban egyel lejebb helyezheto 
+       	if( possibleOperation.equals( OperationByPosition.NONE ) || possibleOperation.equals( OperationByPosition.ADD_AS_CHILD ) ){
+       		
+       		//Akkor a regi vonal torlese, ha volt
+       		lastTargetBound.deleteInsertLine();
+       		
+       	}
+       	
+        //Ha gyermekkent elhelyezhetem a mozgatott elemet a fokuszban levo elem ala
         if( possibleOperation.equals( OperationByPosition.ADD_AS_CHILD )){
         	 dtde.acceptDrag(action);
         	 isAcceptDrag = true;
-         }
          
          //Ha beszurhatja a fokuszban levo elem ele vagy moge a mozgatott elemet
-        if( possibleOperation.equals( OperationByPosition.INSERT_DOWN ) || possibleOperation.equals( OperationByPosition.INSERT_UP ) ){
+        }else if( possibleOperation.equals( OperationByPosition.INSERT_DOWN ) || possibleOperation.equals( OperationByPosition.INSERT_UP ) ){
         	 
         	 //Kirajzolja az insertLine-t
-        	 paintInsertLine(possibleOperation, pt, tree); 
+        	 lastTargetBound.paintInsertLine(possibleOperation, pt ); 
         	 dtde.acceptDrag(action);
         	 isAcceptDrag = true;
          }
@@ -836,10 +846,10 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     private final void paintImage(Point pt) {
     	int x = shadowBound.x;
     	int y = shadowBound.y;
-    	if( pt.x != x || pt.y != y ){    	
+    	//if( pt.x != x || pt.y != y ){    	
     		tree.repaint(shadowBound.getBounds());
     		tree.paintImmediately(shadowBound.getBounds());
-    	}
+    	//}
     	shadowBound.setRect((int) pt.getX(),(int) pt.getY(),shadowImage.getWidth(),shadowImage.getHeight());
     	tree.getGraphics().drawImage(shadowImage,(int) pt.getX(),(int) pt.getY(),tree);
     }
@@ -851,42 +861,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
      * @param pt
      */
     
-    public boolean paintInsertLine(OperationByPosition possibleOperation, Point pt, Tree target) {
-    	
-    	TreePath pathTarget = getTreePath(target, pt);    	
-        targetBound = tree.getPathBounds(pathTarget);
-        
-        Graphics2D g2 = (Graphics2D)tree.getGraphics();
-  	  	g2.setColor( Color.red );
-  	  	g2.setStroke( new BasicStroke( 2 ) );
-
-  	  	hasInsertLine = true;
-  	  
-  	  	//Ha felfele kell helyezni az insertLine-t
-  	  	if( possibleOperation.equals( OperationByPosition.INSERT_UP ) ){
-  	  		
-  	  		if( !hasInsertLine ){
-	  			tree.repaint(targetBound.getBounds());
-	  		}
-	  		g2.drawLine( targetBound.x, targetBound.y + 1, targetBound.x + targetBound.width, targetBound.y + 1 );
-	  		  	  		
-	  	//Ha lefele kell helyezni az insertLine-t
-  	  	}else if( possibleOperation.equals( OperationByPosition.INSERT_DOWN ) ){
-  	  		
-  	  		if( !hasInsertLine ){
-	  			tree.repaint(targetBound.getBounds());
-	  		}
-	  		g2.drawLine( targetBound.x, targetBound.y + targetBound.height - 1, targetBound.x + targetBound.width, targetBound.y + targetBound.height - 1 );
-	  		  	  	
-  	  	}else{
-  	  		hasInsertLine = false;
-  	  	}
-  	  		  	    
-  	  	g2.dispose();
-  	  	
-        return true;    
-    }
-    
+ 
     
     private enum OperationByPosition{
     	INSERT_UP,
@@ -899,7 +874,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
   	  	
     	DataModelAdapter targetNode = getTargetNode(target, pt );
     	TreePath targetPath = getTreePath(target, pt);
-    	targetBound = tree.getPathBounds(targetPath);
+    	Rectangle targetBound = tree.getPathBounds(targetPath);
 
     	//Nincs vegezheto muvelet mert nincs cel node
         if ( null == targetPath ) {
@@ -917,15 +892,15 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     	
 		//Ha melle es hierarchiaban ala is elhelyezhetem a node-ot
     	if( possibleHierarchy && possibleInsert ){
-    	
+  	
     		double d = Math.abs( pt.y - targetBound.y );
-      	  	
+//System.err.println(d + " - " + pt.y + " + " + targetBound.height );     	  	
       	  	//Ha inkabb az alja fele van kozel a kurzor
-      	  	if( d < targetBound.height * 0.33 ){
+      	  	if( d <= targetBound.height * 0.3 ){
       	  		
       	  		return OperationByPosition.INSERT_UP;
       	  		
-      	  	}else if( d > targetBound.height * 0.66 ){
+      	  	}else if( d > targetBound.height * 0.7 ){
       	  	
       	  		return OperationByPosition.INSERT_DOWN;
       	  	
@@ -958,12 +933,6 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     	}
 
     }
-
-    private final void clearInsertLine(){
-    	tree.repaint(targetBound.getBounds());    	
-    	tree.paintImmediately(targetBound.getBounds());    	
-    	hasInsertLine = false;
-    }
     
     /**
      * 
@@ -973,8 +942,6 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     private final void clearImages() {
     	tree.repaint(shadowBound.getBounds());
     	tree.paintImmediately(shadowBound.getBounds());
-    	
-    	clearInsertLine();
     }
 
 
@@ -1007,6 +974,16 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     	return target.getPathForLocation(pt.x, pt.y);
     }
     
+    /**
+     * 
+     * Elvegzi az athelyezes muveletet
+     * 
+     * @param target
+     * @param draggedNode
+     * @param action
+     * @param pt
+     * @return
+     */
     public boolean executeDrop(Tree target, DefaultMutableTreeNode draggedNode, int action, Point pt ) { 
         
         if (action == DnDConstants.ACTION_MOVE) {
@@ -1065,9 +1042,70 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
         	}
         }
         return(false);
-   }
+    }
    
+    
+    class TargetBound{
+    	private Tree tree;
+        private Rectangle targetBound = new Rectangle();    
+        private OperationByPosition insertLinePosition;
+    	
+        public TargetBound( Tree tree ){
+        	this.tree = tree;
+        	this.targetBound = null;
+        	this.insertLinePosition = OperationByPosition.NONE;
+        }
+    	
+    	public void deleteInsertLine(){
+    		if( null != targetBound ){
+    			tree.repaint(targetBound.getBounds());    	
+    			tree.paintImmediately(targetBound.getBounds());
+    		}
+    		targetBound = null;
+    		insertLinePosition = OperationByPosition.NONE;
+    	}
+    	
+//TODO ITT MEG LESZ MIT TENNI    	
+    	public void paintInsertLine( OperationByPosition possibleOperation, Point pt ) {
+    		
+    	    int deltaX = 3;
+    	    int lineWidth = 2;
+    		TreePath pathTarget = getTreePath(tree, pt);
+	        targetBound = tree.getPathBounds(pathTarget);
+    		
+    		Graphics2D g2 = (Graphics2D)tree.getGraphics();
+    		g2.setColor( Color.red );
+    		g2.setStroke( new BasicStroke( lineWidth ) );
+
+    		//Ha felfele kell helyezni az insertLine-t
+    		if( possibleOperation.equals( OperationByPosition.INSERT_UP ) ){
+  	  	  		
+    			if( insertLinePosition.equals(OperationByPosition.INSERT_DOWN ) || insertLinePosition.equals(OperationByPosition.NONE) ){
+    				tree.repaint(targetBound.getBounds());    				
+    			}
+    			insertLinePosition = possibleOperation;
+//System.err.println("rajzol azert up: " + (targetBound.y + lineWidth - 1));     			
+    			g2.drawLine( targetBound.x + deltaX, targetBound.y + lineWidth - 1, targetBound.x - deltaX + targetBound.width, targetBound.y + lineWidth - 1 );
+    		  		  	  		
+   			//Ha lefele kell helyezni az insertLine-t
+   	  	  	}else if( possibleOperation.equals( OperationByPosition.INSERT_DOWN ) || insertLinePosition.equals(OperationByPosition.NONE) ){
+//System.err.println("rajzol azert down: " + (targetBound.y + lineWidth - 1));    	  	  		
+   	  			if( insertLinePosition.equals(OperationByPosition.INSERT_UP) ){
+   	  				tree.repaint(targetBound.getBounds());    				
+   	  	  		}
+   	  			insertLinePosition = possibleOperation;
+   	  	  		g2.drawLine( targetBound.x + deltaX, targetBound.y + targetBound.height - lineWidth + 1, targetBound.x - deltaX + targetBound.width, targetBound.y + targetBound.height - lineWidth + 1 );
+    		  		  	  	
+   	  	  	}else{
+				insertLinePosition = OperationByPosition.NONE;
+   	  	  	}
+    	  	  		  	    
+    		g2.dispose();
+
+    	}    	
+    }
 }
+
 
 
 /**
