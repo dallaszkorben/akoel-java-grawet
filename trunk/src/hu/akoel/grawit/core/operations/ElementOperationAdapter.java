@@ -53,7 +53,8 @@ public abstract class ElementOperationAdapter implements Cloneable{
     }
     
 	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, boolean needElementEndedAtException ) throws ElementException, CompilationException{
-				
+		
+		//Uzenet az Operation Indulasarol
 		if( null != elementProgress ){
 			elementProgress.elementStarted( baseElement.getName(), getOperationToString() );
 		}

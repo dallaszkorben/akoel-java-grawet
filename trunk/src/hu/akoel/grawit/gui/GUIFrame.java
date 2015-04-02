@@ -21,6 +21,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -32,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -43,6 +46,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
@@ -326,7 +330,7 @@ public class GUIFrame extends JFrame{
         makeNewTestSuit();
 	}
 	
-	public void showTreePanel( JTree tree ){
+	public void showTreePanel( Tree tree ){
 		treePanel.show(tree);
 	}
 	
@@ -925,28 +929,71 @@ public class GUIFrame extends JFrame{
 		private static final long serialVersionUID = -60536416293858503L;
 		private JScrollPane panelToView = null;
 		private JTree tree = null;
+		
+		
+		private JTabbedPane jtp = new JTabbedPane();
 
 		public TreePanel(){
 				
 			//Layout beallitas, hogy lehetoseg legyen teljes szelessegben megjeleniteni a tree-t
 			this.setLayout( new BorderLayout());
-			this.setBackground( Color.gray );			
+			this.setBackground( Color.gray );	
+			this.add( jtp, BorderLayout.CENTER );
 		}
 		
-		public void show( JTree tree ){
+		public void show( Tree tree ){
 
 			this.tree = tree;
 
 			//Ha volt valamilyen mas Tree az ablakban akkor azt eltavolitom
-			if( null != panelToView ){
+/*			if( null != panelToView ){
 				this.remove( panelToView );
 			}
-			
+*/			
 			//Becsomagolom a Tree-t hogy scroll-ozhato legyen
 			panelToView = new JScrollPane( (Component)tree );		
 				
 			//Kiteszem a Treet az ablakba
-			this.add( panelToView, BorderLayout.CENTER );
+//			this.add( panelToView, BorderLayout.CENTER );
+			
+			Component c = panelToView.getViewport().getView();
+			int componentCount = jtp.getComponentCount();
+			//Component[] components = jtp.getComponents();
+			int order = componentCount;
+			for( int i = 0; i < componentCount; i++ ){
+
+				if( ((Tree)((JScrollPane)jtp.getComponent(i)).getViewport().getView()).getClass().equals(tree.getClass())){
+//				if( ((Tree)((JScrollPane)jtp.getComponent(i)).getViewport().getView()).getRoot().getTag().equals( tree.getRoot().getTag() ) ){
+					order = i;
+					break;
+				}
+			}
+			//Ha nem letezik meg a listaban
+			if( order >= componentCount ){
+				
+				/*JPanel pnlTab = new JPanel(new GridBagLayout());
+				JLabel lblTitle = new JLabel(tree.getRoot().getName());
+				JLabel lblClose = new JLabel("x");
+				GridBagConstraints gbc = new GridBagConstraints();
+				gbc.gridx = 0;
+				gbc.gridy = 1;
+				gbc.weightx = 1;
+				pnlTab.add(lblTitle, gbc);
+
+				gbc.gridx = 1;
+				gbc.gridy = 0;
+				gbc.weightx = 0;
+				pnlTab.add(lblClose, gbc);
+
+				jtp.addTab( tree.getRoot().getName(), panelToView);
+
+				jtp.setTabComponentAt(order, pnlTab);*/
+				//btnClose.addActionListener(myCloseActionHandler);
+				
+				
+				jtp.addTab( tree.getRoot().getName(), panelToView);
+			}			
+			jtp.setSelectedIndex( order );
 			
 			//Ujrarajzoltatom
 			this.revalidate();
@@ -959,9 +1006,7 @@ public class GUIFrame extends JFrame{
 				Tree runTree = (Tree)tree;
 				runTree.changed();
 				
-			}
-			
-			
+			}			
 		}
 		
 		public void hide(){
