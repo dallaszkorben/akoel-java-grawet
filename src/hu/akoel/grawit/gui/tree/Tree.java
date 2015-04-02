@@ -74,12 +74,15 @@ public abstract class Tree extends JTree{
 	private boolean needPopupModifyAtRoot = false;
 	
 	private TreeTransferHandler treeTransferHandler;
+	private DataModelAdapter rootDataModel;
 	
 	Insets autoscrollInsets = new Insets(20, 20, 20, 20);
 	
 	public Tree( GUIFrame guiFrame, DataModelAdapter rootDataModel ){
 	
 		super( new DefaultTreeModel(rootDataModel) );
+		
+		this.rootDataModel = rootDataModel;
 		
 		//CTRL-T - Node ki/be kapcsolasa
 		KeyStroke ctrlTKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK, false);
@@ -154,6 +157,10 @@ public abstract class Tree extends JTree{
 		return getIcon(actualNode, expanded);
 	}
 
+	public DataModelAdapter getRoot(){
+		return rootDataModel;
+	}
+	
 	/**
 	 * 
 	 * Ertesiti a tree-t, hogy valtozas tortent
@@ -161,6 +168,10 @@ public abstract class Tree extends JTree{
 	 */
 	public void changed(){
 
+		
+//		((DefaultTreeModel)this.getModel()).nodeChanged(selectedNode);	
+//		((DefaultTreeModel)this.getModel()).nodeChanged(parentNode);
+		
 		TreePath path = new TreePath(selectedNode.getPath());
 		boolean isExpanded = this.isExpanded( path );
 		
@@ -178,6 +189,7 @@ public abstract class Tree extends JTree{
 			//Akkor kiterjeszti
 			this.expandPath( path );
 		}
+		
 		
 	}
 	
