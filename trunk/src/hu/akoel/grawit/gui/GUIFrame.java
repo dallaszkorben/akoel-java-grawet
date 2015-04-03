@@ -928,8 +928,7 @@ public class GUIFrame extends JFrame{
 		
 		private static final long serialVersionUID = -60536416293858503L;
 		private JScrollPane panelToView = null;
-		private JTree tree = null;
-		
+		private JTree tree = null;		
 		
 		private JTabbedPane jtp = new JTabbedPane();
 
@@ -1004,7 +1003,7 @@ public class GUIFrame extends JFrame{
 			if( tree instanceof Tree && tree.getSelectionCount() != 0 ){
 				
 				Tree runTree = (Tree)tree;
-				runTree.changed();
+				runTree.nodeChanged();
 				
 			}			
 		}

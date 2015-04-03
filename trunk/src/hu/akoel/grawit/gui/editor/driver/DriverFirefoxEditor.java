@@ -165,7 +165,7 @@ public class DriverFirefoxEditor extends DataEditor{
 			}			
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.changed();
+			tree.nodeChanged();
 		}
 	}
 }

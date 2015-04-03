@@ -255,7 +255,7 @@ public class TestcaseTree extends Tree {
 					((TestcaseDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					TestcaseTree.this.changed();
+					TestcaseTree.this.nodeChanged();
 				
 				}
 

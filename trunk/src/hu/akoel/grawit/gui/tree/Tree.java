@@ -166,7 +166,7 @@ public abstract class Tree extends JTree{
 	 * Ertesiti a tree-t, hogy valtozas tortent
 	 * 
 	 */
-	public void changed(){
+	public void nodeChanged(){
 
 		((DefaultTreeModel)this.getModel()).nodeChanged(selectedNode);	
 		
@@ -229,15 +229,11 @@ public abstract class Tree extends JTree{
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
 			
-			//System.err.println("changed to: " + e.getNewLeadSelectionPath());
-			//A kivalasztott NODE			
-			
 			//Nincs kivalasztva semmi
 			if( null == e.getNewLeadSelectionPath() ){
 				EmptyEditor emptyPanel = new EmptyEditor();								
 				guiFrame.showEditorPanel( emptyPanel);
-			}else{	
-//treeTransferHandler.deleteInsertLine();
+			}else{
 				selectedNode = (DataModelAdapter)e.getNewLeadSelectionPath().getLastPathComponent();			
 				doViewWhenSelectionChanged( selectedNode );
 			}

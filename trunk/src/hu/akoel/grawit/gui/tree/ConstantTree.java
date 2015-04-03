@@ -173,7 +173,7 @@ public class ConstantTree extends Tree{
 					((ConstantDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					ConstantTree.this.changed();
+					ConstantTree.this.nodeChanged();
 				
 				}
 
