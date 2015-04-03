@@ -321,7 +321,7 @@ public class StepTree extends Tree {
 					((StepDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					StepTree.this.changed();
+					StepTree.this.nodeChanged();
 				
 				}
 				
