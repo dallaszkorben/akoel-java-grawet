@@ -168,28 +168,7 @@ public abstract class Tree extends JTree{
 	 */
 	public void changed(){
 
-		
-//		((DefaultTreeModel)this.getModel()).nodeChanged(selectedNode);	
-//		((DefaultTreeModel)this.getModel()).nodeChanged(parentNode);
-		
-		TreePath path = new TreePath(selectedNode.getPath());
-		boolean isExpanded = this.isExpanded( path );
-		
-		//Ujratolti a modellt
-		((DefaultTreeModel)this.getModel()).reload();
-
-		//this.setSelectionPath(pathToSelect);
-
-		//Kivalasztja azt a csomopontot ami eleve ki volt valasztva
-		this.setSelectionPath( path );
-		
-		//Es ha ki volt terjesztve
-		if( isExpanded ){
-			
-			//Akkor kiterjeszti
-			this.expandPath( path );
-		}
-		
+		((DefaultTreeModel)this.getModel()).nodeChanged(selectedNode);	
 		
 	}
 	
