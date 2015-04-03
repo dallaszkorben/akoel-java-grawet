@@ -52,6 +52,8 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultTreeModel;
 import javax.xml.parsers.DocumentBuilder;
@@ -930,14 +932,58 @@ public class GUIFrame extends JFrame{
 		private JScrollPane panelToView = null;
 		private JTree tree = null;		
 		
-		private JTabbedPane jtp = new JTabbedPane();
+		private JTabbedPane jtp ;
 
 		public TreePanel(){
 				
 			//Layout beallitas, hogy lehetoseg legyen teljes szelessegben megjeleniteni a tree-t
 			this.setLayout( new BorderLayout());
 			this.setBackground( Color.gray );	
+			
+			jtp = new JTabbedPane();
 			this.add( jtp, BorderLayout.CENTER );
+			
+			//Ha kivalasztok egy masik TAB-ot
+			jtp.addChangeListener( new ChangeListener() {
+				
+				@Override
+				public void stateChanged(ChangeEvent e) {
+
+					JTabbedPane sourceTabbedPane = (JTabbedPane) e.getSource();	
+					int index = sourceTabbedPane.getSelectedIndex();
+					Component component = sourceTabbedPane.getComponentAt(index);
+					
+					//Ha a kivalasztott TAB egy JScrollPane - Annak kell lennie
+					if( component instanceof JScrollPane ){
+						Component c = ((JScrollPane)component).getViewport().getView();
+						
+						//Ha a JScrollPane-be egy Tree van elhelyezve - Annak kell lennie
+						if( c instanceof Tree ){
+							Tree treeComponent = (Tree)c;
+							
+							//Megnezi a kivalasztott csomopontokat - 1 db-nak kell lennie
+							int[] selectionArray = treeComponent.getSelectionRows();
+							
+							//Ha van kivalasztott csomopont
+							if( selectionArray.length != 0 ){
+								
+								//Kivalasztast torli, hogy aztan az ujrakivalasztasra megjelenjen az editor-a a jobb oldalon
+								treeComponent.removeSelectionRows(selectionArray);
+							
+							//Nincs kivalasztott csomopont
+							}else{
+								
+								//Torolni kell az editor-t a jobb oldalon
+								clearEditor();
+								
+							}
+							treeComponent.setSelectionRows( selectionArray );
+						}
+					}
+					
+					//System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));					
+				}
+			});
 		}
 		
 		public void show( Tree tree ){
@@ -997,8 +1043,8 @@ public class GUIFrame extends JFrame{
 			//Ujrarajzoltatom
 			this.revalidate();
 
-			EmptyEditor emptyPanel = new EmptyEditor();								
-			showEditorPanel( emptyPanel);
+			//Torolni kell az editor-t a jobb oldalon
+			clearEditor();
 			
 			if( tree instanceof Tree && tree.getSelectionCount() != 0 ){
 				
@@ -1006,6 +1052,14 @@ public class GUIFrame extends JFrame{
 				runTree.nodeChanged();
 				
 			}			
+		}
+		
+		/**
+		 * Torli az editort a jobb oldalon
+		 */
+		public void clearEditor(){
+			EmptyEditor emptyPanel = new EmptyEditor();								
+			showEditorPanel( emptyPanel);
 		}
 		
 		public void hide(){
@@ -1066,7 +1120,8 @@ public class GUIFrame extends JFrame{
 //			if( null != panelToView ){
 //				this.remove( panelToView );
 //			}
-this.removeAll();			
+			this.removeAll();
+			
 			//Ujrarajzoltatom
 			this.repaint();
 			this.revalidate();
