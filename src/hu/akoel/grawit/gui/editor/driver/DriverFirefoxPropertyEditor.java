@@ -160,17 +160,19 @@ public class DriverFirefoxPropertyEditor extends DataEditor{
 				DriverFirefoxPropertyDataModel newFirefoxPropertyDataModel = new DriverFirefoxPropertyDataModel( fieldKeyValuePair.getKey(), fieldKeyValuePair.getValue(), fieldDetails.getText() );				
 				nodeForCapture.add( newFirefoxPropertyDataModel );
 				
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
 				nodeForModify.setName( fieldKeyValuePair.getKey() );
 				nodeForModify.setValue( fieldKeyValuePair.getValue() );
 				nodeForModify.setDetails( fieldDetails.getText() );
-			
+
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );		
 			}			
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
 		}
 	}
 }

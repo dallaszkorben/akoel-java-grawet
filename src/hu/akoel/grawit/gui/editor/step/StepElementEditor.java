@@ -357,16 +357,20 @@ public class StepElementEditor extends DataEditor{
 				//A new ParamElementDataModel()-ben nem vegrehajthato, mert akkor meg nincs a tree-hez rendelve es igy nincs szuloje
 				newParamElement.setBaseElement(baseElement);
 				
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setBaseElement(baseElement);
 				nodeForModify.setOperation( elementOperation );
+				
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );
 			}
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
+
 		}
 		
 	}

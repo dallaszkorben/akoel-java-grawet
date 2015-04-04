@@ -157,17 +157,19 @@ public class DriverNodeEditor extends DataEditor{
 				DriverFolderDataModel newPageBaseNode = new DriverFolderDataModel( fieldName.getText(), fieldDetails.getText() );				
 				nodeForCapture.add( newPageBaseNode );
 			
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 
 				//Modositja a valtozok erteket
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
-			
+
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );	
 			}			
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
 		}		
 	}
 }

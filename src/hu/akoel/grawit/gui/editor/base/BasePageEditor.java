@@ -157,8 +157,8 @@ public class BasePageEditor extends DataEditor{
 				BaseCollectorDataModel newBasePage = new BaseCollectorDataModel( fieldName.getText(), fieldDetails.getText() );				
 				nodeForCapture.add( newBasePage );
 
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(newPageBasePage.getPath());
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -166,12 +166,9 @@ public class BasePageEditor extends DataEditor{
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
 			
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(nodeForModify.getPath());
-			}			
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );	
+			}
 		}
 	}
 }

@@ -36,11 +36,11 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 
 	public static final Tag TAG = Tag.TESTCASECASE;
 	
-	public static final String ATTR_LAST_SELECTED_PARAM_COLLECTOR_PATH = "lastparamcollectorpath";
+	public static final String ATTR_LAST_SELECTED_STEP_COLLECTOR_PATH = "laststepcollectorpath";
 	public static final String ATTR_DETAILS = "details";
 	private static final String ATTR_ON = "on";
 	
-	private StepCollectorDataModelAdapter lastParamCollector = null;	
+	private StepCollectorDataModelAdapter lastStepCollector = null;	
 	
 	public TestcaseCaseDataModel( String name, String details ){			
 		super( name, details );
@@ -76,9 +76,9 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 		}				
 			
 		try{
-			lastParamCollector = (StepCollectorDataModelAdapter) getParamDataModelFromPath(element, paramRootDataModel, TAG, getName() );
+			lastStepCollector = (StepCollectorDataModelAdapter) getParamDataModelFromPath(element, paramRootDataModel, TAG, getName() );
 		}catch (XMLBaseConversionPharseException e){
-			lastParamCollector = null;
+			lastStepCollector = null;
 		}		
 		
 	    //========
@@ -103,11 +103,11 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 	}
 	
 	public StepCollectorDataModelAdapter getLastParamCollector(){
-		return lastParamCollector;
+		return lastStepCollector;
 	}
 	
 	public void setLastParamCollector( StepCollectorDataModelAdapter lastParamCollector ){
-		this.lastParamCollector = lastParamCollector;
+		this.lastStepCollector = lastParamCollector;
 	}
 	
 	public static Tag getTagStatic(){
@@ -172,9 +172,9 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 		//LASTBASEELEMENT attributum
 		//
 		//========
-		attr = document.createAttribute( ATTR_LAST_SELECTED_PARAM_COLLECTOR_PATH );
-		if( null != lastParamCollector){
-			attr.setValue( lastParamCollector.getPathTag() );
+		attr = document.createAttribute( ATTR_LAST_SELECTED_STEP_COLLECTOR_PATH );
+		if( null != lastStepCollector){
+			attr.setValue( lastStepCollector.getPathTag() );
 		}
 		nodeElement.setAttributeNode(attr);
 		
@@ -201,7 +201,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 	
 	public static StepDataModelAdapter getParamDataModelFromPath(Element element, StepRootDataModel paramRootDataModel, Tag tag, String name ) throws XMLBaseConversionPharseException{
 		
-		String attribute = ATTR_LAST_SELECTED_PARAM_COLLECTOR_PATH;
+		String attribute = ATTR_LAST_SELECTED_STEP_COLLECTOR_PATH;
 		StepDataModelAdapter paramDataModel = paramRootDataModel;
 		
 		//Nincs megadva eleresi utvonal egyaltalan

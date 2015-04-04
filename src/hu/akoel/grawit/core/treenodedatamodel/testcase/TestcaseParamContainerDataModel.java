@@ -42,18 +42,18 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	public static final Tag TAG = Tag.TESTCASESTEPCOLLECTOR;
 	
 	public static final String ATTR_DETAILS = "details";
-	public static final String ATTR_PARAM_PAGE_PATH = "parampagepath";
+	public static final String ATTR_STEP_COLLECTOR_PATH = "stepcollectorpath";
 	private static final String ATTR_ON = "on";
 	
 	private String name;
 	private String details;
 	
-	private StepCollectorDataModelAdapter paramCollector;
+	private StepCollectorDataModelAdapter stepCollector;
 	
-	public TestcaseParamContainerDataModel( String name, String details, StepCollectorDataModelAdapter paramPage ){
+	public TestcaseParamContainerDataModel( String name, String details, StepCollectorDataModelAdapter stepCollector ){
 		this.name = name;
 		this.details = details;
-		this.paramCollector = paramPage;
+		this.stepCollector = stepCollector;
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
@@ -110,10 +110,10 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		// Param page path
 		//
 		//========	
-		if( !element.hasAttribute( ATTR_PARAM_PAGE_PATH ) ){
-			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH );			
+		if( !element.hasAttribute( ATTR_STEP_COLLECTOR_PATH ) ){
+			throw new XMLMissingAttributePharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH );			
 		}	
-		String paramElementPathString = element.getAttribute(ATTR_PARAM_PAGE_PATH);				
+		String paramElementPathString = element.getAttribute(ATTR_STEP_COLLECTOR_PATH);				
 		paramElementPathString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + paramElementPathString;  
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
 	    DocumentBuilder builder;
@@ -124,7 +124,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    } catch (Exception e) {  
 	    
 	    	//Nem sikerult az atalakitas
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH), e );
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH), e );
 	    } 
 	    	  
 	    //ParamDataModelAdapter paramDataModel = (ParamDataModelAdapter)paramRootDataModel.clone();
@@ -146,7 +146,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 
 	    		if( null == paramDataModel ){
 
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH) );
 	    		}
 	    		
 	    	//Ha PARAMPAGE
@@ -155,7 +155,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    		paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPNORMALELEMENTCOLLECTOR, attrName );
 	    		if( null == paramDataModel ){
 
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH) );
 	    		}
 	    		//paramPage = (ParamPageDataModel)paramDataModel;
 	    		
@@ -165,7 +165,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    		paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPLOOPELEMENTCOLLECTOR, attrName );
 	    		if( null == paramDataModel ){
 
-	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );
+	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH) );
 	    		}
 	    		//paramPage = (ParamLoopDataModel)paramDataModel;
 		    		
@@ -173,10 +173,10 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    	}else if( tagName.equals( StepElementDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(StepElementDataModel.ATTR_NAME);
 
-	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH) );	    		
 	    	}else{
 	    		
-	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH) );	    		
+	    		throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH) );	    		
 	    	}
 	    }	    
 	    
@@ -184,12 +184,12 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	    try{
 	    	
 	    	//paramPage = (ParamPageDataModel)paramDataModel;
-	    	paramCollector = (StepCollectorDataModelAdapter)paramDataModel;
+	    	stepCollector = (StepCollectorDataModelAdapter)paramDataModel;
 	    	
 	    }catch(ClassCastException e){
 
 	    	//Nem sikerult az utvonalat megtalalni
-	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_PARAM_PAGE_PATH, element.getAttribute(ATTR_PARAM_PAGE_PATH), e );
+	    	throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH), e );
 	    } 
 	    
 
@@ -240,7 +240,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	}
 
 	public void setParamCollector( StepCollectorDataModelAdapter paramCollector ){
-		this.paramCollector = paramCollector;		
+		this.stepCollector = paramCollector;		
 		
 		//A Gyujtoben beallitja az utoljara vegrehajtott paramPage eleresi utvonalat
 		MutableTreeNode mtn = (MutableTreeNode)this.getParent();
@@ -250,7 +250,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 	}
 	
 	public StepCollectorDataModelAdapter getParamPage(){
-		return paramCollector;
+		return stepCollector;
 	}
 	
 	@Override
@@ -291,8 +291,8 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		// Param page path
 		//
 		//========
-		attr = document.createAttribute( ATTR_PARAM_PAGE_PATH );
-		attr.setValue( paramCollector.getPathTag() );
+		attr = document.createAttribute( ATTR_STEP_COLLECTOR_PATH );
+		attr.setValue( stepCollector.getPathTag() );
 		nodeElement.setAttributeNode( attr );
 			
 		return nodeElement;		
@@ -303,7 +303,7 @@ public class TestcaseParamContainerDataModel extends TestcaseParamDataModelAdapt
 		
 		//Ha Be van kapcsolava a TestParamPage oldal
 		if( this.isOn() ){
-			paramCollector.doAction( driver, player, pageProgress, elementProgress );
+			stepCollector.doAction( driver, player, pageProgress, elementProgress );
 		}
 	}
 	

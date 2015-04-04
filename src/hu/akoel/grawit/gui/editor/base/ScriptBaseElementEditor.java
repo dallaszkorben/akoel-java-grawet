@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -16,7 +15,6 @@ import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
-import javax.tools.JavaCompiler.CompilationTask;
 
 public class ScriptBaseElementEditor extends DataEditor{
 	
@@ -210,20 +208,19 @@ public class ScriptBaseElementEditor extends DataEditor{
 			
 					nodeForCapture.add( scriptBaseElement );
 				
+					//A fa-ban modositja a strukturat
+					tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+					
 					//Modositas eseten
 				}else if( mode.equals(EditMode.MODIFY ) ){
 				
 					nodeForModify.setName( fieldName.getText() );
 					nodeForModify.setScript( fieldScript.getScript() );
-			
-				}			
-			
-				//A fa-ban is modositja a nevet (ha az valtozott)
-				tree.nodeChanged();
-			}			
-			
-		}
-		
-	}
 	
+					//A fa-ban modositja a nevet (ha az valtozott)
+					tree.refreshTreeAfterChanged( nodeForModify );	
+				}			
+			}			
+		}	
+	}	
 }

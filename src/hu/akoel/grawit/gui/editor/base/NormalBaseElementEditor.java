@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -296,6 +295,9 @@ public class NormalBaseElementEditor extends DataEditor{
 			
 				nodeForCapture.add( newBaseElement );
 			
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
@@ -307,13 +309,10 @@ public class NormalBaseElementEditor extends DataEditor{
 				nodeForModify.setWaitingTimeBeforeOperation(waitingTimeBeforeOperation);
 				nodeForModify.setWaitingTimeAfterOperation(waitingTimeAfterOperation);
 				nodeForModify.setIdentificationType( identificationType );
-				
-			}
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
-		}
-		
-	}
 	
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );	
+			}
+		}		
+	}	
 }

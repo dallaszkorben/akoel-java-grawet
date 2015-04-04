@@ -156,8 +156,8 @@ public class StepFolderEditor extends DataEditor{
 				StepFolderDataModel newPageBaseNode = new StepFolderDataModel( fieldName.getText(), fieldDetails.getText() );				
 				nodeForCapture.add( newPageBaseNode );
 			
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(newPageBaseNode.getPath());
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -166,12 +166,9 @@ public class StepFolderEditor extends DataEditor{
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
 			
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(nodeForModify.getPath());
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );
 			}			
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
 		}		
 	}
 }

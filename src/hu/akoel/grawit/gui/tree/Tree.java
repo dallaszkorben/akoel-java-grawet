@@ -47,6 +47,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -62,6 +63,7 @@ public abstract class Tree extends JTree{
 
 	private static final long serialVersionUID = -3929758449314068678L;
 	
+	private String functionName;
 	private GUIFrame guiFrame;
 	
 	private DataModelAdapter selectedNode;
@@ -78,10 +80,11 @@ public abstract class Tree extends JTree{
 	
 	Insets autoscrollInsets = new Insets(20, 20, 20, 20);
 	
-	public Tree( GUIFrame guiFrame, DataModelAdapter rootDataModel ){
+	public Tree( String functionName, GUIFrame guiFrame, DataModelAdapter rootDataModel ){
 	
 		super( new DefaultTreeModel(rootDataModel) );
 		
+		this.functionName = functionName;
 		this.rootDataModel = rootDataModel;
 		
 		//CTRL-T - Node ki/be kapcsolasa
@@ -157,20 +160,57 @@ public abstract class Tree extends JTree{
 		return getIcon(actualNode, expanded);
 	}
 
-	public DataModelAdapter getRoot(){
-		return rootDataModel;
+	public String getfunctionName(){
+		return this.functionName;
 	}
 	
+
+/*	public void nodeChanged(){
+		nodeChanged( selectedNode );
+	}
+*/
+	
+	/**
+	 * A parameterkent megadott node kivalasztasat megszunteti, majd ujra kivalasztja
+	 * 
+	 * @param nodeToReselect
+	 */
+	private void reselectNode( DataModelAdapter nodeToReselect ){
+		//Torol minden kivalasztast
+		this.setSelectionRows( new int[0] );
+		
+		if( null != nodeToReselect ){
+			TreePath treePath = new TreePath( nodeToReselect.getPath() );
+			this.scrollPathToVisible( treePath );
+			this.setSelectionPath( treePath );
+		}
+	}
 	/**
 	 * 
-	 * Ertesiti a tree-t, hogy valtozas tortent
+	 * Ertesiti a tree-t, hogy valtozas tortent a strukturaban
 	 * 
 	 */
-	public void nodeChanged(){
-
-		((DefaultTreeModel)this.getModel()).nodeChanged(selectedNode);	
+	public void refreshTreeAfterStructureChanged( DataModelAdapter nodeToSelect, DataModelAdapter parentNode ){
 		
+		//A valtozasrol ertesiti a tree-t
+		((DefaultTreeModel)this.getModel()).nodeStructureChanged( parentNode );
+		
+		reselectNode( nodeToSelect );
 	}
+
+	/**
+	 * 
+	 * Ertesiti a tree-t, hogy valtozas tortent a node-ban
+	 * 
+	 */
+	public void refreshTreeAfterChanged( DataModelAdapter changedNode ){
+		
+		reselectNode( changedNode );
+		
+		//A valtozasrol ertesiti a tree-t
+		((DefaultTreeModel)this.getModel()).nodeChanged( changedNode );
+	}
+	
 	
 	public void enablePopupModifyAtRoot(){
 		this.needPopupModifyAtRoot = true;
@@ -566,8 +606,6 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     
     private Rectangle shadowBound = new Rectangle();
     private Rectangle sourceBound = new Rectangle();
-//    private Rectangle targetBound = new Rectangle();    
-//    private boolean hasInsertLine = false; 
     private TargetBound lastTargetBound;
     
 
@@ -582,7 +620,13 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     /* Methods for DragSourceListener */
     public void dragDropEnd(DragSourceDropEvent dsde) {
          if (dsde.getDropSuccess() && dsde.getDropAction()==DnDConstants.ACTION_MOVE && draggedNodeParent != null) {
-              ((DefaultTreeModel)tree.getModel()).nodeStructureChanged(draggedNodeParent);                    
+              ((DefaultTreeModel)tree.getModel()).nodeStructureChanged(draggedNodeParent); 
+              
+      		TreePath treePath = new TreePath(draggedNode.getPath());
+      		tree.scrollPathToVisible(treePath);
+      		tree.setSelectionPath(treePath);
+              
+              
          }
     }
     
@@ -841,15 +885,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     	tree.getGraphics().drawImage(shadowImage,(int) pt.getX(),(int) pt.getY(),tree);
     }
 
-    /**
-     * 
-     * Kirajzolja a megadott pozicioba az insertLine vonalat
-     * 
-     * @param pt
-     */
-    
- 
-    
+   
     private enum OperationByPosition{
     	INSERT_UP,
     	INSERT_DOWN,
@@ -984,13 +1020,13 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
         	if( possibleOperation.equals(OperationByPosition.ADD_AS_CHILD) ) {
         	
         		//A mozgatott node-ot eloszor is torli az eredeti helyerol
-//        		draggedNode.removeFromParent();
+        		//draggedNode.removeFromParent();
         		((DefaultTreeModel)target.getModel()).insertNodeInto(draggedNode,targetNode,targetNode.getChildCount());
 
         		//Kinyitja a fat
-        		TreePath treePath = new TreePath(draggedNode.getPath());
-        		target.scrollPathToVisible(treePath);
-        		target.setSelectionPath(treePath);
+        		//TreePath treePath = new TreePath(draggedNode.getPath());
+        		//target.scrollPathToVisible(treePath);
+        		//target.setSelectionPath(treePath);
         		
         		return(true);
         	
@@ -1019,11 +1055,11 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
             		
             	}
  
-        		((DefaultTreeModel)tree.getModel()).nodeChanged(parentNode);
+        		//((DefaultTreeModel)tree.getModel()).nodeChanged(parentNode);
 
-        		TreePath treePath = new TreePath(draggedNode.getPath());
-        		target.scrollPathToVisible(treePath);
-        		target.setSelectionPath(treePath);  		
+        		//TreePath treePath = new TreePath(draggedNode.getPath());
+        		//target.scrollPathToVisible(treePath);
+        		//target.setSelectionPath(treePath);  		
         		
                	return(true);
         	}
@@ -1051,8 +1087,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     		targetBound = null;
     		insertLinePosition = OperationByPosition.NONE;
     	}
-    	
-//TODO ITT MEG LESZ MIT TENNI    	
+    		
     	public void paintInsertLine( OperationByPosition possibleOperation, Point pt ) {
     		
     	    int deltaX = 3;
@@ -1071,12 +1106,12 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     				tree.repaint(targetBound.getBounds());    				
     			}
     			insertLinePosition = possibleOperation;
-//System.err.println("rajzol azert up: " + (targetBound.y + lineWidth - 1));     			
+ 			
     			g2.drawLine( targetBound.x + deltaX, targetBound.y + lineWidth - 1, targetBound.x - deltaX + targetBound.width, targetBound.y + lineWidth - 1 );
     		  		  	  		
    			//Ha lefele kell helyezni az insertLine-t
    	  	  	}else if( possibleOperation.equals( OperationByPosition.INSERT_DOWN ) || insertLinePosition.equals(OperationByPosition.NONE) ){
-//System.err.println("rajzol azert down: " + (targetBound.y + lineWidth - 1));    	  	  		
+  	  	  		
    	  			if( insertLinePosition.equals(OperationByPosition.INSERT_UP) ){
    	  				tree.repaint(targetBound.getBounds());    				
    	  	  		}

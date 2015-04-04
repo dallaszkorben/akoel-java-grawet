@@ -51,8 +51,8 @@ public class StepTree extends Tree {
 	private StepRootDataModel paramRootDataModel;
 	private TestcaseRootDataModel testcaseRootDataModel;
 	
-	public StepTree(GUIFrame guiFrame, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
-		super(guiFrame, paramRootDataModel);
+	public StepTree(  String functionName, GUIFrame guiFrame, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {
+		super( functionName, guiFrame, paramRootDataModel );
 		
 		this.guiFrame = guiFrame;
 		this.baseRootDataModel = baseRootDataModel;
@@ -321,7 +321,8 @@ public class StepTree extends Tree {
 					((StepDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					StepTree.this.nodeChanged();
+					StepTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
+					//StepTree.this.nodeChanged();
 				
 				}
 				

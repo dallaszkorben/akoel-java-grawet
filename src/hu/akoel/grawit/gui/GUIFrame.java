@@ -218,9 +218,9 @@ public class GUIFrame extends JFrame{
         menuBar.add(menu);
 
         //Edit Driver      
-        editDriverMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.driver") );
+        editDriverMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.driver") );        
         editDriverMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.driver") ).getKeyCode() ); //KeyEvent.VK_P);
-        editDriverActionListener = new EditDriverActionListener();
+        editDriverActionListener = new EditDriverActionListener( editDriverMenuItem.getText() );
         editDriverMenuItem.addActionListener( editDriverActionListener );
         editDriverMenuItem.setEnabled( false );
         menu.add(editDriverMenuItem);  
@@ -228,7 +228,7 @@ public class GUIFrame extends JFrame{
         //Edit Constant Parameter      
         editConstantMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.constant") );
         editConstantMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.constant") ).getKeyCode() ); //KeyEvent.VK_P);
-        editConstantActionListener = new EditConstantActionListener();
+        editConstantActionListener = new EditConstantActionListener( editConstantMenuItem.getText() );
         editConstantMenuItem.addActionListener( editConstantActionListener );
         editConstantMenuItem.setEnabled( false );
         menu.add(editConstantMenuItem);        
@@ -238,7 +238,7 @@ public class GUIFrame extends JFrame{
         //Edit Base
         editBaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.basepage") );
         editBaseMenuItem.setMnemonic( KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.basepage") ).getKeyCode()); // KeyEvent.VK_B);
-        editBaseActionListener = new EditBaseActionListener();
+        editBaseActionListener = new EditBaseActionListener( editBaseMenuItem.getText() );
         editBaseMenuItem.addActionListener( editBaseActionListener );
         editBaseMenuItem.setEnabled( false );
         menu.add(editBaseMenuItem);
@@ -248,7 +248,7 @@ public class GUIFrame extends JFrame{
         //Edit Param      
         editParamMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.step") );
         editParamMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.step") ).getKeyCode() ); //KeyEvent.VK_P);
-        editParamActionListener = new EditParamActionListener();
+        editParamActionListener = new EditParamActionListener( editParamMenuItem.getText() );
         editParamMenuItem.addActionListener( editParamActionListener );
         editParamMenuItem.setEnabled( false );
         menu.add(editParamMenuItem);
@@ -258,7 +258,7 @@ public class GUIFrame extends JFrame{
         //Edit Test Cases
         editTestCaseMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.testcase") );
         editTestCaseMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.testcase") ).getKeyCode() ); //KeyEvent.VK_T;
-        editTestcaseActionListener = new EditTestcaseActionListener();
+        editTestcaseActionListener = new EditTestcaseActionListener( editTestCaseMenuItem.getText() );
         editTestCaseMenuItem.addActionListener( editTestcaseActionListener );
         editTestCaseMenuItem.setEnabled( false );
         menu.add(editTestCaseMenuItem);
@@ -275,7 +275,7 @@ public class GUIFrame extends JFrame{
         //Run      
         runRunMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.run.run") );
         runRunMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.run.run") ).getKeyCode() ); //KeyEvent.VK_P);
-        runRunActionListener = new RunRunActionListener();
+        runRunActionListener = new RunRunActionListener( runRunMenuItem.getText() );
         runRunMenuItem.addActionListener( runRunActionListener );
         runRunMenuItem.setEnabled( false );
         menu.add(runRunMenuItem);  
@@ -332,17 +332,13 @@ public class GUIFrame extends JFrame{
         makeNewTestSuit();
 	}
 	
-	public void showTreePanel( Tree tree ){
-		treePanel.show(tree);
-	}
-	
-	public void hideTreePanel(){
-		treePanel.hide();
-	}
+//	public void showTreePanel( Tree tree ){
+//		treePanel.showTree(tree);
+//	}
 	
 	public void showEditorPanel( BaseEditor panel ){
 		editorPanel.hide();
-		editorPanel.show( panel );
+		editorPanel.showPanel( panel );
 	}
 	
 	private void makeNewTestSuit(){
@@ -369,7 +365,8 @@ public class GUIFrame extends JFrame{
 		if ( null != tree ){
 			((DefaultTreeModel)tree.getModel()).reload();
 		}
-		treePanel.hide();
+		//treePanel.hide();
+		treePanel.removeAllTab();
 		editorPanel.hide();
 		
 		//Bekapcsolom a PAGEBASE szerkesztesi menut
@@ -660,10 +657,13 @@ public class GUIFrame extends JFrame{
 				//
 				
 				//Ha volt nyitva tree, akkor azt zarjuk, mert hogy bonyolult lenne kitalalnom, hogy mi volt nyitva. De vegul is meg lehetne csinalni TODO
-				treePanel.hide();	
-				
+//				treePanel.hide();	
+			
 				//Ha volt nyitva Editor, akkor azt zarjuk
-				editorPanel.hide();
+//				editorPanel.hide();
+				
+				treePanel.removeAllTab();
+
 			}
 			
 			//
@@ -697,15 +697,20 @@ public class GUIFrame extends JFrame{
 	 *
 	 */
 	class EditDriverActionListener implements ActionListener{
+		private String functionName;
 
+		public EditDriverActionListener( String functionName ){
+			this.functionName = functionName;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			DriverTree tree = new DriverTree( GUIFrame.this, driverRootDataModel );
+			DriverTree tree = new DriverTree( this.functionName, GUIFrame.this, driverRootDataModel );
 			
-			treePanel.hide();
-			treePanel.show( tree );
+//			treePanel.hide();
+			treePanel.showTree( tree );
 			
 		}		
 	}
@@ -718,15 +723,20 @@ public class GUIFrame extends JFrame{
 	 *
 	 */
 	class EditConstantActionListener implements ActionListener{
+		private String functionName;
 
+		public EditConstantActionListener( String functionName ){
+			this.functionName = functionName;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			ConstantTree tree = new ConstantTree( GUIFrame.this, constantRootDataModel, paramRootDataModel );
+			ConstantTree tree = new ConstantTree( functionName, GUIFrame.this, constantRootDataModel, paramRootDataModel );
 			
-			treePanel.hide();
-			treePanel.show( tree );
+//			treePanel.hide();
+			treePanel.showTree( tree );
 			
 		}		
 	}
@@ -739,15 +749,20 @@ public class GUIFrame extends JFrame{
 	 *
 	 */
 	class EditBaseActionListener implements ActionListener{
+		private String functionName;
 
+		public EditBaseActionListener( String functionName ){
+			this.functionName = functionName;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 	
 			//Legyartja a JTREE-t a modell alapjan
-			BaseTree tree = new BaseTree( GUIFrame.this, baseRootDataModel, paramRootDataModel );
+			BaseTree tree = new BaseTree( this.functionName, GUIFrame.this, baseRootDataModel, paramRootDataModel );
 			
-			treePanel.hide();
-			treePanel.show( tree );
+//			treePanel.hide();
+			treePanel.showTree( tree );
 			
 		}		
 	}
@@ -759,15 +774,20 @@ public class GUIFrame extends JFrame{
 	 *
 	 */
 	class EditParamActionListener implements ActionListener{
+		private String functionName;
 
+		public EditParamActionListener( String functionName ){
+			this.functionName = functionName;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
-			StepTree tree = new StepTree( GUIFrame.this, constantRootDataModel, baseRootDataModel, paramRootDataModel, testcaseRootDataModel );
+			StepTree tree = new StepTree( this.functionName, GUIFrame.this, constantRootDataModel, baseRootDataModel, paramRootDataModel, testcaseRootDataModel );
 			
-			treePanel.hide();
-			treePanel.show( tree );
+//			treePanel.hide();
+			treePanel.showTree( tree );
 			
 		}
 		
@@ -781,16 +801,21 @@ public class GUIFrame extends JFrame{
 	 *
 	 */
 	class EditTestcaseActionListener implements ActionListener{
+		private String functionName;
 
+		public EditTestcaseActionListener( String functionName ){
+			this.functionName = functionName;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 						
 			//Legyartja a JTREE-t a modell alapjan
 			//TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, specialRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel, scriptRootDataModel );
-			TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel );
+			TestcaseTree tree = new TestcaseTree( this.functionName, GUIFrame.this, baseRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel );
 			
-			treePanel.hide();
-			treePanel.show( tree );
+//			treePanel.hide();
+			treePanel.showTree( tree );
 			
 		}
 		
@@ -804,7 +829,12 @@ public class GUIFrame extends JFrame{
 	 *
 	 */
 	class RunRunActionListener implements ActionListener{
+		private String functionName;
 
+		public RunRunActionListener( String functionName ){
+			this.functionName = functionName;
+		}
+		
 //		RunTree tree = null;
 		
 		@Override
@@ -813,12 +843,12 @@ public class GUIFrame extends JFrame{
 			if( null == runTree ){
 			
 				//Legyartja a JTREE-t a modell alapjan
-				runTree = new RunTree( GUIFrame.this, driverRootDataModel, testcaseRootDataModel );
+				runTree = new RunTree( functionName, GUIFrame.this, driverRootDataModel, testcaseRootDataModel );
 			
 			}
 			
-			treePanel.hide();
-			treePanel.show( runTree );
+//			treePanel.hide();
+			treePanel.showTree( runTree );
 			
 		}
 		
@@ -951,42 +981,48 @@ public class GUIFrame extends JFrame{
 
 					JTabbedPane sourceTabbedPane = (JTabbedPane) e.getSource();	
 					int index = sourceTabbedPane.getSelectedIndex();
-					Component component = sourceTabbedPane.getComponentAt(index);
+					if( index >= 0 ){
 					
-					//Ha a kivalasztott TAB egy JScrollPane - Annak kell lennie
-					if( component instanceof JScrollPane ){
-						Component c = ((JScrollPane)component).getViewport().getView();
+						Component component = sourceTabbedPane.getComponentAt(index);
+					
+						//Ha a kivalasztott TAB egy JScrollPane - Annak kell lennie
+						if( component instanceof JScrollPane ){
+							Component c = ((JScrollPane)component).getViewport().getView();
 						
-						//Ha a JScrollPane-be egy Tree van elhelyezve - Annak kell lennie
-						if( c instanceof Tree ){
-							Tree treeComponent = (Tree)c;
+							//Ha a JScrollPane-be egy Tree van elhelyezve - Annak kell lennie
+							if( c instanceof Tree ){
+								Tree treeComponent = (Tree)c;
 							
-							//Megnezi a kivalasztott csomopontokat - 1 db-nak kell lennie
-							int[] selectionArray = treeComponent.getSelectionRows();
+								//Megnezi a kivalasztott csomopontokat - 1 db-nak kell lennie
+								int[] selectionArray = treeComponent.getSelectionRows();
 							
-							//Ha van kivalasztott csomopont
-							if( selectionArray.length != 0 ){
-								
-								//Kivalasztast torli, hogy aztan az ujrakivalasztasra megjelenjen az editor-a a jobb oldalon
-								treeComponent.removeSelectionRows(selectionArray);
+								//Ha van kivalasztott csomopont
+								if( selectionArray.length != 0 ){
+									
+									//Kivalasztast torli, hogy aztan az ujrakivalasztasra megjelenjen az editor-a a jobb oldalon
+									treeComponent.removeSelectionRows(selectionArray);
 							
-							//Nincs kivalasztott csomopont
-							}else{
+								//Nincs kivalasztott csomopont
+								}else{
 								
-								//Torolni kell az editor-t a jobb oldalon
-								clearEditor();
+									//Torolni kell az editor-t a jobb oldalon
+									removeEditor();
 								
+								}
+								treeComponent.setSelectionRows( selectionArray );
 							}
-							treeComponent.setSelectionRows( selectionArray );
 						}
+					}else{
+						
+						//Torolni kell az editor-t a jobb oldalon
+						removeEditor();
 					}
-					
-					//System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));					
+								
 				}
 			});
 		}
 		
-		public void show( Tree tree ){
+		public void showTree( Tree tree ){
 
 			this.tree = tree;
 
@@ -1003,12 +1039,10 @@ public class GUIFrame extends JFrame{
 			
 			Component c = panelToView.getViewport().getView();
 			int componentCount = jtp.getComponentCount();
-			//Component[] components = jtp.getComponents();
 			int order = componentCount;
 			for( int i = 0; i < componentCount; i++ ){
 
 				if( ((Tree)((JScrollPane)jtp.getComponent(i)).getViewport().getView()).getClass().equals(tree.getClass())){
-//				if( ((Tree)((JScrollPane)jtp.getComponent(i)).getViewport().getView()).getRoot().getTag().equals( tree.getRoot().getTag() ) ){
 					order = i;
 					break;
 				}
@@ -1036,7 +1070,7 @@ public class GUIFrame extends JFrame{
 				//btnClose.addActionListener(myCloseActionHandler);
 				
 				
-				jtp.addTab( tree.getRoot().getName(), panelToView);
+				jtp.addTab( tree.getfunctionName(), panelToView);
 			}			
 			jtp.setSelectedIndex( order );
 			
@@ -1044,12 +1078,13 @@ public class GUIFrame extends JFrame{
 			this.revalidate();
 
 			//Torolni kell az editor-t a jobb oldalon
-			clearEditor();
+			removeEditor();
 			
 			if( tree instanceof Tree && tree.getSelectionCount() != 0 ){
 				
 				Tree runTree = (Tree)tree;
-				runTree.nodeChanged();
+				//runTree.nodeChanged();
+//				runTree.refreshTreeAfterChanged( );
 				
 			}			
 		}
@@ -1057,22 +1092,31 @@ public class GUIFrame extends JFrame{
 		/**
 		 * Torli az editort a jobb oldalon
 		 */
-		public void clearEditor(){
+		public void removeEditor(){
 			EmptyEditor emptyPanel = new EmptyEditor();								
 			showEditorPanel( emptyPanel);
 		}
+	
+		public void removeAllTab(){
+			jtp.removeAll();
+			this.repaint();
+			this.revalidate();
+		}
 		
-		public void hide(){
+/*		public void hide(){
 			
+			jtp.removeAll();
+*/			
 			//Ha volt valamilyen Tree az ablakban, azt eltavolitom
-			if( null != panelToView ){
+/*			if( null != panelToView ){
 				this.remove( panelToView );
 			}
 			
 			//Ujrarajzoltatom
 			this.repaint();
 			this.revalidate();
-		}
+*/			
+//		}
 		
 		public JTree getTree(){
 			return tree;
@@ -1096,7 +1140,7 @@ public class GUIFrame extends JFrame{
 			this.setBorder(BorderFactory.createEmptyBorder());
 		}
 
-		public void show( BaseEditor panel ){
+		public void showPanel( BaseEditor panel ){
 			this.removeAll();
 
 			if( panel.isScrollEnabled() ){

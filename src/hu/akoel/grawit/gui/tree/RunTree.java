@@ -27,8 +27,8 @@ public class RunTree extends Tree {
 	
 	private HashMap<TestcaseDataModelAdapter, RunTestcaseEditor> testcaseMap = new HashMap<>();
 
-	public RunTree(GUIFrame guiFrame, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel) {		
-		super(guiFrame, testcaseRootDataModel);
+	public RunTree(  String functionName, GUIFrame guiFrame, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {		
+		super( functionName, guiFrame, testcaseRootDataModel );
 		
 		this.guiFrame = guiFrame;
 		this.driverRootDataModel = driverRootDataModel;
