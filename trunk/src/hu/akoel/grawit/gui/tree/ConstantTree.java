@@ -40,8 +40,8 @@ public class ConstantTree extends Tree{
 	private GUIFrame guiFrame;
 	StepRootDataModel paramRootDataModel;
 	
-	public ConstantTree(GUIFrame guiFrame, ConstantRootDataModel constantRootDataModel, StepRootDataModel paramRootDataModel) {
-		super(guiFrame, constantRootDataModel);
+	public ConstantTree(  String functionName, GUIFrame guiFrame, ConstantRootDataModel constantRootDataModel, StepRootDataModel paramRootDataModel ) {
+		super( functionName, guiFrame, constantRootDataModel );
 		this.guiFrame = guiFrame;
 		
 		this.paramRootDataModel = paramRootDataModel;
@@ -173,10 +173,9 @@ public class ConstantTree extends Tree{
 					((ConstantDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					ConstantTree.this.nodeChanged();
-				
+					//ConstantTree.this.nodeChanged();
+					ConstantTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
 				}
-
 			}
 		});
 		popupMenu.add ( duplicateMenu );

@@ -8,10 +8,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
-import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.keyvaluepair.KeyValuePairComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -159,6 +157,9 @@ public class DriverExplorerCapabilityEditor extends DataEditor{
 				DriverExplorerCapabilityDataModel newFirefoxPropertyDataModel = new DriverExplorerCapabilityDataModel( fieldKeyValuePair.getKey(), fieldKeyValuePair.getValue(), fieldDetails.getText() );				
 				nodeForCapture.add( newFirefoxPropertyDataModel );
 				
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 				
@@ -166,10 +167,9 @@ public class DriverExplorerCapabilityEditor extends DataEditor{
 				nodeForModify.setValue( fieldKeyValuePair.getValue() );
 				nodeForModify.setDetails( fieldDetails.getText() );
 			
-			}			
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );				
+			}
 		}
 	}
 }

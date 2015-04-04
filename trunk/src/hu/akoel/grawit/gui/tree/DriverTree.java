@@ -37,8 +37,8 @@ public class DriverTree extends Tree{
 	
 	private GUIFrame guiFrame;
 	
-	public DriverTree(GUIFrame guiFrame, DriverRootDataModel rootDataModel) {
-		super(guiFrame, rootDataModel);
+	public DriverTree(  String functionName, GUIFrame guiFrame, DriverRootDataModel rootDataModel ) {
+		super( functionName, guiFrame, rootDataModel);
 		this.guiFrame = guiFrame;
 
 	}

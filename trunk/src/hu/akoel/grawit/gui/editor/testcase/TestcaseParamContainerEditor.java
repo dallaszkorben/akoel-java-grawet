@@ -197,6 +197,9 @@ public class TestcaseParamContainerEditor extends DataEditor{
 				//A new ParamElementDataModel()-ben nem vegrehajthato, mert akkor meg nincs a tree-hez rendelve es igy nincs szuloje
 				newTestcaseParamContainer.setParamCollector(paramCollector);
 				
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 
@@ -205,10 +208,13 @@ public class TestcaseParamContainerEditor extends DataEditor{
 				nodeForModify.setDetails( fieldDetails.getText() );
 				nodeForModify.setParamCollector(paramCollector);
 			
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );
+				
 			}			
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
+			//tree.nodeChanged();
 		}		
 	}
 }

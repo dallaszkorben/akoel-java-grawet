@@ -41,8 +41,8 @@ public class TestcaseTree extends Tree {
 	private StepRootDataModel paramRootDataModel;
 	private DriverRootDataModel driverRootDataModel;
 	
-	public TestcaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
-		super(guiFrame, testcaseRootDataModel);
+	public TestcaseTree(  String functionName, GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
+		super( functionName, guiFrame, testcaseRootDataModel );
 		
 		this.guiFrame = guiFrame;
 //		this.baseRootDataModel = baseRootDataModel;
@@ -255,7 +255,8 @@ public class TestcaseTree extends Tree {
 					((TestcaseDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					TestcaseTree.this.nodeChanged();
+					TestcaseTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
+					//TestcaseTree.this.nodeChanged();
 				
 				}
 

@@ -362,6 +362,9 @@ public class StepLoopCollectorEditor extends DataEditor{
 				
 				nodeForCapture.add( newParamLoop );
 				
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+								
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
@@ -371,10 +374,11 @@ public class StepLoopCollectorEditor extends DataEditor{
 				nodeForModify.setMaxLoopNumber(maxLoopNumber);
 				nodeForModify.setCompareBaseElement(baseElement);
 				nodeForModify.setOperation( elementOperation );
+				
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );
 			}
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
+
 		}
 		
 	}

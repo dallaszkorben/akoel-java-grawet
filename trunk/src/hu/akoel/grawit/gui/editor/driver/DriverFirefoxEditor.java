@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFolderDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -155,6 +154,9 @@ public class DriverFirefoxEditor extends DataEditor{
 			
 				DriverFirefoxDataModel newFirefoxDataModel = new DriverFirefoxDataModel( fieldName.getText(), fieldDetails.getText() );				
 				nodeForCapture.add( newFirefoxDataModel );
+
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -162,10 +164,9 @@ public class DriverFirefoxEditor extends DataEditor{
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
 			
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );		
 			}			
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
 		}
 	}
 }

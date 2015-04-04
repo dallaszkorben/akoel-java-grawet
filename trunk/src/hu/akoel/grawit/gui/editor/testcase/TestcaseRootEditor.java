@@ -95,61 +95,6 @@ public class TestcaseRootEditor extends DataEditor{
 							"'"+labelDriverTreeSelector.getText()+"'"
 					)
 			);
-		
-/*		if( fieldName.getText().length() == 0 ){
-			errorList.put( 
-					fieldName,
-					MessageFormat.format(
-							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelName.getText()+"'"
-					)
-			);
-*/			
-		}else{
-
-/*			TreeNode nodeForSearch = null;
-			
-			if( null == mode ){
-				
-				nodeForSearch = nodeForCapture;
-				
-			}else if( mode.equals( EditMode.MODIFY )){
-				
-				nodeForSearch = nodeForModify.getParent();
-				
-			}
-*/			
-/*			
-			//Megnezi, hogy a node-ban van-e masik azonos nevu elem
-			int childrenCount = nodeForSearch.getChildCount();
-			for( int i = 0; i < childrenCount; i++ ){
-				TreeNode levelNode = nodeForSearch.getChildAt( i );
-				
-				//Ha Node-rol van szo
-				if( levelNode instanceof TestcaseNodeDataModel ){
-					
-					//Ha azonos a nev
-					if( ((TestcaseNodeDataModel) levelNode).getName().equals( fieldName.getText() ) ){
-						
-						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
-						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
-							
-							//Akkor hiba van
-							errorList.put( 
-								fieldName, 
-								MessageFormat.format( 
-										CommonOperations.getTranslation("editor.errormessage.duplicateelement"), 
-										fieldName.getText(), 
-										CommonOperations.getTranslation("tree.nodetype.testcase.node") 
-								) 
-							);	
-							break;
-						}
-					}
-				}
-			//}
-		}
-*/		
 		}
 		//Ha volt hiba
 		if( errorList.size() != 0 ){
@@ -160,26 +105,14 @@ public class TestcaseRootEditor extends DataEditor{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 
-			//TreePath pathToOpen = null;
+			//Modositja a valtozok erteket
+			//nodeForModify.setName( fieldName.getText() );
+			nodeForModify.setDetails( fieldDetails.getText() );
+			nodeForModify.setDriverDataModel( fieldDriverTreeSelector.getSelectedDataModel() );
 			
-//			//Uj rogzites eseten
-//			if( null == mode ){
+			//A fa-ban modositja a nevet (ha az valtozott)
+			tree.refreshTreeAfterChanged( nodeForModify );		
 			
-//				TestcaseNodeDataModel newTestcaseNode = new TestcaseNodeDataModel( fieldName.getText(), fieldDetails.getText() );				
-//				nodeForCapture.add( newTestcaseNode );
-				
-//			//Modositas eseten
-//			}else if( mode.equals(EditMode.MODIFY ) ){
-
-				//Modositja a valtozok erteket
-				//nodeForModify.setName( fieldName.getText() );
-				nodeForModify.setDetails( fieldDetails.getText() );
-				nodeForModify.setDriverDataModel( fieldDriverTreeSelector.getSelectedDataModel() );
-			
-//			}			
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
 		}		
 	}
 }

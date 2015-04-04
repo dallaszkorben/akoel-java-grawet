@@ -46,8 +46,8 @@ public class BaseTree extends Tree{
 	private GUIFrame guiFrame;
 	StepRootDataModel paramRootDataModel;
 	
-	public BaseTree(GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel ) {
-		super(guiFrame, baseRootDataModel);
+	public BaseTree( String functionName, GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel ) {
+		super(functionName, guiFrame, baseRootDataModel);
 		this.guiFrame = guiFrame;
 		this.paramRootDataModel = paramRootDataModel;
 	}
@@ -267,7 +267,8 @@ public class BaseTree extends Tree{
 					((BaseDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					BaseTree.this.nodeChanged();
+					BaseTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
+					//BaseTree.this.nodeChanged( (BaseDataModelAdapter)selectedNode.getParent() );
 				
 				}
 

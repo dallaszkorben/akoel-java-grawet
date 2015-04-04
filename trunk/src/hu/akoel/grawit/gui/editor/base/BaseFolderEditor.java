@@ -151,19 +151,15 @@ public class BaseFolderEditor extends DataEditor{
 		//Ha nem volt hiba akkor a valtozok veglegesitese
 		}else{
 
-			//TreePath pathToOpen = null;
-			
 			//Uj rogzites eseten
 			if( null == mode ){
-			
-				//DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)selectedNode.getParent();
-				//int selectedNodeIndex = parentNode.getIndex( selectedNode );
+
 				BaseFolderDataModel newPageBaseNode = new BaseFolderDataModel( fieldName.getText(), fieldDetails.getText() );				
-				//parentNode.insert( newPageBaseNode, selectedNodeIndex);
+
 				nodeForCapture.add( newPageBaseNode );
-			
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(newPageBaseNode.getPath());
+				
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -171,13 +167,15 @@ public class BaseFolderEditor extends DataEditor{
 				//Modositja a valtozok erteket
 				nodeForModify.setName( fieldName.getText() );
 				nodeForModify.setDetails( fieldDetails.getText() );
-			
-				//Ebbe a nodba kell majd visszaallni
-				//pathToOpen = new TreePath(nodeForModify.getPath());
+
+				//A fa-ban is modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );
+
 			}			
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
+			//tree.nodeChanged();
+
 		}		
 	}
 }

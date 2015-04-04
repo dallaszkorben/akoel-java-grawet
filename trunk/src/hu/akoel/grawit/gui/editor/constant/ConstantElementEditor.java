@@ -327,6 +327,9 @@ public class ConstantElementEditor extends DataEditor{
 				ConstantElementDataModel newConstantElement = new ConstantElementDataModel( fieldName.getText(), type, fieldConstantParameters.getParameters());
 				nodeForCapture.add( newConstantElement );
 				
+				//A fa-ban modositja a strukturat
+				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
 		
@@ -334,13 +337,9 @@ public class ConstantElementEditor extends DataEditor{
 				nodeForModify.setType( type );
 				nodeForModify.setParameters( fieldConstantParameters.getParameters() );
 				
+				//A fa-ban modositja a nevet (ha az valtozott)
+				tree.refreshTreeAfterChanged( nodeForModify );	
 			}
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			tree.nodeChanged();
-
-		}
-		
-	}
-	
+		}		
+	}	
 }
