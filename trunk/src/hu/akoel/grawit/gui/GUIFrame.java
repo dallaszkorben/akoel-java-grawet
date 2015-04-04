@@ -17,15 +17,23 @@ import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.Tree;
 import hu.akoel.grawit.gui.tree.ConstantTree;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
@@ -33,6 +41,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -55,6 +64,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.tree.DefaultTreeModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -1026,53 +1036,27 @@ public class GUIFrame extends JFrame{
 
 			this.tree = tree;
 
-			//Ha volt valamilyen mas Tree az ablakban akkor azt eltavolitom
-/*			if( null != panelToView ){
-				this.remove( panelToView );
-			}
-*/			
 			//Becsomagolom a Tree-t hogy scroll-ozhato legyen
 			panelToView = new JScrollPane( (Component)tree );		
-				
-			//Kiteszem a Treet az ablakba
-//			this.add( panelToView, BorderLayout.CENTER );
 			
-			Component c = panelToView.getViewport().getView();
-			int componentCount = jtp.getComponentCount();
-			int order = componentCount;
-			for( int i = 0; i < componentCount; i++ ){
-
-				if( ((Tree)((JScrollPane)jtp.getComponent(i)).getViewport().getView()).getClass().equals(tree.getClass())){
-					order = i;
-					break;
-				}
-			}
-			//Ha nem letezik meg a listaban
-			if( order >= componentCount ){
+			//Megnezi, hogy a beilleszteni kivant tab hanyadik a tab-ok kozott
+			int indexOfTab = jtp.indexOfTab( tree.getfunctionName() );
+			
+			//Ha meg nem letezett
+			if( indexOfTab < 0 ){
 				
-				/*JPanel pnlTab = new JPanel(new GridBagLayout());
-				JLabel lblTitle = new JLabel(tree.getRoot().getName());
-				JLabel lblClose = new JLabel("x");
-				GridBagConstraints gbc = new GridBagConstraints();
-				gbc.gridx = 0;
-				gbc.gridy = 1;
-				gbc.weightx = 1;
-				pnlTab.add(lblTitle, gbc);
-
-				gbc.gridx = 1;
-				gbc.gridy = 0;
-				gbc.weightx = 0;
-				pnlTab.add(lblClose, gbc);
-
-				jtp.addTab( tree.getRoot().getName(), panelToView);
-
-				jtp.setTabComponentAt(order, pnlTab);*/
-				//btnClose.addActionListener(myCloseActionHandler);
-				
-				
+				//Akkor hozzaadja az uj tab-ot
 				jtp.addTab( tree.getfunctionName(), panelToView);
-			}			
-			jtp.setSelectedIndex( order );
+				
+				//Ismet megnezi, hogy a beilleszteni kivant tab hanyadik a tab-ok kozott
+				indexOfTab = jtp.indexOfTab( tree.getfunctionName() );
+				
+				//Es vegul letrehozza az uj tab label-t
+				jtp.setTabComponentAt(indexOfTab, new ButtonTabComponent(jtp) );
+				
+			}else{
+				jtp.setSelectedIndex( indexOfTab );
+			}
 			
 			//Ujrarajzoltatom
 			this.revalidate();
@@ -1080,13 +1064,12 @@ public class GUIFrame extends JFrame{
 			//Torolni kell az editor-t a jobb oldalon
 			removeEditor();
 			
-			if( tree instanceof Tree && tree.getSelectionCount() != 0 ){
-				
+/*			if( tree instanceof Tree && tree.getSelectionCount() != 0 ){
 				Tree runTree = (Tree)tree;
 				//runTree.nodeChanged();
-//				runTree.refreshTreeAfterChanged( );
-				
-			}			
+//				runTree.refreshTreeAfterChanged( );	
+			}
+*/						
 		}
 		
 		/**
@@ -1103,26 +1086,126 @@ public class GUIFrame extends JFrame{
 			this.revalidate();
 		}
 		
-/*		public void hide(){
-			
-			jtp.removeAll();
-*/			
-			//Ha volt valamilyen Tree az ablakban, azt eltavolitom
-/*			if( null != panelToView ){
-				this.remove( panelToView );
-			}
-			
-			//Ujrarajzoltatom
-			this.repaint();
-			this.revalidate();
-*/			
-//		}
-		
 		public JTree getTree(){
 			return tree;
 		}
 			
 	}
+	
+	/**
+	 * Component to be used as tabComponent;
+	 * Contains a JLabel to show the text and 
+	 * a JButton to close the tab it belongs to 
+	 */ 
+	public class ButtonTabComponent extends JPanel {
+		private static final long serialVersionUID = 1L;
+		private final JTabbedPane pane;
+
+	    public ButtonTabComponent(final JTabbedPane pane) {
+	        //unset default FlowLayout' gaps
+	        super(new FlowLayout(FlowLayout.LEFT, 0, 0));
+	        if (pane == null) {
+	            throw new NullPointerException("TabbedPane is null");
+	        }
+	        this.pane = pane;
+	        setOpaque(false);
+	        
+	        //make JLabel read titles from JTabbedPane
+	        JLabel label = new JLabel() {
+				private static final long serialVersionUID = 1L;
+				public String getText() {
+	                int i = pane.indexOfTabComponent(ButtonTabComponent.this);
+	                if (i != -1) {
+	                    return pane.getTitleAt(i);
+	                }
+	                return null;
+	            }
+	        };
+	        
+	        add(label);
+	        //add more space between the label and the button
+	        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+	        //tab button
+	        JButton button = new TabButton();
+	        add(button);
+	        //add more space to the top of the component
+	        setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+	    }
+
+	    private class TabButton extends JButton implements ActionListener {
+			private static final long serialVersionUID = 1L;
+
+			public TabButton() {
+	            int size = 17;
+	            setPreferredSize(new Dimension(size, size));
+	            setToolTipText("close this tab");
+	            //Make the button looks the same for all Laf's
+	            setUI(new BasicButtonUI());
+	            //Make it transparent
+	            setContentAreaFilled(false);
+	            //No need to be focusable
+	            setFocusable(false);
+	            setBorder(BorderFactory.createEtchedBorder());
+	            setBorderPainted(false);
+	            //Making nice rollover effect
+	            //we use the same listener for all buttons
+	            addMouseListener(buttonMouseListener);
+	            setRolloverEnabled(true);
+	            //Close the proper tab by clicking the button
+	            addActionListener(this);
+	        }
+
+	        public void actionPerformed(ActionEvent e) {
+	            int i = pane.indexOfTabComponent(ButtonTabComponent.this);
+	            if (i != -1) {
+	                pane.remove(i);
+	            }
+	        }
+
+	        //we don't want to update UI for this button
+	        public void updateUI() {
+	        }
+
+	        //paint the cross
+	        protected void paintComponent(Graphics g) {
+	            super.paintComponent(g);
+	            Graphics2D g2 = (Graphics2D) g.create();
+	            //shift the image for pressed buttons
+	            if (getModel().isPressed()) {
+	                g2.translate(1, 1);
+	            }
+	            g2.setStroke(new BasicStroke(2));
+	            g2.setColor(Color.BLACK);
+	            if (getModel().isRollover()) {
+	                g2.setColor(Color.MAGENTA);
+	            }
+	            int delta = 5;
+	            g2.drawLine(delta, delta, getWidth() - delta - 1, getHeight() - delta - 1);
+	            g2.drawLine(getWidth() - delta - 1, delta, delta, getHeight() - delta - 1);
+	            g2.dispose();
+	        }
+	    }
+
+	    MouseListener buttonMouseListener = new MouseAdapter() {
+	        public void mouseEntered(MouseEvent e) {
+	            Component component = e.getComponent();
+	            if (component instanceof AbstractButton) {
+	                AbstractButton button = (AbstractButton) component;
+	                button.setBorderPainted(true);
+	            }
+	        }
+
+	        public void mouseExited(MouseEvent e) {
+	            Component component = e.getComponent();
+	            if (component instanceof AbstractButton) {
+	                AbstractButton button = (AbstractButton) component;
+	                button.setBorderPainted(false);
+	            }
+	        }
+	    };
+	}
+	
+	
 	
 	/**
 	 * 
