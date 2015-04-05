@@ -2,6 +2,7 @@ package hu.akoel.grawit.gui.editor.run;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -16,7 +17,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.text.MessageFormat;
+import java.util.EventObject;
 
+import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,8 +27,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.JViewport;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultStyledDocument;
@@ -274,8 +285,13 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		JScrollPane scrollPaneForResultPanel = new JScrollPane(resultPanel);
 		scrollPaneForResultPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneForResultPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPaneForResultPanel.setPreferredSize( new Dimension( 300, 1 ) );
+		scrollPaneForResultPanel.setPreferredSize( new Dimension( 300, 1 ) );		
+
 		
+//Color color = scrollPaneForResultPanel.getViewport().getBackground();		
+//scrollPaneForResultPanel.getViewport().setBackground(new Color( color.getRGB()));
+
+
 		//OK attribute
 		attributeOK = new SimpleAttributeSet();
 		StyleConstants.setForeground( attributeOK, Color.GREEN );
@@ -307,7 +323,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		JPanel upperPanel = new JPanel();
 		upperPanel.setLayout(new GridBagLayout());	
 		upperPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
-		
+
 		// -----------
 		//
 		// Value panel
@@ -322,7 +338,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		scrollPaneForOutputPanel.setSize(1, 200);
 
 		// ------------------------
-		//	STATUS PANEL felirat
+		//	RESULT PANEL felirat
 		// ------------------------
 		c.gridx = 1;		
 		c.gridy = 0;		
@@ -351,7 +367,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 
 		// ------------------------
-		// STATUS PANEL elhelyezese
+		// RESULT PANEL elhelyezese
 		// ------------------------
 		c.gridx = 1;		
 		c.gridy = 1;		
@@ -696,45 +712,38 @@ elementProgres.outputCommand( "}");
 	 * @author akoel
 	 *
 	 */
-	public class ResultPanel extends JPanel{
+	public static class ResultPanel extends JTable{
 
 		private static final long serialVersionUID = -7503019119455856208L;
 		
-		private JLabel testcaseLabel;
-		private JLabel filler;
-		private GridBagConstraints c;
-		private int actualLine = 0;
-		private int positionStatus = 1;
-		private int positionTestcase = 0;
-		
-		private JLabel resultLabel;
-		private JLabel resultLabelSuccess;
-		private JLabel resultLabelFailed;
-		private JLabel resultLabelStopped;
-		private Font resultFont;		
-		
-		private int widthOfLongestResult;
-		
 		public ResultPanel(){
+			super();
 			
-			c = new GridBagConstraints();
+			PanelTableModel model = new PanelTableModel();
+			CustomCellRenderer renderer = new CustomCellRenderer();
+this.setOpaque(true);	
+//this.setFillsViewportHeight(true);
+
+		
+			this.setModel(model);
+			this.setDefaultRenderer(Object.class, renderer);
 			
-			this.setBackground( Color.white );
-			this.setLayout( new GridBagLayout() );
-			this.filler = new JLabel("");
+			addNewStatus( new TestcaseCaseDataModel( "testeset1", ""), ResultStatus.FAILED);
+			addNewStatus( new TestcaseCaseDataModel( "testeset2", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset3", ""), ResultStatus.STOPPED);
+			addNewStatus( new TestcaseCaseDataModel( "testeset4", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset5", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset6", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset7", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset8", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset9", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset10", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset11", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset12", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset13", ""), ResultStatus.SUCCESS);
 			
-			c.insets = new Insets( -2, -2, -2, -2 );
-			c.ipadx = 0;
-			c.ipady = 0;
-			
-			resultLabelSuccess = ResultStatus.SUCCESS.getLabel();
-			resultLabelFailed = ResultStatus.FAILED.getLabel();
-			resultLabelStopped = ResultStatus.STOPPED.getLabel();
-			widthOfLongestResult = Math.max( resultLabelSuccess.getPreferredSize().width, resultLabelFailed.getPreferredSize().width );
-			widthOfLongestResult = Math.max( widthOfLongestResult, resultLabelStopped.getPreferredSize().width );
-			
-//			this.setPreferredSize( new Dimension( 300, 1 ) );
 		}
+	
 		
 		public void clear(){
 			this.removeAll();
@@ -742,66 +751,63 @@ elementProgres.outputCommand( "}");
 			this.repaint();
 		}
 		
-		public void addNewStatus( TestcaseCaseDataModel testcase, ResultStatus statusValue ){
-
-			int widthOfPanel = this.getWidth();
-			
-			//Ha volt filler, akkor ezt eltavolitja
-			this.remove( filler );
-
-			//Testcase maximalis hosszanak megallapitasa
-			int maxWidthOfTestcase = widthOfPanel - widthOfLongestResult;
-			
-			c.gridy = actualLine;
-			c.weighty = 0;
-			
-			//Testcase
-			c.gridx = positionTestcase;
-			c.gridwidth = 1;
-			c.fill = GridBagConstraints.NONE;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			testcaseLabel = new JLabel( testcase.getName() );
-			testcaseLabel.setMaximumSize(new Dimension(maxWidthOfTestcase, 20));
-			testcaseLabel.setPreferredSize(new Dimension(maxWidthOfTestcase, 20));
-			testcaseLabel.setMinimumSize(new Dimension(maxWidthOfTestcase, 20));
-			this.add( testcaseLabel, c );
-			
-			//Result
-			c.gridx = positionStatus;
-			c.gridwidth = 1;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1;
-			c.anchor = GridBagConstraints.WEST;	
-
-			if( statusValue.equals( ResultStatus.FAILED ) ){
-				resultLabel = ResultStatus.FAILED.getLabel();				
-			}else if( statusValue.equals( ResultStatus.SUCCESS ) ){
-				resultLabel = ResultStatus.SUCCESS.getLabel();
-			}else if( statusValue.equals( ResultStatus.STOPPED ) ){
-				resultLabel = ResultStatus.STOPPED.getLabel();
-			}else{
-				resultLabel = new JLabel("");
-			}			
-			
-			this.add( resultLabel, c );
-			
-			//Filler
-			c.gridy = c.gridy + 1;
-			c.gridx = 0;
-			c.gridwidth = 1;
-			c.weighty = 1;
-			c.fill = GridBagConstraints.VERTICAL;
-			c.weightx = 1;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( filler, c );
-				
-			actualLine++;
-			
-			this.revalidate();
+		public void addNewStatus( TestcaseCaseDataModel testcase, ResultStatus resultStatus ){
+			DefaultTableModel model = (DefaultTableModel) this.getModel();
+	        model.addRow(new Object[]{testcase, resultStatus });
+	        this.revalidate();
 			this.repaint();
-			
 		}
+	
+		class CustomCellRenderer extends DefaultTableCellRenderer {
+			private static final long serialVersionUID = 2281876158763458436L;
+
+			@Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		    	 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+		    	JLabel returnLabel = new JLabel();
+		    	
+		    	if( column == 0 ){
+		    		returnLabel =  new JLabel( ((TestcaseCaseDataModel)value).getName() );
+		    	}else if( column == 1 ){
+		    		returnLabel = ((ResultStatus)value).getLabel();
+		    	}
+		    	returnLabel.setOpaque( true ); 					//Ez kell ahhoz, hogy szinezhetove valjon
+		    	
+		    	if( isSelected ){
+		    		returnLabel.setBackground( c.getBackground() );	
+		    	}else{
+		    		Color color = ((JViewport)ResultPanel.this.getParent()).getBackground();		    	
+		    		returnLabel.setBackground( new Color( color.getRGB()) );
+		    	}
+
+		        return returnLabel;
+		    }
+
+		}
+		
+		class PanelTableModel extends DefaultTableModel {
+
+		    private static final long serialVersionUID = 1L;
+
+		    @Override
+		    public int getColumnCount() {
+		        return 2;
+		    }
+
+		    public String getColumnName( int column ){
+		    	if( column == 0 ){
+		    		return "Test case";
+		    	}else if( column == 1){
+		    		return "Result";
+		    	}else{
+		    		return "";
+		    	}
+		    }
+	    
+
+		}
+		
 	}
 	
 	/**
