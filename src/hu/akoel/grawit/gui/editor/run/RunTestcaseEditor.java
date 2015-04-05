@@ -68,6 +68,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
+	public static final int RESULT_PANEL_WIDTH = 300;
+	public static final int RESULT_PANEL_COLUMN_SUCCESS_WIDTH = 70;
+
 	private TestcaseDataModelAdapter selectedTestcase;
 	
 	private PageProgress pageProgress;
@@ -285,7 +288,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		JScrollPane scrollPaneForResultPanel = new JScrollPane(resultPanel);
 		scrollPaneForResultPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneForResultPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPaneForResultPanel.setPreferredSize( new Dimension( 300, 1 ) );		
+		scrollPaneForResultPanel.setPreferredSize( new Dimension( RESULT_PANEL_WIDTH, 1 ) );		
 
 		
 //Color color = scrollPaneForResultPanel.getViewport().getBackground();		
@@ -721,17 +724,28 @@ elementProgres.outputCommand( "}");
 			
 			PanelTableModel model = new PanelTableModel();
 			CustomCellRenderer renderer = new CustomCellRenderer();
-this.setOpaque(true);	
-//this.setFillsViewportHeight(true);
 
+			//Ez kell ahhoz, hogy a hatter atszinezhetove valjon
+			this.setOpaque(true);	
+			//this.setFillsViewportHeight(true);
 		
 			this.setModel(model);
 			this.setDefaultRenderer(Object.class, renderer);
+
+			//TableColumn testcaseColumn = this.getColumnModel().getColumn(0);
+			//testcaseColumn.setPreferredWidth(RESULT_PANEL_WIDTH - RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
+			
+			TableColumn resultColumn = this.getColumnModel().getColumn(1);
+			resultColumn.setPreferredWidth(RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
+			resultColumn.setMaxWidth(RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
+			
+			//Ez teszi lehetove hogy automatikusan megjelenjen a horizontalis scrollbar, ha kell
+			//this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 			
 			addNewStatus( new TestcaseCaseDataModel( "testeset1", ""), ResultStatus.FAILED);
 			addNewStatus( new TestcaseCaseDataModel( "testeset2", ""), ResultStatus.SUCCESS);
-			addNewStatus( new TestcaseCaseDataModel( "testeset3", ""), ResultStatus.STOPPED);
-			addNewStatus( new TestcaseCaseDataModel( "testeset4", ""), ResultStatus.SUCCESS);
+			addNewStatus( new TestcaseCaseDataModel( "testeset3 adfsdf ds sdafd df dfasd sdaf 999999991 1 1", ""), ResultStatus.STOPPED);
+			addNewStatus( new TestcaseCaseDataModel( "testeset4 ftrhty rtyrty rt rtu et uttrr", ""), ResultStatus.SUCCESS);
 			addNewStatus( new TestcaseCaseDataModel( "testeset5", ""), ResultStatus.SUCCESS);
 			addNewStatus( new TestcaseCaseDataModel( "testeset6", ""), ResultStatus.SUCCESS);
 			addNewStatus( new TestcaseCaseDataModel( "testeset7", ""), ResultStatus.SUCCESS);
@@ -746,7 +760,11 @@ this.setOpaque(true);
 	
 		
 		public void clear(){
-			this.removeAll();
+			DefaultTableModel dm = (DefaultTableModel) getModel();
+			int rowCount = dm.getRowCount();
+			for (int i = rowCount - 1; i >= 0; i--) {
+			    dm.removeRow(i);
+			}			
 			this.revalidate();
 			this.repaint();
 		}
@@ -758,6 +776,8 @@ this.setOpaque(true);
 			this.repaint();
 		}
 	
+
+		  
 		class CustomCellRenderer extends DefaultTableCellRenderer {
 			private static final long serialVersionUID = 2281876158763458436L;
 
@@ -780,7 +800,6 @@ this.setOpaque(true);
 		    		Color color = ((JViewport)ResultPanel.this.getParent()).getBackground();		    	
 		    		returnLabel.setBackground( new Color( color.getRGB()) );
 		    	}
-
 		        return returnLabel;
 		    }
 
@@ -795,6 +814,12 @@ this.setOpaque(true);
 		        return 2;
 		    }
 
+		    @Override
+		    public boolean isCellEditable( int row, int column ){
+		    	return false;
+		    }
+		    
+		    @Override
 		    public String getColumnName( int column ){
 		    	if( column == 0 ){
 		    		return "Test case";
