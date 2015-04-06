@@ -8,6 +8,7 @@ public enum ActionCommand {
 	DELETE,
 	DISABLE,
 	ENABLE,
-	DUPLICATE
+	DUPLICATE,
+	LINK,
 	;
 }

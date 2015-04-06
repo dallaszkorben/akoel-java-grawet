@@ -248,7 +248,7 @@ public class TestcaseTree extends Tree {
 	}
 
 	@Override
-	public void doDuplicate( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
+	public void doPopupDuplicate( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow, final DefaultTreeModel totalTreeModel) {
 		
 		JMenuItem duplicateMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.duplicate") );
 		duplicateMenu.setActionCommand( ActionCommand.DUPLICATE.name());
@@ -394,6 +394,12 @@ public class TestcaseTree extends Tree {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public void doPopupLink(JPopupMenu popupMenu, DataModelAdapter selectedNode) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

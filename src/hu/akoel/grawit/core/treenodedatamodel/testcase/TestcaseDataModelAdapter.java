@@ -1,7 +1,5 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
-import java.util.ArrayList;
-
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 

@@ -37,6 +37,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 
@@ -77,6 +78,8 @@ public abstract class Tree extends JTree{
 	
 	private TreeTransferHandler treeTransferHandler;
 	private DataModelAdapter rootDataModel;
+	
+	private ArrayList<LinkToNodeInTreeListener> linkToNodeInTreeListeners = new ArrayList<LinkToNodeInTreeListener>();
 	
 	Insets autoscrollInsets = new Insets(20, 20, 20, 20);
 	
@@ -133,7 +136,14 @@ public abstract class Tree extends JTree{
 		//this.setDragEnabled( true );
 	}
 	
+	public void addLinkToNodeInTreeListener( LinkToNodeInTreeListener linkToNodeInTreeListener ){
+		linkToNodeInTreeListeners.add( linkToNodeInTreeListener);
+	}
 
+	public ArrayList<LinkToNodeInTreeListener> getLinkToNodeInTreeListeners(){
+		return linkToNodeInTreeListeners;
+	}
+	
 	/**
 	 * A parameterkent megadott Node-hoz rendel egy ikont
 	 * 
@@ -150,9 +160,11 @@ public abstract class Tree extends JTree{
 	
 	public abstract void doPopupDelete( final JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel );
 	
-	public abstract void doDuplicate( final JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel );
+	public abstract void doPopupDuplicate( final JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel );
 	
 	public abstract void doPopupRootInsert( JPopupMenu popupMenu, DataModelAdapter selectedNode );
+	
+	public abstract void doPopupLink( JPopupMenu popupMenu, DataModelAdapter selectedNode );
 	
 	public abstract boolean possibleHierarchy( DefaultMutableTreeNode draggedNode, Object targetObject );
 
@@ -507,7 +519,8 @@ public abstract class Tree extends JTree{
 				
 				doPopupInsert( this, selectedNode );				
 				doPopupDelete( this, selectedNode, selectedRow, totalTreeModel );
-				doDuplicate( this, selectedNode, selectedRow, totalTreeModel );
+				doPopupDuplicate( this, selectedNode, selectedRow, totalTreeModel );
+				doPopupLink( this, selectedNode );				
 				
 			//ROOT volt kivalasztva
 			}else{
@@ -620,13 +633,12 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
     /* Methods for DragSourceListener */
     public void dragDropEnd(DragSourceDropEvent dsde) {
          if (dsde.getDropSuccess() && dsde.getDropAction()==DnDConstants.ACTION_MOVE && draggedNodeParent != null) {
-              ((DefaultTreeModel)tree.getModel()).nodeStructureChanged(draggedNodeParent); 
+        	 ((DefaultTreeModel)tree.getModel()).nodeStructureChanged(draggedNodeParent); 
               
-      		TreePath treePath = new TreePath(draggedNode.getPath());
-      		tree.scrollPathToVisible(treePath);
-      		tree.setSelectionPath(treePath);
-              
-              
+        	 TreePath treePath = new TreePath(draggedNode.getPath());
+        	 tree.scrollPathToVisible(treePath);
+        	 tree.setSelectionPath(treePath);
+             
          }
     }
     
