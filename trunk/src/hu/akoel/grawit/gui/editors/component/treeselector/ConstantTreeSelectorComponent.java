@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;

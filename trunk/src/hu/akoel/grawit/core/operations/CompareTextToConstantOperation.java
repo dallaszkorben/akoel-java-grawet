@@ -16,9 +16,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.ConstantDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;

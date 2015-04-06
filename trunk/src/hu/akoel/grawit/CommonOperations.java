@@ -32,9 +32,9 @@ import hu.akoel.grawit.core.operations.ScriptElementAddConstantToParametersOpera
 import hu.akoel.grawit.core.operations.ScriptElementClearParametersOperation;
 import hu.akoel.grawit.core.operations.ScriptElementExecuteOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;

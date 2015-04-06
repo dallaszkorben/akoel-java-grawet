@@ -3,17 +3,18 @@ package hu.akoel.grawit.core.treenodedatamodel.step;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
+
 import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.WorkingDirectory;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;

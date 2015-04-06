@@ -3,7 +3,6 @@ package hu.akoel.grawit.core.treenodedatamodel.driver;
 import java.util.Vector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 

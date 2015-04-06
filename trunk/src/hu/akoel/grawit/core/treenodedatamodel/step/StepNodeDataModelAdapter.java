@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
-import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;

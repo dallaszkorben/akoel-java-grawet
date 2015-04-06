@@ -9,7 +9,7 @@ import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;

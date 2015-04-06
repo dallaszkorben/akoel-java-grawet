@@ -1,8 +1,8 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import org.openqa.selenium.WebDriver;
+
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;

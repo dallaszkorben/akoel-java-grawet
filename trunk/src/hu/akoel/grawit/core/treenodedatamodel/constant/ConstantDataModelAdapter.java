@@ -1,5 +1,6 @@
-package hu.akoel.grawit.core.treenodedatamodel;
+package hu.akoel.grawit.core.treenodedatamodel.constant;
 
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 
 public abstract class ConstantDataModelAdapter extends DataModelAdapter{

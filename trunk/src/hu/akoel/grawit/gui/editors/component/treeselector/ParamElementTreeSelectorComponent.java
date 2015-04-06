@@ -2,8 +2,8 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepNodeDataModelAdapter;

@@ -7,12 +7,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
@@ -102,7 +101,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 		}
 	}
 	
-	public StepCollectorDataModelAdapter getLastParamCollector(){
+	public StepCollectorDataModelAdapter getLastStepCollector(){
 		return lastStepCollector;
 	}
 	

@@ -3,6 +3,7 @@ package hu.akoel.grawit.gui.tree;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -13,13 +14,13 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
@@ -34,23 +35,37 @@ import hu.akoel.grawit.gui.editor.testcase.TestcaseRootEditor;
 
 public class TestcaseTree extends Tree {
 
-	private static final long serialVersionUID = -7537783206534337777L;
+	private static final long serialVersionUID = -7537783206579337777L;
 	private GUIFrame guiFrame;
 	
-//	private BaseRootDataModel baseRootDataModel;
 	private StepRootDataModel paramRootDataModel;
 	private DriverRootDataModel driverRootDataModel;
+	private TestcaseRootDataModel testcaseRootDataModel;
 	
-	public TestcaseTree(  String functionName, GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, StepRootDataModel paramRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
+	public TestcaseTree(  String functionName, GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, StepRootDataModel stepRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
 		super( functionName, guiFrame, testcaseRootDataModel );
 		
 		this.guiFrame = guiFrame;
-//		this.baseRootDataModel = baseRootDataModel;
-		this.paramRootDataModel = paramRootDataModel;
+		this.paramRootDataModel = stepRootDataModel;
 		this.driverRootDataModel = driverRootDataModel;
+		this.testcaseRootDataModel = testcaseRootDataModel;
 		
 		this.enablePopupModifyAtRoot();
 		
+	}
+
+	@Override
+	public void refreshTreeAfterStructureChanged( DataModelAdapter nodeToSelect, DataModelAdapter parentNode ){
+		
+		super.refreshTreeAfterStructureChanged(nodeToSelect, parentNode);
+
+		//Itt jelzek a TestCaseDataModelListener-nek, hogy valtozas volt.
+		//Ezt figyelem a RunTree-ben, es ha elkaptam, akkor
+/*		ArrayList<TestcaseDataModelListener> listeners = testcaseRootDataModel.getDataModelListener();
+		for( TestcaseDataModelListener listener: listeners ){
+			listener.structureChanged(nodeToSelect, parentNode);
+		}
+*/		
 	}
 
 	@Override

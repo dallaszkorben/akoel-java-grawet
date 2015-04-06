@@ -1,7 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.step;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;

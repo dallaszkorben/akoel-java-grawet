@@ -2,8 +2,8 @@ package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
