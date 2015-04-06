@@ -1,6 +1,7 @@
 package hu.akoel.grawit.gui;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
@@ -11,6 +12,7 @@ import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.editor.EmptyEditor;
 import hu.akoel.grawit.gui.tree.BaseTree;
 import hu.akoel.grawit.gui.tree.DriverTree;
+import hu.akoel.grawit.gui.tree.LinkToNodeInTreeListener;
 import hu.akoel.grawit.gui.tree.StepTree;
 import hu.akoel.grawit.gui.tree.RunTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
@@ -38,6 +40,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -64,6 +67,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -101,7 +105,7 @@ public class GUIFrame extends JFrame{
 
 	private ConstantRootDataModel constantRootDataModel = new ConstantRootDataModel();
 	private BaseRootDataModel baseRootDataModel = new BaseRootDataModel();
-	private StepRootDataModel paramRootDataModel = new StepRootDataModel();	
+	private StepRootDataModel stepRootDataModel = new StepRootDataModel();	
 	private TestcaseRootDataModel testcaseRootDataModel = new TestcaseRootDataModel();
 	private DriverRootDataModel driverRootDataModel = new DriverRootDataModel();
 	
@@ -114,7 +118,7 @@ public class GUIFrame extends JFrame{
 	private SaveActionListener saveActionListener;
 	private EditConstantActionListener editConstantActionListener;
 	private EditBaseActionListener editBaseActionListener;
-	private EditParamActionListener editParamActionListener;
+	private EditStepActionListener editStepActionListener;
 	private EditTestcaseActionListener editTestcaseActionListener;
 	private EditDriverActionListener editDriverActionListener;
 	private RunRunActionListener runRunActionListener;
@@ -256,8 +260,8 @@ public class GUIFrame extends JFrame{
         //Edit Param      
         editParamMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.edit.step") );
         editParamMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.edit.step") ).getKeyCode() ); //KeyEvent.VK_P);
-        editParamActionListener = new EditParamActionListener( editParamMenuItem.getText() );
-        editParamMenuItem.addActionListener( editParamActionListener );
+        editStepActionListener = new EditStepActionListener( editParamMenuItem.getText() );
+        editParamMenuItem.addActionListener( editStepActionListener );
         editParamMenuItem.setEnabled( false );
         menu.add(editParamMenuItem);
         
@@ -365,14 +369,15 @@ public class GUIFrame extends JFrame{
 		setTitle( getWindowTitle() );
 		
 		baseRootDataModel.removeAllChildren();
-		paramRootDataModel.removeAllChildren();
+		stepRootDataModel.removeAllChildren();
 		constantRootDataModel.removeAllChildren();
 		testcaseRootDataModel.removeAllChildren();
 				
-		JTree tree = treePanel.getTree();
+/*		JTree tree = treePanel.getTree();
 		if ( null != tree ){
 			((DefaultTreeModel)tree.getModel()).reload();
 		}
+*/		
 		//treePanel.hide();
 		treePanel.removeAllTab();
 		editorPanel.hide();
@@ -409,7 +414,7 @@ public class GUIFrame extends JFrame{
 		rootElement.appendChild( baseRootElement );	
 				
 		//PARAMROOT PAGE mentese
-		Element paramRootElement = paramRootDataModel.getXMLElement(doc);	
+		Element paramRootElement = stepRootDataModel.getXMLElement(doc);	
 		rootElement.appendChild( paramRootElement );
 				
 		//TESTCASE mentese
@@ -641,10 +646,10 @@ public class GUIFrame extends JFrame{
 					constantRootDataModel = new ConstantRootDataModel(doc, baseRootDataModel );
 					
 					// PARAMROOT
-					paramRootDataModel = new StepRootDataModel(doc, constantRootDataModel, baseRootDataModel );
+					stepRootDataModel = new StepRootDataModel(doc, constantRootDataModel, baseRootDataModel );
 						
 					// TESTCASE
-					testcaseRootDataModel = new TestcaseRootDataModel(doc, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverRootDataModel );
+					testcaseRootDataModel = new TestcaseRootDataModel(doc, constantRootDataModel, baseRootDataModel, stepRootDataModel, driverRootDataModel );
 
 					usedDirectory = file;
 					fileSaveMenuItem.setEnabled(true);
@@ -713,14 +718,18 @@ public class GUIFrame extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-	
+			show( null );
+		}
+		
+		public void show( DataModelAdapter nodeToSelect ){
+
 			//Legyartja a JTREE-t a modell alapjan
 			DriverTree tree = new DriverTree( this.functionName, GUIFrame.this, driverRootDataModel );
 			
-//			treePanel.hide();
-			treePanel.showTree( tree );
+			tree.addLinkToNodeInTreeListener( new LinkListener() );
 			
-		}		
+			treePanel.showTree( tree, nodeToSelect );		
+		}
 	}
 	
 	/**
@@ -739,12 +748,17 @@ public class GUIFrame extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			show( null );
+		}
+		
+		public void show( DataModelAdapter nodeToSelect ){
 	
 			//Legyartja a JTREE-t a modell alapjan
-			ConstantTree tree = new ConstantTree( functionName, GUIFrame.this, constantRootDataModel, paramRootDataModel );
+			ConstantTree tree = new ConstantTree( functionName, GUIFrame.this, constantRootDataModel, stepRootDataModel );
 			
-//			treePanel.hide();
-			treePanel.showTree( tree );
+			tree.addLinkToNodeInTreeListener( new LinkListener() );
+			
+			treePanel.showTree( tree, nodeToSelect );
 			
 		}		
 	}
@@ -765,12 +779,17 @@ public class GUIFrame extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			show( null );
+		}
+		
+		public void show( DataModelAdapter nodeToSelect ){
 	
 			//Legyartja a JTREE-t a modell alapjan
-			BaseTree tree = new BaseTree( this.functionName, GUIFrame.this, baseRootDataModel, paramRootDataModel );
+			BaseTree tree = new BaseTree( this.functionName, GUIFrame.this, baseRootDataModel, stepRootDataModel );
 			
-//			treePanel.hide();
-			treePanel.showTree( tree );
+			tree.addLinkToNodeInTreeListener( new LinkListener() );
+			
+			treePanel.showTree( tree, nodeToSelect );
 			
 		}		
 	}
@@ -781,21 +800,26 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditParamActionListener implements ActionListener{
+	class EditStepActionListener implements ActionListener{
 		private String functionName;
 
-		public EditParamActionListener( String functionName ){
+		public EditStepActionListener( String functionName ){
 			this.functionName = functionName;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			show( null );
+		}
+		
+		public void show( DataModelAdapter nodeToSelect ){
 						
 			//Legyartja a JTREE-t a modell alapjan
-			StepTree tree = new StepTree( this.functionName, GUIFrame.this, constantRootDataModel, baseRootDataModel, paramRootDataModel, testcaseRootDataModel );
+			StepTree tree = new StepTree( this.functionName, GUIFrame.this, constantRootDataModel, baseRootDataModel, stepRootDataModel, testcaseRootDataModel );
 			
-//			treePanel.hide();
-			treePanel.showTree( tree );
+			tree.addLinkToNodeInTreeListener( new LinkListener() );
+			
+			treePanel.showTree( tree, nodeToSelect );
 			
 		}
 		
@@ -817,18 +841,19 @@ public class GUIFrame extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			show( null );
+		}
+		
+		public void show( DataModelAdapter nodeToSelect ){
 						
-			//Legyartja a JTREE-t a modell alapjan
-			//TestcaseTree tree = new TestcaseTree( GUIFrame.this, baseRootDataModel, specialRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel, scriptRootDataModel );
-			TestcaseTree tree = new TestcaseTree( this.functionName, GUIFrame.this, baseRootDataModel, paramRootDataModel, driverRootDataModel, testcaseRootDataModel );
-			
-//			treePanel.hide();
-			treePanel.showTree( tree );
+			TestcaseTree tree = new TestcaseTree( this.functionName, GUIFrame.this, baseRootDataModel, stepRootDataModel, driverRootDataModel, testcaseRootDataModel );
+			tree.addLinkToNodeInTreeListener( new LinkListener() );
+			treePanel.showTree( tree, nodeToSelect );
 			
 		}
 		
 	}
-		
+	
 	/**
 	 * 
 	 * Run Run menu selection listener 
@@ -843,23 +868,51 @@ public class GUIFrame extends JFrame{
 			this.functionName = functionName;
 		}
 		
-//		RunTree tree = null;
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			show( null );
+		}
+		
+		public void show( DataModelAdapter nodeToSelect ){
 			
-//			if( null == runTree ){
-			
-				//Legyartja a JTREE-t a modell alapjan
-			RunTree runTree = new RunTree( functionName, GUIFrame.this, driverRootDataModel, testcaseRootDataModel );
-			
-//			}
-			
-//			treePanel.hide();
-			treePanel.showTree( runTree );
+			//Legyartja a JTREE-t a modell alapjan
+			RunTree tree = new RunTree( functionName, GUIFrame.this, driverRootDataModel, testcaseRootDataModel );
+			tree.addLinkToNodeInTreeListener( new LinkListener() );
+			treePanel.showTree( tree, nodeToSelect );
 			
 		}
 		
+	}
+	
+	class LinkListener implements LinkToNodeInTreeListener{
+		
+		private boolean find(DataModelAdapter root, DataModelAdapter a) {
+		    @SuppressWarnings("unchecked")
+		    Enumeration<DataModelAdapter> e = root.depthFirstEnumeration();
+		    while (e.hasMoreElements()) {
+		        DataModelAdapter node = e.nextElement();
+		        if( node.equals( a ) ){
+		            return true;
+		        }
+		    }
+		    return false;
+		}
+		
+		public void linkToNode( DataModelAdapter nodeToLink ){
+			
+			if( find( constantRootDataModel, nodeToLink ) ){
+				editConstantActionListener.show( nodeToLink );
+			}else if( find( driverRootDataModel, nodeToLink ) ){				
+				editDriverActionListener.show( nodeToLink );
+			}else if( find( baseRootDataModel, nodeToLink ) ){
+				editBaseActionListener.show( nodeToLink );
+			}else if( find( stepRootDataModel, nodeToLink ) ){
+				editStepActionListener.show( nodeToLink );
+			}else if( find( testcaseRootDataModel, nodeToLink ) ){
+				editTestcaseActionListener.show( nodeToLink );
+			}
+
+		}
 	}
 	
 	/**
@@ -968,10 +1021,10 @@ public class GUIFrame extends JFrame{
 		
 		private static final long serialVersionUID = -60536416293858503L;
 		private JScrollPane panelToView = null;
-		private JTree tree = null;		
+//		private JTree tree = null;		
 		
 		private JTabbedPane jtp ;
-
+int row = 0;
 		public TreePanel(){
 				
 			//Layout beallitas, hogy lehetoseg legyen teljes szelessegben megjeleniteni a tree-t
@@ -1030,9 +1083,9 @@ public class GUIFrame extends JFrame{
 			});
 		}
 		
-		public void showTree( Tree tree ){
+		public void showTree( Tree tree, DataModelAdapter selectedNode ){
 
-			this.tree = tree;
+			//this.tree = tree;
 
 			//Becsomagolom a Tree-t hogy scroll-ozhato legyen
 			panelToView = new JScrollPane( (Component)tree );		
@@ -1042,6 +1095,8 @@ public class GUIFrame extends JFrame{
 			
 			//Ha meg nem letezett
 			if( indexOfTab < 0 ){
+				
+//				this.tree = tree;
 				
 				//Akkor hozzaadja az uj tab-ot
 				jtp.addTab( tree.getfunctionName(), panelToView);
@@ -1055,39 +1110,41 @@ public class GUIFrame extends JFrame{
 			}
 			jtp.setSelectedIndex( indexOfTab );
 			
-			//Ujrarajzoltatom
-			//jtp.revalidate();
-			//this.revalidate();
-
-			//Torolni kell az editor-t a jobb oldalon
-//			removeEditor();
+			Tree actualTree = (Tree)((JScrollPane)jtp.getSelectedComponent()).getViewport().getView();
 			
-/*			if( tree instanceof Tree && tree.getSelectionCount() != 0 ){
-				Tree runTree = (Tree)tree;
-				//runTree.nodeChanged();
-//				runTree.refreshTreeAfterChanged( );	
+			//Ha meg volt adva akkor kivalasztja a fa-ban a kivalasztando csomopontot
+			if( null != selectedNode ){
+//tree.setSelectionRow(row++);
+
+//				tree.collapseRow(0);
+				actualTree.setExpandsSelectedPaths(true);
+	     		TreePath treePath = new TreePath(selectedNode.getPath());
+	      		actualTree.setSelectionPath(treePath);
+	      		actualTree.scrollPathToVisible(treePath);
+	      		
+		
 			}
-*/						
+					
 		}
 		
 		/**
 		 * Torli az editort a jobb oldalon
 		 */
 		public void removeEditor(){
-			EmptyEditor emptyPanel = new EmptyEditor();								
-			showEditorPanel( emptyPanel);
+//			EmptyEditor emptyPanel = new EmptyEditor();								
+//			showEditorPanel( emptyPanel);
 		}
 	
 		public void removeAllTab(){
-			jtp.removeAll();
-			this.repaint();
-			this.revalidate();
+//			jtp.removeAll();
+//			this.repaint();
+//			this.revalidate();
 		}
 		
-		public JTree getTree(){
+/*		public JTree getTree(){
 			return tree;
 		}
-			
+*/			
 	}
 	
 	/**

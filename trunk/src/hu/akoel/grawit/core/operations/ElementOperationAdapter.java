@@ -3,7 +3,6 @@ package hu.akoel.grawit.core.operations;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -196,8 +195,7 @@ elementProgress.outputCommand("");
 			sendelementEndedMessage( elementProgress, baseElement );
 		}		
 		
-	}
-	
+	}	
 	
 	private void sendelementEndedMessage( ElementProgressInterface elementProgress, BaseElementDataModelAdapter baseElement ){
 		elementProgress.elementEnded( baseElement.getName(), getOperationToString() );

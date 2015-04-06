@@ -15,10 +15,28 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
+import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
+import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
+import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
+import hu.akoel.grawit.core.operations.ContainListConstantOperation;
+import hu.akoel.grawit.core.operations.ContainListStoredElementOperation;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
+import hu.akoel.grawit.core.operations.FillWithConstantElementOperation;
+import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
+import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
+import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
+import hu.akoel.grawit.core.operations.HasConstantOperationInterface;
+import hu.akoel.grawit.core.operations.HasElementOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepDataModelAdapter;
@@ -299,7 +317,7 @@ public class StepTree extends Tree {
 	}
 
 	@Override
-	public void doDuplicate( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow,	final DefaultTreeModel totalTreeModel) {
+	public void doPopupDuplicate( final JPopupMenu popupMenu, final DataModelAdapter selectedNode, final int selectedRow,	final DefaultTreeModel totalTreeModel) {
 		
 		JMenuItem duplicateMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.duplicate") );
 		duplicateMenu.setActionCommand( ActionCommand.DUPLICATE.name());
@@ -441,8 +459,61 @@ public class StepTree extends Tree {
 			
 		});
 		popupMenu.add ( deleteMenu );
-			
 	
+	}
+	
+	@Override
+	public void doPopupLink(JPopupMenu popupMenu, DataModelAdapter selectedNode) {
+
+		if( selectedNode instanceof StepElementDataModel ){
+			
+			BaseElementDataModelAdapter baseBaseElement = ((StepElementDataModel)selectedNode).getBaseElement();			
+			
+			JMenuItem linkToBaseElementMenu = new JMenuItem( CommonOperations.getTranslation( "Link to '" + baseBaseElement.getName() + "' Base element" ) );
+			linkToBaseElementMenu.setActionCommand( ActionCommand.LINK.name());
+			linkToBaseElementMenu.addActionListener( new LinkToElementListener( baseBaseElement ) );
+				
+			popupMenu.addSeparator();
+			popupMenu.add( linkToBaseElementMenu );
+			
+			ElementOperationAdapter operation = ((StepElementDataModel)selectedNode).getElementOperation();
+			if( operation instanceof HasConstantOperationInterface ){
+				
+				ConstantElementDataModel constantElement = ((HasConstantOperationInterface)operation).getConstantElement();
+				JMenuItem linkToConstantElementMenu = new JMenuItem( CommonOperations.getTranslation( "Link to '" + constantElement.getName() + "' Constant element" ) );
+				linkToConstantElementMenu.setActionCommand( ActionCommand.LINK.name());
+				linkToConstantElementMenu.addActionListener( new LinkToElementListener( constantElement ) );
+				popupMenu.add( linkToConstantElementMenu );
+				
+			}else if( operation instanceof HasElementOperationInterface ){
+				
+				BaseElementDataModelAdapter baseElement = ((HasElementOperationInterface)operation).getBaseElement();
+				JMenuItem linkToConstantElementMenu = new JMenuItem( CommonOperations.getTranslation( "Link to '" + baseElement.getName() + "' Base element" ) );
+				linkToConstantElementMenu.setActionCommand( ActionCommand.LINK.name());
+				linkToConstantElementMenu.addActionListener( new LinkToElementListener( baseElement ) );
+				popupMenu.add( linkToConstantElementMenu );
+			}
+			
+		}
+		
+	}
+
+	class LinkToElementListener implements ActionListener{
+		DataModelAdapter dataModel;
+		
+		public LinkToElementListener( DataModelAdapter dataModel ){
+			this.dataModel = dataModel;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			for( LinkToNodeInTreeListener listener: getLinkToNodeInTreeListeners() ){
+				listener.linkToNode( this.dataModel );
+			}
+			
+		}
+		
 	}
 
 	/**
@@ -557,5 +628,6 @@ public class StepTree extends Tree {
 		
 		return false;
 	}
+
 
 }

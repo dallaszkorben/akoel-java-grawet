@@ -345,8 +345,14 @@ public class DriverTree extends Tree{
 	}
 
 	@Override
-	public void doDuplicate(JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel) {
+	public void doPopupDuplicate(JPopupMenu popupMenu, DataModelAdapter selectedNode, int selectedRow, DefaultTreeModel totalTreeModel) {
 		//NO DUPLICATION ENABLED
+	}
+
+	@Override
+	public void doPopupLink(JPopupMenu popupMenu, DataModelAdapter selectedNode) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
