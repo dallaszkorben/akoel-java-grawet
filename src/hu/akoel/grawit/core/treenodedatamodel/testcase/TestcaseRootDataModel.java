@@ -6,10 +6,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverBrowserDataModelInterface;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxPropertyDataModel;

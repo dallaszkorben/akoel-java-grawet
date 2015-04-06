@@ -1,7 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.base;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 

@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 

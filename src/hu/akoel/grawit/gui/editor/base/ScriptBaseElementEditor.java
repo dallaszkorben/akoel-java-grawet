@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;

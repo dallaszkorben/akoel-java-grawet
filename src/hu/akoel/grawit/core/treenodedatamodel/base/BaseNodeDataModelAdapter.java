@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;

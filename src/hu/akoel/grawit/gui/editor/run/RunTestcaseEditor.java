@@ -49,9 +49,9 @@ import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
@@ -289,7 +289,6 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		scrollPaneForResultPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneForResultPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneForResultPanel.setPreferredSize( new Dimension( RESULT_PANEL_WIDTH, 1 ) );		
-
 		
 //Color color = scrollPaneForResultPanel.getViewport().getBackground();		
 //scrollPaneForResultPanel.getViewport().setBackground(new Color( color.getRGB()));
@@ -732,17 +731,17 @@ elementProgres.outputCommand( "}");
 			this.setModel(model);
 			this.setDefaultRenderer(Object.class, renderer);
 
-			//TableColumn testcaseColumn = this.getColumnModel().getColumn(0);
-			//testcaseColumn.setPreferredWidth(RESULT_PANEL_WIDTH - RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
+TableColumn testcaseColumn = this.getColumnModel().getColumn(0);
+testcaseColumn.setPreferredWidth(RESULT_PANEL_WIDTH - RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
 			
 			TableColumn resultColumn = this.getColumnModel().getColumn(1);
 			resultColumn.setPreferredWidth(RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
 			resultColumn.setMaxWidth(RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
 			
-			//Ez teszi lehetove hogy automatikusan megjelenjen a horizontalis scrollbar, ha kell
-			//this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+//Ez teszi lehetove hogy automatikusan megjelenjen a horizontalis scrollbar, ha kell
+this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 			
-			addNewStatus( new TestcaseCaseDataModel( "testeset1", ""), ResultStatus.FAILED);
+/*			addNewStatus( new TestcaseCaseDataModel( "testeset1", ""), ResultStatus.FAILED);
 			addNewStatus( new TestcaseCaseDataModel( "testeset2", ""), ResultStatus.SUCCESS);
 			addNewStatus( new TestcaseCaseDataModel( "testeset3 adfsdf ds sdafd df dfasd sdaf 999999991 1 1", ""), ResultStatus.STOPPED);
 			addNewStatus( new TestcaseCaseDataModel( "testeset4 ftrhty rtyrty rt rtu et uttrr", ""), ResultStatus.SUCCESS);
@@ -755,9 +754,8 @@ elementProgres.outputCommand( "}");
 			addNewStatus( new TestcaseCaseDataModel( "testeset11", ""), ResultStatus.SUCCESS);
 			addNewStatus( new TestcaseCaseDataModel( "testeset12", ""), ResultStatus.SUCCESS);
 			addNewStatus( new TestcaseCaseDataModel( "testeset13", ""), ResultStatus.SUCCESS);
-			
+*/			
 		}
-	
 		
 		public void clear(){
 			DefaultTableModel dm = (DefaultTableModel) getModel();
@@ -775,8 +773,6 @@ elementProgres.outputCommand( "}");
 	        this.revalidate();
 			this.repaint();
 		}
-	
-
 		  
 		class CustomCellRenderer extends DefaultTableCellRenderer {
 			private static final long serialVersionUID = 2281876158763458436L;

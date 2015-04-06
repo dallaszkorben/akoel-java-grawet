@@ -10,9 +10,9 @@ import javax.swing.tree.TreePath;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -20,9 +20,8 @@ import hu.akoel.grawit.gui.editor.run.RunTestcaseEditor;
 
 public class RunTree extends Tree {
 
-	private static final long serialVersionUID = -7537783206534337777L;
+	private static final long serialVersionUID = -7539183206534337777L;
 	private GUIFrame guiFrame;
-	//private EmptyEditor emptyPanel;	
 	private DriverRootDataModel driverRootDataModel;
 	
 	private HashMap<TestcaseDataModelAdapter, RunTestcaseEditor> testcaseMap = new HashMap<>();
@@ -37,14 +36,23 @@ public class RunTree extends Tree {
 		this.removePopupDown();
 		this.removePopupModify();
 		
+		//Figyelem, hogy megvaltozott-e a TestcaseDataModel. Ha igen, az azt jelenti, hogy
+		//TestcaseTree-ben valtoztattam valamit, es ezert jeleznem kell a RunTree-nek
+		//a valtoztatas tenyet, hogy frissuljon
+/*		testcaseRootDataModel.addDataModelListener( new TestcaseDataModelListener() {			
+			@Override
+			public void structureChanged(DataModelAdapter nodeToSelect,	DataModelAdapter parentNode) {
+System.out.println("most hajtok vegre egy refresh-t a " + nodeToSelect + "-en");
+				refreshTreeAfterStructureChanged( nodeToSelect, parentNode );
+			}
+		});
+*/		
 		//emptyPanel = new EmptyEditor();
 	}
 	
 	@Override
 	public ImageIcon getIcon(DataModelAdapter actualNode, boolean expanded) {
 
-//		ImageIcon customIcon = CommonOperations.createImageIcon("tree/testcase-custom-icon.png");
-//    	ImageIcon pageIcon = CommonOperations.createImageIcon("tree/testcase-page-icon.png");
     	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
     	ImageIcon nodeClosedIcon = CommonOperations.createImageIcon("tree/testcase-folder-closed-icon.png");
     	ImageIcon nodeOpenIcon = CommonOperations.createImageIcon("tree/testcase-folder-open-icon.png");
@@ -54,11 +62,7 @@ public class RunTree extends Tree {
             return rootIcon;
     	}else if( actualNode instanceof TestcaseCaseDataModel){
             return caseIcon;
-/*    	}else if( actualNode instanceof TestcaseParamPageDataModel ){
-            return pageIcon;
-    	}else if( actualNode instanceof TestcaseCustomDataModel ){
-            return customIcon;            
-*/    	}else if( actualNode instanceof TestcaseFolderDataModel){
+    	}else if( actualNode instanceof TestcaseFolderDataModel){
     		if( expanded ){
     			return nodeOpenIcon;
     		}else{

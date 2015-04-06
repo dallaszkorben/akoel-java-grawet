@@ -4,10 +4,9 @@ import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
-import hu.akoel.grawit.core.treenodedatamodel.DriverDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;

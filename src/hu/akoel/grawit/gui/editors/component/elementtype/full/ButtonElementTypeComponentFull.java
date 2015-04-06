@@ -4,7 +4,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.full.ButtonElementTypeOperationsFullListEnum;
 

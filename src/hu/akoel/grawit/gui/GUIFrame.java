@@ -26,8 +26,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -120,7 +118,7 @@ public class GUIFrame extends JFrame{
 	private EditTestcaseActionListener editTestcaseActionListener;
 	private EditDriverActionListener editDriverActionListener;
 	private RunRunActionListener runRunActionListener;
-	private RunTree runTree = null;
+//	private RunTree runTree = null;
 	
 	public GUIFrame( String appName, String appVersion, String appDesigner, int frameWidth, int frameHeight ){
 		super( appName );
@@ -353,7 +351,7 @@ public class GUIFrame extends JFrame{
 	
 	private void makeNewTestSuit(){
 		
-		runTree = null;
+//		runTree = null;
 		
 		//Kikapcsolom a PAGEBASE szerkesztesi menut
 		editDriverMenuItem.setEnabled( false );
@@ -572,7 +570,7 @@ public class GUIFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 				
-			runTree = null;
+//			runTree = null;
 			
 			//
 			// Menuk tiltasa
@@ -850,12 +848,12 @@ public class GUIFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if( null == runTree ){
+//			if( null == runTree ){
 			
 				//Legyartja a JTREE-t a modell alapjan
-				runTree = new RunTree( functionName, GUIFrame.this, driverRootDataModel, testcaseRootDataModel );
+			RunTree runTree = new RunTree( functionName, GUIFrame.this, driverRootDataModel, testcaseRootDataModel );
 			
-			}
+//			}
 			
 //			treePanel.hide();
 			treePanel.showTree( runTree );
@@ -1054,15 +1052,15 @@ public class GUIFrame extends JFrame{
 				//Es vegul letrehozza az uj tab label-t
 				jtp.setTabComponentAt(indexOfTab, new ButtonTabComponent(jtp) );
 				
-			}else{
-				jtp.setSelectedIndex( indexOfTab );
 			}
+			jtp.setSelectedIndex( indexOfTab );
 			
 			//Ujrarajzoltatom
-			this.revalidate();
+			//jtp.revalidate();
+			//this.revalidate();
 
 			//Torolni kell az editor-t a jobb oldalon
-			removeEditor();
+//			removeEditor();
 			
 /*			if( tree instanceof Tree && tree.getSelectionCount() != 0 ){
 				Tree runTree = (Tree)tree;

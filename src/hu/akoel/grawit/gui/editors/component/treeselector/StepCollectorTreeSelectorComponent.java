@@ -1,11 +1,11 @@
 package hu.akoel.grawit.gui.editors.component.treeselector;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
@@ -16,21 +16,21 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-public class ParamCollectorTreeSelectorComponent extends TreeSelectorComponent<StepCollectorDataModelAdapter>{
+public class StepCollectorTreeSelectorComponent extends TreeSelectorComponent<StepCollectorDataModelAdapter>{
 
 	private static final long serialVersionUID = 1064181673121972602L;
 
 	//TODO torlendo
-	public ParamCollectorTreeSelectorComponent( StepDataModelAdapter rootDataModel ) {
+	public StepCollectorTreeSelectorComponent( StepDataModelAdapter rootDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.parampage"), StepCollectorDataModelAdapter.class, rootDataModel, null, false, false);
 	}
 
 	//TODO torlendo
-	public ParamCollectorTreeSelectorComponent( StepDataModelAdapter rootDataModel, StepCollectorDataModelAdapter selectedParamPageDataModel ) {
+	public StepCollectorTreeSelectorComponent( StepDataModelAdapter rootDataModel, StepCollectorDataModelAdapter selectedParamPageDataModel ) {
 		super(CommonOperations.getTranslation("window.title.selector.parampage"), StepCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, true, false);
 	}
 	
-	public ParamCollectorTreeSelectorComponent( StepDataModelAdapter rootDataModel, StepCollectorDataModelAdapter selectedParamPageDataModel, boolean setSelectedElementToFieldFirst ) {
+	public StepCollectorTreeSelectorComponent( StepDataModelAdapter rootDataModel, StepCollectorDataModelAdapter selectedParamPageDataModel, boolean setSelectedElementToFieldFirst ) {
 		super(CommonOperations.getTranslation("window.title.selector.baseelement"), StepCollectorDataModelAdapter.class, rootDataModel, selectedParamPageDataModel, setSelectedElementToFieldFirst, false);
 	}
 	

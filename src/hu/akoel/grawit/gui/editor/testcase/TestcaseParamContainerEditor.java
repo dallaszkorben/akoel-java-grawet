@@ -5,18 +5,18 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.StepDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.TestcaseDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
 import hu.akoel.grawit.gui.editors.component.treeselector.BaseElementTreeSelectorComponent;
-import hu.akoel.grawit.gui.editors.component.treeselector.ParamCollectorTreeSelectorComponent;
+import hu.akoel.grawit.gui.editors.component.treeselector.StepCollectorTreeSelectorComponent;
 import hu.akoel.grawit.gui.tree.Tree;
 
 import javax.swing.JLabel;
@@ -35,11 +35,11 @@ public class TestcaseParamContainerEditor extends DataEditor{
 	private TextFieldComponent fieldName;
 	private JLabel labelDetails;
 	private TextAreaComponent fieldDetails;
-	private JLabel labelParamPageTreeSelector;
-	private ParamCollectorTreeSelectorComponent fieldParamPageTreeSelector;	
+	private JLabel labelStepCollectorTreeSelector;
+	private StepCollectorTreeSelectorComponent fieldStepCollectorTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcaseParamContainerEditor( Tree tree, TestcaseCaseDataModel selectedNode, StepDataModelAdapter paramDataModel ){
+	public TestcaseParamContainerEditor( Tree tree, TestcaseCaseDataModel selectedNode, StepDataModelAdapter stepDataModel ){
 		super( TestcaseParamContainerDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
@@ -54,8 +54,8 @@ public class TestcaseParamContainerEditor extends DataEditor{
 		
 		//ParamPageTreeSelector
 		//fieldParamPageTreeSelector = new ParamPageTreeSelectorComponent(paramDataModel);
-		StepCollectorDataModelAdapter lastParamCollector = selectedNode.getLastParamCollector();
-		fieldParamPageTreeSelector = new ParamCollectorTreeSelectorComponent( paramDataModel, lastParamCollector, false );		
+		StepCollectorDataModelAdapter lastStepCollector = selectedNode.getLastStepCollector();
+		fieldStepCollectorTreeSelector = new StepCollectorTreeSelectorComponent( stepDataModel, lastStepCollector, false );		
 		
 		common();
 		
@@ -76,7 +76,7 @@ public class TestcaseParamContainerEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), NOTE_ROWS, 15);
 		
 		//ParamPageTreeSelector
-		fieldParamPageTreeSelector = new ParamCollectorTreeSelectorComponent( paramDataModel, selectedNode.getParamPage() );
+		fieldStepCollectorTreeSelector = new StepCollectorTreeSelectorComponent( paramDataModel, selectedNode.getParamPage() );
 				
 		common();
 	}
@@ -90,12 +90,12 @@ public class TestcaseParamContainerEditor extends DataEditor{
 		labelDetails = new JLabel( CommonOperations.getTranslation("editor.label.details") + ": ");	
 		
 		//Param Page
-		labelParamPageTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.parampage") + ": ");
+		labelStepCollectorTreeSelector = new JLabel( CommonOperations.getTranslation("editor.label.testcase.stepcollector") + ": ");
 		
 		
 		this.add( labelName, fieldName );
 		this.add( labelDetails, fieldDetails );
-		this.add( labelParamPageTreeSelector, fieldParamPageTreeSelector );
+		this.add( labelStepCollectorTreeSelector, fieldStepCollectorTreeSelector );
 		
 	}
 	
@@ -122,12 +122,12 @@ public class TestcaseParamContainerEditor extends DataEditor{
 			);
 			
 		//Ha nincs ParamPage kivalasztva
-		}else if( null == fieldParamPageTreeSelector.getSelectedDataModel() ){
+		}else if( null == fieldStepCollectorTreeSelector.getSelectedDataModel() ){
 			errorList.put( 
-					fieldParamPageTreeSelector,
+					fieldStepCollectorTreeSelector,
 					MessageFormat.format(
 							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
-							"'"+labelParamPageTreeSelector.getText()+"'"
+							"'"+labelStepCollectorTreeSelector.getText()+"'"
 					)
 			);
 		}else{
@@ -186,7 +186,7 @@ public class TestcaseParamContainerEditor extends DataEditor{
 		}else{
 
 			//A kivalasztott paramPage
-			StepCollectorDataModelAdapter paramCollector = fieldParamPageTreeSelector.getSelectedDataModel();			
+			StepCollectorDataModelAdapter paramCollector = fieldStepCollectorTreeSelector.getSelectedDataModel();			
 			
 			//Uj rogzites eseten
 			if( null == mode ){
@@ -212,9 +212,6 @@ public class TestcaseParamContainerEditor extends DataEditor{
 				tree.refreshTreeAfterChanged( nodeForModify );
 				
 			}			
-			
-			//A fa-ban is modositja a nevet (ha az valtozott)
-			//tree.nodeChanged();
 		}		
 	}
 }

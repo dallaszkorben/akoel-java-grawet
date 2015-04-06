@@ -1,5 +1,6 @@
-package hu.akoel.grawit.core.treenodedatamodel;
+package hu.akoel.grawit.core.treenodedatamodel.driver;
 
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 
 public abstract class DriverDataModelAdapter extends DataModelAdapter{

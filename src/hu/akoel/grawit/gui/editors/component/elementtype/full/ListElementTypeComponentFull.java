@@ -16,7 +16,7 @@ import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
 import hu.akoel.grawit.core.operations.SelectConstantElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;

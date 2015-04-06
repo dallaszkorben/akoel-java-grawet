@@ -32,7 +32,6 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.JavaSourceFromString;
 import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.operations.ScriptElementExecuteOperation;
-import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.CompilationException;
