@@ -61,8 +61,9 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 			"import org.openqa.selenium.WebDriverException;\n" +
 			" \n" +
 			"import java.util.ArrayList;\n" +
-			" \n" +
-			"import hu.akoel.grawit.core.treenodedatamodel.BaseElementDataModelAdapter;\n" +
+			" \n" +	
+			"import " + BaseElementDataModelAdapter.class.getName() + ";\n\n" +
+			//"import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;\n" +
 			
 			"public class " + customClassName + " {\n" +		
 			"   public " + customClassName + "() {}\n" +		
@@ -122,7 +123,6 @@ private StandardJavaFileManager stdFileManager;
 		}
 		String scriptString = element.getAttribute( ATTR_SCRIPT );		
 		this.script = scriptString;
-				
 	}
 	
 	public static Tag getTagStatic(){
