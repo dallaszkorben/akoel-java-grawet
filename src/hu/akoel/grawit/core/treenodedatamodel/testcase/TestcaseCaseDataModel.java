@@ -94,7 +94,7 @@ public class TestcaseCaseDataModel extends TestcaseNodeDataModelAdapter{
 				//Ha TESTCASEPARAMCONTAINER van alatta
 				if( testcaseElement.getTagName().equals( Tag.TESTCASESTEPCOLLECTOR.getName() )){
 					
-					this.add(new TestcaseParamContainerDataModel(testcaseElement, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
+					this.add(new TestcaseStepCollectorDataModel(testcaseElement, constantRootDataModel, baseRootDataModel, paramRootDataModel, driverDataModel ));
 					
 				}
 			}

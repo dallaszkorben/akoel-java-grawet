@@ -6,20 +6,17 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.text.MessageFormat;
-import java.util.EventObject;
 
-import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,11 +28,10 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
@@ -68,8 +64,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
-	public static final int RESULT_PANEL_WIDTH = 300;
-	public static final int RESULT_PANEL_COLUMN_SUCCESS_WIDTH = 70;
+	public static final int OUTPUT_PANEL_WIDTH = 300;
+	public static final int RESULT_PANEL_WIDTH = 400;
+	public static final int RESULT_PANEL_COLUMN_SUCCESS_WIDTH = 80;
 
 	private TestcaseDataModelAdapter selectedTestcase;
 	
@@ -328,16 +325,16 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 		// -----------
 		//
-		// Value panel
+		// Output panel
 		//
 		// -----------
-		outputPanel = new JTextArea(2, 15);
+		outputPanel = new JTextArea(2, 25);
 		outputPanel.setEditable(false);
 		
 		JScrollPane scrollPaneForOutputPanel = new JScrollPane(outputPanel);
 		scrollPaneForOutputPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneForOutputPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-		scrollPaneForOutputPanel.setSize(1, 200);
+		scrollPaneForOutputPanel.setSize(1, OUTPUT_PANEL_WIDTH);
 
 		// ------------------------
 		//	RESULT PANEL felirat
@@ -351,7 +348,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( new JLabel("Result"), c );
+		upperPanel.add( new JLabel( CommonOperations.getTranslation( "editor.label.runtest.result" ) ), c );
 
 		// ------------------------
 		// OUTPUT PANEL felirat
@@ -365,7 +362,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( new JLabel("Output"), c );
+		upperPanel.add( new JLabel( CommonOperations.getTranslation( "editor.label.runtest.output" ) ), c );
 
 
 		// ------------------------
@@ -738,6 +735,13 @@ testcaseColumn.setPreferredWidth(RESULT_PANEL_WIDTH - RESULT_PANEL_COLUMN_SUCCES
 			resultColumn.setPreferredWidth(RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
 			resultColumn.setMaxWidth(RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
 			
+			//This is for always see the last row
+			this.addComponentListener(new ComponentAdapter() {
+			    public void componentResized(ComponentEvent e) {
+			        ResultPanel.this.scrollRectToVisible(ResultPanel.this.getCellRect(ResultPanel.this.getRowCount()-1, 0, true));
+			    }
+			});
+			
 //Ez teszi lehetove hogy automatikusan megjelenjen a horizontalis scrollbar, ha kell
 this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 			
@@ -770,8 +774,8 @@ this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 		public void addNewStatus( TestcaseCaseDataModel testcase, ResultStatus resultStatus ){
 			DefaultTableModel model = (DefaultTableModel) this.getModel();
 	        model.addRow(new Object[]{testcase, resultStatus });
-	        this.revalidate();
-			this.repaint();
+//	        this.revalidate();
+//			this.repaint();
 		}
 		  
 		class CustomCellRenderer extends DefaultTableCellRenderer {
@@ -818,9 +822,9 @@ this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 		    @Override
 		    public String getColumnName( int column ){
 		    	if( column == 0 ){
-		    		return "Test case";
+		    		return CommonOperations.getTranslation( "editor.label.runtest.resultwindow.testcase" );
 		    	}else if( column == 1){
-		    		return "Result";
+		    		return CommonOperations.getTranslation( "editor.label.runtest.resultwindow.result" );
 		    	}else{
 		    		return "";
 		    	}
@@ -838,9 +842,9 @@ this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 	 *
 	 */
 	public static enum ResultStatus{
-		SUCCESS( "Succes", Color.green ),
-		FAILED( "Failed", Color.red ),
-		STOPPED( "Stopped", Color.blue );
+		SUCCESS( CommonOperations.getTranslation( "editor.label.runtest.resultstates.success" ), Color.green ),
+		FAILED( CommonOperations.getTranslation( "editor.label.runtest.resultstates.failed" ), Color.red ),
+		STOPPED( CommonOperations.getTranslation( "editor.label.runtest.resultstates.stopped" ), Color.blue );
 		
 		String name;
 		Color color;

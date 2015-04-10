@@ -2,6 +2,8 @@ package hu.akoel.grawit.gui.tree;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -23,14 +25,14 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor.EditMode;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseCaseEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseFolderEditor;
-import hu.akoel.grawit.gui.editor.testcase.TestcaseParamContainerEditor;
+import hu.akoel.grawit.gui.editor.testcase.TestcaseStepCollectorEditor;
 import hu.akoel.grawit.gui.editor.testcase.TestcaseRootEditor;
 
 public class TestcaseTree extends Tree {
@@ -51,7 +53,7 @@ public class TestcaseTree extends Tree {
 		this.testcaseRootDataModel = testcaseRootDataModel;
 		
 		this.enablePopupModifyAtRoot();
-		
+
 	}
 
 	@Override
@@ -85,9 +87,9 @@ public class TestcaseTree extends Tree {
     	}else if( actualNode instanceof TestcaseCaseDataModel){
             return caseIcon;
             
-    	}else if( actualNode instanceof TestcaseParamContainerDataModel ){
+    	}else if( actualNode instanceof TestcaseStepCollectorDataModel ){
     		
-    		TestcaseParamContainerDataModel testCasePage = (TestcaseParamContainerDataModel)actualNode;
+    		TestcaseStepCollectorDataModel testCasePage = (TestcaseStepCollectorDataModel)actualNode;
     	    if( testCasePage.getParamPage() instanceof StepNormalCollectorDataModel ){
     	    	return paramContainer;	
     	    }else if( testCasePage.getParamPage() instanceof StepLoopCollectorDataModel ){
@@ -117,9 +119,9 @@ public class TestcaseTree extends Tree {
     	if( actualNode instanceof TestcaseCaseDataModel){
             return caseOffIcon;
 
-    	}else if( actualNode instanceof TestcaseParamContainerDataModel ){
+    	}else if( actualNode instanceof TestcaseStepCollectorDataModel ){
     		
-    		TestcaseParamContainerDataModel testCasePage = (TestcaseParamContainerDataModel)actualNode;
+    		TestcaseStepCollectorDataModel testCasePage = (TestcaseStepCollectorDataModel)actualNode;
     	    if( testCasePage.getParamPage() instanceof StepNormalCollectorDataModel ){
     	    	return containerOffIcon;	
     	    }else if( testCasePage.getParamPage() instanceof StepLoopCollectorDataModel ){
@@ -140,8 +142,8 @@ public class TestcaseTree extends Tree {
 			TestcaseRootEditor testcaseRootEditor = new TestcaseRootEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel, EditMode.VIEW);
 			guiFrame.showEditorPanel( testcaseRootEditor);
 
-		}else if( selectedNode instanceof TestcaseParamContainerDataModel ){
-			TestcaseParamContainerEditor testcaseParamPageEditor = new TestcaseParamContainerEditor( this, (TestcaseParamContainerDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
+		}else if( selectedNode instanceof TestcaseStepCollectorDataModel ){
+			TestcaseStepCollectorEditor testcaseParamPageEditor = new TestcaseStepCollectorEditor( this, (TestcaseStepCollectorDataModel)selectedNode, paramRootDataModel, EditMode.VIEW );	
 			guiFrame.showEditorPanel( testcaseParamPageEditor);				
 			
 		}else if( selectedNode instanceof TestcaseFolderDataModel ){
@@ -164,9 +166,9 @@ public class TestcaseTree extends Tree {
 			TestcaseRootEditor testcaseRootNodeEditor = new TestcaseRootEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel, EditMode.MODIFY);
 			guiFrame.showEditorPanel( testcaseRootNodeEditor);
 
-		}else if( selectedNode instanceof TestcaseParamContainerDataModel ){
+		}else if( selectedNode instanceof TestcaseStepCollectorDataModel ){
 
-			TestcaseParamContainerEditor testcaseParamPageEditor = new TestcaseParamContainerEditor( this, (TestcaseParamContainerDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
+			TestcaseStepCollectorEditor testcaseParamPageEditor = new TestcaseStepCollectorEditor( this, (TestcaseStepCollectorDataModel)selectedNode, paramRootDataModel, EditMode.MODIFY );
 			guiFrame.showEditorPanel( testcaseParamPageEditor);		
 			
 		}else if( selectedNode instanceof TestcaseFolderDataModel ){
@@ -179,7 +181,9 @@ public class TestcaseTree extends Tree {
 			TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( this, (TestcaseCaseDataModel)selectedNode, driverRootDataModel, EditMode.MODIFY );							                                            
 			guiFrame.showEditorPanel( testcaseCaseEditor);		
 
-		}		
+		}	
+		
+TestcaseTree.this.treeHasChanged();
 	}
 
 	@Override
@@ -191,15 +195,16 @@ public class TestcaseTree extends Tree {
 		if( selectedNode instanceof TestcaseCaseDataModel ){
 
 			//Insert Page
-			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.paramcollector") );
+			JMenuItem insertParamPageMenu = new JMenuItem( CommonOperations.getTranslation( "tree.popupmenu.insert.testcase.stepcollector") );
 			insertParamPageMenu.setActionCommand( ActionCommand.CAPTURE.name());
 			insertParamPageMenu.addActionListener( new ActionListener() {
 			
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					TestcaseParamContainerEditor testcaseParamPageEditor = new TestcaseParamContainerEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
-					guiFrame.showEditorPanel( testcaseParamPageEditor);								
+					TestcaseStepCollectorEditor testcaseStepCollectorEditor = new TestcaseStepCollectorEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
+					guiFrame.showEditorPanel( testcaseStepCollectorEditor);	
+TestcaseTree.this.treeHasChanged();					
 				
 				}
 			});
@@ -219,7 +224,8 @@ public class TestcaseTree extends Tree {
 				public void actionPerformed(ActionEvent e) {
 					
 					TestcaseFolderEditor paramNodeEditor = new TestcaseFolderEditor( TestcaseTree.this, (TestcaseFolderDataModel)selectedNode );								
-					guiFrame.showEditorPanel( paramNodeEditor);								
+					guiFrame.showEditorPanel( paramNodeEditor);	
+TestcaseTree.this.treeHasChanged();					
 				
 				}
 			});
@@ -235,7 +241,8 @@ public class TestcaseTree extends Tree {
 					
 					//TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode, driverRootDataModel );								
 					TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseFolderDataModel)selectedNode );
-					guiFrame.showEditorPanel( testcaseCaseEditor);								
+					guiFrame.showEditorPanel( testcaseCaseEditor);	
+TestcaseTree.this.treeHasChanged();					
 				
 				}
 			});
@@ -272,7 +279,7 @@ public class TestcaseTree extends Tree {
 					//Felfrissitem a Tree-t
 					TestcaseTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
 					//TestcaseTree.this.nodeChanged();
-				
+TestcaseTree.this.treeHasChanged();				
 				}
 
 			}
@@ -318,6 +325,7 @@ public class TestcaseTree extends Tree {
 						//Tulajdonkeppen csak levalasztom a fastrukturarol
 						totalTreeModel.removeNodeFromParent( selectedNode);
 						TestcaseTree.this.setSelectionRow(selectedRow - 1);
+TestcaseTree.this.treeHasChanged();
 					}
 					
 				//Ha vannak gyerekei
@@ -342,6 +350,7 @@ public class TestcaseTree extends Tree {
 						//Tulajdonkeppen csak levalasztom a fastrukturarol
 						totalTreeModel.removeNodeFromParent( selectedNode);
 						TestcaseTree.this.setSelectionRow(selectedRow - 1);
+TestcaseTree.this.treeHasChanged();
 					}
 					
 				}					
@@ -388,7 +397,7 @@ public class TestcaseTree extends Tree {
 			return true;
 		
 		//Page elhelyezese Case-ben
-		}else if( draggedNode instanceof TestcaseParamContainerDataModel && targetObject instanceof TestcaseCaseDataModel ){
+		}else if( draggedNode instanceof TestcaseStepCollectorDataModel && targetObject instanceof TestcaseCaseDataModel ){
 			return true;
 
 		}

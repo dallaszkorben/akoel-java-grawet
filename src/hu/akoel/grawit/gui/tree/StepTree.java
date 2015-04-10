@@ -49,7 +49,7 @@ import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -369,13 +369,13 @@ public class StepTree extends Tree {
 				
 				//Eloszor is vegig vizsgalom, hogy van-e hivatkozas az elemre vagy valamelyik gyermekere a Testcase-ben
 				//Akkor megnezi, hogy van-e hivatkozas a tartalmazott elemekre a Testcase fastrukturaban
-				ArrayList<TestcaseParamContainerDataModel> foundTestcaseContainerList = findAllParamInTestcase( (StepDataModelAdapter)selectedNode, testcaseRootDataModel, new ArrayList<TestcaseParamContainerDataModel>() );
+				ArrayList<TestcaseStepCollectorDataModel> foundTestcaseContainerList = findAllParamInTestcase( (StepDataModelAdapter)selectedNode, testcaseRootDataModel, new ArrayList<TestcaseStepCollectorDataModel>() );
 
 				StringBuilder listMessage = new StringBuilder();
 				int rows = 0;
 				
 				//Ha van eleme a listanak, akkor volt hivatkozas, es ossze kell gyujteni a hivatkozasi pontokat (max 10 db)
-				for( TestcaseParamContainerDataModel foundTestcaseContainer: foundTestcaseContainerList ){
+				for( TestcaseStepCollectorDataModel foundTestcaseContainer: foundTestcaseContainerList ){
 
 					StringBuilder pathToTestCaseContainerString = new StringBuilder();	
 					TreeNode[] pathArray = foundTestcaseContainer.getPath();
@@ -469,7 +469,12 @@ public class StepTree extends Tree {
 			
 			BaseElementDataModelAdapter baseBaseElement = ((StepElementDataModel)selectedNode).getBaseElement();			
 			
-			JMenuItem linkToBaseElementMenu = new JMenuItem( CommonOperations.getTranslation( "Link to '" + baseBaseElement.getName() + "' Base element" ) );
+			JMenuItem linkToBaseElementMenu = new JMenuItem(
+				MessageFormat.format( 
+					CommonOperations.getTranslation("tree.popupmenu.linkto.baseelement.as.base"), 
+					baseBaseElement.getName() 
+				) 					
+			);
 			linkToBaseElementMenu.setActionCommand( ActionCommand.LINK.name());
 			linkToBaseElementMenu.addActionListener( new LinkToElementListener( baseBaseElement ) );
 				
@@ -480,7 +485,12 @@ public class StepTree extends Tree {
 			if( operation instanceof HasConstantOperationInterface ){
 				
 				ConstantElementDataModel constantElement = ((HasConstantOperationInterface)operation).getConstantElement();
-				JMenuItem linkToConstantElementMenu = new JMenuItem( CommonOperations.getTranslation( "Link to '" + constantElement.getName() + "' Constant element" ) );
+				JMenuItem linkToConstantElementMenu = new JMenuItem( 
+					MessageFormat.format( 
+						CommonOperations.getTranslation("tree.popupmenu.linkto.constantelement.as.parameter"), 
+						constantElement.getName() 
+					) 					
+				);
 				linkToConstantElementMenu.setActionCommand( ActionCommand.LINK.name());
 				linkToConstantElementMenu.addActionListener( new LinkToElementListener( constantElement ) );
 				popupMenu.add( linkToConstantElementMenu );
@@ -488,16 +498,32 @@ public class StepTree extends Tree {
 			}else if( operation instanceof HasElementOperationInterface ){
 				
 				BaseElementDataModelAdapter baseElement = ((HasElementOperationInterface)operation).getBaseElement();
-				JMenuItem linkToConstantElementMenu = new JMenuItem( CommonOperations.getTranslation( "Link to '" + baseElement.getName() + "' Base element" ) );
-				linkToConstantElementMenu.setActionCommand( ActionCommand.LINK.name());
-				linkToConstantElementMenu.addActionListener( new LinkToElementListener( baseElement ) );
-				popupMenu.add( linkToConstantElementMenu );
+				JMenuItem linkToBaseBaseElementMenu = new JMenuItem(
+					MessageFormat.format( 
+						CommonOperations.getTranslation("tree.popupmenu.linkto.baseelement.as.parameter"), 
+						baseElement.getName() 
+					) 					
+				);
+				linkToBaseBaseElementMenu.setActionCommand( ActionCommand.LINK.name());
+				linkToBaseBaseElementMenu.addActionListener( new LinkToElementListener( baseElement ) );
+				popupMenu.add( linkToBaseBaseElementMenu );
 			}
 			
 		}
 		
 	}
 
+	/**
+	 * Listener interface for the menu of the link to other tree's node
+	 * If the menu is selected then the actionPerformed() method will be called.
+	 * This method gets the LinkToNodeInTreeListener-s and runs its linkToNode method()
+	 * 
+	 * The LinkToNodeInTreeListener has been added to every Tree in the GUIFrame.
+	 * The linkToNode method of this class will opens the right tree TAB 
+	 * 
+	 * @author akoel
+	 *
+	 */
 	class LinkToElementListener implements ActionListener{
 		DataModelAdapter dataModel;
 		
@@ -524,7 +550,7 @@ public class StepTree extends Tree {
 	 * @param foundDataModel
 	 * @return
 	 */
-	private ArrayList<TestcaseParamContainerDataModel> findAllParamInTestcase( StepDataModelAdapter nodeToDelete, TestcaseDataModelAdapter rootTestcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
+	private ArrayList<TestcaseStepCollectorDataModel> findAllParamInTestcase( StepDataModelAdapter nodeToDelete, TestcaseDataModelAdapter rootTestcaseDataModel, ArrayList<TestcaseStepCollectorDataModel> foundDataModel ){
 		
 		findOneParamInTestcase( nodeToDelete, rootTestcaseDataModel, foundDataModel );
 		
@@ -550,7 +576,7 @@ public class StepTree extends Tree {
 	 * @param foundDataModel
 	 * @return
 	 */
-	private ArrayList<TestcaseParamContainerDataModel> findOneParamInTestcase( StepDataModelAdapter nodeToDelete, TestcaseDataModelAdapter testcaseDataModel, ArrayList<TestcaseParamContainerDataModel> foundDataModel ){
+	private ArrayList<TestcaseStepCollectorDataModel> findOneParamInTestcase( StepDataModelAdapter nodeToDelete, TestcaseDataModelAdapter testcaseDataModel, ArrayList<TestcaseStepCollectorDataModel> foundDataModel ){
 				
 		@SuppressWarnings("unchecked")
 		Enumeration<TestcaseDataModelAdapter> enumForTestcaseModel = testcaseDataModel.children();
@@ -560,12 +586,12 @@ public class StepTree extends Tree {
 		while( enumForTestcaseModel.hasMoreElements() ){
 			TestcaseDataModelAdapter nextTestcaseModel = (TestcaseDataModelAdapter)enumForTestcaseModel.nextElement();
 		
-			if( nextTestcaseModel instanceof TestcaseParamContainerDataModel ){
-				paramCollector = ((TestcaseParamContainerDataModel)nextTestcaseModel).getParamPage();
+			if( nextTestcaseModel instanceof TestcaseStepCollectorDataModel ){
+				paramCollector = ((TestcaseStepCollectorDataModel)nextTestcaseModel).getParamPage();
 				
 				//Ha igen, akkor az adott Testcase Node-ot elhelyezi a visszatero parameter-listaba
 				if( paramCollector.equals( nodeToDelete ) ){
-					foundDataModel.add((TestcaseParamContainerDataModel)nextTestcaseModel);
+					foundDataModel.add((TestcaseStepCollectorDataModel)nextTestcaseModel);
 				}
 			
 			//Ha vannak gyerekei a Testcase Node-nak

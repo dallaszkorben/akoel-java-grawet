@@ -18,6 +18,7 @@ import hu.akoel.grawit.gui.tree.RunTree;
 import hu.akoel.grawit.gui.tree.TestcaseTree;
 import hu.akoel.grawit.gui.tree.Tree;
 import hu.akoel.grawit.gui.tree.ConstantTree;
+import hu.akoel.grawit.gui.tree.TreeHasChangedListener;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -57,7 +58,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -66,7 +66,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicButtonUI;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -90,14 +89,14 @@ public class GUIFrame extends JFrame{
 	
 	private static int treePanelStartWidth = 200;
 	
-	//Ki/be kapcsolhato menuelemeek
+	//ON/OFF menu elements
 	private JMenuItem fileSaveMenuItem;
 	private JMenuItem editDriverMenuItem;
 	private JMenuItem editBaseMenuItem;
 	private JMenuItem editParamMenuItem;
 	private JMenuItem editConstantMenuItem;
 	private JMenuItem editTestCaseMenuItem;
-	private JMenuItem runRunMenuItem;
+	private JMenuItem runMenuItem;
 	private JMenuItem helpAboutMenuItem;
 	
 	private TreePanel treePanel;
@@ -111,7 +110,7 @@ public class GUIFrame extends JFrame{
 	
 	private File usedDirectory = null;
 	
-	//Esemenyfigyelok a menupontokhoz
+	//Event listeners for the menus
 	private NewActionListener newActionListener;
 	private OpenActionListener openActionListener;
 	private SaveAsActionListener saveAsActionListener;
@@ -121,13 +120,12 @@ public class GUIFrame extends JFrame{
 	private EditStepActionListener editStepActionListener;
 	private EditTestcaseActionListener editTestcaseActionListener;
 	private EditDriverActionListener editDriverActionListener;
-	private RunRunActionListener runRunActionListener;
-//	private RunTree runTree = null;
+	private RunActionListener runRunActionListener;
 	
 	public GUIFrame( String appName, String appVersion, String appDesigner, int frameWidth, int frameHeight ){
 		super( appName );
 		
-		//Mindig legefelul jelenik meg
+		//Always on top
 		//this.setAlwaysOnTop(true);
 		
 		this.appName = appName;
@@ -285,12 +283,12 @@ public class GUIFrame extends JFrame{
         menuBar.add(menu);
 
         //Run      
-        runRunMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.run.run") );
-        runRunMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.run.run") ).getKeyCode() ); //KeyEvent.VK_P);
-        runRunActionListener = new RunRunActionListener( runRunMenuItem.getText() );
-        runRunMenuItem.addActionListener( runRunActionListener );
-        runRunMenuItem.setEnabled( false );
-        menu.add(runRunMenuItem);  
+        runMenuItem = new JMenuItem( CommonOperations.getTranslation("menu.element.run.run") );
+        runMenuItem.setMnemonic(  KeyStroke.getKeyStroke(CommonOperations.getTranslation("menu.mnemonic.run.run") ).getKeyCode() ); //KeyEvent.VK_P);
+        runRunActionListener = new RunActionListener( runMenuItem.getText() );
+        runMenuItem.addActionListener( runRunActionListener );
+        runMenuItem.setEnabled( false );
+        menu.add(runMenuItem);  
         
      
         //
@@ -363,7 +361,7 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( false );
 		editBaseMenuItem.setEnabled( false );
 		editTestCaseMenuItem.setEnabled( false );
-		runRunMenuItem.setEnabled( false );
+		runMenuItem.setEnabled( false );
 		
 		//Ablak cimenek beallitasa
 		setTitle( getWindowTitle() );
@@ -388,7 +386,7 @@ public class GUIFrame extends JFrame{
 		editParamMenuItem.setEnabled( true );
 		editBaseMenuItem.setEnabled( true );
 		editTestCaseMenuItem.setEnabled( true );
-		runRunMenuItem.setEnabled( true );
+		runMenuItem.setEnabled( true );
 	}
 	
 	private void saveTestSuit( File file ) throws ParserConfigurationException, TransformerException{
@@ -594,7 +592,7 @@ public class GUIFrame extends JFrame{
 			editTestCaseMenuItem.setEnabled( false );
 			
 			//Bekapcsolom a Run menut
-			runRunMenuItem.setEnabled( false );
+			runMenuItem.setEnabled( false );
 			
 			JFileChooser fc;
 			if (null == usedDirectory) {
@@ -697,7 +695,7 @@ public class GUIFrame extends JFrame{
 			editTestCaseMenuItem.setEnabled( true );
 			
 			//Bekapcsolom a Run menut
-			runRunMenuItem.setEnabled( true );
+			runMenuItem.setEnabled( true );
 	
 		}
 	}
@@ -709,7 +707,7 @@ public class GUIFrame extends JFrame{
 	 * @author afoldvarszky
 	 *
 	 */
-	class EditDriverActionListener implements ActionListener{
+	class EditDriverActionListener implements ActionListener, TreeFactory{
 		private String functionName;
 
 		public EditDriverActionListener( String functionName ){
@@ -730,6 +728,11 @@ public class GUIFrame extends JFrame{
 			
 			treePanel.showTree( tree, nodeToSelect );		
 		}
+
+		@Override
+		public String getFunctionName() {	
+			return functionName;
+		}
 	}
 	
 	/**
@@ -739,7 +742,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditConstantActionListener implements ActionListener{
+	class EditConstantActionListener implements ActionListener, TreeFactory{
 		private String functionName;
 
 		public EditConstantActionListener( String functionName ){
@@ -760,7 +763,12 @@ public class GUIFrame extends JFrame{
 			
 			treePanel.showTree( tree, nodeToSelect );
 			
-		}		
+		}	
+		
+		@Override
+		public String getFunctionName() {	
+			return functionName;
+		}
 	}
 	
 	/**
@@ -770,7 +778,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditBaseActionListener implements ActionListener{
+	class EditBaseActionListener implements ActionListener, TreeFactory{
 		private String functionName;
 
 		public EditBaseActionListener( String functionName ){
@@ -791,7 +799,12 @@ public class GUIFrame extends JFrame{
 			
 			treePanel.showTree( tree, nodeToSelect );
 			
-		}		
+		}	
+		
+		@Override
+		public String getFunctionName() {	
+			return functionName;
+		}
 	}
 	
 	/**
@@ -800,7 +813,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditStepActionListener implements ActionListener{
+	class EditStepActionListener implements ActionListener, TreeFactory{
 		private String functionName;
 
 		public EditStepActionListener( String functionName ){
@@ -823,6 +836,11 @@ public class GUIFrame extends JFrame{
 			
 		}
 		
+		@Override
+		public String getFunctionName() {	
+			return functionName;
+		}
+		
 	}
 	
 	/**
@@ -832,7 +850,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditTestcaseActionListener implements ActionListener{
+	class EditTestcaseActionListener implements ActionListener, TreeFactory{
 		private String functionName;
 
 		public EditTestcaseActionListener( String functionName ){
@@ -848,8 +866,14 @@ public class GUIFrame extends JFrame{
 						
 			TestcaseTree tree = new TestcaseTree( this.functionName, GUIFrame.this, baseRootDataModel, stepRootDataModel, driverRootDataModel, testcaseRootDataModel );
 			tree.addLinkToNodeInTreeListener( new LinkListener() );
+			tree.addTreeHasChangedListener( new TreeChagedListener() );
 			treePanel.showTree( tree, nodeToSelect );
 			
+		}
+		
+		@Override
+		public String getFunctionName() {	
+			return functionName;
 		}
 		
 	}
@@ -861,10 +885,10 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class RunRunActionListener implements ActionListener{
+	class RunActionListener implements ActionListener, TreeFactory{
 		private String functionName;
 
-		public RunRunActionListener( String functionName ){
+		public RunActionListener( String functionName ){
 			this.functionName = functionName;
 		}
 		
@@ -882,8 +906,34 @@ public class GUIFrame extends JFrame{
 			
 		}
 		
+		@Override
+		public String getFunctionName() {	
+			return functionName;
+		}
+		
 	}
 	
+//TODO A tree-t csak egyszer kellene legyartanom. Mukodik-e igy?
+	
+	interface TreeFactory{
+		public String getFunctionName();
+		public void show( DataModelAdapter nodeToSelect );
+	}
+	
+	/**
+	 * 
+	 * If somebody calls the linkToNode() method, than the right TREE TAB appears
+	 * whith selected node set by the parameter
+	 * 
+	 * One instance of this class will be added to every tree.
+	 * So every tree will be ready to react to the call of the linkToNode() method.
+	 * 
+	 * This method is going to be called in the instance of the Tree classes in case of 
+	 * a menu element was selected which links to an another tree node
+	 * 
+	 * @author akoel
+	 *
+	 */
 	class LinkListener implements LinkToNodeInTreeListener{
 		
 		private boolean find(DataModelAdapter root, DataModelAdapter a) {
@@ -911,8 +961,15 @@ public class GUIFrame extends JFrame{
 			}else if( find( testcaseRootDataModel, nodeToLink ) ){
 				editTestcaseActionListener.show( nodeToLink );
 			}
-
 		}
+	}
+	
+	class TreeChagedListener implements TreeHasChangedListener{
+
+		@Override
+		public void treeHasChanged() {			
+			treePanel.removeTab( runRunActionListener.getFunctionName());
+		}		
 	}
 	
 	/**
@@ -1126,25 +1183,29 @@ int row = 0;
 			}
 					
 		}
-		
+	
+		public void removeTab( String functionName ){
+			int indexOfTab = jtp.indexOfTab( functionName );
+			
+			//Ha meg nem letezett
+			if( indexOfTab >= 0 ){			
+				jtp.remove(indexOfTab);
+			}
+		}
 		/**
 		 * Torli az editort a jobb oldalon
 		 */
 		public void removeEditor(){
-//			EmptyEditor emptyPanel = new EmptyEditor();								
-//			showEditorPanel( emptyPanel);
+			EmptyEditor emptyPanel = new EmptyEditor();								
+			showEditorPanel( emptyPanel);
 		}
 	
 		public void removeAllTab(){
-//			jtp.removeAll();
-//			this.repaint();
-//			this.revalidate();
+			jtp.removeAll();
+			this.repaint();
+			this.revalidate();
 		}
 		
-/*		public JTree getTree(){
-			return tree;
-		}
-*/			
 	}
 	
 	/**
