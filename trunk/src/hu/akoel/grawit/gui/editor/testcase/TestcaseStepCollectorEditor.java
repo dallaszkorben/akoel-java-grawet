@@ -11,7 +11,7 @@ import hu.akoel.grawit.core.treenodedatamodel.step.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamContainerDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.editors.component.TextAreaComponent;
 import hu.akoel.grawit.gui.editors.component.TextFieldComponent;
@@ -22,12 +22,12 @@ import hu.akoel.grawit.gui.tree.Tree;
 import javax.swing.JLabel;
 import javax.swing.tree.TreeNode;
 
-public class TestcaseParamContainerEditor extends DataEditor{
+public class TestcaseStepCollectorEditor extends DataEditor{
 
 	private static final long serialVersionUID = -8169618880309437186L;
 	
 	private Tree tree;
-	private TestcaseParamContainerDataModel nodeForModify;
+	private TestcaseStepCollectorDataModel nodeForModify;
 	private TestcaseDataModelAdapter nodeForCapture;
 	private EditMode mode;
 	
@@ -39,8 +39,8 @@ public class TestcaseParamContainerEditor extends DataEditor{
 	private StepCollectorTreeSelectorComponent fieldStepCollectorTreeSelector;	
 
 	//Itt biztos beszuras van
-	public TestcaseParamContainerEditor( Tree tree, TestcaseCaseDataModel selectedNode, StepDataModelAdapter stepDataModel ){
-		super( TestcaseParamContainerDataModel.getModelNameToShowStatic() );
+	public TestcaseStepCollectorEditor( Tree tree, TestcaseCaseDataModel selectedNode, StepDataModelAdapter stepDataModel ){
+		super( TestcaseStepCollectorDataModel.getModelNameToShowStatic() );
 		
 		this.tree = tree;
 		this.nodeForCapture = selectedNode;
@@ -62,7 +62,7 @@ public class TestcaseParamContainerEditor extends DataEditor{
 	}
 	
 	//Itt modositas van
-	public TestcaseParamContainerEditor( Tree testcaseTree, TestcaseParamContainerDataModel selectedNode, StepDataModelAdapter paramDataModel, EditMode mode ){		
+	public TestcaseStepCollectorEditor( Tree testcaseTree, TestcaseStepCollectorDataModel selectedNode, StepDataModelAdapter paramDataModel, EditMode mode ){		
 		super( mode, selectedNode.getNodeTypeToShow());
 
 		this.tree = testcaseTree;
@@ -152,10 +152,10 @@ public class TestcaseParamContainerEditor extends DataEditor{
 				TreeNode levelNode = nodeForSearch.getChildAt( i );
 				
 				//Ha Case-rol van szo
-				if( levelNode instanceof TestcaseParamContainerDataModel ){
+				if( levelNode instanceof TestcaseStepCollectorDataModel ){
 					
 					//Ha azonos a nev
-					if( ((TestcaseParamContainerDataModel) levelNode).getName().equals( fieldName.getText() ) ){
+					if( ((TestcaseStepCollectorDataModel) levelNode).getName().equals( fieldName.getText() ) ){
 						
 						//Ha rogzites van, vagy ha modositas, de a vizsgalt node kulonbozik a modositott-tol
 						if( null == mode || ( mode.equals( EditMode.MODIFY ) && !levelNode.equals(nodeForModify) ) ){
@@ -191,7 +191,7 @@ public class TestcaseParamContainerEditor extends DataEditor{
 			//Uj rogzites eseten
 			if( null == mode ){
 			
-				TestcaseParamContainerDataModel newTestcaseParamContainer = new TestcaseParamContainerDataModel( fieldName.getText(), fieldDetails.getText(), paramCollector );				
+				TestcaseStepCollectorDataModel newTestcaseParamContainer = new TestcaseStepCollectorDataModel( fieldName.getText(), fieldDetails.getText(), paramCollector );				
 				nodeForCapture.add( newTestcaseParamContainer );
 				
 				//A new ParamElementDataModel()-ben nem vegrehajthato, mert akkor meg nincs a tree-hez rendelve es igy nincs szuloje

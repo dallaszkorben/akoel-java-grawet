@@ -80,6 +80,7 @@ public abstract class Tree extends JTree{
 	private DataModelAdapter rootDataModel;
 	
 	private ArrayList<LinkToNodeInTreeListener> linkToNodeInTreeListeners = new ArrayList<LinkToNodeInTreeListener>();
+	private ArrayList<TreeHasChangedListener> treeHasChangedListeners = new ArrayList<TreeHasChangedListener>();
 	
 	Insets autoscrollInsets = new Insets(20, 20, 20, 20);
 	
@@ -144,6 +145,14 @@ public abstract class Tree extends JTree{
 		return linkToNodeInTreeListeners;
 	}
 	
+	public void addTreeHasChangedListener( TreeHasChangedListener treeHasChangedListener ){
+		treeHasChangedListeners.add( treeHasChangedListener );
+	}
+	
+	public ArrayList<TreeHasChangedListener> getTreeHasChangedListeners(){
+		return treeHasChangedListeners;
+	}
+	
 	/**
 	 * A parameterkent megadott Node-hoz rendel egy ikont
 	 * 
@@ -168,6 +177,15 @@ public abstract class Tree extends JTree{
 	
 	public abstract boolean possibleHierarchy( DefaultMutableTreeNode draggedNode, Object targetObject );
 
+	/**
+	 * If something important changed in the tree then this method should be called
+	 */
+	public void treeHasChanged(){
+		for( TreeHasChangedListener listener: getTreeHasChangedListeners() ){
+			listener.treeHasChanged();
+		}
+	}
+	
 	public ImageIcon getIconOff( DataModelAdapter actualNode, boolean expanded ){
 		return getIcon(actualNode, expanded);
 	}
@@ -417,6 +435,7 @@ public abstract class Tree extends JTree{
 								
 								//Ujra ki kell szinezni az eredetileg kivalasztott sort
 								Tree.this.setSelectionRow(selectedRow - 1);
+Tree.this.treeHasChanged();	
 							}							
 						}
 					});
@@ -448,6 +467,7 @@ public abstract class Tree extends JTree{
 								
 								//Ujra ki kell szinezni az eredetileg kivalasztott sort
 								Tree.this.setSelectionRow(selectedRow + 1);
+Tree.this.treeHasChanged();								
 							}	
 							
 						}
@@ -469,7 +489,7 @@ public abstract class Tree extends JTree{
 						public void actionPerformed(ActionEvent e) {					
 
 							doModifyWithPopupEdit( selectedNode );
-						
+Tree.this.treeHasChanged();						
 						}
 					});
 					this.add ( editMenu );
@@ -638,7 +658,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
         	 TreePath treePath = new TreePath(draggedNode.getPath());
         	 tree.scrollPathToVisible(treePath);
         	 tree.setSelectionPath(treePath);
-             
+tree.treeHasChanged();
          }
     }
     
