@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-public class TestcaseStepCollectorDataModel extends TestcaseParamDataModelAdapter{
+public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter{
 
 	private static final long serialVersionUID = 5313170692938571481L;
 	public static final Tag TAG = Tag.TESTCASESTEPCOLLECTOR;
@@ -127,7 +127,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseParamDataModelAdapte
 	    } 
 	    	  
 	    //ParamDataModelAdapter paramDataModel = (ParamDataModelAdapter)paramRootDataModel.clone();
-	    StepDataModelAdapter paramDataModel = paramRootDataModel;
+	    StepDataModelAdapter stepDataModel = paramRootDataModel;
 	    
 	    //Megkeresem a PARAMPAGEROOT-ben a PARAMPAGE-hez vezeto utat
 	    Node actualNode = document;
@@ -141,9 +141,9 @@ public class TestcaseStepCollectorDataModel extends TestcaseParamDataModelAdapte
 	    	//Ha PARAMFOLDER
 	    	if( tagName.equals( StepFolderDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(StepFolderDataModel.ATTR_NAME);	    		
-	    		paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPFOLDER, attrName );
+	    		stepDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( stepDataModel, Tag.STEPFOLDER, attrName );
 
-	    		if( null == paramDataModel ){
+	    		if( null == stepDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH) );
 	    		}
@@ -151,8 +151,8 @@ public class TestcaseStepCollectorDataModel extends TestcaseParamDataModelAdapte
 	    	//Ha PARAMPAGE
 	    	}else if( tagName.equals( StepNormalCollectorDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(StepNormalCollectorDataModel.ATTR_NAME);
-	    		paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPNORMALELEMENTCOLLECTOR, attrName );
-	    		if( null == paramDataModel ){
+	    		stepDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( stepDataModel, Tag.STEPNORMALELEMENTCOLLECTOR, attrName );
+	    		if( null == stepDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH) );
 	    		}
@@ -161,8 +161,8 @@ public class TestcaseStepCollectorDataModel extends TestcaseParamDataModelAdapte
 //Ha PARAMLOOP
 	    	}else if( tagName.equals( StepLoopCollectorDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(StepLoopCollectorDataModel.ATTR_NAME);
-	    		paramDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( paramDataModel, Tag.STEPLOOPELEMENTCOLLECTOR, attrName );
-	    		if( null == paramDataModel ){
+	    		stepDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( stepDataModel, Tag.STEPLOOPELEMENTCOLLECTOR, attrName );
+	    		if( null == stepDataModel ){
 
 	    			throw new XMLBaseConversionPharseException( getRootTag(), TAG, ATTR_NAME, getName(), ATTR_STEP_COLLECTOR_PATH, element.getAttribute(ATTR_STEP_COLLECTOR_PATH) );
 	    		}
@@ -183,7 +183,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseParamDataModelAdapte
 	    try{
 	    	
 	    	//paramPage = (ParamPageDataModel)paramDataModel;
-	    	stepCollector = (StepCollectorDataModelAdapter)paramDataModel;
+	    	stepCollector = (StepCollectorDataModelAdapter)stepDataModel;
 	    	
 	    }catch(ClassCastException e){
 

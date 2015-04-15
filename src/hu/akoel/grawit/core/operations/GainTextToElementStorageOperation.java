@@ -1,5 +1,6 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -67,25 +69,36 @@ public class GainTextToElementStorageOperation extends ElementOperationAdapter{
 	public String getStringPattern(){
 		return stringPattern;
 	}
-
+	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+		ArrayList<String> returnArray = new ArrayList<>();
 		
 		String origText = "";
 		
 		//GAIN TEXT
 		origText = webElement.getText();
 	
-		//EXECUTE_SCRIPT OPERATION = Elmenti az elem tartalmat a valtozoba		
+		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
 			baseElement.setStoredValue( origText );
+			
+			returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = webElement.getText();" );
+			
 		}else{
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
 				String resultText = matcher.group();
 				baseElement.setStoredValue( resultText );
+				
+				returnArray.add( "origText = webElement.getText();");				
+				returnArray.add( "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+				returnArray.add( "matcher = pattern.matcher( origText );");
+				returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
 			}			
-		}			
+		}		
+		
+		return returnArray;
 	}
 
 	@Override

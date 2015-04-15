@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.ArrayList;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -27,21 +29,22 @@ public class TabOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-	
+	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+		ArrayList<String> returnArray = new ArrayList<>();
+		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 		
 			try{
 				//Execute the operation
-				//webElement.clear();
-				//webElement.sendKeys( parameter.getValue() );
-elementProgress.outputCommand( "		webElement.sendKeys( Keys.TAB );" );			
-				
 				webElement.sendKeys(Keys.TAB);
 			}catch (WebDriverException webDriverException){
 				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
 			}
+			
+			returnArray.add( "webElement.sendKeys(Keys.TAB);" );
 		}
+		
+		return returnArray;
 	}
 	
 	@Override

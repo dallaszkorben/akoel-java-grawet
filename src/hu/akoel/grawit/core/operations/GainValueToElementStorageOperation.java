@@ -1,5 +1,6 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
@@ -69,17 +71,11 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-
-		String origText = "";
+	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+		ArrayList<String> returnArray = new ArrayList<>();
 		
-		//GAIN VALUE
-/*		//Ha LIST
-		if( element.getBaseElement().getElementType().equals(ElementTypeListEnum.LIST)){
+		String origText = "";
 
-			Select select = new Select(webElement);
-			origText = select.getFirstSelectedOption().getAttribute("value");
-*/
 		//CHECKBOX/RADIOBUTTON
 		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
 
@@ -89,23 +85,39 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 				origText = "off";
 			}
 			
+			returnArray.add( "if( webElement.isSelected() ){" );
+			returnArray.add( CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
+			returnArray.add( "}else{" );
+			returnArray.add( CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
+			returnArray.add( "}" );
+			
 		//Ha FIELD
 		}else{		
 
 			origText = webElement.getAttribute("value");
+			
+			returnArray.add( "origText = webElement.getAttribute(\"value\");" );
 		}
 	
-		//EXECUTE_SCRIPT OPERATION = Elmenti az elem tartalmat a valtozoba		
+		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
 			baseElement.setStoredValue( origText );
+			
+			returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = origText;" );
 		}else{
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
 				String resultText = matcher.group();
 				baseElement.setStoredValue( resultText );
+				
+				returnArray.add( "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+				returnArray.add( "matcher = pattern.matcher( origText );");
+				returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
+				
 			}			
 		}	
 		
+		return returnArray;
 	}
 	
 	@Override

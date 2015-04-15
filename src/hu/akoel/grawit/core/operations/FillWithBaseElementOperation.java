@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -147,15 +146,13 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter implem
 			
 				//Execute the operation
 				webElement.sendKeys( baseElementDataModel.getStoredValue() );
-				webElement.sendKeys(Keys.TAB);
+				//webElement.sendKeys(Keys.TAB);
 			
 			}catch (WebDriverException webDriverException){
 				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
 			}
 			
-			returnArray.add( "webElement.sendKeys(\"" + baseElementDataModel.getStoredValue() + "\");     //" + baseElement.getName() );
-			returnArray.add( "webElement.sendKeys(Keys.TAB);" );
-					
+			returnArray.add( CommonOperations.TAB_BY_SPACE + "webElement.sendKeys(\"" + baseElementDataModel.getStoredValue() + "\");     //" + baseElement.getName() );
 		}
 		
 		return returnArray;
