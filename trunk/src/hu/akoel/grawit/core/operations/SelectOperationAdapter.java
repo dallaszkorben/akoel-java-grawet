@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.ArrayList;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,7 +24,7 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 	
 	@Override
 	public String[] doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-
+		ArrayList<String>
 		if( baseElement instanceof NormalBaseElementDataModel ){
 
 			Select select = null;
@@ -67,7 +69,7 @@ elementProgress.outputCommand( "		select.selectByVisibleText( \"" + getStringToS
 			}
 		}
 		
-		String[] returnStringArray = new String[5];
+		
 		returnStringArray[0] = "Select select = null;";
 		returnStringArray[1] = "select = new Select(webElement);";
 		

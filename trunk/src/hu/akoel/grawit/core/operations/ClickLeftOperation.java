@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.ArrayList;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
@@ -23,8 +25,9 @@ public class ClickLeftOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public String[] doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-	
+	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+		ArrayList<String> returnArray = new ArrayList<>();
+		
 		webElement.click();		
 
 		//new Actions(driver).click(webElement).perform();		
@@ -33,8 +36,8 @@ public class ClickLeftOperation extends ElementOperationAdapter{
 		////Feltehetoleg idozitesi problema, mert debug-kor mukodik
 		//JavascriptExecutor executor = (JavascriptExecutor)driver;
 		//executor.executeScript("arguments[0].click();", webElement);
-		
-		return new String[]{"webElement.click()"};
+		returnArray.add("webElement.click()");
+		return returnArray;
 	}
 	
 	@Override

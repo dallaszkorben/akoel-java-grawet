@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -123,8 +124,9 @@ public class FillWithConstantElementOperation extends ElementOperationAdapter im
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-
+	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+		ArrayList<String> returnArray = new ArrayList<>();
+		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 			try{
 				//Execute the operation
@@ -136,7 +138,13 @@ public class FillWithConstantElementOperation extends ElementOperationAdapter im
 			}catch (WebDriverException webDriverException){
 				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
 			}
+			
+			returnArray.add( "webElement.sendKeys(\"" + constantElementDataModel.getValue() + "\");     //" + baseElement.getName() );
+			returnArray.add( "webElement.sendKeys(Keys.TAB);" );
+
 		}
+		
+		return returnArray;
 	}
 
 	@Override
