@@ -145,7 +145,7 @@ public class ScriptElementAddConstantToParametersOperation extends ElementOperat
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "AddConstantToScriptElementParameter()";
 	}
 	

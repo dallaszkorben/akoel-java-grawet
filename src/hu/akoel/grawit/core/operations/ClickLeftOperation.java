@@ -2,7 +2,6 @@ package hu.akoel.grawit.core.operations;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -24,20 +23,18 @@ public class ClickLeftOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public String[] doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 	
-		new Actions(driver).click(webElement).perform();
-		
-		
-/*		//Sajnos csak a javascipt hivassal mukodik. a webElement.click() hatasara nem tortenik semmi
-		//Feltehetoleg idozitesi problema, mert debug-kor mukodik
+		webElement.click();		
 
-elementProgress.outputCommand( "		executor = (JavascriptExecutor)driver;" );			
-elementProgress.outputCommand( "		executor.executeScript(\"arguments[0].click();\", webElement);" );	
-
-		JavascriptExecutor executor = (JavascriptExecutor)driver;
-		executor.executeScript("arguments[0].click();", webElement);
-*/		
+		//new Actions(driver).click(webElement).perform();		
+		
+		////Sajnos csak a javascipt hivassal mukodik. a webElement.click() hatasara nem tortenik semmi
+		////Feltehetoleg idozitesi problema, mert debug-kor mukodik
+		//JavascriptExecutor executor = (JavascriptExecutor)driver;
+		//executor.executeScript("arguments[0].click();", webElement);
+		
+		return new String[]{"webElement.click()"};
 	}
 	
 	@Override
@@ -51,7 +48,7 @@ elementProgress.outputCommand( "		executor.executeScript(\"arguments[0].click();
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "LeftClick()";
 	}
 }

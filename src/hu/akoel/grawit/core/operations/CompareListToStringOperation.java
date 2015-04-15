@@ -202,7 +202,7 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareListToString()";
 	}
 }

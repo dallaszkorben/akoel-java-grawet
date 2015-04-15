@@ -271,7 +271,7 @@ public class CompareListToConstantOperation extends ElementOperationAdapter impl
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareListToString()";
 	}
 	

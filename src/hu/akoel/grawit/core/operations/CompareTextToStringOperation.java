@@ -166,7 +166,7 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareTextToString()";
 	}
 	

@@ -35,11 +35,11 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	 * Name for display
 	 * @return
 	 */
-	public abstract String getOperationToString();
+	public abstract String getOperationNameToString();
 	
 	public abstract void setXMLAttribute( Document document, Element element );
 
-	public abstract void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException;
+	public abstract String[] doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException;
 	
 	/**
 	 * Make it visible
@@ -55,7 +55,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		
 		//Uzenet az Operation Indulasarol
 		if( null != elementProgress ){
-			elementProgress.elementStarted( baseElement.getName(), getOperationToString() );
+			elementProgress.elementStarted( baseElement.getName(), getOperationNameToString() );
 		}
 
 		//
@@ -126,6 +126,7 @@ elementProgress.outputCommand( "		wait.until(ExpectedConditions.visibilityOfElem
 			try{
 elementProgress.outputCommand( "		webElement = driver.findElement( by );" );					
 				webElement = driver.findElement( by );
+elementProgress.outputCommand( "		//Done" );					
 			
 			}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
 				throw new ElementInvalidSelectorException(baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), invalidSelectorException );
@@ -140,19 +141,19 @@ elementProgress.outputCommand( "		webElement = driver.findElement( by );" );
 			}catch( Exception e ){
 				System.out.println("!!!!!!!!!!! Not handled exception while Identifying - MUST implement. " + e.getMessage() + "!!!!!!!!!!!!!");					
 			}
-		
+//elementProgress.outputCommand( "		//Continued" );			
 			if( null == webElement ){
 				throw new ElementNotFoundSelectorException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), new Exception() );
 			}
-		
+//elementProgress.outputCommand( "		//Start to wait" );			
 			//Varakozik, ha szukseges a muvelet elott
 			try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}			
-			
+//elementProgress.outputCommand( "		//End to wait" );			
 			try{
-
+//elementProgress.outputCommand( "		//Start operation" );
 				//OPERATION
 				doOperation( driver, baseElement, webElement, elementProgress );
-
+//elementProgress.outputCommand( "		//Ends operation" );
 			}catch( StaleElementReferenceException e ){
 				
 				//TODO valahogy veget kell vetni a vegtelen ciklus lehetosegenek				
@@ -198,7 +199,7 @@ elementProgress.outputCommand("");
 	}	
 	
 	private void sendelementEndedMessage( ElementProgressInterface elementProgress, BaseElementDataModelAdapter baseElement ){
-		elementProgress.elementEnded( baseElement.getName(), getOperationToString() );
+		elementProgress.elementEnded( baseElement.getName(), getOperationNameToString() );
 	}
 
 }

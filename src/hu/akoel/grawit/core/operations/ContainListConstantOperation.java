@@ -289,7 +289,7 @@ public class ContainListConstantOperation extends ElementOperationAdapter implem
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareListToConstant()";
 	}
 	

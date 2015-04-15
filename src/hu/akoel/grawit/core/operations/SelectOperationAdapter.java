@@ -21,18 +21,12 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 	public abstract String getStringToSelection();
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public String[] doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
 		if( baseElement instanceof NormalBaseElementDataModel ){
 
 			Select select = null;
 			try{
-				
-elementProgress.outputCommand( "		try{" );
-elementProgress.outputCommand( "			select = new Select(webElement);" );
-elementProgress.outputCommand( "		}catch(UnexpectedTagNameException e){" );
-elementProgress.outputCommand( "		}" );				
-				
 				select = new Select(webElement);
 			}catch (UnexpectedTagNameException e){
 				throw new ElementInvalidOperationException( "List Selection", baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), e );			
@@ -72,6 +66,15 @@ elementProgress.outputCommand( "		select.selectByVisibleText( \"" + getStringToS
 				
 			}
 		}
+		
+		String[] returnStringArray = new String[5];
+		returnStringArray[0] = "Select select = null;";
+		returnStringArray[1] = "select = new Select(webElement);";
+		
+		
+		
+		return returnStringArray;
+		
 	}
 
 }

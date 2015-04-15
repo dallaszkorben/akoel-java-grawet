@@ -89,7 +89,7 @@ public class SelectStringOperation extends SelectOperationAdapter{
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "SelectListElementByString()";
 	}
 }

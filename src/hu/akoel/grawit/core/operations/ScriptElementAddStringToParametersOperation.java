@@ -80,7 +80,7 @@ public class ScriptElementAddStringToParametersOperation extends ElementOperatio
 	}
 		
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "AddStringToScriptElementParameter()";
 	}
 	

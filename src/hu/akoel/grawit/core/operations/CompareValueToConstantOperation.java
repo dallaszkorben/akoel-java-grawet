@@ -249,7 +249,7 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareValueToConstant()";
 	}
 	

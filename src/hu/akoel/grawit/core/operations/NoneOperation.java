@@ -41,7 +41,7 @@ public class NoneOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "Nop()";
 	}
 

@@ -250,7 +250,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareTextToStoredElement()";
 	}
 }

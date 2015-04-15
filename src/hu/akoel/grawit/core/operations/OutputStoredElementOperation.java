@@ -72,7 +72,7 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "OutputElementStorage()";
 	}
 

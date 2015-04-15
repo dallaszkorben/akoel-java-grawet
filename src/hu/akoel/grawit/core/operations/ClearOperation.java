@@ -24,21 +24,22 @@ public class ClearOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementInvalidOperationException {
+	public String[] doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementInvalidOperationException {
 
 		if( baseElement instanceof NormalBaseElementDataModel ){
 
-			try{
+			//try{
 			
-elementProgress.outputCommand( "		webElement.clear();" );				
+				
 				//Execute the operation
 				webElement.clear();
 			
-			}catch (WebDriverException webDriverException){
-				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
-			}
+			//}catch (WebDriverException webDriverException){
+			//	throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
+			//}
 		}
 		
+		return new String[]{"webElement.clear();"};
 	}
 	
 	@Override
@@ -56,7 +57,7 @@ elementProgress.outputCommand( "		webElement.clear();" );
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "Clear Field()";
 	}
 }

@@ -194,7 +194,7 @@ public class ScriptElementAddStoreToParametersOperation extends ElementOperation
 	}
 		
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "AddElementStorageToScriptElementParameter()";
 	}
 }
