@@ -64,7 +64,7 @@ public class ScriptElementExecuteOperation extends ElementOperationAdapter{
 	}
 		
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "ExecuteScriptElement";
 	}
 	

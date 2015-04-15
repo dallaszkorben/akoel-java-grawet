@@ -161,7 +161,7 @@ public class SelectConstantElementOperation extends SelectOperationAdapter imple
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "SelectListElementByConstant()";
 	}
 }

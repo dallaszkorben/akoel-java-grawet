@@ -234,7 +234,7 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareTextToConstant()";
 	}
 }

@@ -124,7 +124,7 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "GainValueToElementStorage()";
 	}
 

@@ -294,7 +294,7 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareListToStoredElement()";
 	}
 	

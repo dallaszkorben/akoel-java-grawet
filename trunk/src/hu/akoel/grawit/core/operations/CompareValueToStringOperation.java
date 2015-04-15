@@ -178,7 +178,7 @@ public class CompareValueToStringOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareValueToString()";
 	}
 	

@@ -153,7 +153,7 @@ public class FillWithConstantElementOperation extends ElementOperationAdapter im
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "FillFieldWithConstant()";
 	}
 }

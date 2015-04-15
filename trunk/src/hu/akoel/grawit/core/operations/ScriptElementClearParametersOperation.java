@@ -57,7 +57,7 @@ public class ScriptElementClearParametersOperation extends ElementOperationAdapt
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "ClearParametersForScriptElement()";
 	}
 }

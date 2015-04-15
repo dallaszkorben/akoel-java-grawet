@@ -7,6 +7,7 @@ import javax.swing.tree.MutableTreeNode;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -183,11 +184,10 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 
 		int childCount = getChildCount();
 		for( int index = 0; index < childCount; index++ ){
-			String key = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getName();
-			Object value = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getValue();
+			String key = ((DriverExplorerCapabilityDataModel)getChildAt(index)).getName();
+			Object value = ((DriverExplorerCapabilityDataModel)getChildAt(index)).getValue();
 			capabilities.setCapability(key, value);
 		}		
-		
 		return new InternetExplorerDriver(capabilities);
 	}
 

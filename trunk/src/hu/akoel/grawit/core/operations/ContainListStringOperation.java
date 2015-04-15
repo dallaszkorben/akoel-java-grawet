@@ -218,7 +218,7 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "CompareListToString()";
 	}
 }

@@ -172,7 +172,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter implem
 	}
 	
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "FillFieldWithBaseElement()";
 	}
 	

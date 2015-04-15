@@ -24,17 +24,11 @@ public class ClickRightOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-
+	public String doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
 
 		new Actions(driver).contextClick(webElement).perform();
-		
-/*		try{
-		
-		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
-		}
-*/		
+
+		return "new Actions(driver).contextClick(webElement).perform();";
 	}
 	
 	@Override
@@ -48,7 +42,7 @@ public class ClickRightOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public String getOperationToString() {		
+	public String getOperationNameToString() {		
 		return "RightClick()";
 	}
 }
