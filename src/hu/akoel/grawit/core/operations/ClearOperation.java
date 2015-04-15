@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.ArrayList;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -24,8 +26,9 @@ public class ClearOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public String[] doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementInvalidOperationException {
-
+	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementInvalidOperationException {
+		ArrayList<String> returnArray = new ArrayList<>();
+		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 
 			//try{
@@ -38,8 +41,8 @@ public class ClearOperation extends ElementOperationAdapter{
 			//	throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
 			//}
 		}
-		
-		return new String[]{"webElement.clear();"};
+		returnArray.add( "webElement.clear();" );
+		return returnArray;
 	}
 	
 	@Override

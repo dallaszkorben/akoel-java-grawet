@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.ArrayList;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -39,7 +41,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	
 	public abstract void setXMLAttribute( Document document, Element element );
 
-	public abstract String[] doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException;
+	public abstract ArrayList<String> doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException;
 	
 	/**
 	 * Make it visible
