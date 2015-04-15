@@ -74,8 +74,10 @@ import com.opera.core.systems.OperaDriver;
 
 public class CommonOperations {
 	
-	private static Random rnd = new Random();
+	public static String STORAGE_NAME_PREFIX = "store";
+	public static String TAB_BY_SPACE = "  ";
 	
+	private static Random rnd = new Random();	
 	private static SimpleDateFormat yearMonthFormat = new SimpleDateFormat("MM/yyyy");
 	private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 

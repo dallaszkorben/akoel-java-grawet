@@ -127,7 +127,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	@Override
 	public void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException, StoppedByUserException {
 		
-		StepElementDataModel parameterElement;
+		StepElementDataModel stepElement;
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
 		if( null != pageProgress ){
@@ -144,13 +144,13 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 			}
 			
 			//Parameterezett elem
-			parameterElement = (StepElementDataModel)this.getChildAt( i );
+			stepElement = (StepElementDataModel)this.getChildAt( i );
 			
 			//Ha a parameterezett elem be van kapcsolva
-			if( parameterElement.isOn() ){
+			if( stepElement.isOn() ){
 			
 				//Bazis elem
-				BaseElementDataModelAdapter baseElement = parameterElement.getBaseElement();
+				BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
 			
 				//Ha NORMAL
 				if( baseElement instanceof NormalBaseElementDataModel ){
@@ -166,7 +166,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				}
 				
 				try{			
-					parameterElement.doAction( driver, elementProgress );
+					stepElement.doAction( driver, elementProgress );
 			
 				//Ha nem futott le rendesen a teszteset
 				}catch (ElementException e){

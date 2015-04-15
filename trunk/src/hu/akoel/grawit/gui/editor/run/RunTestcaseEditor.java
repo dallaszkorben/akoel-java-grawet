@@ -42,6 +42,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.tree.TreeNode;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
@@ -49,7 +50,7 @@ import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseParamDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
@@ -499,6 +500,7 @@ elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxDriver;
 elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxProfile;" );
 elementProgres.outputCommand( "import org.openqa.selenium.support.ui.Select;" );
 elementProgres.outputCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );	
+elementProgres.outputCommand( "import org.openqa.selenium.WebDriverException;" );	
 elementProgres.outputCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
 elementProgres.outputCommand( "import org.openqa.selenium.JavascriptExecutor;");
 elementProgres.outputCommand( "import org.openqa.selenium.Keys;" );
@@ -515,6 +517,11 @@ elementProgres.outputCommand( "	Integer index = 0;" );
 elementProgres.outputCommand( "	WebDriver driver = null;" );
 elementProgres.outputCommand( "	FirefoxProfile profile = null;");
 elementProgres.outputCommand( "	JavascriptExecutor executor = null;");
+
+elementProgres.outputCommand( "	String origText;" );
+elementProgres.outputCommand( "	Matcher matcher;" );
+elementProgres.outputCommand( "	Pattern pattern;" );
+
 elementProgres.outputCommand( "	" );
 elementProgres.outputCommand( "	public static void main( String[] args ){" );
 elementProgres.outputCommand( "		new Test();" );
@@ -538,9 +545,9 @@ elementProgres.outputCommand( "	" );
 					TreeNode treeNode = actualTestcase.getChildAt(index);
 					
 					//Ha sima Page
-					if( treeNode instanceof TestcaseParamDataModelAdapter ){
+					if( treeNode instanceof TestcaseStepDataModelAdapter ){
 						
-						TestcaseParamDataModelAdapter pageToRun = (TestcaseParamDataModelAdapter)treeNode;
+						TestcaseStepDataModelAdapter pageToRun = (TestcaseStepDataModelAdapter)treeNode;
 						pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
 
 					}					

@@ -372,11 +372,6 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		//Annyiszor megy vegig a gyermekeken, amennyi a megengedett ciklusszam (es ha nem igaz a feltetel)
 		while( actualLoop++ < maxLoopNumber ){		
 			
-			//Jelzi, hogy elindult az oldal feldolgozasa
-//			if( null != pageProgres ){
-//				pageProgres.pageStarted( getName(), getNodeTypeToShow() );
-//			}	
-			
 			try {
 				
 				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
@@ -412,25 +407,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 								waitingTime = WorkingDirectory.getInstance().getWaitingTime();
 							}
 							WebDriverWait wait = new WebDriverWait(driver, waitingTime);
-					
-							// Ha az alapertelmezettol kulonbozo frame van meghatarozva, akkor valt			
-/*							String frameName = ((NormalBaseElementDataModel)parameterElement.getBaseElement()).getFrame();
-
-							if( null != frameName && frameName.trim().length() > 0 ){				
-					
-		elementProgres.outputCommand( "		//Switch to the '" + frameName + "' frame" );
-		elementProgres.outputCommand( "		driver.switchTo().defaultContent();" );
-		elementProgres.outputCommand( "		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt( \"" + frameName + "\" ) );" );
-		elementProgres.outputCommand( "		driver.switchTo().defaultContent();" );
-		elementProgres.outputCommand( "		driver.switchTo().frame( \"" + frameName + "\" );" );
-		elementProgres.outputCommand( "" );
-								
-								driver.switchTo().defaultContent();
-								wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
-								driver.switchTo().defaultContent();
-								driver.switchTo().frame( frameName );		
-							}
-*/											
+				
 						}
 						
 						try{
