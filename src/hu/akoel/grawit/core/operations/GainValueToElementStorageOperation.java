@@ -1,6 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,53 +70,54 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-		ArrayList<String> returnArray = new ArrayList<>();
-		
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
+	
 		String origText = "";
 
 		//CHECKBOX/RADIOBUTTON
 		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
 
+			elementProgress.outputCommand( tab + "if( webElement.isSelected() ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
+			elementProgress.outputCommand( tab + "}else{" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
+			elementProgress.outputCommand( tab + "}" );
+			
 			if( webElement.isSelected() ){
 				origText = "on";
 			}else{
 				origText = "off";
 			}
 			
-			returnArray.add( "if( webElement.isSelected() ){" );
-			returnArray.add( CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
-			returnArray.add( "}else{" );
-			returnArray.add( CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
-			returnArray.add( "}" );
-			
 		//Ha FIELD
 		}else{		
 
-			origText = webElement.getAttribute("value");
+			elementProgress.outputCommand( tab + "origText = webElement.getAttribute(\"value\");" );
 			
-			returnArray.add( "origText = webElement.getAttribute(\"value\");" );
+			origText = webElement.getAttribute("value");			
+			
 		}
 	
 		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
-			baseElement.setStoredValue( origText );
 			
-			returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = origText;" );
+			elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = origText;" );
+			
+			baseElement.setStoredValue( origText );			
+			
 		}else{
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
+
+				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+				elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
+
 				String resultText = matcher.group();
-				baseElement.setStoredValue( resultText );
-				
-				returnArray.add( "pattern = Pattern.compile( " + pattern.pattern() + " );" );
-				returnArray.add( "matcher = pattern.matcher( origText );");
-				returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
+				baseElement.setStoredValue( resultText );				
 				
 			}			
 		}	
-		
-		return returnArray;
 	}
 	
 	@Override

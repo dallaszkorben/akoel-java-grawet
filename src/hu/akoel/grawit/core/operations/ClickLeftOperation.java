@@ -1,14 +1,15 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
-
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class ClickLeftOperation extends ElementOperationAdapter{
@@ -25,19 +26,24 @@ public class ClickLeftOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-		ArrayList<String> returnArray = new ArrayList<>();
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
-		webElement.click();		
+		try{
+			
+			elementProgress.outputCommand( tab + "webElement.click()");
 
-		//new Actions(driver).click(webElement).perform();		
+			webElement.click();
 		
+		}catch (WebDriverException webDriverException){
+			throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
+		}
+		
+		//new Actions(driver).click(webElement).perform();		
 		////Sajnos csak a javascipt hivassal mukodik. a webElement.click() hatasara nem tortenik semmi
 		////Feltehetoleg idozitesi problema, mert debug-kor mukodik
 		//JavascriptExecutor executor = (JavascriptExecutor)driver;
 		//executor.executeScript("arguments[0].click();", webElement);
-		returnArray.add("webElement.click()");
-		return returnArray;
+		
 	}
 	
 	@Override

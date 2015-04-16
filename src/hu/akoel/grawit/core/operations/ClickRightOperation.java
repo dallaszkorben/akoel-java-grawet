@@ -1,7 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -26,13 +24,12 @@ public class ClickRightOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-		ArrayList<String> returnArray = new ArrayList<>();
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
+
+		elementProgress.outputCommand( tab + "new Actions(driver).contextClick(webElement).perform();" );
 		
 		new Actions(driver).contextClick(webElement).perform();
 
-		returnArray.add( "new Actions(driver).contextClick(webElement).perform();" );
-		return returnArray;
 	}
 	
 	@Override

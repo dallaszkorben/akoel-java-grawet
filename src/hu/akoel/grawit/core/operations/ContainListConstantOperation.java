@@ -25,11 +25,9 @@ import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ContainTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementListContainOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
@@ -193,15 +191,20 @@ public class ContainListConstantOperation extends ElementOperationAdapter implem
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		//
 		// Execute the OPERATION
 		//		
 
+		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
+		elementProgress.outputCommand( tab + "optionList = select.getOptions();" );
+		elementProgress.outputCommand( tab + "boolean found = false;" );		
+		elementProgress.outputCommand( tab + "for( WebElement option: optionList ){" );
+		
 		Select select = new Select(webElement);
 		
-		//Osszegyujti az menu teljes tartalmat
+		//Osszegyujti a menu teljes tartalmat
 		List<WebElement> optionList = select.getOptions();
 	
 		String optionText;
@@ -211,25 +214,42 @@ public class ContainListConstantOperation extends ElementOperationAdapter implem
 		//Vegig megy a lista elemeken
 		for( WebElement option: optionList ){
 			
+			elementProgress.outputCommand( tab + "optionText = \"\";" );
+			
 			optionText = "";
 			
 			//VALUE
 			if( containBy.equals( ListCompareByListEnum.BYVALUE ) ){
 				
+				elementProgress.outputCommand( tab + "optionText = option.getAttribute(\"value\");" );
+						
 				optionText = option.getAttribute("value");
 				
 			//TEXT
 			}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
-			
+				
+				elementProgress.outputCommand( tab + "optionText = option.getText();" ); 
+				
 				optionText = option.getText();	
 			}	
+			
+			
 			
 			if( null != pattern ){
 				Matcher matcher = pattern.matcher( optionText );
 				if( matcher.find() ){
 					optionText = matcher.group();
+					
+					elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+					elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+					elementProgress.outputCommand( tab + "origText = matcher.group();" );
 				}			
 			}
+			
+			elementProgress.outputCommand( tab + "if( optionText.equals( " + constantElementDataModel.getValue() + " ) ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "found = true;" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "break;" );
+			elementProgress.outputCommand( tab + "}" );
 			
 			//Ha megtalalta a listaban a keresett erteket
 			if( optionText.equals( constantElementDataModel.getValue() ) ){
@@ -239,8 +259,13 @@ public class ContainListConstantOperation extends ElementOperationAdapter implem
 			
 		}
 		
+		elementProgress.outputCommand( tab + "} //for( WebElement option: optionList )" );
+		
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) && !found ){
+			
+			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.CONTAINS.getTranslatedName() + " BUT " + constantElementDataModel.getValue() + " is NOT in the list\")");
+			elementProgress.outputCommand( tab + "System.exit(-1)");
 			
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
@@ -250,14 +275,15 @@ public class ContainListConstantOperation extends ElementOperationAdapter implem
 			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) && found ){
-			
+		
+			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + " BUT " + constantElementDataModel.getValue() + " IS in the list\")");
+			elementProgress.outputCommand( tab + "System.exit(-1)");
+
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					
 				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, constantElementDataModel.getValue(), true, new Exception() );
-			}			
-
+			}
 		}
-	
 	}
 
 	@Override

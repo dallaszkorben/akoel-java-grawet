@@ -200,8 +200,13 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 
+		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
+		elementProgress.outputCommand( tab + "optionList = select.getOptions();" );
+		elementProgress.outputCommand( tab + "boolean found = false;" );		
+		elementProgress.outputCommand( tab + "for( WebElement option: optionList ){" );
+		
 		Select select = new Select(webElement);
 		
 		//Osszegyujti az menu teljes tartalmat
@@ -219,20 +224,34 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 			//VALUE
 			if( containBy.equals( ListCompareByListEnum.BYVALUE ) ){
 				
+				elementProgress.outputCommand( tab + "optionText = option.getAttribute(\"value\");" );
+				
 				optionText = option.getAttribute("value");
 				
 			//TEXT
 			}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
 			
+				elementProgress.outputCommand( tab + "optionText = option.getText();" ); 
+				
 				optionText = option.getText();	
 			}	
 			
 			if( null != pattern ){
 				Matcher matcher = pattern.matcher( optionText );
 				if( matcher.find() ){
+					
+					elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+					elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+					elementProgress.outputCommand( tab + "origText = matcher.group();" );
+					
 					optionText = matcher.group();
 				}			
 			}
+			
+			elementProgress.outputCommand( tab + "if( optionText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "found = true;" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "break;" );
+			elementProgress.outputCommand( tab + "}" );
 			
 			//Ha megtalalta a listaban a keresett erteket
 			if( optionText.equals( baseElementDataModel.getStoredValue() ) ){
@@ -241,10 +260,15 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 			}
 			
 		}
+			
+		elementProgress.outputCommand( tab + "} //for( WebElement option: optionList )" );
 		
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) && !found ){
 			
+			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.CONTAINS.getTranslatedName() + " BUT " + baseElementDataModel.getStoredValue() + " is NOT in the list\")");
+			elementProgress.outputCommand( tab + "System.exit(-1)");
+	
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
 				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementDataModel.getStoredValue(), false, new Exception() );
@@ -254,13 +278,14 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) && found ){
 			
+			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + " BUT " + baseElementDataModel.getStoredValue() + " IS in the list\")");
+			elementProgress.outputCommand( tab + "System.exit(-1)");
+
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					
 				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementDataModel.getStoredValue(), true, new Exception() );
-			}			
-
-		}		
-		
+			}
+		}
 	}
 	
 	@Override

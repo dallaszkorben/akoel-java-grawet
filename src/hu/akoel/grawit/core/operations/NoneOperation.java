@@ -1,7 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
@@ -24,9 +22,7 @@ public class NoneOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementInvalidOperationException {
-		
-		return new ArrayList<>();
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementInvalidOperationException {
 	}
 	
 	@Override

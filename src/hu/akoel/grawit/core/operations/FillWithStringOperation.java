@@ -1,8 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
-
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -53,25 +50,21 @@ public class FillWithStringOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-		ArrayList<String> returnArray = new ArrayList<>();
-		
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
+
 		if( baseElement instanceof NormalBaseElementDataModel ){
 		
 			try{
-				//Execute the operation
+
+				elementProgress.outputCommand( tab + "webElement.sendKeys(\"" + stringToShow + "\");     //" + baseElement.getName() );
+				
 				webElement.sendKeys( stringToShow );
-				webElement.sendKeys(Keys.TAB);
+				//webElement.sendKeys(Keys.TAB);
+				
 			}catch (WebDriverException webDriverException){
 				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
-			}
-			
-			returnArray.add( "webElement.sendKeys(\"" + stringToShow + "\");     //" + baseElement.getName() );
-			returnArray.add( "webElement.sendKeys(Keys.TAB);" );
-
+			}			
 		}
-		
-		return returnArray;
 	}
 
 	@Override

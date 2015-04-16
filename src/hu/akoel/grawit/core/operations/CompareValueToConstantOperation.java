@@ -171,15 +171,24 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
+		
 		//
 		// Execute the OPERATION
 		//		
+		
+		elementProgress.outputCommand( tab + "origText = \"\";" );
+		
 		String origText = "";
 				
 		//CHECKBOX/RADIOBUTTON
 		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) ){
+			
+			elementProgress.outputCommand( tab + "if( webElement.isSelected() ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
+			elementProgress.outputCommand( tab + "}else{" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
+			elementProgress.outputCommand( tab + "}" );
 			
 			if( webElement.isSelected() ){
 				origText = "on";
@@ -188,13 +197,21 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 			}
 			
 		//Ha FIELD/CHECKBOX
-		}else{		
+		}else{
+			
+			elementProgress.outputCommand( tab + "origText = webElement.getAttribute(\"value\");" );
+			
 			origText = webElement.getAttribute("value");
 		}
 		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
 			if( matcher.find() ){
+				
+				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+				elementProgress.outputCommand( tab + "origText = matcher.group();" );
+				
 				origText = matcher.group();
 			}			
 		}		
@@ -202,6 +219,10 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( constantElementDataModel.getValue() ) ){
+				
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should be\")");
+				elementProgress.outputCommand( tab + "System.exit(-1)");
+
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
@@ -213,6 +234,10 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( constantElementDataModel.getValue() ) ){
+				
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should NOT be\")");
+				elementProgress.outputCommand( tab + "System.exit(-1)");			
+
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
@@ -220,7 +245,7 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 			}			
-		}		
+		}	
 	}
 	
 	@Override

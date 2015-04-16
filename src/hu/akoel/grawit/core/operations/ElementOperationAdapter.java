@@ -41,7 +41,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	
 	public abstract void setXMLAttribute( Document document, Element element );
 
-	public abstract ArrayList<String> doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException;
+	public abstract void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab ) throws ElementException, CompilationException;
 	
 	/**
 	 * Make it visible
@@ -55,6 +55,8 @@ public abstract class ElementOperationAdapter implements Cloneable{
     
 	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, boolean needElementEndedAtException ) throws ElementException, CompilationException{
 		
+		ArrayList<String> elementOperationList = new ArrayList<>();
+		
 		//Uzenet az Operation Indulasarol
 		if( null != elementProgress ){
 			elementProgress.elementStarted( baseElement.getName(), getOperationNameToString() );
@@ -63,7 +65,9 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		//
 		//Szukseges az elem beazonositasa
 		//
-		if( baseElement instanceof NormalBaseElementDataModel ){			
+		if( baseElement instanceof NormalBaseElementDataModel ){
+			
+			elementOperationList
 elementProgress.outputCommand("		//" + baseElement.getName() );
 
 			By by = null;
@@ -143,19 +147,19 @@ elementProgress.outputCommand( "		//Done" );
 			}catch( Exception e ){
 				System.out.println("!!!!!!!!!!! Not handled exception while Identifying - MUST implement. " + e.getMessage() + "!!!!!!!!!!!!!");					
 			}
-//elementProgress.outputCommand( "		//Continued" );			
+		
 			if( null == webElement ){
 				throw new ElementNotFoundSelectorException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), new Exception() );
 			}
-//elementProgress.outputCommand( "		//Start to wait" );			
+		
 			//Varakozik, ha szukseges a muvelet elott
 			try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}			
-//elementProgress.outputCommand( "		//End to wait" );			
+		
 			try{
-//elementProgress.outputCommand( "		//Start operation" );
+
 				//OPERATION
-				doOperation( driver, baseElement, webElement, elementProgress );
-//elementProgress.outputCommand( "		//Ends operation" );
+a				ArrayList<String> operationList = doOperation( driver, baseElement, webElement, elementProgress );
+
 			}catch( StaleElementReferenceException e ){
 				
 				//TODO valahogy veget kell vetni a vegtelen ciklus lehetosegenek				

@@ -99,7 +99,7 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		//
 		// Execute the OPERATION
@@ -108,9 +108,16 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 		
 		origText = webElement.getText();
 		
+		elementProgress.outputCommand( tab + "origText = webElement.getText();" );
+		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
 			if( matcher.find() ){
+				
+				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+				elementProgress.outputCommand( tab + "origText = matcher.group();" );
+				
 				origText = matcher.group();
 			}			
 		}		
@@ -118,6 +125,10 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( stringToCompare ) ){
+				
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + stringToCompare + ") BUT it should be\")");
+				elementProgress.outputCommand( tab + "System.exit(-1)");
+
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
@@ -129,6 +140,10 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( stringToCompare ) ){
+				
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because origText.equals( " + stringToCompare + ") BUT it should NOT be\")");
+				elementProgress.outputCommand( tab + "System.exit(-1)");
+
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special

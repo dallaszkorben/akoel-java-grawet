@@ -40,7 +40,6 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	private static final String ATTR_PATTERN = "pattern";
 	
 	private Pattern pattern;
-	private Matcher matcher;
 	
 	//--- Data model
 	private String stringPattern;
@@ -188,15 +187,22 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
+		
 		String origText = "";
+		
+		elementProgress.outputCommand( tab + "webElement.getText();" );
 		
 		origText = webElement.getText();
 		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
 			if( matcher.find() ){
+				
+				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+				elementProgress.outputCommand( tab + "origText = matcher.group();" );
+				
 				origText = matcher.group();
 			}			
 		}		
@@ -204,6 +210,10 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
+				
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT is should be\");" );
+				elementProgress.outputCommand( tab + "System.exit(-1)");
+				
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
@@ -215,6 +225,10 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
+				
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT it should NOT be\");" );
+				elementProgress.outputCommand( tab + "System.exit(-1)");
+
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
@@ -222,7 +236,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 			}			
-		}		
+		}
 	}
 	
 	@Override

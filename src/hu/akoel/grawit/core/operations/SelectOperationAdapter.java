@@ -1,7 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
-
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,22 +21,27 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 	public abstract String getStringToSelection();
 	
 	@Override
-	public String[] doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-		ArrayList<String>
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
+		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 
 			Select select = null;
 			try{
+				
+				elementProgress.outputCommand( tab + "select = new Select(webElement);" );
+				
 				select = new Select(webElement);
 			}catch (UnexpectedTagNameException e){
 				throw new ElementInvalidOperationException( "List Selection", baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), e );			
 			}
 		
 			try{
-
+//TODO most nem  erdekel, hogy ha SelectBaseElementOperation volt akkor a selectByValue-nak nem  String-nek,
+//hanem a valtozo nevenek kell lenni. Kesobb ez megoldando
 				if( getSelectionBy().equals( ListSelectionByListEnum.BYVALUE ) ){
 
-elementProgress.outputCommand( "		select.selectByValue( \"" + getStringToSelection() + "\" );" );					
+					elementProgress.outputCommand( tab + "select.selectByValue( \"" + getStringToSelection() + "\" );" );
+
 					select.selectByValue( getStringToSelection() );
 						
 				}else if( getSelectionBy().equals( ListSelectionByListEnum.BYINDEX ) ){
@@ -48,15 +51,15 @@ elementProgress.outputCommand( "		select.selectByValue( \"" + getStringToSelecti
 					try{
 						index = Integer.valueOf( getStringToSelection() );
 					}catch( Exception e){}
-				
+
+					elementProgress.outputCommand( tab + "select.selectByIndex( " + String.valueOf( index ) + " );" );
+
 					select.selectByIndex( index );
-					
-elementProgress.outputCommand( "		index = " + index + ";" );	
-elementProgress.outputCommand( "		select.selectByIndex( index );" );					
 			
 				}else if( getSelectionBy().equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
 					
-elementProgress.outputCommand( "		select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );						
+					elementProgress.outputCommand( tab + "select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );
+
 					select.selectByVisibleText( getStringToSelection() );
 				}
 			
@@ -68,15 +71,5 @@ elementProgress.outputCommand( "		select.selectByVisibleText( \"" + getStringToS
 				
 			}
 		}
-		
-		
-		returnStringArray[0] = "Select select = null;";
-		returnStringArray[1] = "select = new Select(webElement);";
-		
-		
-		
-		return returnStringArray;
-		
 	}
-
 }

@@ -16,6 +16,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.text.MessageFormat;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -43,6 +44,7 @@ import javax.swing.tree.TreeNode;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
@@ -491,45 +493,47 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 		//Ha be van kapcsolav		
 		if( actualTestcase.isOn() ){
-
 			
-elementProgres.outputCommand( "import org.openqa.selenium.By;" );
-elementProgres.outputCommand( "import org.openqa.selenium.WebDriver;" );
-elementProgres.outputCommand( "import org.openqa.selenium.WebElement;" );
-elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxDriver;" );
-elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxProfile;" );
-elementProgres.outputCommand( "import org.openqa.selenium.support.ui.Select;" );
-elementProgres.outputCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );	
-elementProgres.outputCommand( "import org.openqa.selenium.WebDriverException;" );	
-elementProgres.outputCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
-elementProgres.outputCommand( "import org.openqa.selenium.JavascriptExecutor;");
-elementProgres.outputCommand( "import org.openqa.selenium.Keys;" );
-elementProgres.outputCommand( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
-elementProgres.outputCommand( "" );				  
+			elementProgres.outputCommand( "import org.openqa.selenium.By;" );
+			elementProgres.outputCommand( "import org.openqa.selenium.WebDriver;" );
+			elementProgres.outputCommand( "import org.openqa.selenium.WebElement;" );
+			elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxDriver;" );
+			elementProgres.outputCommand( "import org.openqa.selenium.firefox.FirefoxProfile;" );
+			elementProgres.outputCommand( "import org.openqa.selenium.support.ui.Select;" );
+			elementProgres.outputCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );	
+			elementProgres.outputCommand( "import org.openqa.selenium.WebDriverException;" );	
+			elementProgres.outputCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
+			elementProgres.outputCommand( "import org.openqa.selenium.JavascriptExecutor;");
+			elementProgres.outputCommand( "import org.openqa.selenium.Keys;" );
+			elementProgres.outputCommand( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
+			elementProgres.outputCommand( "import org.openqa.selenium.support.ui.Select;");
+			elementProgres.outputCommand( "" );				  
+			
+			elementProgres.outputCommand( "public class Test{ ");
+			elementProgres.outputCommand( "" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "By by = null;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "WebElement webElement = null;");
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "Select select = null;");	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "Integer index = 0;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "WebDriver driver = null;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
+			
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "String origText;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "String optionText;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );			
 
-elementProgres.outputCommand( "public class Test{ ");
-elementProgres.outputCommand( "	" );
-elementProgres.outputCommand( "	WebDriverWait wait = null;");
-elementProgres.outputCommand( "	By by = null;" );
-elementProgres.outputCommand( "	WebElement webElement = null;");
-elementProgres.outputCommand( "	Select select = null;");	
-elementProgres.outputCommand( "	Integer index = 0;" );
-elementProgres.outputCommand( "	WebDriver driver = null;" );
-elementProgres.outputCommand( "	FirefoxProfile profile = null;");
-elementProgres.outputCommand( "	JavascriptExecutor executor = null;");
-
-elementProgres.outputCommand( "	String origText;" );
-elementProgres.outputCommand( "	Matcher matcher;" );
-elementProgres.outputCommand( "	Pattern pattern;" );
-
-elementProgres.outputCommand( "	" );
-elementProgres.outputCommand( "	public static void main( String[] args ){" );
-elementProgres.outputCommand( "		new Test();" );
-elementProgres.outputCommand( "	}" );
-elementProgres.outputCommand( "	" );
-elementProgres.outputCommand( "	public Test(){" );	
-elementProgres.outputCommand( "	" );
-
+			elementProgres.outputCommand( "" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "new Test();" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "}" );
+			elementProgres.outputCommand( "" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "public Test(){" );	
+			elementProgres.outputCommand( "" );
 
 			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver(elementProgres);
 
@@ -593,8 +597,8 @@ elementProgres.outputCommand( "	" );
     		
 			}
     	
-elementProgres.outputCommand( "	}");				    	
-elementProgres.outputCommand( "}");	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "}");				    	
+			elementProgres.outputCommand( "}");	
 
 		}
 	}

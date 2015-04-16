@@ -199,26 +199,39 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
+		
 		String origText = "";
+		
+		elementProgress.outputCommand( tab + "origText = \"\";" );
+		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
 		
 		Select select = new Select(webElement);
 		
 		//VALUE
 		if( compareBy.equals( ListCompareByListEnum.BYVALUE ) ){
 			
-			origText = select.getFirstSelectedOption().getAttribute("value");
+			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
 			
+			origText = select.getFirstSelectedOption().getAttribute("value");
+						
 		//TEXT
 		}else if( compareBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
 		
-			origText = select.getFirstSelectedOption().getText();	
+			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getText();" );
+			
+			origText = select.getFirstSelectedOption().getText();
+						
 		}		
 		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
 			if( matcher.find() ){
+				
+				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+				elementProgress.outputCommand( tab + "origText = matcher.group();" );
+				
 				origText = matcher.group();
 			}			
 		}		
@@ -226,6 +239,9 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
+				
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT is should be\");" );
+				elementProgress.outputCommand( tab + "System.exit(-1)");
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
@@ -239,6 +255,9 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 			
 			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
 				
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT it should NOT be\");" );
+				elementProgress.outputCommand( tab + "System.exit(-1)");
+				
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
@@ -246,7 +265,7 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );					
 				}
 			}			
-		}		
+		}
 	}
 	
 	@Override
