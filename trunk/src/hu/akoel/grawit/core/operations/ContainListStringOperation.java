@@ -11,10 +11,10 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
-import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ContainTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
@@ -121,11 +121,16 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		//
 		// Execute the OPERATION
 		//		
+		
+		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
+		elementProgress.outputCommand( tab + "optionList = select.getOptions();" );
+		elementProgress.outputCommand( tab + "boolean found = false;" );		
+		elementProgress.outputCommand( tab + "for( WebElement option: optionList ){" );
 		
 		Select select = new Select(webElement);
 		
@@ -139,25 +144,41 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 		//Vegig megy a lista elemeken
 		for( WebElement option: optionList ){
 			
+			elementProgress.outputCommand( tab + "optionText = \"\";" );
+			
 			optionText = "";
 			
 			//VALUE
 			if( containBy.equals( ListCompareByListEnum.BYVALUE ) ){
+				
+				elementProgress.outputCommand( tab + "optionText = option.getAttribute(\"value\");" );
 				
 				optionText = option.getAttribute("value");
 				
 			//TEXT
 			}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
 			
+				elementProgress.outputCommand( tab + "optionText = option.getText();" ); 
+				
 				optionText = option.getText();	
 			}	
 			
 			if( null != pattern ){
 				Matcher matcher = pattern.matcher( optionText );
 				if( matcher.find() ){
+					
+					elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+					elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+					elementProgress.outputCommand( tab + "origText = matcher.group();" );
+					
 					optionText = matcher.group();
 				}			
 			}
+			
+			elementProgress.outputCommand( tab + "if( optionText.equals( " + stringToSearch + " ) ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "found = true;" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "break;" );
+			elementProgress.outputCommand( tab + "}" );
 			
 			//Ha megtalalta a listaban a keresett erteket
 			if( optionText.equals( stringToSearch ) ){
@@ -167,9 +188,14 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 			
 		}
 		
+		elementProgress.outputCommand( tab + "} //for( WebElement option: optionList )" );
+		
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) && !found ){
 			
+			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.CONTAINS.getTranslatedName() + " BUT " + stringToSearch + " is NOT in the list\")");
+			elementProgress.outputCommand( tab + "System.exit(-1)");
+
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
 				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, stringToSearch, false, new Exception() );
@@ -179,6 +205,9 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) && found ){
 			
+			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + " BUT " + stringToSearch + " IS in the list\")");
+			elementProgress.outputCommand( tab + "System.exit(-1)");
+
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					
 				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, stringToSearch, true, new Exception() );

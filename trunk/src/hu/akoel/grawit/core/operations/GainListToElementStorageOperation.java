@@ -1,6 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,48 +93,49 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-		ArrayList<String> returnArray = new ArrayList<>();
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		String origText = "";
 		
-		Select select = new Select(webElement);
+		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
 		
-		returnArray.add( "select = new Select(webElement);" );
+		Select select = new Select(webElement);		
 		
 		//VALUE
 		if( gainBy.equals( ListGainByListEnum.BYVALUE ) ){
 			
-			origText = select.getFirstSelectedOption().getAttribute("value");
+			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
 			
-			returnArray.add( "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
+			origText = select.getFirstSelectedOption().getAttribute("value");				
 			
 		//TEXT
 		}else if( gainBy.equals( ListGainByListEnum.BYVISIBLETEXT ) ){
 		
+			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getText();" );
+			
 			origText = select.getFirstSelectedOption().getText();	
 			
-			returnArray.add( "origText = select.getFirstSelectedOption().getText();" );
 		}	
 		
 		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
-			baseElement.setStoredValue( origText );
 			
-			returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = origText;" );
+			elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = origText;" );
+			
+			baseElement.setStoredValue( origText );			
+			
 		}else{
 			Matcher matcher = pattern.matcher( origText );
 			if( matcher.find() ){
+				
+				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+				elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
+				
 				String resultText = matcher.group();
 				baseElement.setStoredValue( resultText );
-				
-				returnArray.add( "pattern = Pattern.compile( " + pattern.pattern() + " );" );
-				returnArray.add( "matcher = pattern.matcher( origText );");
-				returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
 			}			
 		}	
-		
-		return returnArray;
 	}
 	
 	@Override

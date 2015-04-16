@@ -1,6 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,8 +70,7 @@ public class GainTextToElementStorageOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-		ArrayList<String> returnArray = new ArrayList<>();
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		String origText = "";
 		
@@ -81,24 +79,25 @@ public class GainTextToElementStorageOperation extends ElementOperationAdapter{
 	
 		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
-			baseElement.setStoredValue( origText );
 			
-			returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = webElement.getText();" );
+			elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = webElement.getText();" );
+			
+			baseElement.setStoredValue( origText );			
 			
 		}else{
 			matcher = pattern.matcher( origText );
 			if( matcher.find() ){
+
+				elementProgress.outputCommand( tab + "origText = webElement.getText();");				
+				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
+				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+				elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
+				
 				String resultText = matcher.group();
 				baseElement.setStoredValue( resultText );
 				
-				returnArray.add( "origText = webElement.getText();");				
-				returnArray.add( "pattern = Pattern.compile( " + pattern.pattern() + " );" );
-				returnArray.add( "matcher = pattern.matcher( origText );");
-				returnArray.add( "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
 			}			
 		}		
-		
-		return returnArray;
 	}
 
 	@Override

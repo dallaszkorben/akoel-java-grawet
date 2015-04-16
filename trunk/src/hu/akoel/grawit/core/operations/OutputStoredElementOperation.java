@@ -1,7 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Attr;
@@ -51,16 +49,15 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress ) throws ElementException {
-		ArrayList<String> returnArray = new ArrayList<>();
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab ) throws ElementException {
 		
 		if( null != elementProgress ){
-			elementProgress.outputValue( baseElement.getStoredValue(), message );
+
+			elementProgress.outputCommand( tab + "System.out.println( " + message + ": " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " )" );
 			
-			returnArray.add( "System.out.println( " + message + ": " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " )" );
+			elementProgress.outputValue( baseElement.getStoredValue(), message );			
+			
 		}
-		
-		return returnArray;
 	}
 	
 	@Override

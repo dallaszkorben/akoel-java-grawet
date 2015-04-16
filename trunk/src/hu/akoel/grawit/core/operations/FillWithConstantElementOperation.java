@@ -1,12 +1,9 @@
 package hu.akoel.grawit.core.operations;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -124,27 +121,22 @@ public class FillWithConstantElementOperation extends ElementOperationAdapter im
 	}
 
 	@Override
-	public ArrayList<String> doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
-		ArrayList<String> returnArray = new ArrayList<>();
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 			try{
-				//Execute the operation
-				elementProgress.outputCommand( "		webElement.sendKeys(\"" + constantElementDataModel.getValue() + "\");     //" + baseElement.getName() );
-				elementProgress.outputCommand( "		webElement.sendKeys(Keys.TAB);" );
+
+				elementProgress.outputCommand( tab + "webElement.sendKeys(\"" + constantElementDataModel.getValue() + "\");     //" + baseElement.getName() );
 				
 				webElement.sendKeys( constantElementDataModel.getValue() );				
-				webElement.sendKeys(Keys.TAB);
+				//webElement.sendKeys(Keys.TAB);
+				
 			}catch (WebDriverException webDriverException){
 				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
 			}
 			
-			returnArray.add( "webElement.sendKeys(\"" + constantElementDataModel.getValue() + "\");     //" + baseElement.getName() );
-			returnArray.add( "webElement.sendKeys(Keys.TAB);" );
 
 		}
-		
-		return returnArray;
 	}
 
 	@Override
