@@ -30,7 +30,7 @@ public class ClickLeftOperation extends ElementOperationAdapter{
 		
 		try{
 			
-			elementProgress.outputCommand( tab + "webElement.click()");
+			elementProgress.outputCommand( tab + "webElement.click();");
 
 			webElement.click();
 		

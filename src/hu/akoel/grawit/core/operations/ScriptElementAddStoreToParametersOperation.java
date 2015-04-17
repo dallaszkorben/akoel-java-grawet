@@ -1,7 +1,6 @@
 package hu.akoel.grawit.core.operations;
 
 import java.io.StringReader;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -27,7 +26,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class ScriptElementAddStoreToParametersOperation extends ElementOperationAdapter{
+public class ScriptElementAddStoreToParametersOperation extends ScriptOperationAdapter{
 	
 	private static final String NAME = "ADDSTORETOPARAMETERS";	
 	private static final String ADD_STORED_TO_PARAMETERS_PATH = "storedbaseelementtoparameterspath";
@@ -169,10 +168,14 @@ public class ScriptElementAddStoreToParametersOperation extends ElementOperation
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab ) throws ElementException {
 
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
+
+			outputScripClasst(driver, baseElement, webElement, elementProgress, tab );				
+			elementProgress.outputCommand( tab + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".addParameter( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ); //" + baseElementDataModel.getStoredValue() );
+			elementProgress.outputCommand( "" );
 
 			((ScriptBaseElementDataModel)baseElement).addParameter( baseElementDataModel.getStoredValue() );
 			

@@ -6,6 +6,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -13,7 +14,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class ScriptElementAddStringToParametersOperation extends ElementOperationAdapter{
+public class ScriptElementAddStringToParametersOperation extends ScriptOperationAdapter{
 	
 	private static final String NAME = "ADDSTRINGTOPARAMETERS";
 	private static final String ADD_STRING_TO_PARAMETERS_PATH = "string";
@@ -51,11 +52,15 @@ public class ScriptElementAddStringToParametersOperation extends ElementOperatio
 	}
 		
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab ) throws ElementException {
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
+			outputScripClasst(driver, baseElement, webElement, elementProgress, tab );		
+			elementProgress.outputCommand( tab + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".addParameter( \"" + stringToParameter + "\" );" );
+			elementProgress.outputCommand( "" );
+			
 			((ScriptBaseElementDataModel)baseElement).addParameter( stringToParameter );
 			
 		}

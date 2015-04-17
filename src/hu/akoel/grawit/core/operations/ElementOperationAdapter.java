@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
@@ -48,12 +49,12 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	 */
     public abstract Object clone();
 
-    public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
+    public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, String tab ) throws ElementException, CompilationException{
     	
-    	doAction( driver, baseElement, elementProgress, false ); 
+    	doAction( driver, baseElement, elementProgress, tab, false ); 
     }
     
-	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, boolean needElementEndedAtException ) throws ElementException, CompilationException{
+	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, String tab, boolean needElementEndedAtException ) throws ElementException, CompilationException{
 		
 		ArrayList<String> elementOperationList = new ArrayList<>();
 		
@@ -65,10 +66,9 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		//
 		//Szukseges az elem beazonositasa
 		//
-		if( baseElement instanceof NormalBaseElementDataModel ){
-			
-			elementOperationList
-elementProgress.outputCommand("		//" + baseElement.getName() );
+		if( baseElement instanceof NormalBaseElementDataModel ){			
+
+			elementProgress.outputCommand( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.STORAGE_NAME_PREFIX + baseElement.hashCode()  );
 
 			By by = null;
 			WebElement webElement = null;
@@ -91,17 +91,17 @@ elementProgress.outputCommand("		//" + baseElement.getName() );
 				waitingTimeAfterOperation = 0;
 			}
 			
-elementProgress.outputCommand( "		wait = new WebDriverWait(driver, " + waitingTimeForAppearance + ");" );
+elementProgress.outputCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + ");" );
 			WebDriverWait wait = new WebDriverWait(driver, waitingTimeForAppearance);
 						
 			//Selector meszerzese
 			if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.ID)){
 				
-elementProgress.outputCommand( "		by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+elementProgress.outputCommand( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				by = By.id( ((NormalBaseElementDataModel)baseElement).getSelector() );
 				//CSS
 			}else if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.CSS)){
-elementProgress.outputCommand( "		by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+elementProgress.outputCommand( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );
 			
 			}
@@ -112,7 +112,7 @@ elementProgress.outputCommand( "		by = By.cssSelector( \"" + ((NormalBaseElement
 			try{			
 				wait.until(ExpectedConditions.visibilityOfElementLocated( by ));			
 				//wait.until(ExpectedConditions.elementToBeClickable( by ) );
-elementProgress.outputCommand( "		wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );		
+elementProgress.outputCommand( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );		
 			
 			//Ha nem jelenik meg idoben, akkor hibajelzessel megall
 			}catch( org.openqa.selenium.TimeoutException timeOutException ){
@@ -130,9 +130,9 @@ elementProgress.outputCommand( "		wait.until(ExpectedConditions.visibilityOfElem
 			//Beazonositja az elemet
 			//
 			try{
-elementProgress.outputCommand( "		webElement = driver.findElement( by );" );					
+				elementProgress.outputCommand( tab + "webElement = driver.findElement( by );" );
+				
 				webElement = driver.findElement( by );
-elementProgress.outputCommand( "		//Done" );					
 			
 			}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
 				throw new ElementInvalidSelectorException(baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), invalidSelectorException );
@@ -158,7 +158,7 @@ elementProgress.outputCommand( "		//Done" );
 			try{
 
 				//OPERATION
-a				ArrayList<String> operationList = doOperation( driver, baseElement, webElement, elementProgress );
+				doOperation( driver, baseElement, webElement, elementProgress, tab );
 
 			}catch( StaleElementReferenceException e ){
 				
@@ -166,7 +166,7 @@ a				ArrayList<String> operationList = doOperation( driver, baseElement, webElem
 				elementProgress.outputCommand("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
 
 				//Ujra hiv
-				doAction( driver, baseElement, elementProgress );
+				doAction( driver, baseElement, elementProgress, tab );
 				
 			//Ha az operation vegrehajtasa soran kivetel generalodott
 			}catch(   ElementException e ){
@@ -179,10 +179,9 @@ a				ArrayList<String> operationList = doOperation( driver, baseElement, webElem
 				//De vegul megis csak tovabb kuldi a kivetelt
 				throw e;
 				
-			}
+			}			
 			
-			
-elementProgress.outputCommand("");	
+			elementProgress.outputCommand("");	
 
 			//Varakozik, ha szukseges a muvelet utan
 			try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}			
@@ -194,7 +193,7 @@ elementProgress.outputCommand("");
 			
 
 			//OPERATION
-			doOperation( driver, baseElement, null, elementProgress );
+			doOperation( driver, baseElement, null, elementProgress, tab );
 						
 		}
 

@@ -75,6 +75,8 @@ import com.opera.core.systems.OperaDriver;
 public class CommonOperations {
 	
 	public static String STORAGE_NAME_PREFIX = "store";
+	public static String SCRIPT_NAME_PREFIX = "script";
+	
 	public static String TAB_BY_SPACE = "  ";
 	
 	private static Random rnd = new Random();	

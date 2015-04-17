@@ -177,7 +177,10 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 
 
 	@Override
-	public WebDriver getDriver(  ElementProgressInterface elementProgres ) {
+	public WebDriver getDriver(  ElementProgressInterface elementProgres, String tab ) {
+		
+		elementProgres.outputCommand( tab + "DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();");	
+		elementProgres.outputCommand( tab + "capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);");
 		
 		DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
 		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
@@ -186,8 +189,15 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 		for( int index = 0; index < childCount; index++ ){
 			String key = ((DriverExplorerCapabilityDataModel)getChildAt(index)).getName();
 			Object value = ((DriverExplorerCapabilityDataModel)getChildAt(index)).getValue();
+			
+			elementProgres.outputCommand(  tab + "capabilities.setCapability( \"" + key + "\", \"" + (String)value + "\" );");
+			
 			capabilities.setCapability(key, value);
-		}		
+		}
+		
+		elementProgres.outputCommand(  tab + "driver = new InternetExplorerDriver(capabilities);");
+		elementProgres.outputCommand(  "" );
+		
 		return new InternetExplorerDriver(capabilities);
 	}
 

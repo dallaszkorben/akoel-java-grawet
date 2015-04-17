@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -12,7 +13,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class ScriptElementClearParametersOperation extends ElementOperationAdapter{
+public class ScriptElementClearParametersOperation extends ScriptOperationAdapter{
 	
 	private static final String NAME = "CLEARPARAMETERS";
 	
@@ -35,15 +36,18 @@ public class ScriptElementClearParametersOperation extends ElementOperationAdapt
 	}
 		
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
+			outputScripClasst(driver, baseElement, webElement, elementProgress, tab );				
+			elementProgress.outputCommand( tab + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".clearParameters();" );
+			elementProgress.outputCommand( "" );
+
 			((ScriptBaseElementDataModel)baseElement).clearParameters();
 			
-		}
-	
+		}	
 	}
 	
 	@Override

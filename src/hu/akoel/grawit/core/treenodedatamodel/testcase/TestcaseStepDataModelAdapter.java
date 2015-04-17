@@ -13,6 +13,6 @@ public abstract class TestcaseStepDataModelAdapter extends TestcaseDataModelAdap
 
 	private static final long serialVersionUID = -3451125455593871748L;
 	
-	public abstract void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException, StoppedByUserException;
+	public abstract void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException;
 
 }

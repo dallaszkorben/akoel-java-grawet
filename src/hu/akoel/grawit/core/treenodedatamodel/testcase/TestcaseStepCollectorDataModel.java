@@ -158,7 +158,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 	    		}
 	    		//paramPage = (ParamPageDataModel)paramDataModel;
 	    		
-//Ha PARAMLOOP
+	    	//Ha PARAMLOOP
 	    	}else if( tagName.equals( StepLoopCollectorDataModel.TAG.getName() ) ){
 	    		attrName = actualElement.getAttribute(StepLoopCollectorDataModel.ATTR_NAME);
 	    		stepDataModel = (StepDataModelAdapter) CommonOperations.getDataModelByNameInLevel( stepDataModel, Tag.STEPLOOPELEMENTCOLLECTOR, attrName );
@@ -298,11 +298,11 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 	}
 
 	@Override
-	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException {
 		
 		//Ha Be van kapcsolava a TestParamPage oldal
 		if( this.isOn() ){
-			stepCollector.doAction( driver, player, pageProgress, elementProgress );
+			stepCollector.doAction( driver, player, pageProgress, elementProgress, tab );
 		}
 	}
 	
