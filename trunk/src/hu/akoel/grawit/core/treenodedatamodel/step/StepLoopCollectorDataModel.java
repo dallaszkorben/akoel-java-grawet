@@ -354,7 +354,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 	}	
 
 	@Override
-	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgres, ElementProgressInterface elementProgres) throws PageException,	CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgres, ElementProgressInterface elementProgres, String tab ) throws PageException,	CompilationException, StoppedByUserException {
 		
 		StepElementDataModel parameterElement;
 		
@@ -375,7 +375,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 			try {
 				
 				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
-				getElementOperation().doAction(driver, getCompareBaseElement(), elementProgres, true );
+				getElementOperation().doAction(driver, getCompareBaseElement(), elementProgres, tab, true );
 				
 				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
 				//es vegrehajtja oket
@@ -413,7 +413,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 						try{
 							
 							//Elem muveletenek vegrehajtasa
-							parameterElement.doAction( driver, elementProgres );
+							parameterElement.doAction( driver, elementProgres, tab );
 					
 						//Ha nem futott le rendesen a teszteset
 						}catch (ElementException f){

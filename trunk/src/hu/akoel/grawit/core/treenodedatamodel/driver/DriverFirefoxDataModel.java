@@ -144,34 +144,44 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<Driv
 	}
 
 	@Override
-//	public void add( DriverDataModelInterface node ) {
 	public void add( DriverFirefoxPropertyDataModel node ) {	
 		super.add( (MutableTreeNode)node );
 	}
 
 	@Override
-	public WebDriver getDriver( ElementProgressInterface elementProgres ) {
-		FirefoxProfile profile = new FirefoxProfile();
-
-elementProgres.outputCommand( "		profile = new FirefoxProfile();");		
+	public WebDriver getDriver( ElementProgressInterface elementProgres, String tab ) {
+		
+		elementProgres.outputCommand( tab + "profile = new FirefoxProfile();");		
+		
+		FirefoxProfile profile = new FirefoxProfile();	
 		
 		int childCount = getChildCount();
 		for( int index = 0; index < childCount; index++ ){
 			String key = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getName();
 			Object value = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getValue();
 			if( value instanceof String ){
-elementProgres.outputCommand( "		profile.setPreference( \"" + key + "\", \"" + (String)value + "\" );");					
+
+				elementProgres.outputCommand(  tab + "profile.setPreference( \"" + key + "\", \"" + (String)value + "\" );");
+				
 				profile.setPreference(key, (String)value );				
+				
 			}else if( value instanceof Boolean ){
-elementProgres.outputCommand( "		profile.setPreference( \"" + key + "\", " + (Boolean)value + " );");
+				
+				elementProgres.outputCommand(  tab + "profile.setPreference( \"" + key + "\", " + (Boolean)value + " );");
+				
 				profile.setPreference(key, (Boolean)value );
+				
 			}else if( value instanceof Integer ){
-elementProgres.outputCommand( "		profile.setPreference( \"" + key + "\", " + (Integer)value + " );");
+				
+				elementProgres.outputCommand(  tab + "profile.setPreference( \"" + key + "\", " + (Integer)value + " );");
+				
 				profile.setPreference(key, (Integer)value );
+				
 			}
 		}		
 
-elementProgres.outputCommand( "		driver = new FirefoxDriver(profile);");
+		elementProgres.outputCommand(  tab + "driver = new FirefoxDriver(profile);");
+		elementProgres.outputCommand(  "" );
 //TODO ide jonnek a profilok		
 		
 		return new FirefoxDriver(profile);

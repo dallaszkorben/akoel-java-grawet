@@ -201,8 +201,8 @@ public class StepElementDataModel extends StepDataModelAdapter {
 	 * @throws ElementException 
 	 * 
 	 */
-	public void doAction( WebDriver driver, ElementProgressInterface elementProgress ) throws ElementException, CompilationException{
-		this.getElementOperation().doAction( driver, this.getBaseElement(), elementProgress );
+	public void doAction( WebDriver driver, ElementProgressInterface elementProgress, String tab ) throws ElementException, CompilationException{
+		this.getElementOperation().doAction( driver, this.getBaseElement(), elementProgress, tab );
 	}
 	
 	public void setName( String name ){

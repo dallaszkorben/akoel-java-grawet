@@ -1,7 +1,6 @@
 package hu.akoel.grawit.core.operations;
 
 import java.io.StringReader;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -26,7 +25,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
-public class ScriptElementAddConstantToParametersOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
+public class ScriptElementAddConstantToParametersOperation extends ScriptOperationAdapter implements HasConstantOperationInterface{
 	
 	private static final String NAME = "ADDCONSTANTTOPARAMETERS";	
 	private static final String ADD_CONSTANT_TO_PARAMETERS_PATH = "constantpath";
@@ -120,11 +119,15 @@ public class ScriptElementAddConstantToParametersOperation extends ElementOperat
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab ) throws ElementException {
 
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
+			outputScripClasst(driver, baseElement, webElement, elementProgress, tab );		
+			elementProgress.outputCommand( tab + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".addParameter( \"" + constantElementDataModel.getValue() + "\" );" );
+			elementProgress.outputCommand( "" );			
+			
 			((ScriptBaseElementDataModel)baseElement).addParameter( constantElementDataModel.getValue() );
 			
 		}

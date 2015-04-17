@@ -8,7 +8,7 @@ public abstract class DriverBrowserDataModelInterface<E> extends DriverDataModel
 
 	private static final long serialVersionUID = 7926898001139103501L;
 
-	public abstract WebDriver getDriver( ElementProgressInterface elementProgres );
+	public abstract WebDriver getDriver( ElementProgressInterface elementProgres, String tab );
 	
 	public abstract void add( E node );
 	

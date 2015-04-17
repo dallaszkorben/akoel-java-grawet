@@ -9,15 +9,12 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.text.MessageFormat;
-import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,8 +26,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -43,9 +38,6 @@ import javax.swing.text.StyleContext;
 import javax.swing.tree.TreeNode;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
@@ -507,7 +499,33 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.outputCommand( "import org.openqa.selenium.Keys;" );
 			elementProgres.outputCommand( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
 			elementProgres.outputCommand( "import org.openqa.selenium.support.ui.Select;");
+			
+			elementProgres.outputCommand( "" );
+			
+			elementProgres.outputCommand( "import org.openqa.selenium.WebDriverException;" );
+			elementProgres.outputCommand( "import java.util.ArrayList;" );
+			elementProgres.outputCommand( "import java.util.Iterator;");
+			elementProgres.outputCommand( "import java.util.regex.Matcher;");
+			elementProgres.outputCommand( "import java.util.regex.Pattern;");
+			
 			elementProgres.outputCommand( "" );				  
+			
+			elementProgres.outputCommand( "abstract class ScriptClass{");
+
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "abstract public void runScript();" );	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "}" );	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "public void clearParameters(){" );	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.clear();" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "}" );	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "public Iterator<String> getParameterIterator(){" );	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "return parameters.iterator();" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "}" );	
+			elementProgres.outputCommand( "}" );	
+			
+			elementProgres.outputCommand( "" );	
 			
 			elementProgres.outputCommand( "public class Test{ ");
 			elementProgres.outputCommand( "" );
@@ -520,7 +538,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
 			
-			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "ArrayList<WebElement> optionList;" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "String origText;" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "String optionText;" );
@@ -532,10 +550,11 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "new Test();" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "}" );
 			elementProgres.outputCommand( "" );
+			
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "public Test(){" );	
 			elementProgres.outputCommand( "" );
 
-			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver(elementProgres);
+			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( elementProgres, CommonOperations.TAB_BY_SPACE );
 
 			try{				
 
@@ -552,7 +571,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 					if( treeNode instanceof TestcaseStepDataModelAdapter ){
 						
 						TestcaseStepDataModelAdapter pageToRun = (TestcaseStepDataModelAdapter)treeNode;
-						pageToRun.doAction(webDriver, this, pageProgress, elementProgres );
+						pageToRun.doAction(webDriver, this, pageProgress, elementProgres, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
 
 					}					
 					

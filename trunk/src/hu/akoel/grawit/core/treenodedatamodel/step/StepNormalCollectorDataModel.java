@@ -125,7 +125,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	}
 	
 	@Override
-	public void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel stepElement;
 		
@@ -166,7 +166,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				}
 				
 				try{			
-					stepElement.doAction( driver, elementProgress );
+					stepElement.doAction( driver, elementProgress, tab );
 			
 				//Ha nem futott le rendesen a teszteset
 				}catch (ElementException e){
