@@ -232,18 +232,23 @@ public class ContainListConstantOperation extends ElementOperationAdapter implem
 				
 				optionText = option.getText();	
 			}	
-			
-			
+
 			
 			if( null != pattern ){
 				Matcher matcher = pattern.matcher( optionText );
+				
+				elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");	
+				elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
+				
 				if( matcher.find() ){
-					optionText = matcher.group();
+										
+					elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
 					
-					elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
-					elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
-					elementProgress.outputCommand( tab + "origText = matcher.group();" );
-				}			
+					optionText = matcher.group();
+				}
+				
+				elementProgress.outputCommand( tab + "}" );		
 			}
 			
 			elementProgress.outputCommand( tab + "if( optionText.equals( " + constantElementDataModel.getValue() + " ) ){" );

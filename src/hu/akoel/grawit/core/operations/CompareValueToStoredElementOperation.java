@@ -217,14 +217,20 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
+			
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");		
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
+			
 			if( matcher.find() ){
 				
-				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
-				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
-				elementProgress.outputCommand( tab + "origText = matcher.group();" );
+				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 				
 				origText = matcher.group();
-			}			
+
+			}
+			
+			elementProgress.outputCommand( tab + "}" );		
 		}		
 		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){

@@ -513,7 +513,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.outputCommand( "abstract class ScriptClass{");
 
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
-			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "abstract public void runScript();" );	
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "abstract public void runScript() throws Exception;" );	
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "}" );	
