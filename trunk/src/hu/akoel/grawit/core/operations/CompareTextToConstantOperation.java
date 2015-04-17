@@ -202,8 +202,8 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 			
 			if( !origText.equals( constantElementDataModel.getValue() ) ){
 				
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should be\")");
-				elementProgress.outputCommand( tab + "System.exit(-1)");
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should be\");");
+				elementProgress.outputCommand( tab + "System.exit(-1);");
 
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
@@ -217,8 +217,8 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 			
 			if( origText.equals( constantElementDataModel.getValue() ) ){
 				
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should NOT be\")");
-				elementProgress.outputCommand( tab + "System.exit(-1)");			
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should NOT be\");");
+				elementProgress.outputCommand( tab + "System.exit(-1);");			
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );

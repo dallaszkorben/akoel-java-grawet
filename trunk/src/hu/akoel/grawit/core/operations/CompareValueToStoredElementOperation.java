@@ -238,7 +238,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
 				
 				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT is should be\");" );
-				elementProgress.outputCommand( tab + "System.exit(-1)");
+				elementProgress.outputCommand( tab + "System.exit(-1);");
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
@@ -253,7 +253,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
 				
 				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT it should NOT be\");" );
-				elementProgress.outputCommand( tab + "System.exit(-1)");
+				elementProgress.outputCommand( tab + "System.exit(-1);");
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );

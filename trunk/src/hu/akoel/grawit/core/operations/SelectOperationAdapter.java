@@ -1,5 +1,6 @@
 package hu.akoel.grawit.core.operations;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,10 +28,18 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 
 			Select select = null;
 			try{
-				
+
+				//I do not know why but it have to be here
+				elementProgress.outputCommand( tab + "webElement.sendKeys(Keys.TAB);" );
+				elementProgress.outputCommand( tab + "webElement.sendKeys(Keys.SHIFT, Keys.TAB);" );
+
+				webElement.sendKeys(Keys.TAB);
+			    webElement.sendKeys(Keys.SHIFT, Keys.TAB);
+			    
 				elementProgress.outputCommand( tab + "select = new Select(webElement);" );
 				
-				select = new Select(webElement);
+				select = new Select(webElement);				
+				
 			}catch (UnexpectedTagNameException e){
 				throw new ElementInvalidOperationException( "List Selection", baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), e );			
 			}
