@@ -168,8 +168,8 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 			
 			if( !origText.equals( stringToCompare ) ){
 				
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + stringToCompare + ") BUT it should be\")");
-				elementProgress.outputCommand( tab + "System.exit(-1)");
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + stringToCompare + ") BUT it should be\");");
+				elementProgress.outputCommand( tab + "System.exit(-1);");
 
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
@@ -183,8 +183,8 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 			
 			if( origText.equals( stringToCompare ) ){
 
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because origText.equals( " + stringToCompare + ") BUT it should NOT be\")");
-				elementProgress.outputCommand( tab + "System.exit(-1)");
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because origText.equals( " + stringToCompare + ") BUT it should NOT be\");");
+				elementProgress.outputCommand( tab + "System.exit(-1);");
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );

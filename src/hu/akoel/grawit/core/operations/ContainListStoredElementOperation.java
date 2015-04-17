@@ -271,8 +271,8 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) && !found ){
 			
-			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.CONTAINS.getTranslatedName() + " BUT " + baseElementDataModel.getStoredValue() + " is NOT in the list\")");
-			elementProgress.outputCommand( tab + "System.exit(-1)");
+			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.CONTAINS.getTranslatedName() + " BUT " + baseElementDataModel.getStoredValue() + " is NOT in the list\");");
+			elementProgress.outputCommand( tab + "System.exit(-1);");
 	
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
@@ -283,8 +283,8 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) && found ){
 			
-			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + " BUT " + baseElementDataModel.getStoredValue() + " IS in the list\")");
-			elementProgress.outputCommand( tab + "System.exit(-1)");
+			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + " BUT " + baseElementDataModel.getStoredValue() + " IS in the list\");");
+			elementProgress.outputCommand( tab + "System.exit(-1);");
 
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					

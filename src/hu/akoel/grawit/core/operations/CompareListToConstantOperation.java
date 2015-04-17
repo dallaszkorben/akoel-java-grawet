@@ -239,7 +239,7 @@ public class CompareListToConstantOperation extends ElementOperationAdapter impl
 			
 			if( !origText.equals( constantElementDataModel.getValue() ) ){
 				
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should be\")");
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should be\");");
 				elementProgress.outputCommand( tab + "System.exit(-1)");
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
@@ -254,7 +254,7 @@ public class CompareListToConstantOperation extends ElementOperationAdapter impl
 			
 			if( origText.equals( constantElementDataModel.getValue() ) ){
 				
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should NOT be\")");
+				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + constantElementDataModel.getValue() + ") BUT it should NOT be\");");
 				elementProgress.outputCommand( tab + "System.exit(-1)");				
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
