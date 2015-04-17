@@ -15,7 +15,7 @@ public abstract class ScriptOperationAdapter extends ElementOperationAdapter{
 		elementProgress.outputCommand( tab + "//Script: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.SCRIPT_NAME_PREFIX + baseElement.hashCode()  );
 		elementProgress.outputCommand( tab + "ScriptClass " + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = new ScriptClass(){" );
 		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "@Override" );
-		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "public void runScript(){" );
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "public void runScript() throws Exception{" );
 		
 		String script = ((ScriptBaseElementDataModel)baseElement).getScript();
 		StringTokenizer tokenize = new StringTokenizer( script, "\n" );

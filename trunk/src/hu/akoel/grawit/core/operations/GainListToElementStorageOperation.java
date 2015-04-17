@@ -126,15 +126,19 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 			
 		}else{
 			Matcher matcher = pattern.matcher( origText );
+			
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");	
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );
+			
 			if( matcher.find() ){
 				
-				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
-				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
-				elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
+				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
 				
-				String resultText = matcher.group();
-				baseElement.setStoredValue( resultText );
-			}			
+				baseElement.setStoredValue( matcher.group() );
+			}
+			
+			elementProgress.outputCommand( tab + "}" );		
 		}	
 	}
 	

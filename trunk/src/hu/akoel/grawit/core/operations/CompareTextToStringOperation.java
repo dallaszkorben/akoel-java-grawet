@@ -9,6 +9,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -112,14 +113,19 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
-			if( matcher.find() ){
+			
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
+			
+			if( matcher.find() ){				
 				
-				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
-				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
-				elementProgress.outputCommand( tab + "origText = matcher.group();" );
+				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 				
 				origText = matcher.group();
-			}			
+			}
+			
+			elementProgress.outputCommand( tab + "}" );
 		}		
 
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){

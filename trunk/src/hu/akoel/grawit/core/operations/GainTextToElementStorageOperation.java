@@ -72,10 +72,10 @@ public class GainTextToElementStorageOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
-		String origText = "";
-		
 		//GAIN TEXT
-		origText = webElement.getText();
+		elementProgress.outputCommand( tab + "origText = webElement.getText();" ); 
+		
+		String origText = webElement.getText();
 	
 		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
@@ -86,17 +86,19 @@ public class GainTextToElementStorageOperation extends ElementOperationAdapter{
 			
 		}else{
 			matcher = pattern.matcher( origText );
+			
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");	
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
+			
 			if( matcher.find() ){
+				
+				elementProgress.outputCommand( tab + "String " + CommonOperations.TAB_BY_SPACE + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
 
-				elementProgress.outputCommand( tab + "origText = webElement.getText();");				
-				elementProgress.outputCommand( tab + "pattern = Pattern.compile( " + pattern.pattern() + " );" );
-				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
-				elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
-				
-				String resultText = matcher.group();
-				baseElement.setStoredValue( resultText );
-				
+				baseElement.setStoredValue( matcher.group() );
 			}			
+			
+			elementProgress.outputCommand( tab + "}" );		
 		}		
 	}
 
