@@ -188,18 +188,51 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		//
-		// Execute the OPERATION
-		//		
-		String origText = "";
+		// SOURCE Starts
+		//	
+		elementProgress.outputCommand( tab + "origText = \"\";" );
 		
 		//CHECKBOX/RADIOBUTTON
-		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
+		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON ) ){
 			
 			elementProgress.outputCommand( tab + "if( webElement.isSelected() ){" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
 			elementProgress.outputCommand( tab + "}else{" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
 			elementProgress.outputCommand( tab + "}" );
+		
+		//Ha FIELD/CHECKBOX
+		}else{
+			
+			elementProgress.outputCommand( tab + "origText = webElement.getAttribute(\"value\");" );			
+		}		
+		if( null != pattern ){
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+			elementProgress.outputCommand( tab + "}" );					
+		}		
+
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+			elementProgress.outputCommand( tab + "if( !origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.outputCommand( tab + "}" );
+		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+			elementProgress.outputCommand( tab + "if( origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should NOT.\");");				
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.outputCommand( tab + "}" );
+		}
+		
+		//
+		// Execute the OPERATION
+		//		
+		String origText = "";
+		
+		//CHECKBOX/RADIOBUTTON
+		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
 			
 			if( webElement.isSelected() ){
 				origText = "on";
@@ -210,35 +243,21 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		//Ha FIELD
 		}else{
 			
-			elementProgress.outputCommand( tab + "origText = webElement.getAttribute(\"value\");" );
-			
 			origText = webElement.getAttribute("value");
 		}
 		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
 			
-			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");		
-			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
-			
 			if( matcher.find() ){
 				
-				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-				
 				origText = matcher.group();
-
 			}
-			
-			elementProgress.outputCommand( tab + "}" );		
 		}		
 		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
-				
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT is should be\");" );
-				elementProgress.outputCommand( tab + "System.exit(-1);");
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
@@ -251,9 +270,6 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
-				
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT it should NOT be\");" );
-				elementProgress.outputCommand( tab + "System.exit(-1);");
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
