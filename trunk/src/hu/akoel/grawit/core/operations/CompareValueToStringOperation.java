@@ -116,8 +116,7 @@ public class CompareValueToStringOperation extends ElementOperationAdapter{
 			elementProgress.outputCommand( tab + "}" );
 		
 		//Ha FIELD/CHECKBOX
-		}else{
-			
+		}else{			
 			elementProgress.outputCommand( tab + "origText = webElement.getAttribute(\"value\");" );			
 		}		
 		if( null != pattern ){
@@ -126,8 +125,7 @@ public class CompareValueToStringOperation extends ElementOperationAdapter{
 			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 			elementProgress.outputCommand( tab + "}" );					
-		}		
-
+		}
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			elementProgress.outputCommand( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
