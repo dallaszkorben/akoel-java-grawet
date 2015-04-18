@@ -50,7 +50,7 @@ public class ScriptElementExecuteOperation extends ScriptOperationAdapter{
 			elementProgress.outputCommand( tab + "}catch( Exception e ){" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "e.printStackTrace();" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "}" );
+			elementProgress.outputCommand( tab + "}" );
 			elementProgress.outputCommand( "" );
 					
 			((ScriptBaseElementDataModel)baseElement).doAction(driver);

@@ -216,7 +216,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 			//COMPARE TEXT TO STORED
 			}else if( elementOperation instanceof CompareTextToStoredElementOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareTextToStoredElementOperation)elementOperation).getBaseElement() );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareTextToStoredElementOperation)elementOperation).getBaseElementForSearch() );
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STORED.getIndex());
 				

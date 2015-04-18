@@ -34,14 +34,14 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 	// Model
 	private String stringPattern;
 	private ListCompareByListEnum containBy;	
-	private String stringToSearch;
+	private String stringForSearch;
 	private ContainTypeListEnum containType;
 	//----
 	
 	private Pattern pattern;
 	
-	public ContainListStringOperation( String stringToSearch, ContainTypeListEnum containType, String stringPattern, ListCompareByListEnum containBy ){
-		this.stringToSearch = stringToSearch;
+	public ContainListStringOperation( String stringForSearch, ContainTypeListEnum containType, String stringPattern, ListCompareByListEnum containBy ){
+		this.stringForSearch = stringForSearch;
 		this.containType = containType;
 		this.stringPattern = stringPattern;
 		this.containBy = containBy;
@@ -77,7 +77,7 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 		if( !element.hasAttribute( ATTR_STRING ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_STRING );			
 		}
-		stringToSearch = element.getAttribute( ATTR_STRING );	
+		stringForSearch = element.getAttribute( ATTR_STRING );	
 		
 	    //PATTERN
 	    if( !element.hasAttribute( ATTR_PATTERN ) ){
@@ -104,7 +104,7 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 	}
 	
 	public String getStringToSearch() {
-		return stringToSearch;
+		return stringForSearch;
 	}
 
 	public static String getStaticName(){
@@ -124,14 +124,52 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 	public void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		//
-		// Execute the OPERATION
+		// SOURCE Starts
 		//		
-		
 		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
 		elementProgress.outputCommand( tab + "optionList = select.getOptions();" );
-		elementProgress.outputCommand( tab + "boolean found = false;" );		
-		elementProgress.outputCommand( tab + "for( WebElement option: optionList ){" );
+		elementProgress.outputCommand( tab + "found = false;" );		
+		elementProgress.outputCommand( tab + "for( WebElement option: optionList ){" );		
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = \"\";" );		
 		
+		//VALUE
+		if( containBy.equals( ListCompareByListEnum.BYVALUE ) ){			
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getAttribute(\"value\");" );
+			
+		//TEXT
+		}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){		
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getText();" );		
+		}		
+		if( null != pattern ){			
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "matcher = pattern.matcher( origText );");	
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "if( matcher.find() ){" );	
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "}" );		
+		}
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "if( optionText.equals( \"" + stringForSearch + "\" ) ){" );	
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "found = true;" );
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "break;" );
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "}" );				
+		elementProgress.outputCommand( tab + "} //for( WebElement option: optionList )" );
+		
+		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
+		if( containType.equals( ContainTypeListEnum.CONTAINS ) ){			
+			elementProgress.outputCommand( tab + "if( !found ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' is NOT in the list\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.outputCommand( tab + "}" );			
+		//Nem szabad tartalmaznia DE megis a listaban van 	
+		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) ){			
+			elementProgress.outputCommand( tab + "if( found ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' IS in the list\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.outputCommand( tab + "}" );
+		}		
+		
+		//
+		// CODE Starts
+		//
 		Select select = new Select(webElement);
 		
 		//Osszegyujti az menu teljes tartalmat
@@ -144,21 +182,15 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 		//Vegig megy a lista elemeken
 		for( WebElement option: optionList ){
 			
-			elementProgress.outputCommand( tab + "optionText = \"\";" );
-			
 			optionText = "";
 			
 			//VALUE
 			if( containBy.equals( ListCompareByListEnum.BYVALUE ) ){
 				
-				elementProgress.outputCommand( tab + "optionText = option.getAttribute(\"value\");" );
-				
 				optionText = option.getAttribute("value");
 				
 			//TEXT
 			}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
-			
-				elementProgress.outputCommand( tab + "optionText = option.getText();" ); 
 				
 				optionText = option.getText();	
 			}	
@@ -166,57 +198,35 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 			if( null != pattern ){
 				Matcher matcher = pattern.matcher( optionText );
 				
-				elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");	
-				elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
-				
 				if( matcher.find() ){
-					
-					elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
 					
 					optionText = matcher.group();
 				}
-				
-				elementProgress.outputCommand( tab + "}" );		
-				
 			}
 			
-			elementProgress.outputCommand( tab + "if( optionText.equals( " + stringToSearch + " ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "found = true;" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "break;" );
-			elementProgress.outputCommand( tab + "}" );
-			
 			//Ha megtalalta a listaban a keresett erteket
-			if( optionText.equals( stringToSearch ) ){
+			if( optionText.equals( stringForSearch ) ){
 				found = true;
 				break;
 			}
 			
-		}
-		
-		elementProgress.outputCommand( tab + "} //for( WebElement option: optionList )" );
+		}		
 		
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) && !found ){
 			
-			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.CONTAINS.getTranslatedName() + " BUT " + stringToSearch + " is NOT in the list\");");
-			elementProgress.outputCommand( tab + "System.exit(-1);");
-
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, stringToSearch, false, new Exception() );
+				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, stringForSearch, false, new Exception() );
 
 			}
 			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) && found ){
 			
-			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + " BUT " + stringToSearch + " IS in the list\");");
-			elementProgress.outputCommand( tab + "System.exit(-1);");
-
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, stringToSearch, true, new Exception() );
+				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, stringForSearch, true, new Exception() );
 			}			
 		}
 	}
@@ -225,7 +235,7 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 	public void setXMLAttribute(Document document, Element element) {
 		
 		Attr attr = document.createAttribute( ATTR_STRING );
-		attr.setValue( stringToSearch );
+		attr.setValue( stringForSearch );
 		element.setAttributeNode(attr);	
 		
 		attr = document.createAttribute( ATTR_CONTAIN_TYPE );
@@ -243,7 +253,7 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 
 	@Override
 	public Object clone() {
-		String stringToCompare = new String( this.stringToSearch );
+		String stringToCompare = new String( this.stringForSearch );
 		String stringPattern = new String( this.stringPattern );
 
 		//CompareTypeListEnum compareType = this.compareType;			

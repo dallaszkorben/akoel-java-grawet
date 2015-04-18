@@ -314,7 +314,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			//CONTAIN TO STORED
 			}else if( elementOperation instanceof ContainListStoredElementOperation ){
 									
-					fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((ContainListStoredElementOperation)elementOperation).getBaseElement() );					
+					fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((ContainListStoredElementOperation)elementOperation).getBaseElementForSearch() );					
 					comboOperationList.setSelectedIndex(E.CONTAIN_STORED.getIndex());
 					comboContainListType.setSelectedIndex( ((ContainListStoredElementOperation)elementOperation).getContainType().getIndex() );
 					comboContainListBy.setSelectedIndex( ((ContainListStoredElementOperation)elementOperation).getContainBy().getIndex() );
@@ -338,7 +338,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			//COMPARE TO STORED
 			}else if( elementOperation instanceof CompareListToStoredElementOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareListToStoredElementOperation)elementOperation).getBaseElement() );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareListToStoredElementOperation)elementOperation).getBaseElementForSearch() );
 				comboCompareSelectedListElementType.setSelectedIndex( ((CompareListToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_STORED.getIndex());
 				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareListToStoredElementOperation)elementOperation).getCompareBy().getIndex() );

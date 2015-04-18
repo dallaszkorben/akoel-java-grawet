@@ -504,6 +504,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			
 			elementProgres.outputCommand( "import org.openqa.selenium.WebDriverException;" );
 			elementProgres.outputCommand( "import java.util.ArrayList;" );
+			elementProgres.outputCommand( "import java.util.List;" );			
 			elementProgres.outputCommand( "import java.util.Iterator;");
 			elementProgres.outputCommand( "import java.util.regex.Matcher;");
 			elementProgres.outputCommand( "import java.util.regex.Pattern;");
@@ -538,12 +539,12 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
 			
-			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "ArrayList<WebElement> optionList;" );
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "String origText;" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "String optionText;" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
-			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );			
+			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );		
 
 			elementProgres.outputCommand( "" );
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
@@ -554,7 +555,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.outputCommand( CommonOperations.TAB_BY_SPACE + "public Test(){" );	
 			elementProgres.outputCommand( "" );
 
-			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( elementProgres, CommonOperations.TAB_BY_SPACE );
+			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( elementProgres, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
 
 			try{				
 

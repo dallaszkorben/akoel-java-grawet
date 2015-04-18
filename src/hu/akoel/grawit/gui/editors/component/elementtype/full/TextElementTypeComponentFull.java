@@ -217,7 +217,7 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 			//COMPARE TEXT TO STORED
 			}else if( elementOperation instanceof CompareTextToStoredElementOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareTextToStoredElementOperation)elementOperation).getBaseElement() );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareTextToStoredElementOperation)elementOperation).getBaseElementForSearch() );
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STORED.getIndex());
 				fieldPattern.setText( ((CompareTextToStoredElementOperation)elementOperation).getStringPattern());

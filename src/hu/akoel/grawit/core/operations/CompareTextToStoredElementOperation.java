@@ -169,7 +169,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	}
 	
 	@Override
-	public BaseElementDataModelAdapter getBaseElement() {
+	public BaseElementDataModelAdapter getBaseElementForSearch() {
 		return baseElementDataModel;
 	}
 

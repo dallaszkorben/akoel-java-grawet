@@ -497,7 +497,7 @@ public class StepTree extends Tree {
 				
 			}else if( operation instanceof HasElementOperationInterface ){
 				
-				BaseElementDataModelAdapter baseElement = ((HasElementOperationInterface)operation).getBaseElement();
+				BaseElementDataModelAdapter baseElement = ((HasElementOperationInterface)operation).getBaseElementForSearch();
 				JMenuItem linkToBaseBaseElementMenu = new JMenuItem(
 					MessageFormat.format( 
 						CommonOperations.getTranslation("tree.popupmenu.linkto.baseelement.as.parameter"), 
