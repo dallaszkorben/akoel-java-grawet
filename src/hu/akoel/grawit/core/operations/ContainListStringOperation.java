@@ -25,7 +25,7 @@ import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class ContainListStringOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "CONTAINSTRING";
+	private static final String NAME = "CONTAINLISTSTRING";
 	private static final String ATTR_STRING = "string";
 	private static final String ATTR_CONTAIN_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
