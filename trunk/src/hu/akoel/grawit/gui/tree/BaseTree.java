@@ -456,7 +456,7 @@ public class BaseTree extends Tree{
 					//Megszerzi a hivatkoztott elem Operation-jat
 					elementOperation = ((StepElementDataModel)nextParamModel).getElementOperation();
 					if( elementOperation instanceof HasElementOperationInterface ){
-						baseElement = ((HasElementOperationInterface)elementOperation).getBaseElement();
+						baseElement = ((HasElementOperationInterface)elementOperation).getBaseElementForSearch();
 					
 						//Ha ez megegyezik a keresett nodeToDelete-vel
 						if( baseElement.equals( nodeToDelete ) ){
@@ -488,7 +488,7 @@ public class BaseTree extends Tree{
 					//Megszerzi a hivatkoztott elem Operation-jat
 					elementOperation = ((StepLoopCollectorDataModel)nextParamModel).getElementOperation();
 					if( elementOperation instanceof HasElementOperationInterface ){
-						baseElement = ((HasElementOperationInterface)elementOperation).getBaseElement();
+						baseElement = ((HasElementOperationInterface)elementOperation).getBaseElementForSearch();
 					
 						//Ha ez megegyezik a keresett nodeToDelete-vel
 						if( baseElement.equals( nodeToDelete ) ){

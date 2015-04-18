@@ -221,7 +221,7 @@ public class ListElementTypeComponentCompare<E extends ListElementTypeOperations
 		//COMPARE TO STORED
 		}else if( elementOperation instanceof CompareListToStoredElementOperation ){
 								
-			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareListToStoredElementOperation)elementOperation).getBaseElement() );
+			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareListToStoredElementOperation)elementOperation).getBaseElementForSearch() );
 			comboCompareType.setSelectedIndex( ((CompareListToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 			comboOperationList.setSelectedIndex(E.COMPARE_TO_STORED.getIndex());
 				

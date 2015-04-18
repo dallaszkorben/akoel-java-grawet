@@ -130,7 +130,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter implem
 	}
 		
 	@Override
-	public BaseElementDataModelAdapter getBaseElement() {
+	public BaseElementDataModelAdapter getBaseElementForSearch() {
 		return baseElementDataModel;
 	}
 

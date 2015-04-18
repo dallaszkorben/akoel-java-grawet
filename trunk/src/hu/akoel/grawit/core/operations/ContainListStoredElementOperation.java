@@ -45,11 +45,11 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 	private Pattern pattern;
 	private String stringPattern;
 	private ListCompareByListEnum containBy;
-	private BaseElementDataModelAdapter baseElementDataModel;
+	private BaseElementDataModelAdapter baseElementForSearch;
 	private ContainTypeListEnum containType;
 		
-	public ContainListStoredElementOperation( BaseElementDataModelAdapter baseElementDataModel, ContainTypeListEnum containTypeListEnumm, String stringPattern, ListCompareByListEnum containBy ){
-		this.baseElementDataModel = baseElementDataModel;
+	public ContainListStoredElementOperation( BaseElementDataModelAdapter baseElementForSearch, ContainTypeListEnum containTypeListEnumm, String stringPattern, ListCompareByListEnum containBy ){
+		this.baseElementForSearch = baseElementForSearch;
 		this.containType = containTypeListEnumm;
 		this.stringPattern = stringPattern;
 		this.containBy = containBy;
@@ -149,7 +149,7 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 	    }	    
 	    try{
 	    	
-	    	this.baseElementDataModel = (BaseElementDataModelAdapter)baseDataModelForCompareList;
+	    	this.baseElementForSearch = (BaseElementDataModelAdapter)baseDataModelForCompareList;
 	    	
 	    }catch(ClassCastException e){
 
@@ -182,8 +182,8 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 	}
 		
 	@Override
-	public BaseElementDataModelAdapter getBaseElement() {
-		return baseElementDataModel;
+	public BaseElementDataModelAdapter getBaseElementForSearch() {
+		return baseElementForSearch;
 	}
 
 	public static String getStaticName(){
@@ -202,11 +202,53 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 
+		//
+		// SOURCE Starts
+		//		
 		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
 		elementProgress.outputCommand( tab + "optionList = select.getOptions();" );
-		elementProgress.outputCommand( tab + "boolean found = false;" );		
-		elementProgress.outputCommand( tab + "for( WebElement option: optionList ){" );
+		elementProgress.outputCommand( tab + "found = false;" );		
+		elementProgress.outputCommand( tab + "for( WebElement option: optionList ){" );		
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = \"\";" );		
 		
+		//VALUE
+		if( containBy.equals( ListCompareByListEnum.BYVALUE ) ){			
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getAttribute(\"value\");" );
+			
+		//TEXT
+		}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){		
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getText();" );		
+		}		
+		if( null != pattern ){			
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "matcher = pattern.matcher( origText );");	
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "if( matcher.find() ){" );	
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "}" );		
+		}	
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "if( optionText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( getBaseElementForSearch().hashCode() ) + " ) ){" );	
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "found = true;" );
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "break;" );
+		elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "}" );			
+		elementProgress.outputCommand( tab + "} //for( WebElement option: optionList )" );
+		
+		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
+		if( containType.equals( ContainTypeListEnum.CONTAINS ) ){			
+			elementProgress.outputCommand( tab + "if( !found ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + getBaseElementForSearch().getStoredValue() + "' is NOT in the list\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.outputCommand( tab + "}" );			
+		//Nem szabad tartalmaznia DE megis a listaban van 	
+		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) ){			
+			elementProgress.outputCommand( tab + "if( found ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + getBaseElementForSearch().getStoredValue() + "' IS in the list\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.outputCommand( tab + "}" );
+		}		
+		
+		//
+		// CODE Starts
+		//
 		Select select = new Select(webElement);
 		
 		//Osszegyujti az menu teljes tartalmat
@@ -224,14 +266,10 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 			//VALUE
 			if( containBy.equals( ListCompareByListEnum.BYVALUE ) ){
 				
-				elementProgress.outputCommand( tab + "optionText = option.getAttribute(\"value\");" );
-				
 				optionText = option.getAttribute("value");
 				
 			//TEXT
 			}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
-			
-				elementProgress.outputCommand( tab + "optionText = option.getText();" ); 
 				
 				optionText = option.getText();	
 			}	
@@ -239,56 +277,36 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 			if( null != pattern ){
 				Matcher matcher = pattern.matcher( optionText );
 				
-				elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-				elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");	
-				elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
-				
 				if( matcher.find() ){
-					
-					elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
 					
 					optionText = matcher.group();
 				}
 				
-				elementProgress.outputCommand( tab + "}" );		
 			}
 			
-			elementProgress.outputCommand( tab + "if( optionText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "found = true;" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "break;" );
-			elementProgress.outputCommand( tab + "}" );
-			
 			//Ha megtalalta a listaban a keresett erteket
-			if( optionText.equals( baseElementDataModel.getStoredValue() ) ){
+			if( optionText.equals( getBaseElementForSearch().getStoredValue() ) ){
 				found = true;
 				break;
 			}
 			
 		}
-			
-		elementProgress.outputCommand( tab + "} //for( WebElement option: optionList )" );
 		
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) && !found ){
 			
-			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.CONTAINS.getTranslatedName() + " BUT " + baseElementDataModel.getStoredValue() + " is NOT in the list\");");
-			elementProgress.outputCommand( tab + "System.exit(-1);");
-	
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementDataModel.getStoredValue(), false, new Exception() );
+				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementForSearch.getStoredValue(), false, new Exception() );
 
 			}
 			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) && found ){
-			
-			elementProgress.outputCommand( tab + "System.err.println(\"Stopped because the expection is: " + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + " BUT " + baseElementDataModel.getStoredValue() + " IS in the list\");");
-			elementProgress.outputCommand( tab + "System.exit(-1);");
 
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementDataModel.getStoredValue(), true, new Exception() );
+				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementForSearch.getStoredValue(), true, new Exception() );
 			}
 		}
 	}
@@ -296,7 +314,7 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 	@Override
 	public void setXMLAttribute(Document document, Element element) {		
 		Attr attr = document.createAttribute( ATTR_CONTAIN_BASE_ELEMENT_PATH );
-		attr.setValue( baseElementDataModel.getPathTag() );
+		attr.setValue( baseElementForSearch.getPathTag() );
 		element.setAttributeNode( attr );
 		
 		attr = document.createAttribute( ATTR_CONTAIN_TYPE );
@@ -316,7 +334,7 @@ public class ContainListStoredElementOperation extends ElementOperationAdapter i
 	@Override
 	public Object clone() {
 		
-		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementDataModel.clone();
+		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementForSearch.clone();
 			
 		String stringPattern = new String( this.stringPattern );
 				

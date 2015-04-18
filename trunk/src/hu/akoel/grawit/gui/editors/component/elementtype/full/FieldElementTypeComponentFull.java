@@ -217,7 +217,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 			//FILL_BASELEMENT
 			}else if( elementOperation instanceof FillWithBaseElementOperation ){
 							
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((FillWithBaseElementOperation)elementOperation).getBaseElement(), true );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((FillWithBaseElementOperation)elementOperation).getBaseElementForSearch(), true );
 				comboOperationList.setSelectedIndex(E.FILL_ELEMENT.getIndex());
 
 			//FILL_STRING
@@ -237,7 +237,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 			//COMPARE VALUE TO STORED
 			}else if( elementOperation instanceof CompareValueToStoredElementOperation ){
 					
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElement(), true );								
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElementForSearch(), true );								
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STORED.getIndex());
 				fieldPattern.setText( ((CompareValueToStoredElementOperation)elementOperation).getStringPattern());

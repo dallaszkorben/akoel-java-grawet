@@ -4,6 +4,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 
 public interface HasElementOperationInterface {
 
-	public BaseElementDataModelAdapter getBaseElement();
+	public BaseElementDataModelAdapter getBaseElementForSearch();
 	
 }

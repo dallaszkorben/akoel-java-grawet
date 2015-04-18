@@ -184,7 +184,7 @@ public class CheckboxElementTypeComponentCompare<E extends CheckboxElementTypeOp
 		//COMPARE VALUE TO STORED
 		}else if( elementOperation instanceof CompareValueToStoredElementOperation ){
 								
-			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElement() );
+			fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareValueToStoredElementOperation)elementOperation).getBaseElementForSearch() );
 			comboCompareTypeList.setSelectedIndex( ((CompareValueToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 			comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STORED.getIndex());
 				
