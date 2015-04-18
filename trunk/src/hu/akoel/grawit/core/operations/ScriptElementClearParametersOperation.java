@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -41,9 +40,11 @@ public class ScriptElementClearParametersOperation extends ScriptOperationAdapte
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			outputScripClasst(driver, baseElement, webElement, elementProgress, tab );				
-			elementProgress.outputCommand( tab + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".clearParameters();" );
-			elementProgress.outputCommand( "" );
+			if( null != elementProgress ){
+				outputScripClass(driver, baseElement, webElement, elementProgress, tab );				
+				elementProgress.outputCommand( tab + baseElement.getNameAsScript() + ".clearParameters();" );
+				elementProgress.outputCommand( "" );
+			}
 
 			((ScriptBaseElementDataModel)baseElement).clearParameters();
 			

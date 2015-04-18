@@ -44,15 +44,16 @@ public class ScriptElementExecuteOperation extends ScriptOperationAdapter{
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			outputScripClasst(driver, baseElement, webElement, elementProgress, tab );
-			elementProgress.outputCommand( tab + "try{" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".runScript();" );
-			elementProgress.outputCommand( tab + "}catch( Exception e ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "e.printStackTrace();" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);" );
-			elementProgress.outputCommand( tab + "}" );
-			elementProgress.outputCommand( "" );
-					
+			if( null != elementProgress ){
+				outputScripClass(driver, baseElement, webElement, elementProgress, tab );
+				elementProgress.outputCommand( tab + "try{" );
+				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".runScript();" );
+				elementProgress.outputCommand( tab + "}catch( Exception e ){" );
+				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "e.printStackTrace();" );
+				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);" );
+				elementProgress.outputCommand( tab + "}" );
+				elementProgress.outputCommand( "" );
+			}
 			((ScriptBaseElementDataModel)baseElement).doAction(driver);
 			
 		}

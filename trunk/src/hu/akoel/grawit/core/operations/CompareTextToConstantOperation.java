@@ -172,6 +172,7 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
+		if( null != elementProgress ){
 		//
 		// SOURCE Starts
 		//	
@@ -193,6 +194,7 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + constantElementDataModel.getValue() + "' but it should NOT.\");");				
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");			
 			elementProgress.outputCommand( tab + "}" );
+		}
 		}
 		
 		//

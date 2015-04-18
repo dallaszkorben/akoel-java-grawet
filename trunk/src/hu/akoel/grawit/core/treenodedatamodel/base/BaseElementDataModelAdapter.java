@@ -92,6 +92,10 @@ public abstract class BaseElementDataModelAdapter extends BaseDataModelAdapter{
 		return CommonOperations.STORAGE_NAME_PREFIX + hashCode();
 	}
 	
+	public String getNameAsScript(){
+		return CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( hashCode() );
+	}
+	
 	@Override
 	public Element getXMLElement(Document document) {
 		Attr attr;

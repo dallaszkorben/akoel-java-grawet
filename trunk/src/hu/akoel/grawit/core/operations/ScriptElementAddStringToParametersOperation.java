@@ -6,7 +6,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -57,9 +56,11 @@ public class ScriptElementAddStringToParametersOperation extends ScriptOperation
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			outputScripClasst(driver, baseElement, webElement, elementProgress, tab );		
-			elementProgress.outputCommand( tab + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".addParameter( \"" + stringToParameter + "\" );" );
-			elementProgress.outputCommand( "" );
+			if( null != elementProgress ){
+				outputScripClass(driver, baseElement, webElement, elementProgress, tab );		
+				elementProgress.outputCommand( tab + baseElement.getNameAsScript() + ".addParameter( \"" + stringToParameter + "\" );" );
+				elementProgress.outputCommand( "" );
+			}
 			
 			((ScriptBaseElementDataModel)baseElement).addParameter( stringToParameter );
 			

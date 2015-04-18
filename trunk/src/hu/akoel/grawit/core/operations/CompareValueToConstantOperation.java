@@ -173,6 +173,7 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
+		if( null != elementProgress ){
 		//
 		// SOURCE Starts
 		//	
@@ -209,6 +210,7 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 			elementProgress.outputCommand( tab + "System.exit(-1);");			
 			elementProgress.outputCommand( tab + "}" );
 		}	
+		}
 		
 		//
 		// Execute the OPERATION
