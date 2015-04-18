@@ -36,8 +36,8 @@ import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class ContainListConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
 	
-	private static final String NAME = "CONTAINVARIABLE";	
-	private static final String ATTR_CONTAIN_CONSTANT_ELEMENT_PATH = "containvariableelementpath";
+	private static final String NAME = "CONTAINCONSTANT";	
+	private static final String ATTR_CONTAIN_CONSTANT_ELEMENT_PATH = "containconstantelementpath";
 	private static final String ATTR_CONTAIN_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_CONTAIN_BY = "containby";
