@@ -193,8 +193,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 		elementProgress.outputCommand( tab + "origText = \"\";" );
 		
 		//CHECKBOX/RADIOBUTTON
-		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON ) ){
-			
+		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON ) ){			
 			elementProgress.outputCommand( tab + "if( webElement.isSelected() ){" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
 			elementProgress.outputCommand( tab + "}else{" );
@@ -212,8 +211,7 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 			elementProgress.outputCommand( tab + "}" );					
-		}		
-
+		}
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			elementProgress.outputCommand( tab + "if( !origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");

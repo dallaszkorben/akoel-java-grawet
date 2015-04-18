@@ -33,7 +33,7 @@ import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class CompareValueToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
 	
-	private static final String NAME = "COMPAREVALUETOVARIABLE";	
+	private static final String NAME = "COMPAREVALUETOCONSTANT";	
 	private static final String ATTR_COMPARE_CONSTANT_ELEMENT_PATH = "compareconstantelementpath";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
@@ -188,8 +188,7 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 			elementProgress.outputCommand( tab + "}" );
 		
 		//Ha FIELD/CHECKBOX
-		}else{
-			
+		}else{			
 			elementProgress.outputCommand( tab + "origText = webElement.getAttribute(\"value\");" );			
 		}		
 		if( null != pattern ){
@@ -198,8 +197,7 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 			elementProgress.outputCommand( tab + "}" );					
-		}		
-
+		}
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			elementProgress.outputCommand( tab + "if( !origText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + constantElementDataModel.getValue() + "' but it should.\");");
