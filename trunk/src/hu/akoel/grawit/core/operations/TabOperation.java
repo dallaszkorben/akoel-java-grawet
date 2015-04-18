@@ -28,12 +28,13 @@ public class TabOperation extends ElementOperationAdapter{
 	
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
+
+		elementProgress.outputCommand( tab + "webElement.sendKeys(Keys.TAB);" );
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 		
 			try{
 				//Execute the operation
-				elementProgress.outputCommand( tab + "webElement.sendKeys(Keys.TAB);" );
 				webElement.sendKeys(Keys.TAB);
 			}catch (WebDriverException webDriverException){
 				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );

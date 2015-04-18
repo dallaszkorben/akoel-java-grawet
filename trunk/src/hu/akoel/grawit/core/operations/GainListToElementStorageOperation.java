@@ -98,8 +98,8 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 		//
 		// SOURCE Starts
 		//		
-		elementProgress.outputCommand( tab + "String origText = \"\";" );
-		elementProgress.outputCommand( tab + "Select select = new Select(webElement);" );
+		elementProgress.outputCommand( tab + "origText = \"\";" );
+		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
 		
 		//VALUE
 		if( gainBy.equals( ListGainByListEnum.BYVALUE ) ){			
@@ -113,9 +113,10 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 			elementProgress.outputCommand( tab + "String " + baseElement.getNameAsVariable() + " = origText;" );
 		}else{
 			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
+			elementProgress.outputCommand( tab + baseElement.getNameAsVariable() + " = null;" );
 			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "String " + baseElement.getNameAsVariable() + " = matcher.group();" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsVariable() + " = matcher.group();" );
 			elementProgress.outputCommand( tab + "}" );
 		}		
 		
