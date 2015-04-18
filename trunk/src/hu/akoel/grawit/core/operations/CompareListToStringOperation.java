@@ -24,7 +24,7 @@ import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class CompareListToStringOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "COMPARETOSTRING";
+	private static final String NAME = "COMPARELISTTOSTRING";
 	private static final String ATTR_STRING = "string";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
