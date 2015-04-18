@@ -71,18 +71,42 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
-	
-		String origText = "";
+		
+		//
+		// SOURCE Starts
+		//	
+		elementProgress.outputCommand( tab + "String origText = \"\";");
 
 		//CHECKBOX/RADIOBUTTON
 		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
-
 			elementProgress.outputCommand( tab + "if( webElement.isSelected() ){" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
 			elementProgress.outputCommand( tab + "}else{" );
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
 			elementProgress.outputCommand( tab + "}" );
 			
+		//Ha FIELD
+		}else{	
+			elementProgress.outputCommand( tab + "origText = webElement.getAttribute(\"value\");" );
+		}	
+		if( null == pattern ){			
+			elementProgress.outputCommand( tab + "String " + baseElement.getNameAsVariable() + " = origText;" );
+		}else{
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "String " + baseElement.getNameAsVariable() + " = matcher.group();" );
+			elementProgress.outputCommand( tab + "}" );
+		}
+		
+		//
+		// CODE Starts
+		//	
+		String origText = "";
+
+		//CHECKBOX/RADIOBUTTON
+		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
+
 			if( webElement.isSelected() ){
 				origText = "on";
 			}else{
@@ -92,35 +116,21 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 		//Ha FIELD
 		}else{		
 
-			elementProgress.outputCommand( tab + "origText = webElement.getAttribute(\"value\");" );
-			
 			origText = webElement.getAttribute("value");			
-			
 		}
 	
 		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
-			
-			elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = origText;" );
-			
+		
 			baseElement.setStoredValue( origText );			
 			
 		}else{
 			matcher = pattern.matcher( origText );
 			
-			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");		
-			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
-			
 			if( matcher.find() ){
 								
-				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
-				
-				baseElement.setStoredValue( matcher.group() );				
-				
+				baseElement.setStoredValue( matcher.group() );					
 			}
-			
-			elementProgress.outputCommand( tab + "}" );
 		}	
 	}
 	

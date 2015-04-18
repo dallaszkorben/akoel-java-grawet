@@ -21,7 +21,7 @@ import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 
 public class GainListToElementStorageOperation extends ElementOperationAdapter{
 	
-	private static final String NAME = "GAINTOELEMENT";
+	private static final String NAME = "GAINLISTTOELEMENT";
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_GAIN_BY = "gainby";
 	
@@ -95,23 +95,43 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
+		//
+		// SOURCE Starts
+		//		
+		elementProgress.outputCommand( tab + "String origText = \"\";" );
+		elementProgress.outputCommand( tab + "Select select = new Select(webElement);" );
+		
+		//VALUE
+		if( gainBy.equals( ListGainByListEnum.BYVALUE ) ){			
+			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
+			
+		//TEXT
+		}else if( gainBy.equals( ListGainByListEnum.BYVISIBLETEXT ) ){		
+			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getText();" );			
+		}		
+		if( null == pattern ){
+			elementProgress.outputCommand( tab + "String " + baseElement.getNameAsVariable() + " = origText;" );
+		}else{
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "String " + baseElement.getNameAsVariable() + " = matcher.group();" );
+			elementProgress.outputCommand( tab + "}" );
+		}		
+		
+		//
+		// CODE Starts
+		//	
 		String origText = "";
-		
-		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
-		
 		Select select = new Select(webElement);		
 		
 		//VALUE
 		if( gainBy.equals( ListGainByListEnum.BYVALUE ) ){
-			
-			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
-			
+		
 			origText = select.getFirstSelectedOption().getAttribute("value");				
 			
 		//TEXT
 		}else if( gainBy.equals( ListGainByListEnum.BYVISIBLETEXT ) ){
-		
-			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getText();" );
 			
 			origText = select.getFirstSelectedOption().getText();	
 			
@@ -120,25 +140,15 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
 			
-			elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = origText;" );
-			
 			baseElement.setStoredValue( origText );			
 			
 		}else{
 			Matcher matcher = pattern.matcher( origText );
 			
-			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");	
-			elementProgress.outputCommand( tab + "if( matcher.find() ){" );
-			
 			if( matcher.find() ){
-				
-				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
 				
 				baseElement.setStoredValue( matcher.group() );
 			}
-			
-			elementProgress.outputCommand( tab + "}" );		
 		}	
 	}
 	

@@ -72,33 +72,39 @@ public class GainTextToElementStorageOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
-		//GAIN TEXT
+		//
+		// SOURCE Starts
+		//	
 		elementProgress.outputCommand( tab + "origText = webElement.getText();" ); 
-		
+	
+		//Elmenti az elem tartalmat a valtozoba		
+		if( null == pattern ){			
+			elementProgress.outputCommand( tab + "String " + baseElement.getNameAsVariable() + " = origText;" );
+		}else{
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "String " + baseElement.getNameAsVariable() + " = matcher.group();" );
+			elementProgress.outputCommand( tab + "}" );
+		}	
+	
+		//
+		// CODE Starts
+		//	
 		String origText = webElement.getText();
 	
 		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){
-			
-			elementProgress.outputCommand( tab + "String " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = webElement.getText();" );
 			
 			baseElement.setStoredValue( origText );			
 			
 		}else{
 			matcher = pattern.matcher( origText );
 			
-			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");	
-			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
-			
 			if( matcher.find() ){
 				
-				elementProgress.outputCommand( tab + "String " + CommonOperations.TAB_BY_SPACE + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " = matcher.group();" );
-
 				baseElement.setStoredValue( matcher.group() );
 			}			
-			
-			elementProgress.outputCommand( tab + "}" );		
 		}		
 	}
 
