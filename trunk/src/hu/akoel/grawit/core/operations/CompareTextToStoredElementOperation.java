@@ -189,27 +189,42 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
-		String origText = "";
+		//
+		// SOURCE Starts
+		//	
+		elementProgress.outputCommand( tab + "origText = webElement.getText();" );
+		if( null != pattern ){
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+			elementProgress.outputCommand( tab + "}" );
+		}
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){		
+			elementProgress.outputCommand( tab + "if( !origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.outputCommand( tab + "}" );
+		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+			elementProgress.outputCommand( tab + "if( origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should NOT.\");");				
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");			
+			elementProgress.outputCommand( tab + "}" );
+		}
 		
-		elementProgress.outputCommand( tab + "webElement.getText();" );
-		
+		//
+		// Execute the OPERATION
+		//	
+		String origText = "";		
 		origText = webElement.getText();
 		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
 			
-			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
-			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
-
 			if( matcher.find() ){
-				
-				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 				
 				origText = matcher.group();
 			}	
-			
-			elementProgress.outputCommand( tab + "}" );
 		}		
 
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){

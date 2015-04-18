@@ -103,37 +103,46 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		//
-		// Execute the OPERATION
-		//		
-		String origText = "";
-		
-		origText = webElement.getText();
-		
+		// SOURCE Starts
+		//	
 		elementProgress.outputCommand( tab + "origText = webElement.getText();" );
+		if( null != pattern ){
+			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+			elementProgress.outputCommand( tab + "}" );
+		}
+		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
+			elementProgress.outputCommand( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.outputCommand( tab + "}" );
+		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+			elementProgress.outputCommand( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");				
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");			
+			elementProgress.outputCommand( tab + "}" );
+		}
+		
+		//
+		// Execute the OPERATION
+		//	
+		String origText = "";		
+		origText = webElement.getText();
 		
 		if( null != pattern ){
 			Matcher matcher = pattern.matcher( origText );
 			
-			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
-			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
-			
 			if( matcher.find() ){				
-				
-				elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 				
 				origText = matcher.group();
 			}
-			
-			elementProgress.outputCommand( tab + "}" );
 		}		
 
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( stringToCompare ) ){
-				
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because !origText.equals( " + stringToCompare + ") BUT it should be\");");
-				elementProgress.outputCommand( tab + "System.exit(-1);");
 
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
@@ -146,9 +155,6 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( stringToCompare ) ){
-				
-				elementProgress.outputCommand( tab + "System.err.println(\"Stopped because origText.equals( " + stringToCompare + ") BUT it should NOT be\");");
-				elementProgress.outputCommand( tab + "System.exit(-1);");
 
 				if( baseElement instanceof NormalBaseElementDataModel ){
 					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
