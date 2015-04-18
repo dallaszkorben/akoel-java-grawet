@@ -52,11 +52,11 @@ public class FillWithStringOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 
+		elementProgress.outputCommand( tab + "webElement.sendKeys(\"" + stringToShow + "\");     //" + baseElement.getName() );
+		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 		
 			try{
-
-				elementProgress.outputCommand( tab + "webElement.sendKeys(\"" + stringToShow + "\");     //" + baseElement.getName() );
 				
 				webElement.sendKeys( stringToShow );
 				//webElement.sendKeys(Keys.TAB);

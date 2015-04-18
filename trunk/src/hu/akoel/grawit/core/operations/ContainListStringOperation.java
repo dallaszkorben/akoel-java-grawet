@@ -156,13 +156,13 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) ){			
 			elementProgress.outputCommand( tab + "if( !found ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' is NOT in the list\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' is NOT in the list\");");
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
 			elementProgress.outputCommand( tab + "}" );			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) ){			
 			elementProgress.outputCommand( tab + "if( found ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' IS in the list\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' IS in the list\");");
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
 			elementProgress.outputCommand( tab + "}" );
 		}		
