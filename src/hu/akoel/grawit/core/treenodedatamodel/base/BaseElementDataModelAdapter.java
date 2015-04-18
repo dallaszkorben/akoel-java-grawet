@@ -6,6 +6,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -85,6 +86,10 @@ public abstract class BaseElementDataModelAdapter extends BaseDataModelAdapter{
 
 	public void setStoredValue(String valueToStore) {
 		this.storedValue = valueToStore;
+	}
+	
+	public String getNameAsVariable(){
+		return CommonOperations.STORAGE_NAME_PREFIX + hashCode();
 	}
 	
 	@Override

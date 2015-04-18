@@ -223,12 +223,12 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 		}
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
 			elementProgress.outputCommand( tab + "if( !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element: '\" + origText + \"' does NOT equal to '\" + " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " + \"' but it should.\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
 			elementProgress.outputCommand( tab + "}" );
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			elementProgress.outputCommand( tab + "if( origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element: '\" + origText + \"' equals to '\" + " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " + \"' but it should NOT.\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should NOT.\");");
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");				
 			elementProgress.outputCommand( tab + "}" );
 		}		

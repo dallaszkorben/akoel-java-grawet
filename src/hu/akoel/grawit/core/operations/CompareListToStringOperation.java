@@ -145,12 +145,12 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 		}
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
 			elementProgress.outputCommand( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element: '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
 			elementProgress.outputCommand( tab + "}" );
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			elementProgress.outputCommand( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element: '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
+			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");				
 			elementProgress.outputCommand( tab + "}" );
 		}		
