@@ -26,7 +26,9 @@ public class ClearOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab ) throws ElementInvalidOperationException {
 		
-		elementProgress.outputCommand( tab + "webElement.clear();" );
+		if( null != elementProgress ){
+			elementProgress.outputCommand( tab + "webElement.clear();" );
+		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 

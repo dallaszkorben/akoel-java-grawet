@@ -173,9 +173,11 @@ public class ScriptElementAddStoreToParametersOperation extends ScriptOperationA
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			outputScripClasst(driver, baseElement, webElement, elementProgress, tab );				
-			elementProgress.outputCommand( tab + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".addParameter( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ); //" + baseElementDataModel.getStoredValue() );
-			elementProgress.outputCommand( "" );
+			if( null != elementProgress ){
+				outputScripClass(driver, baseElement, webElement, elementProgress, tab );				
+				elementProgress.outputCommand( tab + baseElement.getNameAsScript() + ".addParameter( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ); //" + baseElementDataModel.getStoredValue() );
+				elementProgress.outputCommand( "" );
+			}			
 
 			((ScriptBaseElementDataModel)baseElement).addParameter( baseElementDataModel.getStoredValue() );
 			

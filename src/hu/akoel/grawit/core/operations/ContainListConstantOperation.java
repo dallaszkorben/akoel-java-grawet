@@ -193,6 +193,7 @@ public class ContainListConstantOperation extends ElementOperationAdapter implem
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
+		if( null != elementProgress ){
 		//
 		// SOURCE Starts
 		//		
@@ -236,6 +237,7 @@ public class ContainListConstantOperation extends ElementOperationAdapter implem
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
 			elementProgress.outputCommand( tab + "}" );
 		}		
+		}
 		
 		//
 		// CODE Starts

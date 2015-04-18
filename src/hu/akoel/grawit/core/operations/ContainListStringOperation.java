@@ -123,6 +123,7 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
+		if( null != elementProgress ){
 		//
 		// SOURCE Starts
 		//		
@@ -166,6 +167,7 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
 			elementProgress.outputCommand( tab + "}" );
 		}		
+		}
 		
 		//
 		// CODE Starts

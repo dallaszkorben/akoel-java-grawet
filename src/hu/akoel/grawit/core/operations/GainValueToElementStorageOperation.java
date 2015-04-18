@@ -72,6 +72,7 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
+		if( null != elementProgress ){
 		//
 		// SOURCE Starts
 		//	
@@ -98,6 +99,7 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
 			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsVariable() + " = matcher.group();" );
 			elementProgress.outputCommand( tab + "}" );
+		}
 		}
 		
 		//

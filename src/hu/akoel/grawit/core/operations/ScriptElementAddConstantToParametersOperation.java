@@ -124,9 +124,11 @@ public class ScriptElementAddConstantToParametersOperation extends ScriptOperati
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			outputScripClasst(driver, baseElement, webElement, elementProgress, tab );		
-			elementProgress.outputCommand( tab + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".addParameter( \"" + constantElementDataModel.getValue() + "\" );" );
-			elementProgress.outputCommand( "" );			
+			if( null != elementProgress ){
+				outputScripClass(driver, baseElement, webElement, elementProgress, tab );		
+				elementProgress.outputCommand( tab + baseElement.getNameAsScript() + ".addParameter( \"" + constantElementDataModel.getValue() + "\" );" );
+				elementProgress.outputCommand( "" );
+			}
 			
 			((ScriptBaseElementDataModel)baseElement).addParameter( constantElementDataModel.getValue() );
 			

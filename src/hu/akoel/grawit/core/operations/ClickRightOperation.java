@@ -26,7 +26,9 @@ public class ClickRightOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 
-		elementProgress.outputCommand( tab + "new Actions(driver).contextClick(webElement).perform();" );
+		if( null != elementProgress ){
+			elementProgress.outputCommand( tab + "new Actions(driver).contextClick(webElement).perform();" );
+		}	
 		
 		new Actions(driver).contextClick(webElement).perform();
 
