@@ -15,6 +15,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.text.MessageFormat;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -38,6 +40,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.tree.TreeNode;
 
 import org.openqa.selenium.WebDriver;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
@@ -184,13 +187,10 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 						//Engedelyezi az Inditas gombot
 				    	RunTestcaseEditor.this.startButton.setEnabled( true );
 				    	//Tiltja a Stop gombot
-				    	RunTestcaseEditor.this.stopButton.setEnabled( false );
-			
+				    	RunTestcaseEditor.this.stopButton.setEnabled( false );			
 					}				 
-				 
-				 }).start();
-			}
-						
+				}).start();
+			}						
 		});		
 
 		//
@@ -215,10 +215,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 								
-				setNeedToStop( true );
-				
-			}
-						
+				setNeedToStop( true );				
+			}						
 		});	
 		
 		//
@@ -822,6 +820,7 @@ this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 		    		returnLabel =  new JLabel( ((TestcaseCaseDataModel)value).getName() );
 		    	}else if( column == 1 ){
 		    		returnLabel = ((ResultStatus)value).getLabel();
+		    		returnLabel.setHorizontalAlignment(SwingConstants.CENTER );		    		
 		    	}
 		    	returnLabel.setOpaque( true ); 					//Ez kell ahhoz, hogy szinezhetove valjon
 		    	
@@ -860,10 +859,7 @@ this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 		    		return "";
 		    	}
 		    }
-	    
-
-		}
-		
+		}	
 	}
 	
 	/**
@@ -873,7 +869,24 @@ this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 	 *
 	 */
 	public static enum ResultStatus{
-		SUCCESS( CommonOperations.getTranslation( "editor.label.runtest.resultstates.success" ), Color.green ),
+		SUCCESS( CommonOperations.createImageIcon("result/result-checked.png") ),
+		FAILED( CommonOperations.createImageIcon("result/result-failed.png") ),
+		STOPPED( CommonOperations.createImageIcon("result/result-stopped.png") );
+		
+		String name;
+		ImageIcon icon;	
+		
+		private ResultStatus( ImageIcon icon ){
+			this.icon = icon;
+		}
+		
+		public JLabel getLabel(){
+			JLabel label = new JLabel();
+			label.setIcon( this.icon );
+			return label;
+		}		
+	
+/*		SUCCESS( CommonOperations.getTranslation( "editor.label.runtest.resultstates.success" ), Color.green ),
 		FAILED( CommonOperations.getTranslation( "editor.label.runtest.resultstates.failed" ), Color.red ),
 		STOPPED( CommonOperations.getTranslation( "editor.label.runtest.resultstates.stopped" ), Color.blue );
 		
@@ -900,6 +913,6 @@ this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 			label.setFont( font );
 			return label;
 		}
+*/		
 	}
-
 }
