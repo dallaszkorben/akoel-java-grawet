@@ -1,7 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.ArrayList;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -55,8 +53,6 @@ public abstract class ElementOperationAdapter implements Cloneable{
     }
     
 	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, String tab, boolean needElementEndedAtException ) throws ElementException, CompilationException{
-		
-		ArrayList<String> elementOperationList = new ArrayList<>();
 		
 		//Uzenet az Operation Indulasarol
 		if( null != elementProgress ){
