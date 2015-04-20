@@ -58,6 +58,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -66,6 +67,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.text.Position;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -968,7 +972,9 @@ public class GUIFrame extends JFrame{
 
 		@Override
 		public void treeHasChanged() {			
-			treePanel.removeTab( runRunActionListener.getFunctionName());
+//treePanel.removeTab( runRunActionListener.getFunctionName());
+treePanel.refreshTab( runRunActionListener.getFunctionName() );			
+			
 		}		
 	}
 	
@@ -1069,7 +1075,7 @@ public class GUIFrame extends JFrame{
 	
 	/**
 	 * 
-	 * A TREE megjelenitesenek helye
+	 * A TREE-k megjelenitesenek helye
 	 * 
 	 * @author afoldvarszky
 	 *
@@ -1078,10 +1084,8 @@ public class GUIFrame extends JFrame{
 		
 		private static final long serialVersionUID = -60536416293858503L;
 		private JScrollPane panelToView = null;
-//		private JTree tree = null;		
-		
 		private JTabbedPane jtp ;
-int row = 0;
+
 		public TreePanel(){
 				
 			//Layout beallitas, hogy lehetoseg legyen teljes szelessegben megjeleniteni a tree-t
@@ -1140,9 +1144,14 @@ int row = 0;
 			});
 		}
 		
+		/**
+		 * Megjeleniti a parameterben magadott Tree-t egy ujabb tab-ban, ha nem letezett.
+		 * Ha letezett, akkor kijeloli az adott tab-ot
+		 * 
+		 * @param tree
+		 * @param selectedNode
+		 */
 		public void showTree( Tree tree, DataModelAdapter selectedNode ){
-
-			//this.tree = tree;
 
 			//Becsomagolom a Tree-t hogy scroll-ozhato legyen
 			panelToView = new JScrollPane( (Component)tree );		
@@ -1153,8 +1162,6 @@ int row = 0;
 			//Ha meg nem letezett
 			if( indexOfTab < 0 ){
 				
-//				this.tree = tree;
-				
 				//Akkor hozzaadja az uj tab-ot
 				jtp.addTab( tree.getfunctionName(), panelToView);
 				
@@ -1162,36 +1169,83 @@ int row = 0;
 				indexOfTab = jtp.indexOfTab( tree.getfunctionName() );
 				
 				//Es vegul letrehozza az uj tab label-t
-				jtp.setTabComponentAt(indexOfTab, new ButtonTabComponent(jtp) );
-				
+				jtp.setTabComponentAt(indexOfTab, new ButtonTabComponent(jtp) );				
 			}
+			
 			jtp.setSelectedIndex( indexOfTab );
 			
 			Tree actualTree = (Tree)((JScrollPane)jtp.getSelectedComponent()).getViewport().getView();
 			
 			//Ha meg volt adva akkor kivalasztja a fa-ban a kivalasztando csomopontot
 			if( null != selectedNode ){
-//tree.setSelectionRow(row++);
 
-//				tree.collapseRow(0);
+				//tree.collapseRow(0);
 				actualTree.setExpandsSelectedPaths(true);
 	     		TreePath treePath = new TreePath(selectedNode.getPath());
 	      		actualTree.setSelectionPath(treePath);
-	      		actualTree.scrollPathToVisible(treePath);
-	      		
-		
-			}
-					
+	      		actualTree.scrollPathToVisible(treePath);		
+			}					
 		}
 	
+		/**
+		 * Eltavoloitja a tab cimkeje alapjan azonosistott tab-ot
+		 * 
+		 * @param functionName
+		 */
 		public void removeTab( String functionName ){
 			int indexOfTab = jtp.indexOfTab( functionName );
 			
-			//Ha meg nem letezett
-			if( indexOfTab >= 0 ){			
+			//Ha itt van
+			if( indexOfTab >= 0 ){
+				
+				//Akkor eltavolitja
 				jtp.remove(indexOfTab);
 			}
 		}
+		
+		/**
+		 * A tab cimkeje alapjan azonositott tab-ban elhelyezkedo tree-t ujratolti.
+		 * Vagyis, ha megvaltozott a TreeModel
+		 * 
+		 * @param functionName
+		 */
+		public void refreshTab( String functionName ){
+			int indexOfTab = jtp.indexOfTab( functionName );
+			
+			//Ha itt van
+			if( indexOfTab >= 0 ){
+			
+				Component component = jtp.getComponentAt( indexOfTab );
+				if( component instanceof JScrollPane ){
+					Component c = ((JScrollPane)component).getViewport().getView();
+				
+					//Ha a JScrollPane-be egy Tree van elhelyezve - Annak kell lennie
+					if( c instanceof JTree ){
+						JTree treeComponent = (JTree)c;
+						
+						//Elmenti a kinyitott csomopontokat
+						Enumeration<TreePath> exps = treeComponent.getExpandedDescendants(treeComponent.getPathForRow(0));
+						
+						//
+						//Ez a lengyeg
+						//Ujratolti a MODEL-t (ami megvaltozott)
+						//
+						DefaultTreeModel treeModel = (DefaultTreeModel)treeComponent.getModel();
+						treeModel.reload();
+						
+						//Es mivel az ujratoltessel zarva van minden csomopont, ezert kinyitja az elozoleg nyitottakat
+						while( exps.hasMoreElements() ){
+							TreePath tp = (TreePath)exps.nextElement();
+							if(tp.getLastPathComponent() != null && !treeComponent.getModel().isLeaf(tp.getLastPathComponent())){
+			                    TreePath newPath = treeComponent.getNextMatch(tp.getLastPathComponent().toString(),0,Position.Bias.Forward );
+			                    treeComponent.expandPath(newPath);
+			                }							
+						}						
+					}
+				}						
+			}
+		}
+		
 		/**
 		 * Torli az editort a jobb oldalon
 		 */

@@ -2,11 +2,7 @@ package hu.akoel.grawit.gui.tree;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -42,7 +38,7 @@ public class TestcaseTree extends Tree {
 	
 	private StepRootDataModel paramRootDataModel;
 	private DriverRootDataModel driverRootDataModel;
-	private TestcaseRootDataModel testcaseRootDataModel;
+	//private TestcaseRootDataModel testcaseRootDataModel;
 	
 	public TestcaseTree(  String functionName, GUIFrame guiFrame, BaseRootDataModel baseRootDataModel, StepRootDataModel stepRootDataModel, DriverRootDataModel driverRootDataModel, TestcaseRootDataModel testcaseRootDataModel ) {	
 		super( functionName, guiFrame, testcaseRootDataModel );
@@ -50,7 +46,7 @@ public class TestcaseTree extends Tree {
 		this.guiFrame = guiFrame;
 		this.paramRootDataModel = stepRootDataModel;
 		this.driverRootDataModel = driverRootDataModel;
-		this.testcaseRootDataModel = testcaseRootDataModel;
+		//this.testcaseRootDataModel = testcaseRootDataModel;
 		
 		this.enablePopupModifyAtRoot();
 
