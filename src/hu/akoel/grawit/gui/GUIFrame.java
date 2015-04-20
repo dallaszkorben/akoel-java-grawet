@@ -1210,6 +1210,9 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 		 */
 		public void refreshTab( String functionName ){
 			int indexOfTab = jtp.indexOfTab( functionName );
+			int selectedTab = jtp.getSelectedIndex();
+			
+			if( indexOfTab != selectedTab ){
 			
 			//Ha itt van
 			if( indexOfTab >= 0 ){
