@@ -198,7 +198,8 @@ public abstract class Tree extends JTree{
 	 * 
 	 * @param nodeToReselect
 	 */
-	private void reselectNode( DataModelAdapter nodeToReselect ){
+	public void reselectNode( DataModelAdapter nodeToReselect ){
+		
 		//Torol minden kivalasztast
 		this.setSelectionRows( new int[0] );
 		

@@ -1107,32 +1107,29 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 
 					JTabbedPane sourceTabbedPane = (JTabbedPane) e.getSource();	
 					int index = sourceTabbedPane.getSelectedIndex();
+					
+					//Ha nyitva van a TAB
 					if( index >= 0 ){
 					
 						Component component = sourceTabbedPane.getComponentAt(index);
-					
-						//Ha a kivalasztott TAB egy JScrollPane - Annak kell lennie
-						if( component instanceof JScrollPane ){
-							Component c = ((JScrollPane)component).getViewport().getView();
-						
-							//Ha a JScrollPane-be egy Tree van elhelyezve - Annak kell lennie
-							if( c instanceof Tree ){
-								Tree treeComponent = (Tree)c;
 							
-								//Megnezi a kivalasztott csomopontokat - 1 db-nak kell lennie
-								TreePath selectedElementPath = treeComponent.getSelectionPath();
-
-								//Ha van kivalasztott csomopont
-								if( null != selectedElementPath ){
-									treeComponent.removeSelectionPath(selectedElementPath);
-								//Ha nincs
-								}else{
-									removeEditor();
-								}
+						Tree treeComponent = getJTree( component );
 								
-								treeComponent.setSelectionPath( selectedElementPath );
-							}
+						//Megnezi a kivalasztott csomopontokat - 1 db-nak kell lennie
+						TreePath selectedElementPath = treeComponent.getSelectionPath();
+
+						//Ha van kivalasztott csomopont
+						if( null != selectedElementPath ){
+							
+							treeComponent.removeSelectionPath(selectedElementPath);
+							
+						//Ha nincs
+						}else{
+							removeEditor();
 						}
+								
+						treeComponent.setSelectionPath( selectedElementPath );
+						
 					}else{
 						
 						//Torolni kell az editor-t a jobb oldalon
@@ -1202,6 +1199,20 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 			}
 		}
 		
+		private Tree getJTree( Component component ){
+			
+			if( component instanceof JScrollPane ){
+				Component c = ((JScrollPane)component).getViewport().getView();
+			
+				//Ha a JScrollPane-be egy Tree van elhelyezve - Annak kell lennie
+				if( c instanceof Tree ){
+					Tree treeComponent = (Tree)c;
+					return treeComponent;
+				}
+			}
+			return null;
+		}
+		
 		/**
 		 * A tab cimkeje alapjan azonositott tab-ban elhelyezkedo tree-t ujratolti.
 		 * Vagyis, ha megvaltozott a TreeModel
@@ -1211,45 +1222,52 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 		public void refreshTab( String functionName ){
 			int indexOfTab = jtp.indexOfTab( functionName );
 			int selectedTab = jtp.getSelectedIndex();
+			TreePath selectedElementPathOnSelectedTab = null;
+			Tree treeOnSelectedTab = null;
 			
+			//Ha nem az eppen aktiv Tab-ot kell refresh()-elni
 			if( indexOfTab != selectedTab ){
+				
+				//A kivalasztott tab alapjan visszakapja a JTree-t
+				treeOnSelectedTab = getJTree( jtp.getSelectedComponent() );
+				selectedElementPathOnSelectedTab = treeOnSelectedTab.getSelectionPath();				
+			}
 			
-			//Ha itt van
+			//Ha nyitva van a refresh()-elendo JTree-t tartalmazo TAB
 			if( indexOfTab >= 0 ){
 			
-				Component component = jtp.getComponentAt( indexOfTab );
-				if( component instanceof JScrollPane ){
-					Component c = ((JScrollPane)component).getViewport().getView();
-				
-					//Ha a JScrollPane-be egy Tree van elhelyezve - Annak kell lennie
-					if( c instanceof JTree ){
-						JTree treeComponent = (JTree)c;
+				JTree treeOnRefreshTab = getJTree(  jtp.getComponentAt( indexOfTab ) );
 						
-						//Elmenti a kinyitott csomopontokat
-						Enumeration<TreePath> exps = treeComponent.getExpandedDescendants(treeComponent.getPathForRow(0));
-						TreePath selectedElementPath = treeComponent.getSelectionPath();
+				//Elmenti a kinyitott csomopontokat
+				Enumeration<TreePath> exps = treeOnRefreshTab.getExpandedDescendants(treeOnRefreshTab.getPathForRow(0));
+				TreePath selectedElementPathOnRefreshTab = treeOnRefreshTab.getSelectionPath();
 
 //TODO megnezni, mert nem nyitja ki az utolso csomopontokat
 						
-						//
-						//Ez a lenyeg
-						//Ujratolti a MODEL-t (ami megvaltozott)
-						//
-						DefaultTreeModel treeModel = (DefaultTreeModel)treeComponent.getModel();
-						treeModel.reload();
+				//
+				//Ez a lenyeg
+				//Ujratolti a MODEL-t (ami megvaltozott)
+				//
+				DefaultTreeModel treeModel = (DefaultTreeModel)treeOnRefreshTab.getModel();
+				treeModel.reload();
 						
-						//Es mivel az ujratoltessel zarva van minden csomopont, ezert kinyitja az elozoleg nyitottakat
-						while( exps.hasMoreElements() ){
-							TreePath tp = (TreePath)exps.nextElement();
-							if(tp.getLastPathComponent() != null && !treeComponent.getModel().isLeaf(tp.getLastPathComponent())){
-			                    TreePath newPath = treeComponent.getNextMatch(tp.getLastPathComponent().toString(),0,Position.Bias.Forward );
-			                    treeComponent.expandPath(newPath);
-			                }							
-						}
-						
-						treeComponent.setSelectionPath( selectedElementPath );
-					}
-				}						
+				//Es mivel az ujratoltessel zarva van minden csomopont, ezert kinyitja az elozoleg nyitottakat
+				while( exps.hasMoreElements() ){
+					TreePath tp = (TreePath)exps.nextElement();
+					if(tp.getLastPathComponent() != null && !treeOnRefreshTab.getModel().isLeaf(tp.getLastPathComponent())){
+						TreePath newPath = treeOnRefreshTab.getNextMatch(tp.getLastPathComponent().toString(),0,Position.Bias.Forward );
+						treeOnRefreshTab.expandPath(newPath);
+					}							
+				}
+				
+				//Kivalasztja a reload() elott mar kivalasztott elemet
+				treeOnRefreshTab.setSelectionPath( selectedElementPathOnRefreshTab );
+				
+				//Ha nem ugyan azt a Tab-ot kellett frissiteni, mint amelyik ki volt valasztva, akkor ez elozo sor miatt
+				//megjeleno editort felul kell irni a kivalasztott Tab editoraval
+				if( null != selectedElementPathOnSelectedTab ){
+					treeOnSelectedTab.reselectNode( (DataModelAdapter)selectedElementPathOnSelectedTab.getLastPathComponent());
+				}
 			}
 		}
 		
