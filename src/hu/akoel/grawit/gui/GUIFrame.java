@@ -80,6 +80,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.bcel.generic.Select;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -1073,6 +1074,7 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 		}		
 	}
 	
+	
 	/**
 	 * 
 	 * A TREE-k megjelenitesenek helye
@@ -1095,7 +1097,9 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 			jtp = new JTabbedPane();
 			this.add( jtp, BorderLayout.CENTER );
 			
-			//Ha kivalasztok egy masik TAB-ot
+			//
+			//Ha kivalasztok egy TAB-ot
+			//
 			jtp.addChangeListener( new ChangeListener() {
 				
 				@Override
@@ -1116,22 +1120,17 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 								Tree treeComponent = (Tree)c;
 							
 								//Megnezi a kivalasztott csomopontokat - 1 db-nak kell lennie
-								int[] selectionArray = treeComponent.getSelectionRows();
-							
+								TreePath selectedElementPath = treeComponent.getSelectionPath();
+
 								//Ha van kivalasztott csomopont
-								if( selectionArray.length != 0 ){
-									
-									//Kivalasztast torli, hogy aztan az ujrakivalasztasra megjelenjen az editor-a a jobb oldalon
-									treeComponent.removeSelectionRows(selectionArray);
-							
-								//Nincs kivalasztott csomopont
+								if( null != selectedElementPath ){
+									treeComponent.removeSelectionPath(selectedElementPath);
+								//Ha nincs
 								}else{
-								
-									//Torolni kell az editor-t a jobb oldalon
 									removeEditor();
-								
 								}
-								treeComponent.setSelectionRows( selectionArray );
+								
+								treeComponent.setSelectionPath( selectedElementPath );
 							}
 						}
 					}else{
@@ -1225,9 +1224,12 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 						
 						//Elmenti a kinyitott csomopontokat
 						Enumeration<TreePath> exps = treeComponent.getExpandedDescendants(treeComponent.getPathForRow(0));
+						TreePath selectedElementPath = treeComponent.getSelectionPath();
+
+//TODO megnezni, mert nem nyitja ki az utolso csomopontokat
 						
 						//
-						//Ez a lengyeg
+						//Ez a lenyeg
 						//Ujratolti a MODEL-t (ami megvaltozott)
 						//
 						DefaultTreeModel treeModel = (DefaultTreeModel)treeComponent.getModel();
@@ -1240,7 +1242,9 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 			                    TreePath newPath = treeComponent.getNextMatch(tp.getLastPathComponent().toString(),0,Position.Bias.Forward );
 			                    treeComponent.expandPath(newPath);
 			                }							
-						}						
+						}
+						
+						treeComponent.setSelectionPath( selectedElementPath );
 					}
 				}						
 			}
@@ -1254,6 +1258,9 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 			showEditorPanel( emptyPanel);
 		}
 	
+		/**
+		 * Eltavolit minden TAB-ot
+		 */
 		public void removeAllTab(){
 			jtp.removeAll();
 			this.repaint();

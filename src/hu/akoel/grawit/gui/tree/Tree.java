@@ -193,12 +193,6 @@ public abstract class Tree extends JTree{
 		return this.functionName;
 	}
 	
-
-/*	public void nodeChanged(){
-		nodeChanged( selectedNode );
-	}
-*/
-	
 	/**
 	 * A parameterkent megadott node kivalasztasat megszunteti, majd ujra kivalasztja
 	 * 
