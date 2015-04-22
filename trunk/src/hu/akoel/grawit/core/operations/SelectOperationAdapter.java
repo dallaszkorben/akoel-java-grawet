@@ -27,19 +27,19 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 		if( baseElement instanceof NormalBaseElementDataModel ){
 
 			//I do not know why but it have to be here
-			elementProgress.outputCommand( tab + "webElement.sendKeys(Keys.TAB);" );
-			elementProgress.outputCommand( tab + "webElement.sendKeys(Keys.SHIFT, Keys.TAB);" );
-			elementProgress.outputCommand( tab + "select = new Select(webElement);" );
+			elementProgress.printCommand( tab + "webElement.sendKeys(Keys.TAB);" );
+			elementProgress.printCommand( tab + "webElement.sendKeys(Keys.SHIFT, Keys.TAB);" );
+			elementProgress.printCommand( tab + "select = new Select(webElement);" );
 			if( getSelectionBy().equals( ListSelectionByListEnum.BYVALUE ) ){
-				elementProgress.outputCommand( tab + "select.selectByValue( \"" + getStringToSelection() + "\" );" );
+				elementProgress.printCommand( tab + "select.selectByValue( \"" + getStringToSelection() + "\" );" );
 			}else if( getSelectionBy().equals( ListSelectionByListEnum.BYINDEX ) ){
-				elementProgress.outputCommand( tab + "index = 0;" );
-				elementProgress.outputCommand( tab + "try{" );
-				elementProgress.outputCommand( tab + "index = Integer.valueOf( " + getStringToSelection() + " );" );
-				elementProgress.outputCommand( tab + "}catch( Exception e){}" );
-				elementProgress.outputCommand( tab + "select.selectByIndex( index  );" );
+				elementProgress.printCommand( tab + "index = 0;" );
+				elementProgress.printCommand( tab + "try{" );
+				elementProgress.printCommand( tab + "index = Integer.valueOf( " + getStringToSelection() + " );" );
+				elementProgress.printCommand( tab + "}catch( Exception e){}" );
+				elementProgress.printCommand( tab + "select.selectByIndex( index  );" );
 			}else if( getSelectionBy().equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
-				elementProgress.outputCommand( tab + "select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );
+				elementProgress.printCommand( tab + "select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );
 			}			
 			
 			Select select = null;

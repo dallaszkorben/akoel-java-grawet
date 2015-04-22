@@ -53,6 +53,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -63,6 +64,7 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.apache.commons.lang3.StringUtils;
@@ -706,4 +708,24 @@ public class CommonOperations {
 		}
 		return true;
 	}
+	
+	/**
+	 * 
+	 * Egy node alapjan visszaadja a hozza tartozo TreePath-et
+	 * 
+	 * @param treeNode
+	 * @return
+	 */
+	public static TreePath getTreePathFromNode(TreeNode treeNode) {
+	    List<Object> nodes = new ArrayList<Object>();
+	    if (treeNode != null) {
+	      nodes.add(treeNode);
+	      treeNode = treeNode.getParent();
+	      while (treeNode != null) {
+	        nodes.add(0, treeNode);
+	        treeNode = treeNode.getParent();
+	      }
+	    }
+	    return nodes.isEmpty() ? null : new TreePath(nodes.toArray());
+	  }
 }

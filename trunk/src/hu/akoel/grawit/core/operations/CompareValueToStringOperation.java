@@ -105,38 +105,38 @@ public class CompareValueToStringOperation extends ElementOperationAdapter{
 		//
 		// SOURCE Starts
 		//	
-		elementProgress.outputCommand( tab + "origText = \"\";" );
+		elementProgress.printCommand( tab + "origText = \"\";" );
 		
 		//CHECKBOX/RADIOBUTTON
 		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON ) ){
 			
-			elementProgress.outputCommand( tab + "if( webElement.isSelected() ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
-			elementProgress.outputCommand( tab + "}else{" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
-			elementProgress.outputCommand( tab + "}" );
+			elementProgress.printCommand( tab + "if( webElement.isSelected() ){" );
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
+			elementProgress.printCommand( tab + "}else{" );
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
+			elementProgress.printCommand( tab + "}" );
 		
 		//Ha FIELD/CHECKBOX
 		}else{			
-			elementProgress.outputCommand( tab + "origText = webElement.getAttribute(\"value\");" );			
+			elementProgress.printCommand( tab + "origText = webElement.getAttribute(\"value\");" );			
 		}		
 		if( null != pattern ){
-			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
-			elementProgress.outputCommand( tab + "if( matcher.find() ){" );			
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-			elementProgress.outputCommand( tab + "}" );					
+			elementProgress.printCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.printCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.printCommand( tab + "if( matcher.find() ){" );			
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+			elementProgress.printCommand( tab + "}" );					
 		}
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
-			elementProgress.outputCommand( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
-			elementProgress.outputCommand( tab + "}" );
+			elementProgress.printCommand( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.printCommand( tab + "}" );
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-			elementProgress.outputCommand( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
-			elementProgress.outputCommand( tab + "System.exit(-1);");			
-			elementProgress.outputCommand( tab + "}" );
+			elementProgress.printCommand( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
+			elementProgress.printCommand( tab + "System.exit(-1);");			
+			elementProgress.printCommand( tab + "}" );
 		}	
 		}
 		

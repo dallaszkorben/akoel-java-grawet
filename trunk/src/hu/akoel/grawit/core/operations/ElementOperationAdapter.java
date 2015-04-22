@@ -64,7 +64,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		//
 		if( baseElement instanceof NormalBaseElementDataModel ){			
 
-			elementProgress.outputCommand( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.STORAGE_NAME_PREFIX + baseElement.hashCode()  );
+			elementProgress.printCommand( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.STORAGE_NAME_PREFIX + baseElement.hashCode()  );
 
 			By by = null;
 			WebElement webElement = null;
@@ -87,17 +87,17 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				waitingTimeAfterOperation = 0;
 			}
 			
-elementProgress.outputCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + ");" );
+elementProgress.printCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + ");" );
 			WebDriverWait wait = new WebDriverWait(driver, waitingTimeForAppearance);
 						
 			//Selector meszerzese
 			if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.ID)){
 				
-elementProgress.outputCommand( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+elementProgress.printCommand( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				by = By.id( ((NormalBaseElementDataModel)baseElement).getSelector() );
 				//CSS
 			}else if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.CSS)){
-elementProgress.outputCommand( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+elementProgress.printCommand( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );
 			
 			}
@@ -108,7 +108,7 @@ elementProgress.outputCommand( tab + "by = By.cssSelector( \"" + ((NormalBaseEle
 			try{			
 				wait.until(ExpectedConditions.visibilityOfElementLocated( by ));			
 				//wait.until(ExpectedConditions.elementToBeClickable( by ) );
-elementProgress.outputCommand( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );		
+elementProgress.printCommand( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );		
 			
 			//Ha nem jelenik meg idoben, akkor hibajelzessel megall
 			}catch( org.openqa.selenium.TimeoutException timeOutException ){
@@ -126,7 +126,7 @@ elementProgress.outputCommand( tab + "wait.until(ExpectedConditions.visibilityOf
 			//Beazonositja az elemet
 			//
 			try{
-				elementProgress.outputCommand( tab + "webElement = driver.findElement( by );" );
+				elementProgress.printCommand( tab + "webElement = driver.findElement( by );" );
 				
 				webElement = driver.findElement( by );
 			
@@ -159,7 +159,7 @@ elementProgress.outputCommand( tab + "wait.until(ExpectedConditions.visibilityOf
 			}catch( StaleElementReferenceException e ){
 				
 				//TODO valahogy veget kell vetni a vegtelen ciklus lehetosegenek				
-				elementProgress.outputCommand("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
+				elementProgress.printCommand("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
 
 				//Ujra hiv
 				doAction( driver, baseElement, elementProgress, tab );
@@ -177,7 +177,7 @@ elementProgress.outputCommand( tab + "wait.until(ExpectedConditions.visibilityOf
 				
 			}			
 			
-			elementProgress.outputCommand("");	
+			elementProgress.printCommand("");	
 
 			//Varakozik, ha szukseges a muvelet utan
 			try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}			

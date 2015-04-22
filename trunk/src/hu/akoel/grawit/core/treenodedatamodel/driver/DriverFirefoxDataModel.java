@@ -151,7 +151,7 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<Driv
 	@Override
 	public WebDriver getDriver( ElementProgressInterface elementProgres, String tab ) {
 		
-		elementProgres.outputCommand( tab + "profile = new FirefoxProfile();");		
+		elementProgres.printCommand( tab + "profile = new FirefoxProfile();");		
 		
 		FirefoxProfile profile = new FirefoxProfile();	
 		
@@ -161,27 +161,27 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<Driv
 			Object value = ((DriverFirefoxPropertyDataModel)getChildAt(index)).getValue();
 			if( value instanceof String ){
 
-				elementProgres.outputCommand(  tab + "profile.setPreference( \"" + key + "\", \"" + (String)value + "\" );");
+				elementProgres.printCommand(  tab + "profile.setPreference( \"" + key + "\", \"" + (String)value + "\" );");
 				
 				profile.setPreference(key, (String)value );				
 				
 			}else if( value instanceof Boolean ){
 				
-				elementProgres.outputCommand(  tab + "profile.setPreference( \"" + key + "\", " + (Boolean)value + " );");
+				elementProgres.printCommand(  tab + "profile.setPreference( \"" + key + "\", " + (Boolean)value + " );");
 				
 				profile.setPreference(key, (Boolean)value );
 				
 			}else if( value instanceof Integer ){
 				
-				elementProgres.outputCommand(  tab + "profile.setPreference( \"" + key + "\", " + (Integer)value + " );");
+				elementProgres.printCommand(  tab + "profile.setPreference( \"" + key + "\", " + (Integer)value + " );");
 				
 				profile.setPreference(key, (Integer)value );
 				
 			}
 		}		
 
-		elementProgres.outputCommand(  tab + "driver = new FirefoxDriver(profile);");
-		elementProgres.outputCommand(  "" );
+		elementProgres.printCommand(  tab + "driver = new FirefoxDriver(profile);");
+		elementProgres.printCommand(  "" );
 //TODO ide jonnek a profilok		
 		
 		return new FirefoxDriver(profile);
