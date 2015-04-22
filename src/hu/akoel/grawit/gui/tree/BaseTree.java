@@ -267,8 +267,8 @@ public class BaseTree extends Tree{
 					((BaseDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					BaseTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
-					//BaseTree.this.nodeChanged( (BaseDataModelAdapter)selectedNode.getParent() );
+					//BaseTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
+					BaseTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode.getParent() );
 				
 				}
 

@@ -156,7 +156,8 @@ public class DriverFirefoxEditor extends DataEditor{
 				nodeForCapture.add( newFirefoxDataModel );
 
 				//A fa-ban modositja a strukturat
-				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				//tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				tree.refreshTreeAfterStructureChanged( nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -165,7 +166,8 @@ public class DriverFirefoxEditor extends DataEditor{
 				nodeForModify.setDetails( fieldDetails.getText() );
 			
 				//A fa-ban modositja a nevet (ha az valtozott)
-				tree.refreshTreeAfterChanged( nodeForModify );		
+				//tree.refreshTreeAfterChanged( nodeForModify );		
+				tree.refreshTreeAfterChanged();
 			}			
 		}
 	}

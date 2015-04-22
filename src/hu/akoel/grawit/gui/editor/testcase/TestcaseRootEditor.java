@@ -111,7 +111,8 @@ public class TestcaseRootEditor extends DataEditor{
 			nodeForModify.setDriverDataModel( fieldDriverTreeSelector.getSelectedDataModel() );
 			
 			//A fa-ban modositja a nevet (ha az valtozott)
-			tree.refreshTreeAfterChanged( nodeForModify );		
+			//tree.refreshTreeAfterChanged( nodeForModify );
+			tree.refreshTreeAfterChanged();		
 			
 		}		
 	}

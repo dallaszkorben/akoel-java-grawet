@@ -358,7 +358,8 @@ public class StepElementEditor extends DataEditor{
 				newParamElement.setBaseElement(baseElement);
 				
 				//A fa-ban modositja a strukturat
-				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				//tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				tree.refreshTreeAfterStructureChanged( nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -368,7 +369,8 @@ public class StepElementEditor extends DataEditor{
 				nodeForModify.setOperation( elementOperation );
 				
 				//A fa-ban modositja a nevet (ha az valtozott)
-				tree.refreshTreeAfterChanged( nodeForModify );
+				//tree.refreshTreeAfterChanged( nodeForModify );
+				tree.refreshTreeAfterChanged();
 			}
 
 		}

@@ -209,7 +209,8 @@ public class ScriptBaseElementEditor extends DataEditor{
 					nodeForCapture.add( scriptBaseElement );
 				
 					//A fa-ban modositja a strukturat
-					tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+					//tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+					tree.refreshTreeAfterStructureChanged( nodeForCapture );
 					
 					//Modositas eseten
 				}else if( mode.equals(EditMode.MODIFY ) ){
@@ -218,7 +219,8 @@ public class ScriptBaseElementEditor extends DataEditor{
 					nodeForModify.setScript( fieldScript.getScript() );
 	
 					//A fa-ban modositja a nevet (ha az valtozott)
-					tree.refreshTreeAfterChanged( nodeForModify );	
+					//tree.refreshTreeAfterChanged( nodeForModify );	
+					tree.refreshTreeAfterChanged();
 				}			
 			}			
 		}	

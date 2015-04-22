@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
@@ -198,7 +197,8 @@ public class TestcaseStepCollectorEditor extends DataEditor{
 				newTestcaseParamContainer.setParamCollector(paramCollector);
 				
 				//A fa-ban modositja a strukturat
-				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				//tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				tree.refreshTreeAfterStructureChanged( nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -209,7 +209,8 @@ public class TestcaseStepCollectorEditor extends DataEditor{
 				nodeForModify.setParamCollector(paramCollector);
 			
 				//A fa-ban modositja a nevet (ha az valtozott)
-				tree.refreshTreeAfterChanged( nodeForModify );
+				//tree.refreshTreeAfterChanged( nodeForModify );
+				tree.refreshTreeAfterChanged();
 				
 			}			
 		}		
