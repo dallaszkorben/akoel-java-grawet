@@ -53,7 +53,7 @@ public class FillWithStringOperation extends ElementOperationAdapter{
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 
 		if( null != elementProgress ){
-			elementProgress.outputCommand( tab + "webElement.sendKeys(\"" + stringToShow + "\");     //" + baseElement.getName() );
+			elementProgress.printCommand( tab + "webElement.sendKeys(\"" + stringToShow + "\");     //" + baseElement.getName() );
 		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){

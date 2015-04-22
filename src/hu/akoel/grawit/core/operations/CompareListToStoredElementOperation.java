@@ -205,34 +205,34 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 		//
 		// SOURCE Starts
 		//		
-		elementProgress.outputCommand( tab + "origText = \"\";" );
-		elementProgress.outputCommand( tab + "select = new Select(webElement);" );
+		elementProgress.printCommand( tab + "origText = \"\";" );
+		elementProgress.printCommand( tab + "select = new Select(webElement);" );
 		
 		//VALUE
 		if( compareBy.equals( ListCompareByListEnum.BYVALUE ) ){
-			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
+			elementProgress.printCommand( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
 			
 		//TEXT
 		}else if( compareBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
-			elementProgress.outputCommand( tab + "origText = select.getFirstSelectedOption().getText();" );
+			elementProgress.printCommand( tab + "origText = select.getFirstSelectedOption().getText();" );
 		}		
 		if( null != pattern ){
-			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");				
-			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-			elementProgress.outputCommand( tab + "}" );
+			elementProgress.printCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.printCommand( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.printCommand( tab + "if( matcher.find() ){" );	
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+			elementProgress.printCommand( tab + "}" );
 		}
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-			elementProgress.outputCommand( tab + "if( !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
-			elementProgress.outputCommand( tab + "}" );
+			elementProgress.printCommand( tab + "if( !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) ){" );
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.printCommand( tab + "}" );
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-			elementProgress.outputCommand( tab + "if( origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) ){" );
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should NOT.\");");
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");				
-			elementProgress.outputCommand( tab + "}" );
+			elementProgress.printCommand( tab + "if( origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) ){" );
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should NOT.\");");
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");				
+			elementProgress.printCommand( tab + "}" );
 		}		
 		}
 		

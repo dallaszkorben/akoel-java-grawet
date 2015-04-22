@@ -76,18 +76,18 @@ public class GainTextToElementStorageOperation extends ElementOperationAdapter{
 		//
 		// SOURCE Starts
 		//	
-		elementProgress.outputCommand( tab + "origText = webElement.getText();" ); 
+		elementProgress.printCommand( tab + "origText = webElement.getText();" ); 
 	
 		//Elmenti az elem tartalmat a valtozoba		
 		if( null == pattern ){			
-			elementProgress.outputCommand( tab + "String " + baseElement.getNameAsVariable() + " = origText;" );
+			elementProgress.printCommand( tab + "String " + baseElement.getNameAsVariable() + " = origText;" );
 		}else{
-			elementProgress.outputCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.outputCommand( tab + "matcher = pattern.matcher( origText );");
-			elementProgress.outputCommand( tab + "String " + baseElement.getNameAsVariable() + " = null;" );
-			elementProgress.outputCommand( tab + "if( matcher.find() ){" );	
-			elementProgress.outputCommand( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsVariable() + " = matcher.group();" );
-			elementProgress.outputCommand( tab + "}" );
+			elementProgress.printCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.printCommand( tab + "matcher = pattern.matcher( origText );");
+			elementProgress.printCommand( tab + "String " + baseElement.getNameAsVariable() + " = null;" );
+			elementProgress.printCommand( tab + "if( matcher.find() ){" );	
+			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsVariable() + " = matcher.group();" );
+			elementProgress.printCommand( tab + "}" );
 		}	
 		}
 		

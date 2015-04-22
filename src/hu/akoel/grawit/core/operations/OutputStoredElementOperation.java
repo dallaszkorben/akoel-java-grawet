@@ -53,9 +53,9 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 		
 		if( null != elementProgress ){
 
-			elementProgress.outputCommand( tab + "System.out.println( \"" + message + ": \" + " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " );" );
+			elementProgress.printCommand( tab + "System.out.println( \"" + message + ": \" + " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " );" );
 			
-			elementProgress.outputValue( baseElement.getStoredValue(), message );			
+			elementProgress.printOutput( baseElement.getStoredValue(), message );			
 			
 		}
 	}

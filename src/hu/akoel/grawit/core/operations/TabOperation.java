@@ -29,7 +29,7 @@ public class TabOperation extends ElementOperationAdapter{
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 
-		elementProgress.outputCommand( tab + "webElement.sendKeys(Keys.TAB);" );
+		elementProgress.printCommand( tab + "webElement.sendKeys(Keys.TAB);" );
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 		

@@ -58,8 +58,8 @@ public class ScriptElementAddStringToParametersOperation extends ScriptOperation
 
 			if( null != elementProgress ){
 				outputScripClass(driver, baseElement, webElement, elementProgress, tab );		
-				elementProgress.outputCommand( tab + baseElement.getNameAsScript() + ".addParameter( \"" + stringToParameter + "\" );" );
-				elementProgress.outputCommand( "" );
+				elementProgress.printCommand( tab + baseElement.getNameAsScript() + ".addParameter( \"" + stringToParameter + "\" );" );
+				elementProgress.printCommand( "" );
 			}
 			
 			((ScriptBaseElementDataModel)baseElement).addParameter( stringToParameter );

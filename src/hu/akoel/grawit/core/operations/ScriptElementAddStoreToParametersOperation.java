@@ -175,8 +175,8 @@ public class ScriptElementAddStoreToParametersOperation extends ScriptOperationA
 
 			if( null != elementProgress ){
 				outputScripClass(driver, baseElement, webElement, elementProgress, tab );				
-				elementProgress.outputCommand( tab + baseElement.getNameAsScript() + ".addParameter( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ); //" + baseElementDataModel.getStoredValue() );
-				elementProgress.outputCommand( "" );
+				elementProgress.printCommand( tab + baseElement.getNameAsScript() + ".addParameter( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ); //" + baseElementDataModel.getStoredValue() );
+				elementProgress.printCommand( "" );
 			}			
 
 			((ScriptBaseElementDataModel)baseElement).addParameter( baseElementDataModel.getStoredValue() );
