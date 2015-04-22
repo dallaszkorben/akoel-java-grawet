@@ -35,19 +35,6 @@ public class RunTree extends Tree {
 		this.removePopupUp();
 		this.removePopupDown();
 		this.removePopupModify();
-		
-		//Figyelem, hogy megvaltozott-e a TestcaseDataModel. Ha igen, az azt jelenti, hogy
-		//TestcaseTree-ben valtoztattam valamit, es ezert jeleznem kell a RunTree-nek
-		//a valtoztatas tenyet, hogy frissuljon
-/*		testcaseRootDataModel.addDataModelListener( new TestcaseDataModelListener() {			
-			@Override
-			public void structureChanged(DataModelAdapter nodeToSelect,	DataModelAdapter parentNode) {
-System.out.println("most hajtok vegre egy refresh-t a " + nodeToSelect + "-en");
-				refreshTreeAfterStructureChanged( nodeToSelect, parentNode );
-			}
-		});
-*/		
-		//emptyPanel = new EmptyEditor();
 	}
 	
 	@Override

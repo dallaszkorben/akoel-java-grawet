@@ -296,7 +296,8 @@ public class NormalBaseElementEditor extends DataEditor{
 				nodeForCapture.add( newBaseElement );
 			
 				//A fa-ban modositja a strukturat
-				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				//tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				tree.refreshTreeAfterStructureChanged( nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -311,7 +312,8 @@ public class NormalBaseElementEditor extends DataEditor{
 				nodeForModify.setIdentificationType( identificationType );
 	
 				//A fa-ban modositja a nevet (ha az valtozott)
-				tree.refreshTreeAfterChanged( nodeForModify );	
+				//tree.refreshTreeAfterChanged( nodeForModify );	
+				tree.refreshTreeAfterChanged();
 			}
 		}		
 	}	

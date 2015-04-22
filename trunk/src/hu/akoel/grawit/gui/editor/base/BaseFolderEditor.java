@@ -159,7 +159,8 @@ public class BaseFolderEditor extends DataEditor{
 				nodeForCapture.add( newPageBaseNode );
 				
 				//A fa-ban modositja a strukturat
-				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				//tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				tree.refreshTreeAfterStructureChanged( nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -169,8 +170,8 @@ public class BaseFolderEditor extends DataEditor{
 				nodeForModify.setDetails( fieldDetails.getText() );
 
 				//A fa-ban is modositja a nevet (ha az valtozott)
-				tree.refreshTreeAfterChanged( nodeForModify );
-
+				//tree.refreshTreeAfterChanged( nodeForModify );
+				tree.refreshTreeAfterChanged();
 			}			
 			
 			//A fa-ban is modositja a nevet (ha az valtozott)

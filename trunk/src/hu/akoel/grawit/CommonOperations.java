@@ -61,6 +61,9 @@ import javax.swing.ImageIcon;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -682,4 +685,25 @@ public class CommonOperations {
 		}
 
 
+	/**
+	 * 
+	 * Megmondja, hogy egy adott TreePath valid-e egy JTree-ben.
+	 * Lehet egyebkent, hogy mar torolt
+	 * 
+	 * @param tree
+	 * @param path
+	 * @return
+	 */
+	public static boolean isPathValid(JTree tree, TreePath path) {
+		TreeModel model = tree.getModel();
+		if(path.getPathCount() == 0) {
+			return model.getRoot().equals(path.getPathComponent(0));
+		}	
+		for(int i = 1; i < path.getPathCount(); i++) {
+			if(model.getIndexOfChild(path.getPathComponent(i-1), path.getPathComponent(i)) == -1) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

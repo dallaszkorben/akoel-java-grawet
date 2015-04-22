@@ -68,7 +68,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.text.Position;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.xml.parsers.DocumentBuilder;
@@ -352,7 +351,7 @@ public class GUIFrame extends JFrame{
 //	}
 	
 	public void showEditorPanel( BaseEditor panel ){
-		editorPanel.hide();
+		//editorPanel.hide();
 		editorPanel.showPanel( panel );
 	}
 	
@@ -973,9 +972,8 @@ public class GUIFrame extends JFrame{
 
 		@Override
 		public void treeHasChanged() {			
-//treePanel.removeTab( runRunActionListener.getFunctionName());
-treePanel.refreshTab( runRunActionListener.getFunctionName() );			
-			
+
+			treePanel.refreshTab( runRunActionListener.getFunctionName() );			
 		}		
 	}
 	
@@ -1237,10 +1235,16 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 			if( indexOfTab >= 0 ){
 			
 				JTree treeOnRefreshTab = getJTree(  jtp.getComponentAt( indexOfTab ) );
-						
+
 				//Elmenti a kinyitott csomopontokat
 				Enumeration<TreePath> exps = treeOnRefreshTab.getExpandedDescendants(treeOnRefreshTab.getPathForRow(0));
+				
+				//Elmenti a kijelolt csomopontot
 				TreePath selectedElementPathOnRefreshTab = treeOnRefreshTab.getSelectionPath();
+				
+				//Torli a kijelolest azert, mert ha esetleg a muvelet torles volt es pont ezt a csomopontot toroltek,
+				//akkor az editor torlodjon.
+				treeOnRefreshTab.removeSelectionPath( selectedElementPathOnRefreshTab );
 
 //TODO megnezni, mert nem nyitja ki az utolso csomopontokat
 						
@@ -1259,15 +1263,21 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 						treeOnRefreshTab.expandPath(newPath);
 					}							
 				}
+
+				//Ha a reload() elott mar kivalasztott node (treepath) meg mindig letezik, akkor
+				if( null != selectedElementPathOnRefreshTab && CommonOperations.isPathValid( treeOnRefreshTab, selectedElementPathOnRefreshTab ) ){
+					
+					//kivalasztja a reload() elott mar kivalasztott elemet
+					treeOnRefreshTab.setSelectionPath( selectedElementPathOnRefreshTab );
+				}
 				
-				//Kivalasztja a reload() elott mar kivalasztott elemet
-				treeOnRefreshTab.setSelectionPath( selectedElementPathOnRefreshTab );
 				
 				//Ha nem ugyan azt a Tab-ot kellett frissiteni, mint amelyik ki volt valasztva, akkor ez elozo sor miatt
 				//megjeleno editort felul kell irni a kivalasztott Tab editoraval
 				if( null != selectedElementPathOnSelectedTab ){
-					treeOnSelectedTab.reselectNode( (DataModelAdapter)selectedElementPathOnSelectedTab.getLastPathComponent());
-				}
+					//treeOnSelectedTab.reselectNode( (DataModelAdapter)selectedElementPathOnSelectedTab.getLastPathComponent());
+					treeOnSelectedTab.reselectNode();
+				}				
 			}
 		}
 		
@@ -1286,8 +1296,7 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 			jtp.removeAll();
 			this.repaint();
 			this.revalidate();
-		}
-		
+		}		
 	}
 	
 	/**
@@ -1407,6 +1416,8 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 	
 	/**
 	 * 
+	 * EDITOR PANEL
+	 * 
 	 * @author afoldvarszky
 	 *
 	 */
@@ -1435,8 +1446,8 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 			}
 	
 			//Ujrarajzoltatom
+			this.repaint();
 			this.revalidate();
-
 		}
 		
 		public void hide(){
@@ -1450,8 +1461,7 @@ treePanel.refreshTab( runRunActionListener.getFunctionName() );
 			//Ujrarajzoltatom
 			this.repaint();
 			this.revalidate();
-		}
-		
+		}		
 	}
 	
 	/**

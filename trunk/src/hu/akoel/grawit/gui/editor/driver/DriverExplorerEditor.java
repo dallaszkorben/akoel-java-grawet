@@ -180,7 +180,8 @@ public class DriverExplorerEditor extends DataEditor{
 				nodeForCapture.add( newExplorerDataModel );
 				
 				//A fa-ban modositja a strukturat
-				tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				//tree.refreshTreeAfterStructureChanged( nodeForCapture, nodeForCapture );
+				tree.refreshTreeAfterStructureChanged( nodeForCapture );
 				
 			//Modositas eseten
 			}else if( mode.equals(EditMode.MODIFY ) ){
@@ -190,7 +191,8 @@ public class DriverExplorerEditor extends DataEditor{
 				nodeForModify.setWebDriverFile( fieldWebDriverPath.getSelectedFile() );
 			
 				//A fa-ban modositja a nevet (ha az valtozott)
-				tree.refreshTreeAfterChanged( nodeForModify );				
+				//tree.refreshTreeAfterChanged( nodeForModify );
+				tree.refreshTreeAfterChanged();
 			}
 		}
 	}

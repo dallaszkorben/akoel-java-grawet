@@ -174,7 +174,8 @@ public class ConstantTree extends Tree{
 
 					//Felfrissitem a Tree-t
 					//ConstantTree.this.nodeChanged();
-					ConstantTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
+					//ConstantTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
+					ConstantTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode.getParent() );
 				}
 			}
 		});

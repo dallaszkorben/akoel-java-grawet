@@ -49,21 +49,6 @@ public class TestcaseTree extends Tree {
 		//this.testcaseRootDataModel = testcaseRootDataModel;
 		
 		this.enablePopupModifyAtRoot();
-
-	}
-
-	@Override
-	public void refreshTreeAfterStructureChanged( DataModelAdapter nodeToSelect, DataModelAdapter parentNode ){
-		
-		super.refreshTreeAfterStructureChanged(nodeToSelect, parentNode);
-
-		//Itt jelzek a TestCaseDataModelListener-nek, hogy valtozas volt.
-		//Ezt figyelem a RunTree-ben, es ha elkaptam, akkor
-/*		ArrayList<TestcaseDataModelListener> listeners = testcaseRootDataModel.getDataModelListener();
-		for( TestcaseDataModelListener listener: listeners ){
-			listener.structureChanged(nodeToSelect, parentNode);
-		}
-*/		
 	}
 
 	@Override
@@ -178,8 +163,6 @@ public class TestcaseTree extends Tree {
 			guiFrame.showEditorPanel( testcaseCaseEditor);		
 
 		}	
-		
-TestcaseTree.this.treeHasChanged();
 	}
 
 	@Override
@@ -199,9 +182,7 @@ TestcaseTree.this.treeHasChanged();
 				public void actionPerformed(ActionEvent e) {
 					
 					TestcaseStepCollectorEditor testcaseStepCollectorEditor = new TestcaseStepCollectorEditor( TestcaseTree.this, (TestcaseCaseDataModel)selectedNode, paramRootDataModel );								
-					guiFrame.showEditorPanel( testcaseStepCollectorEditor);	
-TestcaseTree.this.treeHasChanged();					
-				
+					guiFrame.showEditorPanel( testcaseStepCollectorEditor);					
 				}
 			});
 			popupMenu.add ( insertParamPageMenu );
@@ -220,9 +201,7 @@ TestcaseTree.this.treeHasChanged();
 				public void actionPerformed(ActionEvent e) {
 					
 					TestcaseFolderEditor paramNodeEditor = new TestcaseFolderEditor( TestcaseTree.this, (TestcaseFolderDataModel)selectedNode );								
-					guiFrame.showEditorPanel( paramNodeEditor);	
-TestcaseTree.this.treeHasChanged();					
-				
+					guiFrame.showEditorPanel( paramNodeEditor);					
 				}
 			});
 			popupMenu.add ( insertNodeMenu );
@@ -237,17 +216,12 @@ TestcaseTree.this.treeHasChanged();
 					
 					//TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseNodeDataModel)selectedNode, driverRootDataModel );								
 					TestcaseCaseEditor testcaseCaseEditor = new TestcaseCaseEditor( TestcaseTree.this, (TestcaseFolderDataModel)selectedNode );
-					guiFrame.showEditorPanel( testcaseCaseEditor);	
-TestcaseTree.this.treeHasChanged();					
-				
+					guiFrame.showEditorPanel( testcaseCaseEditor);					
 				}
 			});
-			popupMenu.add ( insertParamPageMenu );
 			
-		}		
-		
-
-		
+			popupMenu.add ( insertParamPageMenu );			
+		}	
 	}
 
 	@Override
@@ -273,11 +247,9 @@ TestcaseTree.this.treeHasChanged();
 					((TestcaseDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					TestcaseTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
-					//TestcaseTree.this.nodeChanged();
-TestcaseTree.this.treeHasChanged();				
+					//TestcaseTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
+					TestcaseTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode.getParent() );
 				}
-
 			}
 		});
 		popupMenu.add ( duplicateMenu );
@@ -321,7 +293,9 @@ TestcaseTree.this.treeHasChanged();
 						//Tulajdonkeppen csak levalasztom a fastrukturarol
 						totalTreeModel.removeNodeFromParent( selectedNode);
 						TestcaseTree.this.setSelectionRow(selectedRow - 1);
-TestcaseTree.this.treeHasChanged();
+						
+						//Delete utan ebben a tree-ben nincs szukseg beavatkozasra, de mashol esetleg lehet
+						TestcaseTree.this.doNotRefreshTreeAfterChanged();						
 					}
 					
 				//Ha vannak gyerekei
@@ -346,7 +320,9 @@ TestcaseTree.this.treeHasChanged();
 						//Tulajdonkeppen csak levalasztom a fastrukturarol
 						totalTreeModel.removeNodeFromParent( selectedNode);
 						TestcaseTree.this.setSelectionRow(selectedRow - 1);
-TestcaseTree.this.treeHasChanged();
+						
+						//Delete utan ebben a tree-ben nincs szukseg beavatkozasra, de mashol esetleg lehet
+						TestcaseTree.this.doNotRefreshTreeAfterChanged();						
 					}
 					
 				}					
@@ -370,8 +346,7 @@ TestcaseTree.this.treeHasChanged();
 			public void actionPerformed(ActionEvent e) {
 				
 				TestcaseFolderEditor paramNodeEditor = new TestcaseFolderEditor( TestcaseTree.this, (TestcaseNodeDataModelAdapter)selectedNode );								
-				guiFrame.showEditorPanel( paramNodeEditor);								
-			
+				guiFrame.showEditorPanel( paramNodeEditor);				
 			}
 		});
 		popupMenu.add ( insertNodeMenu );
@@ -395,7 +370,6 @@ TestcaseTree.this.treeHasChanged();
 		//Page elhelyezese Case-ben
 		}else if( draggedNode instanceof TestcaseStepCollectorDataModel && targetObject instanceof TestcaseCaseDataModel ){
 			return true;
-
 		}
 		
 		return false;
@@ -403,9 +377,6 @@ TestcaseTree.this.treeHasChanged();
 
 	@Override
 	public void doPopupLink(JPopupMenu popupMenu, DataModelAdapter selectedNode) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
-
-
 }

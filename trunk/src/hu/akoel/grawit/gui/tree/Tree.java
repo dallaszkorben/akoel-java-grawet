@@ -176,15 +176,6 @@ public abstract class Tree extends JTree{
 	
 	public abstract boolean possibleHierarchy( DefaultMutableTreeNode draggedNode, Object targetObject );
 
-	/**
-	 * If something important changed in the tree then this method should be called
-	 */
-	public void treeHasChanged(){
-		for( TreeHasChangedListener listener: getTreeHasChangedListeners() ){
-			listener.treeHasChanged();
-		}
-	}
-	
 	public ImageIcon getIconOff( DataModelAdapter actualNode, boolean expanded ){
 		return getIcon(actualNode, expanded);
 	}
@@ -198,7 +189,7 @@ public abstract class Tree extends JTree{
 	 * 
 	 * @param nodeToReselect
 	 */
-	public void reselectNode( DataModelAdapter nodeToReselect ){
+/*	public void reselectNode( DataModelAdapter nodeToReselect ){
 		
 		//Torol minden kivalasztast
 		this.setSelectionRows( new int[0] );
@@ -209,32 +200,71 @@ public abstract class Tree extends JTree{
 			this.setSelectionPath( treePath );
 		}
 	}
+*/	
+	public void reselectNode(){
+
+		//Eltarolja az eredetileg kivalasztott element
+		TreePath selectedPath = this.getSelectionPath();
+		
+		//Torli a kivalasztas
+		this.removeSelectionPath( selectedPath );
+		
+		//Majd ujra kivalasztja
+		this.setSelectionPath( selectedPath );
+	}
+	
+	/**
+	 * If something important changed in the tree then this method should be called
+	 */
+	private void treeHasChanged(){
+		for( TreeHasChangedListener listener: getTreeHasChangedListeners() ){
+			listener.treeHasChanged();
+		}
+	}
+	
+	public void doNotRefreshTreeAfterChanged(){
+		treeHasChanged();
+	}
+	
 	/**
 	 * 
 	 * Ertesiti a tree-t, hogy valtozas tortent a strukturaban
 	 * 
 	 */
-	public void refreshTreeAfterStructureChanged( DataModelAdapter nodeToSelect, DataModelAdapter parentNode ){
+	//public void refreshTreeAfterStructureChanged( DataModelAdapter nodeToSelect, DataModelAdapter parentNode ){
+	public void refreshTreeAfterStructureChanged(  DataModelAdapter parentNode ){		
 		
-		//A valtozasrol ertesiti a tree-t
-		((DefaultTreeModel)this.getModel()).nodeStructureChanged( parentNode );
+		treeHasChanged();
+
+		//reselectNode();
+
+		//Eltarolja az eredetileg kivalasztott element
+		TreePath selectedPath = this.getSelectionPath();
 		
-		reselectNode( nodeToSelect );
+		((DefaultTreeModel)this.getModel()).nodeStructureChanged( parentNode ); //Mellekhataskent torli a kivalasztott elemet, ha volt
+		
+		//Majd ujra kivalasztja-Azert kell, mert a nodeStructureChanged torli a kivalasztast
+		this.setSelectionPath( selectedPath );
+		
 	}
 
 	/**
 	 * 
 	 * Ertesiti a tree-t, hogy valtozas tortent a node-ban
+	 * Olyan csomoponttal lehetseges, ami ki volt valasztva
+	 * tehat insert eseten nem ertelmezett
 	 * 
 	 */
-	public void refreshTreeAfterChanged( DataModelAdapter changedNode ){
+	//public void refreshTreeAfterChanged( DataModelAdapter changedNode ){
+	public void refreshTreeAfterChanged(){
 		
-		reselectNode( changedNode );
+		treeHasChanged();
 		
-		//A valtozasrol ertesiti a tree-t
-		((DefaultTreeModel)this.getModel()).nodeChanged( changedNode );
-	}
-	
+		reselectNode();
+			
+		((DefaultTreeModel)this.getModel()).nodeChanged( (DataModelAdapter)this.getSelectionPath().getLastPathComponent() );	
+			
+	}	
 	
 	public void enablePopupModifyAtRoot(){
 		this.needPopupModifyAtRoot = true;
@@ -269,8 +299,7 @@ public abstract class Tree extends JTree{
     		}else{
     			
     			setIcon( Tree.this.getIconOff( (DataModelAdapter)value, expanded ) );
-    			setForeground( Color.gray );
-   			
+    			setForeground( Color.gray );   			
     		}				
 							
 			//setText( ((DataModelAdapter)value).getName()  + " - " + ((DataModelAdapter)value).hashCode());
@@ -483,7 +512,7 @@ Tree.this.treeHasChanged();
 						public void actionPerformed(ActionEvent e) {					
 
 							doModifyWithPopupEdit( selectedNode );
-Tree.this.treeHasChanged();						
+//Tree.this.treeHasChanged();						
 						}
 					});
 					this.add ( editMenu );
@@ -652,7 +681,10 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
         	 TreePath treePath = new TreePath(draggedNode.getPath());
         	 tree.scrollPathToVisible(treePath);
         	 tree.setSelectionPath(treePath);
-tree.treeHasChanged();
+        	 
+        	 //Az aktualis tree-ben nincs szukseg tovabbi beavatkozasra, de mashol esetleg lehet
+        	 tree.doNotRefreshTreeAfterChanged();        	 
+//tree.treeHasChanged();
          }
     }
     

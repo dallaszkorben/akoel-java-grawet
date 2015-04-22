@@ -15,20 +15,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
-import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
-import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
-import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
-import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
-import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
-import hu.akoel.grawit.core.operations.ContainListConstantOperation;
-import hu.akoel.grawit.core.operations.ContainListStoredElementOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
-import hu.akoel.grawit.core.operations.FillWithConstantElementOperation;
-import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
-import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
 import hu.akoel.grawit.core.operations.HasConstantOperationInterface;
 import hu.akoel.grawit.core.operations.HasElementOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
@@ -46,9 +33,7 @@ import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
@@ -339,7 +324,8 @@ public class StepTree extends Tree {
 					((StepDataModelAdapter)selectedNode.getParent()).add( duplicated );
 
 					//Felfrissitem a Tree-t
-					StepTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
+					//StepTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode, (DataModelAdapter)selectedNode.getParent() );
+					StepTree.this.refreshTreeAfterStructureChanged( (DataModelAdapter)selectedNode.getParent() );
 					//StepTree.this.nodeChanged();
 				
 				}
