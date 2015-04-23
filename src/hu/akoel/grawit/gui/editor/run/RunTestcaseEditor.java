@@ -14,6 +14,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.text.MessageFormat;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -42,6 +43,7 @@ import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
+import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
@@ -487,6 +489,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.printCommand( "import org.openqa.selenium.firefox.FirefoxProfile;" );
 			elementProgres.printCommand( "import org.openqa.selenium.support.ui.Select;" );
 			elementProgres.printCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );	
+			elementProgres.printCommand( "import java.util.concurrent.TimeUnit;" );
 			elementProgres.printCommand( "import org.openqa.selenium.WebDriverException;" );	
 			elementProgres.printCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
 			elementProgres.printCommand( "import org.openqa.selenium.JavascriptExecutor;");
@@ -550,6 +553,11 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.printCommand( "" );
 
 			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( elementProgres, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
+
+			//IMPLICIT WAIT
+			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "//IMPLICIT WAIT" );			
+			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "driver.manage().timeouts().implicitlyWait(" + WorkingDirectory.getInstance().getWaitingTime() + ", TimeUnit.SECONDS);" );
+			elementProgres.printCommand( "" );
 
 			try{				
 

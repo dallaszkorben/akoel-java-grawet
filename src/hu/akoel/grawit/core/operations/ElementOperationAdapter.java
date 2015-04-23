@@ -68,29 +68,12 @@ public abstract class ElementOperationAdapter implements Cloneable{
 
 			By by = null;
 			WebElement webElement = null;
-		
-			//WAITING TIME FOR APPEARANCE
-			Integer waitingTimeForAppearance = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
-			if( null == waitingTimeForAppearance ){
-				waitingTimeForAppearance = WorkingDirectory.getInstance().getWaitingTime();
-			}
+			WebDriverWait wait = null;
 			
-			//WAITING TIME BEFORE OPERATION
-			Integer waitingTimeBeforeOperation = ((NormalBaseElementDataModel)baseElement).getWaitingTimeBeforeOperation();
-			if( null == waitingTimeBeforeOperation ){
-				waitingTimeBeforeOperation = 0;
-			}
-
-			//WAITING TIME AFTER OPERATION
-			Integer waitingTimeAfterOperation = ((NormalBaseElementDataModel)baseElement).getWaitingTimeAfterOperation();
-			if( null == waitingTimeAfterOperation ){
-				waitingTimeAfterOperation = 0;
-			}
-			
-elementProgress.printCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + ");" );
-			WebDriverWait wait = new WebDriverWait(driver, waitingTimeForAppearance);
+//elementProgress.printCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + ");" );
+//			WebDriverWait wait = new WebDriverWait(driver, waitingTimeForAppearance);
 						
-			//Selector meszerzese
+			//Selector megszerzese
 			if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.ID)){
 				
 elementProgress.printCommand( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
@@ -98,30 +81,50 @@ elementProgress.printCommand( tab + "by = By.id( \"" + ((NormalBaseElementDataMo
 				//CSS
 			}else if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.CSS)){
 elementProgress.printCommand( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
-				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );
-			
+				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );			
 			}
 				
+			//WAITING TIME FOR APPEARANCE
+			Integer waitingTimeForAppearance = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
+			if( null != waitingTimeForAppearance ){
+				
+				//EXPLICIT WAIT
+				elementProgress.printCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + "); //EXPLICIT WAIT" );
+				
+				wait = new WebDriverWait(driver, waitingTimeForAppearance);
+			}
+			//	waitingTimeForAppearance = WorkingDirectory.getInstance().getWaitingTime();
+			//}
+			
+			//WAITING TIME BEFORE OPERATION
+			Integer waitingTimeBeforeOperation = ((NormalBaseElementDataModel)baseElement).getWaitingTimeBeforeOperation();
+
+			//WAITING TIME AFTER OPERATION
+			Integer waitingTimeAfterOperation = ((NormalBaseElementDataModel)baseElement).getWaitingTimeAfterOperation();
+			
 			//
 			//Varakozik az elem megjeleneseig - WAITING TIME FOR APPEARANCE
 			//
-			try{			
-				wait.until(ExpectedConditions.visibilityOfElementLocated( by ));			
-				//wait.until(ExpectedConditions.elementToBeClickable( by ) );
-elementProgress.printCommand( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );		
+			if( null != waitingTimeForAppearance ){
+				try{
+					
+					elementProgress.printCommand( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );
+					
+					wait.until(ExpectedConditions.visibilityOfElementLocated( by ));		
 			
-			//Ha nem jelenik meg idoben, akkor hibajelzessel megall
-			}catch( org.openqa.selenium.TimeoutException timeOutException ){
-				throw new ElementTimeoutException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), timeOutException );
+				//Ha nem jelenik meg idoben, akkor hibajelzessel megall
+				}catch( org.openqa.selenium.TimeoutException timeOutException ){
+					throw new ElementTimeoutException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), timeOutException );
 	
-			}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){		
-				throw new ElementUnreachableBrowserException( unreachableBrowserException );
+				}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){		
+					throw new ElementUnreachableBrowserException( unreachableBrowserException );
 
-			//Egyeb hiba
-			}catch( Exception e ){				
-				System.out.println("!!!!!!!!!!! Not handled exception while waitionf for appearance of element - MUST implement. " + e.getMessage() + "!!!!!!!!!!!!!");	
+				//Egyeb hiba
+				}catch( Exception e ){				
+					System.out.println("!!!!!!!!!!! Not handled exception while waitionf for appearance of element - MUST implement. " + e.getMessage() + "!!!!!!!!!!!!!");	
+				}
 			}
-		
+			
 			//
 			//Beazonositja az elemet
 			//
@@ -149,7 +152,13 @@ elementProgress.printCommand( tab + "wait.until(ExpectedConditions.visibilityOfE
 			}
 		
 			//Varakozik, ha szukseges a muvelet elott
-			try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}			
+			if(null != waitingTimeBeforeOperation ){
+				waitingTimeBeforeOperation *= 1000;
+				
+				elementProgress.printCommand( tab + "try {Thread.sleep( " + waitingTimeBeforeOperation + " );} catch (InterruptedException e) {}" );
+				
+				try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}
+			}
 		
 			try{
 
@@ -173,30 +182,32 @@ elementProgress.printCommand( tab + "wait.until(ExpectedConditions.visibilityOfE
 				}	
 				
 				//De vegul megis csak tovabb kuldi a kivetelt
-				throw e;
-				
+				throw e;				
 			}			
 			
 			elementProgress.printCommand("");	
 
 			//Varakozik, ha szukseges a muvelet utan
-			try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}			
+			if( null != waitingTimeAfterOperation ){
+				waitingTimeAfterOperation *= 1000;
+				
+				elementProgress.printCommand( tab + "try {Thread.sleep( " + waitingTimeAfterOperation + " );} catch (InterruptedException e) {}" );
+				
+				try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}
+			}
 
 		//
 		//Script elem eseten nincs szukseg azonositasra
 		//
-		}else if( baseElement instanceof ScriptBaseElementDataModel ){
-			
+		}else if( baseElement instanceof ScriptBaseElementDataModel ){			
 
 			//OPERATION
-			doOperation( driver, baseElement, null, elementProgress, tab );
-						
+			doOperation( driver, baseElement, null, elementProgress, tab );						
 		}
 
 		if( null != elementProgress ){
 			sendelementEndedMessage( elementProgress, baseElement );
 		}		
-		
 	}	
 	
 	private void sendelementEndedMessage( ElementProgressInterface elementProgress, BaseElementDataModelAdapter baseElement ){
