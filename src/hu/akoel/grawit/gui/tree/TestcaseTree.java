@@ -71,9 +71,9 @@ public class TestcaseTree extends Tree {
     	}else if( actualNode instanceof TestcaseStepCollectorDataModel ){
     		
     		TestcaseStepCollectorDataModel testCasePage = (TestcaseStepCollectorDataModel)actualNode;
-    	    if( testCasePage.getParamPage() instanceof StepNormalCollectorDataModel ){
+    	    if( testCasePage.getStepCollector() instanceof StepNormalCollectorDataModel ){
     	    	return paramContainer;	
-    	    }else if( testCasePage.getParamPage() instanceof StepLoopCollectorDataModel ){
+    	    }else if( testCasePage.getStepCollector() instanceof StepLoopCollectorDataModel ){
     	    	return loopOpenIcon;
     	    }
     		
@@ -103,9 +103,9 @@ public class TestcaseTree extends Tree {
     	}else if( actualNode instanceof TestcaseStepCollectorDataModel ){
     		
     		TestcaseStepCollectorDataModel testCasePage = (TestcaseStepCollectorDataModel)actualNode;
-    	    if( testCasePage.getParamPage() instanceof StepNormalCollectorDataModel ){
+    	    if( testCasePage.getStepCollector() instanceof StepNormalCollectorDataModel ){
     	    	return containerOffIcon;	
-    	    }else if( testCasePage.getParamPage() instanceof StepLoopCollectorDataModel ){
+    	    }else if( testCasePage.getStepCollector() instanceof StepLoopCollectorDataModel ){
     	    	return loopOffIcon;
     	    }
     	    return containerOffIcon;

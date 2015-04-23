@@ -711,7 +711,7 @@ public class GUIFrame extends JFrame{
 	 * @author afoldvarszky
 	 *
 	 */
-	class EditDriverActionListener implements ActionListener, TreeFactory{
+	class EditDriverActionListener implements ActionListener, TabbedTree{
 		private String functionName;
 
 		public EditDriverActionListener( String functionName ){
@@ -746,7 +746,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditConstantActionListener implements ActionListener, TreeFactory{
+	class EditConstantActionListener implements ActionListener, TabbedTree{
 		private String functionName;
 
 		public EditConstantActionListener( String functionName ){
@@ -782,7 +782,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditBaseActionListener implements ActionListener, TreeFactory{
+	class EditBaseActionListener implements ActionListener, TabbedTree{
 		private String functionName;
 
 		public EditBaseActionListener( String functionName ){
@@ -817,7 +817,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditStepActionListener implements ActionListener, TreeFactory{
+	class EditStepActionListener implements ActionListener, TabbedTree{
 		private String functionName;
 
 		public EditStepActionListener( String functionName ){
@@ -854,7 +854,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class EditTestcaseActionListener implements ActionListener, TreeFactory{
+	class EditTestcaseActionListener implements ActionListener, TabbedTree{
 		private String functionName;
 
 		public EditTestcaseActionListener( String functionName ){
@@ -889,7 +889,7 @@ public class GUIFrame extends JFrame{
 	 * @author akoel
 	 *
 	 */
-	class RunActionListener implements ActionListener, TreeFactory{
+	class RunActionListener implements ActionListener, TabbedTree{
 		private String functionName;
 
 		public RunActionListener( String functionName ){
@@ -906,20 +906,25 @@ public class GUIFrame extends JFrame{
 			//Legyartja a JTREE-t a modell alapjan
 			RunTree tree = new RunTree( functionName, GUIFrame.this, driverRootDataModel, testcaseRootDataModel );
 			tree.addLinkToNodeInTreeListener( new LinkListener() );
-			treePanel.showTree( tree, nodeToSelect );
-			
+			treePanel.showTree( tree, nodeToSelect );			
 		}
 		
 		@Override
 		public String getFunctionName() {	
 			return functionName;
-		}
-		
+		}		
 	}
 	
+
+
 //TODO A tree-t csak egyszer kellene legyartanom. Mukodik-e igy?
 	
-	interface TreeFactory{
+	/**
+	 * 
+	 * @author afoldvarszky
+	 *
+	 */
+	interface TabbedTree{
 		public String getFunctionName();
 		public void show( DataModelAdapter nodeToSelect );
 	}

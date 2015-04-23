@@ -248,7 +248,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 		}
 	}
 	
-	public StepCollectorDataModelAdapter getParamPage(){
+	public StepCollectorDataModelAdapter getStepCollector(){
 		return stepCollector;
 	}
 	
@@ -311,14 +311,14 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 		
 		//Leklonozza a PARAM PAGE-et
 		TestcaseStepCollectorDataModel cloned = (TestcaseStepCollectorDataModel)super.clone();
-	
+
 		//Le kell masolni a felmenoit is, egyebkent azok automatikusan null-ok
 		cloned.setParent( (MutableTreeNode) this.getParent() );
 		
-/*		//Es a valtozokat is leklonozza
-		cloned.name = new String( this.name );
-		cloned.details = new String( this.details );
-*/		
+		//Es a valtozokat is leklonozza
+//		cloned.name = new String( this.name );
+//		cloned.details = new String( this.details );
+		
 		return cloned;
 		
 	}

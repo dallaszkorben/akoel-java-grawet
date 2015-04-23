@@ -22,7 +22,7 @@ public class WorkingDirectory {
 	
 	private static final String DEFAULT_LANGUAGE = new String("en");
 	private static final String DEFAULT_COUNTRY = new String( "US");	
-	private static final Integer DEFAULT_WAITING_TIME = 10;
+	private static final Integer DEFAULT_WAITING_TIME = 5;
 	
 	
 	private static final String PROPERTY_NAME_LANGUAGE = "language";

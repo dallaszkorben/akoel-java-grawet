@@ -365,7 +365,7 @@ public class StepTree extends Tree {
 
 					StringBuilder pathToTestCaseContainerString = new StringBuilder();	
 					TreeNode[] pathArray = foundTestcaseContainer.getPath();
-					pathToTestCaseContainerString.append( "(" + foundTestcaseContainer.getParamPage().getName() + ") <= "  ); //Mit talalat
+					pathToTestCaseContainerString.append( "(" + foundTestcaseContainer.getStepCollector().getName() + ") <= "  ); //Mit talalat
 					for( int i = 0; i < pathArray.length; i++ ){							
 						pathToTestCaseContainerString.append( (i == 0 ? "": " -> ") );
 						pathToTestCaseContainerString.append( ( (TestcaseDataModelAdapter)pathArray[i] ).getName() ); //Hol talalhato
@@ -573,7 +573,7 @@ public class StepTree extends Tree {
 			TestcaseDataModelAdapter nextTestcaseModel = (TestcaseDataModelAdapter)enumForTestcaseModel.nextElement();
 		
 			if( nextTestcaseModel instanceof TestcaseStepCollectorDataModel ){
-				paramCollector = ((TestcaseStepCollectorDataModel)nextTestcaseModel).getParamPage();
+				paramCollector = ((TestcaseStepCollectorDataModel)nextTestcaseModel).getStepCollector();
 				
 				//Ha igen, akkor az adott Testcase Node-ot elhelyezi a visszatero parameter-listaba
 				if( paramCollector.equals( nodeToDelete ) ){

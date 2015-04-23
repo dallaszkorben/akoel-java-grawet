@@ -10,7 +10,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
@@ -69,32 +68,39 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			By by = null;
 			WebElement webElement = null;
 			WebDriverWait wait = null;
-			
-//elementProgress.printCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + ");" );
-//			WebDriverWait wait = new WebDriverWait(driver, waitingTimeForAppearance);
+			//FluentWait<WebDriver>  wait = null;
 						
 			//Selector megszerzese
 			if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.ID)){
 				
-elementProgress.printCommand( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+				elementProgress.printCommand( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+				
 				by = By.id( ((NormalBaseElementDataModel)baseElement).getSelector() );
-				//CSS
+				
+			//CSS
 			}else if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.CSS)){
-elementProgress.printCommand( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+				elementProgress.printCommand( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+				
 				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );			
 			}
 				
 			//WAITING TIME FOR APPEARANCE
 			Integer waitingTimeForAppearance = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
 			if( null != waitingTimeForAppearance ){
+	
+				////FLUENT WAIT
+				//elementProgress.printCommand( tab + "wait = new FluentWait<WebDriver>(driver).withTimeout( waitingTimeForAppearance, TimeUnit.SECONDS ).pollingEvery( 500, TimeUnit.MILLISECONDS ).ignoring( NoSuchElementException.class ); //EXPLICIT WAIT" );
+				//wait = new FluentWait<WebDriver>(driver).withTimeout( waitingTimeForAppearance, TimeUnit.SECONDS ).pollingEvery( 500, TimeUnit.MILLISECONDS ).ignoring( NoSuchElementException.class );
 				
 				//EXPLICIT WAIT
 				elementProgress.printCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + "); //EXPLICIT WAIT" );
-				
 				wait = new WebDriverWait(driver, waitingTimeForAppearance);
-			}
-			//	waitingTimeForAppearance = WorkingDirectory.getInstance().getWaitingTime();
-			//}
+				
+//				//EXPLICIT WAIT
+//				elementProgress.printCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + "); //EXPLICIT WAIT" );
+//				
+//				wait = new WebDriverWait(driver, waitingTimeForAppearance);
+			}			
 			
 			//WAITING TIME BEFORE OPERATION
 			Integer waitingTimeBeforeOperation = ((NormalBaseElementDataModel)baseElement).getWaitingTimeBeforeOperation();
