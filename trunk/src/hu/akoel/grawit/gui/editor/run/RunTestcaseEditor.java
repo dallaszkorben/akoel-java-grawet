@@ -14,6 +14,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.text.MessageFormat;
+import java.util.Enumeration;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
@@ -44,19 +45,29 @@ import org.openqa.selenium.WebDriver;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.WorkingDirectory;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
+import hu.akoel.grawit.enums.SelectorType;
+import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
+import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.BaseEditor;
+import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.TestcaseProgressInterface;
+import hu.akoel.grawit.gui.tree.RunTree;
+import hu.akoel.grawit.gui.tree.TraceTree;
 import hu.akoel.grawit.gui.tree.Tree;
 
 public class RunTestcaseEditor extends BaseEditor implements Player{
@@ -263,13 +274,40 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		consolPanel = new JTextPane(consolDocument);
 		consolPanel.setEditable( false );
 		DefaultCaret consolCaret = (DefaultCaret)consolPanel.getCaret();
-		consolCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		consolCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);		
+		JScrollPane consolScrollablePanel = new JScrollPane(consolPanel);
 		
-		JScrollPane consolScrollablePanel = new JScrollPane(consolPanel);		
+		//------------
+		//
+		// Lower panel
+		//
+		//------------
 		JPanel lowerPanel = new JPanel();
 		lowerPanel.setLayout( new BorderLayout() );
 		lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
 		lowerPanel.setAutoscrolls(true);
+		
+		
+		
+		
+		  
+		
+		
+		
+		DataModelAdapter newModel = buildDataModel( ((DataModelAdapter)testcaseDataModel), null );
+		
+		TraceTree traceTree = new TraceTree( newModel );
+		lowerPanel.add( traceTree, BorderLayout.WEST );
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 		//Result
 		resultPanel = new ResultPanel();
@@ -450,6 +488,60 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		
 	}
 
+	
+	
+	
+	public static DataModelAdapter buildDataModel(DataModelAdapter actualOrigElement, DataModelAdapter newStructure) {
+
+		DataModelAdapter clonedElement;
+		
+		if( actualOrigElement instanceof TestcaseStepCollectorDataModel ){			
+			DataModelAdapter stepCollectorDataModel = ((TestcaseStepCollectorDataModel) actualOrigElement).getStepCollector();
+			clonedElement = (DataModelAdapter) stepCollectorDataModel.clone();
+
+/*			Enumeration children = clonedElement.children();
+			if (children != null) {
+				while (children.hasMoreElements()) {
+					DataModelAdapter nextElement = (DataModelAdapter) children.nextElement();
+					System.err.println( nextElement.getName() );
+				}
+			}
+*/			
+			
+
+		}else{			
+			clonedElement = (DataModelAdapter) actualOrigElement.clone();
+			clonedElement.removeAllChildren();
+		}
+		clonedElement.setParent(null);
+
+		if (null == newStructure) {
+			newStructure = clonedElement;
+		} else {
+			newStructure.add(clonedElement);
+		}			
+			
+		Enumeration children = actualOrigElement.children();
+
+		if (children != null) {
+			while (children.hasMoreElements()) {
+
+				DataModelAdapter nextElement = (DataModelAdapter) children.nextElement();
+
+				buildDataModel((DataModelAdapter) nextElement, clonedElement);
+			}
+		}
+		
+		return newStructure;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	private void throughTestcases( TestcaseDataModelAdapter testcase ){
 
 		if( isStopped() ){
@@ -487,19 +579,20 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.printCommand( "import org.openqa.selenium.WebElement;" );
 			elementProgres.printCommand( "import org.openqa.selenium.firefox.FirefoxDriver;" );
 			elementProgres.printCommand( "import org.openqa.selenium.firefox.FirefoxProfile;" );
-			elementProgres.printCommand( "import org.openqa.selenium.support.ui.Select;" );
-			elementProgres.printCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );	
-			elementProgres.printCommand( "import java.util.concurrent.TimeUnit;" );
+
 			elementProgres.printCommand( "import org.openqa.selenium.WebDriverException;" );	
-			elementProgres.printCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
 			elementProgres.printCommand( "import org.openqa.selenium.JavascriptExecutor;");
 			elementProgres.printCommand( "import org.openqa.selenium.Keys;" );
+			
+			elementProgres.printCommand( "import org.openqa.selenium.support.ui.Select;" );
+			elementProgres.printCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );
 			elementProgres.printCommand( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
-			elementProgres.printCommand( "import org.openqa.selenium.support.ui.Select;");
+			elementProgres.printCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
 			
 			elementProgres.printCommand( "" );
 			
-			elementProgres.printCommand( "import org.openqa.selenium.WebDriverException;" );
+			elementProgres.printCommand( "import java.util.concurrent.TimeUnit;" );
+			elementProgres.printCommand( "import java.util.NoSuchElementException;" );
 			elementProgres.printCommand( "import java.util.ArrayList;" );
 			elementProgres.printCommand( "import java.util.List;" );			
 			elementProgres.printCommand( "import java.util.Iterator;");
@@ -558,6 +651,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "//IMPLICIT WAIT" );			
 			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "driver.manage().timeouts().implicitlyWait(" + WorkingDirectory.getInstance().getWaitingTime() + ", TimeUnit.SECONDS);" );
 			elementProgres.printCommand( "" );
+			
+			webDriver.manage().timeouts().implicitlyWait(WorkingDirectory.getInstance().getWaitingTime(), TimeUnit.SECONDS );
 
 			try{				
 

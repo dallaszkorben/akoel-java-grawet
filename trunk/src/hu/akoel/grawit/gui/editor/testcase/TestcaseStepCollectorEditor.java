@@ -75,7 +75,7 @@ public class TestcaseStepCollectorEditor extends DataEditor{
 		fieldDetails = new TextAreaComponent( selectedNode.getDetails(), NOTE_ROWS, 15);
 		
 		//ParamPageTreeSelector
-		fieldStepCollectorTreeSelector = new StepCollectorTreeSelectorComponent( paramDataModel, selectedNode.getParamPage() );
+		fieldStepCollectorTreeSelector = new StepCollectorTreeSelectorComponent( paramDataModel, selectedNode.getStepCollector() );
 				
 		common();
 	}

@@ -511,8 +511,7 @@ Tree.this.treeHasChanged();
 						@Override
 						public void actionPerformed(ActionEvent e) {					
 
-							doModifyWithPopupEdit( selectedNode );
-//Tree.this.treeHasChanged();						
+							doModifyWithPopupEdit( selectedNode );					
 						}
 					});
 					this.add ( editMenu );
@@ -684,7 +683,7 @@ class TreeTransferHandler implements DragGestureListener, DragSourceListener, Dr
         	 
         	 //Az aktualis tree-ben nincs szukseg tovabbi beavatkozasra, de mashol esetleg lehet
         	 tree.doNotRefreshTreeAfterChanged();        	 
-//tree.treeHasChanged();
+
          }
     }
     

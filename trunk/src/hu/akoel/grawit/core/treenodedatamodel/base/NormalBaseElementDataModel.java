@@ -191,7 +191,7 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	}
 	
 	public static String  getModelNameToShowStatic(){
-		return CommonOperations.getTranslation( "tree.nodetype.base.normalelement");
+		return CommonOperations.getTranslation( "tree.nodetype.base.normalelement"); 
 	}
 	
 	@Override
@@ -201,7 +201,7 @@ public class NormalBaseElementDataModel extends BaseElementDataModelAdapter{
 	
 	@Override
 	public Element getXMLElement(Document document) {
-		
+
 		Element elementElement = super.getXMLElement(document);
 		
 		Attr attr;
