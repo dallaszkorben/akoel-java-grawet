@@ -26,7 +26,7 @@ import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.StepProgressInterface;
 
 public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter {
 	
@@ -125,13 +125,13 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	}
 	
 	@Override
-	public void doAction( WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction( WebDriver driver, Player player, StepProgressInterface stepProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel stepElement;
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
-		if( null != pageProgress ){
-			pageProgress.pageStarted( getName(), getNodeTypeToShow() );
+		if( null != stepProgress ){
+			stepProgress.stepStarted( this );
 		}	
 
 		int childrenCount = this.getChildCount();
@@ -179,8 +179,8 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 		}
 		
 		//Jelzi, hogy befejezodott az oldal feldolgozasa
-		if( null != pageProgress ){
-			pageProgress.pageEnded( getName(), getNodeTypeToShow() );
+		if( null != stepProgress ){
+			stepProgress.stepEnded( this );
 		}
 		
 	}

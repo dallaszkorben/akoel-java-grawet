@@ -45,10 +45,13 @@ import org.openqa.selenium.WebDriver;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.WorkingDirectory;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
@@ -64,7 +67,7 @@ import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.StepProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.TestcaseProgressInterface;
 import hu.akoel.grawit.gui.tree.RunTree;
 import hu.akoel.grawit.gui.tree.TraceTree;
@@ -80,7 +83,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 	private TestcaseDataModelAdapter selectedTestcase;
 	
-	private PageProgress pageProgress;
+	private StepProgress pageProgress;
 	private ElementProgress elementProgres;
 	private TestcaseProgress testcaseProgress;
 	
@@ -100,6 +103,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	private SimpleAttributeSet attributeElementFinished;	
 	
 	private boolean needToStop = false;	
+	
+	private TraceTree traceTree;
 	
 	private void setNeedToStop( boolean needToStop ){
 		this.needToStop = needToStop;
@@ -122,7 +127,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		this.setScrollEnabled(false);
 		this.selectedTestcase = testcaseDataModel;
 
-		pageProgress = new PageProgress();
+		pageProgress = new StepProgress();
 		elementProgres = new ElementProgress();	
 		testcaseProgress = new TestcaseProgress();	
 		
@@ -296,7 +301,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		
 		DataModelAdapter newModel = buildDataModel( ((DataModelAdapter)testcaseDataModel), null );
 		
-		TraceTree traceTree = new TraceTree( newModel );
+		traceTree = new TraceTree( newModel );
 		lowerPanel.add( traceTree, BorderLayout.WEST );
 	
 		
@@ -491,27 +496,21 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	
 	
+	
+	
+	
 	public static DataModelAdapter buildDataModel(DataModelAdapter actualOrigElement, DataModelAdapter newStructure) {
 
 		DataModelAdapter clonedElement;
 		
 		if( actualOrigElement instanceof TestcaseStepCollectorDataModel ){			
 			DataModelAdapter stepCollectorDataModel = ((TestcaseStepCollectorDataModel) actualOrigElement).getStepCollector();
-			clonedElement = (DataModelAdapter) stepCollectorDataModel.clone();
-
-/*			Enumeration children = clonedElement.children();
-			if (children != null) {
-				while (children.hasMoreElements()) {
-					DataModelAdapter nextElement = (DataModelAdapter) children.nextElement();
-					System.err.println( nextElement.getName() );
-				}
-			}
-*/			
-			
+			clonedElement = (DataModelAdapter) stepCollectorDataModel.clone();		
 
 		}else{			
 			clonedElement = (DataModelAdapter) actualOrigElement.clone();
 			clonedElement.removeAllChildren();
+			
 		}
 		clonedElement.setParent(null);
 
@@ -530,11 +529,26 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 				buildDataModel((DataModelAdapter) nextElement, clonedElement);
 			}
-		}
-		
+		}		
 		return newStructure;
 	}
+
 	
+	abstract class ClonedDataModelAdapter extends DataModelAdapter{
+
+		private static final long serialVersionUID = 9077483094917880691L;
+		private int code;
+		
+		public void setOrigId(int code) {
+			this.code = code;
+		}
+
+		public int getOrigId() {
+			return this.code;
+		}
+		
+	}
+
 	
 	
 	
@@ -658,7 +672,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 				int childCount = actualTestcase.getChildCount();
     		
-				testcaseProgress.testcaseStarted( actualTestcase.getName() );
+				testcaseProgress.testcaseStarted( actualTestcase );
     		
 				//A teszteset Page-einek futtatasa
 				for( int index = 0; index < childCount; index++ ){
@@ -673,7 +687,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 					}					
 				}					
     		
-				testcaseProgress.testcaseEnded( actualTestcase.getName() );
+				testcaseProgress.testcaseEnded( actualTestcase );
     		
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.SUCCESS );
 
@@ -723,89 +737,40 @@ elementProgres.printOutput( compillationException.getMessage() + "\n\n", null );
 	class TestcaseProgress implements TestcaseProgressInterface{
 
 		@Override
-		public void testcaseStarted(String testcaseName) {
-			
-			try {
-				consolDocument.insertString(consolDocument.getLength(), 
-						MessageFormat.format(
-								CommonOperations.getTranslation("editor.runtestcase.message.testcasestarted"), 
-								testcaseName
-						) + "\n", null 
-				);
-			} catch (BadLocationException e) {e.printStackTrace();}			
+		public void testcaseStarted(TestcaseCaseDataModel testcase) {
+			traceTree.select( testcase );			
 		}
-				
+
 		@Override
-		public void testcaseEnded(String testcaseName) {
-			
-			try {
-				consolDocument.insertString(consolDocument.getLength(), 
-						MessageFormat.format(
-								CommonOperations.getTranslation("editor.runtestcase.message.testcaseended"), 
-								testcaseName
-						) + "\n\n", null 
-				);
-			} catch (BadLocationException e) {e.printStackTrace();}			
+		public void testcaseEnded(TestcaseCaseDataModel testcase) {			
 		}		
 	}
 	
-	class PageProgress implements PageProgressInterface{
+	class StepProgress implements StepProgressInterface{
 
 		@Override
-		public void pageStarted(String pageID, String nodeType) {			
-			try {
-				consolDocument.insertString(
-						consolDocument.getLength(), "        " +  
-						MessageFormat.format(
-								CommonOperations.getTranslation("editor.runtestcase.message.pagestarted"), 
-								pageID, nodeType
-						) + "\n", 
-						attributePageFinished 
-				);		
-			} catch (BadLocationException e) {e.printStackTrace();}			
+		public void stepStarted(StepCollectorDataModelAdapter stepCollector) {
+			traceTree.select( stepCollector );			
 		}
 
 		@Override
-		public void pageEnded(String pageID, String nodeType) {
-			
-			try {
-				consolDocument.insertString(
-						consolDocument.getLength(), "        " + 
-						MessageFormat.format(
-								CommonOperations.getTranslation("editor.runtestcase.message.pageended"), 
-								pageID, nodeType
-						) + "\n", 
-						attributePageFinished 
-				);								
-			} catch (BadLocationException e) {e.printStackTrace();}
-		
+		public void stepEnded(StepCollectorDataModelAdapter stepCollector) {
 		}		
 	}
 	
 	class ElementProgress implements ElementProgressInterface{
 		
-		@Override
-		public void elementStarted(String name, String operation ) {
-			try {
-				consolDocument.insertString(consolDocument.getLength(), "                " + 
-						MessageFormat.format(
-								CommonOperations.getTranslation("editor.runtestcase.message.elementstarted"), 
-								operation, name
-						) + " - ", null 
-				);
-			} catch (BadLocationException e) {e.printStackTrace();}			
-		}
 	
-		
-		
 		@Override
-		public void elementEnded(String name, String operation ) {
-			
-			try {
-				consolDocument.insertString(consolDocument.getLength(), CommonOperations.getTranslation("editor.runtestcase.message.elementended-short") + "\n", null );
-			} catch (BadLocationException e) {e.printStackTrace();}											
+		public void elementStarted(StepElementDataModel stepElement) {
+			traceTree.select( stepElement );			
 		}
 
+		@Override
+		public void elementEnded(StepElementDataModel stepElement) {
+			
+		}
+		
 		@Override
 		public void printOutput( String outputValue, String message ) {
 		
@@ -822,7 +787,7 @@ elementProgres.printOutput( compillationException.getMessage() + "\n\n", null );
 		public void printCommand(String command) {
 			
 			System.out.println( command );			
-		}		
+		}
 	}
 		
 	/**

@@ -26,7 +26,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.StepProgressInterface;
 
 import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
@@ -298,7 +298,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 	}
 
 	@Override
-	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, StepProgressInterface pageProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException {
 		
 		//Ha Be van kapcsolava a TestParamPage oldal
 		if( this.isOn() ){

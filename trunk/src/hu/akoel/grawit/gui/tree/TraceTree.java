@@ -89,6 +89,10 @@ public class TraceTree extends JTree {
     		return getIcon(actualNode, expanded);
         }
 	}
+	
+	public void select( DataModelAdapter dataModel ){
+		
+	}
 
 	class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
 

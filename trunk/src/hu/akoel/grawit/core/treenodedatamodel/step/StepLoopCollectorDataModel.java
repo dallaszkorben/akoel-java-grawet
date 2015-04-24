@@ -33,7 +33,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.PageProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.StepProgressInterface;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -354,7 +354,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 	}	
 
 	@Override
-	public void doAction(WebDriver driver, Player player, PageProgressInterface pageProgres, ElementProgressInterface elementProgres, String tab ) throws PageException,	CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, StepProgressInterface pageProgres, ElementProgressInterface elementProgres, String tab ) throws PageException,	CompilationException, StoppedByUserException {
 		
 		StepElementDataModel parameterElement;
 		
@@ -366,7 +366,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		
 		//Jelzi, hogy elindult a ciklus
 		if( null != pageProgres ){
-			pageProgres.pageStarted( getName(), getNodeTypeToShow() );
+			pageProgres.stepStarted( this );
 		}	
 		
 		//Annyiszor megy vegig a gyermekeken, amennyi a megengedett ciklusszam (es ha nem igaz a feltetel)
@@ -461,7 +461,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 
 		//Jelzi, hogy befejezodott a cikus
 		if( null != pageProgres ){
-			pageProgres.pageEnded( getName(), getNodeTypeToShow() );
+			pageProgres.stepEnded( this );
 		}
 		
 	}
