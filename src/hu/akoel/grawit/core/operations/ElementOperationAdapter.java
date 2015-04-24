@@ -13,6 +13,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
@@ -46,17 +47,30 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	 */
     public abstract Object clone();
 
-    public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, String tab ) throws ElementException, CompilationException{
+    //public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, String tab ) throws ElementException, CompilationException{
+    public void doAction( WebDriver driver, StepElementDataModel stepElement, ElementProgressInterface elementProgress, String tab ) throws ElementException, CompilationException{    	
+    	doAction( driver, stepElement, elementProgress, tab, false ); 
+    }
+
+    public void doAction( WebDriver driver, StepElementDataModel stepElement, ElementProgressInterface elementProgress, String tab, boolean needElementEndedAtException ) throws ElementException, CompilationException{
+
+    	BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
     	
-    	doAction( driver, baseElement, elementProgress, tab, false ); 
+		//Uzenet az Operation Indulasarol
+		if( null != elementProgress ){
+			elementProgress.elementStarted( stepElement );
+		}
+		
+		doAction( driver, baseElement, elementProgress, tab, needElementEndedAtException );
+
+		if( null != elementProgress ){
+			sendelementEndedMessage( elementProgress, stepElement );
+		}	
+		
     }
     
 	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, String tab, boolean needElementEndedAtException ) throws ElementException, CompilationException{
-		
-		//Uzenet az Operation Indulasarol
-		if( null != elementProgress ){
-			elementProgress.elementStarted( baseElement.getName(), getOperationNameToString() );
-		}
+    	
 
 		//
 		//Szukseges az elem beazonositasa
@@ -177,16 +191,16 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				elementProgress.printCommand("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
 
 				//Ujra hiv
-				doAction( driver, baseElement, elementProgress, tab );
+				doAction( driver, baseElement, elementProgress, tab, needElementEndedAtException );
 				
 			//Ha az operation vegrehajtasa soran kivetel generalodott
 			}catch(   ElementException e ){
 				
 				//Ha az osszehasonlitas generalta a hibat es ettol fuggetlenul kell lezaras
-				if( needElementEndedAtException && null != elementProgress && e instanceof ElementCompareOperationException ){
+/*				if( needElementEndedAtException && null != elementProgress && e instanceof ElementCompareOperationException ){
 					sendelementEndedMessage( elementProgress, baseElement );
 				}	
-				
+*/				
 				//De vegul megis csak tovabb kuldi a kivetelt
 				throw e;				
 			}			
@@ -208,16 +222,16 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		}else if( baseElement instanceof ScriptBaseElementDataModel ){			
 
 			//OPERATION
-			doOperation( driver, baseElement, null, elementProgress, tab );						
+			//doOperation( driver, baseElement, null, elementProgress, tab );		
+			doOperation( driver, baseElement, null, elementProgress, tab );
 		}
 
-		if( null != elementProgress ){
-			sendelementEndedMessage( elementProgress, baseElement );
-		}		
+	
 	}	
 	
-	private void sendelementEndedMessage( ElementProgressInterface elementProgress, BaseElementDataModelAdapter baseElement ){
-		elementProgress.elementEnded( baseElement.getName(), getOperationNameToString() );
+	//private void sendelementEndedMessage( ElementProgressInterface elementProgress, BaseElementDataModelAdapter baseElement ){
+	private void sendelementEndedMessage( ElementProgressInterface elementProgress, StepElementDataModel stepElement ){		
+		elementProgress.elementEnded( stepElement );
 	}
 
 }
