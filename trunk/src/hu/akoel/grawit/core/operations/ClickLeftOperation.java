@@ -29,7 +29,7 @@ public class ClickLeftOperation extends ElementOperationAdapter{
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 
 		if( null != elementProgress ){
-			elementProgress.printCommand( tab + "webElement.click();");
+			elementProgress.printSource( tab + "webElement.click();");
 		}
 		
 		try{

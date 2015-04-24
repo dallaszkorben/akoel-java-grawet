@@ -77,7 +77,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		//
 		if( baseElement instanceof NormalBaseElementDataModel ){			
 
-			elementProgress.printCommand( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.STORAGE_NAME_PREFIX + baseElement.hashCode()  );
+			elementProgress.printSource( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.STORAGE_NAME_PREFIX + baseElement.hashCode()  );
 
 			By by = null;
 			WebElement webElement = null;
@@ -87,13 +87,13 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			//Selector megszerzese
 			if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.ID)){
 				
-				elementProgress.printCommand( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+				elementProgress.printSource( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				
 				by = By.id( ((NormalBaseElementDataModel)baseElement).getSelector() );
 				
 			//CSS
 			}else if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.CSS)){
-				elementProgress.printCommand( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+				elementProgress.printSource( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				
 				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );			
 			}
@@ -107,7 +107,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				//wait = new FluentWait<WebDriver>(driver).withTimeout( waitingTimeForAppearance, TimeUnit.SECONDS ).pollingEvery( 500, TimeUnit.MILLISECONDS ).ignoring( NoSuchElementException.class );
 				
 				//EXPLICIT WAIT
-				elementProgress.printCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + "); //EXPLICIT WAIT" );
+				elementProgress.printSource( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + "); //EXPLICIT WAIT" );
 				wait = new WebDriverWait(driver, waitingTimeForAppearance);
 				
 //				//EXPLICIT WAIT
@@ -128,7 +128,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			if( null != waitingTimeForAppearance ){
 				try{
 					
-					elementProgress.printCommand( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );
+					elementProgress.printSource( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );
 					
 					wait.until(ExpectedConditions.visibilityOfElementLocated( by ));		
 			
@@ -149,7 +149,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			//Beazonositja az elemet
 			//
 			try{
-				elementProgress.printCommand( tab + "webElement = driver.findElement( by );" );
+				elementProgress.printSource( tab + "webElement = driver.findElement( by );" );
 				
 				webElement = driver.findElement( by );
 			
@@ -175,7 +175,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			if(null != waitingTimeBeforeOperation ){
 				waitingTimeBeforeOperation *= 1000;
 				
-				elementProgress.printCommand( tab + "try {Thread.sleep( " + waitingTimeBeforeOperation + " );} catch (InterruptedException e) {}" );
+				elementProgress.printSource( tab + "try {Thread.sleep( " + waitingTimeBeforeOperation + " );} catch (InterruptedException e) {}" );
 				
 				try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}
 			}
@@ -188,7 +188,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			}catch( StaleElementReferenceException e ){
 				
 				//TODO valahogy veget kell vetni a vegtelen ciklus lehetosegenek				
-				elementProgress.printCommand("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
+				elementProgress.printSource("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
 
 				//Ujra hiv
 				doAction( driver, baseElement, elementProgress, tab, needElementEndedAtException );
@@ -205,13 +205,13 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				throw e;				
 			}			
 			
-			elementProgress.printCommand("");	
+			elementProgress.printSource("");	
 
 			//Varakozik, ha szukseges a muvelet utan
 			if( null != waitingTimeAfterOperation ){
 				waitingTimeAfterOperation *= 1000;
 				
-				elementProgress.printCommand( tab + "try {Thread.sleep( " + waitingTimeAfterOperation + " );} catch (InterruptedException e) {}" );
+				elementProgress.printSource( tab + "try {Thread.sleep( " + waitingTimeAfterOperation + " );} catch (InterruptedException e) {}" );
 				
 				try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}
 			}

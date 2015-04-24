@@ -11,7 +11,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.ExecutablePageInterface;
+import hu.akoel.grawit.ExecutableStepInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
@@ -22,7 +22,7 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
-public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAdapter implements ExecutablePageInterface{ //extends ParamDataModelAdapter implements ExecutablePageInterface{
+public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAdapter implements ExecutableStepInterface{ //extends ParamDataModelAdapter implements ExecutablePageInterface{
 
 	public static final String ATTR_LAST_BASE_ELEMENT_PATH = "lastbaseelementpath";
 	

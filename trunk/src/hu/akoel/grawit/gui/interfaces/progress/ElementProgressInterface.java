@@ -13,5 +13,5 @@ public interface ElementProgressInterface {
 	
 	public void printOutput( String outputValue, String preMessage );
 	
-	public void printCommand( String command );
+	public void printSource( String command );
 }

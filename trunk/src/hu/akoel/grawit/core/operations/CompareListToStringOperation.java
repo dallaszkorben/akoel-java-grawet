@@ -126,34 +126,34 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 		//
 		// SOURCE Starts
 		//		
-		elementProgress.printCommand( tab + "origText = \"\";" );
-		elementProgress.printCommand( tab + "select = new Select(webElement);" );
+		elementProgress.printSource( tab + "origText = \"\";" );
+		elementProgress.printSource( tab + "select = new Select(webElement);" );
 		
 		//VALUE
 		if( compareBy.equals( ListCompareByListEnum.BYVALUE ) ){
-			elementProgress.printCommand( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
+			elementProgress.printSource( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
 			
 		//TEXT
 		}else if( compareBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
-			elementProgress.printCommand( tab + "origText = select.getFirstSelectedOption().getText();" );
+			elementProgress.printSource( tab + "origText = select.getFirstSelectedOption().getText();" );
 		}		
 		if( null != pattern ){
-			elementProgress.printCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.printCommand( tab + "matcher = pattern.matcher( origText );");				
-			elementProgress.printCommand( tab + "if( matcher.find() ){" );	
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-			elementProgress.printCommand( tab + "}" );
+			elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.printSource( tab + "if( matcher.find() ){" );	
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+			elementProgress.printSource( tab + "}" );
 		}
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-			elementProgress.printCommand( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
-			elementProgress.printCommand( tab + "}" );
+			elementProgress.printSource( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.printSource( tab + "}" );
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-			elementProgress.printCommand( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");				
-			elementProgress.printCommand( tab + "}" );
+			elementProgress.printSource( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");				
+			elementProgress.printSource( tab + "}" );
 		}		
 		}
 		

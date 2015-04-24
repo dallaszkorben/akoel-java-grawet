@@ -176,24 +176,24 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 		//
 		// SOURCE Starts
 		//	
-		elementProgress.printCommand( tab + "origText = webElement.getText();" );
+		elementProgress.printSource( tab + "origText = webElement.getText();" );
 		if( null != pattern ){
-			elementProgress.printCommand( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.printCommand( tab + "matcher = pattern.matcher( origText );");				
-			elementProgress.printCommand( tab + "if( matcher.find() ){" );			
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-			elementProgress.printCommand( tab + "}" );
+			elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
+			elementProgress.printSource( tab + "if( matcher.find() ){" );			
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+			elementProgress.printSource( tab + "}" );
 		}
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-			elementProgress.printCommand( tab + "if( !origText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + constantElementDataModel.getValue() + "' but it should.\");");
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
-			elementProgress.printCommand( tab + "}" );
+			elementProgress.printSource( tab + "if( !origText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + constantElementDataModel.getValue() + "' but it should.\");");
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.printSource( tab + "}" );
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-			elementProgress.printCommand( tab + "if( origText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + constantElementDataModel.getValue() + "' but it should NOT.\");");				
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");			
-			elementProgress.printCommand( tab + "}" );
+			elementProgress.printSource( tab + "if( origText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + constantElementDataModel.getValue() + "' but it should NOT.\");");				
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");			
+			elementProgress.printSource( tab + "}" );
 		}
 		}
 		

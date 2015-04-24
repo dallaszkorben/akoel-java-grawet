@@ -30,6 +30,12 @@ public enum Tag{
 	SCRIPTNODE("node"),
 	SCRIPTELEMENT("element"),
 	
+	TRACEROOT("trace"),
+	TRACETESTCASE("testcase"),
+	TRACENORMALELEMENTCOLLECTOR("normalelementcollector"),		
+	TRACELOOPELEMENTCOLLECTOR("loopelementcollector"),			
+	TRACEELEMENT("element"),
+	
 	DRIVERROOT("driver"),
 	DRIVERFOLDER("node"),
 	DRIVEREXPLORER("explorer"),

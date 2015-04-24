@@ -179,8 +179,8 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 	@Override
 	public WebDriver getDriver(  ElementProgressInterface elementProgres, String tab ) {
 		
-		elementProgres.printCommand( tab + "DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();");	
-		elementProgres.printCommand( tab + "capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);");
+		elementProgres.printSource( tab + "DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();");	
+		elementProgres.printSource( tab + "capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);");
 		
 		DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
 		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
@@ -190,13 +190,13 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 			String key = ((DriverExplorerCapabilityDataModel)getChildAt(index)).getName();
 			Object value = ((DriverExplorerCapabilityDataModel)getChildAt(index)).getValue();
 			
-			elementProgres.printCommand(  tab + "capabilities.setCapability( \"" + key + "\", \"" + (String)value + "\" );");
+			elementProgres.printSource(  tab + "capabilities.setCapability( \"" + key + "\", \"" + (String)value + "\" );");
 			
 			capabilities.setCapability(key, value);
 		}
 		
-		elementProgres.printCommand(  tab + "driver = new InternetExplorerDriver(capabilities);");
-		elementProgres.printCommand(  "" );
+		elementProgres.printSource(  tab + "driver = new InternetExplorerDriver(capabilities);");
+		elementProgres.printSource(  "" );
 		
 		return new InternetExplorerDriver(capabilities);
 	}

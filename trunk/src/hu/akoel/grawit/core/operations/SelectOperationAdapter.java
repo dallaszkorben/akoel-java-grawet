@@ -27,19 +27,19 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 		if( baseElement instanceof NormalBaseElementDataModel ){
 
 			//I do not know why but it have to be here
-			elementProgress.printCommand( tab + "webElement.sendKeys(Keys.TAB);" );
-			elementProgress.printCommand( tab + "webElement.sendKeys(Keys.SHIFT, Keys.TAB);" );
-			elementProgress.printCommand( tab + "select = new Select(webElement);" );
+			elementProgress.printSource( tab + "webElement.sendKeys(Keys.TAB);" );
+			elementProgress.printSource( tab + "webElement.sendKeys(Keys.SHIFT, Keys.TAB);" );
+			elementProgress.printSource( tab + "select = new Select(webElement);" );
 			if( getSelectionBy().equals( ListSelectionByListEnum.BYVALUE ) ){
-				elementProgress.printCommand( tab + "select.selectByValue( \"" + getStringToSelection() + "\" );" );
+				elementProgress.printSource( tab + "select.selectByValue( \"" + getStringToSelection() + "\" );" );
 			}else if( getSelectionBy().equals( ListSelectionByListEnum.BYINDEX ) ){
-				elementProgress.printCommand( tab + "index = 0;" );
-				elementProgress.printCommand( tab + "try{" );
-				elementProgress.printCommand( tab + "index = Integer.valueOf( " + getStringToSelection() + " );" );
-				elementProgress.printCommand( tab + "}catch( Exception e){}" );
-				elementProgress.printCommand( tab + "select.selectByIndex( index  );" );
+				elementProgress.printSource( tab + "index = 0;" );
+				elementProgress.printSource( tab + "try{" );
+				elementProgress.printSource( tab + "index = Integer.valueOf( " + getStringToSelection() + " );" );
+				elementProgress.printSource( tab + "}catch( Exception e){}" );
+				elementProgress.printSource( tab + "select.selectByIndex( index  );" );
 			}else if( getSelectionBy().equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
-				elementProgress.printCommand( tab + "select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );
+				elementProgress.printSource( tab + "select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );
 			}			
 			
 			Select select = null;

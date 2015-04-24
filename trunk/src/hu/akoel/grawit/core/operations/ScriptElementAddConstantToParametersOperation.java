@@ -126,8 +126,8 @@ public class ScriptElementAddConstantToParametersOperation extends ScriptOperati
 
 			if( null != elementProgress ){
 				outputScripClass(driver, baseElement, webElement, elementProgress, tab );		
-				elementProgress.printCommand( tab + baseElement.getNameAsScript() + ".addParameter( \"" + constantElementDataModel.getValue() + "\" );" );
-				elementProgress.printCommand( "" );
+				elementProgress.printSource( tab + baseElement.getNameAsScript() + ".addParameter( \"" + constantElementDataModel.getValue() + "\" );" );
+				elementProgress.printSource( "" );
 			}
 			
 			((ScriptBaseElementDataModel)baseElement).addParameter( constantElementDataModel.getValue() );

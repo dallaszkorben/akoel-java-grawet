@@ -38,6 +38,7 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import org.openqa.selenium.WebDriver;
@@ -58,6 +59,7 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.trace.TraceDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -67,7 +69,7 @@ import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.StepProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.TestcaseStepProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.TestcaseProgressInterface;
 import hu.akoel.grawit.gui.tree.RunTree;
 import hu.akoel.grawit.gui.tree.TraceTree;
@@ -83,7 +85,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 	private TestcaseDataModelAdapter selectedTestcase;
 	
-	private StepProgress pageProgress;
+	private TestcaseStepProgress pageProgress;
 	private ElementProgress elementProgres;
 	private TestcaseProgress testcaseProgress;
 	
@@ -127,7 +129,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		this.setScrollEnabled(false);
 		this.selectedTestcase = testcaseDataModel;
 
-		pageProgress = new StepProgress();
+		pageProgress = new TestcaseStepProgress();
 		elementProgres = new ElementProgress();	
 		testcaseProgress = new TestcaseProgress();	
 		
@@ -295,11 +297,21 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		  
 		
 		
 		
-		DataModelAdapter newModel = buildDataModel( ((DataModelAdapter)testcaseDataModel), null );
+		TraceDataModel newModel = buildDataModel( ((DataModelAdapter)testcaseDataModel), null );
 		
 		traceTree = new TraceTree( newModel );
 		lowerPanel.add( traceTree, BorderLayout.WEST );
@@ -499,25 +511,39 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	
 	
-	public static DataModelAdapter buildDataModel(DataModelAdapter actualOrigElement, DataModelAdapter newStructure) {
+	
+	
+	
+	
+	/**
+	 * Rekurzivan vegig megy a Teszteseteken a fa strukturat kovetve es letrehoz egy ujabb strukturat
+	 * Amiben a Tesztesettol kezdve az elemekig minden szerepel.
+	 * 
+	 * @param actualOrigElement
+	 * @param newStructure
+	 * @return
+	 */
+	public static TraceDataModel buildDataModel(DataModelAdapter actualOrigElement, TraceDataModel newStructure) {
 
-		DataModelAdapter clonedElement;
+		TraceDataModel traceDataModelElement;
 		
+		//Ha TestcaseStepCollectorDataModel, akkor azt lecsereljuk StepCollectorDataModelAdapter-re
 		if( actualOrigElement instanceof TestcaseStepCollectorDataModel ){			
 			DataModelAdapter stepCollectorDataModel = ((TestcaseStepCollectorDataModel) actualOrigElement).getStepCollector();
-			clonedElement = (DataModelAdapter) stepCollectorDataModel.clone();		
-
-		}else{			
-			clonedElement = (DataModelAdapter) actualOrigElement.clone();
-			clonedElement.removeAllChildren();
-			
+			traceDataModelElement = new TraceDataModel( actualOrigElement );
+			actualOrigElement = stepCollectorDataModel;
+		}else{
+			traceDataModelElement = new TraceDataModel( actualOrigElement );
 		}
-		clonedElement.setParent(null);
 
 		if (null == newStructure) {
-			newStructure = clonedElement;
+			
+			//Letrehozzuk a root elemet
+			newStructure = traceDataModelElement;
 		} else {
-			newStructure.add(clonedElement);
+			
+			//Vegul aztan hozzaadjuk a szulojehez
+			newStructure.add(traceDataModelElement);
 		}			
 			
 		Enumeration children = actualOrigElement.children();
@@ -526,28 +552,13 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			while (children.hasMoreElements()) {
 
 				DataModelAdapter nextElement = (DataModelAdapter) children.nextElement();
-
-				buildDataModel((DataModelAdapter) nextElement, clonedElement);
+				buildDataModel( nextElement, traceDataModelElement);
 			}
 		}		
 		return newStructure;
 	}
 
 	
-	abstract class ClonedDataModelAdapter extends DataModelAdapter{
-
-		private static final long serialVersionUID = 9077483094917880691L;
-		private int code;
-		
-		public void setOrigId(int code) {
-			this.code = code;
-		}
-
-		public int getOrigId() {
-			return this.code;
-		}
-		
-	}
 
 	
 	
@@ -556,6 +567,16 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	
 	
+	
+	
+	
+	
+	/**
+	 * Rekurziven vegig megy az osszes test case-en a parameterkent megadott
+	 * pontbol kiindulva
+	 *  
+	 * @param testcase
+	 */
 	private void throughTestcases( TestcaseDataModelAdapter testcase ){
 
 		if( isStopped() ){
@@ -583,88 +604,93 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		return;		
 	}
 	
+	/**
+	 * Adott test case vegrehajtasa
+	 * 
+	 * @param actualTestcase
+	 */
 	private void executeTestcase( TestcaseCaseDataModel actualTestcase ){
 
 		//Ha be van kapcsolat		
 		if( actualTestcase.isOn() ){
 			
-			elementProgres.printCommand( "import org.openqa.selenium.By;" );
-			elementProgres.printCommand( "import org.openqa.selenium.WebDriver;" );
-			elementProgres.printCommand( "import org.openqa.selenium.WebElement;" );
-			elementProgres.printCommand( "import org.openqa.selenium.firefox.FirefoxDriver;" );
-			elementProgres.printCommand( "import org.openqa.selenium.firefox.FirefoxProfile;" );
+			elementProgres.printSource( "import org.openqa.selenium.By;" );
+			elementProgres.printSource( "import org.openqa.selenium.WebDriver;" );
+			elementProgres.printSource( "import org.openqa.selenium.WebElement;" );
+			elementProgres.printSource( "import org.openqa.selenium.firefox.FirefoxDriver;" );
+			elementProgres.printSource( "import org.openqa.selenium.firefox.FirefoxProfile;" );
 
-			elementProgres.printCommand( "import org.openqa.selenium.WebDriverException;" );	
-			elementProgres.printCommand( "import org.openqa.selenium.JavascriptExecutor;");
-			elementProgres.printCommand( "import org.openqa.selenium.Keys;" );
+			elementProgres.printSource( "import org.openqa.selenium.WebDriverException;" );	
+			elementProgres.printSource( "import org.openqa.selenium.JavascriptExecutor;");
+			elementProgres.printSource( "import org.openqa.selenium.Keys;" );
 			
-			elementProgres.printCommand( "import org.openqa.selenium.support.ui.Select;" );
-			elementProgres.printCommand( "import org.openqa.selenium.support.ui.WebDriverWait;" );
-			elementProgres.printCommand( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
-			elementProgres.printCommand( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
+			elementProgres.printSource( "import org.openqa.selenium.support.ui.Select;" );
+			elementProgres.printSource( "import org.openqa.selenium.support.ui.WebDriverWait;" );
+			elementProgres.printSource( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
+			elementProgres.printSource( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
 			
-			elementProgres.printCommand( "" );
+			elementProgres.printSource( "" );
 			
-			elementProgres.printCommand( "import java.util.concurrent.TimeUnit;" );
-			elementProgres.printCommand( "import java.util.NoSuchElementException;" );
-			elementProgres.printCommand( "import java.util.ArrayList;" );
-			elementProgres.printCommand( "import java.util.List;" );			
-			elementProgres.printCommand( "import java.util.Iterator;");
-			elementProgres.printCommand( "import java.util.regex.Matcher;");
-			elementProgres.printCommand( "import java.util.regex.Pattern;");
+			elementProgres.printSource( "import java.util.concurrent.TimeUnit;" );
+			elementProgres.printSource( "import java.util.NoSuchElementException;" );
+			elementProgres.printSource( "import java.util.ArrayList;" );
+			elementProgres.printSource( "import java.util.List;" );			
+			elementProgres.printSource( "import java.util.Iterator;");
+			elementProgres.printSource( "import java.util.regex.Matcher;");
+			elementProgres.printSource( "import java.util.regex.Pattern;");
 			
-			elementProgres.printCommand( "" );				  
+			elementProgres.printSource( "" );				  
 			
-			elementProgres.printCommand( "abstract class ScriptClass{");
+			elementProgres.printSource( "abstract class ScriptClass{");
 
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "abstract public void runScript() throws Exception;" );	
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "}" );	
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "public void clearParameters(){" );	
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.clear();" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "}" );	
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "public Iterator<String> getParameterIterator(){" );	
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "return parameters.iterator();" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "}" );	
-			elementProgres.printCommand( "}" );	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "abstract public void runScript() throws Exception;" );	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public void clearParameters(){" );	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.clear();" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public Iterator<String> getParameterIterator(){" );	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "return parameters.iterator();" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
+			elementProgres.printSource( "}" );	
 			
-			elementProgres.printCommand( "" );	
+			elementProgres.printSource( "" );	
 			
-			elementProgres.printCommand( "public class Test{ ");
-			elementProgres.printCommand( "" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "By by = null;" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "WebElement webElement = null;");
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "Select select = null;");	
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "Integer index = 0;" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "WebDriver driver = null;" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
+			elementProgres.printSource( "public class Test{ ");
+			elementProgres.printSource( "" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "By by = null;" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "WebElement webElement = null;");
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "Select select = null;");	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "Integer index = 0;" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "WebDriver driver = null;" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
 			
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "String origText;" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "String optionText;" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );		
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "String origText;" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "String optionText;" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );		
 
-			elementProgres.printCommand( "" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "new Test();" );
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "}" );
-			elementProgres.printCommand( "" );
+			elementProgres.printSource( "" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "new Test();" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}" );
+			elementProgres.printSource( "" );
 			
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "public Test(){" );	
-			elementProgres.printCommand( "" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public Test(){" );	
+			elementProgres.printSource( "" );
 
 			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( elementProgres, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
 
 			//IMPLICIT WAIT
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "//IMPLICIT WAIT" );			
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "driver.manage().timeouts().implicitlyWait(" + WorkingDirectory.getInstance().getWaitingTime() + ", TimeUnit.SECONDS);" );
-			elementProgres.printCommand( "" );
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "//IMPLICIT WAIT" );			
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "driver.manage().timeouts().implicitlyWait(" + WorkingDirectory.getInstance().getWaitingTime() + ", TimeUnit.SECONDS);" );
+			elementProgres.printSource( "" );
 			
 			webDriver.manage().timeouts().implicitlyWait(WorkingDirectory.getInstance().getWaitingTime(), TimeUnit.SECONDS );
 
@@ -687,50 +713,33 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 					}					
 				}					
     		
-				testcaseProgress.testcaseEnded( actualTestcase );
-    		
+				testcaseProgress.testcaseEnded( actualTestcase );    		
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.SUCCESS );
 
 			}catch( CompilationException compillationException ){
     		
-				//try {
-elementProgres.printOutput( compillationException.getMessage() + "\n\n", null );				
-					//consolDocument.insertString( consolDocument.getLength(), "\n" + compillationException.getMessage() + "\n\n", attributeError );
-				//} catch (BadLocationException e) {e.printStackTrace();}
-    		
+				elementProgres.printOutput( compillationException.getMessage() + "\n\n", null );				   		
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
     		
 			}catch( PageException pageException ){
     		
 				elementProgres.printOutput( pageException.getMessage() + "\n\n", null );	
-				/*try {
-					consolDocument.insertString(consolDocument.getLength(), "\n" + pageException.getMessage() + "\n\n", attributeError );
-				} catch (BadLocationException e) {e.printStackTrace();}
-    	*/
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
     		
 			}catch( StoppedByUserException stoppedByUserException ){
     		
 				elementProgres.printOutput( stoppedByUserException + "\n\n", null );	
-				/*try {
-					consolDocument.insertString(consolDocument.getLength(), "\n" + stoppedByUserException.getMessage() + "\n\n", attributeError );
-				} catch (BadLocationException e) {e.printStackTrace();}
-    		*/
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.STOPPED );
     		
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
     		
-				elementProgres.printOutput( exception.getMessage() + "\n\n", null );	
-/*				try {
-					consolDocument.insertString(consolDocument.getLength(), "\n" + exception.getMessage() + "\n\n", attributeError );
-				} catch (BadLocationException e) {e.printStackTrace();}
-*/				
+				elementProgres.printOutput( exception.getMessage() + "\n\n", null );					
 				resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );    		
 			}
     	
-			elementProgres.printCommand( CommonOperations.TAB_BY_SPACE + "}");				    	
-			elementProgres.printCommand( "}");	
+			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}");				    	
+			elementProgres.printSource( "}");	
 		}
 	}
 	
@@ -742,24 +751,26 @@ elementProgres.printOutput( compillationException.getMessage() + "\n\n", null );
 		}
 
 		@Override
-		public void testcaseEnded(TestcaseCaseDataModel testcase) {			
+		public void testcaseEnded(TestcaseCaseDataModel testcase) {		
+			traceTree.collapse( testcase );
 		}		
 	}
 	
-	class StepProgress implements StepProgressInterface{
+	class TestcaseStepProgress implements TestcaseStepProgressInterface{
 
 		@Override
-		public void stepStarted(StepCollectorDataModelAdapter stepCollector) {
-			traceTree.select( stepCollector );			
+		public void stepStarted(TestcaseStepCollectorDataModel testcaseStepCollector) {
+			traceTree.select( testcaseStepCollector );			
 		}
 
 		@Override
-		public void stepEnded(StepCollectorDataModelAdapter stepCollector) {
+		public void stepEnded(TestcaseStepCollectorDataModel testcaseStepCollector) {
+			traceTree.collapse( testcaseStepCollector );
+			//traceTree.collapsePath( CommonOperations.getTreePathFromNode( stepCollector.getParent() ) );
 		}		
 	}
 	
-	class ElementProgress implements ElementProgressInterface{
-		
+	class ElementProgress implements ElementProgressInterface{		
 	
 		@Override
 		public void elementStarted(StepElementDataModel stepElement) {
@@ -784,7 +795,7 @@ elementProgres.printOutput( compillationException.getMessage() + "\n\n", null );
 		}
 
 		@Override
-		public void printCommand(String command) {
+		public void printSource(String command) {
 			
 			System.out.println( command );			
 		}
