@@ -22,6 +22,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
@@ -33,7 +34,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.StepProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.TestcaseStepProgressInterface;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -354,7 +355,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 	}	
 
 	@Override
-	public void doAction(WebDriver driver, Player player, StepProgressInterface pageProgres, ElementProgressInterface elementProgres, String tab ) throws PageException,	CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, TestcaseStepProgressInterface pageProgres, ElementProgressInterface elementProgres, String tab ) throws PageException,	CompilationException, StoppedByUserException {
 		
 		StepElementDataModel parameterElement;
 		
@@ -364,10 +365,10 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		Date startDate = Calendar.getInstance().getTime();			
 		Date actualDate;
 		
-		//Jelzi, hogy elindult a ciklus
-		if( null != pageProgres ){
-			pageProgres.stepStarted( this );
-		}	
+//		//Jelzi, hogy elindult a ciklus
+//		if( null != pageProgres ){
+//			pageProgres.stepStarted( this, testcaseStepCollector );
+//		}	
 		
 		//Annyiszor megy vegig a gyermekeken, amennyi a megengedett ciklusszam (es ha nem igaz a feltetel)
 		while( actualLoop++ < maxLoopNumber ){		
@@ -459,10 +460,10 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 			
 		}
 
-		//Jelzi, hogy befejezodott a cikus
-		if( null != pageProgres ){
-			pageProgres.stepEnded( this );
-		}
+//		//Jelzi, hogy befejezodott a cikus
+//		if( null != pageProgres ){
+//			pageProgres.stepEnded( testcaseStepCollector );
+//		}
 		
 	}
 	

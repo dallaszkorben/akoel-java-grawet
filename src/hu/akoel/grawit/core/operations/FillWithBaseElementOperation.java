@@ -138,7 +138,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter implem
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
 		
 		if( null != elementProgress ){
-			elementProgress.printCommand( tab + "webElement.sendKeys(\"" + baseElementDataModel.getStoredValue() + "\");     //" + baseElement.getName() );
+			elementProgress.printSource( tab + "webElement.sendKeys(\"" + baseElementDataModel.getStoredValue() + "\");     //" + baseElement.getName() );
 		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){

@@ -26,7 +26,7 @@ import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.StepProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.TestcaseStepProgressInterface;
 
 public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter {
 	
@@ -125,14 +125,14 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	}
 	
 	@Override
-	public void doAction( WebDriver driver, Player player, StepProgressInterface stepProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction( WebDriver driver, Player player, TestcaseStepProgressInterface stepProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel stepElement;
 		
 		//Jelzi, hogy elindult az oldal feldolgozasa
-		if( null != stepProgress ){
-			stepProgress.stepStarted( this );
-		}	
+//		if( null != stepProgress ){
+//			stepProgress.stepStarted( this, testcaseStepCollector );
+//		}	
 
 		int childrenCount = this.getChildCount();
 		for( int i = 0; i < childrenCount; i++ ){
@@ -179,9 +179,9 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 		}
 		
 		//Jelzi, hogy befejezodott az oldal feldolgozasa
-		if( null != stepProgress ){
-			stepProgress.stepEnded( this );
-		}
+//		if( null != stepProgress ){
+//			stepProgress.stepEnded( this, testcaseStepCollector );
+//		}
 		
 	}
 	

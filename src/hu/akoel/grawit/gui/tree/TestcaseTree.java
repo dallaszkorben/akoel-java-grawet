@@ -56,7 +56,7 @@ public class TestcaseTree extends Tree {
 
     	ImageIcon folderClosedIcon = CommonOperations.createImageIcon("tree/testcase-folder-closed-icon.png");
     	ImageIcon folderOpenIcon = CommonOperations.createImageIcon("tree/testcase-folder-open-icon.png");
-    	ImageIcon paramContainer = CommonOperations.createImageIcon("tree/testcase-container-icon.png");
+    	ImageIcon stepContainer = CommonOperations.createImageIcon("tree/testcase-container-icon.png");
     	ImageIcon caseIcon = CommonOperations.createImageIcon("tree/testcase-case-icon.png");
     	ImageIcon loopOpenIcon = CommonOperations.createImageIcon("tree/testcase-loop-icon.png");
     	ImageIcon rootIcon = CommonOperations.createImageIcon("tree/root-icon.png");
@@ -72,7 +72,7 @@ public class TestcaseTree extends Tree {
     		
     		TestcaseStepCollectorDataModel testCasePage = (TestcaseStepCollectorDataModel)actualNode;
     	    if( testCasePage.getStepCollector() instanceof StepNormalCollectorDataModel ){
-    	    	return paramContainer;	
+    	    	return stepContainer;	
     	    }else if( testCasePage.getStepCollector() instanceof StepLoopCollectorDataModel ){
     	    	return loopOpenIcon;
     	    }

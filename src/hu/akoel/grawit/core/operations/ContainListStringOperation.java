@@ -127,45 +127,45 @@ public class ContainListStringOperation extends ElementOperationAdapter{
 		//
 		// SOURCE Starts
 		//		
-		elementProgress.printCommand( tab + "select = new Select(webElement);" );
-		elementProgress.printCommand( tab + "optionList = select.getOptions();" );
-		elementProgress.printCommand( tab + "found = false;" );		
-		elementProgress.printCommand( tab + "for( WebElement option: optionList ){" );		
-		elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = \"\";" );		
+		elementProgress.printSource( tab + "select = new Select(webElement);" );
+		elementProgress.printSource( tab + "optionList = select.getOptions();" );
+		elementProgress.printSource( tab + "found = false;" );		
+		elementProgress.printSource( tab + "for( WebElement option: optionList ){" );		
+		elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "optionText = \"\";" );		
 		
 		//VALUE
 		if( containBy.equals( ListCompareByListEnum.BYVALUE ) ){			
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getAttribute(\"value\");" );
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getAttribute(\"value\");" );
 			
 		//TEXT
 		}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){		
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getText();" );		
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getText();" );		
 		}		
 		if( null != pattern ){			
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "matcher = pattern.matcher( origText );");	
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "if( matcher.find() ){" );	
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "}" );		
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "matcher = pattern.matcher( origText );");	
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( matcher.find() ){" );	
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );		
 		}
-		elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "if( optionText.equals( \"" + stringForSearch + "\" ) ){" );	
-		elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "found = true;" );
-		elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "break;" );
-		elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "}" );				
-		elementProgress.printCommand( tab + "} //for( WebElement option: optionList )" );
+		elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( optionText.equals( \"" + stringForSearch + "\" ) ){" );	
+		elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "found = true;" );
+		elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "break;" );
+		elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );				
+		elementProgress.printSource( tab + "} //for( WebElement option: optionList )" );
 		
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) ){			
-			elementProgress.printCommand( tab + "if( !found ){" );
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' is NOT in the list\");");
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
-			elementProgress.printCommand( tab + "}" );			
+			elementProgress.printSource( tab + "if( !found ){" );
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' is NOT in the list\");");
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.printSource( tab + "}" );			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) ){			
-			elementProgress.printCommand( tab + "if( found ){" );
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' IS in the list\");");
-			elementProgress.printCommand( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
-			elementProgress.printCommand( tab + "}" );
+			elementProgress.printSource( tab + "if( found ){" );
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.err.println(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' IS in the list\");");
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);");
+			elementProgress.printSource( tab + "}" );
 		}		
 		}
 		
