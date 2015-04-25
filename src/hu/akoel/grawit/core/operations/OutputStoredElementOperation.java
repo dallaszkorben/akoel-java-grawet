@@ -19,11 +19,11 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	private static final String ATTR_MESSAGE = "message";
 
 	//--- Data model
-	private String message;
+	private String label;
 	//---
 	
 	public OutputStoredElementOperation( String message ){
-		this.message = message;
+		this.label = message;
 	}
 	
 	public OutputStoredElementOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
@@ -31,7 +31,7 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 		if( !element.hasAttribute( ATTR_MESSAGE ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_MESSAGE );			
 		}
-		message = element.getAttribute( ATTR_MESSAGE );
+		label = element.getAttribute( ATTR_MESSAGE );
 				
 	}
 	
@@ -44,8 +44,8 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 		return getStaticName();
 	}
 		
-	public String getMessageToShow() {
-		return message;
+	public String getLabelToShow() {
+		return label;
 	}
 
 	@Override
@@ -53,9 +53,9 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 		
 		if( null != elementProgress ){
 
-			elementProgress.printSource( tab + "System.out.println( \"" + message + ": \" + " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " );" );
+			elementProgress.printSource( tab + "System.out.println( \"" + label + ": \" + " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " );" );
 			
-			elementProgress.printOutput( baseElement.getStoredValue(), message );			
+			elementProgress.printOutput( label, baseElement.getStoredValue(), null );			
 			
 		}
 	}
@@ -63,14 +63,14 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
 		Attr attr = document.createAttribute( ATTR_MESSAGE );
-		attr.setValue( message );
+		attr.setValue( label );
 		element.setAttributeNode(attr);				
 	}
 
 	@Override
 	public Object clone() {
 		
-		String message = new String( this.message );
+		String message = new String( this.label );
 		
 		return new OutputStoredElementOperation(message);
 	}

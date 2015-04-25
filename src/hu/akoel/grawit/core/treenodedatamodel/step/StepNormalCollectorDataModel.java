@@ -152,19 +152,6 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				//Bazis elem
 				BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
 			
-				//Ha NORMAL
-				if( baseElement instanceof NormalBaseElementDataModel ){
-				
-					//TODO lehet, hogy ennek a framere varakozo idonek kulonboznie kellene
-					//a Bazis elemhez tartozo warakozasi ido
-					Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
-					if( null == waitingTime ){
-						waitingTime = WorkingDirectory.getInstance().getWaitingTime();
-					}
-					//WebDriverWait wait = new WebDriverWait(driver, waitingTime);	
-								
-				}
-				
 				try{			
 					stepElement.doAction( driver, elementProgress, tab );
 			

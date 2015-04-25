@@ -13,8 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.text.MessageFormat;
-import java.util.Enumeration;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
@@ -38,7 +38,7 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.text.StyledDocument;
 import javax.swing.tree.TreeNode;
 
 import org.openqa.selenium.WebDriver;
@@ -46,12 +46,7 @@ import org.openqa.selenium.WebDriver;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.WorkingDirectory;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
-import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
@@ -59,29 +54,22 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.trace.TraceDataModel;
-import hu.akoel.grawit.enums.SelectorType;
-import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
-import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.BaseEditor;
-import hu.akoel.grawit.gui.editor.DataEditor;
 import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.TestcaseStepProgressInterface;
 import hu.akoel.grawit.gui.interfaces.progress.TestcaseProgressInterface;
-import hu.akoel.grawit.gui.tree.RunTree;
-import hu.akoel.grawit.gui.tree.TraceTree;
 import hu.akoel.grawit.gui.tree.Tree;
 
 public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
-	public static final int OUTPUT_PANEL_WIDTH = 300;
-	public static final int RESULT_PANEL_WIDTH = 400;
-	public static final int RESULT_PANEL_COLUMN_SUCCESS_WIDTH = 80;
+//	public static final int OUTPUT_PANEL_WIDTH = 300;
+//	public static final int RESULT_PANEL_WIDTH = 400;
+//	public static final int RESULT_PANEL_COLUMN_SUCCESS_WIDTH = 80;
 
 	private TestcaseDataModelAdapter selectedTestcase;
 	
@@ -92,21 +80,16 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	private JButton startButton;
 	private JButton stopButton;
 	private JButton pauseButton;
+
+	private ResultPanel resultPanel;
+	private JTextPane sourceCodePanel;
+	private DefaultStyledDocument sourceCodeDocument;
+	private JTextPane outputPanel;
+	private DefaultStyledDocument outputDocument;	
 	
-	private JTextPane consolPanel;
-	private ResultPanel resultPanel;	
-	private JTextArea outputPanel;
-	private DefaultStyledDocument consolDocument;
-	
-	private SimpleAttributeSet attributeOK;
-	private SimpleAttributeSet attributeFailed;
-	private SimpleAttributeSet attributeError;
-	private SimpleAttributeSet attributePageFinished;
-	private SimpleAttributeSet attributeElementFinished;	
+	private SimpleAttributeSet attributeSourceCodeNormal;
 	
 	private boolean needToStop = false;	
-	
-	private TraceTree traceTree;
 	
 	private void setNeedToStop( boolean needToStop ){
 		this.needToStop = needToStop;
@@ -127,6 +110,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 				"");
 		
 		this.setScrollEnabled(false);
+		
 		this.selectedTestcase = testcaseDataModel;
 
 		pageProgress = new TestcaseStepProgress();
@@ -151,8 +135,6 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		ImageIcon pausePressedIcon = CommonOperations.createImageIcon("control/control-pause-pressed.png");
 		ImageIcon pauseSelectedIcon = CommonOperations.createImageIcon("control/control-pause-selected.png");
 		
-		GridBagConstraints c = new GridBagConstraints();
-
 		// -------------
 		//
 		// CONTROL PANEL
@@ -195,7 +177,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 						//Torli a panelek tartalmat
 						outputPanel.setText("");
 						resultPanel.clear();
-						consolPanel.setText("");
+						sourceCodePanel.setText("");
+						
 //for(int i=0; i<20; i++){						
 						//Vegrehajtja a teszteset(ek)et
 						throughTestcases( RunTestcaseEditor.this.selectedTestcase );
@@ -263,8 +246,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			startButton.setEnabled( true );
 		}
 		
-		
-		// CONTROL
+		//---------------
+		// Control panel
+		//---------------
 		JPanel controlPanel = new JPanel();
 		controlPanel.setLayout( new FlowLayout() );
 		controlPanel.add(startButton);
@@ -273,119 +257,114 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		
 		//---------------
 		//
-		// Consol panel
+		// Source code panel
 		//
 		//---------------
 		StyleContext consolrStyleContext = new StyleContext();
-		consolDocument = new DefaultStyledDocument(consolrStyleContext);
-		consolPanel = new JTextPane(consolDocument);
-		consolPanel.setEditable( false );
-		DefaultCaret consolCaret = (DefaultCaret)consolPanel.getCaret();
+		sourceCodeDocument = new DefaultStyledDocument(consolrStyleContext);
+		sourceCodePanel = new JTextPane(sourceCodeDocument);
+		sourceCodePanel.setEditable( false );
+		DefaultCaret consolCaret = (DefaultCaret)sourceCodePanel.getCaret();
 		consolCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);		
-		JScrollPane consolScrollablePanel = new JScrollPane(consolPanel);
-		
-		//------------
-		//
-		// Lower panel
-		//
-		//------------
-		JPanel lowerPanel = new JPanel();
-		lowerPanel.setLayout( new BorderLayout() );
-		lowerPanel.add( consolScrollablePanel, BorderLayout.CENTER );
-		lowerPanel.setAutoscrolls(true);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		  
-		
-		
-		
-		TraceDataModel newModel = buildDataModel( ((DataModelAdapter)testcaseDataModel), null );
-		
-		traceTree = new TraceTree( newModel );
-		lowerPanel.add( traceTree, BorderLayout.WEST );
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		JScrollPane sourceCodeScrollablePanel = new JScrollPane(sourceCodePanel);
+		sourceCodeScrollablePanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 
-		//Result
-		resultPanel = new ResultPanel();
-		JScrollPane scrollPaneForResultPanel = new JScrollPane(resultPanel);
-		scrollPaneForResultPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPaneForResultPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPaneForResultPanel.setPreferredSize( new Dimension( RESULT_PANEL_WIDTH, 1 ) );		
+		//Source Code - Normal
+		attributeSourceCodeNormal = new SimpleAttributeSet();
+		StyleConstants.setForeground( attributeSourceCodeNormal, Color.BLACK );
+		StyleConstants.setBold( attributeSourceCodeNormal, false);
 		
-//Color color = scrollPaneForResultPanel.getViewport().getBackground();		
-//scrollPaneForResultPanel.getViewport().setBackground(new Color( color.getRGB()));
-
-
-		//OK attribute
-		attributeOK = new SimpleAttributeSet();
-		StyleConstants.setForeground( attributeOK, Color.GREEN );
-		StyleConstants.setBold( attributeOK, true);
-		
-		//Failed attribute
-		attributeFailed = new SimpleAttributeSet();
-		StyleConstants.setForeground( attributeFailed, Color.RED );
-		StyleConstants.setBold( attributeFailed, true);
-		 
-		//Error attribute
-		attributeError = new SimpleAttributeSet();
-		StyleConstants.setForeground( attributeError, Color.RED );
-		StyleConstants.setBold( attributeError, true);
-		 
-		//Page finished attribute
-		attributePageFinished = new SimpleAttributeSet();
-		StyleConstants.setForeground( attributePageFinished, Color.BLACK );
-		 
-		//Element finished attribute
-		attributeElementFinished = new SimpleAttributeSet();
-		StyleConstants.setForeground( attributeElementFinished, Color.BLACK );
-		
-		//---------------
-		//
-		// Upper panel
-		//
-		//---------------		
-		JPanel upperPanel = new JPanel();
-		upperPanel.setLayout(new GridBagLayout());	
-		upperPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
-
 		// -----------
 		//
 		// Output panel
 		//
-		// -----------
-		outputPanel = new JTextArea(2, 25);
-		outputPanel.setEditable(false);
+		// -----------		
+		StyleContext outputStyleContext = new StyleContext();
+		outputDocument = new DefaultStyledDocument( outputStyleContext );		
+		outputPanel = new JTextPane( outputDocument );		
+		outputPanel.setEditable( false );
+		//outputPanel.setPreferredSize(new Dimension(300, 20));
+		DefaultCaret outputCaret = (DefaultCaret)outputPanel.getCaret();
+		outputCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);		
+		JScrollPane outputScrollablePanel = new JScrollPane(outputPanel);
+		outputScrollablePanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);		
+		outputScrollablePanel.setViewportView( outputPanel );
 		
-		JScrollPane scrollPaneForOutputPanel = new JScrollPane(outputPanel);
-		scrollPaneForOutputPanel.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPaneForOutputPanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-		scrollPaneForOutputPanel.setSize(1, OUTPUT_PANEL_WIDTH);
+		//------------
+		//Result panel
+		//------------
+		int RESULTPANEL_WIDTH = 300;
+		resultPanel = new ResultPanel( RESULTPANEL_WIDTH - 6 );
+		JScrollPane scrollPaneForResultPanel = new JScrollPane(resultPanel);
+		scrollPaneForResultPanel.setMinimumSize( new Dimension( RESULTPANEL_WIDTH, 100 ) );
+		scrollPaneForResultPanel.setPreferredSize( new Dimension( RESULTPANEL_WIDTH, 100 ) );
+		 
+		//----------
+		//Main panel
+		//----------
+		JPanel mainPanel = new JPanel();		
+		GridBagConstraints c = new GridBagConstraints();		
+		mainPanel.setLayout(new GridBagLayout());	
+		mainPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
+	
+		// CONTROL PANEL elhelyezese
+		c.gridx = 0;
+		c.gridy = 1;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		mainPanel.add( controlPanel, c );
+		
+		// Ideiglenes kitolto az options-helyett
+		c.gridx = 0;
+		c.gridy = 2;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 2;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		JPanel b1 = new JPanel();
+		//b1.setBackground( Color.BLUE );
+		mainPanel.add( b1, c );		
 
-		// ------------------------
+		c.gridx = 0;
+		c.gridy = 3;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 2;
+		c.gridheight = 3;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		//mainPanel.add( new JLabel(), c );		
+		JPanel b2 = new JPanel();
+		//b2.setBackground( Color.BLUE );
+		mainPanel.add( b2, c );	
+		
+		// Kitolto a control mellett jobbra
+		c.gridx = 1;
+		c.gridy = 1;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		//mainPanel.add( new JLabel(), c );		
+		JPanel b3 = new JPanel();
+		b3.setPreferredSize(new Dimension(50,10));
+		//b3.setBackground( Color.BLUE );
+		mainPanel.add( b3, c );	
+		
 		//	RESULT PANEL felirat
-		// ------------------------
-		c.gridx = 1;		
+		c.gridx = 2;		
 		c.gridy = 0;		
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
@@ -394,13 +373,47 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( new JLabel( CommonOperations.getTranslation( "editor.label.runtest.result" ) ), c );
+		mainPanel.add( new JLabel( CommonOperations.getTranslation( "editor.label.runtest.result" ) ), c );
 
-		// ------------------------
+		// RESULT PANEL elhelyezese
+		c.gridx = 2;		
+		c.gridy = 1;		
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 5;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0;
+		c.weighty = 1;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;		
+		mainPanel.add( scrollPaneForResultPanel, c );
+	
 		// OUTPUT PANEL felirat
-		// ------------------------
-		c.gridx = 2;
+		c.gridx = 3;
 		c.gridy = 0;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		mainPanel.add( new JLabel( CommonOperations.getTranslation( "editor.label.runtest.output" ) ), c );
+		
+		// OUTPUT PANEL elhelyezese
+		c.gridx = 3;
+		c.gridy = 1;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 3;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		mainPanel.add( outputScrollablePanel, c );
+		
+		// SOURCE CODE felirat
+		c.gridx = 3;
+		c.gridy = 4;		
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
 		c.gridheight = 1;
@@ -408,70 +421,11 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( new JLabel( CommonOperations.getTranslation( "editor.label.runtest.output" ) ), c );
+		mainPanel.add( new JLabel( CommonOperations.getTranslation( "editor.label.runtest.sourcecode" ) ), c );	
 
-
-		// ------------------------
-		// RESULT PANEL elhelyezese
-		// ------------------------
-		c.gridx = 1;		
-		c.gridy = 1;		
-		c.insets = new Insets(0,0,0,0);
-		c.gridwidth = 1;
-		c.gridheight = 2;
-		c.fill = GridBagConstraints.VERTICAL;
-		c.weightx = 0;
-		c.weighty = 1;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( scrollPaneForResultPanel, c );
-		
-		// ------------------------
-		// OUTPUT PANEL elhelyezese
-		// ------------------------
-		c.gridx = 2;
-		c.gridy = 1;
-		c.insets = new Insets(0,0,0,0);
-		c.gridwidth = 1;
-		c.gridheight = 2;
-		c.fill = GridBagConstraints.VERTICAL;
-		c.weightx = 0;
-		c.weighty = 1;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( scrollPaneForOutputPanel, c );
-
-
-		
-		// -------------------------
-		// CONTROL PANEL elhelyezese
-		// -------------------------\
-		c.gridx = 0;
-		c.gridy = 1;
-		c.insets = new Insets(0,0,0,0);
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.fill = GridBagConstraints.NONE;
-		c.weightx = 1;
-		c.weighty = 0;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( controlPanel, c );	
-	
-				
-		// -----------
-		// DATASECTION
-		// -----------		
-		JPanel dataSection = new JPanel();
-		dataSection.setLayout( new GridBagLayout() );
-		
-		//Utolso sorba egy kitolto elem helyezese, hogy felfele legyen igazitva az oldal
-		c.insets = new Insets(0,0,0,0);
-		c.gridx = 0;
-		c.gridy = 2;		
-		c.gridwidth = 0;
-		c.weighty = 1;		//Ezzel tol fel minden felette levot
-		dataSection.add( new JLabel(), c );		
-		
-		c.gridx = 0;
-		c.gridy = 2;		
+		// SOURCE CODE
+		c.gridx = 3;
+		c.gridy = 5;		
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
 		c.gridheight = 1;
@@ -479,29 +433,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 1;
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		upperPanel.add( dataSection, c );	
+		mainPanel.add( sourceCodeScrollablePanel, c );	
 		
-		final JSplitPane horizontalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
-		horizontalSplitPane.setOneTouchExpandable(false);
-//		horizontalSplitPane.setDividerLocation( 400 );	
-		horizontalSplitPane.addComponentListener(new ComponentListener() {
-			@Override
-			public void componentShown(ComponentEvent e) {}
-			
-			@Override
-			public void componentResized(ComponentEvent e) {
-				int loc = horizontalSplitPane.getDividerLocation();
-				int height = RunTestcaseEditor.this.getHeight();
-				horizontalSplitPane.setDividerLocation( height - 300 );
-				
-			}			
-			@Override
-			public void componentMoved(ComponentEvent e) {}			
-			@Override
-			public void componentHidden(ComponentEvent e) {}
-		});		
-			
-		this.add( horizontalSplitPane, BorderLayout.CENTER);
+		this.add( mainPanel, BorderLayout.CENTER);
 		
 	}
 
@@ -515,52 +449,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	
 	
-	/**
-	 * Rekurzivan vegig megy a Teszteseteken a fa strukturat kovetve es letrehoz egy ujabb strukturat
-	 * Amiben a Tesztesettol kezdve az elemekig minden szerepel.
-	 * 
-	 * @param actualOrigElement
-	 * @param newStructure
-	 * @return
-	 */
-	public static TraceDataModel buildDataModel(DataModelAdapter actualOrigElement, TraceDataModel newStructure) {
 
-		TraceDataModel traceDataModelElement;
-		
-		//Ha TestcaseStepCollectorDataModel, akkor azt lecsereljuk StepCollectorDataModelAdapter-re
-		if( actualOrigElement instanceof TestcaseStepCollectorDataModel ){			
-			DataModelAdapter stepCollectorDataModel = ((TestcaseStepCollectorDataModel) actualOrigElement).getStepCollector();
-			traceDataModelElement = new TraceDataModel( actualOrigElement );
-			actualOrigElement = stepCollectorDataModel;
-		}else{
-			traceDataModelElement = new TraceDataModel( actualOrigElement );
-		}
-
-		if (null == newStructure) {
-			
-			//Letrehozzuk a root elemet
-			newStructure = traceDataModelElement;
-		} else {
-			
-			//Vegul aztan hozzaadjuk a szulojehez
-			newStructure.add(traceDataModelElement);
-		}			
-			
-		Enumeration children = actualOrigElement.children();
-
-		if (children != null) {
-			while (children.hasMoreElements()) {
-
-				DataModelAdapter nextElement = (DataModelAdapter) children.nextElement();
-				buildDataModel( nextElement, traceDataModelElement);
-			}
-		}		
-		return newStructure;
-	}
-
-	
-
-	
 	
 	
 	
@@ -693,12 +582,14 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			elementProgres.printSource( "" );
 			
 			webDriver.manage().timeouts().implicitlyWait(WorkingDirectory.getInstance().getWaitingTime(), TimeUnit.SECONDS );
-
+			int testcaseRow = -1;
+			
 			try{				
 
 				int childCount = actualTestcase.getChildCount();
     		
 				testcaseProgress.testcaseStarted( actualTestcase );
+				testcaseRow = resultPanel.startNewTestcase( actualTestcase );
     		
 				//A teszteset Page-einek futtatasa
 				for( int index = 0; index < childCount; index++ ){
@@ -708,34 +599,40 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 					//Ha sima Page
 					if( treeNode instanceof TestcaseStepDataModelAdapter ){
 						
-						TestcaseStepDataModelAdapter pageToRun = (TestcaseStepDataModelAdapter)treeNode;
+						TestcaseStepDataModelAdapter pageToRun = (TestcaseStepDataModelAdapter)treeNode;					
 						pageToRun.doAction(webDriver, this, pageProgress, elementProgres, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
 					}					
 				}					
     		
-				testcaseProgress.testcaseEnded( actualTestcase );    		
-				resultPanel.addNewStatus( actualTestcase, ResultStatus.SUCCESS );
+				//TODO kerdeses. Lehet, hogy beletehetnem a testcaseEnded()-be az addnewstatus-t, hogy majd o irja ki
+				testcaseProgress.testcaseEnded( actualTestcase );
+				resultPanel.finishTestcase( testcaseRow, ResultStatus.CHECKED );
+				//resultPanel.addNewStatus( actualTestcase, ResultStatus.CHECKED );
 
 			}catch( CompilationException compillationException ){
-    		
-				elementProgres.printOutput( compillationException.getMessage() + "\n\n", null );				   		
-				resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
+  		
+				elementProgres.printOutput( null, compillationException.getMessage() + "\n\n", elementProgres.ATTRIBUTE_MESSAGE_ERROR );
+				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
+				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
     		
 			}catch( PageException pageException ){
     		
-				elementProgres.printOutput( pageException.getMessage() + "\n\n", null );	
-				resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
+				elementProgres.printOutput( null, pageException.getMessage() + "\n\n", elementProgres.ATTRIBUTE_MESSAGE_ERROR);
+				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
+				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
     		
 			}catch( StoppedByUserException stoppedByUserException ){
     		
-				elementProgres.printOutput( stoppedByUserException + "\n\n", null );	
-				resultPanel.addNewStatus( actualTestcase, ResultStatus.STOPPED );
+				elementProgres.printOutput( null, stoppedByUserException + "\n\n", elementProgres.ATTRIBUTE_MESSAGE_INFO );
+				resultPanel.finishTestcase( testcaseRow, ResultStatus.STOPPED );
+				//resultPanel.addNewStatus( actualTestcase, ResultStatus.STOPPED );
     		
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
     		
-				elementProgres.printOutput( exception.getMessage() + "\n\n", null );					
-				resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );    		
+				elementProgres.printOutput( "Exception", exception.getMessage() + "\n\n", elementProgres.ATTRIBUTE_MESSAGE_ERROR );
+				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
+				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );    		
 			}
     	
 			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}");				    	
@@ -747,12 +644,12 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 		@Override
 		public void testcaseStarted(TestcaseCaseDataModel testcase) {
-			traceTree.select( testcase );			
+//			traceTree.select( testcase );			
 		}
 
 		@Override
-		public void testcaseEnded(TestcaseCaseDataModel testcase) {		
-			traceTree.collapse( testcase );
+		public void testcaseEnded(TestcaseCaseDataModel testcase) {	
+//			traceTree.collapse( testcase );
 		}		
 	}
 	
@@ -760,21 +657,45 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 		@Override
 		public void stepStarted(TestcaseStepCollectorDataModel testcaseStepCollector) {
-			traceTree.select( testcaseStepCollector );			
+//			traceTree.select( testcaseStepCollector );			
 		}
 
 		@Override
 		public void stepEnded(TestcaseStepCollectorDataModel testcaseStepCollector) {
-			traceTree.collapse( testcaseStepCollector );
-			//traceTree.collapsePath( CommonOperations.getTreePathFromNode( stepCollector.getParent() ) );
+//			traceTree.collapse( testcaseStepCollector );
 		}		
 	}
 	
-	class ElementProgress implements ElementProgressInterface{		
+	class ElementProgress implements ElementProgressInterface{
+		
+		public SimpleAttributeSet ATTRIBUTE_LABEL;
+		public SimpleAttributeSet ATTRIBUTE_MESSAGE_NORMAL;
+		public SimpleAttributeSet ATTRIBUTE_MESSAGE_ERROR;
+		public SimpleAttributeSet ATTRIBUTE_MESSAGE_INFO;
 	
+		public ElementProgress(){
+
+			ATTRIBUTE_LABEL = new SimpleAttributeSet();
+			StyleConstants.setForeground( ATTRIBUTE_LABEL, Color.GRAY );
+			StyleConstants.setBold( ATTRIBUTE_LABEL, true);
+		
+			ATTRIBUTE_MESSAGE_NORMAL = new SimpleAttributeSet();
+			StyleConstants.setForeground( ATTRIBUTE_MESSAGE_NORMAL, Color.BLACK );
+			StyleConstants.setBold( ATTRIBUTE_MESSAGE_NORMAL, true);
+			
+			ATTRIBUTE_MESSAGE_ERROR = new SimpleAttributeSet();
+			StyleConstants.setForeground( ATTRIBUTE_MESSAGE_ERROR, Color.RED );
+			StyleConstants.setBold( ATTRIBUTE_MESSAGE_ERROR, true);
+
+			ATTRIBUTE_MESSAGE_INFO = new SimpleAttributeSet();
+			StyleConstants.setForeground( ATTRIBUTE_MESSAGE_INFO, Color.BLUE );
+			StyleConstants.setBold( ATTRIBUTE_MESSAGE_INFO, true);
+
+		}
+		
 		@Override
 		public void elementStarted(StepElementDataModel stepElement) {
-			traceTree.select( stepElement );			
+//			traceTree.select( stepElement );
 		}
 
 		@Override
@@ -783,21 +704,25 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		}
 		
 		@Override
-		public void printOutput( String outputValue, String message ) {
-		
-			if( null == message || message.trim().length() == 0 ){
-				RunTestcaseEditor.this.outputPanel.append( outputValue + "\n" );
-			}else{
-				RunTestcaseEditor.this.outputPanel.append( message + " " + outputValue + "\n" );
+		public void printOutput( String label, String message, SimpleAttributeSet attributeMessage ) {
+
+			if( null == attributeMessage ){
+				attributeMessage = ATTRIBUTE_MESSAGE_NORMAL;
 			}
-			outputPanel.revalidate();
-			outputPanel.repaint();
+			
+			try {				
+				if( null != label && label.trim().length() != 0 ){
+					RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), label + ": ", ATTRIBUTE_LABEL );
+				}
+				RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), message + "\n", attributeMessage );
+			} catch (BadLocationException e) {}			
 		}
 
 		@Override
-		public void printSource(String command) {
-			
-			System.out.println( command );			
+		public void printSource( String sourceCode ) {
+			try {
+				sourceCodeDocument.insertString( sourceCodeDocument.getLength(), sourceCode + "\n", attributeSourceCodeNormal );
+			} catch (BadLocationException e) {}
 		}
 	}
 		
@@ -812,7 +737,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 		private static final long serialVersionUID = -7503019119455856208L;
 		
-		public ResultPanel(){
+		private static final int RESULT_WIDTH = 80;
+		
+		public ResultPanel( int preferredWidth ){
 			super();
 			
 			PanelTableModel model = new PanelTableModel();
@@ -826,12 +753,13 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			this.setDefaultRenderer(Object.class, renderer);
 
 			TableColumn testcaseColumn = this.getColumnModel().getColumn(0);
-			testcaseColumn.setPreferredWidth(RESULT_PANEL_WIDTH - RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
-			
+			testcaseColumn.setPreferredWidth( preferredWidth - RESULT_WIDTH );
+			testcaseColumn.setMinWidth( preferredWidth - RESULT_WIDTH );
+
 			TableColumn resultColumn = this.getColumnModel().getColumn(1);
-			resultColumn.setPreferredWidth(RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
-			resultColumn.setMaxWidth(RESULT_PANEL_COLUMN_SUCCESS_WIDTH);
-			
+			resultColumn.setPreferredWidth( RESULT_WIDTH );
+			resultColumn.setMinWidth( RESULT_WIDTH );
+
 			//This is for always see the last row
 			this.addComponentListener(new ComponentAdapter() {
 			    public void componentResized(ComponentEvent e) {
@@ -840,9 +768,12 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			});
 			
 			//Ez teszi lehetove hogy automatikusan megjelenjen a horizontalis scrollbar, ha kell
-			this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
-			
+			this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );				
 		}
+		
+		/*public boolean getScrollableTracksViewportWidth(){
+            return getPreferredSize().width < getParent().getWidth();
+        }*/
 		
 		public void clear(){
 			DefaultTableModel dm = (DefaultTableModel) getModel();
@@ -854,9 +785,17 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			this.repaint();
 		}
 		
-		public void addNewStatus( TestcaseCaseDataModel testcase, ResultStatus resultStatus ){
+		public int startNewTestcase( TestcaseCaseDataModel testcase ){
 			DefaultTableModel model = (DefaultTableModel) this.getModel();
-	        model.addRow(new Object[]{testcase, resultStatus });
+	        model.addRow(new Object[]{testcase, ResultStatus.INPROGRESS });
+	        int actualRow = model.getRowCount() - 1;
+	        this.setRowSelectionInterval( actualRow, actualRow );
+	        return actualRow;
+		}
+		
+		public void finishTestcase( int row, ResultStatus resultStatus ){
+			DefaultTableModel model = (DefaultTableModel) this.getModel();
+			model.setValueAt( resultStatus, row, 1 );
 //	        this.revalidate();
 //			this.repaint();
 		}
@@ -924,9 +863,11 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	 *
 	 */
 	public static enum ResultStatus{
-		SUCCESS( CommonOperations.createImageIcon("result/result-checked.png") ),
+		CHECKED( CommonOperations.createImageIcon("result/result-checked.png") ),
 		FAILED( CommonOperations.createImageIcon("result/result-failed.png") ),
-		STOPPED( CommonOperations.createImageIcon("result/result-stopped.png") );
+		STOPPED( CommonOperations.createImageIcon("result/result-stopped.png") ),
+		INPROGRESS( CommonOperations.createImageIcon("result/result-inprogress.png") );
+		;
 		
 		String name;
 		ImageIcon icon;	
