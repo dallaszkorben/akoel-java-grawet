@@ -361,7 +361,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			//OUTPUT STORED
 			}else if ( elementOperation instanceof OutputStoredElementOperation ){
 				
-				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
+				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getLabelToShow());
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );
 
 			//Ha megvaltozott az alapElem es kulonbozik a tipusa

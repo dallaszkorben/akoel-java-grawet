@@ -237,7 +237,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 			}else if ( elementOperation instanceof OutputStoredElementOperation ){
 				
 				comboOperationList.setSelectedIndex( E.OUTPUTSTORED.getIndex() );		
-				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getMessageToShow());
+				fieldMessage.setText( ((OutputStoredElementOperation)elementOperation).getLabelToShow());
 								
 			//Ha megvaltozott az alapElem es kulonbozik a tipusa
 			}else{
