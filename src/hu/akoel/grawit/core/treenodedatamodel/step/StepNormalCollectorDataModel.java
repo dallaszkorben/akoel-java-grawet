@@ -25,8 +25,7 @@ import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
-import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.TestcaseStepProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter {
 	
@@ -125,7 +124,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	}
 	
 	@Override
-	public void doAction( WebDriver driver, Player player, TestcaseStepProgressInterface stepProgress, ElementProgressInterface elementProgress, String tab ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction( WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab ) throws PageException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel stepElement;
 		
@@ -153,7 +152,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
 			
 				try{			
-					stepElement.doAction( driver, elementProgress, tab );
+					stepElement.doAction( driver, progressIndicator, tab );
 			
 				//Ha nem futott le rendesen a teszteset
 				}catch (ElementException e){

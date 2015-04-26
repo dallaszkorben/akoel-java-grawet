@@ -29,7 +29,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
-import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public class StepElementDataModel extends StepDataModelAdapter {
 	
@@ -201,8 +201,8 @@ public class StepElementDataModel extends StepDataModelAdapter {
 	 * @throws ElementException 
 	 * 
 	 */
-	public void doAction( WebDriver driver, ElementProgressInterface elementProgress, String tab ) throws ElementException, CompilationException{
-		this.getElementOperation().doAction( driver, this, elementProgress, tab );
+	public void doAction( WebDriver driver, ProgressIndicatorInterface progressIndicator, String tab ) throws ElementException, CompilationException{
+		this.getElementOperation().doAction( driver, this, progressIndicator, tab );
 	}
 	
 	public void setName( String name ){

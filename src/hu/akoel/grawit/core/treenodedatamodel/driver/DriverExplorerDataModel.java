@@ -20,7 +20,7 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
-import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<DriverExplorerCapabilityDataModel>{
 
@@ -177,7 +177,7 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 
 
 	@Override
-	public WebDriver getDriver(  ElementProgressInterface elementProgres, String tab ) {
+	public WebDriver getDriver(  ProgressIndicatorInterface elementProgres, String tab ) {
 		
 		elementProgres.printSource( tab + "DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();");	
 		elementProgres.printSource( tab + "capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);");

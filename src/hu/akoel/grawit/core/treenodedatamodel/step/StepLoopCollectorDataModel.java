@@ -33,8 +33,7 @@ import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
-import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.TestcaseStepProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -355,7 +354,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 	}	
 
 	@Override
-	public void doAction(WebDriver driver, Player player, TestcaseStepProgressInterface pageProgres, ElementProgressInterface elementProgres, String tab ) throws PageException,	CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab ) throws PageException,	CompilationException, StoppedByUserException {
 		
 		StepElementDataModel parameterElement;
 		
@@ -376,7 +375,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 			try {
 				
 				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
-				getElementOperation().doAction(driver, getCompareBaseElement(), elementProgres, tab, true );
+				getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab, true );
 				
 				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
 				//es vegrehajtja oket
@@ -414,7 +413,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 						try{
 							
 							//Elem muveletenek vegrehajtasa
-							parameterElement.doAction( driver, elementProgres, tab );
+							parameterElement.doAction( driver, progressIndicator, tab );
 					
 						//Ha nem futott le rendesen a teszteset
 						}catch (ElementException f){

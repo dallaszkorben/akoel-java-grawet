@@ -11,7 +11,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
-import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public class OutputStoredElementOperation extends ElementOperationAdapter{
 	
@@ -49,7 +49,7 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab ) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab ) throws ElementException {
 		
 		if( null != elementProgress ){
 
