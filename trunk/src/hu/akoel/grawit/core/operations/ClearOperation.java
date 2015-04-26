@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
-import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public class ClearOperation extends ElementOperationAdapter{
 	private static final String NAME = "CLEAR";
@@ -24,7 +24,7 @@ public class ClearOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab ) throws ElementInvalidOperationException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab ) throws ElementInvalidOperationException {
 		
 		if( null != elementProgress ){
 			elementProgress.printSource( tab + "webElement.clear();" );

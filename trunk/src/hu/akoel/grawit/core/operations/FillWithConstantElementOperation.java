@@ -25,7 +25,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
-import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public class FillWithConstantElementOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
 	
@@ -121,7 +121,7 @@ public class FillWithConstantElementOperation extends ElementOperationAdapter im
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ElementProgressInterface elementProgress, String tab) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab) throws ElementException {
 		
 		if( null != elementProgress ){
 			elementProgress.printSource( tab + "webElement.sendKeys(\"" + constantElementDataModel.getValue() + "\");     //" + baseElement.getName() );

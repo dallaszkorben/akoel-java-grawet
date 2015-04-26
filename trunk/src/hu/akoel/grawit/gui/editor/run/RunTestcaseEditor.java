@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -58,24 +59,16 @@ import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
-import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.TestcaseStepProgressInterface;
-import hu.akoel.grawit.gui.interfaces.progress.TestcaseProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 import hu.akoel.grawit.gui.tree.Tree;
 
 public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
-	
-//	public static final int OUTPUT_PANEL_WIDTH = 300;
-//	public static final int RESULT_PANEL_WIDTH = 400;
-//	public static final int RESULT_PANEL_COLUMN_SUCCESS_WIDTH = 80;
 
 	private TestcaseDataModelAdapter selectedTestcase;
-	
-	private TestcaseStepProgress pageProgress;
-	private ElementProgress elementProgres;
-	private TestcaseProgress testcaseProgress;
+
+	private ProgressIndicator progressIndicator;
 	
 	private JButton startButton;
 	private JButton stopButton;
@@ -113,9 +106,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		
 		this.selectedTestcase = testcaseDataModel;
 
-		pageProgress = new TestcaseStepProgress();
-		elementProgres = new ElementProgress();	
-		testcaseProgress = new TestcaseProgress();	
+		progressIndicator = new ProgressIndicator();		
 		
 		ImageIcon startIcon = CommonOperations.createImageIcon("control/control-play.png");
 		ImageIcon startDisabledIcon = CommonOperations.createImageIcon("control/control-play-disabled.png");
@@ -259,16 +250,21 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		//
 		// Source code panel
 		//
-		//---------------
+		//---------------		
+		int OUTPUTPANEL_WIDTH=300;
 		StyleContext consolrStyleContext = new StyleContext();
 		sourceCodeDocument = new DefaultStyledDocument(consolrStyleContext);
 		sourceCodePanel = new JTextPane(sourceCodeDocument);
-		sourceCodePanel.setEditable( false );
+		sourceCodePanel.setEditable( false );		
+		JPanel sourceCodeNoWrapPanel = new JPanel( new BorderLayout() );
+		sourceCodeNoWrapPanel.add( sourceCodePanel );		
 		DefaultCaret consolCaret = (DefaultCaret)sourceCodePanel.getCaret();
 		consolCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);		
-		JScrollPane sourceCodeScrollablePanel = new JScrollPane(sourceCodePanel);
+		JScrollPane sourceCodeScrollablePanel = new JScrollPane(sourceCodeNoWrapPanel);
 		sourceCodeScrollablePanel.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-
+		sourceCodeScrollablePanel.setMinimumSize( new Dimension( OUTPUTPANEL_WIDTH, 100 ) );
+		sourceCodeScrollablePanel.setPreferredSize( new Dimension( OUTPUTPANEL_WIDTH, 100 ) );
+		
 		//Source Code - Normal
 		attributeSourceCodeNormal = new SimpleAttributeSet();
 		StyleConstants.setForeground( attributeSourceCodeNormal, Color.BLACK );
@@ -283,21 +279,24 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		outputDocument = new DefaultStyledDocument( outputStyleContext );		
 		outputPanel = new JTextPane( outputDocument );		
 		outputPanel.setEditable( false );
-		//outputPanel.setPreferredSize(new Dimension(300, 20));
+		JPanel outputNoWrapPanel = new JPanel( new BorderLayout() );
+		outputNoWrapPanel.add( outputPanel );
 		DefaultCaret outputCaret = (DefaultCaret)outputPanel.getCaret();
 		outputCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);		
-		JScrollPane outputScrollablePanel = new JScrollPane(outputPanel);
+		JScrollPane outputScrollablePanel = new JScrollPane(outputNoWrapPanel);
 		outputScrollablePanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);		
-		outputScrollablePanel.setViewportView( outputPanel );
-		
+		outputScrollablePanel.setMinimumSize( new Dimension( OUTPUTPANEL_WIDTH, 100 ) );
+		outputScrollablePanel.setPreferredSize( new Dimension( OUTPUTPANEL_WIDTH, 100 ) );
+				
 		//------------
 		//Result panel
 		//------------
-		int RESULTPANEL_WIDTH = 300;
-		resultPanel = new ResultPanel( RESULTPANEL_WIDTH - 6 );
+		int RESULTPANEL_WIDTH = 400;
+		resultPanel = new ResultPanel( RESULTPANEL_WIDTH );
 		JScrollPane scrollPaneForResultPanel = new JScrollPane(resultPanel);
-		scrollPaneForResultPanel.setMinimumSize( new Dimension( RESULTPANEL_WIDTH, 100 ) );
-		scrollPaneForResultPanel.setPreferredSize( new Dimension( RESULTPANEL_WIDTH, 100 ) );
+		Rectangle bounds = scrollPaneForResultPanel.getViewportBorderBounds();
+		scrollPaneForResultPanel.setMinimumSize( new Dimension( RESULTPANEL_WIDTH + Math.abs( bounds.width ), 100 ) );
+		scrollPaneForResultPanel.setPreferredSize( new Dimension( RESULTPANEL_WIDTH + Math.abs( bounds.width ), 100 ) );
 		 
 		//----------
 		//Main panel
@@ -503,83 +502,83 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		//Ha be van kapcsolat		
 		if( actualTestcase.isOn() ){
 			
-			elementProgres.printSource( "import org.openqa.selenium.By;" );
-			elementProgres.printSource( "import org.openqa.selenium.WebDriver;" );
-			elementProgres.printSource( "import org.openqa.selenium.WebElement;" );
-			elementProgres.printSource( "import org.openqa.selenium.firefox.FirefoxDriver;" );
-			elementProgres.printSource( "import org.openqa.selenium.firefox.FirefoxProfile;" );
+			progressIndicator.printSource( "import org.openqa.selenium.By;" );
+			progressIndicator.printSource( "import org.openqa.selenium.WebDriver;" );
+			progressIndicator.printSource( "import org.openqa.selenium.WebElement;" );
+			progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxDriver;" );
+			progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxProfile;" );
 
-			elementProgres.printSource( "import org.openqa.selenium.WebDriverException;" );	
-			elementProgres.printSource( "import org.openqa.selenium.JavascriptExecutor;");
-			elementProgres.printSource( "import org.openqa.selenium.Keys;" );
+			progressIndicator.printSource( "import org.openqa.selenium.WebDriverException;" );	
+			progressIndicator.printSource( "import org.openqa.selenium.JavascriptExecutor;");
+			progressIndicator.printSource( "import org.openqa.selenium.Keys;" );
 			
-			elementProgres.printSource( "import org.openqa.selenium.support.ui.Select;" );
-			elementProgres.printSource( "import org.openqa.selenium.support.ui.WebDriverWait;" );
-			elementProgres.printSource( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
-			elementProgres.printSource( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
+			progressIndicator.printSource( "import org.openqa.selenium.support.ui.Select;" );
+			progressIndicator.printSource( "import org.openqa.selenium.support.ui.WebDriverWait;" );
+			progressIndicator.printSource( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
+			progressIndicator.printSource( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
 			
-			elementProgres.printSource( "" );
+			progressIndicator.printSource( "" );
 			
-			elementProgres.printSource( "import java.util.concurrent.TimeUnit;" );
-			elementProgres.printSource( "import java.util.NoSuchElementException;" );
-			elementProgres.printSource( "import java.util.ArrayList;" );
-			elementProgres.printSource( "import java.util.List;" );			
-			elementProgres.printSource( "import java.util.Iterator;");
-			elementProgres.printSource( "import java.util.regex.Matcher;");
-			elementProgres.printSource( "import java.util.regex.Pattern;");
+			progressIndicator.printSource( "import java.util.concurrent.TimeUnit;" );
+			progressIndicator.printSource( "import java.util.NoSuchElementException;" );
+			progressIndicator.printSource( "import java.util.ArrayList;" );
+			progressIndicator.printSource( "import java.util.List;" );			
+			progressIndicator.printSource( "import java.util.Iterator;");
+			progressIndicator.printSource( "import java.util.regex.Matcher;");
+			progressIndicator.printSource( "import java.util.regex.Pattern;");
 			
-			elementProgres.printSource( "" );				  
+			progressIndicator.printSource( "" );				  
 			
-			elementProgres.printSource( "abstract class ScriptClass{");
+			progressIndicator.printSource( "abstract class ScriptClass{");
 
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "abstract public void runScript() throws Exception;" );	
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public void clearParameters(){" );	
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.clear();" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public Iterator<String> getParameterIterator(){" );	
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "return parameters.iterator();" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
-			elementProgres.printSource( "}" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "abstract public void runScript() throws Exception;" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void clearParameters(){" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.clear();" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public Iterator<String> getParameterIterator(){" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "return parameters.iterator();" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
+			progressIndicator.printSource( "}" );	
 			
-			elementProgres.printSource( "" );	
+			progressIndicator.printSource( "" );	
 			
-			elementProgres.printSource( "public class Test{ ");
-			elementProgres.printSource( "" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "By by = null;" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "WebElement webElement = null;");
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "Select select = null;");	
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "Integer index = 0;" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "WebDriver driver = null;" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
+			progressIndicator.printSource( "public class Test{ ");
+			progressIndicator.printSource( "" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "By by = null;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebElement webElement = null;");
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Select select = null;");	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Integer index = 0;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebDriver driver = null;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
 			
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "String origText;" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "String optionText;" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );		
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "String origText;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "String optionText;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );		
 
-			elementProgres.printSource( "" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "new Test();" );
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}" );
-			elementProgres.printSource( "" );
+			progressIndicator.printSource( "" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "new Test();" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );
+			progressIndicator.printSource( "" );
 			
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "public Test(){" );	
-			elementProgres.printSource( "" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public Test(){" );	
+			progressIndicator.printSource( "" );
 
-			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( elementProgres, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
+			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
 
 			//IMPLICIT WAIT
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "//IMPLICIT WAIT" );			
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "driver.manage().timeouts().implicitlyWait(" + WorkingDirectory.getInstance().getWaitingTime() + ", TimeUnit.SECONDS);" );
-			elementProgres.printSource( "" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "//IMPLICIT WAIT" );			
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "driver.manage().timeouts().implicitlyWait(" + WorkingDirectory.getInstance().getWaitingTime() + ", TimeUnit.SECONDS);" );
+			progressIndicator.printSource( "" );
 			
 			webDriver.manage().timeouts().implicitlyWait(WorkingDirectory.getInstance().getWaitingTime(), TimeUnit.SECONDS );
 			int testcaseRow = -1;
@@ -588,7 +587,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 				int childCount = actualTestcase.getChildCount();
     		
-				testcaseProgress.testcaseStarted( actualTestcase );
+				progressIndicator.testcaseStarted( actualTestcase );
 				testcaseRow = resultPanel.startNewTestcase( actualTestcase );
     		
 				//A teszteset Page-einek futtatasa
@@ -600,47 +599,47 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 					if( treeNode instanceof TestcaseStepDataModelAdapter ){
 						
 						TestcaseStepDataModelAdapter pageToRun = (TestcaseStepDataModelAdapter)treeNode;					
-						pageToRun.doAction(webDriver, this, pageProgress, elementProgres, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
+						pageToRun.doAction(webDriver, this, progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
 					}					
 				}					
     		
 				//TODO kerdeses. Lehet, hogy beletehetnem a testcaseEnded()-be az addnewstatus-t, hogy majd o irja ki
-				testcaseProgress.testcaseEnded( actualTestcase );
+				progressIndicator.testcaseEnded( actualTestcase );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.CHECKED );
 				//resultPanel.addNewStatus( actualTestcase, ResultStatus.CHECKED );
 
 			}catch( CompilationException compillationException ){
   		
-				elementProgres.printOutput( null, compillationException.getMessage() + "\n\n", elementProgres.ATTRIBUTE_MESSAGE_ERROR );
+				progressIndicator.printOutput( null, compillationException.getMessage() + "\n\n", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
 				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
     		
 			}catch( PageException pageException ){
     		
-				elementProgres.printOutput( null, pageException.getMessage() + "\n\n", elementProgres.ATTRIBUTE_MESSAGE_ERROR);
+				progressIndicator.printOutput( null, pageException.getMessage() + "\n\n", progressIndicator.ATTRIBUTE_MESSAGE_ERROR);
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
 				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
     		
 			}catch( StoppedByUserException stoppedByUserException ){
     		
-				elementProgres.printOutput( null, stoppedByUserException + "\n\n", elementProgres.ATTRIBUTE_MESSAGE_INFO );
+				progressIndicator.printOutput( null, stoppedByUserException + "\n\n", progressIndicator.ATTRIBUTE_MESSAGE_INFO );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.STOPPED );
 				//resultPanel.addNewStatus( actualTestcase, ResultStatus.STOPPED );
     		
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
     		
-				elementProgres.printOutput( "Exception", exception.getMessage() + "\n\n", elementProgres.ATTRIBUTE_MESSAGE_ERROR );
+				progressIndicator.printOutput( "Exception", exception.getMessage() + "\n\n", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
 				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );    		
 			}
     	
-			elementProgres.printSource( CommonOperations.TAB_BY_SPACE + "}");				    	
-			elementProgres.printSource( "}");	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}");				    	
+			progressIndicator.printSource( "}");	
 		}
 	}
 	
-	class TestcaseProgress implements TestcaseProgressInterface{
+/*	class TestcaseProgress implements TestcaseProgressInterface{
 
 		@Override
 		public void testcaseStarted(TestcaseCaseDataModel testcase) {
@@ -652,8 +651,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 //			traceTree.collapse( testcase );
 		}		
 	}
-	
-	class TestcaseStepProgress implements TestcaseStepProgressInterface{
+*/	
+/*	class TestcaseStepProgress implements TestcaseStepProgressInterface{
 
 		@Override
 		public void stepStarted(TestcaseStepCollectorDataModel testcaseStepCollector) {
@@ -665,15 +664,16 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 //			traceTree.collapse( testcaseStepCollector );
 		}		
 	}
-	
-	class ElementProgress implements ElementProgressInterface{
+*/	
+	class ProgressIndicator implements ProgressIndicatorInterface{
 		
 		public SimpleAttributeSet ATTRIBUTE_LABEL;
 		public SimpleAttributeSet ATTRIBUTE_MESSAGE_NORMAL;
 		public SimpleAttributeSet ATTRIBUTE_MESSAGE_ERROR;
 		public SimpleAttributeSet ATTRIBUTE_MESSAGE_INFO;
+		public SimpleAttributeSet ATTRIBUTE_TESTCASE_TITLE;
 	
-		public ElementProgress(){
+		public ProgressIndicator(){
 
 			ATTRIBUTE_LABEL = new SimpleAttributeSet();
 			StyleConstants.setForeground( ATTRIBUTE_LABEL, Color.GRAY );
@@ -691,16 +691,11 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			StyleConstants.setForeground( ATTRIBUTE_MESSAGE_INFO, Color.BLUE );
 			StyleConstants.setBold( ATTRIBUTE_MESSAGE_INFO, true);
 
-		}
-		
-		@Override
-		public void elementStarted(StepElementDataModel stepElement) {
-//			traceTree.select( stepElement );
-		}
-
-		@Override
-		public void elementEnded(StepElementDataModel stepElement) {
-			
+			ATTRIBUTE_TESTCASE_TITLE = new SimpleAttributeSet();
+			StyleConstants.setForeground( ATTRIBUTE_TESTCASE_TITLE, Color.GRAY );
+			StyleConstants.setBold( ATTRIBUTE_TESTCASE_TITLE, false);
+			StyleConstants.setItalic(ATTRIBUTE_TESTCASE_TITLE, true);
+			StyleConstants.setFontSize(ATTRIBUTE_TESTCASE_TITLE, 16);
 		}
 		
 		@Override
@@ -723,6 +718,30 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			try {
 				sourceCodeDocument.insertString( sourceCodeDocument.getLength(), sourceCode + "\n", attributeSourceCodeNormal );
 			} catch (BadLocationException e) {}
+		}
+
+		@Override
+		public void elementStarted(StepElementDataModel stepElement) {
+//			traceTree.select( stepElement );
+		}
+
+		@Override
+		public void elementEnded(StepElementDataModel stepElement) {
+		}
+
+		@Override
+		public void testcaseStarted(TestcaseCaseDataModel testcase) {
+			try {
+				RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), "---" + testcase.getName() + "---" + "\n", ATTRIBUTE_TESTCASE_TITLE );
+			} catch (BadLocationException e) {}			
+		}
+
+		@Override
+		public void testcaseEnded(TestcaseCaseDataModel testcase) {
+			try {
+				RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), "\n", ATTRIBUTE_TESTCASE_TITLE );
+			} catch (BadLocationException e) {}			
+
 		}
 	}
 		

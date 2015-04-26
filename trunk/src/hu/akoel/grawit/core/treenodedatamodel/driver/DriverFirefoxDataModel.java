@@ -18,7 +18,7 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.XMLCastPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLMissingTagPharseException;
-import hu.akoel.grawit.gui.interfaces.progress.ElementProgressInterface;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<DriverFirefoxPropertyDataModel>{
 
@@ -149,7 +149,7 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<Driv
 	}
 
 	@Override
-	public WebDriver getDriver( ElementProgressInterface elementProgres, String tab ) {
+	public WebDriver getDriver( ProgressIndicatorInterface elementProgres, String tab ) {
 		
 		elementProgres.printSource( tab + "profile = new FirefoxProfile();");		
 		
