@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
@@ -37,7 +39,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.tree.TreeNode;
 
-import org.junit.runner.JUnitCore;
 import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
@@ -582,6 +583,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	 * @param actualTestcase
 	 */
 	private void executeTestcase( TestcaseCaseDataModel actualTestcase ){
+		
+		Set<String> definedElementSet = new HashSet<>();
 
 		//Ha be van kapcsolva	
 		if( actualTestcase.isOn() ){
@@ -617,7 +620,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 					if( treeNode instanceof TestcaseStepDataModelAdapter ){
 						
 						TestcaseStepDataModelAdapter pageToRun = (TestcaseStepDataModelAdapter)treeNode;					
-						pageToRun.doAction(webDriver, this, progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
+						pageToRun.doAction(webDriver, this, progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE, definedElementSet );
 					}					
 				}					
     		

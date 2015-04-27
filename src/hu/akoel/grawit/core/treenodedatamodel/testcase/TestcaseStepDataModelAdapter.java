@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
+import java.util.Set;
+
 import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.Player;
@@ -12,6 +14,6 @@ public abstract class TestcaseStepDataModelAdapter extends TestcaseDataModelAdap
 
 	private static final long serialVersionUID = -3451125455593871748L;
 	
-	public abstract void doAction( WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab ) throws PageException, CompilationException, StoppedByUserException;
+	public abstract void doAction( WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws PageException, CompilationException, StoppedByUserException;
 
 }

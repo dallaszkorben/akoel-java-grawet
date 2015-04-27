@@ -2,9 +2,9 @@ package hu.akoel.grawit.core.treenodedatamodel.step;
 
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
@@ -22,7 +22,6 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
@@ -36,7 +35,6 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -354,7 +352,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 	}	
 
 	@Override
-	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab ) throws PageException,	CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws PageException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel parameterElement;
 		
@@ -374,7 +372,7 @@ progressIndicator.printSource( tab + "while(){");
 				
 progressIndicator.printSource( tab + tab + "//most indul el a kiertekeles");
 				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
-				getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + tab, true );
+				getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + tab, definedElementSet, true );
 progressIndicator.printSource( tab + tab + "//a kiertekeles vege");				
 				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
 				//es vegrehajtja oket
@@ -412,7 +410,7 @@ progressIndicator.printSource( tab + tab + "//a kiertekeles vege");
 						try{
 							
 							//Elem muveletenek vegrehajtasa
-							parameterElement.doAction( driver, progressIndicator, tab + tab );
+							parameterElement.doAction( driver, progressIndicator, tab + tab, definedElementSet );
 					
 						//Ha nem futott le rendesen a teszteset
 						}catch (ElementException f){

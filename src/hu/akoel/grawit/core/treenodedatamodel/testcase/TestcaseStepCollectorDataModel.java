@@ -2,6 +2,8 @@ package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
 
+import java.util.Set;
+
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -297,7 +299,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 	}
 
 	@Override
-	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws PageException, CompilationException, StoppedByUserException {
 		
 		//Ha Be van kapcsolava a TestParamPage oldal
 		if( this.isOn() ){
@@ -307,7 +309,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 				testcaseStepProgres.stepStarted( this );
 			}	
 */			
-			stepCollector.doAction( driver, player, progressIndicator, tab );
+			stepCollector.doAction( driver, player, progressIndicator, tab, definedElementSet );
 			
 /*			//Jelzi, hogy befejezodott a cikus
 			if( null != testcaseStepProgres ){

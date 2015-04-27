@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.step;
 
+import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
@@ -13,10 +15,8 @@ import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -124,7 +124,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	}
 	
 	@Override
-	public void doAction( WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction( WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws PageException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel stepElement;
 		
@@ -152,7 +152,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
 			
 				try{			
-					stepElement.doAction( driver, progressIndicator, tab );
+					stepElement.doAction( driver, progressIndicator, tab, definedElementSet );
 			
 				//Ha nem futott le rendesen a teszteset
 				}catch (ElementException e){
@@ -232,6 +232,4 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 		return cloned;
 		
 	}
-	
-
 }
