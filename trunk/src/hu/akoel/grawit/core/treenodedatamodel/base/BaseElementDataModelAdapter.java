@@ -6,7 +6,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -18,6 +17,9 @@ public abstract class BaseElementDataModelAdapter extends BaseDataModelAdapter{
 	public static final String ATTR_ELEMENT_TYPE="elementtype";
 	
 	public static Tag TAG = Tag.BASEELEMENT;
+	
+	private  static String STORAGE_NAME_PREFIX = "store";
+	private static String SCRIPT_NAME_PREFIX = "script";
 	
 	//Adatmodel ---
 	private String name;
@@ -89,11 +91,11 @@ public abstract class BaseElementDataModelAdapter extends BaseDataModelAdapter{
 	}
 	
 	public String getNameAsVariable(){
-		return CommonOperations.STORAGE_NAME_PREFIX + hashCode();
+		return STORAGE_NAME_PREFIX + hashCode();
 	}
 	
 	public String getNameAsScript(){
-		return CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( hashCode() );
+		return SCRIPT_NAME_PREFIX + hashCode();
 	}
 	
 	@Override

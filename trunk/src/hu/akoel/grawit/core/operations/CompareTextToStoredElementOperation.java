@@ -235,7 +235,8 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 			
 			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
 				
-				elementProgress.printSource( tab + "fail(\"Stopped because !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT is should be\");" );
+				elementProgress.printSource( tab + "fail(\"Stopped because !origText.equals( " + baseElement.getNameAsVariable() + " ) BUT is should be\");" );
+				//elementProgress.printSource( tab + "fail(\"Stopped because !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT is should be\");" );
 				//elementProgress.printSource( tab + "System.err.println(\"Stopped because !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT is should be\");" );
 				//elementProgress.printSource( tab + "System.exit(-1);");
 				
@@ -251,7 +252,8 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 			
 			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
 				
-				elementProgress.printSource( tab + "fail(\"Stopped because origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT it should NOT be\");" );
+				elementProgress.printSource( tab + "fail(\"Stopped because origText.equals( " + baseElement.getNameAsVariable() + " ) BUT it should NOT be\");" );
+				//elementProgress.printSource( tab + "fail(\"Stopped because origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT it should NOT be\");" );
 				//elementProgress.printSource( tab + "System.err.println(\"Stopped because origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT it should NOT be\");" );
 				//elementProgress.printSource( tab + "System.exit(-1);");
 
