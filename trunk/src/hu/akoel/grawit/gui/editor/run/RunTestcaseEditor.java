@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
@@ -36,6 +37,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.tree.TreeNode;
 
+import org.junit.runner.JUnitCore;
 import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
@@ -58,6 +60,8 @@ import hu.akoel.grawit.gui.tree.Tree;
 public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
+	
+	private static final String CLASS_NAME = "MyTest";
 
 	private TestcaseDataModelAdapter selectedTestcase;
 
@@ -481,7 +485,10 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		progressIndicator.printSource( "" );
 
 		progressIndicator.printSource( "import org.junit.Test;" );
-		progressIndicator.printSource( "import static org.junit.Assert.*;" );
+		progressIndicator.printSource( "import static org.junit.Assert.*;" );				
+		progressIndicator.printSource( "import org.junit.runner.JUnitCore;" );
+		progressIndicator.printSource( "import org.junit.runner.Result;" );
+		progressIndicator.printSource( "import org.junit.runner.notification.Failure;" );
 		
 		progressIndicator.printSource( "" );
 		
@@ -502,7 +509,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		
 		progressIndicator.printSource( "" );	
 		
-		progressIndicator.printSource( "public class MyTest{ ");
+		progressIndicator.printSource( "public class " + CLASS_NAME + "{ ");
 		progressIndicator.printSource( "" );
 		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
 		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "By by = null;" );
@@ -519,14 +526,17 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "String optionText;" );
 		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
 		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );
+		
+		//This part is for running the Testcase as a normal Application from consol
 		progressIndicator.printSource( "" );
-
-/*		progressIndicator.printSource( "" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "//For running as an Application from command line" );
 		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "new Test();" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Result result = JUnitCore.runClasses( " + CLASS_NAME + ".class);" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "for (Failure failure : result.getFailures()) {" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "System.out.println(failure.toString());" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "}" );
 		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );
 		progressIndicator.printSource( "" );
-*/	
 		
 		throughTestcases( testcase );
 		
@@ -573,11 +583,12 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	 */
 	private void executeTestcase( TestcaseCaseDataModel actualTestcase ){
 
-		//Ha be van kapcsolat		
+		//Ha be van kapcsolva	
 		if( actualTestcase.isOn() ){
 
+			String testcaseMethodName = actualTestcase.getName().replaceAll("[^a-zA-Z0-9]+","");
 			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "@Test" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void " + actualTestcase.getName().replaceAll("[^a-zA-Z0-9]+","") + "(){" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void " + testcaseMethodName + "(){" );	
 			progressIndicator.printSource( "" );
 
 			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
