@@ -47,7 +47,8 @@ public class ScriptElementExecuteOperation extends ScriptOperationAdapter{
 			if( null != elementProgress ){
 				outputScripClass(driver, baseElement, webElement, elementProgress, tab );
 				elementProgress.printSource( tab + "try{" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".runScript();" );
+				//elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".runScript();" );
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsScript() + ".runScript();" );
 				elementProgress.printSource( tab + "}catch( Exception e ){" );
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "e.printStackTrace();" );
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail( e.getMessage() );" );

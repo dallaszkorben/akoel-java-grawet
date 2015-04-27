@@ -98,7 +98,8 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		//
 		if( baseElement instanceof NormalBaseElementDataModel ){			
 
-			progressIndicator.printSource( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.STORAGE_NAME_PREFIX + baseElement.hashCode()  );
+			//progressIndicator.printSource( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.STORAGE_NAME_PREFIX + baseElement.hashCode()  );
+			progressIndicator.printSource( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + baseElement.getNameAsVariable()  );
 
 			By by = null;
 			WebElement webElement = null;
