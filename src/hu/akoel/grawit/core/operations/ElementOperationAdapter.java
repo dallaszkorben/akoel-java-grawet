@@ -47,31 +47,52 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	 */
     public abstract Object clone();
 
-    //public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ElementProgressInterface elementProgress, String tab ) throws ElementException, CompilationException{
+    /**
+     * 
+     * Normal Element eseten
+     * 
+     * @param driver
+     * @param stepElement
+     * @param progressIndicator
+     * @param tab
+     * @throws ElementException
+     * @throws CompilationException
+     */
     public void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab ) throws ElementException, CompilationException{    	
     	doAction( driver, stepElement, progressIndicator, tab, false ); 
     }
 
-    public void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface elementProgress, String tab, boolean needElementEndedAtException ) throws ElementException, CompilationException{
+    /**
+     * 
+     * 
+     * 
+     * @param driver
+     * @param stepElement
+     * @param progressIndicator
+     * @param tab
+     * @param isLoopCollector
+     * @throws ElementException
+     * @throws CompilationException
+     */
+    private void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab, boolean isLoopCollector ) throws ElementException, CompilationException{
 
     	BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
     	
 		//Uzenet az Operation Indulasarol
-		if( null != elementProgress ){
-			elementProgress.elementStarted( stepElement );
+		if( null != progressIndicator ){
+			progressIndicator.elementStarted( stepElement );
 		}
 		
-		doAction( driver, baseElement, elementProgress, tab, needElementEndedAtException );
+		doAction( driver, baseElement, progressIndicator, tab, isLoopCollector );
 
-		if( null != elementProgress ){
-			sendelementEndedMessage( elementProgress, stepElement );
+		if( null != progressIndicator ){
+			sendelementEndedMessage( progressIndicator, stepElement );
 		}	
 		
     }
     
 	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ProgressIndicatorInterface progressIndicator, String tab, boolean needElementEndedAtException ) throws ElementException, CompilationException{
-    	
-
+ 
 		//
 		//Szukseges az elem beazonositasa
 		//
