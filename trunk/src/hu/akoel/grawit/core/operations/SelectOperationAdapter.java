@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.Set;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +24,7 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 	public abstract String getStringToSelection();
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 

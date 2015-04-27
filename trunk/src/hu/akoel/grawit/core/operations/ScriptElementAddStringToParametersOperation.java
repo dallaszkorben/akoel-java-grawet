@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.Set;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Attr;
@@ -51,13 +53,13 @@ public class ScriptElementAddStringToParametersOperation extends ScriptOperation
 	}
 		
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab ) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
 			if( null != elementProgress ){
-				outputScripClass(driver, baseElement, webElement, elementProgress, tab );		
+				outputScripClass(driver, baseElement, webElement, elementProgress, tab, definedElementSet );		
 				elementProgress.printSource( tab + baseElement.getNameAsScript() + ".addParameter( \"" + stringToParameter + "\" );" );
 				elementProgress.printSource( "" );
 			}

@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.Set;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Attr;
@@ -48,7 +50,7 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab ) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
 		
 		if( null != elementProgress ){
 

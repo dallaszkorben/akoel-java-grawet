@@ -1,6 +1,8 @@
 package hu.akoel.grawit.core.operations;
 
 import java.io.StringReader;
+import java.util.Set;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -168,14 +170,13 @@ public class ScriptElementAddStoreToParametersOperation extends ScriptOperationA
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab ) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
 
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
 			if( null != elementProgress ){
-				outputScripClass(driver, baseElement, webElement, elementProgress, tab );				
-				//elementProgress.printSource( tab + baseElement.getNameAsScript() + ".addParameter( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ); //" + baseElementDataModel.getStoredValue() );
+				outputScripClass(driver, baseElement, webElement, elementProgress, tab, definedElementSet );				
 				elementProgress.printSource( tab + baseElement.getNameAsScript() + ".addParameter( " + baseElement.getNameAsVariable() + " ); //" + baseElementDataModel.getStoredValue() );
 				elementProgress.printSource( "" );
 			}			

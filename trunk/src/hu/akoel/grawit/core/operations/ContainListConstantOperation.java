@@ -2,6 +2,7 @@ package hu.akoel.grawit.core.operations;
 
 import java.io.StringReader;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -191,7 +192,7 @@ public class ContainListConstantOperation extends ElementOperationAdapter implem
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
 		
 		if( null != elementProgress ){
 		//

@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.treenodedatamodel.step;
 
 import java.io.StringReader;
+import java.util.Set;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.xml.parsers.DocumentBuilder;
@@ -201,8 +202,8 @@ public class StepElementDataModel extends StepDataModelAdapter {
 	 * @throws ElementException 
 	 * 
 	 */
-	public void doAction( WebDriver driver, ProgressIndicatorInterface progressIndicator, String tab ) throws ElementException, CompilationException{
-		this.getElementOperation().doAction( driver, this, progressIndicator, tab );
+	public void doAction( WebDriver driver, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws ElementException, CompilationException{
+		this.getElementOperation().doAction( driver, this, progressIndicator, tab, definedElementSet );
 	}
 	
 	public void setName( String name ){

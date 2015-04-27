@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.Set;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -27,7 +29,7 @@ public class TabOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
 
 		elementProgress.printSource( tab + "webElement.sendKeys(Keys.TAB);" );
 		

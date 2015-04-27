@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.Set;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -26,7 +28,7 @@ public class ClickLeftOperation extends ElementOperationAdapter{
 	}
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
 
 		if( null != elementProgress ){
 			elementProgress.printSource( tab + "webElement.click();");

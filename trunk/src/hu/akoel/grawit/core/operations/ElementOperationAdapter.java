@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.Set;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -9,14 +11,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.exceptions.CompilationException;
-import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
 import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
@@ -40,7 +40,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	
 	public abstract void setXMLAttribute( Document document, Element element );
 
-	public abstract void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface progressIndicator, String tab ) throws ElementException, CompilationException;
+	public abstract void doOperation( WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws ElementException, CompilationException;
 	
 	/**
 	 * Make it visible
@@ -58,8 +58,8 @@ public abstract class ElementOperationAdapter implements Cloneable{
      * @throws ElementException
      * @throws CompilationException
      */
-    public void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab ) throws ElementException, CompilationException{    	
-    	doAction( driver, stepElement, progressIndicator, tab, false ); 
+    public void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws ElementException, CompilationException{    	
+    	doAction( driver, stepElement, progressIndicator, tab, definedElementSet, false ); 
     }
 
     /**
@@ -74,7 +74,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
      * @throws ElementException
      * @throws CompilationException
      */
-    private void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab, boolean isInLoopCollector ) throws ElementException, CompilationException{
+    private void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet, boolean isInLoopCollector ) throws ElementException, CompilationException{
 
     	BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
     	
@@ -83,7 +83,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			progressIndicator.elementStarted( stepElement );
 		}
 		
-		doAction( driver, baseElement, progressIndicator, tab, isInLoopCollector );
+		doAction( driver, baseElement, progressIndicator, tab, definedElementSet, isInLoopCollector );
 
 		if( null != progressIndicator ){
 			sendelementEndedMessage( progressIndicator, stepElement );
@@ -91,7 +91,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		
     }
     
-	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ProgressIndicatorInterface progressIndicator, String tab, boolean needElementEndedAtException ) throws ElementException, CompilationException{
+	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet, boolean needElementEndedAtException ) throws ElementException, CompilationException{
  
 		//
 		//Szukseges az elem beazonositasa
@@ -205,7 +205,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			try{
 
 				//OPERATION
-				doOperation( driver, baseElement, webElement, progressIndicator, tab );
+				doOperation( driver, baseElement, webElement, progressIndicator, tab, definedElementSet );
 
 			}catch( StaleElementReferenceException e ){
 				
@@ -213,7 +213,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				progressIndicator.printSource("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
 
 				//Ujra hiv
-				doAction( driver, baseElement, progressIndicator, tab, needElementEndedAtException );
+				doAction( driver, baseElement, progressIndicator, tab, definedElementSet, needElementEndedAtException );
 				
 			//Ha az operation vegrehajtasa soran kivetel generalodott
 			}catch(   ElementException e ){
@@ -245,10 +245,8 @@ public abstract class ElementOperationAdapter implements Cloneable{
 
 			//OPERATION
 			//doOperation( driver, baseElement, null, elementProgress, tab );		
-			doOperation( driver, baseElement, null, progressIndicator, tab );
-		}
-
-	
+			doOperation( driver, baseElement, null, progressIndicator, tab, definedElementSet );
+		}	
 	}	
 	
 	//private void sendelementEndedMessage( ElementProgressInterface elementProgress, BaseElementDataModelAdapter baseElement ){

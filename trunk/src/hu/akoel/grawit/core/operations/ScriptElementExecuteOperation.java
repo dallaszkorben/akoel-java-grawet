@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import java.util.Set;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Document;
@@ -39,20 +41,18 @@ public class ScriptElementExecuteOperation extends ScriptOperationAdapter{
 
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab) throws ElementException, CompilationException{
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException, CompilationException{
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
 			if( null != elementProgress ){
-				outputScripClass(driver, baseElement, webElement, elementProgress, tab );
+				outputScripClass(driver, baseElement, webElement, elementProgress, tab, definedElementSet );
 				elementProgress.printSource( tab + "try{" );
-				//elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".runScript();" );
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsScript() + ".runScript();" );
 				elementProgress.printSource( tab + "}catch( Exception e ){" );
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "e.printStackTrace();" );
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail( e.getMessage() );" );
-				//elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);" );
 				elementProgress.printSource( tab + "}" );
 				elementProgress.printSource( "" );
 			}
