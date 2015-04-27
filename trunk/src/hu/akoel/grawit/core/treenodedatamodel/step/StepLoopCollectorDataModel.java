@@ -364,19 +364,18 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		Date startDate = Calendar.getInstance().getTime();			
 		Date actualDate;
 		
-//		//Jelzi, hogy elindult a ciklus
-//		if( null != pageProgres ){
-//			pageProgres.stepStarted( this, testcaseStepCollector );
-//		}	
+progressIndicator.printSource( tab + "//Ide jon a ciklusom");		
+progressIndicator.printSource( tab + "while(){");		
 		
 		//Annyiszor megy vegig a gyermekeken, amennyi a megengedett ciklusszam (es ha nem igaz a feltetel)
 		while( actualLoop++ < maxLoopNumber ){		
 			
 			try {
 				
+progressIndicator.printSource( tab + tab + "//most indul el a kiertekeles");
 				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
-				getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab, true );
-				
+				getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + tab, true );
+progressIndicator.printSource( tab + tab + "//a kiertekeles vege");				
 				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
 				//es vegrehajtja oket
 				int childCount = this.getChildCount();
@@ -413,7 +412,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 						try{
 							
 							//Elem muveletenek vegrehajtasa
-							parameterElement.doAction( driver, progressIndicator, tab );
+							parameterElement.doAction( driver, progressIndicator, tab + tab );
 					
 						//Ha nem futott le rendesen a teszteset
 						}catch (ElementException f){
@@ -452,17 +451,9 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 				} catch(InterruptedException ex) {}
 			}
 			
-//			//Jelzi, hogy befejezodott az oldal feldolgozasa
-//			if( null != pageProgres ){
-//				pageProgres.pageEnded( getName(), getNodeTypeToShow() );
-//			}
-			
 		}
 
-//		//Jelzi, hogy befejezodott a cikus
-//		if( null != pageProgres ){
-//			pageProgres.stepEnded( testcaseStepCollector );
-//		}
+		progressIndicator.printSource( tab + "} //while()");
 		
 	}
 	

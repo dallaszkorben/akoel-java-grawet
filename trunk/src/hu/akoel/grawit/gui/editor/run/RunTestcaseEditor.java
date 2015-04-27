@@ -13,9 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
@@ -24,9 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.SwingConstants;
@@ -39,7 +34,6 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-import javax.swing.text.StyledDocument;
 import javax.swing.tree.TreeNode;
 
 import org.openqa.selenium.WebDriver;
@@ -52,7 +46,6 @@ import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
 import hu.akoel.grawit.exceptions.CompilationException;
@@ -287,7 +280,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		outputScrollablePanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);		
 		outputScrollablePanel.setMinimumSize( new Dimension( OUTPUTPANEL_WIDTH, 100 ) );
 		outputScrollablePanel.setPreferredSize( new Dimension( OUTPUTPANEL_WIDTH, 100 ) );
-				
+	
 		//------------
 		//Result panel
 		//------------
@@ -639,32 +632,6 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		}
 	}
 	
-/*	class TestcaseProgress implements TestcaseProgressInterface{
-
-		@Override
-		public void testcaseStarted(TestcaseCaseDataModel testcase) {
-//			traceTree.select( testcase );			
-		}
-
-		@Override
-		public void testcaseEnded(TestcaseCaseDataModel testcase) {	
-//			traceTree.collapse( testcase );
-		}		
-	}
-*/	
-/*	class TestcaseStepProgress implements TestcaseStepProgressInterface{
-
-		@Override
-		public void stepStarted(TestcaseStepCollectorDataModel testcaseStepCollector) {
-//			traceTree.select( testcaseStepCollector );			
-		}
-
-		@Override
-		public void stepEnded(TestcaseStepCollectorDataModel testcaseStepCollector) {
-//			traceTree.collapse( testcaseStepCollector );
-		}		
-	}
-*/	
 	class ProgressIndicator implements ProgressIndicatorInterface{
 		
 		public SimpleAttributeSet ATTRIBUTE_LABEL;
