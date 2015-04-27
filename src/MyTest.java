@@ -21,6 +21,9 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
 
 abstract class ScriptClass{
   ArrayList<String> parameters = new ArrayList<>();
@@ -53,6 +56,14 @@ public class MyTest{
   Matcher matcher;
   Pattern pattern;
 
+  //For running as an Application from command line
+  public static void main( String[] args ){
+    Result result = JUnitCore.runClasses( MyTest.class);
+    for (Failure failure : result.getFailures()) {
+      System.out.println(failure.toString());
+    }
+  }
+
   @Test
   public void TestCheckbox(){
 
@@ -65,42 +76,28 @@ public class MyTest{
     //IMPLICIT WAIT
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-    //Script: Open Window (CLEARPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
+    //Script: Open Window (CLEARPARAMETERS) - script980429110
+    ScriptClass script980429110 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         String url = parameters.get(0);
         driver.get( url );
       }
     };
-    script217606767.clearParameters();
+    script980429110.clearParameters();
+fail("hello");
+    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script980429110
+    script980429110.addParameter( "http://sislands.com/coin70/week4/chkBoxTest.htm" );
 
-    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
-    script217606767.addParameter( "http://sislands.com/coin70/week4/chkBoxTest.htm" );
-
-    //Script: Open Window (EXECUTE_SCRIPT) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
+    //Script: Open Window (EXECUTE_SCRIPT) - script980429110
     try{
-      script217606767.runScript();
+      script980429110.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
     }
 
-    //Element: Checkbox1 (GAINVALUETOELEMENT) - store2037419976
+    //Element: Checkbox1 (GAINVALUETOELEMENT) - store430243312
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
@@ -109,14 +106,14 @@ public class MyTest{
     }else{
       origText = "off";
     }
-    String store2037419976 = origText;
+    String store430243312 = origText;
 
-    //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store2037419976
+    //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store430243312
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
     webElement = driver.findElement( by );
-    System.out.println( "Status of Checkbox 1: " + store2037419976 );
+    System.out.println( "Status of Checkbox 1: " + store430243312 );
 
-    //Element: Checkbox1 (COMPAREVALUETOSTRING) - store2037419976
+    //Element: Checkbox1 (COMPAREVALUETOSTRING) - store430243312
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
@@ -126,23 +123,23 @@ public class MyTest{
       origText = "off";
     }
     if( !origText.equals( "off" ) ){
-      fail("Stopped because the element 'store2037419976': '" + origText + "' does NOT equal to 'off' but it should.");
+      fail("Stopped because the element 'store430243312': '" + origText + "' does NOT equal to 'off' but it should.");
     }
 
-    //Element: Checkbox1 (LEFTCLICK) - store2037419976
+    //Element: Checkbox1 (LEFTCLICK) - store430243312
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     webElement.click();
 
-    //Script: Close Window (EXECUTE_SCRIPT) - script152282128
-    ScriptClass script152282128 = new ScriptClass(){
+    //Script: Close Window (EXECUTE_SCRIPT) - script430028339
+    ScriptClass script430028339 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         driver.quit();
       }
     };
     try{
-      script152282128.runScript();
+      script430028339.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
@@ -162,42 +159,28 @@ public class MyTest{
     //IMPLICIT WAIT
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-    //Script: Open Window (CLEARPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
+    //Script: Open Window (CLEARPARAMETERS) - script980429110
+    ScriptClass script980429110 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         String url = parameters.get(0);
         driver.get( url );
       }
     };
-    script217606767.clearParameters();
+    script980429110.clearParameters();
 
-    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
-    script217606767.addParameter( "http://www.sislands.com/coin70/week4/rdoBtnTest.htm" );
+    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script980429110
+    script980429110.addParameter( "http://www.sislands.com/coin70/week4/rdoBtnTest.htm" );
 
-    //Script: Open Window (EXECUTE_SCRIPT) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
+    //Script: Open Window (EXECUTE_SCRIPT) - script980429110
     try{
-      script217606767.runScript();
+      script980429110.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
     }
 
-    //Element: Radiobutton 1 (GAINVALUETOELEMENT) - store932911332
+    //Element: Radiobutton 1 (GAINVALUETOELEMENT) - store2018498960
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(3) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
@@ -206,14 +189,14 @@ public class MyTest{
     }else{
       origText = "off";
     }
-    String store932911332 = origText;
+    String store2018498960 = origText;
 
-    //Element: Radiobutton 1 (OUTPUTSTOREDELEMENT) - store932911332
+    //Element: Radiobutton 1 (OUTPUTSTOREDELEMENT) - store2018498960
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(3) > input:nth-child(1)" );
     webElement = driver.findElement( by );
-    System.out.println( "Status of radiobutton 1: " + store932911332 );
+    System.out.println( "Status of radiobutton 1: " + store2018498960 );
 
-    //Element: Radiobutton 1 (COMPAREVALUETOSTRING) - store932911332
+    //Element: Radiobutton 1 (COMPAREVALUETOSTRING) - store2018498960
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(3) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
@@ -223,15 +206,15 @@ public class MyTest{
       origText = "off";
     }
     if( !origText.equals( "off" ) ){
-      fail("Stopped because the element 'store932911332': '" + origText + "' does NOT equal to 'off' but it should.");
+      fail("Stopped because the element 'store2018498960': '" + origText + "' does NOT equal to 'off' but it should.");
     }
 
-    //Element: Radiobutton 1 (LEFTCLICK) - store932911332
+    //Element: Radiobutton 1 (LEFTCLICK) - store2018498960
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(3) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     webElement.click();
 
-    //Element: Radiobutton 1 (COMPAREVALUETOSTRING) - store932911332
+    //Element: Radiobutton 1 (COMPAREVALUETOSTRING) - store2018498960
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(3) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
@@ -241,18 +224,18 @@ public class MyTest{
       origText = "off";
     }
     if( !origText.equals( "on" ) ){
-      fail("Stopped because the element 'store932911332': '" + origText + "' does NOT equal to 'on' but it should.");
+      fail("Stopped because the element 'store2018498960': '" + origText + "' does NOT equal to 'on' but it should.");
     }
 
-    //Script: Close Window (EXECUTE_SCRIPT) - script152282128
-    ScriptClass script152282128 = new ScriptClass(){
+    //Script: Close Window (EXECUTE_SCRIPT) - script430028339
+    ScriptClass script430028339 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         driver.quit();
       }
     };
     try{
-      script152282128.runScript();
+      script430028339.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
@@ -272,50 +255,36 @@ public class MyTest{
     //IMPLICIT WAIT
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-    //Script: Open Window (CLEARPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
+    //Script: Open Window (CLEARPARAMETERS) - script980429110
+    ScriptClass script980429110 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         String url = parameters.get(0);
         driver.get( url );
       }
     };
-    script217606767.clearParameters();
+    script980429110.clearParameters();
 
-    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
-    script217606767.addParameter( "http://www.sislands.com/coin70/week4/selectex.htm" );
+    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script980429110
+    script980429110.addParameter( "http://www.sislands.com/coin70/week4/selectex.htm" );
 
-    //Script: Open Window (EXECUTE_SCRIPT) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
+    //Script: Open Window (EXECUTE_SCRIPT) - script980429110
     try{
-      script217606767.runScript();
+      script980429110.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
     }
 
-    //Element: Pulldown list (GAINLISTTOELEMENT) - store465802925
+    //Element: Pulldown list (GAINLISTTOELEMENT) - store2052978516
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > select:nth-child(2)" );
     webElement = driver.findElement( by );
     origText = "";
     select = new Select(webElement);
     origText = select.getFirstSelectedOption().getText();
-    String store465802925 = origText;
+    String store2052978516 = origText;
 
-    //Element: Normal list (CONTAINLISTSTOREDELEMENT) - store1743833346
+    //Element: Normal list (CONTAINLISTSTOREDELEMENT) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     select = new Select(webElement);
@@ -324,16 +293,16 @@ public class MyTest{
     for( WebElement option: optionList ){
       optionText = "";
       optionText = option.getText();
-      if( optionText.equals( store465802925 ) ){
+      if( optionText.equals( store2052978516 ) ){
           found = true;
           break;
       }
     } //for( WebElement option: optionList )
-    if( !found ){
-      fail("Stopped because for the list 'store1743833346' the expection is: 'Tartalmazza' BUT 'probiscus' is NOT in the list");
+    if( found ){
+      fail("Stopped because for the list 'store1969989587' the expection is: 'Tartalmazza' BUT 'probiscus' is NOT in the list");
     }
 
-    //Element: Normal list (CONTAINLISTSTRING) - store1743833346
+    //Element: Normal list (CONTAINLISTSTRING) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     select = new Select(webElement);
@@ -348,10 +317,10 @@ public class MyTest{
       }
     } //for( WebElement option: optionList )
     if( !found ){
-      fail("Stopped because for the list 'store1743833346' the expection is: 'Tartalmazza' BUT 'spider' is NOT in the list");
+      fail("Stopped because for the list 'store1969989587' the expection is: 'Tartalmazza' BUT 'spider' is NOT in the list");
     }
 
-    //Element: Normal list (CONTAINLISTCONSTANT) - store1743833346
+    //Element: Normal list (CONTAINLISTCONSTANT) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     select = new Select(webElement);
@@ -366,10 +335,10 @@ public class MyTest{
       }
     } //for( WebElement option: optionList )
     if( !found ){
-      fail("Stopped because for the list 'store1743833346' the expection is: 'Tartalmazza' BUT 'lemur' is NOT in the list");
+      fail("Stopped because for the list 'store1969989587' the expection is: 'Tartalmazza' BUT 'lemur' is NOT in the list");
     }
 
-    //Element: Normal list (SELECTVARIABLEELEMENT) - store1743833346
+    //Element: Normal list (SELECTVARIABLEELEMENT) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     webElement.sendKeys(Keys.TAB);
@@ -377,7 +346,7 @@ public class MyTest{
     select = new Select(webElement);
     select.selectByVisibleText( "lemur" );
 
-    //Element: Normal list (SELECTSTRING) - store1743833346
+    //Element: Normal list (SELECTSTRING) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     webElement.sendKeys(Keys.TAB);
@@ -385,78 +354,78 @@ public class MyTest{
     select = new Select(webElement);
     select.selectByVisibleText( "spider" );
 
-    //Element: Normal list (COMPARELISTTOSTRING) - store1743833346
+    //Element: Normal list (COMPARELISTTOSTRING) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     origText = "";
     select = new Select(webElement);
     origText = select.getFirstSelectedOption().getText();
     if( !origText.equals( "spider" ) ){
-      fail("Stopped because the selected element in the Select 'store1743833346': '" + origText + "' does NOT equal to 'spider' but it should.");
+      fail("Stopped because the selected element in the Select 'store1969989587': '" + origText + "' does NOT equal to 'spider' but it should.");
     }
 
-    //Element: Normal list (COMPARELISTTOCONSTANT) - store1743833346
+    //Element: Normal list (COMPARELISTTOCONSTANT) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     origText = "";
     select = new Select(webElement);
     origText = select.getFirstSelectedOption().getText();
     if( !origText.equals( "spider" ) ){
-      fail( "Stopped because the selected element in the Select 'store1743833346': '" + origText + "' does NOT equal to 'spider' but it should." );
+      fail( "Stopped because the selected element in the Select 'store1969989587': '" + origText + "' does NOT equal to 'spider' but it should." );
     }
 
-    //Element: Normal list (GAINLISTTOELEMENT) - store1743833346
+    //Element: Normal list (GAINLISTTOELEMENT) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     origText = "";
     select = new Select(webElement);
     origText = select.getFirstSelectedOption().getText();
-    String store1743833346 = origText;
+    String store1969989587 = origText;
 
-    //Element: Normal list (COMPARELISTTOSTOREDELEMENT) - store1743833346
+    //Element: Normal list (COMPARELISTTOSTOREDELEMENT) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     origText = "";
     select = new Select(webElement);
     origText = select.getFirstSelectedOption().getText();
-    if( !origText.equals( store1743833346 ) ){
-      fail("Stopped because the selected element in the Select 'store1743833346': '" + origText + "' does NOT equal to '" + store1743833346 + "' but it should.");
+    if( !origText.equals( store1969989587 ) ){
+      fail("Stopped because the selected element in the Select 'store1969989587': '" + origText + "' does NOT equal to '" + store1969989587 + "' but it should.");
     }
 
-    //Element: Normal list (COMPARELISTTOCONSTANT) - store1743833346
-    by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
-    webElement = driver.findElement( by );
-    origText = "";
-    select = new Select(webElement);
-    origText = select.getFirstSelectedOption().getText();
-    if( !origText.equals( "spider" ) ){
-      fail( "Stopped because the selected element in the Select 'store1743833346': '" + origText + "' does NOT equal to 'spider' but it should." );
-    }
-
-    //Element: Normal list (COMPARELISTTOSTRING) - store1743833346
+    //Element: Normal list (COMPARELISTTOCONSTANT) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
     origText = "";
     select = new Select(webElement);
     origText = select.getFirstSelectedOption().getText();
     if( !origText.equals( "spider" ) ){
-      fail("Stopped because the selected element in the Select 'store1743833346': '" + origText + "' does NOT equal to 'spider' but it should.");
+      fail( "Stopped because the selected element in the Select 'store1969989587': '" + origText + "' does NOT equal to 'spider' but it should." );
     }
 
-    //Element: Normal list (OUTPUTSTOREDELEMENT) - store1743833346
+    //Element: Normal list (COMPARELISTTOSTRING) - store1969989587
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
     webElement = driver.findElement( by );
-    System.out.println( "Selected element in the normal list: " + store1743833346 );
+    origText = "";
+    select = new Select(webElement);
+    origText = select.getFirstSelectedOption().getText();
+    if( !origText.equals( "spider" ) ){
+      fail("Stopped because the selected element in the Select 'store1969989587': '" + origText + "' does NOT equal to 'spider' but it should.");
+    }
 
-    //Script: Close Window (EXECUTE_SCRIPT) - script152282128
-    ScriptClass script152282128 = new ScriptClass(){
+    //Element: Normal list (OUTPUTSTOREDELEMENT) - store1969989587
+    by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(4) > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(1) > p:nth-child(1) > select:nth-child(3)" );
+    webElement = driver.findElement( by );
+    System.out.println( "Selected element in the normal list: " + store1969989587 );
+
+    //Script: Close Window (EXECUTE_SCRIPT) - script430028339
+    ScriptClass script430028339 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         driver.quit();
       }
     };
     try{
-      script152282128.runScript();
+      script430028339.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
@@ -476,85 +445,71 @@ public class MyTest{
     //IMPLICIT WAIT
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-    //Script: Open Window (CLEARPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
+    //Script: Open Window (CLEARPARAMETERS) - script980429110
+    ScriptClass script980429110 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         String url = parameters.get(0);
         driver.get( url );
       }
     };
-    script217606767.clearParameters();
+    script980429110.clearParameters();
 
-    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
-    script217606767.addParameter( "http://www.sislands.com/coin70/week4/jstxtfld.htm" );
+    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script980429110
+    script980429110.addParameter( "http://www.sislands.com/coin70/week4/jstxtfld.htm" );
 
-    //Script: Open Window (EXECUTE_SCRIPT) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
+    //Script: Open Window (EXECUTE_SCRIPT) - script980429110
     try{
-      script217606767.runScript();
+      script980429110.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
     }
 
-    //Element: Main Title (GAINTEXTTOELEMENT) - store781592444
+    //Element: Main Title (GAINTEXTTOELEMENT) - store20270670
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > h2:nth-child(2) > font:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = webElement.getText();
-    String store781592444 = origText;
+    String store20270670 = origText;
 
-    //Element: Main Title (COMPARETEXTTOCONSTANT) - store781592444
-    by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > h2:nth-child(2) > font:nth-child(1)" );
-    webElement = driver.findElement( by );
-    origText = webElement.getText();
-    if( !origText.equals( "Manipulating the Value of a Text Field" ) ){
-      fail("Stopped because the element 'store781592444': '" + origText + "' does NOT equal to 'Manipulating the Value of a Text Field' but it should.");
-    }
-
-    //Element: Main Title (COMPARETEXTTOSTRING) - store781592444
+    //Element: Main Title (COMPARETEXTTOCONSTANT) - store20270670
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > h2:nth-child(2) > font:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = webElement.getText();
     if( !origText.equals( "Manipulating the Value of a Text Field" ) ){
-      fail("Stopped because the element 'store781592444': '" + origText + "' does NOT equal to 'Manipulating the Value of a Text Field' but it should.");
+      fail("Stopped because the element 'store20270670': '" + origText + "' does NOT equal to 'Manipulating the Value of a Text Field' but it should.");
     }
 
-    //Element: Main Title (COMPARETEXTTOSTOREDELEMENT) - store781592444
+    //Element: Main Title (COMPARETEXTTOSTRING) - store20270670
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > h2:nth-child(2) > font:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = webElement.getText();
-    if( !origText.equals( store781592444 ) ){
-      fail("Stopped because the element 'store781592444': '" + origText + "' does NOT equal to '" + store781592444 + "' but it should.");
+    if( !origText.equals( "Manipulating the Value of a Text Field" ) ){
+      fail("Stopped because the element 'store20270670': '" + origText + "' does NOT equal to 'Manipulating the Value of a Text Field' but it should.");
     }
 
-    //Element: Main Title (OUTPUTSTOREDELEMENT) - store781592444
+    //Element: Main Title (COMPARETEXTTOSTOREDELEMENT) - store20270670
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > h2:nth-child(2) > font:nth-child(1)" );
     webElement = driver.findElement( by );
-    System.out.println( "Title: " + store781592444 );
+    origText = webElement.getText();
+    if( !origText.equals( store20270670 ) ){
+      fail("Stopped because the element 'store20270670': '" + origText + "' does NOT equal to '" + store20270670 + "' but it should.");
+    }
 
-    //Script: Close Window (EXECUTE_SCRIPT) - script152282128
-    ScriptClass script152282128 = new ScriptClass(){
+    //Element: Main Title (OUTPUTSTOREDELEMENT) - store20270670
+    by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > h2:nth-child(2) > font:nth-child(1)" );
+    webElement = driver.findElement( by );
+    System.out.println( "Title: " + store20270670 );
+
+    //Script: Close Window (EXECUTE_SCRIPT) - script430028339
+    ScriptClass script430028339 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         driver.quit();
       }
     };
     try{
-      script152282128.runScript();
+      script430028339.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
@@ -574,94 +529,80 @@ public class MyTest{
     //IMPLICIT WAIT
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-    //Script: Open Window (CLEARPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
+    //Script: Open Window (CLEARPARAMETERS) - script980429110
+    ScriptClass script980429110 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         String url = parameters.get(0);
         driver.get( url );
       }
     };
-    script217606767.clearParameters();
+    script980429110.clearParameters();
 
-    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
-    script217606767.addParameter( "http://www.sislands.com/coin70/week4/jstxtfld.htm" );
+    //Script: Open Window (ADDCONSTANTTOPARAMETERS) - script980429110
+    script980429110.addParameter( "http://www.sislands.com/coin70/week4/jstxtfld.htm" );
 
-    //Script: Open Window (EXECUTE_SCRIPT) - script217606767
-    ScriptClass script217606767 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
+    //Script: Open Window (EXECUTE_SCRIPT) - script980429110
     try{
-      script217606767.runScript();
+      script980429110.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
     }
 
-    //Element: Field (GAINVALUETOELEMENT) - store1013411282
+    //Element: Field (GAINVALUETOELEMENT) - store2131957529
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(5) > div:nth-child(2) > center:nth-child(2) > p:nth-child(2) > font:nth-child(1) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
     origText = webElement.getAttribute("value");
-    String store1013411282 = origText;
+    String store2131957529 = origText;
 
-    //Element: Field (COMPAREVALUETOCONSTANT) - store1013411282
-    by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(5) > div:nth-child(2) > center:nth-child(2) > p:nth-child(2) > font:nth-child(1) > input:nth-child(1)" );
-    webElement = driver.findElement( by );
-    origText = "";
-    origText = webElement.getAttribute("value");
-    if( !origText.equals( "Are you happy?" ) ){
-      fail("Stopped because the element 'store1013411282': '" + origText + "' does NOT equal to 'Are you happy?' but it should.");
-    }
-
-    //Element: Field (COMPAREVALUETOSTRING) - store1013411282
+    //Element: Field (COMPAREVALUETOCONSTANT) - store2131957529
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(5) > div:nth-child(2) > center:nth-child(2) > p:nth-child(2) > font:nth-child(1) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
     origText = webElement.getAttribute("value");
     if( !origText.equals( "Are you happy?" ) ){
-      fail("Stopped because the element 'store1013411282': '" + origText + "' does NOT equal to 'Are you happy?' but it should.");
+      fail("Stopped because the element 'store2131957529': '" + origText + "' does NOT equal to 'Are you happy?' but it should.");
     }
 
-    //Element: Field (COMPAREVALUETOSTOREDELEMENT) - store1013411282
+    //Element: Field (COMPAREVALUETOSTRING) - store2131957529
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(5) > div:nth-child(2) > center:nth-child(2) > p:nth-child(2) > font:nth-child(1) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
     origText = webElement.getAttribute("value");
-    if( !origText.equals( store1013411282 ) ){
-      fail("Stopped because the element 'store1013411282': '" + origText + "' does NOT equal to '" + store1013411282 + "' but it should.");
+    if( !origText.equals( "Are you happy?" ) ){
+      fail("Stopped because the element 'store2131957529': '" + origText + "' does NOT equal to 'Are you happy?' but it should.");
     }
 
-    //Element: Field (OUTPUTSTOREDELEMENT) - store1013411282
+    //Element: Field (COMPAREVALUETOSTOREDELEMENT) - store2131957529
     by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(5) > div:nth-child(2) > center:nth-child(2) > p:nth-child(2) > font:nth-child(1) > input:nth-child(1)" );
     webElement = driver.findElement( by );
-    System.out.println( "Content of filed: " + store1013411282 );
+    origText = "";
+    origText = webElement.getAttribute("value");
+    if( !origText.equals( store2131957529 ) ){
+      fail("Stopped because the element 'store2131957529': '" + origText + "' does NOT equal to '" + store2131957529 + "' but it should.");
+    }
 
-    //Script: Close Window (EXECUTE_SCRIPT) - script152282128
-    ScriptClass script152282128 = new ScriptClass(){
+    //Element: Field (OUTPUTSTOREDELEMENT) - store2131957529
+    by = By.cssSelector( "body > div:nth-child(1) > center:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > form:nth-child(5) > div:nth-child(2) > center:nth-child(2) > p:nth-child(2) > font:nth-child(1) > input:nth-child(1)" );
+    webElement = driver.findElement( by );
+    System.out.println( "Content of filed: " + store2131957529 );
+
+    //Script: Close Window (EXECUTE_SCRIPT) - script430028339
+    ScriptClass script430028339 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         driver.quit();
       }
     };
     try{
-      script152282128.runScript();
+      script430028339.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
     }
 
   }
-
+ 
 }
