@@ -165,7 +165,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 						
 //for(int i=0; i<20; i++){						
 						//Vegrehajtja a teszteset(ek)et
-						throughTestcases( RunTestcaseEditor.this.selectedTestcase );
+						runTestcases( RunTestcaseEditor.this.selectedTestcase );
+						//throughTestcases( RunTestcaseEditor.this.selectedTestcase );
 //}				    	
 						//Engedelyezi az Inditas gombot
 				    	RunTestcaseEditor.this.startButton.setEnabled( true );
@@ -450,7 +451,88 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	
 	
-	
+	private void runTestcases( TestcaseDataModelAdapter testcase ){
+		
+		progressIndicator.printSource( "import org.openqa.selenium.By;" );
+		progressIndicator.printSource( "import org.openqa.selenium.WebDriver;" );
+		progressIndicator.printSource( "import org.openqa.selenium.WebElement;" );
+		progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxDriver;" );
+		progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxProfile;" );
+
+		progressIndicator.printSource( "import org.openqa.selenium.WebDriverException;" );	
+		progressIndicator.printSource( "import org.openqa.selenium.JavascriptExecutor;");
+		progressIndicator.printSource( "import org.openqa.selenium.Keys;" );
+		
+		progressIndicator.printSource( "import org.openqa.selenium.support.ui.Select;" );
+		progressIndicator.printSource( "import org.openqa.selenium.support.ui.WebDriverWait;" );
+		progressIndicator.printSource( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
+		progressIndicator.printSource( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
+		
+		progressIndicator.printSource( "" );
+		
+		progressIndicator.printSource( "import java.util.concurrent.TimeUnit;" );
+		progressIndicator.printSource( "import java.util.NoSuchElementException;" );
+		progressIndicator.printSource( "import java.util.ArrayList;" );
+		progressIndicator.printSource( "import java.util.List;" );			
+		progressIndicator.printSource( "import java.util.Iterator;");
+		progressIndicator.printSource( "import java.util.regex.Matcher;");
+		progressIndicator.printSource( "import java.util.regex.Pattern;");
+		
+		progressIndicator.printSource( "" );
+
+		progressIndicator.printSource( "import org.junit.Test;" );
+		progressIndicator.printSource( "import static org.junit.Assert.*;" );
+		
+		progressIndicator.printSource( "" );
+		
+		progressIndicator.printSource( "abstract class ScriptClass{");
+
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "abstract public void runScript() throws Exception;" );	
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void clearParameters(){" );	
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.clear();" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public Iterator<String> getParameterIterator(){" );	
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "return parameters.iterator();" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
+		progressIndicator.printSource( "}" );	
+		
+		progressIndicator.printSource( "" );	
+		
+		progressIndicator.printSource( "public class MyTest{ ");
+		progressIndicator.printSource( "" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "By by = null;" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebElement webElement = null;");
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Select select = null;");	
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Integer index = 0;" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebDriver driver = null;" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
+		
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "String origText;" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "String optionText;" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );
+		progressIndicator.printSource( "" );
+
+/*		progressIndicator.printSource( "" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "new Test();" );
+		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );
+		progressIndicator.printSource( "" );
+*/	
+		
+		throughTestcases( testcase );
+		
+		//Closes the MyTest Class
+		progressIndicator.printSource( "}");	
+	}
 	
 	/**
 	 * Rekurziven vegig megy az osszes test case-en a parameterkent megadott
@@ -470,7 +552,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			executeTestcase( (TestcaseCaseDataModel)testcase );
 			
 		//Ha egy csomopontot valasztottam ki, akkor annak elemein megyek keresztul
-		}else if( testcase instanceof TestcaseFolderDataModel){
+		}else if( testcase instanceof TestcaseFolderDataModel || testcase instanceof TestcaseRootDataModel ){
 				
 			//Vegig a teszteset csomopontjainak elemein
 			int childrens = testcase.getChildCount();
@@ -479,8 +561,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 				Object object = testcase.getChildAt( i );
 				
 				throughTestcases( (TestcaseDataModelAdapter)object );
-			}
-			
+			}			
 		}		
 		return;		
 	}
@@ -494,76 +575,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 		//Ha be van kapcsolat		
 		if( actualTestcase.isOn() ){
-			
-			progressIndicator.printSource( "import org.openqa.selenium.By;" );
-			progressIndicator.printSource( "import org.openqa.selenium.WebDriver;" );
-			progressIndicator.printSource( "import org.openqa.selenium.WebElement;" );
-			progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxDriver;" );
-			progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxProfile;" );
 
-			progressIndicator.printSource( "import org.openqa.selenium.WebDriverException;" );	
-			progressIndicator.printSource( "import org.openqa.selenium.JavascriptExecutor;");
-			progressIndicator.printSource( "import org.openqa.selenium.Keys;" );
-			
-			progressIndicator.printSource( "import org.openqa.selenium.support.ui.Select;" );
-			progressIndicator.printSource( "import org.openqa.selenium.support.ui.WebDriverWait;" );
-			progressIndicator.printSource( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
-			progressIndicator.printSource( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
-			
-			progressIndicator.printSource( "" );
-			
-			progressIndicator.printSource( "import java.util.concurrent.TimeUnit;" );
-			progressIndicator.printSource( "import java.util.NoSuchElementException;" );
-			progressIndicator.printSource( "import java.util.ArrayList;" );
-			progressIndicator.printSource( "import java.util.List;" );			
-			progressIndicator.printSource( "import java.util.Iterator;");
-			progressIndicator.printSource( "import java.util.regex.Matcher;");
-			progressIndicator.printSource( "import java.util.regex.Pattern;");
-			
-			progressIndicator.printSource( "" );				  
-			
-			progressIndicator.printSource( "abstract class ScriptClass{");
-
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "abstract public void runScript() throws Exception;" );	
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void clearParameters(){" );	
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.clear();" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public Iterator<String> getParameterIterator(){" );	
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "return parameters.iterator();" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
-			progressIndicator.printSource( "}" );	
-			
-			progressIndicator.printSource( "" );	
-			
-			progressIndicator.printSource( "public class Test{ ");
-			progressIndicator.printSource( "" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "By by = null;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebElement webElement = null;");
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Select select = null;");	
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Integer index = 0;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebDriver driver = null;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
-			
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "String origText;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "String optionText;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );		
-
-			progressIndicator.printSource( "" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "new Test();" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );
-			progressIndicator.printSource( "" );
-			
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public Test(){" );	
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "@Test" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void " + actualTestcase.getName().replaceAll("[^a-zA-Z0-9]+","") + "(){" );	
 			progressIndicator.printSource( "" );
 
 			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
@@ -626,9 +640,10 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
 				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );    		
 			}
-    	
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}");				    	
-			progressIndicator.printSource( "}");	
+
+			//Closes the Test method
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}");
+			progressIndicator.printSource( "");
 		}
 	}
 	

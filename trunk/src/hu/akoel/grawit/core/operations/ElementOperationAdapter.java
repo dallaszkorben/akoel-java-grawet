@@ -70,11 +70,11 @@ public abstract class ElementOperationAdapter implements Cloneable{
      * @param stepElement
      * @param progressIndicator
      * @param tab
-     * @param isLoopCollector
+     * @param isInLoopCollector
      * @throws ElementException
      * @throws CompilationException
      */
-    private void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab, boolean isLoopCollector ) throws ElementException, CompilationException{
+    private void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab, boolean isInLoopCollector ) throws ElementException, CompilationException{
 
     	BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
     	
@@ -83,7 +83,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			progressIndicator.elementStarted( stepElement );
 		}
 		
-		doAction( driver, baseElement, progressIndicator, tab, isLoopCollector );
+		doAction( driver, baseElement, progressIndicator, tab, isInLoopCollector );
 
 		if( null != progressIndicator ){
 			sendelementEndedMessage( progressIndicator, stepElement );

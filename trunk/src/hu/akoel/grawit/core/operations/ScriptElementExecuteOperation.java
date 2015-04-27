@@ -50,7 +50,8 @@ public class ScriptElementExecuteOperation extends ScriptOperationAdapter{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.SCRIPT_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + ".runScript();" );
 				elementProgress.printSource( tab + "}catch( Exception e ){" );
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "e.printStackTrace();" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);" );
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail( e.getMessage() );" );
+				//elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "System.exit(-1);" );
 				elementProgress.printSource( tab + "}" );
 				elementProgress.printSource( "" );
 			}
