@@ -112,11 +112,11 @@ public class GainListToElementStorageOperation extends ElementOperationAdapter{
 			elementProgress.printSource( tab + "origText = select.getFirstSelectedOption().getText();" );			
 		}		
 		if( null == pattern ){
-			elementProgress.printSource( tab + ( definedElementSet.contains( baseElement.getNameAsVariable() )? " " : "String " ) + baseElement.getNameAsVariable() + " = origText;" );
+			elementProgress.printSource( tab + ( definedElementSet.contains( baseElement.getNameAsVariable() )? "" : "String " ) + baseElement.getNameAsVariable() + " = origText;" );
 		}else{
 			elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
 			elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");
-			elementProgress.printSource( tab + ( definedElementSet.contains( baseElement.getNameAsVariable() )? " " : "String " ) + baseElement.getNameAsVariable() + " = null;" );
+			elementProgress.printSource( tab + ( definedElementSet.contains( baseElement.getNameAsVariable() )? "" : "String " ) + baseElement.getNameAsVariable() + " = null;" );
 			elementProgress.printSource( tab + "if( matcher.find() ){" );	
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsVariable() + " = matcher.group();" );
 			elementProgress.printSource( tab + "}" );

@@ -12,9 +12,9 @@ import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
-import hu.akoel.grawit.core.operations.ContainListStoredElementOperation;
-import hu.akoel.grawit.core.operations.ContainListStringOperation;
-import hu.akoel.grawit.core.operations.ContainListConstantOperation;
+import hu.akoel.grawit.core.operations.CompareContainListStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareContainListStringOperation;
+import hu.akoel.grawit.core.operations.CompareContainListConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
@@ -627,19 +627,19 @@ public class CommonOperations {
 						elementOperation = new TabOperation( );
 	
 					//CONTAIN CONSTANT
-					}else if( operationString.equals( ContainListConstantOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareContainListConstantOperation.getStaticName() ) ){
 					
-						elementOperation = new ContainListConstantOperation( element, constantRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareContainListConstantOperation( element, constantRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 
 					//CONTAIN STORED
-					}else if( operationString.equals( ContainListStoredElementOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareContainListStoredElementOperation.getStaticName() ) ){
 					
-						elementOperation = new ContainListStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareContainListStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 					
 					//CONTAIN STRING
-					}else if( operationString.equals( ContainListStringOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareContainListStringOperation.getStaticName() ) ){
 					
-						elementOperation = new ContainListStringOperation( element, rootTag, dataModel.getTag() );
+						elementOperation = new CompareContainListStringOperation( element, rootTag, dataModel.getTag() );
 						
 						
 					//COMPARE TO CONSTANT

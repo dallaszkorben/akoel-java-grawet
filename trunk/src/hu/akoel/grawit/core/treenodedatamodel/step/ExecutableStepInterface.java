@@ -1,9 +1,10 @@
-package hu.akoel.grawit;
+package hu.akoel.grawit.core.treenodedatamodel.step;
 
 import java.util.Set;
 
 import org.openqa.selenium.WebDriver;
 
+import hu.akoel.grawit.Player;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.PageException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
