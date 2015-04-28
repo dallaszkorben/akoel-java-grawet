@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -69,6 +71,9 @@ public class MyTest{
 
     int actualLoop = 0;
     int maxLoopNumber;
+    int oneLoopLength;
+    Date actualDate;
+    Date startDate;
 
     profile = new FirefoxProfile();
     profile.setPreference( "pdfjs.disabled", true );
@@ -77,28 +82,28 @@ public class MyTest{
     driver = new FirefoxDriver(profile);
 
     //IMPLICIT WAIT
-    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-    //Script: Open Window (CLEARPARAMETERS) - script954985499
-    ScriptClass script954985499 = new ScriptClass(){
+    //Script: Open Window (CLEARPARAMETERS) - script5343
+    ScriptClass script5343 = new ScriptClass(){
       @Override
       public void runScript() throws Exception{
         String url = parameters.get(0);
         driver.get( url );
       }
     };
-    script954985499.clearParameters();
+    script5343.clearParameters();
 
-    script954985499.addParameter( "http://sislands.com/coin70/week4/chkBoxTest.htm" );
+    script5343.addParameter( "http://sislands.com/coin70/week4/chkBoxTest.htm" );
 
     try{
-      script954985499.runScript();
+      script5343.runScript();
     }catch( Exception e ){
       e.printStackTrace();
       fail( e.getMessage() );
     }
 
-    //Element: Checkbox1 (GAINVALUETOELEMENT) - store864753675
+    //Element: Checkbox1 (GAINVALUETOELEMENT) - store16433842
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
@@ -107,14 +112,14 @@ public class MyTest{
     }else{
       origText = "off";
     }
-    String store864753675 = origText;
+    String store16433842 = origText;
 
-    //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store864753675
+    //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store16433842
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
     webElement = driver.findElement( by );
-    System.out.println( "Status of Checkbox 1: " + store864753675 );
+    System.out.println( "Status of Checkbox 1: " + store16433842 );
 
-    //Element: Checkbox1 (COMPAREVALUETOSTRING) - store864753675
+    //Element: Checkbox1 (COMPAREVALUETOSTRING) - store16433842
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     origText = "";
@@ -124,210 +129,65 @@ public class MyTest{
       origText = "off";
     }
     if( !origText.equals( "off" ) ){
-      fail("Stopped because the element 'store864753675': '" + origText + "' does NOT equal to 'off' but it should.");
+      fail("Stopped because the element 'store16433842': '" + origText + "' does NOT equal to 'off' but it should.");
     }
 
-    //Element: Checkbox1 (LEFTCLICK) - store864753675
+    //Element: Checkbox1 (LEFTCLICK) - store16433842
     by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
     webElement = driver.findElement( by );
     webElement.click();
 
     //Cycle starts
+    startDate = Calendar.getInstance().getTime();
     actualLoop = 0;
+    oneLoopLength = 1;
     maxLoopNumber = 5;
     while( actualLoop++ < maxLoopNumber ){
 
-        //
-        //Evaluation
-        //
-        //Element: Checkbox1 (COMPAREVALUETOSTRING) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        if( !origText.equals( "on" ) ){
-          fail("Stopped because the element 'store864753675': '" + origText + "' does NOT equal to 'on' but it should.");
-        }
+      //
+      //Evaluation
+      //
+      //Element: Checkbox1 (COMPAREVALUETOSTRING) - store16433842
+      by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
+      webElement = driver.findElement( by );
+      origText = "";
+      if( webElement.isSelected() ){
+        origText = "on";
+      }else{
+        origText = "off";
+      }
+      if( !origText.equals( "on" ) ){
+        break; //because the element 'store16433842' does NOT equal to 'on'.
+      }
 
-        //Element: Checkbox1 (GAINVALUETOELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        store864753675 = origText;
+      //
+      //Execution
+      //
+      //Element: Checkbox1 (GAINVALUETOELEMENT) - store16433842
+      by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
+      webElement = driver.findElement( by );
+      origText = "";
+      if( webElement.isSelected() ){
+        origText = "on";
+      }else{
+        origText = "off";
+      }
+      store16433842 = origText;
 
-        //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        System.out.println( "Status: " + store864753675 );
+      //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store16433842
+      by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
+      webElement = driver.findElement( by );
+      System.out.println( "Status: " + store16433842 );
 
-        if( actualLoop >= maxLoopNumber ){
-            fail( "Stopped because the loop exceeded the max value but the LOOP condition is still not TRUE for the 'Checkbox1' element." );
-        }
+      if( actualLoop >= maxLoopNumber ){
+        fail( "Stopped because the loop exceeded the max value but the LOOP condition is still TRUE for the 'Checkbox1' element." );
+      }
 
-        //Waiting before the next cycle
-        try{ Thread.sleep( 846 ); } catch(InterruptedException ex) {}
-
-        //
-        //Evaluation
-        //
-        //Element: Checkbox1 (COMPAREVALUETOSTRING) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        if( !origText.equals( "on" ) ){
-          fail("Stopped because the element 'store864753675': '" + origText + "' does NOT equal to 'on' but it should.");
-        }
-
-        //Element: Checkbox1 (GAINVALUETOELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        store864753675 = origText;
-
-        //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        System.out.println( "Status: " + store864753675 );
-
-        if( actualLoop >= maxLoopNumber ){
-            fail( "Stopped because the loop exceeded the max value but the LOOP condition is still not TRUE for the 'Checkbox1' element." );
-        }
-
-        //Waiting before the next cycle
-        try{ Thread.sleep( 846 ); } catch(InterruptedException ex) {}
-
-        //
-        //Evaluation
-        //
-        //Element: Checkbox1 (COMPAREVALUETOSTRING) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        if( !origText.equals( "on" ) ){
-          fail("Stopped because the element 'store864753675': '" + origText + "' does NOT equal to 'on' but it should.");
-        }
-
-        //Element: Checkbox1 (GAINVALUETOELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        store864753675 = origText;
-
-        //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        System.out.println( "Status: " + store864753675 );
-
-        if( actualLoop >= maxLoopNumber ){
-            fail( "Stopped because the loop exceeded the max value but the LOOP condition is still not TRUE for the 'Checkbox1' element." );
-        }
-
-        //Waiting before the next cycle
-        try{ Thread.sleep( 843 ); } catch(InterruptedException ex) {}
-
-        //
-        //Evaluation
-        //
-        //Element: Checkbox1 (COMPAREVALUETOSTRING) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        if( !origText.equals( "on" ) ){
-          fail("Stopped because the element 'store864753675': '" + origText + "' does NOT equal to 'on' but it should.");
-        }
-
-        //Element: Checkbox1 (GAINVALUETOELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        store864753675 = origText;
-
-        //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        System.out.println( "Status: " + store864753675 );
-
-        if( actualLoop >= maxLoopNumber ){
-            fail( "Stopped because the loop exceeded the max value but the LOOP condition is still not TRUE for the 'Checkbox1' element." );
-        }
-
-        //Waiting before the next cycle
-        try{ Thread.sleep( 841 ); } catch(InterruptedException ex) {}
-
-        //
-        //Evaluation
-        //
-        //Element: Checkbox1 (COMPAREVALUETOSTRING) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        if( !origText.equals( "on" ) ){
-          fail("Stopped because the element 'store864753675': '" + origText + "' does NOT equal to 'on' but it should.");
-        }
-
-        //Element: Checkbox1 (GAINVALUETOELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        origText = "";
-        if( webElement.isSelected() ){
-          origText = "on";
-        }else{
-          origText = "off";
-        }
-        store864753675 = origText;
-
-        //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store864753675
-        by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-        webElement = driver.findElement( by );
-        System.out.println( "Status: " + store864753675 );
-
-        if( actualLoop >= maxLoopNumber ){
-            fail( "Stopped because the loop exceeded the max value but the LOOP condition is still not TRUE for the 'Checkbox1' element." );
-        }
+      //Waiting before the next cycle
+      actualDate = Calendar.getInstance().getTime();
+      long differenceTime = actualDate.getTime() - startDate.getTime();
+      long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;
+      try{ Thread.sleep( neededToWait ); } catch(InterruptedException ex) {}
 
     } //while()
   }

@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -457,7 +458,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	
 	private void runTestcases( TestcaseDataModelAdapter testcase ){
-		
+				
 		progressIndicator.printSource( "import org.openqa.selenium.By;" );
 		progressIndicator.printSource( "import org.openqa.selenium.WebDriver;" );
 		progressIndicator.printSource( "import org.openqa.selenium.WebElement;" );
@@ -482,6 +483,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		progressIndicator.printSource( "import java.util.Iterator;");
 		progressIndicator.printSource( "import java.util.regex.Matcher;");
 		progressIndicator.printSource( "import java.util.regex.Pattern;");
+		progressIndicator.printSource( "import java.util.Calendar;");
+		progressIndicator.printSource( "import java.util.Date;");
 		
 		progressIndicator.printSource( "" );
 
@@ -595,6 +598,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			progressIndicator.printSource( "" );
 			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int actualLoop = 0;" );
 			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int maxLoopNumber;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int oneLoopLength;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Date actualDate;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Date startDate;" );			
 			progressIndicator.printSource( "" );
 
 			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );

@@ -12,7 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.WorkingDirectory;
+import hu.akoel.grawit.core.operations.CompareOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
@@ -35,7 +35,6 @@ import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -71,9 +70,12 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		this.maxLoopNumber = maxLoopNumber;
 		this.elementOperation = operation;
 		
+		if( this.elementOperation instanceof CompareOperation ){
+			((CompareOperation) this.elementOperation).setIsInLoop( true );
+		}
+		
 		//Engedelyezi a Node Ki/Be kapcsolasat
 		this.setEnabledToTurnOnOff( true );
-
 	}
 	
 	public StepLoopCollectorDataModel( Element element, ConstantRootDataModel constantRootDataModel, BaseRootDataModel baseRootDataModel ) throws XMLPharseException{
@@ -219,6 +221,10 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		
 		elementOperation = CommonOperations.getElementOperation( element, compareBaseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, constantRootDataModel );
 		
+		if( this.elementOperation instanceof CompareOperation ){
+			((CompareOperation) this.elementOperation).setIsInLoop( true );
+		}
+		
 	}
 	
 	@Override
@@ -362,23 +368,30 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		Date startDate = Calendar.getInstance().getTime();			
 		Date actualDate;
 		
-progressIndicator.printSource( tab + "//Cycle starts" );
-progressIndicator.printSource( tab + "actualLoop = 0;" );
-progressIndicator.printSource( tab + "maxLoopNumber = " + maxLoopNumber + ";" );
-progressIndicator.printSource( tab + "while( actualLoop++ < maxLoopNumber ){");
-progressIndicator.printSource( "" );	
+		progressIndicator.printSource( tab + "//Cycle starts" );
+		progressIndicator.printSource( tab + "startDate = Calendar.getInstance().getTime();" );	
+		progressIndicator.printSource( tab + "actualLoop = 0;" );
+		progressIndicator.printSource( tab + "oneLoopLength = " + getOneLoopLength() + ";" );
+		progressIndicator.printSource( tab + "maxLoopNumber = " + maxLoopNumber + ";" );
+		progressIndicator.printSource( tab + "while( actualLoop++ < maxLoopNumber ){");
+		progressIndicator.printSource( "" );	
 		
 		//Annyiszor megy vegig a gyermekeken, amennyi a megengedett ciklusszam (es ha nem igaz a feltetel)
 		while( actualLoop++ < maxLoopNumber ){		
 			
 			try {
 				
-progressIndicator.printSource( tab + tab + "//");				
-progressIndicator.printSource( tab + tab + "//Evaluation");
-progressIndicator.printSource( tab + tab + "//");
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");				
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Evaluation");
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");
+				
 				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
-				getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + tab, definedElementSet, true );
-		
+getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + CommonOperations.TAB_BY_SPACE, definedElementSet, true );
+						
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");				
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Execution");
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");
+				
 				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
 				//es vegrehajtja oket
 				int childCount = this.getChildCount();
@@ -400,26 +413,10 @@ progressIndicator.printSource( tab + tab + "//");
 					//Ha a parameterezett elem be van kapcsolva
 					if( parameterElement.isOn() ){
 					
-						//Bazis elem
-						//BaseElementDataModelAdapter baseElement = parameterElement.getBaseElement();
-					
-						//Ha NORMAL
-						/*if( baseElement instanceof NormalBaseElementDataModel ){
-						
-							//TODO lehet, hogy ennek a framere varakozo idonek kulonboznie kellene
-							//a Bazis elemhez tartozo warakozasi ido
-							Integer waitingTime = ((NormalBaseElementDataModel)baseElement).getWaitingTimeForAppearance();
-							if( null == waitingTime ){
-								waitingTime = WorkingDirectory.getInstance().getWaitingTime();
-							}
-							WebDriverWait wait = new WebDriverWait(driver, waitingTime);
-				
-						}*/
-						
 						try{
 							
 							//Elem muveletenek vegrehajtasa
-							parameterElement.doAction( driver, progressIndicator, tab + tab, definedElementSet );
+parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB_BY_SPACE, definedElementSet );
 					
 						//Ha nem futott le rendesen a teszteset
 						}catch (ElementException f){
@@ -447,9 +444,9 @@ progressIndicator.printSource( tab + tab + "//");
 				throw new PageException( this.getName(), g.getElementName(), g.getElementSelector(), g);
 			}
 			
-			progressIndicator.printSource( tab + tab + "if( actualLoop >= maxLoopNumber ){" );
-			progressIndicator.printSource( tab + tab + tab + "fail( \"Stopped because the loop exceeded the max value but the LOOP condition is still TRUE for the '" + compareBaseElement.getName() + "' element.\" );" );			
-			progressIndicator.printSource( tab + tab + "}" );
+			progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( actualLoop >= maxLoopNumber ){" );
+			progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "fail( \"Stopped because the loop exceeded the max value but the LOOP condition is still TRUE for the '" + compareBaseElement.getName() + "' element.\" );" );			
+			progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );
 			progressIndicator.printSource( "" );
 			
 			//Ha azert lett vege a Loop-nak, mert elerte a maximalis szamot, vagyis a feltetel meg mindig igaz (ez nem jo) 
@@ -470,8 +467,11 @@ progressIndicator.printSource( tab + tab + "//");
 		
 			if( neededToWait > 0 ){
 				
-				progressIndicator.printSource( tab + tab + "//Waiting before the next cycle" );
-				progressIndicator.printSource( tab + tab + "try{ Thread.sleep( " + neededToWait + " ); } catch(InterruptedException ex) {}");
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Waiting before the next cycle" );
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "actualDate = Calendar.getInstance().getTime();" );
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "long differenceTime = actualDate.getTime() - startDate.getTime();" );
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;" );
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "try{ Thread.sleep( neededToWait ); } catch(InterruptedException ex) {}");
 				progressIndicator.printSource( "" );
 				
 				try{
@@ -506,5 +506,4 @@ progressIndicator.printSource( tab + tab + "//");
 		return cloned;
 		
 	}
-
 }

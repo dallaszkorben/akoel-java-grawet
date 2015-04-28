@@ -43,6 +43,8 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_CONTAIN_BY = "containby";
 	
+	private boolean isInLoop = false;
+	
 	// Model
 	private String stringPattern;
 	private ListCompareByListEnum containBy;
@@ -193,7 +195,12 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 
 	@Override
 	public boolean isInLoop(){
+		return this.isInLoop;
+	}
 	
+	@Override
+	public void setIsInLoop( boolean isInLoop ){
+		this.isInLoop = isInLoop;
 	}
 	
 	@Override
@@ -233,22 +240,23 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) ){			
 			elementProgress.printSource( tab + "if( !found ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' is NOT in the list\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' is NOT in the list.");
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' is NOT in the list\");");
 			}
-			elementProgress.printSource( tab + "}" );			
+			elementProgress.printSource( tab + "}" );	
+			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) ){			
 			elementProgress.printSource( tab + "if( found ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' IS in the list\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' IS in the list.");
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' IS in the list\");");
 			}
 			elementProgress.printSource( tab + "}" );
 		}		
-		
+
 		//
 		// CODE Starts
 		//	

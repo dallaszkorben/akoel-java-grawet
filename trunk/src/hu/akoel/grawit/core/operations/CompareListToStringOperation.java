@@ -23,13 +23,15 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareListToStringOperation extends ElementOperationAdapter{
+public class CompareListToStringOperation extends ElementOperationAdapter implements CompareOperation{
 	
 	private static final String NAME = "COMPARELISTTOSTRING";
 	private static final String ATTR_STRING = "string";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_COMPARE_BY = "compareby";
+	
+	private boolean isInLoop = false;
 	
 	// Model
 	private String stringPattern;
@@ -122,7 +124,12 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 
 	@Override
 	public boolean isInLoop(){
+		return this.isInLoop;
+	}
 	
+	@Override
+	public void setIsInLoop( boolean isInLoop ){
+		this.isInLoop = isInLoop;
 	}
 
 	@Override
@@ -149,18 +156,20 @@ public class CompareListToStringOperation extends ElementOperationAdapter{
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 			elementProgress.printSource( tab + "}" );
 		}
+		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
 			elementProgress.printSource( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
-			if( isInloop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\"");
+			if( isInLoop() ){
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + stringToCompare + " + \"'.");
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
 			}
 			elementProgress.printSource( tab + "}" );
+			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			elementProgress.printSource( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
-			if( isInloop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\"");
+			if( isInLoop() ){
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '" + stringToCompare + " + \"'.");
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
 			}

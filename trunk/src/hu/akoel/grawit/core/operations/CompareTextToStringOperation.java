@@ -1,6 +1,5 @@
 package hu.akoel.grawit.core.operations;
 
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,12 +20,14 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareTextToStringOperation extends ElementOperationAdapter{
+public class CompareTextToStringOperation extends ElementOperationAdapter implements CompareOperation{
 	
 	private static final String NAME = "COMPARETEXTTOSTRING";
 	private static final String ATTR_STRING = "string";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
+	
+	private boolean isInLoop = false;
 	
 	private Pattern pattern;
 	
@@ -103,7 +104,12 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 
 	@Override
 	public boolean isInLoop(){
+		return this.isInLoop;
+	}
 	
+	@Override
+	public void setIsInLoop( boolean isInLoop ){
+		this.isInLoop = isInLoop;
 	}
 
 	@Override
@@ -123,7 +129,7 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
 			elementProgress.printSource( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + stringToCompare + " + \"'." );
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
 			}
@@ -131,7 +137,7 @@ public class CompareTextToStringOperation extends ElementOperationAdapter{
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			elementProgress.printSource( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "'.\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' equals to '" + stringToCompare + " + \"'.");
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
 			}

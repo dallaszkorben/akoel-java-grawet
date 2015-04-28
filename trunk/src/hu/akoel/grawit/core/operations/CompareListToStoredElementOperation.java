@@ -34,13 +34,15 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareListToStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface{
+public class CompareListToStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface, CompareOperation{
 	
 	private static final String NAME = "COMPARELISTTOSTOREDELEMENT";	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "comparebaseelementpath";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_COMPARE_BY = "compareby";
+	
+	private boolean isInLoop = false;
 	
 	private Pattern pattern;
 	private String stringPattern;
@@ -201,7 +203,12 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	
 	@Override
 	public boolean isInLoop(){
+		return this.isInLoop;
+	}
 	
+	@Override
+	public void setIsInLoop( boolean isInLoop ){
+		this.isInLoop = isInLoop;
 	}
 
 	@Override
@@ -220,7 +227,8 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 		//TEXT
 		}else if( compareBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
 			elementProgress.printSource( tab + "origText = select.getFirstSelectedOption().getText();" );
-		}		
+		}
+		
 		if( null != pattern ){
 			elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
 			elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
@@ -228,18 +236,20 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 			elementProgress.printSource( tab + "}" );
 		}
+		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
 			elementProgress.printSource( tab + "if( !origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'.\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'." );
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");
 			}
 			elementProgress.printSource( tab + "}" );
+			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			elementProgress.printSource( tab + "if( origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'.\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'." );
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should NOT.\");");
 			}
