@@ -32,12 +32,14 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareValueToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface{
+public class CompareValueToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareOperation{
 	
 	private static final String NAME = "COMPAREVALUETOCONSTANT";	
 	private static final String ATTR_COMPARE_CONSTANT_ELEMENT_PATH = "compareconstantelementpath";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
+	
+	private boolean isInLoop = false;
 	
 	private Pattern pattern;
 	
@@ -173,9 +175,14 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 	
 	@Override
 	public boolean isInLoop(){
-	
+		return this.isInLoop;
 	}
-
+	
+	@Override
+	public void setIsInLoop( boolean isInLoop ){
+		this.isInLoop = isInLoop;
+	}
+	
 	@Override
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
 
@@ -196,7 +203,8 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 		//Ha FIELD/CHECKBOX
 		}else{			
 			elementProgress.printSource( tab + "origText = webElement.getAttribute(\"value\");" );			
-		}		
+		}
+		
 		if( null != pattern ){
 			elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
 			elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
@@ -204,18 +212,20 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
 			elementProgress.printSource( tab + "}" );					
 		}
+		
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			elementProgress.printSource( tab + "if( !origText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );			
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + constantElementDataModel.getValue() + "'.\");");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + constantElementDataModel.getValue() + " + \"'." );
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + constantElementDataModel.getValue() + "' but it should.\");");
 			}
 			elementProgress.printSource( tab + "}" );
+			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			elementProgress.printSource( tab + "if( origText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );			
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + constantElementDataModel.getValue() + "'.\");");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + constantElementDataModel.getValue() + " + \"'." );
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + constantElementDataModel.getValue() + "' but it should NOT.\");");
 			}

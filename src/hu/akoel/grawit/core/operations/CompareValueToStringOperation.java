@@ -21,12 +21,14 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareValueToStringOperation extends ElementOperationAdapter{
+public class CompareValueToStringOperation extends ElementOperationAdapter implements CompareOperation{
 	
 	private static final String NAME = "COMPAREVALUETOSTRING";
 	private static final String ATTR_STRING = "string";
 	private static final String ATTR_COMPARE_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
+	
+	private boolean isInLoop = false;
 	
 	private Pattern pattern;
 	
@@ -101,7 +103,12 @@ public class CompareValueToStringOperation extends ElementOperationAdapter{
 
 	@Override
 	public boolean isInLoop(){
-		this.get
+		return this.isInLoop;
+	}
+	
+	@Override
+	public void setIsInLoop( boolean isInLoop ){
+		this.isInLoop = isInLoop;
 	}
 
 	@Override
@@ -135,7 +142,7 @@ public class CompareValueToStringOperation extends ElementOperationAdapter{
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			elementProgress.printSource( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "'.\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + stringToCompare + "'.");
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
 			}
@@ -143,13 +150,13 @@ public class CompareValueToStringOperation extends ElementOperationAdapter{
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			elementProgress.printSource( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' equals to '" + stringToCompare + "'.");
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
 			}
 			elementProgress.printSource( tab + "}" );
 		}	
-		
+
 		//
 		// Execute the OPERATION
 		//

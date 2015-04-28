@@ -24,13 +24,15 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareContainListStringOperation extends ElementOperationAdapter{
+public class CompareContainListStringOperation extends ElementOperationAdapter implements CompareOperation{
 	
 	private static final String NAME = "CONTAINLISTSTRING";
 	private static final String ATTR_STRING = "string";
 	private static final String ATTR_CONTAIN_TYPE = "type";
 	private static final String ATTR_PATTERN = "pattern";
 	private static final String ATTR_CONTAIN_BY = "containby";
+	
+	private boolean isInLoop = false;
 	
 	// Model
 	private String stringPattern;
@@ -121,8 +123,14 @@ public class CompareContainListStringOperation extends ElementOperationAdapter{
 		return containType;
 	}
 
+	@Override
 	public boolean isInLoop(){
-		
+		return this.isInLoop;
+	}
+	
+	@Override
+	public void setIsInLoop( boolean isInLoop ){
+		this.isInLoop = isInLoop;
 	}
 	
 	@Override
@@ -144,7 +152,8 @@ public class CompareContainListStringOperation extends ElementOperationAdapter{
 		//TEXT
 		}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){		
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getText();" );		
-		}		
+		}
+		
 		if( null != pattern ){			
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "matcher = pattern.matcher( origText );");	
@@ -152,6 +161,7 @@ public class CompareContainListStringOperation extends ElementOperationAdapter{
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );		
 		}
+		
 		elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( optionText.equals( \"" + stringForSearch + "\" ) ){" );	
 		elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "found = true;" );
 		elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "break;" );
@@ -162,16 +172,17 @@ public class CompareContainListStringOperation extends ElementOperationAdapter{
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) ){			
 			elementProgress.printSource( tab + "if( !found ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' is NOT in the list\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' is NOT in the list.");
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' is NOT in the list\");");
 			}
-			elementProgress.printSource( tab + "}" );			
+			elementProgress.printSource( tab + "}" );	
+			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) ){			
 			elementProgress.printSource( tab + "if( found ){" );
 			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' IS in the list\"");
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' IS in the list.");
 			}else{
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + stringForSearch + "' IS in the list\");");
 			}
