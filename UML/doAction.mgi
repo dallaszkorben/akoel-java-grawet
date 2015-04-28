@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel"
+        x="113" y="362">
+        <Extension destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.ExecutableStepInterface"/>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel"
+        x="703" y="470">
+        <Association
+            destinationClassName="hu.akoel.grawit.core.operations.ElementOperationAdapter"
+            endpointName="elementOperation" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.operations.ElementOperationAdapter"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel"/>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter"
+        x="101" y="459"/>
+    <CommunicationClass
+        name="hu.akoel.grawit.gui.editor.run.RunTestcaseEditor" x="151" y="544">
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter"/>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel"
+        x="573" y="332">
+        <Association
+            destinationClassName="hu.akoel.grawit.core.operations.ElementOperationAdapter"
+            endpointName="elementOperation" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.core.operations.ElementOperationAdapter">
+            <Point x="650" y="148"/>
+        </Communication>
+    </CommunicationClass>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.operations.ElementOperationAdapter"
+        x="708" y="129">
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel"/>
+    </CommunicationClass>
+    <CommunicationClass name="hu.akoel.grawit.ExecutableStepInterface"
+        x="130" y="201"/>
+    <CommunicationClass
+        name="hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel"
+        x="427" y="470">
+        <Communication destinationClassName="hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel"/>
+    </CommunicationClass>
+</ClassDiagram>

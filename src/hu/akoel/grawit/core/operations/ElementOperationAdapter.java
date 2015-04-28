@@ -91,7 +91,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		
     }
     
-	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet, boolean needElementEndedAtException ) throws ElementException, CompilationException{
+	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet, boolean isInLoopCollector ) throws ElementException, CompilationException{
  
 		//
 		//Szukseges az elem beazonositasa
@@ -132,10 +132,6 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				progressIndicator.printSource( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + "); //EXPLICIT WAIT" );
 				wait = new WebDriverWait(driver, waitingTimeForAppearance);
 				
-//				//EXPLICIT WAIT
-//				elementProgress.printCommand( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + "); //EXPLICIT WAIT" );
-//				
-//				wait = new WebDriverWait(driver, waitingTimeForAppearance);
 			}			
 			
 			//WAITING TIME BEFORE OPERATION
@@ -213,7 +209,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				progressIndicator.printSource("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
 
 				//Ujra hiv
-				doAction( driver, baseElement, progressIndicator, tab, definedElementSet, needElementEndedAtException );
+				doAction( driver, baseElement, progressIndicator, tab, definedElementSet, isInLoopCollector );
 				
 			//Ha az operation vegrehajtasa soran kivetel generalodott
 			}catch(   ElementException e ){

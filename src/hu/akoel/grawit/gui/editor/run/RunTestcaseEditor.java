@@ -593,6 +593,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "@Test" );
 			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void " + testcaseMethodName + "(){" );	
 			progressIndicator.printSource( "" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int actualLoop = 0;" );
+			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int maxLoopNumber;" );
+			progressIndicator.printSource( "" );
 
 			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
 
