@@ -221,6 +221,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		
 		elementOperation = CommonOperations.getElementOperation( element, compareBaseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, constantRootDataModel );
 		
+		//Jelzem, hogy az adott Operation egy Loop-ban szerepel es igy a forraskod bizonyos elemei kulonbozoek lehetnek
 		if( this.elementOperation instanceof CompareOperation ){
 			((CompareOperation) this.elementOperation).setIsInLoop( true );
 		}
@@ -380,18 +381,21 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		while( actualLoop++ < maxLoopNumber ){		
 			
 			try {
-				
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");				
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Evaluation");
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");
+				if( actualLoop == 1 ){				
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");				
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Evaluation");
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");
+				}
 				
 				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
-getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + CommonOperations.TAB_BY_SPACE, definedElementSet, true );
-						
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");				
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Execution");
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");
-				
+getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + CommonOperations.TAB_BY_SPACE, definedElementSet );
+
+				if( actualLoop == 1 ){
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");				
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Execution");
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");
+				}
+
 				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
 				//es vegrehajtja oket
 				int childCount = this.getChildCount();
@@ -402,7 +406,7 @@ getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicato
 					if( player.isStopped() ){
 						
 						//A While loopot le kell azert zarni
-						closeTheLoop(progressIndicator, tab);
+						printSourceLoopClose(progressIndicator, tab);
 						
 						throw new StoppedByUserException();
 					}
@@ -422,7 +426,7 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 						}catch (ElementException f){
 							
 							//A While loopot le kell azert zarni
-							closeTheLoop(progressIndicator, tab);
+							printSourceLoopClose(progressIndicator, tab);
 							
 							throw new PageException( this.getName(), f.getElementName(), f.getElementSelector(), f);					
 						}					
@@ -439,21 +443,23 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 			}catch( ElementException g	){
 								
 				//A While loopot le kell azert zarni
-				closeTheLoop(progressIndicator, tab);
+				printSourceLoopClose(progressIndicator, tab);
 				
 				throw new PageException( this.getName(), g.getElementName(), g.getElementSelector(), g);
 			}
 			
-			progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( actualLoop >= maxLoopNumber ){" );
-			progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "fail( \"Stopped because the loop exceeded the max value but the LOOP condition is still TRUE for the '" + compareBaseElement.getName() + "' element.\" );" );			
-			progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );
-			progressIndicator.printSource( "" );
+			if( actualLoop == 1 ){
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( actualLoop >= maxLoopNumber ){" );
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "fail( \"Stopped because the loop exceeded the max value but the LOOP condition is still TRUE for the '" + compareBaseElement.getName() + "' element.\" );" );			
+				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );
+				progressIndicator.printSource( "" );
+			}
 			
 			//Ha azert lett vege a Loop-nak, mert elerte a maximalis szamot, vagyis a feltetel meg mindig igaz (ez nem jo) 
 			if( actualLoop >= maxLoopNumber ){
 				
 				//A While loopot le kell azert zarni
-				closeTheLoop(progressIndicator, tab);
+				printSourceLoopClose(progressIndicator, tab);
 				
 				//Akkor egy uj hibat generalok
 				throw new LoopExceededMaxValueException( this.getName(), compareBaseElement.getName(), new Exception() );
@@ -467,25 +473,26 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 		
 			if( neededToWait > 0 ){
 				
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Waiting before the next cycle" );
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "actualDate = Calendar.getInstance().getTime();" );
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "long differenceTime = actualDate.getTime() - startDate.getTime();" );
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;" );
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "try{ Thread.sleep( neededToWait ); } catch(InterruptedException ex) {}");
-				progressIndicator.printSource( "" );
+				if( actualLoop == 1 ){
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Waiting before the next cycle" );
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "actualDate = Calendar.getInstance().getTime();" );
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "long differenceTime = actualDate.getTime() - startDate.getTime();" );
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;" );
+					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "try{ Thread.sleep( neededToWait ); } catch(InterruptedException ex) {}");
+					progressIndicator.printSource( "" );
+				}
 				
 				try{
 					Thread.sleep( neededToWait );
 				} catch(InterruptedException ex) {}
-			}
-			
+			}			
 		}
 
-		closeTheLoop(progressIndicator, tab);
+		printSourceLoopClose(progressIndicator, tab);
 		
 	}
 	
-	private void closeTheLoop( ProgressIndicatorInterface progressIndicator, String tab ){
+	private void printSourceLoopClose( ProgressIndicatorInterface progressIndicator, String tab ){
 		progressIndicator.printSource( tab + "} //while()");
 	}
 	

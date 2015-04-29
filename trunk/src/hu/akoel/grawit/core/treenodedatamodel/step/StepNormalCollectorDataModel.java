@@ -127,11 +127,6 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	public void doAction( WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws PageException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel stepElement;
-		
-		//Jelzi, hogy elindult az oldal feldolgozasa
-//		if( null != stepProgress ){
-//			stepProgress.stepStarted( this, testcaseStepCollector );
-//		}	
 
 		int childrenCount = this.getChildCount();
 		for( int i = 0; i < childrenCount; i++ ){
@@ -162,13 +157,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 			
 				}			
 			}				
-		}
-		
-		//Jelzi, hogy befejezodott az oldal feldolgozasa
-//		if( null != stepProgress ){
-//			stepProgress.stepEnded( this, testcaseStepCollector );
-//		}
-		
+		}		
 	}
 	
 	@Override

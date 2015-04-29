@@ -47,24 +47,9 @@ public abstract class ElementOperationAdapter implements Cloneable{
 	 */
     public abstract Object clone();
 
-    /**
+     /**
      * 
-     * Normal Element eseten
-     * 
-     * @param driver
-     * @param stepElement
-     * @param progressIndicator
-     * @param tab
-     * @throws ElementException
-     * @throws CompilationException
-     */
-    public void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws ElementException, CompilationException{    	
-    	doAction( driver, stepElement, progressIndicator, tab, definedElementSet, false ); 
-    }
-
-    /**
-     * 
-     * 
+     * Kozvetlenul a StepElement hivja
      * 
      * @param driver
      * @param stepElement
@@ -74,7 +59,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
      * @throws ElementException
      * @throws CompilationException
      */
-    private void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet, boolean isInLoopCollector ) throws ElementException, CompilationException{
+    public void doAction( WebDriver driver, StepElementDataModel stepElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException, CompilationException{
 
     	BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
     	
@@ -83,15 +68,28 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			progressIndicator.elementStarted( stepElement );
 		}
 		
-		doAction( driver, baseElement, progressIndicator, tab, definedElementSet, isInLoopCollector );
+		doAction( driver, baseElement, progressIndicator, tab, definedElementSet, needToPrintSource );
 
 		if( null != progressIndicator ){
 			sendelementEndedMessage( progressIndicator, stepElement );
-		}	
-		
+		}		
     }
+
     
-	public void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet, boolean isInLoopCollector ) throws ElementException, CompilationException{
+    /**
+     * 
+     * Kozvetlenul a Loop hivja mint kiertekelendo muveletet
+     * Kozvetve pedig az itteni doAction akit viszont a StepElement hiv
+     * 
+     * @param driver
+     * @param baseElement
+     * @param progressIndicator
+     * @param tab
+     * @param definedElementSet
+     * @throws ElementException
+     * @throws CompilationException
+     */
+	private  void doAction( WebDriver driver, BaseElementDataModelAdapter baseElement, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException, CompilationException{
  
 		//
 		//Szukseges az elem beazonositasa
@@ -209,7 +207,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				progressIndicator.printSource("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");	
 
 				//Ujra hiv
-				doAction( driver, baseElement, progressIndicator, tab, definedElementSet, isInLoopCollector );
+				doAction( driver, baseElement, progressIndicator, tab, definedElementSet, needToPrintSource );
 				
 			//Ha az operation vegrehajtasa soran kivetel generalodott
 			}catch(   ElementException e ){
