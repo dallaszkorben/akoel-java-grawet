@@ -113,35 +113,39 @@ public class CompareTextToStringOperation extends ElementOperationAdapter implem
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException {
 		
 		//
 		// SOURCE Starts
 		//	
-		elementProgress.printSource( tab + "origText = webElement.getText();" );
-		if( null != pattern ){
-			elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
-			elementProgress.printSource( tab + "if( matcher.find() ){" );			
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-			elementProgress.printSource( tab + "}" );
-		}
-		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-			elementProgress.printSource( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
-			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + stringToCompare + " + \"'." );
-			}else{
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
+		if( needToPrintSource ){
+			
+			elementProgress.printSource( tab + "origText = webElement.getText();" );
+			if( null != pattern ){
+				elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+				elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
+				elementProgress.printSource( tab + "if( matcher.find() ){" );			
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+				elementProgress.printSource( tab + "}" );
 			}
-			elementProgress.printSource( tab + "}" );
-		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-			elementProgress.printSource( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
-			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' equals to '" + stringToCompare + " + \"'.");
-			}else{
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
+			
+			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
+				elementProgress.printSource( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
+				if( isInLoop() ){
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + stringToCompare + " + \"'." );
+				}else{
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
+				}
+				elementProgress.printSource( tab + "}" );
+			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+				elementProgress.printSource( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
+				if( isInLoop() ){
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' equals to '" + stringToCompare + " + \"'.");
+				}else{
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
+				}
+				elementProgress.printSource( tab + "}" );
 			}
-			elementProgress.printSource( tab + "}" );
 		}
 		
 		//

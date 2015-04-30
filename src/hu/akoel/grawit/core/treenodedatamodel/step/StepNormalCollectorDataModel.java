@@ -1,6 +1,5 @@
 package hu.akoel.grawit.core.treenodedatamodel.step;
 
-import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -147,7 +146,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
 			
 				try{			
-					stepElement.doAction( driver, progressIndicator, tab, definedElementSet );
+					stepElement.doAction( driver, progressIndicator, tab, definedElementSet, true );
 			
 				//Ha nem futott le rendesen a teszteset
 				}catch (ElementException e){

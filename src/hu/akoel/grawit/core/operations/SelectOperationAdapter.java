@@ -24,25 +24,28 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 	public abstract String getStringToSelection();
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException {
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){
 
-			//I do not know why but it have to be here
-			elementProgress.printSource( tab + "webElement.sendKeys(Keys.TAB);" );
-			elementProgress.printSource( tab + "webElement.sendKeys(Keys.SHIFT, Keys.TAB);" );
-			elementProgress.printSource( tab + "select = new Select(webElement);" );
-			if( getSelectionBy().equals( ListSelectionByListEnum.BYVALUE ) ){
-				elementProgress.printSource( tab + "select.selectByValue( \"" + getStringToSelection() + "\" );" );
-			}else if( getSelectionBy().equals( ListSelectionByListEnum.BYINDEX ) ){
-				elementProgress.printSource( tab + "index = 0;" );
-				elementProgress.printSource( tab + "try{" );
-				elementProgress.printSource( tab + "index = Integer.valueOf( " + getStringToSelection() + " );" );
-				elementProgress.printSource( tab + "}catch( Exception e){}" );
-				elementProgress.printSource( tab + "select.selectByIndex( index  );" );
-			}else if( getSelectionBy().equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
-				elementProgress.printSource( tab + "select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );
-			}			
+			if( needToPrintSource ){
+
+				//I do not know why but it have to be here
+				elementProgress.printSource( tab + "webElement.sendKeys(Keys.TAB);" );
+				elementProgress.printSource( tab + "webElement.sendKeys(Keys.SHIFT, Keys.TAB);" );
+				elementProgress.printSource( tab + "select = new Select(webElement);" );
+				if( getSelectionBy().equals( ListSelectionByListEnum.BYVALUE ) ){
+					elementProgress.printSource( tab + "select.selectByValue( \"" + getStringToSelection() + "\" );" );
+				}else if( getSelectionBy().equals( ListSelectionByListEnum.BYINDEX ) ){
+					elementProgress.printSource( tab + "index = 0;" );
+					elementProgress.printSource( tab + "try{" );
+					elementProgress.printSource( tab + "index = Integer.valueOf( " + getStringToSelection() + " );" );
+					elementProgress.printSource( tab + "}catch( Exception e){}" );
+					elementProgress.printSource( tab + "select.selectByIndex( index  );" );
+				}else if( getSelectionBy().equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
+					elementProgress.printSource( tab + "select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );
+				}
+			}
 			
 			Select select = null;
 			try{
