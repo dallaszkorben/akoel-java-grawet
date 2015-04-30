@@ -50,11 +50,10 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException {
 		
-		if( null != elementProgress ){
+		if( needToPrintSource ){
 
-			//elementProgress.printSource( tab + "System.out.println( \"" + label + ": \" + " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " );" );
 			elementProgress.printSource( tab + "System.out.println( \"" + label + ": \" + " + baseElement.getNameAsVariable() + " );" );
 			
 			elementProgress.printOutput( label, baseElement.getStoredValue(), null );			

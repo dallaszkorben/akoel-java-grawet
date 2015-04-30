@@ -198,52 +198,55 @@ public class CompareValueToStoredElementOperation extends ElementOperationAdapte
 	}
 
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException {
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException {
 		
 		//
 		// SOURCE Starts
 		//	
-		elementProgress.printSource( tab + "origText = \"\";" );
+		if( needToPrintSource ){
 		
-		//CHECKBOX/RADIOBUTTON
-		if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON ) ){			
-			elementProgress.printSource( tab + "if( webElement.isSelected() ){" );
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
-			elementProgress.printSource( tab + "}else{" );
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
-			elementProgress.printSource( tab + "}" );
+			elementProgress.printSource( tab + "origText = \"\";" );
 		
-		//Ha FIELD/CHECKBOX
-		}else{
-			
-			elementProgress.printSource( tab + "origText = webElement.getAttribute(\"value\");" );			
-		}	
+			//CHECKBOX/RADIOBUTTON
+			if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON ) ){			
+				elementProgress.printSource( tab + "if( webElement.isSelected() ){" );
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
+				elementProgress.printSource( tab + "}else{" );
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
+				elementProgress.printSource( tab + "}" );
 		
-		if( null != pattern ){
-			elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-			elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
-			elementProgress.printSource( tab + "if( matcher.find() ){" );			
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-			elementProgress.printSource( tab + "}" );					
-		}
-		
-		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
-			elementProgress.printSource( tab + "if( !origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
-			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'.");
+				//Ha FIELD/CHECKBOX
 			}else{
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");
-			}
-			elementProgress.printSource( tab + "}" );
 			
-		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-			elementProgress.printSource( tab + "if( origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
-			if( isInLoop() ){
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'.");
-			}else{
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should NOT.\");");
+				elementProgress.printSource( tab + "origText = webElement.getAttribute(\"value\");" );			
+			}	
+		
+			if( null != pattern ){
+				elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+				elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
+				elementProgress.printSource( tab + "if( matcher.find() ){" );			
+				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+				elementProgress.printSource( tab + "}" );					
+			}	
+		
+			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
+				elementProgress.printSource( tab + "if( !origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
+				if( isInLoop() ){
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'.");
+				}else{
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");
+				}
+				elementProgress.printSource( tab + "}" );
+			
+			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
+				elementProgress.printSource( tab + "if( origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
+				if( isInLoop() ){
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'.");
+				}else{
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should NOT.\");");
+				}
+				elementProgress.printSource( tab + "}" );
 			}
-			elementProgress.printSource( tab + "}" );
 		}
 		
 		//

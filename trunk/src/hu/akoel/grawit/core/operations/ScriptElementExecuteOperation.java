@@ -41,12 +41,12 @@ public class ScriptElementExecuteOperation extends ScriptOperationAdapter{
 
 	
 	@Override
-	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet ) throws ElementException, CompilationException{
+	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException, CompilationException{
 		
 		//HA SPECIALBASEELEMENT - annak kell lennie
 		if( baseElement instanceof ScriptBaseElementDataModel ){
 
-			if( null != elementProgress ){
+			if( needToPrintSource ){
 				outputScripClass(driver, baseElement, webElement, elementProgress, tab, definedElementSet );
 				elementProgress.printSource( tab + "try{" );
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsScript() + ".runScript();" );

@@ -388,7 +388,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 				}
 				
 				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
-getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + CommonOperations.TAB_BY_SPACE, definedElementSet );
+getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + CommonOperations.TAB_BY_SPACE, definedElementSet, (actualLoop == 1? true: false) );
 
 				if( actualLoop == 1 ){
 					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");				
@@ -420,7 +420,7 @@ getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicato
 						try{
 							
 							//Elem muveletenek vegrehajtasa
-parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB_BY_SPACE, definedElementSet );
+parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB_BY_SPACE, definedElementSet, ( actualLoop == 1? true: false ) );
 					
 						//Ha nem futott le rendesen a teszteset
 						}catch (ElementException f){
