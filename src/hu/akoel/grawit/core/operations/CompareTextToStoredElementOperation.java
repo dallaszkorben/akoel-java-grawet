@@ -1,5 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
+import static org.junit.Assert.fail;
+
 import java.io.StringReader;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -46,12 +48,12 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	
 	//--- Data model
 	private String stringPattern;
-	private BaseElementDataModelAdapter baseElementDataModel;
+	private BaseElementDataModelAdapter baseElementForSearch;
 	private CompareTypeListEnum compareType;
 	//---
 	
 	public CompareTextToStoredElementOperation( BaseElementDataModelAdapter baseElementDataModel, CompareTypeListEnum compareType, String stringPattern ){
-		this.baseElementDataModel = baseElementDataModel;
+		this.baseElementForSearch = baseElementDataModel;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
 		
@@ -138,7 +140,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	    	
 	    try{
 	    	
-	    	this.baseElementDataModel = (BaseElementDataModelAdapter)baseDataModelForCompareText;
+	    	this.baseElementForSearch = (BaseElementDataModelAdapter)baseDataModelForCompareText;
 	    	
 	    }catch(ClassCastException e){
 
@@ -173,7 +175,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	
 	@Override
 	public BaseElementDataModelAdapter getBaseElementForSearch() {
-		return baseElementDataModel;
+		return baseElementForSearch;
 	}
 
 	public static String getStaticName(){
@@ -217,20 +219,20 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 			}
 		
 			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){		
-				elementProgress.printSource( tab + "if( !origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
+				elementProgress.printSource( tab + "if( !origText.equals( " + baseElementForSearch.getNameAsVariable() + " ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'.");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + getBaseElementForSearch().getNameAsVariable() + "': \" + " + getBaseElementForSearch().getNameAsVariable() + " + \".\");");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should.\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + getBaseElementForSearch().getNameAsVariable() + "': \" + " + getBaseElementForSearch().getNameAsVariable() + " + \" but it should.\");");
 				}
 				elementProgress.printSource( tab + "}" );
 			
 			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-				elementProgress.printSource( tab + "if( origText.equals( " + baseElement.getNameAsVariable() + " ) ){" );
+				elementProgress.printSource( tab + "if( origText.equals( " + baseElementForSearch.getNameAsVariable() + " ) ){" );
 				if( isInLoop() ){
 					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"'.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '\" + " + getBaseElementForSearch().getNameAsVariable() + " + \"' but it should NOT.\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + getBaseElementForSearch().getNameAsVariable() + "': \" + " + getBaseElementForSearch().getNameAsVariable() + " + \" but it should NOT.\");");
 				}
 				elementProgress.printSource( tab + "}" );
 			}
@@ -253,35 +255,29 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
-			if( !origText.equals( baseElementDataModel.getStoredValue() ) ){
+			if( !origText.equals( baseElementForSearch.getStoredValue() ) ){
 				
-				elementProgress.printSource( tab + "fail(\"Stopped because !origText.equals( " + baseElement.getNameAsVariable() + " ) BUT is should be\");" );
-				//elementProgress.printSource( tab + "fail(\"Stopped because !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT is should be\");" );
-				//elementProgress.printSource( tab + "System.err.println(\"Stopped because !origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT is should be\");" );
-				//elementProgress.printSource( tab + "System.exit(-1);");
+				//elementProgress.printSource( tab + "fail(\"Stopped because !origText.equals( " + baseElement.getNameAsVariable() + " ) BUT is should be\");" );
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, baseElementForSearch.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, baseElementForSearch.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( origText.equals( baseElementDataModel.getStoredValue() ) ){
+			if( origText.equals( baseElementForSearch.getStoredValue() ) ){
 				
-				elementProgress.printSource( tab + "fail(\"Stopped because origText.equals( " + baseElement.getNameAsVariable() + " ) BUT it should NOT be\");" );
-				//elementProgress.printSource( tab + "fail(\"Stopped because origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT it should NOT be\");" );
-				//elementProgress.printSource( tab + "System.err.println(\"Stopped because origText.equals( " + CommonOperations.STORAGE_NAME_PREFIX + String.valueOf( baseElement.hashCode() ) + " ) BUT it should NOT be\");" );
-				//elementProgress.printSource( tab + "System.exit(-1);");
+				//elementProgress.printSource( tab + "fail(\"Stopped because origText.equals( " + baseElement.getNameAsVariable() + " ) BUT it should NOT be\");" );
 
 				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, baseElementForSearch.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, baseElementDataModel.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, baseElementForSearch.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );
 				}
 			}			
 		}
@@ -290,7 +286,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 	@Override
 	public void setXMLAttribute(Document document, Element element) {		
 		Attr attr = document.createAttribute( ATTR_COMPARE_STORED_BASE_ELEMENT_PATH );
-		attr.setValue( baseElementDataModel.getPathTag() );
+		attr.setValue( baseElementForSearch.getPathTag() );
 		element.setAttributeNode( attr );
 		
 		attr = document.createAttribute( ATTR_COMPARE_TYPE );
@@ -308,7 +304,7 @@ public class CompareTextToStoredElementOperation extends ElementOperationAdapter
 
 		String stringPattern = new String( this.stringPattern );
 
-		return new CompareTextToStoredElementOperation(baseElementDataModel, compareType, stringPattern);
+		return new CompareTextToStoredElementOperation(baseElementForSearch, compareType, stringPattern);
 	}
 	
 	@Override
