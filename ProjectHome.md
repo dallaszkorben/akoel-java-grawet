@@ -1,6 +1,6 @@
 # **GRAWIT** #
 
-This Interface helps to create test cases and run them on Web applications without knowing any program languages.
+This User Interface helps to create test cases and run them on Web applications without knowing any program languages.
 
 **Feautures:**
   * Web driver Tab for define Firefox and Explorer
