@@ -252,9 +252,9 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 			if( containType.equals( ContainTypeListEnum.CONTAINS ) ){			
 				elementProgress.printSource( tab + "if( !found ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + getBaseElementForSearch().getStoredValue() + "' is NOT in the list.");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + getBaseElementForSearch().getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + getBaseElementForSearch().getStoredValue() + "' is NOT in the list.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + getBaseElementForSearch().getStoredValue() + "' is NOT in the list\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + getBaseElementForSearch().getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + getBaseElementForSearch().getStoredValue() + "' is NOT in the list\");");
 				}
 				elementProgress.printSource( tab + "}" );	
 			
@@ -304,16 +304,14 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 				if( matcher.find() ){
 					
 					optionText = matcher.group();
-				}
-				
+				}				
 			}
 			
 			//Ha megtalalta a listaban a keresett erteket
 			if( optionText.equals( getBaseElementForSearch().getStoredValue() ) ){
 				found = true;
 				break;
-			}
-			
+			}			
 		}
 		
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
@@ -322,7 +320,6 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
 				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementForSearch.getStoredValue(), false, new Exception() );
-
 			}
 			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
