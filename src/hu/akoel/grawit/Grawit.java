@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 
 public class Grawit {
 	private static final String title = "Grawit";
-	private static final String version = "1.2.1";
+	private static final String version = "1.2.2";
 	private static final String designer = "akoelSoft";
 	
 	//private static final String grawitIniDirectory = ".grawit";
