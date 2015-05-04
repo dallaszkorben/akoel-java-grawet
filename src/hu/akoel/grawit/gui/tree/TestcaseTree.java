@@ -14,6 +14,7 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
@@ -377,6 +378,23 @@ public class TestcaseTree extends Tree {
 
 	@Override
 	public void doPopupLink(JPopupMenu popupMenu, DataModelAdapter selectedNode) {
-		// TODO Auto-generated method stub		
+	
+		if( selectedNode instanceof TestcaseStepCollectorDataModel ){
+			
+			StepCollectorDataModelAdapter stepCollector = ((TestcaseStepCollectorDataModel)selectedNode).getStepCollector();
+			
+			JMenuItem linkToStepMenu = new JMenuItem(
+				MessageFormat.format( 
+					CommonOperations.getTranslation("tree.popupmenu.linkto.step"), 
+					stepCollector.getName() 
+				) 					
+			);
+			linkToStepMenu.setActionCommand( ActionCommand.LINK.name());
+			linkToStepMenu.addActionListener( new LinkToElementListener( stepCollector ) );
+				
+			popupMenu.addSeparator();
+			popupMenu.add( linkToStepMenu );
+			
+		}
 	}
 }

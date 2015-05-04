@@ -428,8 +428,7 @@ public class StepTree extends Tree {
 												 					
 						//Tulajdonkeppen csak levalasztom a fastrukturarol
 						totalTreeModel.removeNodeFromParent( selectedNode );
-						StepTree.this.setSelectionRow(selectedRow - 1);
-						
+						StepTree.this.setSelectionRow(selectedRow - 1);						
 					}										
 				}
 			}			
@@ -484,35 +483,6 @@ public class StepTree extends Tree {
 				linkToBaseBaseElementMenu.setActionCommand( ActionCommand.LINK.name());
 				linkToBaseBaseElementMenu.addActionListener( new LinkToElementListener( baseElement ) );
 				popupMenu.add( linkToBaseBaseElementMenu );
-			}
-			
-		}
-		
-	}
-
-	/**
-	 * Listener interface for the menu of the link to other tree's node
-	 * If the menu is selected then the actionPerformed() method will be called.
-	 * This method gets the LinkToNodeInTreeListener-s and runs its linkToNode method()
-	 * 
-	 * The LinkToNodeInTreeListener has been added to every Tree in the GUIFrame.
-	 * The linkToNode method of this class will opens the right tree TAB 
-	 * 
-	 * @author akoel
-	 *
-	 */
-	class LinkToElementListener implements ActionListener{
-		DataModelAdapter dataModel;
-		
-		public LinkToElementListener( DataModelAdapter dataModel ){
-			this.dataModel = dataModel;
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			for( LinkToNodeInTreeListener listener: getLinkToNodeInTreeListeners() ){
-				listener.linkToNode( this.dataModel );
 			}
 			
 		}

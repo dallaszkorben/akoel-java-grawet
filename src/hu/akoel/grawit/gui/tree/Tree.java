@@ -76,7 +76,7 @@ public abstract class Tree extends JTree{
 	private boolean needPopupModifyAtRoot = false;
 	
 	private TreeTransferHandler treeTransferHandler;
-	private DataModelAdapter rootDataModel;
+//	private DataModelAdapter rootDataModel;
 	
 	private ArrayList<LinkToNodeInTreeListener> linkToNodeInTreeListeners = new ArrayList<LinkToNodeInTreeListener>();
 	private ArrayList<TreeHasChangedListener> treeHasChangedListeners = new ArrayList<TreeHasChangedListener>();
@@ -88,7 +88,7 @@ public abstract class Tree extends JTree{
 		super( new DefaultTreeModel(rootDataModel) );
 		
 		this.functionName = functionName;
-		this.rootDataModel = rootDataModel;
+//		this.rootDataModel = rootDataModel;
 		
 		//CTRL-T - Node ki/be kapcsolasa
 		KeyStroke ctrlTKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK, false);
@@ -618,6 +618,35 @@ Tree.this.treeHasChanged();
     public Insets getAutoscrollInsets()  {
         return (autoscrollInsets);
    }
+    
+    
+    /**
+     * Listener interface for the menu of the link to other tree's node
+     * If the menu is selected then the actionPerformed() method will be called.
+     * This method gets the LinkToNodeInTreeListener-s and runs its linkToNode method()
+     * 
+     * The LinkToNodeInTreeListener has been added to every Tree in the GUIFrame.
+     * The linkToNode method of this class will opens the right tree TAB 
+     * 
+     * @author akoel
+     *
+     */
+    class LinkToElementListener implements ActionListener{
+    	DataModelAdapter dataModel;
+    	
+    	public LinkToElementListener( DataModelAdapter dataModel ){
+    		this.dataModel = dataModel;
+    	}
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		
+    		for( LinkToNodeInTreeListener listener: getLinkToNodeInTreeListeners() ){
+    			listener.linkToNode( this.dataModel );
+    		}
+    		
+    	}    	
+    }
 }
 
 

@@ -140,7 +140,8 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter implem
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException {
 		
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "webElement.sendKeys(\"" + baseElementDataModel.getStoredValue() + "\");     //" + baseElement.getName() );
+			//elementProgress.printSource( tab + "webElement.sendKeys(\"" + baseElementDataModel.getStoredValue() + "\");     //" + baseElement.getName() );
+			elementProgress.printSource( tab + "webElement.sendKeys(" + baseElementDataModel.getNameAsVariable() + ");     //" + baseElement.getName() );
 		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){

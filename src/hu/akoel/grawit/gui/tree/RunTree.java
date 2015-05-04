@@ -1,8 +1,10 @@
 package hu.akoel.grawit.gui.tree;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -11,12 +13,16 @@ import javax.swing.tree.TreePath;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
+import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.run.RunTestcaseEditor;
+import hu.akoel.grawit.gui.tree.Tree.LinkToElementListener;
 
 public class RunTree extends Tree {
 
@@ -152,8 +158,24 @@ public class RunTree extends Tree {
 
 	@Override
 	public void doPopupLink(JPopupMenu popupMenu, DataModelAdapter selectedNode) {
-		// TODO Auto-generated method stub
-		
+
+		if( selectedNode instanceof TestcaseCaseDataModel ){
+			
+			TestcaseCaseDataModel testcaseCase = ((TestcaseCaseDataModel)selectedNode);
+			
+			JMenuItem linkToStepMenu = new JMenuItem(
+				MessageFormat.format( 
+					CommonOperations.getTranslation("tree.popupmenu.linkto.testcase"), 
+					testcaseCase.getName() 
+				) 					
+			);
+			linkToStepMenu.setActionCommand( ActionCommand.LINK.name());
+			linkToStepMenu.addActionListener( new LinkToElementListener( testcaseCase ) );
+				
+			popupMenu.addSeparator();
+			popupMenu.add( linkToStepMenu );
+			
+		}
 	}
 
 }
