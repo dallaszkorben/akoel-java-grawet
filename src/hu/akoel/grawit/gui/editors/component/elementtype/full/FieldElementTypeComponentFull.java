@@ -12,6 +12,7 @@ import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithConstantElementOperation;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
+import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.TabOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
@@ -186,7 +187,7 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 		//Kezdo ertek beallitasa
 		if( null == elementOperation ){
 			
-			comboOperationList.setSelectedIndex(E.CLICK.getIndex());
+			comboOperationList.setSelectedIndex(E.MOVE_TO_ELEMENT.getIndex());
 		
 		//Modositas
 		}else{
@@ -208,6 +209,11 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 				
 				comboOperationList.setSelectedIndex(E.CLEAR.getIndex());
 							
+			//MOVE TO ELEMENT
+			}else if( elementOperation instanceof MoveToElementOperation ){
+					
+				comboOperationList.setSelectedIndex(E.MOVE_TO_ELEMENT.getIndex());
+				
 			//FILL_CONSTANT
 			}else if( elementOperation instanceof FillWithConstantElementOperation ){
 								
@@ -374,6 +380,19 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
 			
+		//Move to element
+		}else if( selectedOperation.equals( E.MOVE_TO_ELEMENT ) ){
+
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );
+			
 		//Tab
 		}else if( selectedOperation.equals( E.TAB ) ){
 
@@ -500,6 +519,10 @@ public class FieldElementTypeComponentFull<E extends FieldElementTypeOperationsF
 		//Clear
 		}else if( comboOperationList.getSelectedIndex() ==  E.CLEAR.getIndex() ){
 			return new ClearOperation();
+			
+		//Move to element
+		}else if( comboOperationList.getSelectedIndex() ==  E.MOVE_TO_ELEMENT.getIndex() ){
+			return new MoveToElementOperation();			
 			
 		//Tab
 		}else if( comboOperationList.getSelectedIndex() ==  E.TAB.getIndex() ){

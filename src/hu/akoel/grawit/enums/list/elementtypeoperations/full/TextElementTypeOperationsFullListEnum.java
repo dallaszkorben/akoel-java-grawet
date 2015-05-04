@@ -9,8 +9,9 @@ public enum TextElementTypeOperationsFullListEnum implements ElementTypeOperatio
 	COMPARETEXT_TO_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.text.comparetexttostring") ),
 	LEFT_CLICK( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.text.leftclick") ),
 	RIGHT_CLICK( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.text.rightclick") ),
-	GAINTEXT_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.text.gainvaluetoelement") ),	
-	OUTPUTSTORED( 6, CommonOperations.getTranslation( "editor.label.step.elementtype.text.outputstored") ),
+	MOVE_TO_ELEMENT( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.text.movetoelement") ),
+	GAINTEXT_TO_ELEMENT( 6, CommonOperations.getTranslation( "editor.label.step.elementtype.text.gainvaluetoelement") ),	
+	OUTPUTSTORED( 7, CommonOperations.getTranslation( "editor.label.step.elementtype.text.outputstored") ),
 	;
 	
 	private String translatedName;
@@ -42,10 +43,11 @@ public enum TextElementTypeOperationsFullListEnum implements ElementTypeOperatio
 		case 1: return COMPARETEXT_TO_STORED;
 		case 2: return COMPARETEXT_TO_STRING;
 		case 3: return LEFT_CLICK;
-		case 4: return RIGHT_CLICK;		
-		case 5: return GAINTEXT_TO_ELEMENT;
-		case 6:	return OUTPUTSTORED;
-		default: return OUTPUTSTORED;
+		case 4: return RIGHT_CLICK;
+		case 5: return MOVE_TO_ELEMENT;
+		case 6: return GAINTEXT_TO_ELEMENT;
+		case 7:	return OUTPUTSTORED;
+		default: return MOVE_TO_ELEMENT;
 		}
 	}
 	

@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -464,7 +462,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		progressIndicator.printSource( "import org.openqa.selenium.WebElement;" );
 		progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxDriver;" );
 		progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxProfile;" );
-
+		progressIndicator.printSource( "import org.openqa.selenium.interactions.Actions;" );
 		progressIndicator.printSource( "import org.openqa.selenium.WebDriverException;" );	
 		progressIndicator.printSource( "import org.openqa.selenium.JavascriptExecutor;");
 		progressIndicator.printSource( "import org.openqa.selenium.Keys;" );

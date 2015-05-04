@@ -8,6 +8,7 @@ import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
+import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -199,6 +200,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		//Kezdo ertek beallitasa
 		if( null == elementOperation ){
 			comboOperationList.setSelectedIndex(E.CLICK.getIndex());
+			
 		}else{
 			
 			//CLICK
@@ -206,6 +208,11 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
+			//MOVE TO ELEMENT
+			}else if( elementOperation instanceof MoveToElementOperation  ){
+					
+				comboOperationList.setSelectedIndex(E.MOVE_TO_ELEMENT.getIndex());
+					
 			//COMPARE TEXT TO CONSTANT
 			}else if( elementOperation instanceof CompareTextToConstantOperation ){
 				
@@ -270,9 +277,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		
 		fieldConstantSelector.setEnableModify( enable );
 
-		comboCompareTypeList.setEnabled( enable );
-		
-		
+		comboCompareTypeList.setEnabled( enable );		
 	}
 
 	@Override
@@ -361,6 +366,19 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
 			
+		//MOVE TO ELEMENT
+		}else if( selectedOperation.equals( E.MOVE_TO_ELEMENT ) ){
+			
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );			
+			
 		//OUTPUT
 		}else if( selectedOperation.equals( E.OUTPUTSTORED ) ){
 			
@@ -424,6 +442,10 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 		//CLICK
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){
 			return new ClickLeftOperation();
+			
+		//MOVE TO ELEMENT
+		}else if( comboOperationList.getSelectedIndex() == E.MOVE_TO_ELEMENT.getIndex() ){
+			return new MoveToElementOperation();
 				
 		//COMPARE TEXT TO STORED
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARETEXT_TO_STORED.getIndex() ){

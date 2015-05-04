@@ -8,6 +8,7 @@ import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
+import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -188,6 +189,11 @@ public class RadiobuttonElementTypeComponentFull<E extends RadiobuttonElementTyp
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 	
+			//MOVE TO ELEMENT
+			}else if( elementOperation instanceof MoveToElementOperation  ){
+					
+				comboOperationList.setSelectedIndex(E.MOVE_TO_ELEMENT.getIndex());
+				
 			//COMPARE VALUE TO CONSTANT
 			}else if( elementOperation instanceof CompareValueToConstantOperation ){
 				
@@ -401,6 +407,10 @@ private void setValueContainer( E selectedOperation ){
 		//CLICK
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){
 			return new ClickLeftOperation();
+			
+		//MOVE TO ELEMENT
+		}else if( comboOperationList.getSelectedIndex() == E.MOVE_TO_ELEMENT.getIndex() ){
+			return new MoveToElementOperation();
 		
 		//COMPARE VALUE TO STORED
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STORED.getIndex() ){

@@ -11,6 +11,7 @@ import hu.akoel.grawit.core.operations.CompareContainListStringOperation;
 import hu.akoel.grawit.core.operations.CompareContainListConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
+import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
@@ -274,6 +275,11 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				
+			//MOVE TO ELEMENT
+			}else if( elementOperation instanceof MoveToElementOperation ){
+					
+				comboOperationList.setSelectedIndex(E.MOVE_TO_ELEMENT.getIndex());
+					
 			//TAB
 			}else if( elementOperation instanceof TabOperation ){
 				
@@ -620,6 +626,19 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			c.weightx = 1;
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
+			
+		//Move to Element
+		}else if( selectedOperation.equals( E.MOVE_TO_ELEMENT ) ){
+				
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );
 
 		//GAIN TO ELEMENT
 		}else if( selectedOperation.equals( E.GAIN_TO_ELEMENT ) ){
@@ -794,6 +813,10 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		//Click
 		}else if( comboOperationList.getSelectedIndex() ==  E.CLICK.getIndex() ){
 			return new ClickLeftOperation();
+			
+		//Move to Element
+		}else if( comboOperationList.getSelectedIndex() ==  E.MOVE_TO_ELEMENT.getIndex() ){
+			return new MoveToElementOperation();			
 	
 		//CONTAIN STORED
 		}else if( comboOperationList.getSelectedIndex() ==  E.CONTAIN_STORED.getIndex() ){

@@ -22,6 +22,7 @@ import hu.akoel.grawit.core.operations.FillWithConstantElementOperation;
 import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
+import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.operations.SelectBaseElementOperation;
 import hu.akoel.grawit.core.operations.SelectStringOperation;
@@ -333,7 +334,12 @@ public class CommonOperations {
 					if( operationString.equals( ClickLeftOperation.getStaticName() ) ){
 				
 						elementOperation = new ClickLeftOperation();
+
+					//MOVE TO ELEMENT
+					}else if( operationString.equals( MoveToElementOperation.getStaticName() ) ){
 					
+						elementOperation = new MoveToElementOperation();
+							
 					//COMPARE TEXT TO CONSTANT
 					}else if( operationString.equals( CompareTextToConstantOperation.getStaticName() ) ){
 				
@@ -375,6 +381,11 @@ public class CommonOperations {
 
 						elementOperation = new ClickLeftOperation();
 				
+					//MOVE TO ELEMENT
+					}else if( operationString.equals( MoveToElementOperation.getStaticName() ) ){
+						
+						elementOperation = new MoveToElementOperation();
+							
 					//Ha nem a tipusnak megfelelo az muvelet, akkor is Click az operation
 					}else{
 					
@@ -391,6 +402,11 @@ public class CommonOperations {
 				
 						elementOperation = new ClickLeftOperation();
 				
+					//MOVE TO ELEMENT
+					}else if( operationString.equals( MoveToElementOperation.getStaticName() ) ){
+						
+						elementOperation = new MoveToElementOperation();
+							
 					//COMPARE VALUE TO CONSTANT
 					}else if( operationString.equals( CompareValueToConstantOperation.getStaticName() ) ){
 				
@@ -433,6 +449,11 @@ public class CommonOperations {
 				
 						elementOperation = new ClickLeftOperation();
 				
+					//MOVE TO ELEMENT
+					}else if( operationString.equals( MoveToElementOperation.getStaticName() ) ){
+						
+						elementOperation = new MoveToElementOperation();
+							
 					//COMPARE TEXT TO CONSTANT
 					}else if( operationString.equals( CompareTextToConstantOperation.getStaticName() ) ){
 	
@@ -495,6 +516,11 @@ public class CommonOperations {
 				
 						elementOperation = new ClickLeftOperation();
 				
+					//MOVE TO ELEMENT
+					}else if( operationString.equals( MoveToElementOperation.getStaticName() ) ){
+						
+						elementOperation = new MoveToElementOperation();
+							
 					//TAB
 					}else if( operationString.equals( TabOperation.getStaticName() ) ){
 				
@@ -551,8 +577,13 @@ public class CommonOperations {
 				//---------
 				}else if( ((NormalBaseElementDataModel)baseElement).getElementType().equals( ElementTypeListEnum.TEXT ) ){
 			
+					//MOVE TO ELEMENT
+					if( operationString.equals( MoveToElementOperation.getStaticName() ) ){
+					
+						elementOperation = new MoveToElementOperation();
+						
 					//COMPARE TEXT TO CONSTANT
-					if( operationString.equals( CompareTextToConstantOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareTextToConstantOperation.getStaticName() ) ){
 				
 						elementOperation = new CompareTextToConstantOperation( element, constantRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 				
@@ -626,6 +657,11 @@ public class CommonOperations {
 				
 						elementOperation = new TabOperation( );
 	
+					//MOVE TO ELEMENT
+					}else if( operationString.equals( MoveToElementOperation.getStaticName() ) ){
+						
+						elementOperation = new MoveToElementOperation();
+							
 					//CONTAIN CONSTANT
 					}else if( operationString.equals( CompareContainListConstantOperation.getStaticName() ) ){
 					

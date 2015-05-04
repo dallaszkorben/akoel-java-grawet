@@ -9,12 +9,13 @@ public enum FieldElementTypeOperationsFullListEnum implements ElementTypeOperati
 	FILL_STRING( 2, CommonOperations.getTranslation( "editor.label.step.elementtype.field.fillstring") ),
 	CLEAR( 3, CommonOperations.getTranslation( "editor.label.step.elementtype.field.clear") ),
 	TAB( 4, CommonOperations.getTranslation( "editor.label.step.elementtype.field.tab") ),
-	CLICK( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.field.click") ),	
-	COMPAREVALUE_TO_CONSTANT( 6, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetoconstant") ),
-	COMPAREVALUE_TO_STORED( 7, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetostored") ),
-	COMPAREVALUE_TO_STRING( 8, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetostring") ),
-	GAINVALUE_TO_ELEMENTSTORAGE( 9, CommonOperations.getTranslation( "editor.label.step.elementtype.field.gainvaluetoelementstorage") ),
-	OUTPUTSTORED( 10, CommonOperations.getTranslation( "editor.label.step.elementtype.field.outputstored") ),
+	CLICK( 5, CommonOperations.getTranslation( "editor.label.step.elementtype.field.click") ),
+	MOVE_TO_ELEMENT( 6, CommonOperations.getTranslation( "editor.label.step.elementtype.field.movetoelement") ),	
+	COMPAREVALUE_TO_CONSTANT( 7, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetoconstant") ),
+	COMPAREVALUE_TO_STORED( 8, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetostored") ),
+	COMPAREVALUE_TO_STRING( 9, CommonOperations.getTranslation( "editor.label.step.elementtype.field.comparevaluetostring") ),
+	GAINVALUE_TO_ELEMENTSTORAGE( 10, CommonOperations.getTranslation( "editor.label.step.elementtype.field.gainvaluetoelementstorage") ),
+	OUTPUTSTORED( 11, CommonOperations.getTranslation( "editor.label.step.elementtype.field.outputstored") ),
 	;
 	
 	private String translatedName;
@@ -47,13 +48,14 @@ public enum FieldElementTypeOperationsFullListEnum implements ElementTypeOperati
 		case 2:	return FILL_STRING;
 		case 3: return CLEAR;
 		case 4: return TAB;
-		case 5: return CLICK;		
-		case 6: return COMPAREVALUE_TO_CONSTANT;
-		case 7: return COMPAREVALUE_TO_STORED;
-		case 8: return COMPAREVALUE_TO_STRING;
-		case 9: return GAINVALUE_TO_ELEMENTSTORAGE;
-		case 10: return OUTPUTSTORED;
-		default: return FILL_STRING;
+		case 5: return CLICK;
+		case 6: return MOVE_TO_ELEMENT;	
+		case 7: return COMPAREVALUE_TO_CONSTANT;
+		case 8: return COMPAREVALUE_TO_STORED;
+		case 9: return COMPAREVALUE_TO_STRING;
+		case 10: return GAINVALUE_TO_ELEMENTSTORAGE;
+		case 11: return OUTPUTSTORED;
+		default: return MOVE_TO_ELEMENT;
 		}
 	}
 	

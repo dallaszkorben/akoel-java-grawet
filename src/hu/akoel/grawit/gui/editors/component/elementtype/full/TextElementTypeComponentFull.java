@@ -10,6 +10,7 @@ import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
 import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
+import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -240,6 +241,11 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 										
 				comboOperationList.setSelectedIndex(E.RIGHT_CLICK.getIndex());
 					
+			//MOVE TO ELEMENT
+			}else if( elementOperation instanceof MoveToElementOperation ){
+											
+				comboOperationList.setSelectedIndex(E.RIGHT_CLICK.getIndex());
+					
 			//GAIN TEXT TO ELEMENT
 			}else if( elementOperation instanceof GainTextToElementStorageOperation ){
 					
@@ -380,6 +386,19 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
 			
+		//MOVE TO ELEMENT
+		}else if( selectedOperation.equals( E.MOVE_TO_ELEMENT ) ){
+				
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );			
+			
 /*		//GAINTEXT TO ELEMENT
 		}else if( selectedOperation.equals( E.GAINTEXT_TO_ELEMENT ) ){
 			
@@ -484,6 +503,10 @@ public class TextElementTypeComponentFull<E extends TextElementTypeOperationsFul
 		//RIGHT MOUSE CLICK
 		}else if( comboOperationList.getSelectedIndex() ==  E.RIGHT_CLICK.getIndex() ){
 			return new ClickRightOperation();
+			
+		//MOVE TO ELEMENT
+		}else if( comboOperationList.getSelectedIndex() ==  E.MOVE_TO_ELEMENT.getIndex() ){
+			return new MoveToElementOperation();
 
 		//GAINTEXT TO ELEMENT
 		}else if( comboOperationList.getSelectedIndex() == E.GAINTEXT_TO_ELEMENT.getIndex() ){

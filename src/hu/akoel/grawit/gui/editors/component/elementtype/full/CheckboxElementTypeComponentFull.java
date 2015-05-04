@@ -8,6 +8,7 @@ import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
+import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
@@ -191,6 +192,11 @@ public class CheckboxElementTypeComponentFull<E extends CheckboxElementTypeOpera
 			if( elementOperation instanceof ClickLeftOperation  ){
 				
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
+				
+			//MOVE TO ELEMENT
+			}else if( elementOperation instanceof MoveToElementOperation  ){
+					
+				comboOperationList.setSelectedIndex(E.MOVE_TO_ELEMENT.getIndex());
 	
 			//COMPARE VALUE TO CONSTANT
 			}else if( elementOperation instanceof CompareValueToConstantOperation ){
@@ -332,6 +338,19 @@ public class CheckboxElementTypeComponentFull<E extends CheckboxElementTypeOpera
 			c.weightx = 1;
 			c.anchor = GridBagConstraints.WEST;
 			this.add( labelFiller, c );
+			
+		//Move to Element
+		}else if( selectedOperation.equals( E.MOVE_TO_ELEMENT ) ){
+				
+			//Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add( labelFiller, c );			
 		
 		//GAIN VALUE TO ELEMENT STORAGE
 		}else if( selectedOperation.equals( E.GAINVALUE_TO_ELEMENTSTORAGE ) ){
@@ -393,6 +412,10 @@ public class CheckboxElementTypeComponentFull<E extends CheckboxElementTypeOpera
 		if( comboOperationList.getSelectedIndex() == E.CLICK.getIndex() ){
 			return new ClickLeftOperation();
 		
+		//MOVE TO ELEMENT
+		}else if( comboOperationList.getSelectedIndex() == E.MOVE_TO_ELEMENT.getIndex() ){
+			return new MoveToElementOperation();
+						
 		//COMPARE VALUE TO STORED
 		}else if( comboOperationList.getSelectedIndex() ==  E.COMPAREVALUE_TO_STORED.getIndex() ){
 			return new CompareValueToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareTypeList.getSelectedItem()), fieldPattern.getText() );

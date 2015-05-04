@@ -4,7 +4,8 @@ import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ButtonElementTypeOperationsFullListEnum implements ElementTypeOperationsListEnumInterface{		
-	CLICK( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.button.click") ),	
+	CLICK( 0, CommonOperations.getTranslation( "editor.label.step.elementtype.button.click") ),
+	MOVE_TO_ELEMENT( 1, CommonOperations.getTranslation( "editor.label.step.elementtype.button.movetoelement") ),	
 	;
 	
 	private String translatedName;
@@ -33,6 +34,7 @@ public enum ButtonElementTypeOperationsFullListEnum implements ElementTypeOperat
 	public static ButtonElementTypeOperationsFullListEnum getElementButtonOperationByIndex( int index ){
 		switch (index){
 		case 0:	return CLICK;
+		case 1:	return MOVE_TO_ELEMENT;
 		default: return CLICK;
 		}
 	}
