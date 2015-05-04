@@ -13,7 +13,6 @@ public enum ElementTypeListEnum implements ElementTypeOperationsListEnumInterfac
 	CHECKBOX( 6, true, CommonOperations.getTranslation( "editor.label.step.elementtype.checkbox") ),
 	
 	SCRIPT( 7, false, CommonOperations.getTranslation( "editor.label.step.elementtype.script") ),
-	VARIABLE( 8, false, CommonOperations.getTranslation( "editor.label.step.elementtype.variable") ),	
 	;
 	
 	private String translatedName;
@@ -61,7 +60,6 @@ public enum ElementTypeListEnum implements ElementTypeOperationsListEnumInterfac
 		case 5: return RADIOBUTTON;
 		case 6: return CHECKBOX;
 		case 7: return SCRIPT;
-		case 8: return VARIABLE;
 		default: return FIELD;		
 		}
 	}

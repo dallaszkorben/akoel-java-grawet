@@ -1,8 +1,10 @@
 package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.IntTextField;
 import hu.akoel.grawit.ListRenderer;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
+import hu.akoel.grawit.core.operations.CompareListSizeToIntegerOperation;
 import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareListToStringOperation;
 import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
@@ -34,83 +36,102 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
 
-public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFullListEnum> extends ElementTypeComponentFullInterface<E>{
+public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFullListEnum>
+		extends ElementTypeComponentFullInterface<E> {
 
 	private static final long serialVersionUID = -6108131072338954554L;
-	
+
 	private JTextField fieldType;
 	private JComboBox<E> comboOperationList;
-		
-	//Pattern
-	private JTextField fieldPattern;	
+
+	// Pattern
+	private JTextField fieldPattern;
 	private JLabel labelPattern;
-	
-	//Type
+
+	// Type
 	private JLabel labelType;
-	private JLabel labelOperations;	
-	
-	//Constant selector - Mezo kitoltes
+	private JLabel labelOperations;
+
+	// Constant selector - Mezo kitoltes
 	private JLabel labelConstantSelector;
 	private ConstantTreeSelectorComponent fieldConstantSelector;
-	
-	//BaseElement selector - Mezo kitoltes
+
+	// BaseElement selector - Mezo kitoltes
 	private JLabel labelBaseElementSelector;
 	private BaseElementTreeSelectorComponent fieldBaseElementSelector;
-	
-	//String - Mezo kitoltes
+
+	// String - Mezo kitoltes
 	private JLabel labelString;
 	private JTextField fieldString;
-	
-	//Selection by
+
+	private JLabel labelSize;
+	private JTextField fieldSize;
+
+	// Selection by
 	private JLabel labelSelectionBy;
 	private JComboBox<ListSelectionByListEnum> comboSelectionBy;
-	
-	//Gain by
+
+	// Gain by
 	private JLabel labelGainBy;
 	private JComboBox<ListGainByListEnum> comboGainBy;
 
-	//Compare Selected List element by
+	// Compare Selected List element by
 	private JLabel labelCompareSelectedListElementBy;
 	private JComboBox<ListCompareByListEnum> comboCompareSelectedListElementBy;
-	
-	//Compare Selected List element type
+
+	// Compare Selected List element type
 	private JLabel labelCompareSelectedListElementType;
 	private JComboBox<CompareTypeListEnum> comboCompareSelectedListElementType;
 
-	//Contain List by
+	// Contain List by
 	private JLabel labelContainListBy;
 	private JComboBox<ListCompareByListEnum> comboContainListBy;
-		
-	//Contain List type
+
+	// Contain List type
 	private JLabel labelContainListType;
 	private JComboBox<ContainTypeListEnum> comboContainListType;
 
-	//Message - Mezo ertekenek megjelenitese
+	// Message - Mezo ertekenek megjelenitese
 	private JLabel labelMessage;
 	private JTextField fieldMessage;
 
-	//FILLER
+	// FILLER
 	private JLabel labelFiller;
-	
+
 	@Override
 	public E getSelectedOperation(ElementTypeListEnum elementType) {
-		return(E)comboOperationList.getSelectedItem();
+		return (E) comboOperationList.getSelectedItem();
 	}
 
-	public ListElementTypeComponentFull( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
+	public ListElementTypeComponentFull(
+			BaseElementDataModelAdapter baseElement,
+			ElementOperationAdapter elementOperation,
+			BaseRootDataModel baseRootDataModel,
+			ConstantRootDataModel constantRootDataModel) {
 		super();
-		
-		common( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );		
-		
+
+		common(baseElement, elementOperation, baseRootDataModel,
+				constantRootDataModel);
+
 	}
-	
+
 	private void common( BaseElementDataModelAdapter baseElement, ElementOperationAdapter elementOperation, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel ){
 		
 		ElementTypeListEnum elementType = baseElement.getElementType();
@@ -118,6 +139,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		labelType = new JLabel( CommonOperations.getTranslation("editor.label.step.type") + ": ");
 		labelPattern = new JLabel( CommonOperations.getTranslation("editor.label.step.pattern") + ": ");
 		labelOperations = new JLabel( CommonOperations.getTranslation("editor.label.step.operation") + ": ");
+		labelSize = new JLabel( CommonOperations.getTranslation("editor.label.step.size") + ": ");
 		labelString = new JLabel( CommonOperations.getTranslation("editor.label.step.string") + ": ");
 		labelConstantSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.constant") + ": ");
 		labelBaseElementSelector = new JLabel( CommonOperations.getTranslation("editor.label.step.baseelement") + ": ");
@@ -256,8 +278,27 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, false );
 		//fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
 		
-		fieldString = new JTextField( "" );
+		fieldString = new JTextField( "" );		
+		fieldSize = new IntTextField( 0, 4 );
 		
+/*		fieldSize.settteInputVerifier( new InputVerifier() {
+			String goodValue = String.valueOf( 0 );			
+			@Override
+			public boolean verify(JComponent input) {
+				JTextField text = (JTextField)input;
+				String possibleValue = text.getText();
+				try{
+					goodValue = String.valueOf( Integer.valueOf( possibleValue) );
+				}catch( Exception e){					
+					return false;
+				}finally{
+					text.setText( goodValue);
+				}
+				return true;
+			}
+		});	
+*/		
+
 		//Kezdo ertek beallitasa
 		if( null == elementOperation ){
 			
@@ -357,6 +398,13 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_STRING.getIndex());
 				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareListToStringOperation)elementOperation).getCompareBy().getIndex() );
 		
+			//COMPARE LIST SIZE TO STRING
+			}else if( elementOperation instanceof CompareListSizeToIntegerOperation ){
+									
+				fieldSize.setText( ((CompareListSizeToIntegerOperation)elementOperation).getIntegerToShow() );
+				comboCompareSelectedListElementType.setSelectedIndex( ((CompareListSizeToIntegerOperation)elementOperation).getCompareType().getIndex() );
+				comboOperationList.setSelectedIndex(E.COMPARE_SIZE_TO_INTEGER.getIndex());
+								
 			//GAIN TO ELEMENT
 			}else if( elementOperation instanceof GainListToElementStorageOperation ){
 				
@@ -376,28 +424,27 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 				comboOperationList.setSelectedIndex(E.CLICK.getIndex());
 				comboSelectionBy.setSelectedIndex( ListSelectionByListEnum.BYVALUE.getIndex() );
 				comboGainBy.setSelectedIndex(ListGainByListEnum.BYVALUE.getIndex());
-				comboCompareSelectedListElementBy.setSelectedIndex(ListCompareByListEnum.BYVALUE.getIndex());
-				
+				comboCompareSelectedListElementBy.setSelectedIndex(ListCompareByListEnum.BYVALUE.getIndex());				
 			}
 		}
 	}	
-	
-	
+
 	@Override
 	public void setEnableModify(boolean enable) {
-		
-		comboOperationList.setEnabled( enable );
-		comboSelectionBy.setEnabled( enable );		
-		fieldString.setEditable( enable );
-		fieldBaseElementSelector.setEnableModify(enable);		
-		fieldConstantSelector.setEnableModify( enable );
-		fieldMessage.setEditable( enable );		
-		fieldPattern.setEditable( enable );
-		comboCompareSelectedListElementType.setEnabled( enable );
-		comboCompareSelectedListElementBy.setEnabled( enable );
-		comboContainListType.setEnabled( enable );
-		comboContainListBy.setEnabled( enable );
-		comboGainBy.setEnabled( enable );
+
+		comboOperationList.setEnabled(enable);
+		comboSelectionBy.setEnabled(enable);
+		fieldString.setEditable(enable);
+		fieldSize.setEditable(enable);
+		fieldBaseElementSelector.setEnableModify(enable);
+		fieldConstantSelector.setEnableModify(enable);
+		fieldMessage.setEditable(enable);
+		fieldPattern.setEditable(enable);
+		comboCompareSelectedListElementType.setEnabled(enable);
+		comboCompareSelectedListElementBy.setEnabled(enable);
+		comboContainListType.setEnabled(enable);
+		comboContainListBy.setEnabled(enable);
+		comboGainBy.setEnabled(enable);
 	}
 
 	@Override
@@ -410,127 +457,39 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 	 * 
 	 * @param selectedOperation
 	 */
-	private void setValueContainer( E selectedOperation ){
+	private void setValueContainer(E selectedOperation) {
 
-		GridBagConstraints c = new GridBagConstraints();		
-		c.insets = new Insets(0,0,0,0);		
-		
-		this.remove( labelBaseElementSelector );
-		this.remove( fieldBaseElementSelector );
-		this.remove( labelString );
-		this.remove( fieldString );
-		this.remove( labelConstantSelector );
-		this.remove( fieldConstantSelector );	
-		this.remove( labelFiller );	
-		this.remove( labelSelectionBy );
-		this.remove( comboSelectionBy );
-		this.remove( labelPattern );
-		this.remove( fieldPattern );
-		this.remove( labelMessage );
-		this.remove( fieldMessage );
-		this.remove( labelCompareSelectedListElementType );		
-		this.remove( comboCompareSelectedListElementType );		
-		this.remove( labelCompareSelectedListElementBy );		
-		this.remove( comboCompareSelectedListElementBy );
-		this.remove( labelContainListType );
-		this.remove( comboContainListType );
-		this.remove( labelContainListBy );
-		this.remove( comboContainListBy );
-		this.remove( labelGainBy );	
-		this.remove( comboGainBy );
-		
-		//Fill element
-		if( selectedOperation.equals( E.SELECT_BASE )){
-			
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelBaseElementSelector, c );
-		
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldBaseElementSelector, c );
-			
-			putSelectionBy( c );
-			
-		//Fill constant
-		}else if( selectedOperation.equals( E.SELECT_CONSTANT )  ){
-			
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelConstantSelector, c );
-		
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldConstantSelector, c );
-			
-			putSelectionBy( c );
-			
-		//Fill string
-		}else if( selectedOperation.equals( E.SELECT_STRING ) ){
-		
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelString, c );
-		
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldString, c );
-			
-			putSelectionBy( c );
-			
-		//COMPARE TO STORED
-		}else if( selectedOperation.equals( E.COMPARE_TO_STORED)  ){
-	
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelBaseElementSelector, c );
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(0, 0, 0, 0);
 
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldBaseElementSelector, c );
+		this.remove(labelBaseElementSelector);
+		this.remove(fieldBaseElementSelector);
+		this.remove(labelString);
+		this.remove(fieldString);
+		this.remove(labelSize);
+		this.remove(fieldSize);
+		this.remove(labelConstantSelector);
+		this.remove(fieldConstantSelector);
+		this.remove(labelFiller);
+		this.remove(labelSelectionBy);
+		this.remove(comboSelectionBy);
+		this.remove(labelPattern);
+		this.remove(fieldPattern);
+		this.remove(labelMessage);
+		this.remove(fieldMessage);
+		this.remove(labelCompareSelectedListElementType);
+		this.remove(comboCompareSelectedListElementType);
+		this.remove(labelCompareSelectedListElementBy);
+		this.remove(comboCompareSelectedListElementBy);
+		this.remove(labelContainListType);
+		this.remove(comboContainListType);
+		this.remove(labelContainListBy);
+		this.remove(comboContainListBy);
+		this.remove(labelGainBy);
+		this.remove(comboGainBy);
 
-			putListCompareSelectedListElementBy( c );
-	
-		//COMPARE TO CONSTANT
-		}else if( selectedOperation.equals( E.COMPARE_TO_CONSTANT ) ){
-	
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 0;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelConstantSelector, c );
-
-			c.gridx = 5;
-			c.weightx = 1;
-			this.add( fieldConstantSelector, c );
-	
-			putListCompareSelectedListElementBy( c );
-	
-		//COMPARE TO STRING
-		}else if( selectedOperation.equals( E.COMPARE_TO_STRING ) ){
+		// Fill element
+		if (selectedOperation.equals(E.SELECT_BASE)) {
 
 			c.gridy = 0;
 			c.gridx = 4;
@@ -539,17 +498,17 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelString, c );
+			this.add(labelBaseElementSelector, c);
 
 			c.gridx = 5;
 			c.weightx = 1;
-			this.add( fieldString, c );
-	
-			putListCompareSelectedListElementBy( c );
-		
-		//CONTAIN STORED
-		}else if( selectedOperation.equals( E.CONTAIN_STORED ) ){
-		
+			this.add(fieldBaseElementSelector, c);
+
+			putSelectionBy(c);
+
+			// Fill constant
+		} else if (selectedOperation.equals(E.SELECT_CONSTANT)) {
+
 			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
@@ -557,17 +516,125 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelBaseElementSelector, c );
-			
+			this.add(labelConstantSelector, c);
+
 			c.gridx = 5;
 			c.weightx = 1;
-			this.add( fieldBaseElementSelector, c );
+			this.add(fieldConstantSelector, c);
+
+			putSelectionBy(c);
+
+			// Fill string
+		} else if (selectedOperation.equals(E.SELECT_STRING)) {
+
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add(labelString, c);
+
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add(fieldString, c);
+
+			putSelectionBy(c);
+
+			// COMPARE TO STORED
+		} else if (selectedOperation.equals(E.COMPARE_TO_STORED)) {
+
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add(labelBaseElementSelector, c);
+
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add(fieldBaseElementSelector, c);
+
+			putListCompareSelectedListElementBy(c);
+
+			// COMPARE TO CONSTANT
+		} else if (selectedOperation.equals(E.COMPARE_TO_CONSTANT)) {
+
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add(labelConstantSelector, c);
+
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add(fieldConstantSelector, c);
+
+			putListCompareSelectedListElementBy(c);
+
+			// COMPARE TO STRING
+		} else if (selectedOperation.equals(E.COMPARE_TO_STRING)) {
+
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add(labelString, c);
+
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add(fieldString, c);
+
+			putListCompareSelectedListElementBy(c);
+
+			// COMPARE LIST SIZE TO STRING
+		} else if (selectedOperation.equals(E.COMPARE_SIZE_TO_INTEGER)) {
+
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add(labelSize, c);
+
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add(fieldSize, c);
+
+			putComparableType(c);
+
+			// CONTAIN STORED
+		} else if (selectedOperation.equals(E.CONTAIN_STORED)) {
+
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0;
+			c.anchor = GridBagConstraints.WEST;
+			this.add(labelBaseElementSelector, c);
+
+			c.gridx = 5;
+			c.weightx = 1;
+			this.add(fieldBaseElementSelector, c);
 
 			putListContainBy(c);
-		
-		//CONTAIN TO CONSTANT
-		}else if( selectedOperation.equals( E.CONTAIN_CONSTANT ) ){
-		
+
+			// CONTAIN TO CONSTANT
+		} else if (selectedOperation.equals(E.CONTAIN_CONSTANT)) {
+
 			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
@@ -575,16 +642,16 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelConstantSelector, c );
+			this.add(labelConstantSelector, c);
 
 			c.gridx = 5;
 			c.weightx = 1;
-			this.add( fieldConstantSelector, c );
-		
+			this.add(fieldConstantSelector, c);
+
 			putListContainBy(c);
-		
-		//CONTAIN TO STRING
-		}else if( selectedOperation.equals( E.CONTAIN_STRING )){
+
+			// CONTAIN TO STRING
+		} else if (selectedOperation.equals(E.CONTAIN_STRING)) {
 
 			c.gridy = 0;
 			c.gridx = 4;
@@ -593,57 +660,57 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelString, c );
-			
+			this.add(labelString, c);
+
 			c.gridx = 5;
 			c.weightx = 1;
-			this.add( fieldString, c );
-		
-			putListContainBy(c);			
-			
-		//Tab
-		}else if( selectedOperation.equals( E.TAB ) ){
+			this.add(fieldString, c);
 
-			//Filler
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelFiller, c );
-			
-		//Click
-		}else if( selectedOperation.equals( E.CLICK ) ){
-			
-			//Filler
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelFiller, c );
-			
-		//Move to Element
-		}else if( selectedOperation.equals( E.MOVE_TO_ELEMENT ) ){
-				
-			//Filler
-			c.gridy = 0;
-			c.gridx = 4;
-			c.gridwidth = 1;
-			c.weighty = 0;
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1;
-			c.anchor = GridBagConstraints.WEST;
-			this.add( labelFiller, c );
+			putListContainBy(c);
 
-		//GAIN TO ELEMENT
-		}else if( selectedOperation.equals( E.GAIN_TO_ELEMENT ) ){
-			
-			//PATTERN
+			// Tab
+		} else if (selectedOperation.equals(E.TAB)) {
+
+			// Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add(labelFiller, c);
+
+			// Click
+		} else if (selectedOperation.equals(E.CLICK)) {
+
+			// Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add(labelFiller, c);
+
+			// Move to Element
+		} else if (selectedOperation.equals(E.MOVE_TO_ELEMENT)) {
+
+			// Filler
+			c.gridy = 0;
+			c.gridx = 4;
+			c.gridwidth = 1;
+			c.weighty = 0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.anchor = GridBagConstraints.WEST;
+			this.add(labelFiller, c);
+
+			// GAIN TO ELEMENT
+		} else if (selectedOperation.equals(E.GAIN_TO_ELEMENT)) {
+
+			// PATTERN
 			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
@@ -651,17 +718,17 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelPattern, c );
-							
+			this.add(labelPattern, c);
+
 			c.gridx = 5;
 			c.weightx = 1;
-			this.add( fieldPattern, c );	
-			
-			putGainBy( c );
+			this.add(fieldPattern, c);
 
-		//Output STORED
-		}else if( selectedOperation.equals( E.OUTPUTSTORED ) ){
-	
+			putGainBy(c);
+
+			// Output STORED
+		} else if (selectedOperation.equals(E.OUTPUTSTORED)) {
+
 			c.gridy = 0;
 			c.gridx = 4;
 			c.gridwidth = 1;
@@ -669,41 +736,25 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 0;
 			c.anchor = GridBagConstraints.WEST;
-			this.add( labelMessage, c );
-		
+			this.add(labelMessage, c);
+
 			c.gridx = 5;
 			c.weightx = 1;
-			this.add( fieldMessage, c );			
-		}	
-	
+			this.add(fieldMessage, c);
+		}
+
 		this.revalidate();
 		this.repaint();
 	}
 
 	/**
-	 * Elhelyezi Kivalasztott Lista elem eseten eseten az 
-	 * Osszehasonlitas alapja-t es az (ComparableBy)
-	 * Elvart viszont-t (ComparableType)
-	 *  
+	 * Elhelyezi az Elvart viszont-t (ComparableType)
+	 * 
 	 * @param c
 	 */
-	private void putListCompareSelectedListElementBy( GridBagConstraints c ){
+	private void putComparableType(GridBagConstraints c) {
 
-		//VALUE/TEXT
-		c.gridy = 2;
-		c.gridx = 2;
-		c.gridwidth = 1;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
-		c.anchor = GridBagConstraints.WEST;
-		this.add( labelCompareSelectedListElementBy, c );
-		
-		c.gridx = 3;
-		c.weightx = 1;
-		this.add( comboCompareSelectedListElementBy, c );
-		
-		//EQUAL/DIFFERENT
+		// EQUAL/DIFFERENT
 		c.gridy = 2;
 		c.gridx = 4;
 		c.gridwidth = 1;
@@ -711,22 +762,59 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelCompareSelectedListElementType, c );
-		
+		this.add(labelCompareSelectedListElementType, c);
+
 		c.gridx = 5;
 		c.weightx = 1;
-		this.add( comboCompareSelectedListElementType, c );
+		this.add(comboCompareSelectedListElementType, c);
 	}
-	
+
+	/**
+	 * Elhelyezi az Osszehasonlitas alapja-t es az (ComparableBy) Elvart
+	 * viszont-t (ComparableType)
+	 * 
+	 * @param c
+	 */
+	private void putListCompareSelectedListElementBy(GridBagConstraints c) {
+
+		// VALUE/TEXT
+		c.gridy = 2;
+		c.gridx = 2;
+		c.gridwidth = 1;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0;
+		c.anchor = GridBagConstraints.WEST;
+		this.add(labelCompareSelectedListElementBy, c);
+
+		c.gridx = 3;
+		c.weightx = 1;
+		this.add(comboCompareSelectedListElementBy, c);
+
+		// EQUAL/DIFFERENT
+		c.gridy = 2;
+		c.gridx = 4;
+		c.gridwidth = 1;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0;
+		c.anchor = GridBagConstraints.WEST;
+		this.add(labelCompareSelectedListElementType, c);
+
+		c.gridx = 5;
+		c.weightx = 1;
+		this.add(comboCompareSelectedListElementType, c);
+	}
+
 	/**
 	 * Elhelyezi Lista Contains eseten
-
-	 *  
+	 * 
+	 * 
 	 * @param c
 	 */
-	private void putListContainBy( GridBagConstraints c ){
+	private void putListContainBy(GridBagConstraints c) {
 
-		//VALUE/TEXT
+		// VALUE/TEXT
 		c.gridy = 2;
 		c.gridx = 2;
 		c.gridwidth = 1;
@@ -734,13 +822,13 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelContainListBy, c );
-		
+		this.add(labelContainListBy, c);
+
 		c.gridx = 3;
 		c.weightx = 1;
-		this.add( comboContainListBy, c );
-		
-		//EQUAL/DIFFERENT
+		this.add(comboContainListBy, c);
+
+		// EQUAL/DIFFERENT
 		c.gridy = 2;
 		c.gridx = 4;
 		c.gridwidth = 1;
@@ -748,16 +836,16 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelContainListType, c );
-		
+		this.add(labelContainListType, c);
+
 		c.gridx = 5;
 		c.weightx = 1;
-		this.add( comboContainListType, c );
+		this.add(comboContainListType, c);
 	}
-	
-	private void putSelectionBy( GridBagConstraints c ){
 
-		//Selection by
+	private void putSelectionBy(GridBagConstraints c) {
+
+		// Selection by
 		c.gridy = 1;
 		c.gridx = 2;
 		c.gridwidth = 1;
@@ -765,17 +853,17 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelSelectionBy, c );
-		
+		this.add(labelSelectionBy, c);
+
 		c.gridx = 3;
 		c.weightx = 0;
-		this.add( comboSelectionBy, c );
-		c.gridy = 1;	
+		this.add(comboSelectionBy, c);
+		c.gridy = 1;
 	}
-	
-	private void putGainBy( GridBagConstraints c ){
 
-		//Selection by
+	private void putGainBy(GridBagConstraints c) {
+
+		// Selection by
 		c.gridy = 1;
 		c.gridx = 2;
 		c.gridwidth = 1;
@@ -783,79 +871,134 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0;
 		c.anchor = GridBagConstraints.WEST;
-		this.add( labelGainBy, c );
-		
+		this.add(labelGainBy, c);
+
 		c.gridx = 3;
 		c.weightx = 0;
-		this.add( comboGainBy, c );
-		c.gridy = 1;	
+		this.add(comboGainBy, c);
+		c.gridy = 1;
 	}
-	
+
 	@Override
 	public ElementOperationAdapter getElementOperation() {
-		
-		//Fill element
-		if( comboOperationList.getSelectedIndex() ==  E.SELECT_BASE.getIndex() ){
-			return new SelectBaseElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (ListSelectionByListEnum)comboSelectionBy.getSelectedItem() );
-			
-		//Fill constant
-		}else if(comboOperationList.getSelectedIndex() ==  E.SELECT_CONSTANT.getIndex() ){
-			return new SelectConstantElementOperation( fieldConstantSelector.getSelectedDataModel(), (ListSelectionByListEnum)comboSelectionBy.getSelectedItem() );
-			
-		//Fill string
-		}else if( comboOperationList.getSelectedIndex() ==  E.SELECT_STRING.getIndex() ){
-			return new SelectStringOperation( fieldString.getText(), (ListSelectionByListEnum)comboSelectionBy.getSelectedItem() );
 
-		//Tab
-		}else if( comboOperationList.getSelectedIndex() ==  E.TAB.getIndex() ){
+		// Fill element
+		if (comboOperationList.getSelectedIndex() == E.SELECT_BASE.getIndex()) {
+			return new SelectBaseElementOperation(
+					fieldBaseElementSelector.getSelectedDataModel(),
+					(ListSelectionByListEnum) comboSelectionBy
+							.getSelectedItem());
+
+			// Fill constant
+		} else if (comboOperationList.getSelectedIndex() == E.SELECT_CONSTANT
+				.getIndex()) {
+			return new SelectConstantElementOperation(
+					fieldConstantSelector.getSelectedDataModel(),
+					(ListSelectionByListEnum) comboSelectionBy
+							.getSelectedItem());
+
+			// Fill string
+		} else if (comboOperationList.getSelectedIndex() == E.SELECT_STRING
+				.getIndex()) {
+			return new SelectStringOperation(fieldString.getText(),
+					(ListSelectionByListEnum) comboSelectionBy
+							.getSelectedItem());
+
+			// Tab
+		} else if (comboOperationList.getSelectedIndex() == E.TAB.getIndex()) {
 			return new TabOperation();
-			
-		//Click
-		}else if( comboOperationList.getSelectedIndex() ==  E.CLICK.getIndex() ){
-			return new ClickLeftOperation();
-			
-		//Move to Element
-		}else if( comboOperationList.getSelectedIndex() ==  E.MOVE_TO_ELEMENT.getIndex() ){
-			return new MoveToElementOperation();			
-	
-		//CONTAIN STORED
-		}else if( comboOperationList.getSelectedIndex() ==  E.CONTAIN_STORED.getIndex() ){
-							
-			return new CompareContainListStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (ContainTypeListEnum)(comboContainListType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboContainListBy.getSelectedItem()) );
-					
-		//CONTAIN CONSTANT
-		}else if(comboOperationList.getSelectedIndex() ==  E.CONTAIN_CONSTANT.getIndex() ){
-			return new CompareContainListConstantOperation( fieldConstantSelector.getSelectedDataModel(), (ContainTypeListEnum)(comboContainListType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboContainListBy.getSelectedItem()) );
-					
-		//CONTAIN STRING
-		}else if( comboOperationList.getSelectedIndex() ==  E.CONTAIN_STRING.getIndex() ){
-			return new CompareContainListStringOperation( fieldString.getText(), (ContainTypeListEnum)(comboContainListType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboContainListBy.getSelectedItem()) );
-			
-		//COMPARE TO STORED
-		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_STORED.getIndex() ){
-						
-			return new CompareListToStoredElementOperation( fieldBaseElementSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareSelectedListElementType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareSelectedListElementBy.getSelectedItem()) );
-				
-		//COMPARE TO CONSTANT
-		}else if(comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_CONSTANT.getIndex() ){
-			return new CompareListToConstantOperation( fieldConstantSelector.getSelectedDataModel(), (CompareTypeListEnum)(comboCompareSelectedListElementType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareSelectedListElementBy.getSelectedItem()) );
-				
-		//COMPARE TO STRING
-		}else if( comboOperationList.getSelectedIndex() ==  E.COMPARE_TO_STRING.getIndex() ){
-			return new CompareListToStringOperation( fieldString.getText(), (CompareTypeListEnum)(comboCompareSelectedListElementType.getSelectedItem()), fieldPattern.getText(), (ListCompareByListEnum)(comboCompareSelectedListElementBy.getSelectedItem()) );
 
-		//GAIN TO ELEMENT
-		}else if( comboOperationList.getSelectedIndex() == E.GAIN_TO_ELEMENT.getIndex() ){
-			return new GainListToElementStorageOperation( fieldPattern.getText(), (ListGainByListEnum)(comboGainBy.getSelectedItem()) );
-			
-		//OUTPUTSTORED
-		}else if( comboOperationList.getSelectedIndex() == E.OUTPUTSTORED.getIndex() ){
-			return new OutputStoredElementOperation( fieldMessage.getText() );			
-			
+			// Click
+		} else if (comboOperationList.getSelectedIndex() == E.CLICK.getIndex()) {
+			return new ClickLeftOperation();
+
+			// Move to Element
+		} else if (comboOperationList.getSelectedIndex() == E.MOVE_TO_ELEMENT
+				.getIndex()) {
+			return new MoveToElementOperation();
+
+			// CONTAIN STORED
+		} else if (comboOperationList.getSelectedIndex() == E.CONTAIN_STORED
+				.getIndex()) {
+
+			return new CompareContainListStoredElementOperation(
+					fieldBaseElementSelector.getSelectedDataModel(),
+					(ContainTypeListEnum) (comboContainListType
+							.getSelectedItem()), fieldPattern.getText(),
+					(ListCompareByListEnum) (comboContainListBy
+							.getSelectedItem()));
+
+			// CONTAIN CONSTANT
+		} else if (comboOperationList.getSelectedIndex() == E.CONTAIN_CONSTANT
+				.getIndex()) {
+			return new CompareContainListConstantOperation(
+					fieldConstantSelector.getSelectedDataModel(),
+					(ContainTypeListEnum) (comboContainListType
+							.getSelectedItem()), fieldPattern.getText(),
+					(ListCompareByListEnum) (comboContainListBy
+							.getSelectedItem()));
+
+			// CONTAIN STRING
+		} else if (comboOperationList.getSelectedIndex() == E.CONTAIN_STRING
+				.getIndex()) {
+			return new CompareContainListStringOperation(fieldString.getText(),
+					(ContainTypeListEnum) (comboContainListType
+							.getSelectedItem()), fieldPattern.getText(),
+					(ListCompareByListEnum) (comboContainListBy
+							.getSelectedItem()));
+
+			// COMPARE TO STORED
+		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_STORED
+				.getIndex()) {
+
+			return new CompareListToStoredElementOperation(
+					fieldBaseElementSelector.getSelectedDataModel(),
+					(CompareTypeListEnum) (comboCompareSelectedListElementType
+							.getSelectedItem()), fieldPattern.getText(),
+					(ListCompareByListEnum) (comboCompareSelectedListElementBy
+							.getSelectedItem()));
+
+			// COMPARE TO CONSTANT
+		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_CONSTANT
+				.getIndex()) {
+			return new CompareListToConstantOperation(
+					fieldConstantSelector.getSelectedDataModel(),
+					(CompareTypeListEnum) (comboCompareSelectedListElementType
+							.getSelectedItem()), fieldPattern.getText(),
+					(ListCompareByListEnum) (comboCompareSelectedListElementBy
+							.getSelectedItem()));
+
+			// COMPARE TO STRING
+		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_STRING
+				.getIndex()) {
+			return new CompareListToStringOperation(fieldString.getText(),
+					(CompareTypeListEnum) (comboCompareSelectedListElementType
+							.getSelectedItem()), fieldPattern.getText(),
+					(ListCompareByListEnum) (comboCompareSelectedListElementBy
+							.getSelectedItem()));
+
+			// COMPARE LIST SIZE TO INTEGER
+		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_SIZE_TO_INTEGER
+				.getIndex()) {
+			return new CompareListSizeToIntegerOperation(fieldSize.getText(),
+					(CompareTypeListEnum) (comboCompareSelectedListElementType
+							.getSelectedItem()));
+
+			// GAIN TO ELEMENT
+		} else if (comboOperationList.getSelectedIndex() == E.GAIN_TO_ELEMENT
+				.getIndex()) {
+			return new GainListToElementStorageOperation(
+					fieldPattern.getText(),
+					(ListGainByListEnum) (comboGainBy.getSelectedItem()));
+
+			// OUTPUTSTORED
+		} else if (comboOperationList.getSelectedIndex() == E.OUTPUTSTORED
+				.getIndex()) {
+			return new OutputStoredElementOperation(fieldMessage.getText());
+
 		}
-	
+
 		return null;
 	}
-	
-	      
+
 }

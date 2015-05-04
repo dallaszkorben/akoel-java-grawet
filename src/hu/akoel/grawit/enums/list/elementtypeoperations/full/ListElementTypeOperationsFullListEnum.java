@@ -13,11 +13,12 @@ public enum ListElementTypeOperationsFullListEnum implements ElementTypeOperatio
 	COMPARE_TO_CONSTANT( 6, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparetoconstant") ),
 	COMPARE_TO_STORED( 7, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparetostored") ),
 	COMPARE_TO_STRING( 8, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparetostring") ),
-	CONTAIN_CONSTANT( 9, CommonOperations.getTranslation( "editor.label.step.elementtype.list.containsconstant") ),
-	CONTAIN_STORED( 10, CommonOperations.getTranslation( "editor.label.step.elementtype.list.containsstored") ),
-	CONTAIN_STRING( 11, CommonOperations.getTranslation( "editor.label.step.elementtype.list.containsstring") ),
-	GAIN_TO_ELEMENT( 12, CommonOperations.getTranslation( "editor.label.step.elementtype.list.gaintoelement") ),
-	OUTPUTSTORED( 13, CommonOperations.getTranslation( "editor.label.step.elementtype.list.outputstored") ),	
+	COMPARE_SIZE_TO_INTEGER( 9, CommonOperations.getTranslation( "editor.label.step.elementtype.list.comparesizetointeger") ),
+	CONTAIN_CONSTANT( 10, CommonOperations.getTranslation( "editor.label.step.elementtype.list.containsconstant") ),
+	CONTAIN_STORED( 11, CommonOperations.getTranslation( "editor.label.step.elementtype.list.containsstored") ),
+	CONTAIN_STRING( 12, CommonOperations.getTranslation( "editor.label.step.elementtype.list.containsstring") ),
+	GAIN_TO_ELEMENT( 13, CommonOperations.getTranslation( "editor.label.step.elementtype.list.gaintoelement") ),
+	OUTPUTSTORED( 14, CommonOperations.getTranslation( "editor.label.step.elementtype.list.outputstored") ),	
 	;
 	
 	private String translatedName;
@@ -54,11 +55,12 @@ public enum ListElementTypeOperationsFullListEnum implements ElementTypeOperatio
 		case 6: return COMPARE_TO_CONSTANT;
 		case 7: return COMPARE_TO_STORED;
 		case 8: return COMPARE_TO_STRING;
-		case 9: return CONTAIN_CONSTANT;
-		case 10: return CONTAIN_STORED;
-		case 11: return CONTAIN_STRING;		
-		case 12: return GAIN_TO_ELEMENT;	
-		case 13: return OUTPUTSTORED;
+		case 9: return COMPARE_SIZE_TO_INTEGER;
+		case 10: return CONTAIN_CONSTANT;
+		case 11: return CONTAIN_STORED;
+		case 12: return CONTAIN_STRING;		
+		case 13: return GAIN_TO_ELEMENT;	
+		case 14: return OUTPUTSTORED;
 		default: return MOVE_TO_ELEMENT;		
 		
 		}

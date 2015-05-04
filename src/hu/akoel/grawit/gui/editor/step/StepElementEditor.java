@@ -205,8 +205,8 @@ public class StepElementEditor extends DataEditor{
 				
 			elementTypeComponent = new ScriptElementTypeComponentFull<ScriptElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel);  
 
-		//VARIABLE
-		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.VARIABLE.name() ) ){
+//		//VARIABLE
+//		}else if( baseElement.getElementType().name().equals( ElementTypeListEnum.VARIABLE.name() ) ){
 					
 //			elementTypeComponent = new VariableElementTypeComponentFull<VariableElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel);
 //TODO folytatni			
@@ -230,12 +230,12 @@ public class StepElementEditor extends DataEditor{
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.LIST.name() ) ){
 			
 			elementTypeComponent = new ListElementTypeComponentFull<ListElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );
-			
+
 		//BUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.BUTTON.name() ) ){
 			
 			elementTypeComponent = new ButtonElementTypeComponentFull<ButtonElementTypeOperationsFullListEnum>( baseElement, elementOperation );
-			
+		
 		//RADIOBUTTON
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.RADIOBUTTON.name() ) ){
 
@@ -244,14 +244,12 @@ public class StepElementEditor extends DataEditor{
 		//CHECKBOX
 		}else if( baseElement.getElementType().name().equals(  ElementTypeListEnum.CHECKBOX.name() ) ){
 			
-			elementTypeComponent = new CheckboxElementTypeComponentFull<CheckboxElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );
-					
+			elementTypeComponent = new CheckboxElementTypeComponentFull<CheckboxElementTypeOperationsFullListEnum>( baseElement, elementOperation, baseRootDataModel, constantRootDataModel );					
 		}		
 		
 		//Elhelyezi az ujat		
 		StepElementEditor.this.add( labelElementTypeSelector, elementTypeComponent.getComponent() );
-		StepElementEditor.this.repaint();
-		
+		StepElementEditor.this.repaint();		
 	}
 	
 	
@@ -288,8 +286,7 @@ public class StepElementEditor extends DataEditor{
 							CommonOperations.getTranslation("editor.errormessage.emptyfield"), 
 							"'"+labelBaseElementSelector.getText()+"'"
 					)
-			);	
-			
+			);			
 			
 		}else{
 
@@ -301,8 +298,7 @@ public class StepElementEditor extends DataEditor{
 				
 			}else if( mode.equals( EditMode.MODIFY )){
 				
-				nodeForSearch = nodeForModify.getParent();
-				
+				nodeForSearch = nodeForModify.getParent();				
 			}
 
 			//Megnezi, hogy van-e masik azonos nevu elem			
@@ -372,9 +368,6 @@ public class StepElementEditor extends DataEditor{
 				//tree.refreshTreeAfterChanged( nodeForModify );
 				tree.refreshTreeAfterChanged();
 			}
-
-		}
-		
-	}
-	
+		}		
+	}	
 }

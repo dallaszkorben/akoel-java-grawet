@@ -3,6 +3,7 @@ package hu.akoel.grawit;
 import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ClickRightOperation;
+import hu.akoel.grawit.core.operations.CompareListSizeToIntegerOperation;
 import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareListToStringOperation;
 import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
@@ -692,7 +693,12 @@ public class CommonOperations {
 					}else if( operationString.equals( CompareListToStringOperation.getStaticName() ) ){
 				
 						elementOperation = new CompareListToStringOperation( element, rootTag, dataModel.getTag() );
-				
+
+					//COMPARE LIST SIZE TO STRING
+					}else if( operationString.equals( CompareListSizeToIntegerOperation.getStaticName() ) ){
+					
+						elementOperation = new CompareListSizeToIntegerOperation( element, rootTag, dataModel.getTag() );
+						
 					//GAIN TO ELEMENT
 					}else if( operationString.equals( GainListToElementStorageOperation.getStaticName() ) ){
 								

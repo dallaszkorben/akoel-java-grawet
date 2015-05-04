@@ -1,6 +1,5 @@
 package hu.akoel.grawit.enums.list.elementtypeoperations.compare;
 
-import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 
 public enum ButtonElementTypeOperationsCompareListEnum implements ElementTypeOperationsListEnumInterface{		
