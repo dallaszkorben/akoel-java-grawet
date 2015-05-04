@@ -29,6 +29,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.step.StepNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
@@ -544,9 +545,14 @@ public class BaseTree extends Tree{
 	@Override
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
 		
+		//Sajat magaba nem helyezheto a Node
 		if( draggedNode.equals( targetObject )){
 			return false;
-		
+
+		//Ha ugyan oda akarom elhelyezni ahonnan elvettem
+		}else if( targetObject instanceof BaseNodeDataModelAdapter && ((BaseNodeDataModelAdapter)targetObject).isNodeChild( draggedNode ) ){	
+			return false;
+				
 		//Node elhelyezese Node-ba vagy Root-ba
 		}else if( draggedNode instanceof BaseFolderDataModel && targetObject instanceof BaseFolderDataModel ){
 			return true;

@@ -574,9 +574,14 @@ public class StepTree extends Tree {
 	@Override
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
 
+		//Sajat magaba nem helyezheto a Node
 		if( draggedNode.equals( targetObject )){
 			return false;
 		
+		//Ha ugyan oda akarom elhelyezni ahonnan elvettem
+		}else if( targetObject instanceof StepNodeDataModelAdapter && ((StepNodeDataModelAdapter)targetObject).isNodeChild( draggedNode ) ){	
+			return false;
+			
 		//Node elhelyezese Node-ba vagy Root-ba
 		}else if( draggedNode instanceof StepFolderDataModel && targetObject instanceof StepFolderDataModel ){
 			return true;

@@ -14,6 +14,8 @@ import javax.swing.tree.DefaultTreeModel;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantDataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerCapabilityDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverExplorerDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverFirefoxDataModel;
@@ -316,9 +318,14 @@ public class DriverTree extends Tree{
 	@Override
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
 
+		//Sajat magaba nem helyezheto a Node
 		if( draggedNode.equals( targetObject )){
 			return false;
-		
+
+		//Ha ugyan oda akarom elhelyezni ahonnan elvettem
+		}else if( targetObject instanceof DriverDataModelAdapter && ((DriverDataModelAdapter)targetObject).isNodeChild( draggedNode ) ){	
+			return false;
+			
 		//Node elhelyezese Node-ba vagy Root-ba
 		}else if( draggedNode instanceof DriverFolderDataModel && targetObject instanceof DriverFolderDataModel ){
 			return true;

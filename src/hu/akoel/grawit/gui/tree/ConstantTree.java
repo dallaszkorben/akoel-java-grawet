@@ -26,6 +26,7 @@ import hu.akoel.grawit.core.treenodedatamodel.step.StepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
+import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseNodeDataModelAdapter;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.DataEditor;
@@ -292,18 +293,11 @@ public class ConstantTree extends Tree{
 					if( n == 1 ){
 												 					
 						//Tulajdonkeppen csak levalasztom a fastrukturarol
-//						totalTreeModel.removeNodeFromParent( selectedNode );
-//						ConstantTree.this.setSelectionRow(selectedRow - 1);
+						totalTreeModel.removeNodeFromParent( selectedNode );
+						ConstantTree.this.setSelectionRow(selectedRow - 1);
 						
 					}										
 				}
-				
-				
-				
-				
-				
-				
-				
 			}
 											
 				
@@ -424,9 +418,14 @@ public class ConstantTree extends Tree{
 	@Override
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
 
+		//Sajat magaba nem helyezheto a Node
 		if( draggedNode.equals( targetObject )){
 			return false;
-		
+
+		//Ha ugyan oda akarom elhelyezni ahonnan elvettem
+		}else if( targetObject instanceof ConstantDataModelAdapter && ((ConstantDataModelAdapter)targetObject).isNodeChild( draggedNode ) ){	
+			return false;
+			
 		//Node elhelyezese Node-ba
 		}else if( draggedNode instanceof ConstantFolderNodeDataModel && targetObject instanceof ConstantFolderNodeDataModel ){
 			return true;

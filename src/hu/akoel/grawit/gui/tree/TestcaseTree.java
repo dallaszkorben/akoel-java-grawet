@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.BaseNodeDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
@@ -357,9 +358,14 @@ public class TestcaseTree extends Tree {
 	@Override
 	public boolean possibleHierarchy(DefaultMutableTreeNode draggedNode, Object targetObject) {
 		
+		//Sajat magaba nem helyezheto a Node
 		if( draggedNode.equals( targetObject )){
 			return false;
-		
+
+		//Ha ugyan oda akarom elhelyezni ahonnan elvettem
+		}else if( targetObject instanceof TestcaseNodeDataModelAdapter && ((TestcaseNodeDataModelAdapter)targetObject).isNodeChild( draggedNode ) ){	
+			return false;
+			
 		//Node elhelyezese Node-ba vagy Root-ba
 		}else if( draggedNode instanceof TestcaseFolderDataModel && targetObject instanceof TestcaseFolderDataModel ){
 			return true;
