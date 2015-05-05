@@ -206,14 +206,15 @@ DataModelAdapter root = rootDataModel;
 			//Elkesziti a BasePage faszerkezetet
 			TreeForSelect pageBaseTree = new TreeForSelect( rootDataModel );
 			
+			//Becsomagolom a BasePage faszerkezetet hogy scroll-ozhato legyen
+			JScrollPane scrolledPageBaseTree = new JScrollPane( pageBaseTree );
+
 			//Ha volt kivalasztott elem, akkor a tree-ben kivalasztja
 			if( null != selectedElement ){
 				TreePath path = new TreePath( selectedElement.getPath() );
-				pageBaseTree.setSelectionPath( new TreePath( selectedElement.getPath() ) );
-			}			
-		
-			//Becsomagolom a BasePage faszerkezetet hogy scroll-ozhato legyen
-			JScrollPane scrolledPageBaseTree = new JScrollPane( pageBaseTree );
+				pageBaseTree.setSelectionPath( path );
+				pageBaseTree.scrollPathToVisible(path);			
+			}
 		
 			//Kiteszem a Treet az ablakba
 			this.add( scrolledPageBaseTree, BorderLayout.CENTER );

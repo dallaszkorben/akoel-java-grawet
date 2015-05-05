@@ -90,7 +90,7 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 			elementProgress.printSource( tab + "select = new Select(webElement);" );
 		
 			//VALUE			
-			elementProgress.printSource( tab + "String.valueOf( origText = select.getOption().size() );" );
+			elementProgress.printSource( tab + "origText = String.valueOf( select.getOptions().size() );" );
 		
 			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
 				elementProgress.printSource( tab + "if( !origText.equals( \"" + integerToCompare + "\" ) ){" );
