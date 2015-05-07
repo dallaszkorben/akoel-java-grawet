@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.JViewport;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -70,6 +71,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	private JButton startButton;
 	private JButton stopButton;
 	private JButton pauseButton;
+	private JButton continueButton;
 
 	private ResultPanel resultPanel;
 	private JTextPane sourceCodePanel;
@@ -80,14 +82,24 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	private SimpleAttributeSet attributeSourceCodeNormal;
 	
 	private boolean needToStop = false;	
+	private boolean needToPause = false;
 	
 	private void setNeedToStop( boolean needToStop ){
 		this.needToStop = needToStop;
 	}
 	
+	private void setNeedToPause( boolean needToPause ){
+		this.needToPause = needToPause;
+	}
+
 	@Override
 	public boolean isStopped() {
 		return needToStop;
+	}
+
+	@Override
+	public boolean isPaused() {
+		return needToPause;
 	}
 
 	public RunTestcaseEditor( Tree tree, TestcaseDataModelAdapter testcaseDataModel, DriverDataModelAdapter driverDataModel ){	
@@ -122,6 +134,13 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		ImageIcon pauseRolloverIcon = CommonOperations.createImageIcon("control/control-pause-rollover.png");
 		ImageIcon pausePressedIcon = CommonOperations.createImageIcon("control/control-pause-pressed.png");
 		ImageIcon pauseSelectedIcon = CommonOperations.createImageIcon("control/control-pause-selected.png");
+		
+		ImageIcon continueIcon = CommonOperations.createImageIcon("control/control-continue.png");
+		ImageIcon continueDisabledIcon = CommonOperations.createImageIcon("control/control-continue-disabled.png");
+		ImageIcon continueRolloverIcon = CommonOperations.createImageIcon("control/control-continue.png");
+		ImageIcon continuePressedIcon = CommonOperations.createImageIcon("control/control-continue.png");
+		ImageIcon continueSelectedIcon = CommonOperations.createImageIcon("control/control-continue.png");
+		
 		
 		// -------------
 		//
@@ -159,9 +178,17 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 						//Letiltja a Inditas gombot
 						RunTestcaseEditor.this.startButton.setEnabled( false );
 						setNeedToStop( false );
+						setNeedToPause( false );
+						
 						//Engedelyezi a Stop gombot
 						RunTestcaseEditor.this.stopButton.setEnabled( true );
 
+						//Engedelyezi a Pause gombot
+						RunTestcaseEditor.this.pauseButton.setEnabled( true );
+						
+						//Tiltja a Continue gombot
+						RunTestcaseEditor.this.continueButton.setEnabled( false );
+						
 						//Torli a panelek tartalmat
 						outputPanel.setText("");
 						resultPanel.clear();
@@ -174,8 +201,15 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 //}				    	
 						//Engedelyezi az Inditas gombot
 				    	RunTestcaseEditor.this.startButton.setEnabled( true );
+				    	
 				    	//Tiltja a Stop gombot
-				    	RunTestcaseEditor.this.stopButton.setEnabled( false );			
+				    	RunTestcaseEditor.this.stopButton.setEnabled( false );
+				    	
+				    	//Tiltja a Pause gombot
+				    	RunTestcaseEditor.this.pauseButton.setEnabled( false );		
+				    	
+						//Tiltja a Continue gombot
+						RunTestcaseEditor.this.continueButton.setEnabled( false );
 					}				 
 				}).start();
 			}						
@@ -203,7 +237,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 								
-				setNeedToStop( true );				
+				setNeedToStop( true );
+				setNeedToPause( false );
+
 			}						
 		});	
 		
@@ -221,12 +257,62 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		pauseButton.setSelectedIcon(pauseSelectedIcon);
 		pauseButton.setRolloverIcon((pauseRolloverIcon));
 		pauseButton.setPressedIcon(pausePressedIcon);
+		
 		pauseButton.setDisabledIcon(pauseDisabledIcon);
 		pauseButton.setIcon(pauseIcon);
+		
+		pauseButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+								
+				//Letiltja a Pause gombot
+				RunTestcaseEditor.this.pauseButton.setEnabled( false );
+				
+				//Engedelyezi a Continue gombot
+				RunTestcaseEditor.this.continueButton.setEnabled( true );
+				
+				setNeedToPause( true );
+
+			}						
+		});	
+		
+		//
+		// CONTINUE
+		//
+		continueButton = new JButton();
+		
+		continueButton.setBorderPainted(false);
+		continueButton.setBorder(null);
+		continueButton.setFocusable(false);
+		continueButton.setMargin(new Insets(0, 0, 0, 0));
+		continueButton.setContentAreaFilled(false);
+
+		continueButton.setSelectedIcon(continueSelectedIcon);
+		continueButton.setRolloverIcon((continueRolloverIcon));
+		continueButton.setPressedIcon(continuePressedIcon);		
+		continueButton.setDisabledIcon(continueDisabledIcon);
+		continueButton.setIcon(continueIcon);
+		
+		continueButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+								
+				//Engedelyezem a Pause gombot
+				RunTestcaseEditor.this.pauseButton.setEnabled( true );
+				
+				//Tiltom a Continue gombot
+				RunTestcaseEditor.this.continueButton.setEnabled( false );
+				
+				setNeedToPause( false );	
+			}						
+		});	
 
 		//Indulasi beallitas
 		stopButton.setEnabled( false );
 		pauseButton.setEnabled( false );
+		continueButton.setEnabled( false );
 		
 		//Ha nincs Driver definialva, akkor nem indulhat el egy teszt sem
 		if( null == ((TestcaseRootDataModel)selectedTestcase.getRoot()).getDriverDataModel() ){
@@ -242,7 +328,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		controlPanel.setLayout( new FlowLayout() );
 		controlPanel.add(startButton);
 		controlPanel.add(stopButton);
-		controlPanel.add( pauseButton );		
+		controlPanel.add( pauseButton );
+		controlPanel.add( continueButton );
 		
 		//---------------
 		//
@@ -554,6 +641,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	 */
 	private void throughTestcases( TestcaseDataModelAdapter testcase ){
 
+		//TODO Lehet, hogy ez nem is kell. Ellenorizni!!!
 		if( isStopped() ){
 			return;
 		}

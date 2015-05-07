@@ -11,6 +11,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.Player;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
@@ -18,8 +19,10 @@ import hu.akoel.grawit.core.treenodedatamodel.base.BaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
+import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
+import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAdapter implements ExecutableStepInterface{ //extends ParamDataModelAdapter implements ExecutablePageInterface{
 
@@ -39,6 +42,32 @@ public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAda
 	abstract public BaseElementDataModelAdapter getLastBaseElement();
 	
 	abstract public void setLastBaseElement( BaseElementDataModelAdapter lastBaseElement );
+	
+	abstract public void printSourceCloseAtStop( ProgressIndicatorInterface progressIndicator, String tab );
+	
+	public void checkAndExecuteRequestsFromUser( Player player, ProgressIndicatorInterface progressIndicator, String tab ) throws StoppedByUserException{
+		
+		if( player.isStopped() ){
+			
+			//A While loopot le kell azert zarni
+			printSourceCloseAtStop(progressIndicator, tab);
+			
+			throw new StoppedByUserException();
+		}
+		
+		//Ha varakozasi parancs van kiadva, akkor addig varakozik, amig ez fenn all
+		while( player.isPaused() ){
+
+			//vagy amig nem erkezett egy stop parancs
+			if( player.isStopped() ){
+				throw new StoppedByUserException();
+			}
+	
+			//Var 1 masodpercet
+			try { Thread.sleep( 1000 ); } catch (InterruptedException e) {}		
+		}		
+	}
+	
 	
 	/**
 	 * Az attributum-ban megadott eleresi utvonalbol keszit BaseDataModel objektumot, ha lehet

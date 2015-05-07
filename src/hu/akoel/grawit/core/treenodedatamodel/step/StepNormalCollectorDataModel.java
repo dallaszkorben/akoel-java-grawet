@@ -130,11 +130,8 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 		int childrenCount = this.getChildCount();
 		for( int i = 0; i < childrenCount; i++ ){
 
-			//TODO BaseElement Waiting time ... atadhato lenne parameterkent a doAction szamara
-			
-			if( player.isStopped() ){
-				throw new StoppedByUserException();
-			}
+			//A felhasznalo Player gombokon keresztuli kereseire reagal
+			checkAndExecuteRequestsFromUser( player, progressIndicator, tab );
 			
 			//Parameterezett elem
 			stepElement = (StepElementDataModel)this.getChildAt( i );
@@ -143,7 +140,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 			if( stepElement.isOn() ){
 			
 				//Bazis elem
-				BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
+				//BaseElementDataModelAdapter baseElement = stepElement.getBaseElement();
 			
 				try{			
 					stepElement.doAction( driver, progressIndicator, tab, definedElementSet, true );
@@ -157,6 +154,10 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				}			
 			}				
 		}		
+	}
+	
+	@Override
+	public void printSourceCloseAtStop( ProgressIndicatorInterface progressIndicator, String tab) {
 	}
 	
 	@Override
@@ -220,4 +221,5 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 		return cloned;
 		
 	}
+
 }

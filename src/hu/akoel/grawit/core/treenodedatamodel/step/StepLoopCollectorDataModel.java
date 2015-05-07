@@ -1,7 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.step;
 
 import java.io.StringReader;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -364,7 +363,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		StepElementDataModel parameterElement;
 		
 		Integer actualLoop = 0;
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+		//SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
 		
 		Date startDate = Calendar.getInstance().getTime();			
 		Date actualDate;
@@ -403,13 +402,8 @@ getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicato
 				//A LOOP element-jeinek futtatasa
 				for( int index = 0; index < childCount; index++ ){
 				
-					if( player.isStopped() ){
-						
-						//A While loopot le kell azert zarni
-						printSourceLoopClose(progressIndicator, tab);
-						
-						throw new StoppedByUserException();
-					}
+					//A felhasznalo Player gombokon keresztuli kereseire reagal
+					checkAndExecuteRequestsFromUser( player, progressIndicator, tab );
 					
 					//Parameterezett elem
 					parameterElement = (StepElementDataModel)this.getChildAt( index );
@@ -426,7 +420,7 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 						}catch (ElementException f){
 							
 							//A While loopot le kell azert zarni
-							printSourceLoopClose(progressIndicator, tab);
+							printSourceCloseAtStop(progressIndicator, tab);
 							
 							throw new PageException( this.getName(), f.getElementName(), f.getElementSelector(), f);					
 						}					
@@ -443,7 +437,7 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 			}catch( ElementException g	){
 								
 				//A While loopot le kell azert zarni
-				printSourceLoopClose(progressIndicator, tab);
+				printSourceCloseAtStop(progressIndicator, tab);
 				
 				throw new PageException( this.getName(), g.getElementName(), g.getElementSelector(), g);
 			}
@@ -459,7 +453,7 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 			if( actualLoop >= maxLoopNumber ){
 				
 				//A While loopot le kell azert zarni
-				printSourceLoopClose(progressIndicator, tab);
+				printSourceCloseAtStop(progressIndicator, tab);
 				
 				//Akkor egy uj hibat generalok
 				throw new LoopExceededMaxValueException( this.getName(), compareBaseElement.getName(), new Exception() );
@@ -488,12 +482,13 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 			}			
 		}
 
-		printSourceLoopClose(progressIndicator, tab);
+		printSourceCloseAtStop(progressIndicator, tab);
 		
 	}
 	
-	private void printSourceLoopClose( ProgressIndicatorInterface progressIndicator, String tab ){
-		progressIndicator.printSource( tab + "} //while()");
+	@Override
+	public void printSourceCloseAtStop( ProgressIndicatorInterface progressIndicator, String tab) {
+		progressIndicator.printSource( tab + "} //while()");		
 	}
 	
 	@Override
@@ -513,4 +508,5 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 		return cloned;
 		
 	}
+
 }
