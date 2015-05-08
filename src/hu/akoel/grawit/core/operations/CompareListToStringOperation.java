@@ -23,7 +23,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareListToStringOperation extends ElementOperationAdapter implements CompareOperation{
+public class CompareListToStringOperation extends ElementOperationAdapter implements CompareOperationInterface, ListOperationInterface{
 	
 	private static final String NAME = "COMPARELISTTOSTRING";
 	private static final String ATTR_STRING = "string";
@@ -36,14 +36,14 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 	// Model
 	private String stringPattern;
 	private ListCompareByListEnum compareBy;	
-	private String stringToCompare;
+	private String compareWithString;
 	private CompareTypeListEnum compareType;
 	//----
 	
 	private Pattern pattern;
 	
-	public CompareListToStringOperation( String stringToCompare, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
-		this.stringToCompare = stringToCompare;
+	public CompareListToStringOperation( String compareWithString, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
+		this.compareWithString = compareWithString;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
 		this.compareBy = compareBy;
@@ -79,7 +79,7 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 		if( !element.hasAttribute( ATTR_STRING ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_STRING );			
 		}
-		stringToCompare = element.getAttribute( ATTR_STRING );	
+		compareWithString = element.getAttribute( ATTR_STRING );	
 		
 	    //PATTERN
 	    if( !element.hasAttribute( ATTR_PATTERN ) ){
@@ -88,25 +88,24 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 			stringPattern = element.getAttribute( ATTR_PATTERN );
 		}		
 		common( stringPattern );
-
 	}
 	
-	private void common( String stringPattern ){
-		
+	private void common( String stringPattern ){		
 		if( stringPattern.trim().length() == 0 ){
 			pattern = null;
 		}else{		
 			pattern = Pattern.compile( stringPattern );
-		}
-		
+		}		
 	}
 	
+	@Override
 	public ListCompareByListEnum getCompareBy(){
 		return compareBy;
 	}
-	
-	public String getStringToShow() {
-		return stringToCompare;
+
+	@Override
+	public CompareTypeListEnum getCompareType(){
+		return compareType;
 	}
 
 	public static String getStaticName(){
@@ -118,10 +117,6 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 		return getStaticName();
 	}
 		
-	public CompareTypeListEnum getCompareType(){
-		return compareType;
-	}
-
 	@Override
 	public boolean isInLoop(){
 		return this.isInLoop;
@@ -160,20 +155,20 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 			}
 		
 			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-				elementProgress.printSource( tab + "if( !origText.equals( \"" + stringToCompare + "\" ) ){" );
+				elementProgress.printSource( tab + "if( !origText.equals( \"" + compareWithString + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + stringToCompare + " + \"'.");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + compareWithString + " + \"'.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + stringToCompare + "' but it should.\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithString + "' but it should.\");");
 				}
 				elementProgress.printSource( tab + "}" );
 			
 			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-				elementProgress.printSource( tab + "if( origText.equals( \"" + stringToCompare + "\" ) ){" );
+				elementProgress.printSource( tab + "if( origText.equals( \"" + compareWithString + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '" + stringToCompare + " + \"'.");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '" + compareWithString + " + \"'.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + stringToCompare + "' but it should NOT.\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithString + "' but it should NOT.\");");
 				}
 				elementProgress.printSource( tab + "}" );
 			}		
@@ -207,25 +202,25 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
-			if( !origText.equals( stringToCompare ) ){
+			if( !origText.equals( compareWithString ) ){
 
 				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, compareWithString, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, compareWithString, baseElement.getName(), "special", origText, new Exception() );
 				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( origText.equals( stringToCompare ) ){
+			if( origText.equals( compareWithString ) ){
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, compareWithString, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, stringToCompare, baseElement.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, compareWithString, baseElement.getName(), "special", origText, new Exception() );
 				}
 			}			
 		}
@@ -235,7 +230,7 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 	public void setXMLAttribute(Document document, Element element) {
 		
 		Attr attr = document.createAttribute( ATTR_STRING );
-		attr.setValue( stringToCompare );
+		attr.setValue( compareWithString );
 		element.setAttributeNode(attr);	
 		
 		attr = document.createAttribute( ATTR_COMPARE_TYPE );
@@ -253,7 +248,7 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 
 	@Override
 	public Object clone() {
-		String stringToCompare = new String( this.stringToCompare );
+		String stringToCompare = new String( this.compareWithString );
 		String stringPattern = new String( this.stringPattern );
 
 		//CompareTypeListEnum compareType = this.compareType;			
@@ -265,5 +260,10 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 	@Override
 	public String getOperationNameToString() {		
 		return "CompareListToString()";
+	}
+
+	@Override
+	public String getCompareWith() {
+		return this.compareWithString;
 	}
 }

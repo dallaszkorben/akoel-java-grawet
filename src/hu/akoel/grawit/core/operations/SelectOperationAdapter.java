@@ -14,7 +14,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
-import hu.akoel.grawit.exceptions.ElementNotFoundComponentException;
+import hu.akoel.grawit.exceptions.ElementNotFoundComponentInListException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public abstract class SelectOperationAdapter extends ElementOperationAdapter{	
@@ -57,7 +57,7 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 				select = new Select(webElement);				
 				
 			}catch (UnexpectedTagNameException e){
-				throw new ElementInvalidOperationException( "List Selection", baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), e );			
+				throw new ElementInvalidOperationException((NormalBaseElementDataModel)baseElement, this, e );
 			}
 		
 			try{
@@ -84,7 +84,7 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 			
 			}catch(NoSuchElementException e ){
 			
-				throw new ElementNotFoundComponentException( getStringToSelection(), getSelectionBy(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), e );
+				throw new ElementNotFoundComponentInListException( (NormalBaseElementDataModel)baseElement, getStringToSelection(), this, e ); 
 
 			}catch (Exception e ){
 				

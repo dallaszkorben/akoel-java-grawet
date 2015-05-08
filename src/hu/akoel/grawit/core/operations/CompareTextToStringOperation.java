@@ -20,7 +20,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareTextToStringOperation extends ElementOperationAdapter implements CompareOperation{
+public class CompareTextToStringOperation extends ElementOperationAdapter implements CompareOperationInterface{
 	
 	private static final String NAME = "COMPARETEXTTOSTRING";
 	private static final String ATTR_STRING = "string";

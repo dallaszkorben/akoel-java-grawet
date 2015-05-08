@@ -11,7 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.core.operations.CompareOperation;
+import hu.akoel.grawit.core.operations.CompareOperationInterface;
 import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
@@ -69,8 +69,8 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		this.maxLoopNumber = maxLoopNumber;
 		this.elementOperation = operation;
 		
-		if( this.elementOperation instanceof CompareOperation ){
-			((CompareOperation) this.elementOperation).setIsInLoop( true );
+		if( this.elementOperation instanceof CompareOperationInterface ){
+			((CompareOperationInterface) this.elementOperation).setIsInLoop( true );
 		}
 		
 		//Engedelyezi a Node Ki/Be kapcsolasat
@@ -221,8 +221,8 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		elementOperation = CommonOperations.getElementOperation( element, compareBaseElement, (DataModelAdapter)this, elementOperation, getRootTag(), ATTR_OPERATION, constantRootDataModel );
 		
 		//Jelzem, hogy az adott Operation egy Loop-ban szerepel es igy a forraskod bizonyos elemei kulonbozoek lehetnek
-		if( this.elementOperation instanceof CompareOperation ){
-			((CompareOperation) this.elementOperation).setIsInLoop( true );
+		if( this.elementOperation instanceof CompareOperationInterface ){
+			((CompareOperationInterface) this.elementOperation).setIsInLoop( true );
 		}
 		
 	}

@@ -33,7 +33,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareTextToStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface, CompareOperation{
+public class CompareTextToStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface, CompareOperationInterface{
 	
 	//TODO rendbe kell tenni a neveket!!!
 	

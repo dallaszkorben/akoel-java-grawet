@@ -21,7 +21,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareValueToStringOperation extends ElementOperationAdapter implements CompareOperation{
+public class CompareValueToStringOperation extends ElementOperationAdapter implements CompareOperationInterface{
 	
 	private static final String NAME = "COMPAREVALUETOSTRING";
 	private static final String ATTR_STRING = "string";

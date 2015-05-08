@@ -18,7 +18,7 @@ import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareListSizeToIntegerOperation extends ElementOperationAdapter implements CompareOperation{
+public class CompareListSizeToIntegerOperation extends ElementOperationAdapter implements CompareOperationInterface{
 	
 	private static final String NAME = "COMPARELISTSIZETOINTEGER";
 	private static final String ATTR_INTEGER = "integer";
@@ -27,12 +27,12 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 	private boolean isInLoop = false;
 	
 	// Model
-	private String integerToCompare;
+	private String compareWithInteger;
 	private CompareTypeListEnum compareType;
 	//----
 	
-	public CompareListSizeToIntegerOperation( String integerToCompare, CompareTypeListEnum compareType ){
-		this.integerToCompare = integerToCompare;
+	public CompareListSizeToIntegerOperation( String compareWithInteger, CompareTypeListEnum compareType ){
+		this.compareWithInteger = compareWithInteger;
 		this.compareType = compareType;
 	}
 	
@@ -49,11 +49,11 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 		if( !element.hasAttribute( ATTR_INTEGER ) ){
 			throw new XMLMissingAttributePharseException( rootTag, tag, ATTR_INTEGER );			
 		}
-		integerToCompare = element.getAttribute( ATTR_INTEGER );		
+		compareWithInteger = element.getAttribute( ATTR_INTEGER );		
 	}
 	
 	public String getIntegerToShow() {
-		return integerToCompare;
+		return compareWithInteger;
 	}
 
 	public static String getStaticName(){
@@ -93,20 +93,20 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 			elementProgress.printSource( tab + "origText = String.valueOf( select.getOptions().size() );" );
 		
 			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-				elementProgress.printSource( tab + "if( !origText.equals( \"" + integerToCompare + "\" ) ){" );
+				elementProgress.printSource( tab + "if( !origText.equals( \"" + compareWithInteger + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + integerToCompare + " + \"'.");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + compareWithInteger + " + \"'.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + integerToCompare + "' but it should.\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithInteger + "' but it should.\");");
 				}
 				elementProgress.printSource( tab + "}" );
 			
 			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-				elementProgress.printSource( tab + "if( origText.equals( \"" + integerToCompare + "\" ) ){" );
+				elementProgress.printSource( tab + "if( origText.equals( \"" + compareWithInteger + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '" + integerToCompare + " + \"'.");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '" + compareWithInteger + " + \"'.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + integerToCompare + "' but it should NOT.\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithInteger + "' but it should NOT.\");");
 				}
 				elementProgress.printSource( tab + "}" );
 			}		
@@ -124,26 +124,26 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 		//Ha az egyenloseg az elvart
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
-			if( !origText.equals( integerToCompare ) ){
+			if( !origText.equals( compareWithInteger ) ){
 
 				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, integerToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, integerToCompare, baseElement.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), "special", origText, new Exception() );
 				}
 			}
 			
 		//Ha a kulonbozoseg az elvart
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( origText.equals( integerToCompare ) ){
+			if( origText.equals( compareWithInteger ) ){
 				
 				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, integerToCompare, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
 				}else{
-					throw new ElementCompareOperationException(compareType, integerToCompare, baseElement.getName(), "special", origText, new Exception() );
+					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), "special", origText, new Exception() );
 				}
 			}			
 		}
@@ -153,7 +153,7 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 	public void setXMLAttribute(Document document, Element element) {
 		
 		Attr attr = document.createAttribute( ATTR_INTEGER );
-		attr.setValue( integerToCompare );
+		attr.setValue( compareWithInteger );
 		element.setAttributeNode(attr);	
 		
 		attr = document.createAttribute( ATTR_COMPARE_TYPE );
@@ -163,7 +163,7 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 
 	@Override
 	public Object clone() {
-		String stringToCompare = new String( this.integerToCompare );
+		String stringToCompare = new String( this.compareWithInteger );
 
 		//CompareTypeListEnum compareType = this.compareType;			
 		//ListCompareByListEnum compareBy = this.compareBy;	
@@ -175,4 +175,11 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 	public String getOperationNameToString() {		
 		return "CompareListSizeToInteger()";
 	}
+
+	@Override
+	public String getCompareWith() {	
+		return compareWithInteger;
+	}
+
+
 }

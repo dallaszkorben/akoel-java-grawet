@@ -19,12 +19,12 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ContainTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.exceptions.ElementListContainOperationException;
+import hu.akoel.grawit.exceptions.ElementListCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareContainListStringOperation extends ElementOperationAdapter implements CompareOperation{
+public class CompareContainListStringOperation extends ElementOperationAdapter implements CompareOperationInterface{
 	
 	private static final String NAME = "CONTAINLISTSTRING";
 	private static final String ATTR_STRING = "string";
@@ -241,7 +241,7 @@ public class CompareContainListStringOperation extends ElementOperationAdapter i
 			
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, stringForSearch, false, new Exception() );
+				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, stringForSearch, false, new Exception() );
 
 			}
 			
@@ -250,7 +250,7 @@ public class CompareContainListStringOperation extends ElementOperationAdapter i
 			
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, stringForSearch, true, new Exception() );
+				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, stringForSearch, true, new Exception() );
 			}			
 		}
 	}

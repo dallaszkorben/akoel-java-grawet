@@ -31,7 +31,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareTextToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareOperation{
+public class CompareTextToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareOperationInterface{
 	
 	private static final String NAME = "COMPARETEXTTOCONSTANT";	
 	private static final String ATTR_COMPARE_CONSTANT_ELEMENT_PATH = "compareconstantelementpath";

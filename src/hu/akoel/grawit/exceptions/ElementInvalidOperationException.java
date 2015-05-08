@@ -1,28 +1,25 @@
 package hu.akoel.grawit.exceptions;
 
-public class ElementInvalidOperationException extends ElementException{
-	private String operation;
-	private String elementName;
-	private String elementId;
+import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 
+public class ElementInvalidOperationException extends ElementException{
 	private static final long serialVersionUID = 3601836630818056477L;
 
-	public ElementInvalidOperationException( String operationString, String elementName, String elementSelector, Exception e ){
-		super( "Invalid operation:\n   Operation: " + operationString + "\n   Element name: '" + elementName + "'\n   Element selector: " + elementSelector, e );
-		this.operation = operationString;
-		this.elementName = elementName;
-		this.elementId = elementSelector;
-	}
+	private StringBuilder message = new StringBuilder(100);
 	
-	public String getElementName() {
-		return elementName;
+	public ElementInvalidOperationException( NormalBaseElementDataModel baseElement, ElementOperationAdapter operation, Exception e ){
+		super( baseElement, "", e );
+		
+		this.message.append( "Invalid operation\n" ); 
+		this.message.append( "Operation: " + operation.getName() + " " + operation.getOperationNameToString() + "\n" );
+		this.message.append( "Element name: " + baseElement.getName() + "\n" );
+		this.message.append( "Element selector: " + baseElement.getSelector() + "\n" );
 	}
 
-	public String getElementSelector() {
-		return elementId;
+	@Override
+	public String getMessage() {		
+		return message.toString();
 	}
-	
-	public String getOperation(){
-		return operation;
-	}
+
 }

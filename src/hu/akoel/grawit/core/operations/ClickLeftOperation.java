@@ -34,12 +34,10 @@ public class ClickLeftOperation extends ElementOperationAdapter{
 			elementProgress.printSource( tab + "webElement.click();");
 		}
 		
-		try{
-			
-			webElement.click();
-		
+		try{			
+			webElement.click();		
 		}catch (WebDriverException webDriverException){
-			throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
+			throw new ElementInvalidOperationException((NormalBaseElementDataModel)baseElement, this, webDriverException );
 		}
 		
 		//new Actions(driver).click(webElement).perform();		

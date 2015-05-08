@@ -29,13 +29,13 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ContainTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.exceptions.ElementListContainOperationException;
+import hu.akoel.grawit.exceptions.ElementListCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareContainListConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareOperation{
+public class CompareContainListConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareOperationInterface{
 	
 	private static final String NAME = "CONTAINLISTCONSTANT";	
 	private static final String ATTR_CONTAIN_CONSTANT_ELEMENT_PATH = "containconstantelementpath";
@@ -311,7 +311,7 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 			
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, constantElementDataModel.getValue(), false, new Exception() );
+				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, constantElementDataModel.getValue(), false, new Exception() );
 
 			}
 			
@@ -320,7 +320,7 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, constantElementDataModel.getValue(), true, new Exception() );
+				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, constantElementDataModel.getValue(), true, new Exception() );
 			}
 		}
 	}

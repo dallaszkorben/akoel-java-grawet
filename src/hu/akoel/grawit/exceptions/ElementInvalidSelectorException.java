@@ -1,22 +1,23 @@
 package hu.akoel.grawit.exceptions;
 
+import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
+
 public class ElementInvalidSelectorException extends ElementException{
-	private String elementName;
-	private String elementId;
 
 	private static final long serialVersionUID = 3601836630818056477L;
 
-	public ElementInvalidSelectorException( String elementName, String elementSelector, Exception e ){
-		super( "Invalid selector:\n   Element name: '" + elementName + "'\n   Element selector: " + elementSelector, e );
-		this.elementName = elementName;
-		this.elementId = elementSelector;
-	}
+	private StringBuilder message = new StringBuilder(100);
 	
-	public String getElementName() {
-		return elementName;
+	public ElementInvalidSelectorException( NormalBaseElementDataModel baseElement, Exception e ){
+		super( baseElement, "", e );
+		
+		this.message.append( "Invalid selector\n" ); 
+		this.message.append( "Element name: " + baseElement.getName() + "\n" );
+		this.message.append( "Element selector: " + baseElement.getSelector() + "\n" );
 	}
 
-	public String getElementSelector() {
-		return elementId;
+	@Override
+	public String getMessage() {		
+		return this.message.toString();
 	}
 }

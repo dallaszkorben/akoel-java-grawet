@@ -33,13 +33,10 @@ public class ClearOperation extends ElementOperationAdapter{
 		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){
-
 			try{
-
-				webElement.clear();
-			
+				webElement.clear();			
 			}catch (WebDriverException webDriverException){
-				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
+				throw new ElementInvalidOperationException((NormalBaseElementDataModel)baseElement, this, webDriverException );
 			}
 		}
 		

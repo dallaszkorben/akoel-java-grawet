@@ -29,13 +29,13 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ContainTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.exceptions.ElementListContainOperationException;
+import hu.akoel.grawit.exceptions.ElementListCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareContainListStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface, CompareOperation{
+public class CompareContainListStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface, CompareOperationInterface{
 	
 	private static final String NAME = "CONTAINLISTSTOREDELEMENT";	
 	private static final String ATTR_CONTAIN_BASE_ELEMENT_PATH = "containebaseelementpath";
@@ -319,7 +319,7 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 			
 			if( baseElement instanceof NormalBaseElementDataModel ){
 
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementForSearch.getStoredValue(), false, new Exception() );
+				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementForSearch.getStoredValue(), false, new Exception() );
 			}
 			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
@@ -327,7 +327,7 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 
 			if( baseElement instanceof NormalBaseElementDataModel ){
 					
-				throw new ElementListContainOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementForSearch.getStoredValue(), true, new Exception() );
+				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementForSearch.getStoredValue(), true, new Exception() );
 			}
 		}
 	}

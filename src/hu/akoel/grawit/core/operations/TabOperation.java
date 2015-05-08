@@ -41,7 +41,7 @@ public class TabOperation extends ElementOperationAdapter{
 				//Execute the operation
 				webElement.sendKeys(Keys.TAB);
 			}catch (WebDriverException webDriverException){
-				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
+				throw new ElementInvalidOperationException((NormalBaseElementDataModel)baseElement, this, webDriverException );
 			}			
 		}
 	}
