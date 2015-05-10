@@ -88,6 +88,9 @@ public class RunTree extends Tree {
 			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
 			if( null == editor ){
 				editor = new RunTestcaseEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel );
+				for( LinkToNodeInTreeListener linkToNodeInTreeListener: getLinkToNodeInTreeListeners() ){
+					editor.addLinkToNodeInTreeListener( linkToNodeInTreeListener );
+				}
 				testcaseMap.put((TestcaseRootDataModel)selectedNode, editor );
 			}
 
@@ -99,6 +102,9 @@ public class RunTree extends Tree {
 			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
 			if( null == editor ){
 				editor = new RunTestcaseEditor( this, (TestcaseFolderDataModel)selectedNode, driverRootDataModel );
+				for( LinkToNodeInTreeListener linkToNodeInTreeListener: getLinkToNodeInTreeListeners() ){
+					editor.addLinkToNodeInTreeListener( linkToNodeInTreeListener );
+				}
 				testcaseMap.put((TestcaseFolderDataModel)selectedNode, editor );
 			}
 
