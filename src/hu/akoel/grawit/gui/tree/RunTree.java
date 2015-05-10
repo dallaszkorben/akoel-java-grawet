@@ -13,16 +13,13 @@ import javax.swing.tree.TreePath;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
-import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepCollectorDataModel;
 import hu.akoel.grawit.enums.ActionCommand;
 import hu.akoel.grawit.gui.GUIFrame;
 import hu.akoel.grawit.gui.editor.run.RunTestcaseEditor;
-import hu.akoel.grawit.gui.tree.Tree.LinkToElementListener;
 
 public class RunTree extends Tree {
 
