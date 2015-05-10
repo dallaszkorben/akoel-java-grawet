@@ -8,6 +8,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.ElementException;
@@ -55,7 +56,7 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 		if( needToPrintSource ){
 			elementProgress.printSource( tab + "System.out.println( \"" + label + ": \" + " + baseElement.getNameAsVariable() + " );" );
 		}	
-		elementProgress.printOutput( label, baseElement.getStoredValue(), null );			
+		elementProgress.printOutputMessage( label, baseElement.getStoredValue(), null );			
 			
 		
 	}

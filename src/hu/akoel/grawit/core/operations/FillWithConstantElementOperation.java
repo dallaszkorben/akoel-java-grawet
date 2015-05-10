@@ -16,6 +16,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.HasConstantOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantDataModelAdapter;
@@ -136,7 +138,7 @@ public class FillWithConstantElementOperation extends ElementOperationAdapter im
 				//webElement.sendKeys(Keys.TAB);
 				
 			}catch (WebDriverException webDriverException){
-				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
+				throw new ElementInvalidOperationException( (NormalBaseElementDataModel)baseElement, this, webDriverException );
 			}
 			
 

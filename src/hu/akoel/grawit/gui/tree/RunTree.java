@@ -109,6 +109,9 @@ public class RunTree extends Tree {
 			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
 			if( null == editor ){
 				editor = new RunTestcaseEditor( this, (TestcaseCaseDataModel)selectedNode, driverRootDataModel );
+				for( LinkToNodeInTreeListener linkToNodeInTreeListener: getLinkToNodeInTreeListeners() ){
+					editor.addLinkToNodeInTreeListener( linkToNodeInTreeListener );
+				}
 				testcaseMap.put((TestcaseCaseDataModel)selectedNode, editor );
 			}
 				

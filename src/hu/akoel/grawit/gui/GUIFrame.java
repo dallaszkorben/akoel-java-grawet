@@ -930,7 +930,7 @@ public class GUIFrame extends JFrame{
 	
 	/**
 	 * 
-	 * If somebody calls the linkToNode() method, than the right TREE TAB appears
+	 * If somebody calls the linkToNode() method, then the right TREE TAB appears
 	 * whith selected node set by the parameter
 	 * 
 	 * One instance of this class will be added to every tree.

@@ -18,6 +18,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.HasConstantOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.CompareListOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantDataModelAdapter;
@@ -28,13 +31,13 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.ElementListCompareSelectedOperationException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareListToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareOperationInterface, ListOperationInterface{
+public class CompareSelectedListToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareListOperationInterface{
 	
 	private static final String NAME = "COMPARELISTTOCONSTANT";	
 	private static final String ATTR_COMPARE_CONSTANT_ELEMENT_PATH = "compareconstantelementpath";
@@ -53,7 +56,7 @@ public class CompareListToConstantOperation extends ElementOperationAdapter impl
 	
 	private Pattern pattern;
 	
-	public CompareListToConstantOperation( ConstantElementDataModel compareWithConstant, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
+	public CompareSelectedListToConstantOperation( ConstantElementDataModel compareWithConstant, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
 		this.compareWithConstant = compareWithConstant;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
@@ -62,7 +65,7 @@ public class CompareListToConstantOperation extends ElementOperationAdapter impl
 		common( stringPattern );
 	}
 	
-	public CompareListToConstantOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
+	public CompareSelectedListToConstantOperation( Element element, ConstantRootDataModel constantRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{
 		
 		ConstantDataModelAdapter constantDataModelForFillOut = constantRootDataModel;
 		
@@ -188,6 +191,7 @@ public class CompareListToConstantOperation extends ElementOperationAdapter impl
 		return compareWithConstant;
 	}
 
+	@Override
 	public CompareTypeListEnum getCompareType(){
 		return compareType;
 	}
@@ -275,28 +279,34 @@ public class CompareListToConstantOperation extends ElementOperationAdapter impl
 			}
 		}		
 
+		//Egyezoseg az elvart
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
+			//Megis kulonbozik a kivalasztott az osszehasonlitandotol
 			if( !origText.equals( compareWithConstant.getValue() ) ){
-				
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, compareWithConstant.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+				throw new ElementListCompareSelectedOperationException( (NormalBaseElementDataModel)baseElement, origText, this, new Exception() );
+
+//				if( baseElement instanceof NormalBaseElementDataModel ){
+//					throw new ElementCompareOperationException(compareType, compareWithConstant.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
 				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, compareWithConstant.getValue(), baseElement.getName(), "special", origText, new Exception() );
-				}
+//				}else{
+//					throw new ElementCompareOperationException(compareType, compareWithConstant.getValue(), baseElement.getName(), "special", origText, new Exception() );
+//				}
 			}
 			
+		//Kulonbozoseg az elvart
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
+			//Megis egyezik a kivalasztott az osszehasonlitandotol
 			if( origText.equals( compareWithConstant.getValue() ) ){
-				
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, compareWithConstant.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
-				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, compareWithConstant.getValue(), baseElement.getName(), "special", origText, new Exception() );
-				}
+				throw new ElementListCompareSelectedOperationException( (NormalBaseElementDataModel)baseElement, origText, this, new Exception() );
+
+//				if( baseElement instanceof NormalBaseElementDataModel ){
+//					throw new ElementCompareOperationException(compareType, compareWithConstant.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+//				//Special
+//				}else{
+//					throw new ElementCompareOperationException(compareType, compareWithConstant.getValue(), baseElement.getName(), "special", origText, new Exception() );
+//				}
 			}			
 		}		
 	}
@@ -325,7 +335,7 @@ public class CompareListToConstantOperation extends ElementOperationAdapter impl
 		
 		String stringPattern = new String( this.stringPattern );
 		
-		return new CompareListToConstantOperation(compareWithConstant, compareType, stringPattern, compareBy); 
+		return new CompareSelectedListToConstantOperation(compareWithConstant, compareType, stringPattern, compareBy); 
 
 	}
 
@@ -335,7 +345,7 @@ public class CompareListToConstantOperation extends ElementOperationAdapter impl
 	}
 
 	@Override
-	public String getCompareWith() {		
+	public String getCompareTo() {		
 		return compareWithConstant.getValue();
 	}
 	

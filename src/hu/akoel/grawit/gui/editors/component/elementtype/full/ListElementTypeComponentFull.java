@@ -3,15 +3,15 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.IntTextField;
 import hu.akoel.grawit.ListRenderer;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.CompareListSizeToIntegerOperation;
-import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
-import hu.akoel.grawit.core.operations.CompareListToStringOperation;
-import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
+import hu.akoel.grawit.core.operations.CompareSelectedListToStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareSelectedListToStringOperation;
+import hu.akoel.grawit.core.operations.CompareSelectedListToConstantOperation;
 import hu.akoel.grawit.core.operations.CompareContainListStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareContainListStringOperation;
 import hu.akoel.grawit.core.operations.CompareContainListConstantOperation;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainListToElementStorageOperation;
 import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
@@ -369,34 +369,34 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			//CONTAIN TO STRING
 			}else if( elementOperation instanceof CompareContainListStringOperation ){
 									
-					fieldString.setText( ((CompareContainListStringOperation)elementOperation).getStringToSearch() );
+					fieldString.setText( ((CompareContainListStringOperation)elementOperation).getCompareTo() );
 					comboOperationList.setSelectedIndex(E.CONTAIN_STRING.getIndex());
 					comboContainListType.setSelectedIndex( ((CompareContainListStringOperation)elementOperation).getContainType().getIndex() );					
 					comboContainListBy.setSelectedIndex( ((CompareContainListStringOperation)elementOperation).getContainBy().getIndex() );
 				
 			//COMPARE TO CONSTANT
-			}else if( elementOperation instanceof CompareListToConstantOperation ){
+			}else if( elementOperation instanceof CompareSelectedListToConstantOperation ){
 				
-				fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((CompareListToConstantOperation)elementOperation).getConstantElement() );				
+				fieldConstantSelector = new ConstantTreeSelectorComponent( constantRootDataModel, ((CompareSelectedListToConstantOperation)elementOperation).getConstantElement() );				
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_CONSTANT.getIndex());
-				comboCompareSelectedListElementType.setSelectedIndex( ((CompareListToConstantOperation)elementOperation).getCompareType().getIndex() );
-				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareListToConstantOperation)elementOperation).getCompareBy().getIndex() );
+				comboCompareSelectedListElementType.setSelectedIndex( ((CompareSelectedListToConstantOperation)elementOperation).getCompareType().getIndex() );
+				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareSelectedListToConstantOperation)elementOperation).getCompareBy().getIndex() );
 
 			//COMPARE TO STORED
-			}else if( elementOperation instanceof CompareListToStoredElementOperation ){
+			}else if( elementOperation instanceof CompareSelectedListToStoredElementOperation ){
 								
-				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareListToStoredElementOperation)elementOperation).getBaseElementForSearch() );
-				comboCompareSelectedListElementType.setSelectedIndex( ((CompareListToStoredElementOperation)elementOperation).getCompareType().getIndex() );
+				fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, ((CompareSelectedListToStoredElementOperation)elementOperation).getBaseElementForSearch() );
+				comboCompareSelectedListElementType.setSelectedIndex( ((CompareSelectedListToStoredElementOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_STORED.getIndex());
-				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareListToStoredElementOperation)elementOperation).getCompareBy().getIndex() );
+				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareSelectedListToStoredElementOperation)elementOperation).getCompareBy().getIndex() );
 				
 			//COMPARE TO STRING
-			}else if( elementOperation instanceof CompareListToStringOperation ){
+			}else if( elementOperation instanceof CompareSelectedListToStringOperation ){
 								
-				fieldString.setText( ((CompareListToStringOperation)elementOperation).getStringToShow() );
-				comboCompareSelectedListElementType.setSelectedIndex( ((CompareListToStringOperation)elementOperation).getCompareType().getIndex() );
+				fieldString.setText( ((CompareSelectedListToStringOperation)elementOperation).getCompareTo() );
+				comboCompareSelectedListElementType.setSelectedIndex( ((CompareSelectedListToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARE_TO_STRING.getIndex());
-				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareListToStringOperation)elementOperation).getCompareBy().getIndex() );
+				comboCompareSelectedListElementBy.setSelectedIndex( ((CompareSelectedListToStringOperation)elementOperation).getCompareBy().getIndex() );
 		
 			//COMPARE LIST SIZE TO STRING
 			}else if( elementOperation instanceof CompareListSizeToIntegerOperation ){
@@ -951,7 +951,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_STORED
 				.getIndex()) {
 
-			return new CompareListToStoredElementOperation(
+			return new CompareSelectedListToStoredElementOperation(
 					fieldBaseElementSelector.getSelectedDataModel(),
 					(CompareTypeListEnum) (comboCompareSelectedListElementType
 							.getSelectedItem()), fieldPattern.getText(),
@@ -961,7 +961,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			// COMPARE TO CONSTANT
 		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_CONSTANT
 				.getIndex()) {
-			return new CompareListToConstantOperation(
+			return new CompareSelectedListToConstantOperation(
 					fieldConstantSelector.getSelectedDataModel(),
 					(CompareTypeListEnum) (comboCompareSelectedListElementType
 							.getSelectedItem()), fieldPattern.getText(),
@@ -971,7 +971,7 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 			// COMPARE TO STRING
 		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_STRING
 				.getIndex()) {
-			return new CompareListToStringOperation(fieldString.getText(),
+			return new CompareSelectedListToStringOperation(fieldString.getText(),
 					(CompareTypeListEnum) (comboCompareSelectedListElementType
 							.getSelectedItem()), fieldPattern.getText(),
 					(ListCompareByListEnum) (comboCompareSelectedListElementBy

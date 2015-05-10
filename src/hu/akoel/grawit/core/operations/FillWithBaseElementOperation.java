@@ -16,6 +16,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.HasElementOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
@@ -152,7 +154,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter implem
 				//webElement.sendKeys(Keys.TAB);
 			
 			}catch (WebDriverException webDriverException){
-				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
+				throw new ElementInvalidOperationException( (NormalBaseElementDataModel)baseElement, this, webDriverException );
 			}			
 		}
 	}

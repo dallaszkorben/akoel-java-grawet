@@ -22,7 +22,7 @@ import hu.akoel.grawit.core.treenodedatamodel.step.StepNormalCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
-import hu.akoel.grawit.exceptions.PageException;
+import hu.akoel.grawit.exceptions.StepException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -299,7 +299,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 	}
 
 	@Override
-	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws StepException, CompilationException, StoppedByUserException {
 		
 		//Ha Be van kapcsolava a TestParamPage oldal
 		if( this.isOn() ){

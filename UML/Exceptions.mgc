@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClassDiagram>
-    <Class
-        name="hu.akoel.grawit.exceptions.XMLBaseConversionPharseException"
-        x="88" y="550">
+    <Class name="hu.akoel.grawit.exceptions.PageException" x="705" y="371">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -10,138 +8,13 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.XMLPharseException"/>
-    </Class>
-    <Class name="hu.akoel.grawit.exceptions.ElementException" x="486" y="63">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.ElementUnreachableBrowserException"
-        x="793" y="324">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.InvocationTargetScriptBaseElementException"
-        x="-130" y="220">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.ElementNotFoundComponentException"
-        x="122" y="216">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.ElementInvalidOperationException"
-        x="337" y="206">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class name="hu.akoel.grawit.exceptions.ElementTimeoutException"
-        x="627" y="329">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.XMLExtraRootTagPharseException"
-        x="596" y="549">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.XMLPharseException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.ElementCompareOperationException"
-        x="551" y="209">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.ElementListContainOperationException"
-        x="755" y="213">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.XMLMissingTagPharseException"
-        x="284" y="550">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.XMLPharseException"/>
-    </Class>
-    <Class name="hu.akoel.grawit.exceptions.PageException" x="1080" y="46">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.exceptions.PrintOutExceptionAdapter"/>
         <Association
             destinationClassName="hu.akoel.grawit.exceptions.ElementException"
             endpointName="elementException" kind="Simple"/>
+        <Communication destinationClassName="hu.akoel.grawit.exceptions.PrintOutExceptionAdapter"/>
     </Class>
-    <Class name="hu.akoel.grawit.exceptions.StoppedByUserException"
-        x="1" y="466">
+    <Class name="hu.akoel.grawit.exceptions.ElementException" x="138" y="409">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -149,110 +22,10 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="hu.akoel.grawit.exceptions.PrintOutExceptionAdapter"/>
     </Class>
-    <Class name="hu.akoel.grawit.exceptions.XMLCastPharseException"
-        x="450" y="548">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.XMLPharseException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.ElementNotFoundSelectorException"
-        x="42" y="316">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.XMLWrongAttributePharseException"
-        x="796" y="550">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.XMLPharseException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.XMLMissingAttributePharseException"
-        x="-130" y="559">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.XMLPharseException"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.LoopExceededMaxValueException"
-        x="1043" y="222">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.PageException"/>
-    </Class>
-    <Class name="hu.akoel.grawit.exceptions.ParameterError" x="-91" y="465">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.ElementInvalidSelectorException"
-        x="237" y="317">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class name="hu.akoel.grawit.exceptions.CompilationException"
-        x="-92" y="41">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
-    <Class
-        name="hu.akoel.grawit.exceptions.ElementScriptParameterException"
-        x="439" y="322">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="hu.akoel.grawit.exceptions.ElementException"/>
-    </Class>
-    <Class name="hu.akoel.grawit.exceptions.XMLPharseException" x="304" y="409">
+    <Class name="hu.akoel.grawit.exceptions.PrintOutExceptionAdapter"
+        x="399" y="51">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>

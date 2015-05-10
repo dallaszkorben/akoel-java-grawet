@@ -11,8 +11,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
-import hu.akoel.grawit.core.operations.CompareOperationInterface;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.CompareOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
@@ -26,7 +26,7 @@ import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.LoopExceededMaxValueException;
-import hu.akoel.grawit.exceptions.PageException;
+import hu.akoel.grawit.exceptions.StepException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
@@ -358,7 +358,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 	}	
 
 	@Override
-	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws StepException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel parameterElement;
 		
@@ -422,7 +422,7 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 							//A While loopot le kell azert zarni
 							printSourceCloseAtStop(progressIndicator, tab);
 							
-							throw new PageException( this.getName(), f.getElementName(), f.getElementSelector(), f);					
+							throw new StepException( this, parameterElement, f);					
 						}					
 					}								
 				}
@@ -439,7 +439,7 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 				//A While loopot le kell azert zarni
 				printSourceCloseAtStop(progressIndicator, tab);
 				
-				throw new PageException( this.getName(), g.getElementName(), g.getElementSelector(), g);
+				throw new StepException( this, null, g );
 			}
 			
 			if( actualLoop == 1 ){
@@ -456,7 +456,7 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 				printSourceCloseAtStop(progressIndicator, tab);
 				
 				//Akkor egy uj hibat generalok
-				throw new LoopExceededMaxValueException( this.getName(), compareBaseElement.getName(), new Exception() );
+				throw new LoopExceededMaxValueException( this, (NormalBaseElementDataModel)compareBaseElement, new Exception() );
 				
 			}
 			

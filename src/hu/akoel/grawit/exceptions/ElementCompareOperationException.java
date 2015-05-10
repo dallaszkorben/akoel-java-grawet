@@ -1,35 +1,34 @@
 package hu.akoel.grawit.exceptions;
 
-import hu.akoel.grawit.core.operations.CompareOperationInterface;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.CompareElementOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
+import hu.akoel.grawit.exception.message.AttributedMessage;
+import hu.akoel.grawit.exception.message.LinkMessage;
 
 public class ElementCompareOperationException extends ElementException{
 
 	private static final long serialVersionUID = 3601836630818056477L;
-
-	private StringBuilder message = new StringBuilder(100);
 	
-	public ElementCompareOperationException( NormalBaseElementDataModel baseElement, String foundValue, CompareOperationInterface operation, Exception e ){
+	public ElementCompareOperationException( NormalBaseElementDataModel baseElement, String foundValue, CompareElementOperationInterface operation, Exception e ){
 		super( baseElement, "", e );
-		
-		this.message.append( "The element has NOT the expected value\n" );
-		this.message.append( "Found value: " + foundValue + "\n" );
-		this.message.append( "Compare: " + operation.getName() + " " + operation.getOperationNameToString() + "\n" );
-		this.message.append( "Element name: " + baseElement.getName() + "\n" );
-		this.message.append( "Element selector: " + baseElement.getSelector() + "\n" );
-	}
-	
-	public ElementCompareOperationException( CompareTypeListEnum compareType, String compareValue, String elementName, String elementSelector, String elementValue, Exception e ){
-		super( "The '" + elementName + "' element has not the expected value.\n   Found value: " + elementValue + "\n   Compare value: " + compareValue + "\n   Expected relation: " + (compareType.equals( CompareTypeListEnum.EQUAL ) ? "=" : "!="), e );
-		this.compareType = compareType;
-		this.compareValue = compareValue;
-		this.elementName = elementName;
-		this.elementValue = elementValue;
-	}
-	
 
-	
-	
+		this.insertMessage( new AttributedMessage( "The comparation on the element has failed\n", this.ATTRIBUTE_HEAD ) );
+		
+		this.insertMessage( new AttributedMessage( "Found value: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedMessage( foundValue + "\n", this.ATTRIBUTE_VALUE ) );
+
+		this.insertMessage( new AttributedMessage( "Compare with: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedMessage( operation.getCompareTo() + "\n", this.ATTRIBUTE_VALUE ) );
+
+		this.insertMessage( new AttributedMessage( "Expected relation: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedMessage( (operation.getCompareType().equals( CompareTypeListEnum.EQUAL ) ? "=" : "!=") + "\n", this.ATTRIBUTE_VALUE ) );
+		
+		this.insertMessage( new AttributedMessage( "Element name: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new LinkMessage( baseElement ) );
+		this.insertMessage( new AttributedMessage( "\n", this.ATTRIBUTE_NONE ) );
+
+		this.insertMessage( new AttributedMessage( "Element selector: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedMessage( baseElement.getSelector() + "\n", this.ATTRIBUTE_VALUE ) );
+	}
 }

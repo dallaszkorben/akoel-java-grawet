@@ -15,7 +15,7 @@ public interface ProgressIndicatorInterface {
 	
 	public void testcaseEnded( TestcaseCaseDataModel testcase );
 	
-	public void printOutput( String label, String message, SimpleAttributeSet attributeMessage );
+	public void printOutputMessage( String label, String message, SimpleAttributeSet attributeMessage );
 	
 	public void printSource( String sourceCode );
 }

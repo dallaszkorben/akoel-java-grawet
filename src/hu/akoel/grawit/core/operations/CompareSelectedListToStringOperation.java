@@ -12,18 +12,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.CompareListOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.ElementListCompareSelectedOperationException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareListToStringOperation extends ElementOperationAdapter implements CompareOperationInterface, ListOperationInterface{
+public class CompareSelectedListToStringOperation extends ElementOperationAdapter implements CompareListOperationInterface{
 	
 	private static final String NAME = "COMPARELISTTOSTRING";
 	private static final String ATTR_STRING = "string";
@@ -42,7 +44,7 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 	
 	private Pattern pattern;
 	
-	public CompareListToStringOperation( String compareWithString, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
+	public CompareSelectedListToStringOperation( String compareWithString, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
 		this.compareWithString = compareWithString;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
@@ -51,7 +53,7 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 		common( stringPattern );
 	}
 	
-	public CompareListToStringOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
+	public CompareSelectedListToStringOperation( Element element, Tag rootTag, Tag tag ) throws XMLMissingAttributePharseException{
 		
 		//COMPARE BY
 		String stringCompareBy = "";
@@ -110,6 +112,11 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 
 	public static String getStaticName(){
 		return NAME;
+	}	
+
+	@Override
+	public String getCompareTo() {
+		return this.compareWithString;
 	}
 	
 	@Override
@@ -200,28 +207,20 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 			}	
 		}		
 
+		//Egyezoseg az elvart
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
+			//Megis kulonbozik a kivalasztott az osszehasonlitandotol
 			if( !origText.equals( compareWithString ) ){
-
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, compareWithString, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
-				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, compareWithString, baseElement.getName(), "special", origText, new Exception() );
-				}
+				throw new ElementListCompareSelectedOperationException( (NormalBaseElementDataModel)baseElement, origText, this, new Exception() );
 			}
 			
+		//Kulonbozoseg az elvart
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( origText.equals( compareWithString ) ){
-				
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, compareWithString, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
-				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, compareWithString, baseElement.getName(), "special", origText, new Exception() );
-				}
+			//Megis egyezik a kivalasztott az osszehasonlitandotol
+			if( origText.equals( compareWithString ) ){				
+				throw new ElementListCompareSelectedOperationException( (NormalBaseElementDataModel)baseElement, origText, this, new Exception() );				 
 			}			
 		}
 	}
@@ -254,7 +253,7 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 		//CompareTypeListEnum compareType = this.compareType;			
 		//ListCompareByListEnum compareBy = this.compareBy;	
 		
-		return new CompareListToStringOperation(stringToCompare, compareType, stringPattern, compareBy);
+		return new CompareSelectedListToStringOperation(stringToCompare, compareType, stringPattern, compareBy);
 	}
 	
 	@Override
@@ -262,8 +261,4 @@ public class CompareListToStringOperation extends ElementOperationAdapter implem
 		return "CompareListToString()";
 	}
 
-	@Override
-	public String getCompareWith() {
-		return this.compareWithString;
-	}
 }

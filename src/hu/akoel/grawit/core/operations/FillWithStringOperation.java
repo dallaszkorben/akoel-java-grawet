@@ -9,6 +9,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
@@ -66,7 +67,7 @@ public class FillWithStringOperation extends ElementOperationAdapter{
 				//webElement.sendKeys(Keys.TAB);
 				
 			}catch (WebDriverException webDriverException){
-				throw new ElementInvalidOperationException( getName(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), webDriverException );
+				throw new ElementInvalidOperationException( (NormalBaseElementDataModel)baseElement, this, webDriverException );
 			}			
 		}
 	}

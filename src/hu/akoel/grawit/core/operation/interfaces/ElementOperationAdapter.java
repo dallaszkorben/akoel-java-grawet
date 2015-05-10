@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.operations;
+package hu.akoel.grawit.core.operation.interfaces;
 
 import java.util.Set;
 
@@ -19,7 +19,8 @@ import hu.akoel.grawit.enums.SelectorType;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidSelectorException;
-import hu.akoel.grawit.exceptions.ElementNotFoundSelectorException;
+import hu.akoel.grawit.exceptions.ElementNotFoundBySelectorException;
+import hu.akoel.grawit.exceptions.ElementNotHandledException;
 import hu.akoel.grawit.exceptions.ElementTimeoutException;
 import hu.akoel.grawit.exceptions.ElementUnreachableBrowserException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
@@ -156,20 +157,19 @@ public abstract class ElementOperationAdapter implements Cloneable{
 					
 					if( needToPrintSource ){
 						progressIndicator.printSource( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );
-					}
-					
+					}					
 					wait.until(ExpectedConditions.visibilityOfElementLocated( by ));		
 			
 				//Ha nem jelenik meg idoben, akkor hibajelzessel megall
 				}catch( org.openqa.selenium.TimeoutException timeOutException ){
-					throw new ElementTimeoutException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), timeOutException );
+					throw new ElementTimeoutException( (NormalBaseElementDataModel)baseElement, timeOutException );
 	
-				}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){		
-					throw new ElementUnreachableBrowserException( unreachableBrowserException );
+				}catch(org.openqa.selenium.remote.UnreachableBrowserException unreachableBrowserException){	
+					throw new ElementUnreachableBrowserException( (NormalBaseElementDataModel)baseElement, unreachableBrowserException );
 
 				//Egyeb hiba
-				}catch( Exception e ){				
-					System.out.println("!!!!!!!!!!! Not handled exception while waitionf for appearance of element - MUST implement. " + e.getMessage() + "!!!!!!!!!!!!!");	
+				}catch( Exception e ){
+					throw new ElementNotHandledException( (NormalBaseElementDataModel)baseElement, e );
 				}
 			}
 			
@@ -179,26 +179,25 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			try{
 				if( needToPrintSource ){
 					progressIndicator.printSource( tab + "webElement = driver.findElement( by );" );
-				}
-				
+				}				
 				webElement = driver.findElement( by );
 			
 			}catch ( org.openqa.selenium.InvalidSelectorException invalidSelectorException ){
-				throw new ElementInvalidSelectorException(baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), invalidSelectorException );
+				throw new ElementInvalidSelectorException( (NormalBaseElementDataModel)baseElement, invalidSelectorException );
 			
 			}catch ( org.openqa.selenium.NoSuchElementException noSuchElementException ){
-				throw new ElementNotFoundSelectorException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), noSuchElementException );
+				throw new ElementNotFoundBySelectorException( (NormalBaseElementDataModel)baseElement, noSuchElementException );
 
 			}catch ( org.openqa.selenium.NoSuchWindowException noSuchWindowExceptioin ){
-				throw new ElementUnreachableBrowserException( noSuchWindowExceptioin );
+				throw new ElementUnreachableBrowserException( (NormalBaseElementDataModel)baseElement, noSuchWindowExceptioin );
 				
 			//Egyeb hiba. Peldaul kilottek alola a bongeszot
 			}catch( Exception e ){
-				System.out.println("!!!!!!!!!!! Not handled exception while Identifying - MUST implement. " + e.getMessage() + "!!!!!!!!!!!!!");					
+				throw new ElementNotHandledException( (NormalBaseElementDataModel)baseElement, e );					
 			}
 		
 			if( null == webElement ){
-				throw new ElementNotFoundSelectorException( baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), new Exception() );
+				throw new ElementNotFoundBySelectorException( (NormalBaseElementDataModel)baseElement, new Exception() );
 			}
 		
 			//Varakozik, ha szukseges a muvelet elott

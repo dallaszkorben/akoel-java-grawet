@@ -1,6 +1,6 @@
 package hu.akoel.grawit.gui.editors.component.elementtype.compare;
 
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.NoneOperation;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;

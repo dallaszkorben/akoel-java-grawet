@@ -37,6 +37,7 @@ import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.InvocationTargetScriptBaseElementException;
+import hu.akoel.grawit.exceptions.StepException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 
@@ -67,7 +68,7 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 			
 			"public class " + customClassName + " {\n" +		
 			"   public " + customClassName + "() {}\n" +		
-			"   public void " + customMethodName + "(WebDriver driver, ArrayList<String> parameters, BaseElementDataModelAdapter baseElement ) throws hu.akoel.grawit.exceptions.PageException{\n";
+			"   public void " + customMethodName + "(WebDriver driver, ArrayList<String> parameters, " + BaseElementDataModelAdapter.class.getSimpleName() + " baseElement ) throws " + StepException.class.getCanonicalName() + "{\n";
 	private static final String codePost = 
 			"\n   }\n" +
 			"}\n";
@@ -187,7 +188,7 @@ private StandardJavaFileManager stdFileManager;
 			if( !diagList.isEmpty() ){
 				
 				//Dob egy exceptiont  Diagnostic<? extends JavaFileObject>
-				throw new CompilationException( this.getName(), javaFile, diagList.get( 0 ) );
+				throw new CompilationException( this, javaFile, diagList.get( 0 ) );
 			}
 		}		
 	}
@@ -272,10 +273,7 @@ try {
 			throw new Error( e );
 		} catch (InvocationTargetException e) {
 								
-			throw new InvocationTargetScriptBaseElementException( 
-					ScriptElementExecuteOperation.getStaticName(),
-					this.getName(),
-					e);
+			throw new InvocationTargetScriptBaseElementException( this, e );
 				
 		}
 	}

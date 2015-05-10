@@ -20,7 +20,7 @@ import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.PageException;
+import hu.akoel.grawit.exceptions.StepException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -123,7 +123,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	}
 	
 	@Override
-	public void doAction( WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws PageException, CompilationException, StoppedByUserException {
+	public void doAction( WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws StepException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel stepElement;
 
@@ -149,7 +149,8 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				}catch (ElementException e){
 					
 					//Akkor becsomagolja egy PageException-ba es tovabb kuldi
-					throw new PageException( this.getName(), e.getElementName(), e.getElementSelector(), e);
+					throw new StepException( this, stepElement, e );
+					//throw new PageException( this.getName(), e.getElementName(), e.getElementSelector(), e);
 			
 				}			
 			}				

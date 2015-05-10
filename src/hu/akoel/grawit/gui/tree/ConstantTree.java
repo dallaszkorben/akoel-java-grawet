@@ -15,8 +15,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
-import hu.akoel.grawit.core.operations.HasConstantOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.HasConstantOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;

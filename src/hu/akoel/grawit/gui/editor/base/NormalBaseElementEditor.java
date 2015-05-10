@@ -46,7 +46,6 @@ public class NormalBaseElementEditor extends DataEditor{
 	private TextFieldComponent fieldWaitingTimeAfterOperation;
 
 	//Insert
-//	public NormalBaseElementEditor( Tree tree, BasePageDataModel selectedNode ){
 	public NormalBaseElementEditor( Tree tree, BaseDataModelAdapter selectedNode ){
 
 		super( NormalBaseElementDataModel.getModelNameToShowStatic());

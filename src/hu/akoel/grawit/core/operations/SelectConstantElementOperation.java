@@ -12,6 +12,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.HasConstantOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.SelectOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantFolderNodeDataModel;

@@ -1,11 +1,9 @@
-package hu.akoel.grawit.core.operations;
+package hu.akoel.grawit.core.operation.interfaces;
 
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 
-public interface ListOperationInterface {
-
+public interface CompareListOperationInterface extends CompareOperationInterface{
 	public ListCompareByListEnum getCompareBy();
-
 	public CompareTypeListEnum getCompareType();
 }

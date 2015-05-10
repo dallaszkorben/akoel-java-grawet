@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.operations;
+package hu.akoel.grawit.core.operation.interfaces;
 
 import java.util.Set;
 
@@ -14,7 +14,7 @@ import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.ElementInvalidOperationException;
-import hu.akoel.grawit.exceptions.ElementNotFoundComponentInListException;
+import hu.akoel.grawit.exceptions.ElementListSelectionNotFoundComponentException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
 public abstract class SelectOperationAdapter extends ElementOperationAdapter{	
@@ -84,7 +84,7 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 			
 			}catch(NoSuchElementException e ){
 			
-				throw new ElementNotFoundComponentInListException( (NormalBaseElementDataModel)baseElement, getStringToSelection(), this, e ); 
+				throw new ElementListSelectionNotFoundComponentException( (NormalBaseElementDataModel)baseElement, getStringToSelection(), this, e ); 
 
 			}catch (Exception e ){
 				

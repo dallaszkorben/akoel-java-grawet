@@ -1,10 +1,11 @@
-package hu.akoel.grawit.core.operations;
+package hu.akoel.grawit.core.operation.interfaces;
 
 import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.ScriptBaseElementDataModel;

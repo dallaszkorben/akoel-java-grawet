@@ -17,6 +17,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.CompareElementOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.HasConstantOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantDataModelAdapter;
@@ -31,7 +34,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareTextToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareOperationInterface{
+public class CompareTextToConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareElementOperationInterface{
 	
 	private static final String NAME = "COMPARETEXTTOCONSTANT";	
 	private static final String ATTR_COMPARE_CONSTANT_ELEMENT_PATH = "compareconstantelementpath";
@@ -44,12 +47,12 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 	
 	//--- Data model
 	private String stringPattern;
-	private ConstantElementDataModel constantElementDataModel;
+	private ConstantElementDataModel compareWithConstantElement;
 	private CompareTypeListEnum compareType;
 	//---
 	
-	public CompareTextToConstantOperation( ConstantElementDataModel constantElementDataModel, CompareTypeListEnum compareType, String stringPattern ){
-		this.constantElementDataModel = constantElementDataModel;
+	public CompareTextToConstantOperation( ConstantElementDataModel compareWithConstantElement, CompareTypeListEnum compareType, String stringPattern ){
+		this.compareWithConstantElement = compareWithConstantElement;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
 		
@@ -121,7 +124,7 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 	    }	    
 	    try{
 	    	
-	    	this.constantElementDataModel = (ConstantElementDataModel)constantDataModelForFillOut;
+	    	this.compareWithConstantElement = (ConstantElementDataModel)constantDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
@@ -165,9 +168,10 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 	
 	@Override
 	public ConstantElementDataModel getConstantElement() {
-		return constantElementDataModel;
+		return compareWithConstantElement;
 	}
 
+	@Override
 	public CompareTypeListEnum getCompareType(){
 		return compareType;
 	}
@@ -200,20 +204,20 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 			}
 		
 			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-				elementProgress.printSource( tab + "if( !origText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );
+				elementProgress.printSource( tab + "if( !origText.equals( \"" + compareWithConstantElement.getValue() + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + constantElementDataModel.getValue() + " + \"'." );
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + compareWithConstantElement.getValue() + " + \"'." );
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + constantElementDataModel.getValue() + "' but it should.\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithConstantElement.getValue() + "' but it should.\");");
 				}			
 				elementProgress.printSource( tab + "}" );
 				
 			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-				elementProgress.printSource( tab + "if( origText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );
+				elementProgress.printSource( tab + "if( origText.equals( \"" + compareWithConstantElement.getValue() + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; // because the element '" + baseElement.getNameAsVariable() + "' equals to '" + constantElementDataModel.getValue() + " + \"'." );
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; // because the element '" + baseElement.getNameAsVariable() + "' equals to '" + compareWithConstantElement.getValue() + " + \"'." );
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + constantElementDataModel.getValue() + "' but it should NOT.\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithConstantElement.getValue() + "' but it should NOT.\");");
 				}
 				elementProgress.printSource( tab + "}" );
 			}
@@ -237,26 +241,28 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
 			
-			if( !origText.equals( constantElementDataModel.getValue() ) ){
+			if( !origText.equals( compareWithConstantElement.getValue() ) ){
 
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
-				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), "special", origText, new Exception() );
-				}
+//				if( baseElement instanceof NormalBaseElementDataModel ){
+				throw new ElementCompareOperationException( (NormalBaseElementDataModel)baseElement, origText, this, new Exception() );
+//					throw new ElementCompareOperationException(compareType, compareWithConstantElement.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+//				//Special
+//				}else{
+//					throw new ElementCompareOperationException(compareType, compareWithConstantElement.getValue(), baseElement.getName(), "special", origText, new Exception() );
+//				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
-			if( origText.equals( constantElementDataModel.getValue() ) ){
+			if( origText.equals( compareWithConstantElement.getValue() ) ){
 				
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
-				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, constantElementDataModel.getValue(), baseElement.getName(), "special", origText, new Exception() );
-				}
+//				if( baseElement instanceof NormalBaseElementDataModel ){
+				throw new ElementCompareOperationException( (NormalBaseElementDataModel)baseElement, origText, this, new Exception() );
+//					throw new ElementCompareOperationException(compareType, compareWithConstantElement.getValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+//				//Special
+//				}else{
+//					throw new ElementCompareOperationException(compareType, compareWithConstantElement.getValue(), baseElement.getName(), "special", origText, new Exception() );
+//				}
 			}			
 		}
 	}
@@ -264,7 +270,7 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
 		Attr attr = document.createAttribute( ATTR_COMPARE_CONSTANT_ELEMENT_PATH );
-		attr.setValue( constantElementDataModel.getPathTag() );
+		attr.setValue( compareWithConstantElement.getPathTag() );
 		element.setAttributeNode( attr );		
 		
 		attr = document.createAttribute( ATTR_COMPARE_TYPE );
@@ -281,11 +287,16 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 		
 		String stringPattern = new String( this.stringPattern );
 
-		return new CompareTextToConstantOperation(constantElementDataModel, compareType, stringPattern);
+		return new CompareTextToConstantOperation(compareWithConstantElement, compareType, stringPattern);
 	}
 
 	@Override
 	public String getOperationNameToString() {		
 		return "CompareTextToConstant()";
+	}
+
+	@Override
+	public String getCompareTo() {
+		return compareWithConstantElement.getValue();
 	}
 }

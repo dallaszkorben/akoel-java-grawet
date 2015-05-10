@@ -2,11 +2,11 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainTextToElementStorageOperation;
 import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
@@ -230,7 +230,7 @@ public class LinkElementTypeComponentFull<E extends LinkElementTypeOperationsFul
 			//COMPARE TEXT TO STRING
 			}else if( elementOperation instanceof CompareTextToStringOperation ){
 								
-				fieldString.setText( ((CompareTextToStringOperation)elementOperation).getStringToShow() );
+				fieldString.setText( ((CompareTextToStringOperation)elementOperation).getCompareTo() );
 				comboCompareTypeList.setSelectedIndex( ((CompareTextToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPARETEXT_TO_STRING.getIndex());
 			

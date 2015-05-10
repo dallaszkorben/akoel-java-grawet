@@ -1,6 +1,7 @@
 package hu.akoel.grawit.core.operations;
 
 import java.util.Set;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -9,16 +10,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.CompareElementOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
-import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.ElementListSizeCompareOperationException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareListSizeToIntegerOperation extends ElementOperationAdapter implements CompareOperationInterface{
+public class CompareListSizeToIntegerOperation extends ElementOperationAdapter implements CompareElementOperationInterface{
 	
 	private static final String NAME = "COMPARELISTSIZETOINTEGER";
 	private static final String ATTR_INTEGER = "integer";
@@ -65,6 +68,7 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 		return getStaticName();
 	}
 		
+	@Override
 	public CompareTypeListEnum getCompareType(){
 		return compareType;
 	}
@@ -126,12 +130,13 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 			
 			if( !origText.equals( compareWithInteger ) ){
 
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
-				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), "special", origText, new Exception() );
-				}
+//				if( baseElement instanceof NormalBaseElementDataModel ){
+				throw new ElementListSizeCompareOperationException((NormalBaseElementDataModel)baseElement, origText, this, new Exception() );
+//					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+//				//Special
+//				}else{
+//					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), "special", origText, new Exception() );
+//				}
 			}
 			
 		//Ha a kulonbozoseg az elvart
@@ -139,12 +144,13 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 			
 			if( origText.equals( compareWithInteger ) ){
 				
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
-				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), "special", origText, new Exception() );
-				}
+//				if( baseElement instanceof NormalBaseElementDataModel ){
+				throw new ElementListSizeCompareOperationException((NormalBaseElementDataModel)baseElement, origText, this, new Exception() );
+//					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+//				//Special
+//				}else{
+//					throw new ElementCompareOperationException(compareType, compareWithInteger, baseElement.getName(), "special", origText, new Exception() );
+//				}
 			}			
 		}
 	}
@@ -177,7 +183,7 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 	}
 
 	@Override
-	public String getCompareWith() {	
+	public String getCompareTo() {	
 		return compareWithInteger;
 	}
 

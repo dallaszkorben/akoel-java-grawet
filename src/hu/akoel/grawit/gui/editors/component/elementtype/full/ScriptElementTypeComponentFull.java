@@ -2,8 +2,8 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.ScriptElementAddStoreToParametersOperation;
 import hu.akoel.grawit.core.operations.ScriptElementAddStringToParametersOperation;
 import hu.akoel.grawit.core.operations.ScriptElementAddConstantToParametersOperation;

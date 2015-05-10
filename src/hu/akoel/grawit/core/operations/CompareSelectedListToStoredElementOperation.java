@@ -18,6 +18,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.HasElementOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.CompareListOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
@@ -28,13 +31,13 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.CompareTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.exceptions.ElementCompareOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
+import hu.akoel.grawit.exceptions.ElementListCompareSelectedOperationException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareListToStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface, CompareOperationInterface, ListOperationInterface{
+public class CompareSelectedListToStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface, CompareListOperationInterface{
 	
 	private static final String NAME = "COMPARELISTTOSTOREDELEMENT";	
 	private static final String ATTR_COMPARE_BASE_ELEMENT_PATH = "comparebaseelementpath";
@@ -50,7 +53,7 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	private BaseElementDataModelAdapter compareWithBaseElement;
 	private CompareTypeListEnum compareType;
 		
-	public CompareListToStoredElementOperation( BaseElementDataModelAdapter compareWithBaseElement, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
+	public CompareSelectedListToStoredElementOperation( BaseElementDataModelAdapter compareWithBaseElement, CompareTypeListEnum compareType, String stringPattern, ListCompareByListEnum compareBy ){
 		this.compareWithBaseElement = compareWithBaseElement;
 		this.compareType = compareType;
 		this.stringPattern = stringPattern;
@@ -59,7 +62,7 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 		common( stringPattern );
 	}
 
-	public CompareListToStoredElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
+	public CompareSelectedListToStoredElementOperation( Element element, BaseRootDataModel baseRootDataModel, Tag rootTag, Tag tag, String nameAttrName, String nameAttrValue ) throws XMLBaseConversionPharseException, XMLMissingAttributePharseException{		
 		
 		BaseDataModelAdapter baseDataModelForCompareList = baseRootDataModel;
 		
@@ -287,25 +290,25 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 		if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
 			
 			if( !origText.equals( compareWithBaseElement.getStoredValue() ) ){
-				
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, compareWithBaseElement.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
-				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, compareWithBaseElement.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );
-				}
+				throw new ElementListCompareSelectedOperationException( (NormalBaseElementDataModel)baseElement, origText, this, new Exception() );
+//				if( baseElement instanceof NormalBaseElementDataModel ){
+//					throw new ElementCompareOperationException(compareType, compareWithBaseElement.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+//				//Special
+//				}else{
+//					throw new ElementCompareOperationException(compareType, compareWithBaseElement.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );
+//				}
 			}
 			
 		}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
 			
 			if( origText.equals( compareWithBaseElement.getStoredValue() ) ){
-				
-				if( baseElement instanceof NormalBaseElementDataModel ){
-					throw new ElementCompareOperationException(compareType, compareWithBaseElement.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
-				//Special
-				}else{
-					throw new ElementCompareOperationException(compareType, compareWithBaseElement.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );					
-				}
+				throw new ElementListCompareSelectedOperationException( (NormalBaseElementDataModel)baseElement, origText, this, new Exception() );
+//				if( baseElement instanceof NormalBaseElementDataModel ){
+//					throw new ElementCompareOperationException(compareType, compareWithBaseElement.getStoredValue(), baseElement.getName(), ((NormalBaseElementDataModel)baseElement).getSelector(), origText, new Exception() );
+//				//Special
+//				}else{
+//					throw new ElementCompareOperationException(compareType, compareWithBaseElement.getStoredValue(), baseElement.getName(), "special", origText, new Exception() );					
+//				}
 			}			
 		}
 	}
@@ -337,7 +340,7 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 			
 		String stringPattern = new String( this.stringPattern );
 				
-		return new CompareListToStoredElementOperation(baseElementDataModel, compareType, stringPattern, compareBy);
+		return new CompareSelectedListToStoredElementOperation(baseElementDataModel, compareType, stringPattern, compareBy);
 	}
 	
 	@Override
@@ -346,7 +349,7 @@ public class CompareListToStoredElementOperation extends ElementOperationAdapter
 	}
 
 	@Override
-	public String getCompareWith() {		
+	public String getCompareTo() {		
 		return compareWithBaseElement.getStoredValue();
 	}
 	

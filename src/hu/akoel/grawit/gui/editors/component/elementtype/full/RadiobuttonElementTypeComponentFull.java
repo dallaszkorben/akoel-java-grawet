@@ -2,11 +2,11 @@ package hu.akoel.grawit.gui.editors.component.elementtype.full;
 
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.ListRenderer;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareValueToStringOperation;
 import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.GainValueToElementStorageOperation;
 import hu.akoel.grawit.core.operations.MoveToElementOperation;
 import hu.akoel.grawit.core.operations.OutputStoredElementOperation;
@@ -211,7 +211,7 @@ public class RadiobuttonElementTypeComponentFull<E extends RadiobuttonElementTyp
 			//COMPARE VALUE TO STRING
 			}else if( elementOperation instanceof CompareValueToStringOperation ){
 								
-				fieldString.setText( ((CompareValueToStringOperation)elementOperation).getStringToShow() );
+				fieldString.setText( ((CompareValueToStringOperation)elementOperation).getCompareTo() );
 				comboCompareTypeList.setSelectedIndex( ((CompareValueToStringOperation)elementOperation).getCompareType().getIndex() );
 				comboOperationList.setSelectedIndex(E.COMPAREVALUE_TO_STRING.getIndex());
 				

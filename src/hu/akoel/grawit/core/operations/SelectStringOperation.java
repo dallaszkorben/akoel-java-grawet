@@ -3,6 +3,8 @@ package hu.akoel.grawit.core.operations;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import hu.akoel.grawit.core.operation.interfaces.SelectOperationAdapter;
 import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;

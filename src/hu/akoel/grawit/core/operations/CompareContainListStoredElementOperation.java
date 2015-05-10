@@ -19,6 +19,10 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.CompareOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.HasElementOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.ContainListOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
@@ -29,13 +33,13 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ContainTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.exceptions.ElementListCompareOperationException;
+import hu.akoel.grawit.exceptions.ElementListCompareContainOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareContainListStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface, CompareOperationInterface{
+public class CompareContainListStoredElementOperation extends ElementOperationAdapter implements HasElementOperationInterface, CompareOperationInterface, ContainListOperationInterface{
 	
 	private static final String NAME = "CONTAINLISTSTOREDELEMENT";	
 	private static final String ATTR_CONTAIN_BASE_ELEMENT_PATH = "containebaseelementpath";
@@ -48,11 +52,11 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 	private Pattern pattern;
 	private String stringPattern;
 	private ListCompareByListEnum containBy;
-	private BaseElementDataModelAdapter baseElementForSearch;
+	private BaseElementDataModelAdapter compareToBaseElement;
 	private ContainTypeListEnum containType;
 		
-	public CompareContainListStoredElementOperation( BaseElementDataModelAdapter baseElementForSearch, ContainTypeListEnum containTypeListEnumm, String stringPattern, ListCompareByListEnum containBy ){
-		this.baseElementForSearch = baseElementForSearch;
+	public CompareContainListStoredElementOperation( BaseElementDataModelAdapter compareToBaseElement, ContainTypeListEnum containTypeListEnumm, String stringPattern, ListCompareByListEnum containBy ){
+		this.compareToBaseElement = compareToBaseElement;
 		this.containType = containTypeListEnumm;
 		this.stringPattern = stringPattern;
 		this.containBy = containBy;
@@ -152,7 +156,7 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 	    }	    
 	    try{
 	    	
-	    	this.baseElementForSearch = (BaseElementDataModelAdapter)baseDataModelForCompareList;
+	    	this.compareToBaseElement = (BaseElementDataModelAdapter)baseDataModelForCompareList;
 	    	
 	    }catch(ClassCastException e){
 
@@ -186,9 +190,14 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 		
 	@Override
 	public BaseElementDataModelAdapter getBaseElementForSearch() {
-		return baseElementForSearch;
+		return compareToBaseElement;
 	}
 
+	@Override
+	public String getCompareTo() {
+		return compareToBaseElement.getStoredValue();
+	}
+	
 	public static String getStaticName(){
 		return NAME;
 	}
@@ -198,6 +207,7 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 		return getStaticName();
 	}
 		
+	@Override
 	public ContainTypeListEnum getContainType(){
 		return containType;
 	}
@@ -318,16 +328,14 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) && !found ){
 			
 			if( baseElement instanceof NormalBaseElementDataModel ){
-
-				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementForSearch.getStoredValue(), false, new Exception() );
+				throw new ElementListCompareContainOperationException( (NormalBaseElementDataModel)baseElement, compareToBaseElement.getStoredValue(), this, null );		
 			}
 			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) && found ){
 
 			if( baseElement instanceof NormalBaseElementDataModel ){
-					
-				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, baseElementForSearch.getStoredValue(), true, new Exception() );
+				throw new ElementListCompareContainOperationException( (NormalBaseElementDataModel)baseElement, compareToBaseElement.getStoredValue(), this, null );
 			}
 		}
 	}
@@ -335,7 +343,7 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 	@Override
 	public void setXMLAttribute(Document document, Element element) {		
 		Attr attr = document.createAttribute( ATTR_CONTAIN_BASE_ELEMENT_PATH );
-		attr.setValue( baseElementForSearch.getPathTag() );
+		attr.setValue( compareToBaseElement.getPathTag() );
 		element.setAttributeNode( attr );
 		
 		attr = document.createAttribute( ATTR_CONTAIN_TYPE );
@@ -355,7 +363,7 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 	@Override
 	public Object clone() {
 		
-		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.baseElementForSearch.clone();
+		BaseElementDataModelAdapter baseElementDataModel = (BaseElementDataModelAdapter) this.compareToBaseElement.clone();
 			
 		String stringPattern = new String( this.stringPattern );
 				
@@ -366,5 +374,7 @@ public class CompareContainListStoredElementOperation extends ElementOperationAd
 	public String getOperationNameToString() {		
 		return "CompareListToStoredElement()";
 	}
+
+
 	
 }

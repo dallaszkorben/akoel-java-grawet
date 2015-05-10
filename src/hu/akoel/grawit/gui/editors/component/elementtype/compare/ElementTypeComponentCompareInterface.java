@@ -2,7 +2,7 @@ package hu.akoel.grawit.gui.editors.component.elementtype.compare;
 
 import javax.swing.JPanel;
 
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.enums.list.elementtypeoperations.ElementTypeOperationsListEnumInterface;
 import hu.akoel.grawit.gui.editors.component.EditorComponentInterface;

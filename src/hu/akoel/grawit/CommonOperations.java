@@ -1,12 +1,13 @@
 package hu.akoel.grawit;
 
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.ClearOperation;
 import hu.akoel.grawit.core.operations.ClickLeftOperation;
 import hu.akoel.grawit.core.operations.ClickRightOperation;
 import hu.akoel.grawit.core.operations.CompareListSizeToIntegerOperation;
-import hu.akoel.grawit.core.operations.CompareListToStoredElementOperation;
-import hu.akoel.grawit.core.operations.CompareListToStringOperation;
-import hu.akoel.grawit.core.operations.CompareListToConstantOperation;
+import hu.akoel.grawit.core.operations.CompareSelectedListToStoredElementOperation;
+import hu.akoel.grawit.core.operations.CompareSelectedListToStringOperation;
+import hu.akoel.grawit.core.operations.CompareSelectedListToConstantOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareTextToStringOperation;
 import hu.akoel.grawit.core.operations.CompareTextToConstantOperation;
@@ -16,7 +17,6 @@ import hu.akoel.grawit.core.operations.CompareValueToConstantOperation;
 import hu.akoel.grawit.core.operations.CompareContainListStoredElementOperation;
 import hu.akoel.grawit.core.operations.CompareContainListStringOperation;
 import hu.akoel.grawit.core.operations.CompareContainListConstantOperation;
-import hu.akoel.grawit.core.operations.ElementOperationAdapter;
 import hu.akoel.grawit.core.operations.FillWithBaseElementOperation;
 import hu.akoel.grawit.core.operations.FillWithStringOperation;
 import hu.akoel.grawit.core.operations.FillWithConstantElementOperation;
@@ -680,19 +680,19 @@ public class CommonOperations {
 						
 						
 					//COMPARE TO CONSTANT
-					}else if( operationString.equals( CompareListToConstantOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareSelectedListToConstantOperation.getStaticName() ) ){
 				
-						elementOperation = new CompareListToConstantOperation( element, constantRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareSelectedListToConstantOperation( element, constantRootDataModel, rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 
 					//COMPARE TO STORED
-					}else if( operationString.equals( CompareListToStoredElementOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareSelectedListToStoredElementOperation.getStaticName() ) ){
 				
-						elementOperation = new CompareListToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
+						elementOperation = new CompareSelectedListToStoredElementOperation( element, (BaseRootDataModel)baseElement.getRoot(), rootTag, dataModel.getTag(), attr_operation, dataModel.getName() );
 				
 					//COMPARE TO STRING
-					}else if( operationString.equals( CompareListToStringOperation.getStaticName() ) ){
+					}else if( operationString.equals( CompareSelectedListToStringOperation.getStaticName() ) ){
 				
-						elementOperation = new CompareListToStringOperation( element, rootTag, dataModel.getTag() );
+						elementOperation = new CompareSelectedListToStringOperation( element, rootTag, dataModel.getTag() );
 
 					//COMPARE LIST SIZE TO STRING
 					}else if( operationString.equals( CompareListSizeToIntegerOperation.getStaticName() ) ){

@@ -3,6 +3,7 @@ package hu.akoel.grawit.gui.editor.run;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -13,6 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -25,15 +29,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
-import javax.swing.JToggleButton;
 import javax.swing.JViewport;
 import javax.swing.SwingConstants;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Element;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
@@ -44,6 +50,7 @@ import org.openqa.selenium.WebDriver;
 import hu.akoel.grawit.CommonOperations;
 import hu.akoel.grawit.Player;
 import hu.akoel.grawit.WorkingDirectory;
+import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseCaseDataModel;
@@ -51,11 +58,13 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
+import hu.akoel.grawit.exception.message.LinkMessage;
 import hu.akoel.grawit.exceptions.CompilationException;
-import hu.akoel.grawit.exceptions.PageException;
+import hu.akoel.grawit.exceptions.StepException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
+import hu.akoel.grawit.gui.tree.LinkToNodeInTreeListener;
 import hu.akoel.grawit.gui.tree.Tree;
 
 public class RunTestcaseEditor extends BaseEditor implements Player{
@@ -67,6 +76,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	private TestcaseDataModelAdapter selectedTestcase;
 
 	private ProgressIndicator progressIndicator;
+	
+	private ArrayList<LinkToNodeInTreeListener> linkToNodeInTreeListeners = new ArrayList<LinkToNodeInTreeListener>();
 	
 	private JButton startButton;
 	private JButton stopButton;
@@ -372,6 +383,39 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		outputScrollablePanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);		
 		outputScrollablePanel.setMinimumSize( new Dimension( OUTPUTPANEL_WIDTH, 100 ) );
 		outputScrollablePanel.setPreferredSize( new Dimension( OUTPUTPANEL_WIDTH, 100 ) );
+		
+		//Ha linkre mozgatom a kurzort (alahuzott), akkor egy tenyeret mutat a kurzor
+		outputPanel.addMouseMotionListener( new MouseInputAdapter() {
+			public void mouseMoved( MouseEvent e ) {
+	               Element elem = outputDocument.getCharacterElement( outputPanel.viewToModel(e.getPoint()));
+	               AttributeSet as = elem.getAttributes();
+	               if(StyleConstants.isUnderline(as))
+	                    outputPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	               else
+	                    outputPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	          }
+		});
+		
+		//Ha linkre kattintok, akkor a megfelelo DataModelElement tree nyilik meg
+		outputPanel.addMouseListener( new MouseAdapter( ) {
+			public void mouseClicked( MouseEvent e ) {
+				try{
+					Element elem = outputDocument.getCharacterElement( outputPanel.viewToModel(e.getPoint()));
+					AttributeSet as = elem.getAttributes();
+					DataModelAdapter dataModel = (DataModelAdapter)as.getAttribute(LinkMessage.LINK_ATTRIBUTE);
+					if(dataModel != null){
+						for( LinkToNodeInTreeListener linkToNodeInTreeListener: getLinkToNodeInTreeListeners() ){
+							
+							//Kinyitja a kivant Tree ablakot
+							linkToNodeInTreeListener.linkToNode( dataModel );
+						}						
+					}
+				}
+				catch(Exception x) {
+					x.printStackTrace();
+				}
+			}
+		});
 	
 		//------------
 		//Result panel
@@ -523,9 +567,13 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		
 	}
 
-	
-	
-	
+	public void addLinkToNodeInTreeListener( LinkToNodeInTreeListener linkToNodeInTreeListener ){
+		linkToNodeInTreeListeners.add( linkToNodeInTreeListener);
+	}
+
+	public ArrayList<LinkToNodeInTreeListener> getLinkToNodeInTreeListeners(){
+		return linkToNodeInTreeListeners;
+	}
 	
 	
 	
@@ -722,32 +770,30 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 				//TODO kerdeses. Lehet, hogy beletehetnem a testcaseEnded()-be az addnewstatus-t, hogy majd o irja ki
 				progressIndicator.testcaseEnded( actualTestcase );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.CHECKED );
-				//resultPanel.addNewStatus( actualTestcase, ResultStatus.CHECKED );
 
 			}catch( CompilationException compillationException ){
   		
-				progressIndicator.printOutput( null, compillationException.getMessage() + "\n\n", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
+				compillationException.printMessage( outputDocument );
+				//progressIndicator.printOutputException( compillationException, progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
-				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
     		
-			}catch( PageException pageException ){
+			}catch( StepException pageException ){
     		
-				progressIndicator.printOutput( null, pageException.getMessage() + "\n\n", progressIndicator.ATTRIBUTE_MESSAGE_ERROR);
+				pageException.printMessage( outputDocument );
+				//progressIndicator.printOutputException( pageException, progressIndicator.ATTRIBUTE_MESSAGE_ERROR);
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
-				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );
     		
 			}catch( StoppedByUserException stoppedByUserException ){
     		
-				progressIndicator.printOutput( null, stoppedByUserException + "\n\n", progressIndicator.ATTRIBUTE_MESSAGE_INFO );
+				stoppedByUserException.printMessage( outputDocument );
+				//progressIndicator.printOutputException( stoppedByUserException, progressIndicator.ATTRIBUTE_MESSAGE_INFO );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.STOPPED );
-				//resultPanel.addNewStatus( actualTestcase, ResultStatus.STOPPED );
     		
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
     		
-				progressIndicator.printOutput( "Exception", exception.getMessage() + "\n\n", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
-				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
-				//resultPanel.addNewStatus( actualTestcase, ResultStatus.FAILED );    		
+				progressIndicator.printOutputMessage( "Exception", exception.getMessage(), progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
+				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );   		
 			}
 
 			//Closes the Test method
@@ -788,10 +834,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			StyleConstants.setItalic(ATTRIBUTE_TESTCASE_TITLE, true);
 			StyleConstants.setFontSize(ATTRIBUTE_TESTCASE_TITLE, 16);
 		}
-		
-		@Override
-		public void printOutput( String label, String message, SimpleAttributeSet attributeMessage ) {
 
+		@Override
+		public void printOutputMessage(String label, String message, SimpleAttributeSet attributeMessage) {
 			if( null == attributeMessage ){
 				attributeMessage = ATTRIBUTE_MESSAGE_NORMAL;
 			}
@@ -800,10 +845,11 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 				if( null != label && label.trim().length() != 0 ){
 					RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), label + ": ", ATTRIBUTE_LABEL );
 				}
-				RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), message + "\n", attributeMessage );
-			} catch (BadLocationException e) {}			
+				RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), message + "\n\n", attributeMessage );
+								
+			} catch (BadLocationException e) {}		
 		}
-
+		
 		@Override
 		public void printSource( String sourceCode ) {
 			try {

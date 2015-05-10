@@ -19,6 +19,10 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
+import hu.akoel.grawit.core.operation.interfaces.CompareOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
+import hu.akoel.grawit.core.operation.interfaces.HasConstantOperationInterface;
+import hu.akoel.grawit.core.operation.interfaces.ContainListOperationInterface;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantDataModelAdapter;
@@ -29,13 +33,13 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ContainTypeListEnum;
 import hu.akoel.grawit.enums.list.ListCompareByListEnum;
 import hu.akoel.grawit.enums.list.ListSelectionByListEnum;
-import hu.akoel.grawit.exceptions.ElementListCompareOperationException;
+import hu.akoel.grawit.exceptions.ElementListCompareContainOperationException;
 import hu.akoel.grawit.exceptions.ElementException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 
-public class CompareContainListConstantOperation extends ElementOperationAdapter implements HasConstantOperationInterface, CompareOperationInterface{
+public class CompareContainListConstantOperation extends ElementOperationAdapter implements CompareOperationInterface, HasConstantOperationInterface, ContainListOperationInterface{
 	
 	private static final String NAME = "CONTAINLISTCONSTANT";	
 	private static final String ATTR_CONTAIN_CONSTANT_ELEMENT_PATH = "containconstantelementpath";
@@ -48,14 +52,14 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 	// Model
 	private String stringPattern;
 	private ListCompareByListEnum containBy;
-	private ConstantElementDataModel constantElementDataModel;
+	private ConstantElementDataModel compareToConstantElement;
 	private ContainTypeListEnum containType;
 	//---
 	
 	private Pattern pattern;
 	
-	public CompareContainListConstantOperation( ConstantElementDataModel constantElementDataModel, ContainTypeListEnum containType, String stringPattern, ListCompareByListEnum compareBy ){
-		this.constantElementDataModel = constantElementDataModel;
+	public CompareContainListConstantOperation( ConstantElementDataModel compareToConstantElement, ContainTypeListEnum containType, String stringPattern, ListCompareByListEnum compareBy ){
+		this.compareToConstantElement = compareToConstantElement;
 		this.containType = containType;
 		this.stringPattern = stringPattern;
 		this.containBy = compareBy;
@@ -143,7 +147,7 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 	    }	    
 	    try{
 	    	
-	    	this.constantElementDataModel = (ConstantElementDataModel)constantDataModelForFillOut;
+	    	this.compareToConstantElement = (ConstantElementDataModel)constantDataModelForFillOut;
 	    	
 	    }catch(ClassCastException e){
 
@@ -186,9 +190,15 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 	
 	@Override
 	public ConstantElementDataModel getConstantElement() {
-		return constantElementDataModel;
+		return compareToConstantElement;
 	}
 
+	@Override
+	public String getCompareTo() {
+		return compareToConstantElement.getValue();
+	}
+	
+	@Override
 	public ContainTypeListEnum getContainType(){
 		return containType;
 	}
@@ -233,7 +243,7 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );		
 			}
 			
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( optionText.equals( \"" + constantElementDataModel.getValue() + "\" ) ){" );	
+			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( optionText.equals( \"" + compareToConstantElement.getValue() + "\" ) ){" );	
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "found = true;" );
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "break;" );
 			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );			
@@ -243,9 +253,9 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 			if( containType.equals( ContainTypeListEnum.CONTAINS ) ){			
 				elementProgress.printSource( tab + "if( !found ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' is NOT in the list.");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' is NOT in the list.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' is NOT in the list\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' is NOT in the list\");");
 				}
 				elementProgress.printSource( tab + "}" );	
 			
@@ -253,9 +263,9 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 			}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) ){			
 				elementProgress.printSource( tab + "if( found ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' IS in the list.");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' IS in the list.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + constantElementDataModel.getValue() + "' IS in the list\");");
+					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' IS in the list\");");
 				}
 				elementProgress.printSource( tab + "}" );
 			}		
@@ -299,28 +309,23 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 			}
 			
 			//Ha megtalalta a listaban a keresett erteket
-			if( optionText.equals( constantElementDataModel.getValue() ) ){
+			if( optionText.equals( compareToConstantElement.getValue() ) ){
 				found = true;
 				break;
-			}
-			
+			}			
 		}
 		
 		//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 		if( containType.equals( ContainTypeListEnum.CONTAINS ) && !found ){
-			
 			if( baseElement instanceof NormalBaseElementDataModel ){
-
-				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, constantElementDataModel.getValue(), false, new Exception() );
-
+				throw new ElementListCompareContainOperationException( (NormalBaseElementDataModel)baseElement, compareToConstantElement.getValue(), this, new Exception() );
 			}
 			
 		//Nem szabad tartalmaznia DE megis a listaban van 	
 		}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) && found ){
 
 			if( baseElement instanceof NormalBaseElementDataModel ){
-					
-				throw new ElementListCompareOperationException( (NormalBaseElementDataModel)baseElement, containType, constantElementDataModel.getValue(), true, new Exception() );
+				throw new ElementListCompareContainOperationException( (NormalBaseElementDataModel)baseElement, compareToConstantElement.getValue(), this, new Exception() );
 			}
 		}
 	}
@@ -328,7 +333,7 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 	@Override
 	public void setXMLAttribute(Document document, Element element) {
 		Attr attr = document.createAttribute( ATTR_CONTAIN_CONSTANT_ELEMENT_PATH );
-		attr.setValue( constantElementDataModel.getPathTag() );
+		attr.setValue( compareToConstantElement.getPathTag() );
 		element.setAttributeNode( attr );		
 		
 		attr = document.createAttribute( ATTR_CONTAIN_TYPE );
@@ -349,7 +354,7 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 		
 		String stringPattern = new String( this.stringPattern );
 		
-		return new CompareContainListConstantOperation(constantElementDataModel, containType, stringPattern, containBy); 
+		return new CompareContainListConstantOperation(compareToConstantElement, containType, stringPattern, containBy); 
 
 	}
 
@@ -357,5 +362,5 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 	public String getOperationNameToString() {		
 		return "CompareListToConstant()";
 	}
-	
+
 }

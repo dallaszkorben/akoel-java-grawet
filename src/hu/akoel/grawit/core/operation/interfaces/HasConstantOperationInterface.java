@@ -1,4 +1,4 @@
-package hu.akoel.grawit.core.operations;
+package hu.akoel.grawit.core.operation.interfaces;
 
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantElementDataModel;
 
