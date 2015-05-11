@@ -11,22 +11,28 @@ import javax.swing.text.StyleConstants;
 
 public class LinkOutputMessage extends OutputMessageAdapter{
 
-	private DataModelAdapter link;
+	private DataModelAdapter linkToDataModel;
 	private SimpleAttributeSet attribute;
 
 	public static final String LINK_ATTRIBUTE = "LinkAttribute";
 	
-	public LinkOutputMessage( DataModelAdapter link ){
-		this.link = link;
+	public LinkOutputMessage( DataModelAdapter linkToDataModel ){
+		this.linkToDataModel = linkToDataModel;
 		attribute = new SimpleAttributeSet();
-		attribute.addAttribute( LINK_ATTRIBUTE, this.link );
+		attribute.addAttribute( LINK_ATTRIBUTE, this.linkToDataModel );
 		StyleConstants.setForeground( attribute, new Color( 0, 0, 153 ) );
 		StyleConstants.setUnderline( attribute, true);
 	}
 	
+	public LinkOutputMessage( DataModelAdapter linkToDataModel, SimpleAttributeSet attribute ){
+		this.linkToDataModel = linkToDataModel;
+		this.attribute = attribute;
+		attribute.addAttribute( LINK_ATTRIBUTE, this.linkToDataModel );
+	}
+	
 	@Override
 	public String getMessage() {
-		return link.getName();
+		return linkToDataModel.getName();
 	}
 	
 /*	@Override

@@ -63,7 +63,9 @@ import hu.akoel.grawit.exceptions.StepException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
+import hu.akoel.grawit.gui.output.message.AttributedOutputMessage;
 import hu.akoel.grawit.gui.output.message.LinkOutputMessage;
+import hu.akoel.grawit.gui.output.message.OutputMessageAdapter;
 import hu.akoel.grawit.gui.tree.LinkToNodeInTreeListener;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -389,10 +391,18 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			public void mouseMoved( MouseEvent e ) {
 	               Element elem = outputDocument.getCharacterElement( outputPanel.viewToModel(e.getPoint()));
 	               AttributeSet as = elem.getAttributes();
-	               if(StyleConstants.isUnderline(as))
-	                    outputPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	               else
-	                    outputPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	               
+	               DataModelAdapter dataModel = (DataModelAdapter)as.getAttribute(LinkOutputMessage.LINK_ATTRIBUTE);
+	               if(dataModel != null){
+	            	   outputPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	               }else{
+	            	   outputPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					}
+	               
+	               //if(StyleConstants.isUnderline(as))
+	               //     outputPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	               //else
+	               //     outputPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	          }
 		});
 		
@@ -868,9 +878,15 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 		@Override
 		public void testcaseStarted(TestcaseCaseDataModel testcase) {
-			try {
-				RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), "---" + testcase.getName() + "---" + "\n", ATTRIBUTE_TESTCASE_TITLE );
-			} catch (BadLocationException e) {}			
+
+			//RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), "---" + testcase.getName() + "---" + "\n", ATTRIBUTE_TESTCASE_TITLE );
+			ArrayList<OutputMessageAdapter> outputMessage = new ArrayList<>();
+			outputMessage.add( new AttributedOutputMessage( "---", ATTRIBUTE_TESTCASE_TITLE ) );
+			outputMessage.add( new LinkOutputMessage( testcase, ATTRIBUTE_TESTCASE_TITLE ) );
+			outputMessage.add( new AttributedOutputMessage( "---\n", ATTRIBUTE_TESTCASE_TITLE ) );
+			for( OutputMessageAdapter message: outputMessage ){
+				message.printOut( outputDocument );
+			}
 		}
 
 		@Override
