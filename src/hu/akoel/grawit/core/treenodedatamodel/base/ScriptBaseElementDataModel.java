@@ -36,7 +36,7 @@ import hu.akoel.grawit.enums.Tag;
 import hu.akoel.grawit.enums.list.ElementTypeListEnum;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.ElementException;
-import hu.akoel.grawit.exceptions.InvocationTargetScriptBaseElementException;
+import hu.akoel.grawit.exceptions.ScriptElementExecutionException;
 import hu.akoel.grawit.exceptions.StepException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
@@ -68,11 +68,10 @@ public class ScriptBaseElementDataModel extends BaseElementDataModelAdapter{
 			
 			"public class " + customClassName + " {\n" +		
 			"   public " + customClassName + "() {}\n" +		
-			"   public void " + customMethodName + "(WebDriver driver, ArrayList<String> parameters, " + BaseElementDataModelAdapter.class.getSimpleName() + " baseElement ) throws " + StepException.class.getCanonicalName() + "{\n";
+			"   public void " + customMethodName + "(WebDriver driver, ArrayList<String> parameters, " + BaseElementDataModelAdapter.class.getSimpleName() + " baseElement ) throws " + Exception.class.getCanonicalName() + "{\n";
 	private static final String codePost = 
 			"\n   }\n" +
 			"}\n";
-	
 	private JavaSourceFromString javaFile;
 	private DiagnosticCollector<JavaFileObject> diagnostics;
 	
@@ -110,7 +109,7 @@ private StandardJavaFileManager stdFileManager;
 	 */
 	public ScriptBaseElementDataModel( Element element ) throws XMLPharseException{
 		super( element );
-		
+
 		//element type             
 		if( !element.hasAttribute( ATTR_ELEMENT_TYPE ) ){
 			throw new XMLMissingAttributePharseException( getRootTag(), getTag(), ATTR_NAME, getName(), ATTR_ELEMENT_TYPE );			
@@ -273,7 +272,7 @@ try {
 			throw new Error( e );
 		} catch (InvocationTargetException e) {
 								
-			throw new InvocationTargetScriptBaseElementException( this, e );
+			throw new ScriptElementExecutionException( this, e.getTargetException() );
 				
 		}
 	}

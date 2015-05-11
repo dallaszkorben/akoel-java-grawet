@@ -398,7 +398,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	               }else{
 	            	   outputPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 					}
-	               
+
 	               //if(StyleConstants.isUnderline(as))
 	               //     outputPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	               //else
@@ -747,17 +747,18 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Date startDate;" );			
 			progressIndicator.printSource( "" );
 
-			WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
-
 			//IMPLICIT WAIT
 			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "//IMPLICIT WAIT" );			
 			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "driver.manage().timeouts().implicitlyWait(" + WorkingDirectory.getInstance().getWaitingTime() + ", TimeUnit.SECONDS);" );
 			progressIndicator.printSource( "" );
-			
-			webDriver.manage().timeouts().implicitlyWait(WorkingDirectory.getInstance().getWaitingTime(), TimeUnit.SECONDS );
+
 			int testcaseRow = -1;
 			
 			try{				
+
+				WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
+			
+				webDriver.manage().timeouts().implicitlyWait(WorkingDirectory.getInstance().getWaitingTime(), TimeUnit.SECONDS );
 
 				int childCount = actualTestcase.getChildCount();
     		
@@ -784,25 +785,22 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			}catch( CompilationException compillationException ){
   		
 				compillationException.printMessage( outputDocument );
-				//progressIndicator.printOutputException( compillationException, progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
     		
 			}catch( StepException pageException ){
     		
 				pageException.printMessage( outputDocument );
-				//progressIndicator.printOutputException( pageException, progressIndicator.ATTRIBUTE_MESSAGE_ERROR);
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );
     		
 			}catch( StoppedByUserException stoppedByUserException ){
     		
 				stoppedByUserException.printMessage( outputDocument );
-				//progressIndicator.printOutputException( stoppedByUserException, progressIndicator.ATTRIBUTE_MESSAGE_INFO );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.STOPPED );
     		
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
-    		
-				progressIndicator.printOutputMessage( "Exception", exception.getMessage(), progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
+
+				progressIndicator.printOutputMessage( "Exception", exception.getMessage() + "(" + this.getClass().getSimpleName() + ")", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );   		
 			}
 
@@ -819,6 +817,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		public SimpleAttributeSet ATTRIBUTE_MESSAGE_ERROR;
 		public SimpleAttributeSet ATTRIBUTE_MESSAGE_INFO;
 		public SimpleAttributeSet ATTRIBUTE_TESTCASE_TITLE;
+		public SimpleAttributeSet ATTRIBUTE_TESTCASE_TITLE_LINK;
 	
 		public ProgressIndicator(){
 
@@ -843,6 +842,13 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			StyleConstants.setBold( ATTRIBUTE_TESTCASE_TITLE, false);
 			StyleConstants.setItalic(ATTRIBUTE_TESTCASE_TITLE, true);
 			StyleConstants.setFontSize(ATTRIBUTE_TESTCASE_TITLE, 16);
+			
+			ATTRIBUTE_TESTCASE_TITLE_LINK = new SimpleAttributeSet();
+			StyleConstants.setForeground( ATTRIBUTE_TESTCASE_TITLE_LINK, new Color( 0, 0, 153 ) );
+			StyleConstants.setBold( ATTRIBUTE_TESTCASE_TITLE_LINK, false );
+			StyleConstants.setItalic( ATTRIBUTE_TESTCASE_TITLE_LINK, true );
+			StyleConstants.setUnderline( ATTRIBUTE_TESTCASE_TITLE_LINK, true );
+			StyleConstants.setFontSize( ATTRIBUTE_TESTCASE_TITLE_LINK, 16 );
 		}
 
 		@Override
@@ -882,7 +888,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			//RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), "---" + testcase.getName() + "---" + "\n", ATTRIBUTE_TESTCASE_TITLE );
 			ArrayList<OutputMessageAdapter> outputMessage = new ArrayList<>();
 			outputMessage.add( new AttributedOutputMessage( "---", ATTRIBUTE_TESTCASE_TITLE ) );
-			outputMessage.add( new LinkOutputMessage( testcase, ATTRIBUTE_TESTCASE_TITLE ) );
+			outputMessage.add( new LinkOutputMessage( testcase, ATTRIBUTE_TESTCASE_TITLE_LINK ) );
 			outputMessage.add( new AttributedOutputMessage( "---\n", ATTRIBUTE_TESTCASE_TITLE ) );
 			for( OutputMessageAdapter message: outputMessage ){
 				message.printOut( outputDocument );

@@ -190,7 +190,7 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 			String key = ((DriverExplorerCapabilityDataModel)getChildAt(index)).getName();
 			Object value = ((DriverExplorerCapabilityDataModel)getChildAt(index)).getValue();
 			
-			elementProgres.printSource(  tab + "capabilities.setCapability( \"" + key + "\", \"" + (String)value + "\" );");
+			elementProgres.printSource(  tab + "capabilities.setCapability( \"" + key + "\", \"" + String.valueOf( value ) + "\" );");
 			
 			capabilities.setCapability(key, value);
 		}
