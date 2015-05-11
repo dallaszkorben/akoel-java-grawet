@@ -9,9 +9,9 @@ import javax.swing.text.StyleConstants;
 
 import hu.akoel.grawit.core.treenodedatamodel.step.StepCollectorDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepElementDataModel;
-import hu.akoel.grawit.exception.message.AttributedMessage;
-import hu.akoel.grawit.exception.message.LinkMessage;
-import hu.akoel.grawit.exception.message.OutputMessage;
+import hu.akoel.grawit.gui.output.message.AttributedOutputMessage;
+import hu.akoel.grawit.gui.output.message.LinkOutputMessage;
+import hu.akoel.grawit.gui.output.message.OutputMessageAdapter;
 
 public class StepException extends PrintOutExceptionAdapter{
 	
@@ -19,7 +19,7 @@ public class StepException extends PrintOutExceptionAdapter{
 	private StepCollectorDataModelAdapter stepCollector;
 	private StepElementDataModel stepElement;
 	private ElementException elementException;
-	private ArrayList<OutputMessage> outputMessageArray = new ArrayList<>();
+	private ArrayList<OutputMessageAdapter> outputMessageArray = new ArrayList<>();
 	
 	public SimpleAttributeSet ATTRIBUTE_HEAD;
 	public SimpleAttributeSet ATTRIBUTE_LABEL;
@@ -53,13 +53,13 @@ public class StepException extends PrintOutExceptionAdapter{
 		ATTRIBUTE_NONE = new SimpleAttributeSet();
 
 		if( null != stepElement ){
-			this.insertMessage( new AttributedMessage( "Step element name: ", this.ATTRIBUTE_LABEL ) );
-			this.insertMessage( new LinkMessage( stepElement ) );
-			this.insertMessage( new AttributedMessage( "\n", this.ATTRIBUTE_NONE ) );			
+			this.insertMessage( new AttributedOutputMessage( "Step element name: ", this.ATTRIBUTE_LABEL ) );
+			this.insertMessage( new LinkOutputMessage( stepElement ) );
+			this.insertMessage( new AttributedOutputMessage( "\n", this.ATTRIBUTE_NONE ) );			
 		}else if( null != stepCollector ){
-			this.insertMessage( new AttributedMessage( "Step collector name: ", this.ATTRIBUTE_LABEL ) );
-			this.insertMessage( new LinkMessage( stepCollector ) );
-			this.insertMessage( new AttributedMessage( "\n", this.ATTRIBUTE_NONE ) );
+			this.insertMessage( new AttributedOutputMessage( "Step collector name: ", this.ATTRIBUTE_LABEL ) );
+			this.insertMessage( new LinkOutputMessage( stepCollector ) );
+			this.insertMessage( new AttributedOutputMessage( "\n", this.ATTRIBUTE_NONE ) );
 		}	
 	}
 	

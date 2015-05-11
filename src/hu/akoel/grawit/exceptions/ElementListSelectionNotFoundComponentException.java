@@ -2,8 +2,8 @@ package hu.akoel.grawit.exceptions;
 
 import hu.akoel.grawit.core.operation.interfaces.SelectOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.exception.message.AttributedMessage;
-import hu.akoel.grawit.exception.message.LinkMessage;
+import hu.akoel.grawit.gui.output.message.AttributedOutputMessage;
+import hu.akoel.grawit.gui.output.message.LinkOutputMessage;
 
 public class ElementListSelectionNotFoundComponentException extends ElementException{
 
@@ -12,19 +12,19 @@ public class ElementListSelectionNotFoundComponentException extends ElementExcep
 	public ElementListSelectionNotFoundComponentException( NormalBaseElementDataModel baseElement, String notFoundComponent, SelectOperationAdapter operation, Exception e ){
 		super( baseElement, "", e );
 		
-		this.insertMessage( new AttributedMessage( "The Selection on the list has failed because the component was not found\n", this.ATTRIBUTE_HEAD ) );
+		this.insertMessage( new AttributedOutputMessage( "The Selection on the list has failed because the component was not found\n", this.ATTRIBUTE_HEAD ) );
 		
-		this.insertMessage( new AttributedMessage( "Not found component: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new AttributedMessage( notFoundComponent + "\n", this.ATTRIBUTE_VALUE ) );
+		this.insertMessage( new AttributedOutputMessage( "Not found component: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedOutputMessage( notFoundComponent + "\n", this.ATTRIBUTE_VALUE ) );
 
-		this.insertMessage( new AttributedMessage( "Selection type: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new AttributedMessage( operation.getSelectionBy() + "\n", this.ATTRIBUTE_VALUE ) );
+		this.insertMessage( new AttributedOutputMessage( "Selection type: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedOutputMessage( operation.getSelectionBy() + "\n", this.ATTRIBUTE_VALUE ) );
 		
-		this.insertMessage( new AttributedMessage( "Element name: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new LinkMessage( baseElement ) );
-		this.insertMessage( new AttributedMessage( "\n", this.ATTRIBUTE_NONE ) );
+		this.insertMessage( new AttributedOutputMessage( "Element name: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new LinkOutputMessage( baseElement ) );
+		this.insertMessage( new AttributedOutputMessage( "\n", this.ATTRIBUTE_NONE ) );
 
-		this.insertMessage( new AttributedMessage( "Element selector: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new AttributedMessage( baseElement.getSelector() + "\n", this.ATTRIBUTE_VALUE ) );
+		this.insertMessage( new AttributedOutputMessage( "Element selector: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedOutputMessage( baseElement.getSelector() + "\n", this.ATTRIBUTE_VALUE ) );
 	}
 }

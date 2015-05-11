@@ -1,6 +1,6 @@
 package hu.akoel.grawit.exceptions;
 
-import hu.akoel.grawit.exception.message.OutputMessage;
+import hu.akoel.grawit.gui.output.message.OutputMessageAdapter;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import javax.swing.text.StyleConstants;
 
 public abstract class PrintOutExceptionAdapter extends Exception{
 	private static final long serialVersionUID = 5108367132756413342L;
-	private ArrayList<OutputMessage> outputMessageArray = new ArrayList<>();
+	private ArrayList<OutputMessageAdapter> outputMessageArray = new ArrayList<>();
 
 	public SimpleAttributeSet ATTRIBUTE_NONE;
 	public SimpleAttributeSet ATTRIBUTE_HEAD;
@@ -57,7 +57,7 @@ public abstract class PrintOutExceptionAdapter extends Exception{
 	@Override
 	public String getMessage(){
 		StringBuilder builder = new StringBuilder(100);
-		for( OutputMessage message: outputMessageArray ){
+		for( OutputMessageAdapter message: outputMessageArray ){
 			builder.append( message.getMessage() );
 		}
 		return builder.toString();
@@ -67,7 +67,7 @@ public abstract class PrintOutExceptionAdapter extends Exception{
 	 * Beszur egy uzenetet
 	 * @param message
 	 */
-	public void insertMessage( OutputMessage message ){
+	public void insertMessage( OutputMessageAdapter message ){
 		outputMessageArray.add( message );
 	}
 	
@@ -76,7 +76,7 @@ public abstract class PrintOutExceptionAdapter extends Exception{
 	 * @param document
 	 */
 	public void printMessage( DefaultStyledDocument document ){
-		for( OutputMessage message: outputMessageArray ){
+		for( OutputMessageAdapter message: outputMessageArray ){
 			message.printOut(document);
 		}
 	}

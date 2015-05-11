@@ -58,12 +58,12 @@ import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseFolderDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseStepDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.testcase.TestcaseRootDataModel;
-import hu.akoel.grawit.exception.message.LinkMessage;
 import hu.akoel.grawit.exceptions.CompilationException;
 import hu.akoel.grawit.exceptions.StepException;
 import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.gui.editor.BaseEditor;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
+import hu.akoel.grawit.gui.output.message.LinkOutputMessage;
 import hu.akoel.grawit.gui.tree.LinkToNodeInTreeListener;
 import hu.akoel.grawit.gui.tree.Tree;
 
@@ -402,7 +402,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 				try{
 					Element elem = outputDocument.getCharacterElement( outputPanel.viewToModel(e.getPoint()));
 					AttributeSet as = elem.getAttributes();
-					DataModelAdapter dataModel = (DataModelAdapter)as.getAttribute(LinkMessage.LINK_ATTRIBUTE);
+					DataModelAdapter dataModel = (DataModelAdapter)as.getAttribute(LinkOutputMessage.LINK_ATTRIBUTE);
 					if(dataModel != null){
 						for( LinkToNodeInTreeListener linkToNodeInTreeListener: getLinkToNodeInTreeListeners() ){
 							

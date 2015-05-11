@@ -1,6 +1,6 @@
 package hu.akoel.grawit.exceptions;
 
-import hu.akoel.grawit.exception.message.AttributedMessage;
+import hu.akoel.grawit.gui.output.message.AttributedOutputMessage;
 
 public class StoppedByUserException extends PrintOutExceptionAdapter{
 
@@ -10,7 +10,7 @@ public class StoppedByUserException extends PrintOutExceptionAdapter{
 		super( "", new Exception() );
 		
 		this.clearMessage();		
-		this.insertMessage( new AttributedMessage( "Stopped by User\n", this.ATTRIBUTE_INFORMATION ) );
+		this.insertMessage( new AttributedOutputMessage( "Stopped by User\n", this.ATTRIBUTE_INFORMATION ) );
 	}
 	
 }

@@ -1,7 +1,7 @@
 package hu.akoel.grawit.exceptions;
 
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
-import hu.akoel.grawit.exception.message.AttributedMessage;
+import hu.akoel.grawit.gui.output.message.AttributedOutputMessage;
 
 public class ElementUnreachableBrowserException extends ElementException{
 
@@ -10,6 +10,6 @@ public class ElementUnreachableBrowserException extends ElementException{
 	public ElementUnreachableBrowserException( NormalBaseElementDataModel baseElement, Exception e ){
 		super( baseElement, "", e );
 		
-		this.insertMessage( new AttributedMessage( "The browser in unreachable\n", this.ATTRIBUTE_HEAD ) );
+		this.insertMessage( new AttributedOutputMessage( "The browser in unreachable\n", this.ATTRIBUTE_HEAD ) );
 	}
 }

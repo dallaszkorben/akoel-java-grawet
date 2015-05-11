@@ -1,25 +1,27 @@
-package hu.akoel.grawit.exception.message;
+package hu.akoel.grawit.gui.output.message;
 
 import java.awt.Color;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 
-public class LinkMessage implements OutputMessage{
+public class LinkOutputMessage extends OutputMessageAdapter{
 
 	private DataModelAdapter link;
-//	private SimpleAttributeSet attribute;
+	private SimpleAttributeSet attribute;
 
 	public static final String LINK_ATTRIBUTE = "LinkAttribute";
 	
-	public LinkMessage( DataModelAdapter link ){
+	public LinkOutputMessage( DataModelAdapter link ){
 		this.link = link;
-//		attribute = new SimpleAttributeSet();
-//		StyleConstants.setForeground( attribute, new Color( 0, 0, 153 ) );
-//		StyleConstants.setUnderline( attribute, true);
+		attribute = new SimpleAttributeSet();
+		attribute.addAttribute( LINK_ATTRIBUTE, this.link );
+		StyleConstants.setForeground( attribute, new Color( 0, 0, 153 ) );
+		StyleConstants.setUnderline( attribute, true);
 	}
 	
 	@Override
@@ -27,16 +29,23 @@ public class LinkMessage implements OutputMessage{
 		return link.getName();
 	}
 	
-	@Override
+/*	@Override
 	public void printOut(DefaultStyledDocument document) {
 		try {
-			
-			Style linkStyle = document.addStyle( "link", null );
+*/			
+/*			Style linkStyle = document.addStyle( "link", null );
 			StyleConstants.setForeground( linkStyle, new Color( 0, 0, 153 ) );
 			StyleConstants.setUnderline( linkStyle, true);			
 			linkStyle.addAttribute( LINK_ATTRIBUTE, this.link );			
-			
 			document.insertString( document.getLength(), link.getName(), linkStyle );
+*/
+/*			document.insertString( document.getLength(), link.getName(), attribute );
 		} catch (BadLocationException e) {}		
+	}
+*/	
+
+	@Override
+	public SimpleAttributeSet getAttribute() {		
+		return this.attribute;
 	}
 }

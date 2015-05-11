@@ -2,8 +2,8 @@ package hu.akoel.grawit.exceptions;
 
 import hu.akoel.grawit.core.treenodedatamodel.base.NormalBaseElementDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.step.StepLoopCollectorDataModel;
-import hu.akoel.grawit.exception.message.AttributedMessage;
-import hu.akoel.grawit.exception.message.LinkMessage;
+import hu.akoel.grawit.gui.output.message.AttributedOutputMessage;
+import hu.akoel.grawit.gui.output.message.LinkOutputMessage;
 
 public class LoopExceededMaxValueException extends StepException{
 
@@ -14,28 +14,28 @@ public class LoopExceededMaxValueException extends StepException{
 			
 		this.clearMessage();
 		
-		this.insertMessage( new AttributedMessage( "The LOOP exceeded the maximum value but the LOOP condition is still not TRUE\n", this.ATTRIBUTE_HEAD ) );
+		this.insertMessage( new AttributedOutputMessage( "The LOOP exceeded the maximum value but the LOOP condition is still not TRUE\n", this.ATTRIBUTE_HEAD ) );
 
-		this.insertMessage( new AttributedMessage( "Loop collector name: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new LinkMessage( loopCollector ) );
-		this.insertMessage( new AttributedMessage( "\n", this.ATTRIBUTE_NONE ) );
+		this.insertMessage( new AttributedOutputMessage( "Loop collector name: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new LinkOutputMessage( loopCollector ) );
+		this.insertMessage( new AttributedOutputMessage( "\n", this.ATTRIBUTE_NONE ) );
 		
-		this.insertMessage( new AttributedMessage( "Loop collector base element name: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new LinkMessage( loopCollector.getCompareBaseElement() ) );
-		this.insertMessage( new AttributedMessage( "\n", this.ATTRIBUTE_NONE ) );
+		this.insertMessage( new AttributedOutputMessage( "Loop collector base element name: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new LinkOutputMessage( loopCollector.getCompareBaseElement() ) );
+		this.insertMessage( new AttributedOutputMessage( "\n", this.ATTRIBUTE_NONE ) );
 
-		this.insertMessage( new AttributedMessage( "Loop collector operation: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new AttributedMessage( loopCollector.getElementOperation().getOperationNameToString() + "\n", this.ATTRIBUTE_VALUE ) );
+		this.insertMessage( new AttributedOutputMessage( "Loop collector operation: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedOutputMessage( loopCollector.getElementOperation().getOperationNameToString() + "\n", this.ATTRIBUTE_VALUE ) );
 
-		this.insertMessage( new AttributedMessage( "Max loop number: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new AttributedMessage( loopCollector.getMaxLoopNumber() + "\n", this.ATTRIBUTE_VALUE ) );
+		this.insertMessage( new AttributedOutputMessage( "Max loop number: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedOutputMessage( loopCollector.getMaxLoopNumber() + "\n", this.ATTRIBUTE_VALUE ) );
 
 		
-		this.insertMessage( new AttributedMessage( "Element name: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new LinkMessage( baseElement ) );
-		this.insertMessage( new AttributedMessage( "\n", this.ATTRIBUTE_NONE ) );
+		this.insertMessage( new AttributedOutputMessage( "Element name: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new LinkOutputMessage( baseElement ) );
+		this.insertMessage( new AttributedOutputMessage( "\n", this.ATTRIBUTE_NONE ) );
 
-		this.insertMessage( new AttributedMessage( "Element selector: ", this.ATTRIBUTE_LABEL ) );
-		this.insertMessage( new AttributedMessage( baseElement.getSelector() + "\n", this.ATTRIBUTE_VALUE ) );
+		this.insertMessage( new AttributedOutputMessage( "Element selector: ", this.ATTRIBUTE_LABEL ) );
+		this.insertMessage( new AttributedOutputMessage( baseElement.getSelector() + "\n", this.ATTRIBUTE_VALUE ) );
 	}
 }
