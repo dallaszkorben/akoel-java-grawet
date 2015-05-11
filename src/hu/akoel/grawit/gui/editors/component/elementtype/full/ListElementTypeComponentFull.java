@@ -36,25 +36,14 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.PlainDocument;
 
-public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFullListEnum>
-		extends ElementTypeComponentFullInterface<E> {
+public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFullListEnum> extends ElementTypeComponentFullInterface<E> {
 
 	private static final long serialVersionUID = -6108131072338954554L;
 
@@ -276,29 +265,10 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 		
 		//Arra az esetre, ha a muvelethez hasznalt baseElement meg nem kivalasztott akkor az alap alapElemet javasolja hasznalni
 		fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel, baseElement, false );
-		//fieldBaseElementSelector = new BaseElementTreeSelectorComponent( baseRootDataModel );
 		
 		fieldString = new JTextField( "" );		
 		fieldSize = new IntTextField( 0, 4 );
 		
-/*		fieldSize.settteInputVerifier( new InputVerifier() {
-			String goodValue = String.valueOf( 0 );			
-			@Override
-			public boolean verify(JComponent input) {
-				JTextField text = (JTextField)input;
-				String possibleValue = text.getText();
-				try{
-					goodValue = String.valueOf( Integer.valueOf( possibleValue) );
-				}catch( Exception e){					
-					return false;
-				}finally{
-					text.setText( goodValue);
-				}
-				return true;
-			}
-		});	
-*/		
-
 		//Kezdo ertek beallitasa
 		if( null == elementOperation ){
 			
@@ -959,41 +929,23 @@ public class ListElementTypeComponentFull<E extends ListElementTypeOperationsFul
 							.getSelectedItem()));
 
 			// COMPARE TO CONSTANT
-		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_CONSTANT
-				.getIndex()) {
-			return new CompareSelectedListToConstantOperation(
-					fieldConstantSelector.getSelectedDataModel(),
-					(CompareTypeListEnum) (comboCompareSelectedListElementType
-							.getSelectedItem()), fieldPattern.getText(),
-					(ListCompareByListEnum) (comboCompareSelectedListElementBy
-							.getSelectedItem()));
+		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_CONSTANT.getIndex()) {
+			return new CompareSelectedListToConstantOperation(fieldConstantSelector.getSelectedDataModel(),(CompareTypeListEnum) (comboCompareSelectedListElementType.getSelectedItem()), fieldPattern.getText(),(ListCompareByListEnum) (comboCompareSelectedListElementBy.getSelectedItem()));
 
 			// COMPARE TO STRING
-		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_STRING
-				.getIndex()) {
-			return new CompareSelectedListToStringOperation(fieldString.getText(),
-					(CompareTypeListEnum) (comboCompareSelectedListElementType
-							.getSelectedItem()), fieldPattern.getText(),
-					(ListCompareByListEnum) (comboCompareSelectedListElementBy
-							.getSelectedItem()));
+		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_TO_STRING.getIndex()) {
+			return new CompareSelectedListToStringOperation(fieldString.getText(),(CompareTypeListEnum) (comboCompareSelectedListElementType.getSelectedItem()), fieldPattern.getText(),(ListCompareByListEnum) (comboCompareSelectedListElementBy.getSelectedItem()));
 
 			// COMPARE LIST SIZE TO INTEGER
-		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_SIZE_TO_INTEGER
-				.getIndex()) {
-			return new CompareListSizeToIntegerOperation(fieldSize.getText(),
-					(CompareTypeListEnum) (comboCompareSelectedListElementType
-							.getSelectedItem()));
+		} else if (comboOperationList.getSelectedIndex() == E.COMPARE_SIZE_TO_INTEGER.getIndex()) {
+			return new CompareListSizeToIntegerOperation(fieldSize.getText(), (CompareTypeListEnum) (comboCompareSelectedListElementType.getSelectedItem()));
 
 			// GAIN TO ELEMENT
-		} else if (comboOperationList.getSelectedIndex() == E.GAIN_TO_ELEMENT
-				.getIndex()) {
-			return new GainListToElementStorageOperation(
-					fieldPattern.getText(),
-					(ListGainByListEnum) (comboGainBy.getSelectedItem()));
+		} else if (comboOperationList.getSelectedIndex() == E.GAIN_TO_ELEMENT.getIndex()) {
+			return new GainListToElementStorageOperation( fieldPattern.getText(), (ListGainByListEnum) (comboGainBy.getSelectedItem()));
 
 			// OUTPUTSTORED
-		} else if (comboOperationList.getSelectedIndex() == E.OUTPUTSTORED
-				.getIndex()) {
+		} else if (comboOperationList.getSelectedIndex() == E.OUTPUTSTORED.getIndex()) {
 			return new OutputStoredElementOperation(fieldMessage.getText());
 
 		}

@@ -1,195 +1,138 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.UnexpectedTagNameException;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.concurrent.TimeUnit;
-import java.util.NoSuchElementException;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Calendar;
-import java.util.Date;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.text.*;
 
-abstract class ScriptClass{
-  ArrayList<String> parameters = new ArrayList<>();
-  abstract public void runScript() throws Exception;
-  public void addParameter( String parameter ){
-    this.parameters.add( parameter );
-  }
-  public void clearParameters(){
-    this.parameters.clear();
-  }
-  public Iterator<String> getParameterIterator(){
-    return parameters.iterator();
-  }
-}
+public class MyTest extends JFrame{
+	private static final long serialVersionUID = 8039927621268023511L;
+	private DefaultStyledDocument outputDocument;
+	private JTextPane outputPanel;
+	private ArrayList<PrintOut> printoutList = new ArrayList<>();
+	
+	private static final String LINK_ATTRIBUTE = "LinkAttribute";
+	
+	public SimpleAttributeSet ATTRIBUTE_NORMAL;
+	public SimpleAttributeSet ATTRIBUTE_ATTENTION;
+	
+	public static void main(String[] args) {
+		new MyTest();
+	}
 
-public class MyTest{ 
+	public MyTest() {
+		super( "Test" );
+        
+		StyleContext outputStyleContext = new StyleContext();
+		outputDocument = new DefaultStyledDocument(outputStyleContext);
+		outputPanel = new JTextPane(outputDocument);
+		outputPanel.setEditable(false);
+		
+		//Csak igy lehet megoldani, hogy ne torje a sorokat, ha hosszabb mint a rendelkezesre allo, hely
+		JPanel outputNoWrapPanel = new JPanel( new BorderLayout() );
+		outputNoWrapPanel.add( outputPanel );
+		DefaultCaret outputCaret = (DefaultCaret)outputPanel.getCaret();
+		outputCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		
+		JScrollPane outputScrollablePanel = new JScrollPane(outputNoWrapPanel );
+		outputScrollablePanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);	
 
-  WebDriverWait wait = null;
-  By by = null;
-  WebElement webElement = null;
-  Select select = null;
-  Integer index = 0;
-  WebDriver driver = null;
-  FirefoxProfile profile = null;
-  JavascriptExecutor executor = null;
-  List<WebElement> optionList;
-  boolean found = false;
-  String origText;
-  String optionText;
-  Matcher matcher;
-  Pattern pattern;
+		//Definialom az attributumokat
+		ATTRIBUTE_NORMAL = new SimpleAttributeSet();
+		StyleConstants.setForeground( ATTRIBUTE_NORMAL, Color.BLACK );
+		StyleConstants.setBold( ATTRIBUTE_NORMAL, false );
+		StyleConstants.setItalic( ATTRIBUTE_NORMAL, false );
+		StyleConstants.setUnderline( ATTRIBUTE_NORMAL, false );		
+		
+		ATTRIBUTE_ATTENTION = new SimpleAttributeSet();
+		StyleConstants.setForeground( ATTRIBUTE_ATTENTION, Color.RED );
+		StyleConstants.setBold( ATTRIBUTE_ATTENTION, true );
+		StyleConstants.setItalic( ATTRIBUTE_ATTENTION, false );
+		StyleConstants.setUnderline( ATTRIBUTE_ATTENTION, false );
+		StyleConstants.setFontSize( ATTRIBUTE_ATTENTION, 15 );
+		
+		//Feltoltom szoveggel a listat
+		printoutList.add( new NormalMessage( "Attention: ", ATTRIBUTE_NORMAL ) );
+		printoutList.add( new LinkMessage( "First Link") );
+		printoutList.add( new NormalMessage( "\n", ATTRIBUTE_NORMAL ) );
 
-  //For running as an Application from command line
-  public static void main( String[] args ){
-    Result result = JUnitCore.runClasses( MyTest.class);
-    for (Failure failure : result.getFailures()) {
-      System.out.println(failure.toString());
-    }
-  }
-
-  @Test
-  public void Cycletest(){
-
-    int actualLoop = 0;
-    int maxLoopNumber;
-    int oneLoopLength;
-    Date actualDate;
-    Date startDate;
-
-    profile = new FirefoxProfile();
-    profile.setPreference( "pdfjs.disabled", true );
-    profile.setPreference( "media.navigator.permission.disabled", true );
-    profile.setPreference( "plugin.state.nppdf", 2 );
-    driver = new FirefoxDriver(profile);
-
-    //IMPLICIT WAIT
-    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-    //Script: Open Window (CLEARPARAMETERS) - script27189193
-    ScriptClass script27189193 = new ScriptClass(){
-      @Override
-      public void runScript() throws Exception{
-        String url = parameters.get(0);
-        driver.get( url );
-      }
-    };
-    script27189193.clearParameters();
-
-    script27189193.addParameter( "http://sislands.com/coin70/week4/chkBoxTest.htm" );
-
-    try{
-      script27189193.runScript();
-    }catch( Exception e ){
-      e.printStackTrace();
-      fail( e.getMessage() );
-    }
-
-    //Element: Checkbox1 (GAINVALUETOELEMENT) - store11141388
-    by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-    webElement = driver.findElement( by );
-    origText = "";
-    if( webElement.isSelected() ){
-      origText = "on";
-    }else{
-      origText = "off";
-    }
-    String store11141388 = origText;
-
-    //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store11141388
-    by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-    webElement = driver.findElement( by );
-    System.out.println( "Status of Checkbox 1: " + store11141388 );
-
-    //Element: Checkbox1 (COMPAREVALUETOSTRING) - store11141388
-    by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-    webElement = driver.findElement( by );
-    origText = "";
-    if( webElement.isSelected() ){
-      origText = "on";
-    }else{
-      origText = "off";
-    }
-    if( !origText.equals( "off" ) ){
-      fail("Stopped because the element 'store11141388': '" + origText + "' does NOT equal to 'off' but it should.");
-    }
-
-    //Element: Checkbox1 (LEFTCLICK) - store11141388
-    by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-    webElement = driver.findElement( by );
-    webElement.click();
-
-    //Cycle starts
-    startDate = Calendar.getInstance().getTime();
-    actualLoop = 0;
-    oneLoopLength = 1;
-    maxLoopNumber = 5;
-    while( actualLoop++ < maxLoopNumber ){
-
-      //
-      //Evaluation
-      //
-      //Element: Checkbox1 (COMPAREVALUETOSTRING) - store11141388
-      by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-      webElement = driver.findElement( by );
-      origText = "";
-      if( webElement.isSelected() ){
-        origText = "on";
-      }else{
-        origText = "off";
-      }
-      if( !origText.equals( "on" ) ){
-        break; //because the element 'store11141388' does NOT equal to 'on'.
-      }
-
-      //
-      //Execution
-      //
-      //Element: Checkbox1 (GAINVALUETOELEMENT) - store11141388
-      by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-      webElement = driver.findElement( by );
-      origText = "";
-      if( webElement.isSelected() ){
-        origText = "on";
-      }else{
-        origText = "off";
-      }
-      store11141388 = origText;
-
-      //Element: Checkbox1 (OUTPUTSTOREDELEMENT) - store11141388
-      by = By.cssSelector( "body > center:nth-child(1) > form:nth-child(4) > input:nth-child(1)" );
-      webElement = driver.findElement( by );
-      System.out.println( "Status: " + store11141388 );
-
-      if( actualLoop >= maxLoopNumber ){
-        fail( "Stopped because the loop exceeded the max value but the LOOP condition is still TRUE for the 'Checkbox1' element." );
-      }
-
-      //Waiting before the next cycle
-      actualDate = Calendar.getInstance().getTime();
-      long differenceTime = actualDate.getTime() - startDate.getTime();
-      long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;
-      try{ Thread.sleep( neededToWait ); } catch(InterruptedException ex) {}
-
-    } //while()
-  }
-
+		printoutList.add( new NormalMessage( "Second line: ", ATTRIBUTE_NORMAL ) );
+		printoutList.add( new LinkMessage( "Second Link") );
+		printoutList.add( new NormalMessage( "\n", ATTRIBUTE_NORMAL ) );
+		
+		printoutList.add( new NormalMessage( "This is a really long line which whould not be wrapped.", ATTRIBUTE_ATTENTION ) );
+		
+		//A listat megjelenitem a panelen
+		for( PrintOut printOut: printoutList ){
+			printOut.printOut( outputDocument );
+		}		
+		
+		//Ha linkre mozgatom a kurzort (alahuzott), akkor egy tenyeret mutat a kurzor
+		outputPanel.addMouseMotionListener( new MouseInputAdapter() {
+			public void mouseMoved( MouseEvent e ) {
+	               Element elem = outputDocument.getCharacterElement( outputPanel.viewToModel(e.getPoint()));
+	               AttributeSet as = elem.getAttributes();
+	               if(StyleConstants.isUnderline(as))
+	                    outputPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	               else
+	                    outputPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	          }
+		});
+		
+		//Ha linkre kattintok, akkor a megfelelo DataModelElement tree nyilik meg
+		outputPanel.addMouseListener( new MouseAdapter( ) {
+			public void mouseClicked( MouseEvent e ) {
+				try{
+					Element elem = outputDocument.getCharacterElement( outputPanel.viewToModel(e.getPoint()));
+					AttributeSet as = elem.getAttributes();
+					String link = (String)as.getAttribute( LINK_ATTRIBUTE );
+					if( link != null ){
+						System.err.println( link );
+					}
+				}
+				catch(Exception x) {
+					x.printStackTrace();
+				}
+			}
+		});		
+		       
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize( 300, 200 );
+		this.setLayout( new BorderLayout() );
+		this.add( outputScrollablePanel, BorderLayout.CENTER );	
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+	}
+	class LinkMessage  implements PrintOut{
+		private String msg;
+		public LinkMessage( String msg ){
+			this.msg = msg;
+		}
+		public void printOut(DefaultStyledDocument document) {
+			try {				
+				Style linkStyle = document.addStyle( "link", null );
+				StyleConstants.setForeground( linkStyle, new Color( 0, 0, 153 ) );
+				StyleConstants.setUnderline( linkStyle, true);			
+				linkStyle.addAttribute( LINK_ATTRIBUTE, msg );				
+				document.insertString( document.getLength(), msg, linkStyle );
+			} catch (BadLocationException e) {}		
+		}
+	}	
+	class NormalMessage implements PrintOut{
+		private String message;
+		private SimpleAttributeSet attribute;
+		public NormalMessage( String message, SimpleAttributeSet attribute ){
+			this.message = message;
+			this.attribute = attribute;
+		}
+		public void printOut(DefaultStyledDocument document) {
+			try {
+				document.insertString( document.getLength(), message, attribute );
+			} catch (BadLocationException e) {}		
+		}
+	}	
+	interface PrintOut{
+		public void printOut(DefaultStyledDocument document);
+	}
 }
