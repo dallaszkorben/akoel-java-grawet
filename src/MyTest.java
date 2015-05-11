@@ -104,6 +104,7 @@ public class MyTest extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
+	
 	class LinkMessage  implements PrintOut{
 		private String msg;
 		public LinkMessage( String msg ){
