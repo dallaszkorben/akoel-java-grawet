@@ -143,7 +143,7 @@ public class FillWithBaseElementOperation extends ElementOperationAdapter implem
 		
 		if( needToPrintSource ){
 			//elementProgress.printSource( tab + "webElement.sendKeys(\"" + baseElementDataModel.getStoredValue() + "\");     //" + baseElement.getName() );
-			elementProgress.printSource( tab + "webElement.sendKeys(" + baseElementDataModel.getNameAsVariable() + ");     //" + baseElement.getName() );
+			elementProgress.printSourceLn( tab + "webElement.sendKeys(" + baseElementDataModel.getNameAsVariable() + ");     //" + baseElement.getName() );
 		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){

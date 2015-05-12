@@ -30,7 +30,7 @@ public class ClearOperation extends ElementOperationAdapter{
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementInvalidOperationException {
 		
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "webElement.clear();" );
+			elementProgress.printSourceLn( tab + "webElement.clear();" );
 		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){

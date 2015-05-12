@@ -100,7 +100,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			//progressIndicator.printSource( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.STORAGE_NAME_PREFIX + baseElement.hashCode()  );
 			
 			if( needToPrintSource ){
-				progressIndicator.printSource( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + baseElement.getNameAsVariable()  );
+				progressIndicator.printSourceLn( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + baseElement.getNameAsVariable()  );
 			}
 
 			By by = null;
@@ -112,7 +112,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.ID)){
 				
 				if( needToPrintSource ){
-					progressIndicator.printSource( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+					progressIndicator.printSourceLn( tab + "by = By.id( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				}
 				
 				by = By.id( ((NormalBaseElementDataModel)baseElement).getSelector() );
@@ -121,7 +121,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			}else if( ((NormalBaseElementDataModel)baseElement).getSelectorType().equals(SelectorType.CSS)){
 				
 				if( needToPrintSource ){
-					progressIndicator.printSource( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
+					progressIndicator.printSourceLn( tab + "by = By.cssSelector( \"" + ((NormalBaseElementDataModel)baseElement).getSelector() + "\" );" );
 				}
 				
 				by = By.cssSelector( ((NormalBaseElementDataModel)baseElement).getSelector() );			
@@ -137,7 +137,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				
 				//EXPLICIT WAIT
 				if( needToPrintSource ){
-					progressIndicator.printSource( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + "); //EXPLICIT WAIT" );
+					progressIndicator.printSourceLn( tab + "wait = new WebDriverWait(driver, " + waitingTimeForAppearance + "); //EXPLICIT WAIT" );
 				}
 				wait = new WebDriverWait(driver, waitingTimeForAppearance);
 				
@@ -156,7 +156,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				try{
 					
 					if( needToPrintSource ){
-						progressIndicator.printSource( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );
+						progressIndicator.printSourceLn( tab + "wait.until(ExpectedConditions.visibilityOfElementLocated( by ));" );
 					}					
 					wait.until(ExpectedConditions.visibilityOfElementLocated( by ));		
 			
@@ -178,7 +178,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			//
 			try{
 				if( needToPrintSource ){
-					progressIndicator.printSource( tab + "webElement = driver.findElement( by );" );
+					progressIndicator.printSourceLn( tab + "webElement = driver.findElement( by );" );
 				}				
 				webElement = driver.findElement( by );
 			
@@ -205,7 +205,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				waitingTimeBeforeOperation *= 1000;
 				
 				if( needToPrintSource ){
-					progressIndicator.printSource( tab + "try {Thread.sleep( " + waitingTimeBeforeOperation + " );} catch (InterruptedException e) {}" );
+					progressIndicator.printSourceLn( tab + "try {Thread.sleep( " + waitingTimeBeforeOperation + " );} catch (InterruptedException e) {}" );
 				}
 				
 				try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}
@@ -220,7 +220,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				
 				//TODO valahogy veget kell vetni a vegtelen ciklus lehetosegenek	
 				if( needToPrintSource ){
-					progressIndicator.printSource("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");
+					progressIndicator.printSourceLn("Ujrahivja a doAction() metodust, mert StaleElementReferenceException volt\n");
 				}
 
 				//Ujra hiv
@@ -239,7 +239,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			}			
 			
 			if( needToPrintSource ){
-				progressIndicator.printSource("");
+				progressIndicator.printSourceLn("");
 			}
 
 			//Varakozik, ha szukseges a muvelet utan
@@ -247,7 +247,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				waitingTimeAfterOperation *= 1000;
 				
 				if( needToPrintSource ){
-					progressIndicator.printSource( tab + "try {Thread.sleep( " + waitingTimeAfterOperation + " );} catch (InterruptedException e) {}" );
+					progressIndicator.printSourceLn( tab + "try {Thread.sleep( " + waitingTimeAfterOperation + " );} catch (InterruptedException e) {}" );
 				}
 				
 				try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}

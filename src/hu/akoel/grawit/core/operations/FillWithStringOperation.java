@@ -56,7 +56,7 @@ public class FillWithStringOperation extends ElementOperationAdapter{
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException {
 
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "webElement.sendKeys(\"" + stringToShow + "\");     //" + baseElement.getName() );
+			elementProgress.printSourceLn( tab + "webElement.sendKeys(\"" + stringToShow + "\");     //" + baseElement.getName() );
 		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){

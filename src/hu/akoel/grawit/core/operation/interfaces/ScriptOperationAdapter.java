@@ -18,18 +18,18 @@ public abstract class ScriptOperationAdapter extends ElementOperationAdapter{
 		//Meg nem volt definialva a script
 		if( !definedElementSet.contains( baseElement.getNameAsScript() ) ){
 			
-			elementProgress.printSource( tab + "//Script: " + baseElement.getName() + " (" + this.getName() + ") - " + baseElement.getNameAsScript()  );			
+			elementProgress.printSourceLn( tab + "//Script: " + baseElement.getName() + " (" + this.getName() + ") - " + baseElement.getNameAsScript()  );			
 		
-			elementProgress.printSource( tab + "ScriptClass " + baseElement.getNameAsScript() + " = new ScriptClass(){" );
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "@Override" );
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "public void runScript() throws Exception{" );		
+			elementProgress.printSourceLn( tab + "ScriptClass " + baseElement.getNameAsScript() + " = new ScriptClass(){" );
+			elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "@Override" );
+			elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "public void runScript() throws Exception{" );		
 			String script = ((ScriptBaseElementDataModel)baseElement).getScript();
 			StringTokenizer tokenize = new StringTokenizer( script, "\n" );
 			while( tokenize.hasMoreTokens() ){			
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + tokenize.nextToken().trim() );			
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + tokenize.nextToken().trim() );			
 			}		
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );
-			elementProgress.printSource( tab + "};" );
+			elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "}" );
+			elementProgress.printSourceLn( tab + "};" );
 			
 			//Jelzem, hogy mar definialtam a script-et
 			definedElementSet.add( baseElement.getNameAsScript() );

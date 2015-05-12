@@ -33,7 +33,7 @@ public class TabOperation extends ElementOperationAdapter{
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException {
 
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "webElement.sendKeys(Keys.TAB);" );
+			elementProgress.printSourceLn( tab + "webElement.sendKeys(Keys.TAB);" );
 		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){

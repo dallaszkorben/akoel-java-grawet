@@ -45,8 +45,8 @@ public class ScriptElementClearParametersOperation extends ScriptOperationAdapte
 
 			if( needToPrintSource ){
 				outputScripClass(driver, baseElement, webElement, elementProgress, tab, definedElementSet );				
-				elementProgress.printSource( tab + baseElement.getNameAsScript() + ".clearParameters();" );
-				elementProgress.printSource( "" );
+				elementProgress.printSourceLn( tab + baseElement.getNameAsScript() + ".clearParameters();" );
+				elementProgress.printSourceLn( "" );
 			}
 
 			((ScriptBaseElementDataModel)baseElement).clearParameters();

@@ -49,13 +49,13 @@ public class ScriptElementExecuteOperation extends ScriptOperationAdapter{
 
 			if( needToPrintSource ){
 				outputScripClass(driver, baseElement, webElement, elementProgress, tab, definedElementSet );
-				elementProgress.printSource( tab + "try{" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsScript() + ".runScript();" );
-				elementProgress.printSource( tab + "}catch( Exception e ){" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "e.printStackTrace();" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail( e.getMessage() );" );
-				elementProgress.printSource( tab + "}" );
-				elementProgress.printSource( "" );
+				elementProgress.printSourceLn( tab + "try{" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsScript() + ".runScript();" );
+				elementProgress.printSourceLn( tab + "}catch( Exception e ){" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "e.printStackTrace();" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail( e.getMessage() );" );
+				elementProgress.printSourceLn( tab + "}" );
+				elementProgress.printSourceLn( "" );
 			}
 			((ScriptBaseElementDataModel)baseElement).doAction(driver);
 			

@@ -213,43 +213,43 @@ public class CompareSelectedListToConstantOperation extends ElementOperationAdap
 		// SOURCE Starts
 		//	
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "origText = \"\";" );
-			elementProgress.printSource( tab + "select = new Select(webElement);" );
+			elementProgress.printSourceLn( tab + "origText = \"\";" );
+			elementProgress.printSourceLn( tab + "select = new Select(webElement);" );
 		
 			//VALUE
 			if( compareBy.equals( ListCompareByListEnum.BYVALUE ) ){
-				elementProgress.printSource( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
+				elementProgress.printSourceLn( tab + "origText = select.getFirstSelectedOption().getAttribute(\"value\");" );
 			
 			//TEXT
 			}else if( compareBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){
-				elementProgress.printSource( tab + "origText = select.getFirstSelectedOption().getText();" );
+				elementProgress.printSourceLn( tab + "origText = select.getFirstSelectedOption().getText();" );
 			}
 		
 			if( null != pattern ){
-				elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-				elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
-				elementProgress.printSource( tab + "if( matcher.find() ){" );	
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+				elementProgress.printSourceLn( tab + "matcher = pattern.matcher( origText );");				
+				elementProgress.printSourceLn( tab + "if( matcher.find() ){" );	
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+				elementProgress.printSourceLn( tab + "}" );
 			}
 		
 			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-				elementProgress.printSource( tab + "if( !origText.equals( \"" + compareWithConstant.getValue() + "\" ) ){" );
+				elementProgress.printSourceLn( tab + "if( !origText.equals( \"" + compareWithConstant.getValue() + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + compareWithConstant.getValue() + " + \"'." );
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + compareWithConstant.getValue() + " + \"'." );
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail( \"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithConstant.getValue() + "' but it should.\" );");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail( \"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithConstant.getValue() + "' but it should.\" );");
 				}
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "}" );
 			
 			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-				elementProgress.printSource( tab + "if( origText.equals( \"" + compareWithConstant.getValue() + "\" ) ){" );
+				elementProgress.printSourceLn( tab + "if( origText.equals( \"" + compareWithConstant.getValue() + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '" + compareWithConstant.getValue() + " + \"'." );
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '" + compareWithConstant.getValue() + " + \"'." );
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithConstant.getValue() + "' but it should NOT.\");");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithConstant.getValue() + "' but it should NOT.\");");
 				}
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "}" );
 			}
 		}
 		

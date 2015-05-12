@@ -54,9 +54,9 @@ public class OutputStoredElementOperation extends ElementOperationAdapter{
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException {
 		
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "System.out.println( \"" + label + ": \" + " + baseElement.getNameAsVariable() + " );" );
+			elementProgress.printSourceLn( tab + "System.out.println( \"" + label + ": \" + " + baseElement.getNameAsVariable() + " );" );
 		}	
-		elementProgress.printOutputMessage( label, baseElement.getStoredValue(), null );			
+		elementProgress.printOutputLn( label, baseElement.getStoredValue(), null );			
 			
 		
 	}

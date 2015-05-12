@@ -195,47 +195,47 @@ public class CompareValueToConstantOperation extends ElementOperationAdapter imp
 		//	
 		if( needToPrintSource ){
 		
-			elementProgress.printSource( tab + "origText = \"\";" );
+			elementProgress.printSourceLn( tab + "origText = \"\";" );
 		
 			//CHECKBOX/RADIOBUTTON
 			if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON ) ){
 			
-				elementProgress.printSource( tab + "if( webElement.isSelected() ){" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
-				elementProgress.printSource( tab + "}else{" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "if( webElement.isSelected() ){" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
+				elementProgress.printSourceLn( tab + "}else{" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
+				elementProgress.printSourceLn( tab + "}" );
 		
 			//Ha FIELD/CHECKBOX
 			}else{			
-				elementProgress.printSource( tab + "origText = webElement.getAttribute(\"value\");" );			
+				elementProgress.printSourceLn( tab + "origText = webElement.getAttribute(\"value\");" );			
 			}
 		
 			if( null != pattern ){
-				elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-				elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
-				elementProgress.printSource( tab + "if( matcher.find() ){" );			
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-				elementProgress.printSource( tab + "}" );					
+				elementProgress.printSourceLn( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+				elementProgress.printSourceLn( tab + "matcher = pattern.matcher( origText );");				
+				elementProgress.printSourceLn( tab + "if( matcher.find() ){" );			
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+				elementProgress.printSourceLn( tab + "}" );					
 			}
 		
 			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){
-				elementProgress.printSource( tab + "if( !origText.equals( \"" + compareWithConstant.getValue() + "\" ) ){" );			
+				elementProgress.printSourceLn( tab + "if( !origText.equals( \"" + compareWithConstant.getValue() + "\" ) ){" );			
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithConstant.getValue() + " + \"'." );
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithConstant.getValue() + " + \"'." );
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithConstant.getValue() + "' but it should.\");");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithConstant.getValue() + "' but it should.\");");
 				}
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "}" );
 			
 			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-				elementProgress.printSource( tab + "if( origText.equals( \"" + compareWithConstant.getValue() + "\" ) ){" );			
+				elementProgress.printSourceLn( tab + "if( origText.equals( \"" + compareWithConstant.getValue() + "\" ) ){" );			
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithConstant.getValue() + " + \"'." );
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithConstant.getValue() + " + \"'." );
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithConstant.getValue() + "' but it should NOT.\");");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithConstant.getValue() + "' but it should NOT.\");");
 				}
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "}" );
 			}	
 		}
 		

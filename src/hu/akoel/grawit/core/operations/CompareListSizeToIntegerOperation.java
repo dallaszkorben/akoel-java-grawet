@@ -90,29 +90,29 @@ public class CompareListSizeToIntegerOperation extends ElementOperationAdapter i
 		// SOURCE Starts
 		//		
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "origText = \"0\";" );
-			elementProgress.printSource( tab + "select = new Select(webElement);" );
+			elementProgress.printSourceLn( tab + "origText = \"0\";" );
+			elementProgress.printSourceLn( tab + "select = new Select(webElement);" );
 		
 			//VALUE			
-			elementProgress.printSource( tab + "origText = String.valueOf( select.getOptions().size() );" );
+			elementProgress.printSourceLn( tab + "origText = String.valueOf( select.getOptions().size() );" );
 		
 			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-				elementProgress.printSource( tab + "if( !origText.equals( \"" + compareWithInteger + "\" ) ){" );
+				elementProgress.printSourceLn( tab + "if( !origText.equals( \"" + compareWithInteger + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + compareWithInteger + " + \"'.");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + compareWithInteger + " + \"'.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithInteger + "' but it should.\");");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithInteger + "' but it should.\");");
 				}
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "}" );
 			
 			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-				elementProgress.printSource( tab + "if( origText.equals( \"" + compareWithInteger + "\" ) ){" );
+				elementProgress.printSourceLn( tab + "if( origText.equals( \"" + compareWithInteger + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '" + compareWithInteger + " + \"'.");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; //because the selected element in the Select '" + baseElement.getNameAsVariable() + "' equals to '" + compareWithInteger + " + \"'.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithInteger + "' but it should NOT.\");");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the selected element in the Select '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithInteger + "' but it should NOT.\");");
 				}
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "}" );
 			}		
 		}
 		

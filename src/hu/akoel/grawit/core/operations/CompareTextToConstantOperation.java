@@ -194,32 +194,32 @@ public class CompareTextToConstantOperation extends ElementOperationAdapter impl
 		//	
 		if( needToPrintSource ){
 			
-			elementProgress.printSource( tab + "origText = webElement.getText();" );
+			elementProgress.printSourceLn( tab + "origText = webElement.getText();" );
 			if( null != pattern ){
-				elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-				elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");				
-				elementProgress.printSource( tab + "if( matcher.find() ){" );			
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+				elementProgress.printSourceLn( tab + "matcher = pattern.matcher( origText );");				
+				elementProgress.printSourceLn( tab + "if( matcher.find() ){" );			
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "origText = matcher.group();" );
+				elementProgress.printSourceLn( tab + "}" );
 			}
 		
 			if( compareType.equals( CompareTypeListEnum.EQUAL ) ){			
-				elementProgress.printSource( tab + "if( !origText.equals( \"" + compareWithConstantElement.getValue() + "\" ) ){" );
+				elementProgress.printSourceLn( tab + "if( !origText.equals( \"" + compareWithConstantElement.getValue() + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + compareWithConstantElement.getValue() + " + \"'." );
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; //because the element '" + baseElement.getNameAsVariable() + "' does NOT equal to '" + compareWithConstantElement.getValue() + " + \"'." );
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithConstantElement.getValue() + "' but it should.\");");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' does NOT equal to '" + compareWithConstantElement.getValue() + "' but it should.\");");
 				}			
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "}" );
 				
 			}else if( compareType.equals( CompareTypeListEnum.DIFFERENT ) ){
-				elementProgress.printSource( tab + "if( origText.equals( \"" + compareWithConstantElement.getValue() + "\" ) ){" );
+				elementProgress.printSourceLn( tab + "if( origText.equals( \"" + compareWithConstantElement.getValue() + "\" ) ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; // because the element '" + baseElement.getNameAsVariable() + "' equals to '" + compareWithConstantElement.getValue() + " + \"'." );
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; // because the element '" + baseElement.getNameAsVariable() + "' equals to '" + compareWithConstantElement.getValue() + " + \"'." );
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithConstantElement.getValue() + "' but it should NOT.\");");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because the element '" + baseElement.getNameAsVariable() + "': '\" + origText + \"' equals to '" + compareWithConstantElement.getValue() + "' but it should NOT.\");");
 				}
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "}" );
 			}
 		}
 		

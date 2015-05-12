@@ -78,30 +78,30 @@ public class GainValueToElementStorageOperation extends ElementOperationAdapter{
 		// SOURCE Starts
 		//
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "origText = \"\";");
+			elementProgress.printSourceLn( tab + "origText = \"\";");
 
 			//CHECKBOX/RADIOBUTTON
 			if( baseElement.getElementType().equals(ElementTypeListEnum.CHECKBOX) || baseElement.getElementType().equals(ElementTypeListEnum.RADIOBUTTON) ){
-				elementProgress.printSource( tab + "if( webElement.isSelected() ){" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
-				elementProgress.printSource( tab + "}else{" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "if( webElement.isSelected() ){" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "origText = \"on\";" );
+				elementProgress.printSourceLn( tab + "}else{" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "origText = \"off\";" );
+				elementProgress.printSourceLn( tab + "}" );
 			
 			//Ha FIELD
 			}else{	
-				elementProgress.printSource( tab + "origText = webElement.getAttribute(\"value\");" );
+				elementProgress.printSourceLn( tab + "origText = webElement.getAttribute(\"value\");" );
 			}
 			
 			if( null == pattern ){			
-				elementProgress.printSource( tab + ( definedElementSet.contains( baseElement.getNameAsVariable() )? "" : "String " ) + baseElement.getNameAsVariable() + " = origText;" );
+				elementProgress.printSourceLn( tab + ( definedElementSet.contains( baseElement.getNameAsVariable() )? "" : "String " ) + baseElement.getNameAsVariable() + " = origText;" );
 			}else{
-				elementProgress.printSource( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-				elementProgress.printSource( tab + "matcher = pattern.matcher( origText );");
-				elementProgress.printSource( tab + ( definedElementSet.contains( baseElement.getNameAsVariable() )? "" : "String " ) + baseElement.getNameAsVariable() + " = null;" );
-				elementProgress.printSource( tab + "if( matcher.find() ){" );	
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsVariable() + " = matcher.group();" );
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+				elementProgress.printSourceLn( tab + "matcher = pattern.matcher( origText );");
+				elementProgress.printSourceLn( tab + ( definedElementSet.contains( baseElement.getNameAsVariable() )? "" : "String " ) + baseElement.getNameAsVariable() + " = null;" );
+				elementProgress.printSourceLn( tab + "if( matcher.find() ){" );	
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + baseElement.getNameAsVariable() + " = matcher.group();" );
+				elementProgress.printSourceLn( tab + "}" );
 			}
 			definedElementSet.add(baseElement.getNameAsVariable());
 		}

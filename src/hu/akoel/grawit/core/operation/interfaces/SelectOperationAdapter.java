@@ -31,19 +31,19 @@ public abstract class SelectOperationAdapter extends ElementOperationAdapter{
 			if( needToPrintSource ){
 
 				//I do not know why but it have to be here
-				elementProgress.printSource( tab + "webElement.sendKeys(Keys.TAB);" );
-				elementProgress.printSource( tab + "webElement.sendKeys(Keys.SHIFT, Keys.TAB);" );
-				elementProgress.printSource( tab + "select = new Select(webElement);" );
+				elementProgress.printSourceLn( tab + "webElement.sendKeys(Keys.TAB);" );
+				elementProgress.printSourceLn( tab + "webElement.sendKeys(Keys.SHIFT, Keys.TAB);" );
+				elementProgress.printSourceLn( tab + "select = new Select(webElement);" );
 				if( getSelectionBy().equals( ListSelectionByListEnum.BYVALUE ) ){
-					elementProgress.printSource( tab + "select.selectByValue( \"" + getStringToSelection() + "\" );" );
+					elementProgress.printSourceLn( tab + "select.selectByValue( \"" + getStringToSelection() + "\" );" );
 				}else if( getSelectionBy().equals( ListSelectionByListEnum.BYINDEX ) ){
-					elementProgress.printSource( tab + "index = 0;" );
-					elementProgress.printSource( tab + "try{" );
-					elementProgress.printSource( tab + "index = Integer.valueOf( " + getStringToSelection() + " );" );
-					elementProgress.printSource( tab + "}catch( Exception e){}" );
-					elementProgress.printSource( tab + "select.selectByIndex( index  );" );
+					elementProgress.printSourceLn( tab + "index = 0;" );
+					elementProgress.printSourceLn( tab + "try{" );
+					elementProgress.printSourceLn( tab + "index = Integer.valueOf( " + getStringToSelection() + " );" );
+					elementProgress.printSourceLn( tab + "}catch( Exception e){}" );
+					elementProgress.printSourceLn( tab + "select.selectByIndex( index  );" );
 				}else if( getSelectionBy().equals( ListSelectionByListEnum.BYVISIBLETEXT ) ){
-					elementProgress.printSource( tab + "select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );
+					elementProgress.printSourceLn( tab + "select.selectByVisibleText( \"" + getStringToSelection() + "\" );" );
 				}
 			}
 			

@@ -368,31 +368,31 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 		Date startDate = Calendar.getInstance().getTime();			
 		Date actualDate;
 		
-		progressIndicator.printSource( tab + "//Cycle starts" );
-		progressIndicator.printSource( tab + "startDate = Calendar.getInstance().getTime();" );	
-		progressIndicator.printSource( tab + "actualLoop = 0;" );
-		progressIndicator.printSource( tab + "oneLoopLength = " + getOneLoopLength() + ";" );
-		progressIndicator.printSource( tab + "maxLoopNumber = " + maxLoopNumber + ";" );
-		progressIndicator.printSource( tab + "while( actualLoop++ < maxLoopNumber ){");
-		progressIndicator.printSource( "" );	
+		progressIndicator.printSourceLn( tab + "//Cycle starts" );
+		progressIndicator.printSourceLn( tab + "startDate = Calendar.getInstance().getTime();" );	
+		progressIndicator.printSourceLn( tab + "actualLoop = 0;" );
+		progressIndicator.printSourceLn( tab + "oneLoopLength = " + getOneLoopLength() + ";" );
+		progressIndicator.printSourceLn( tab + "maxLoopNumber = " + maxLoopNumber + ";" );
+		progressIndicator.printSourceLn( tab + "while( actualLoop++ < maxLoopNumber ){");
+		progressIndicator.printSourceLn( "" );	
 		
 		//Annyiszor megy vegig a gyermekeken, amennyi a megengedett ciklusszam (es ha nem igaz a feltetel)
 		while( actualLoop++ < maxLoopNumber ){		
 			
 			try {
 				if( actualLoop == 1 ){				
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");				
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Evaluation");
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "//");				
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "//Evaluation");
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "//");
 				}
 				
 				//LOOP kiertekelese - true parameter jelzi, hogy hiaba lesz Comparation Exception attol meg le kell zarni az uzenetet
 getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicator, tab + CommonOperations.TAB_BY_SPACE, definedElementSet, (actualLoop == 1? true: false) );
 
 				if( actualLoop == 1 ){
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");				
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Execution");
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//");
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "//");				
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "//Execution");
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "//");
 				}
 
 				//Ha igaz volt az osszehasonlitas, akkor vegig megy gyermekein
@@ -443,10 +443,10 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 			}
 			
 			if( actualLoop == 1 ){
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( actualLoop >= maxLoopNumber ){" );
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "fail( \"Stopped because the loop exceeded the max value but the LOOP condition is still TRUE for the '" + compareBaseElement.getName() + "' element.\" );" );			
-				progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );
-				progressIndicator.printSource( "" );
+				progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "if( actualLoop >= maxLoopNumber ){" );
+				progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "fail( \"Stopped because the loop exceeded the max value but the LOOP condition is still TRUE for the '" + compareBaseElement.getName() + "' element.\" );" );			
+				progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "}" );
+				progressIndicator.printSourceLn( "" );
 			}
 			
 			//Ha azert lett vege a Loop-nak, mert elerte a maximalis szamot, vagyis a feltetel meg mindig igaz (ez nem jo) 
@@ -468,12 +468,12 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 			if( neededToWait > 0 ){
 				
 				if( actualLoop == 1 ){
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "//Waiting before the next cycle" );
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "actualDate = Calendar.getInstance().getTime();" );
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "long differenceTime = actualDate.getTime() - startDate.getTime();" );
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;" );
-					progressIndicator.printSource( tab + CommonOperations.TAB_BY_SPACE + "try{ Thread.sleep( neededToWait ); } catch(InterruptedException ex) {}");
-					progressIndicator.printSource( "" );
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "//Waiting before the next cycle" );
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "actualDate = Calendar.getInstance().getTime();" );
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "long differenceTime = actualDate.getTime() - startDate.getTime();" );
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "long neededToWait = oneLoopLength * 1000L * actualLoop - differenceTime;" );
+					progressIndicator.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "try{ Thread.sleep( neededToWait ); } catch(InterruptedException ex) {}");
+					progressIndicator.printSourceLn( "" );
 				}
 				
 				try{
@@ -488,7 +488,7 @@ parameterElement.doAction( driver, progressIndicator, tab + CommonOperations.TAB
 	
 	@Override
 	public void printSourceCloseAtStop( ProgressIndicatorInterface progressIndicator, String tab) {
-		progressIndicator.printSource( tab + "} //while()");		
+		progressIndicator.printSourceLn( tab + "} //while()");		
 	}
 	
 	@Override

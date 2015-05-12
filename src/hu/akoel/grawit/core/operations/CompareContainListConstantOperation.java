@@ -220,54 +220,54 @@ public class CompareContainListConstantOperation extends ElementOperationAdapter
 		// SOURCE Starts
 		//		
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "select = new Select(webElement);" );
-			elementProgress.printSource( tab + "optionList = select.getOptions();" );
-			elementProgress.printSource( tab + "found = false;" );		
-			elementProgress.printSource( tab + "for( WebElement option: optionList ){" );		
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "optionText = \"\";" );		
+			elementProgress.printSourceLn( tab + "select = new Select(webElement);" );
+			elementProgress.printSourceLn( tab + "optionList = select.getOptions();" );
+			elementProgress.printSourceLn( tab + "found = false;" );		
+			elementProgress.printSourceLn( tab + "for( WebElement option: optionList ){" );		
+			elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "optionText = \"\";" );		
 		
 			//VALUE
 			if( containBy.equals( ListCompareByListEnum.BYVALUE ) ){			
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getAttribute(\"value\");" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getAttribute(\"value\");" );
 			
 			//TEXT
 			}else if( containBy.equals( ListCompareByListEnum.BYVISIBLETEXT ) ){		
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getText();" );		
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "optionText = option.getText();" );		
 			}
 			
 			if( null != pattern ){			
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "matcher = pattern.matcher( origText );");	
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( matcher.find() ){" );	
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
-				elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );		
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "pattern = Pattern.compile( \"" + pattern.pattern().replace("\\", "\\\\") + "\" );" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "matcher = pattern.matcher( origText );");	
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "if( matcher.find() ){" );	
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "optionText = matcher.group();" );
+				elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "}" );		
 			}
 			
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "if( optionText.equals( \"" + compareToConstantElement.getValue() + "\" ) ){" );	
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "found = true;" );
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "break;" );
-			elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "}" );			
-			elementProgress.printSource( tab + "} //for( WebElement option: optionList )" );
+			elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "if( optionText.equals( \"" + compareToConstantElement.getValue() + "\" ) ){" );	
+			elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "found = true;" );
+			elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "break;" );
+			elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "}" );			
+			elementProgress.printSourceLn( tab + "} //for( WebElement option: optionList )" );
 		
 			//Tartalmaznia kell a listanak a Stringben tarolt erteket DE nincs a listaban
 			if( containType.equals( ContainTypeListEnum.CONTAINS ) ){			
-				elementProgress.printSource( tab + "if( !found ){" );
+				elementProgress.printSourceLn( tab + "if( !found ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' is NOT in the list.");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' is NOT in the list.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' is NOT in the list\");");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.CONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' is NOT in the list\");");
 				}
-				elementProgress.printSource( tab + "}" );	
+				elementProgress.printSourceLn( tab + "}" );	
 			
 			//Nem szabad tartalmaznia DE megis a listaban van 	
 			}else if( containType.equals( ContainTypeListEnum.NOCONTAINS ) ){			
-				elementProgress.printSource( tab + "if( found ){" );
+				elementProgress.printSourceLn( tab + "if( found ){" );
 				if( isInLoop() ){
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' IS in the list.");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "break; //because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' IS in the list.");
 				}else{
-					elementProgress.printSource( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' IS in the list\");");
+					elementProgress.printSourceLn( tab + CommonOperations.TAB_BY_SPACE + "fail(\"Stopped because for the list '" + baseElement.getNameAsVariable() + "' the expection is: '" + ContainTypeListEnum.NOCONTAINS.getTranslatedName() + "' BUT '" + compareToConstantElement.getValue() + "' IS in the list\");");
 				}
-				elementProgress.printSource( tab + "}" );
+				elementProgress.printSourceLn( tab + "}" );
 			}		
 		}
 		

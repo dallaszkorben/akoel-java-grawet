@@ -602,93 +602,96 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	private void runTestcases( TestcaseDataModelAdapter testcase ){
 				
-		progressIndicator.printSource( "import org.openqa.selenium.By;" );
-		progressIndicator.printSource( "import org.openqa.selenium.WebDriver;" );
-		progressIndicator.printSource( "import org.openqa.selenium.WebElement;" );
-		progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxDriver;" );
-		progressIndicator.printSource( "import org.openqa.selenium.firefox.FirefoxProfile;" );
-		progressIndicator.printSource( "import org.openqa.selenium.interactions.Actions;" );
-		progressIndicator.printSource( "import org.openqa.selenium.WebDriverException;" );	
-		progressIndicator.printSource( "import org.openqa.selenium.JavascriptExecutor;");
-		progressIndicator.printSource( "import org.openqa.selenium.Keys;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.By;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.WebDriver;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.WebElement;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.firefox.FirefoxDriver;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.firefox.FirefoxProfile;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.interactions.Actions;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.WebDriverException;" );	
+		progressIndicator.printSourceLn( "import org.openqa.selenium.JavascriptExecutor;");		
+		progressIndicator.printSourceLn( "import org.openqa.selenium.ie.InternetExplorerDriver;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.remote.CapabilityType;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.remote.DesiredCapabilities;" );		
+		progressIndicator.printSourceLn( "import org.openqa.selenium.Keys;" );
 		
-		progressIndicator.printSource( "import org.openqa.selenium.support.ui.Select;" );
-		progressIndicator.printSource( "import org.openqa.selenium.support.ui.WebDriverWait;" );
-		progressIndicator.printSource( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
-		progressIndicator.printSource( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.support.ui.Select;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.support.ui.WebDriverWait;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.support.ui.UnexpectedTagNameException;" );
+		progressIndicator.printSourceLn( "import org.openqa.selenium.support.ui.ExpectedConditions;" );
 		
-		progressIndicator.printSource( "" );
+		progressIndicator.printSourceLn( "" );
 		
-		progressIndicator.printSource( "import java.util.concurrent.TimeUnit;" );
-		progressIndicator.printSource( "import java.util.NoSuchElementException;" );
-		progressIndicator.printSource( "import java.util.ArrayList;" );
-		progressIndicator.printSource( "import java.util.List;" );			
-		progressIndicator.printSource( "import java.util.Iterator;");
-		progressIndicator.printSource( "import java.util.regex.Matcher;");
-		progressIndicator.printSource( "import java.util.regex.Pattern;");
-		progressIndicator.printSource( "import java.util.Calendar;");
-		progressIndicator.printSource( "import java.util.Date;");
+		progressIndicator.printSourceLn( "import java.util.concurrent.TimeUnit;" );
+		progressIndicator.printSourceLn( "import java.util.NoSuchElementException;" );
+		progressIndicator.printSourceLn( "import java.util.ArrayList;" );
+		progressIndicator.printSourceLn( "import java.util.List;" );			
+		progressIndicator.printSourceLn( "import java.util.Iterator;");
+		progressIndicator.printSourceLn( "import java.util.regex.Matcher;");
+		progressIndicator.printSourceLn( "import java.util.regex.Pattern;");
+		progressIndicator.printSourceLn( "import java.util.Calendar;");
+		progressIndicator.printSourceLn( "import java.util.Date;");
 		
-		progressIndicator.printSource( "" );
+		progressIndicator.printSourceLn( "" );
 
-		progressIndicator.printSource( "import org.junit.Test;" );
-		progressIndicator.printSource( "import static org.junit.Assert.*;" );				
-		progressIndicator.printSource( "import org.junit.runner.JUnitCore;" );
-		progressIndicator.printSource( "import org.junit.runner.Result;" );
-		progressIndicator.printSource( "import org.junit.runner.notification.Failure;" );
+		progressIndicator.printSourceLn( "import org.junit.Test;" );
+		progressIndicator.printSourceLn( "import static org.junit.Assert.*;" );				
+		progressIndicator.printSourceLn( "import org.junit.runner.JUnitCore;" );
+		progressIndicator.printSourceLn( "import org.junit.runner.Result;" );
+		progressIndicator.printSourceLn( "import org.junit.runner.notification.Failure;" );
 		
-		progressIndicator.printSource( "" );
+		progressIndicator.printSourceLn( "" );
 		
-		progressIndicator.printSource( "abstract class ScriptClass{");
+		progressIndicator.printSourceLn( "abstract class ScriptClass{");
 
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "abstract public void runScript() throws Exception;" );	
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void clearParameters(){" );	
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.clear();" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public Iterator<String> getParameterIterator(){" );	
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "return parameters.iterator();" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );	
-		progressIndicator.printSource( "}" );	
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "ArrayList<String> parameters = new ArrayList<>();" );	
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "abstract public void runScript() throws Exception;" );	
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "public void addParameter( String parameter ){" );	
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.add( parameter );" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "}" );	
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "public void clearParameters(){" );	
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "this.parameters.clear();" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "}" );	
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "public Iterator<String> getParameterIterator(){" );	
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "return parameters.iterator();" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "}" );	
+		progressIndicator.printSourceLn( "}" );	
 		
-		progressIndicator.printSource( "" );	
+		progressIndicator.printSourceLn( "" );	
 		
-		progressIndicator.printSource( "public class " + CLASS_NAME + "{ ");
-		progressIndicator.printSource( "" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "By by = null;" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebElement webElement = null;");
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Select select = null;");	
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Integer index = 0;" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "WebDriver driver = null;" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
+		progressIndicator.printSourceLn( "public class " + CLASS_NAME + "{ ");
+		progressIndicator.printSourceLn( "" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "WebDriverWait wait = null;");
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "By by = null;" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "WebElement webElement = null;");
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "Select select = null;");	
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "Integer index = 0;" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "WebDriver driver = null;" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "FirefoxProfile profile = null;");
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "JavascriptExecutor executor = null;");
 		
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "String origText;" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "String optionText;" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "List<WebElement> optionList;" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "boolean found = false;" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "String origText;" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "String optionText;" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "Matcher matcher;" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "Pattern pattern;" );
 		
 		//This part is for running the Testcase as a normal Application from consol
-		progressIndicator.printSource( "" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "//For running as an Application from command line" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Result result = JUnitCore.runClasses( " + CLASS_NAME + ".class);" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "for (Failure failure : result.getFailures()) {" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "System.out.println(failure.toString());" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "}" );
-		progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}" );
-		progressIndicator.printSource( "" );
+		progressIndicator.printSourceLn( "" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "//For running as an Application from command line" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "public static void main( String[] args ){" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Result result = JUnitCore.runClasses( " + CLASS_NAME + ".class);" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "for (Failure failure : result.getFailures()) {" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "System.out.println(failure.toString());" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "}" );
+		progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "}" );
+		progressIndicator.printSourceLn( "" );
 		
 		throughTestcases( testcase );
 		
 		//Closes the MyTest Class
-		progressIndicator.printSource( "}");	
+		progressIndicator.printSourceLn( "}");	
 	}
 	
 	/**
@@ -737,27 +740,27 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		if( actualTestcase.isOn() ){
 
 			String testcaseMethodName = actualTestcase.getName().replaceAll("[^a-zA-Z0-9]+","");
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "@Test" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "public void " + testcaseMethodName + "(){" );	
-			progressIndicator.printSource( "" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int actualLoop = 0;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int maxLoopNumber;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int oneLoopLength;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Date actualDate;" );
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Date startDate;" );			
-			progressIndicator.printSource( "" );
-
-			//IMPLICIT WAIT
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "//IMPLICIT WAIT" );			
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "driver.manage().timeouts().implicitlyWait(" + WorkingDirectory.getInstance().getWaitingTime() + ", TimeUnit.SECONDS);" );
-			progressIndicator.printSource( "" );
+			progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "@Test" );
+			progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "public void " + testcaseMethodName + "(){" );	
+			progressIndicator.printSourceLn( "" );
+			progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int actualLoop = 0;" );
+			progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int maxLoopNumber;" );
+			progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "int oneLoopLength;" );
+			progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Date actualDate;" );
+			progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "Date startDate;" );			
+			progressIndicator.printSourceLn( "" );
 
 			int testcaseRow = -1;
 			
 			try{				
 
 				WebDriver webDriver = ((TestcaseRootDataModel)actualTestcase.getRoot()).getDriverDataModel().getDriver( progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE );
-			
+
+				//IMPLICIT WAIT
+				progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "//IMPLICIT WAIT" );			
+				progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE + "driver.manage().timeouts().implicitlyWait(" + WorkingDirectory.getInstance().getWaitingTime() + ", TimeUnit.SECONDS);" );
+				progressIndicator.printSourceLn( "" );
+				
 				webDriver.manage().timeouts().implicitlyWait(WorkingDirectory.getInstance().getWaitingTime(), TimeUnit.SECONDS );
 
 				int childCount = actualTestcase.getChildCount();
@@ -800,13 +803,15 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
 
-				progressIndicator.printOutputMessage( "Exception", exception.getMessage() + "(" + this.getClass().getSimpleName() + ")", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
+				progressIndicator.printOutput( "Exception", exception.getMessage() + "(" + this.getClass().getSimpleName() + ")", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );   		
-			}
+			
+			}finally{
 
-			//Closes the Test method
-			progressIndicator.printSource( CommonOperations.TAB_BY_SPACE + "}");
-			progressIndicator.printSource( "");
+				//Closes the Test method
+				progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "}");
+				progressIndicator.printSourceLn( "" );
+			}
 		}
 	}
 	
@@ -852,7 +857,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		}
 
 		@Override
-		public void printOutputMessage(String label, String message, SimpleAttributeSet attributeMessage) {
+		public void printOutput(String label, String message, SimpleAttributeSet attributeMessage) {
 			if( null == attributeMessage ){
 				attributeMessage = ATTRIBUTE_MESSAGE_NORMAL;
 			}
@@ -861,15 +866,37 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 				if( null != label && label.trim().length() != 0 ){
 					RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), label + ": ", ATTRIBUTE_LABEL );
 				}
-				RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), message + "\n\n", attributeMessage );
+				RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), message, attributeMessage );
 								
 			} catch (BadLocationException e) {}		
 		}
+
+		@Override
+		public void printOutputLn(String label, String message, SimpleAttributeSet attributeMessage) {
+			if( null == attributeMessage ){
+				attributeMessage = ATTRIBUTE_MESSAGE_NORMAL;
+			}
+			
+			printOutput( label, message, attributeMessage );
+			
+			try {				
+				RunTestcaseEditor.this.outputDocument.insertString( outputDocument.getLength(), "\n", attributeMessage );
+								
+			} catch (BadLocationException e) {}					
+		}
 		
 		@Override
-		public void printSource( String sourceCode ) {
+		public void printSource(String sourceCode) {
 			try {
-				sourceCodeDocument.insertString( sourceCodeDocument.getLength(), sourceCode + "\n", attributeSourceCodeNormal );
+				sourceCodeDocument.insertString( sourceCodeDocument.getLength(), sourceCode, attributeSourceCodeNormal );
+			} catch (BadLocationException e) {}
+		}
+		
+		@Override
+		public void printSourceLn( String sourceCode ) {
+			printSource( sourceCode );
+			try {
+				sourceCodeDocument.insertString( sourceCodeDocument.getLength(), "\n", attributeSourceCodeNormal );
 			} catch (BadLocationException e) {}
 		}
 

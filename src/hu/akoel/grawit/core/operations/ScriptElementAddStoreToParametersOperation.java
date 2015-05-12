@@ -178,8 +178,8 @@ public class ScriptElementAddStoreToParametersOperation extends ScriptOperationA
 
 			if( needToPrintSource ){
 				outputScripClass(driver, baseElement, webElement, elementProgress, tab, definedElementSet );				
-				elementProgress.printSource( tab + baseElement.getNameAsScript() + ".addParameter( " + baseElement.getNameAsVariable() + " ); //" + baseElementDataModel.getStoredValue() );
-				elementProgress.printSource( "" );
+				elementProgress.printSourceLn( tab + baseElement.getNameAsScript() + ".addParameter( " + baseElement.getNameAsVariable() + " ); //" + baseElementDataModel.getStoredValue() );
+				elementProgress.printSourceLn( "" );
 			}			
 
 			((ScriptBaseElementDataModel)baseElement).addParameter( baseElementDataModel.getStoredValue() );

@@ -128,7 +128,7 @@ public class FillWithConstantElementOperation extends ElementOperationAdapter im
 	public void doOperation(WebDriver driver, BaseElementDataModelAdapter baseElement, WebElement webElement, ProgressIndicatorInterface elementProgress, String tab, Set<String> definedElementSet, boolean needToPrintSource ) throws ElementException {
 		
 		if( needToPrintSource ){
-			elementProgress.printSource( tab + "webElement.sendKeys(\"" + constantElementDataModel.getValue() + "\");     //" + baseElement.getName() );
+			elementProgress.printSourceLn( tab + "webElement.sendKeys(\"" + constantElementDataModel.getValue() + "\");     //" + baseElement.getName() );
 		}
 		
 		if( baseElement instanceof NormalBaseElementDataModel ){
