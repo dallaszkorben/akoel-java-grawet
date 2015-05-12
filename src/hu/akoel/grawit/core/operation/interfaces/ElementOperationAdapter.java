@@ -152,7 +152,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				waitingTimeBeforeOperation *= 1000;
 				
 				if( needToPrintSource ){
-					progressIndicator.printSourceLn( tab + "try {Thread.sleep( " + waitingTimeBeforeOperation + " );} catch (InterruptedException e) {}" );
+					progressIndicator.printSourceLn( tab + "try {Thread.sleep( " + waitingTimeBeforeOperation + " );} catch (InterruptedException e) {} //BEFORE WAIT" );
 				}
 				
 				try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}
@@ -252,7 +252,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				waitingTimeAfterOperation *= 1000;
 				
 				if( needToPrintSource ){
-					progressIndicator.printSourceLn( tab + "try {Thread.sleep( " + waitingTimeAfterOperation + " );} catch (InterruptedException e) {}" );
+					progressIndicator.printSourceLn( tab + "try {Thread.sleep( " + waitingTimeAfterOperation + " );} catch (InterruptedException e) {} //AFTER WAIT" );
 				}
 				
 				try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}
