@@ -781,8 +781,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 					}					
 				}					
     		
-				//TODO kerdeses. Lehet, hogy beletehetnem a testcaseEnded()-be az addnewstatus-t, hogy majd o irja ki
-				progressIndicator.testcaseEnded( actualTestcase );
+				//TODO kerdeses. Lehet, hogy beletehetnem a testcaseEnded()-be az addnewstatus-t, hogy majd o irja ki				
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.CHECKED );
 
 			}catch( CompilationException compillationException ){
@@ -802,16 +801,16 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
     		
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
-
+				
 				progressIndicator.printOutput( "Exception", exception.getMessage() + "(" + this.getClass().getSimpleName() + ")", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );   		
 			
-			}finally{
-
-				//Closes the Test method
-				progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "}");
-				progressIndicator.printSourceLn( "" );
 			}
+
+			//Closes the Test method
+			progressIndicator.testcaseEnded( actualTestcase );
+			progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "}");
+			progressIndicator.printSourceLn( "" );			
 		}
 	}
 	

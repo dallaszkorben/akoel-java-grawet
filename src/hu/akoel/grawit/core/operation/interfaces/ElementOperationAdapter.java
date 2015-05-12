@@ -97,8 +97,6 @@ public abstract class ElementOperationAdapter implements Cloneable{
 		//
 		if( baseElement instanceof NormalBaseElementDataModel ){			
 
-			//progressIndicator.printSource( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + CommonOperations.STORAGE_NAME_PREFIX + baseElement.hashCode()  );
-			
 			if( needToPrintSource ){
 				progressIndicator.printSourceLn( tab + "//Element: " + baseElement.getName() + " (" + this.getName() + ") - " + baseElement.getNameAsVariable()  );
 			}
@@ -145,9 +143,20 @@ public abstract class ElementOperationAdapter implements Cloneable{
 			
 			//WAITING TIME BEFORE OPERATION
 			Integer waitingTimeBeforeOperation = ((NormalBaseElementDataModel)baseElement).getWaitingTimeBeforeOperation();
-
+			
 			//WAITING TIME AFTER OPERATION
 			Integer waitingTimeAfterOperation = ((NormalBaseElementDataModel)baseElement).getWaitingTimeAfterOperation();
+			
+			//Varakozik, ha szukseges a muvelet elott, a megjelenes elott es a beazonositas elott is
+			if(null != waitingTimeBeforeOperation ){
+				waitingTimeBeforeOperation *= 1000;
+				
+				if( needToPrintSource ){
+					progressIndicator.printSourceLn( tab + "try {Thread.sleep( " + waitingTimeBeforeOperation + " );} catch (InterruptedException e) {}" );
+				}
+				
+				try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}
+			}			
 			
 			//
 			//Varakozik az elem megjeleneseig - WAITING TIME FOR APPEARANCE
@@ -200,7 +209,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				throw new ElementNotFoundBySelectorException( (NormalBaseElementDataModel)baseElement, new Exception() );
 			}
 		
-			//Varakozik, ha szukseges a muvelet elott
+/*			//Varakozik, ha szukseges a muvelet elott
 			if(null != waitingTimeBeforeOperation ){
 				waitingTimeBeforeOperation *= 1000;
 				
@@ -210,7 +219,7 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				
 				try {Thread.sleep(waitingTimeBeforeOperation);} catch (InterruptedException e) {}
 			}
-		
+*/		
 			try{
 
 				//OPERATION
@@ -234,14 +243,10 @@ public abstract class ElementOperationAdapter implements Cloneable{
 					sendelementEndedMessage( elementProgress, baseElement );
 				}	
 */				
-				//De vegul megis csak tovabb kuldi a kivetelt
+				//Tovabb kuldi a kivetelt
 				throw e;				
 			}			
-			
-			if( needToPrintSource ){
-				progressIndicator.printSourceLn("");
-			}
-
+		
 			//Varakozik, ha szukseges a muvelet utan
 			if( null != waitingTimeAfterOperation ){
 				waitingTimeAfterOperation *= 1000;
@@ -251,6 +256,10 @@ public abstract class ElementOperationAdapter implements Cloneable{
 				}
 				
 				try {Thread.sleep(waitingTimeAfterOperation);} catch (InterruptedException e) {}
+			}
+			
+			if( needToPrintSource ){
+				progressIndicator.printSourceLn("");
 			}
 
 		//
