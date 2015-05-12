@@ -17,6 +17,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -414,6 +415,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 					AttributeSet as = elem.getAttributes();
 					DataModelAdapter dataModel = (DataModelAdapter)as.getAttribute(LinkOutputMessage.LINK_ATTRIBUTE);
 					if(dataModel != null){
+//TODO lista helyet egy valtozo						
 						for( LinkToNodeInTreeListener linkToNodeInTreeListener: getLinkToNodeInTreeListeners() ){
 							
 							//Kinyitja a kivant Tree ablakot
@@ -691,8 +693,36 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		throughTestcases( testcase );
 		
 		//Closes the MyTest Class
-		progressIndicator.printSourceLn( "}");	
+		progressIndicator.printSourceLn( "}");
+		
+	
+Element e = ((DefaultStyledDocument)outputPanel.getDocument()).getDefaultRootElement();
+checkElement(e);
+
+
+
 	}
+
+	private void checkElement( Element element ){
+		int length = element.getElementCount();
+
+		//Ha level
+		if( length == 0 ){			
+			AttributeSet attr = element.getAttributes();
+			DataModelAdapter dataModel = (DataModelAdapter)attr.getAttribute(LinkOutputMessage.LINK_ATTRIBUTE);
+			if(dataModel != null){
+				System.err.print( "Level neve: " + element.getName() );
+				System.err.print( " Pos: " + element.getStartOffset() + ", " + element.getEndOffset() + " Attr: " + dataModel.getName() );
+				System.err.println();
+			}
+		}
+		for( int i = 0; i < length; i++ ){
+			checkElement(element.getElement(i));
+		}
+		
+	}
+	
+	
 	
 	/**
 	 * Rekurziven vegig megy az osszes test case-en a parameterkent megadott
