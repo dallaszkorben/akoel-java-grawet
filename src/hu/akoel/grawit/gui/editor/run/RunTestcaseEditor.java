@@ -832,7 +832,7 @@ checkElement(e);
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
 				
-				progressIndicator.printOutput( "Exception", exception.getMessage() + "(" + this.getClass().getSimpleName() + ")", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
+				progressIndicator.printOutput( "Exception", exception.getMessage() + " (" + this.getClass().getSimpleName() + ")", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );   		
 			
 			}

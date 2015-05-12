@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.sound.midi.SysexMessage;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
@@ -196,13 +197,19 @@ private StandardJavaFileManager stdFileManager;
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		diagnostics = new DiagnosticCollector<JavaFileObject>();
 		
-stdFileManager = compiler.getStandardFileManager(null, null, null);
-try {
-	stdFileManager.setLocation( StandardLocation.CLASS_OUTPUT, Arrays.asList(new File( classPath )));
-} catch (IOException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}
+		if( null == compiler ){
+			System.err.println( "ToolProvider.getSystemJavaCompiler() == null. Possible reason: You use SDK instead of JDK" );
+			System.exit( -1 );
+		}
+
+		stdFileManager = compiler.getStandardFileManager(null, null, null);
+		try {
+			stdFileManager.setLocation( StandardLocation.CLASS_OUTPUT, Arrays.asList(new File( classPath )));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit( -1 );
+		}
+		
 		//Legyartom a kodot
 		StringWriter writer = new StringWriter();	
 		PrintWriter out = new PrintWriter(writer);
