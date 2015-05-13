@@ -148,9 +148,9 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 				//Ha nem futott le rendesen a teszteset
 				}catch (ElementException e){
 					
-					//Akkor becsomagolja egy PageException-ba es tovabb kuldi
+					//Akkor becsomagolja egy StepException-ba es tovabb kuldi
 					throw new StepException( this, stepElement, e );
-					//throw new PageException( this.getName(), e.getElementName(), e.getElementSelector(), e);
+					//throw new StepException( this.getName(), e.getElementName(), e.getElementSelector(), e);
 			
 				}			
 			}				

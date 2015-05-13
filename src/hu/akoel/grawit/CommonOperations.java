@@ -65,6 +65,9 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.Utilities;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -768,5 +771,39 @@ public class CommonOperations {
 		return nodes.isEmpty() ? null : new TreePath(nodes.toArray());
 	}
 	
-	
+	/**
+	 * Visszaadja egy pozicio sorat egy JTextComponent-ben 
+	 * 
+	 * @param pos
+	 * @param editor
+	 * @return
+	 */
+    public static int getRow(int pos, JTextComponent editor) {
+        int rn = (pos==0) ? 1 : 0;
+        try {
+            int offs=pos;
+            while( offs>0) {
+                offs=Utilities.getRowStart(editor, offs)-1;
+                rn++;
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        return rn;
+    }
+
+    /**
+     * Visszaadja egy pozicio oszlopat egy JTextComponent-ben
+     * @param pos
+     * @param editor
+     * @return
+     */
+    public static int getColumn(int pos, JTextComponent editor) {
+        try {
+            return pos-Utilities.getRowStart(editor, pos)+1;
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }

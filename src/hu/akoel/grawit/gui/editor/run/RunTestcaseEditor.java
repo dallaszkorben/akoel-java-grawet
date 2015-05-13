@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +18,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -39,11 +39,15 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.DefaultHighlighter.DefaultHighlightPainter;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Element;
+import javax.swing.text.Highlighter;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 import javax.swing.tree.TreeNode;
 
 import org.openqa.selenium.WebDriver;
@@ -433,7 +437,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		//Result panel
 		//------------
 		int RESULTPANEL_WIDTH = 400;
-		resultPanel = new ResultPanel( RESULTPANEL_WIDTH );
+		resultPanel = new ResultPanel( RESULTPANEL_WIDTH, outputPanel );
 		JScrollPane scrollPaneForResultPanel = new JScrollPane(resultPanel);
 		Rectangle bounds = scrollPaneForResultPanel.getViewportBorderBounds();
 		scrollPaneForResultPanel.setMinimumSize( new Dimension( RESULTPANEL_WIDTH + Math.abs( bounds.width ), 100 ) );
@@ -694,35 +698,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		
 		//Closes the MyTest Class
 		progressIndicator.printSourceLn( "}");
-		
-	
-Element e = ((DefaultStyledDocument)outputPanel.getDocument()).getDefaultRootElement();
-checkElement(e);
-
-
 
 	}
-
-	private void checkElement( Element element ){
-		int length = element.getElementCount();
-
-		//Ha level
-		if( length == 0 ){			
-			AttributeSet attr = element.getAttributes();
-			DataModelAdapter dataModel = (DataModelAdapter)attr.getAttribute(LinkOutputMessage.LINK_ATTRIBUTE);
-			if(dataModel != null){
-				System.err.print( "Level neve: " + element.getName() );
-				System.err.print( " Pos: " + element.getStartOffset() + ", " + element.getEndOffset() + " Attr: " + dataModel.getName() );
-				System.err.println();
-			}
-		}
-		for( int i = 0; i < length; i++ ){
-			checkElement(element.getElement(i));
-		}
-		
-	}
-	
-	
 	
 	/**
 	 * Rekurziven vegig megy az osszes test case-en a parameterkent megadott
@@ -973,9 +950,14 @@ checkElement(e);
 		
 		private static final int RESULT_WIDTH = 80;
 		
-		public ResultPanel( int preferredWidth ){
+		private static final int COLUMN_TESTCASE = 0;
+		private static final int COLUMN_STATUS_ICON = 1;
+		JTextPane outputPanel;
+		
+		public ResultPanel( int preferredWidth, JTextPane outputPanel ){
 			super();
 			
+			this.outputPanel = outputPanel;
 			PanelTableModel model = new PanelTableModel();
 			CustomCellRenderer renderer = new CustomCellRenderer();
 
@@ -986,19 +968,97 @@ checkElement(e);
 			this.setModel(model);
 			this.setDefaultRenderer(Object.class, renderer);
 
-			TableColumn testcaseColumn = this.getColumnModel().getColumn(0);
+			TableColumn testcaseColumn = this.getColumnModel().getColumn( COLUMN_TESTCASE );
 			testcaseColumn.setPreferredWidth( preferredWidth - RESULT_WIDTH );
 			testcaseColumn.setMinWidth( preferredWidth - RESULT_WIDTH );
 
-			TableColumn resultColumn = this.getColumnModel().getColumn(1);
+			TableColumn resultColumn = this.getColumnModel().getColumn( COLUMN_STATUS_ICON );
 			resultColumn.setPreferredWidth( RESULT_WIDTH );
 			resultColumn.setMinWidth( RESULT_WIDTH );
 
-			//This is for always see the last row
+			//This is for making the last row always visible
 			this.addComponentListener(new ComponentAdapter() {
 			    public void componentResized(ComponentEvent e) {
 			        ResultPanel.this.scrollRectToVisible(ResultPanel.this.getCellRect(ResultPanel.this.getRowCount()-1, 0, true));
 			    }
+			});
+			
+			/**
+			 * Double click on a result row leads to 
+			 * make selection of the Test case in the Output window
+			 *  
+			 */
+			this.addMouseListener( new MouseAdapter() {
+				
+				@Override
+				public void mousePressed( MouseEvent me ){
+					JTable table = (JTable)me.getSource();
+					Point point = me.getPoint();
+					int row = table.rowAtPoint( point );
+					if( me.getClickCount() == 2 ){
+						TestcaseCaseDataModel testCase = (TestcaseCaseDataModel)ResultPanel.this.getModel().getValueAt( row, COLUMN_TESTCASE );
+						Element documentElement = ((DefaultStyledDocument)ResultPanel.this.outputPanel.getDocument()).getDefaultRootElement();
+						Element foundElement = checkElement( documentElement, testCase );
+						
+						if( null != foundElement ){
+							
+							/*SimpleAttributeSet as = new SimpleAttributeSet();
+							StyleConstants.setBackground(as, Color.yellow);
+							StyledDocument doc = (StyledDocument)ResultPanel.this.outputPanel.getDocument();
+							doc.setCharacterAttributes(foundElement.getStartOffset(), foundElement.getEndOffset() - foundElement.getStartOffset(), as, false);
+							 */
+							
+							//Az adott pozicio mindenkeppen latoterbe kerul
+							try {
+								Rectangle caretRectangle = ResultPanel.this.outputPanel.modelToView( foundElement.getStartOffset() );
+								ResultPanel.this.outputPanel.scrollRectToVisible( caretRectangle );
+							} catch (BadLocationException e) {}
+							
+							//Az adott test case kivalasztasra kerul
+							ResultPanel.this.outputPanel.setSelectionStart( foundElement.getStartOffset() );
+							ResultPanel.this.outputPanel.setSelectionEnd( foundElement.getEndOffset() );
+							ResultPanel.this.outputPanel.getCaret().setSelectionVisible( true );
+							
+							
+							/*DefaultHighlightPainter painter = new DefaultHighlightPainter( Color.RED );
+							Highlighter highligter = new DefaultHighlighter();
+							ResultPanel.this.outputPanel.setHighlighter(highligter);
+							highligter.removeAllHighlights();
+							try {
+								highligter.addHighlight(0, 10, painter);
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}*/							
+						}
+					}
+				}
+				
+				private Element checkElement( Element element, TestcaseCaseDataModel testCase ){
+					
+					int length = element.getElementCount();
+
+					//Ha level
+					if( length == 0 ){			
+						AttributeSet attr = element.getAttributes();
+						TestcaseCaseDataModel dataModel = (TestcaseCaseDataModel)attr.getAttribute(LinkOutputMessage.LINK_ATTRIBUTE);
+						if(dataModel != null && dataModel.equals( testCase ) ){
+							
+//System.err.print( "Level neve: " + element.getName() );
+//System.err.print( " Pos: " + element.getStartOffset() + ", " + element.getEndOffset() + " Attr: " + dataModel.getName() );
+//System.err.println();
+							return element;
+						}
+					}
+					for( int i = 0; i < length; i++ ){
+						Element el = checkElement(element.getElement(i), testCase );
+						if( null != el ){
+							return el;
+						}
+					}
+					return null;
+				}				
+				
 			});
 			
 			//Ez teszi lehetove hogy automatikusan megjelenjen a horizontalis scrollbar, ha kell
@@ -1019,6 +1079,15 @@ checkElement(e);
 			this.repaint();
 		}
 		
+		/**
+		 * Indicate that the test case has started
+		 * Puts a new line for the test case
+		 * Puts the InProgress icon into the row
+		 * Selects the new line 
+		 * 
+		 * @param testcase
+		 * @return
+		 */
 		public int startNewTestcase( TestcaseCaseDataModel testcase ){
 			DefaultTableModel model = (DefaultTableModel) this.getModel();
 	        model.addRow(new Object[]{testcase, ResultStatus.INPROGRESS });
@@ -1027,9 +1096,16 @@ checkElement(e);
 	        return actualRow;
 		}
 		
+		/**
+		 * Indicate that the test case has stopped
+		 * Puts the result Status icon into the actual row
+		 * 
+		 * @param row
+		 * @param resultStatus
+		 */
 		public void finishTestcase( int row, ResultStatus resultStatus ){
 			DefaultTableModel model = (DefaultTableModel) this.getModel();
-			model.setValueAt( resultStatus, row, 1 );
+			model.setValueAt( resultStatus, row, ResultPanel.COLUMN_STATUS_ICON );
 //	        this.revalidate();
 //			this.repaint();
 		}
