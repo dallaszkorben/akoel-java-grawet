@@ -498,17 +498,18 @@ public class RunTestcaseEditor extends BaseEditor implements ButtonActionInterfa
 	 *  
 	 * @param testcase
 	 */
-	private void throughTestcases( TestcaseDataModelAdapter testcase ){
+	private boolean throughTestcases( TestcaseDataModelAdapter testcase ){
 
 		//TODO Lehet, hogy ez nem is kell. Ellenorizni!!!
 //		if( this.controlPanel.isStopped() ){
 //			return;
 //		}
+		boolean canContinue = true;
 		
 		//Ha egy TESTCASE-t kaptam, akkor azt vegrehajtatom
 		if( testcase instanceof TestcaseCaseDataModel ){
 			
-			executeTestcase( (TestcaseCaseDataModel)testcase );
+			canContinue = executeTestcase( (TestcaseCaseDataModel)testcase );
 			
 		//Ha egy csomopontot valasztottam ki, akkor annak elemein megyek keresztul
 		}else if( testcase instanceof TestcaseFolderDataModel || testcase instanceof TestcaseRootDataModel ){
@@ -519,10 +520,14 @@ public class RunTestcaseEditor extends BaseEditor implements ButtonActionInterfa
 				
 				Object object = testcase.getChildAt( i );
 				
-				throughTestcases( (TestcaseDataModelAdapter)object );
+				canContinue = throughTestcases( (TestcaseDataModelAdapter)object );
+				if( !canContinue ){
+					break;
+				}
 			}			
-		}		
-		return;		
+		}
+		
+		return canContinue;		
 	}
 	
 	/**
@@ -530,7 +535,9 @@ public class RunTestcaseEditor extends BaseEditor implements ButtonActionInterfa
 	 * 
 	 * @param actualTestcase
 	 */
-	private void executeTestcase( TestcaseCaseDataModel actualTestcase ){
+	private boolean executeTestcase( TestcaseCaseDataModel actualTestcase ){
+
+		boolean canContinue = true;
 		
 		Set<String> definedElementSet = new HashSet<>();
 
@@ -596,13 +603,14 @@ public class RunTestcaseEditor extends BaseEditor implements ButtonActionInterfa
     		
 				stoppedByUserException.printMessage( outputDocument );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.STOPPED );
+				canContinue = false;
     		
 			//Nem kezbentartott hiba
 			}catch( Exception exception ){
 				
 				progressIndicator.printOutput( "Exception", exception.getMessage() + " (" + this.getClass().getSimpleName() + ")", progressIndicator.ATTRIBUTE_MESSAGE_ERROR );
 				resultPanel.finishTestcase( testcaseRow, ResultStatus.FAILED );   		
-			
+				canContinue = false;
 			}
 
 			//Closes the Test method
@@ -610,6 +618,8 @@ public class RunTestcaseEditor extends BaseEditor implements ButtonActionInterfa
 			progressIndicator.printSourceLn( CommonOperations.TAB_BY_SPACE + "}");
 			progressIndicator.printSourceLn( "" );			
 		}
+		
+		return canContinue;
 	}
 	
 	class ProgressIndicator implements ProgressIndicatorInterface{

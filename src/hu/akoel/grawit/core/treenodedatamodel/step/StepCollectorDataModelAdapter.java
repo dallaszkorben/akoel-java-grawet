@@ -30,7 +30,6 @@ public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAda
 	
 	public StepCollectorDataModelAdapter(Element element, BaseRootDataModel baseRootDataModel, ConstantRootDataModel constantRootDataModel) throws XMLPharseException {
 		super(element, baseRootDataModel, constantRootDataModel);
-
 	}
 
 	public StepCollectorDataModelAdapter(String name, String details) {
@@ -106,8 +105,7 @@ public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAda
 			try {
 				
 				//attributum-kent tarolt utvonal atalakitasa Documentum-ma
-				builder = factory.newDocumentBuilder();  
-				
+				builder = factory.newDocumentBuilder();  				
 				
 				StringReader sr = new StringReader( paramPagePathString );
 				InputSource is = new InputSource( sr );
@@ -117,8 +115,7 @@ public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAda
 			} catch (Exception e) {	    	
 				
 				//Nem sikerult az atalakitas
-				throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute), e );
-	    	
+				throw new XMLBaseConversionPharseException( getRootTag(), tag, ATTR_NAME, name, attribute, element.getAttribute(attribute), e );	    	
 			} 
 			
 			//Megkeresem a BASEROOT-ben a BASEPAGE-hez vezeto utat
