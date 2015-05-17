@@ -11,6 +11,9 @@ import hu.akoel.grawit.CommonOperations;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import com.opera.core.systems.runner.launcher.OperaLauncherProtos.LauncherStatusResponse.StatusType;
 
 public class ControlPanel extends JPanel{
 
@@ -33,15 +36,15 @@ public class ControlPanel extends JPanel{
 		
 		public String getReadableName(){
 			return this.readableName;
-		}
-		
+		}		
 	}
 	
 	public static enum Action{
 		START_ACTION,
 		STOP_ACTION,
 		PAUSE_ACTION,
-		RESUME_ACTION
+		RESUME_ACTION,
+		NEXT_ACTION;
 	}
 	
 	private ImageIcon startIcon = CommonOperations.createImageIcon("control/control-play.png");
@@ -82,6 +85,8 @@ public class ControlPanel extends JPanel{
 	private JButton pauseButton;
 	private JButton resumeButton;
 	private JButton nextButton;
+	
+	private JTextField statusField;
 	
 	private boolean needToStop = false;	
 	private boolean needToPause = false;
@@ -142,8 +147,7 @@ public class ControlPanel extends JPanel{
 						//START RUNNING
 						buttonAction.doStartButtonAction();
 
-						changeStatusByAction( Action.STOP_ACTION );
-							
+						changeStatusByAction( Action.STOP_ACTION );							
 					}				 
 				}).start();
 			}						
@@ -255,8 +259,14 @@ public class ControlPanel extends JPanel{
 			}						
 		});		
 		
+		//
+		// STATUS FIELD
+		//
+		statusField = new JTextField();
+		statusField.setEditable( false );
+		statusField.setHighlighter(null);
 		
-		//Gombok elhelyezese
+/*		//Gombok elhelyezese
 		//this.setLayout( new FlowLayout() );
 		this.setLayout( new GridBagLayout() );
 		GridBagConstraints c = new GridBagConstraints();
@@ -279,28 +289,85 @@ public class ControlPanel extends JPanel{
 		c.gridx = POSITION_NEXT;
 		c.insets = new Insets( 0, 0, 0, 5 );
 		this.add( nextButton, c );
-
+		
+		c.gridx = 0;
+		c.gridy = 1;
+		c.insets = new Insets( 0, 5, 0, 5 );
+		c.gridwidth = 3;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add( statusField, c );
+*/
+		changeStatusByAction( null );
+		
 		//Indulasi beallitas
-		stopButton.setEnabled( false );
+/*		stopButton.setEnabled( false );
 		pauseButton.setEnabled( false );
 		nextButton.setEnabled( false );
 		startButton.setEnabled( true );		
-		
+*/		
 		//Ha nincs Driver definialva, akkor nem indulhat el egy teszt sem
 //		if( null == ((TestcaseRootDataModel)selectedTestcase.getRoot()).getDriverDataModel() ){
 //			startButton.setEnabled( false );
 //		}else{
 //			startButton.setEnabled( true );
 //		}
-
-		this.status = Status.STADY;
-		
 	}
 	
 	private void changeStatusByAction( Action action ){
 		
+		
+		//INITIALIZE
+		if( null == action ){
+			this.status = Status.STADY;	
+			
+			//Gombok elhelyezese
+			//this.setLayout( new FlowLayout() );
+			this.setLayout( new GridBagLayout() );
+			GridBagConstraints c = new GridBagConstraints();
+			
+			c.gridx = POSITION_START;
+			c.gridy = 0;
+			c.insets = new Insets( 0, 5, 0, 5 );
+			c.gridwidth = 1;
+			c.gridheight = 1;
+			c.fill = GridBagConstraints.NONE;
+			c.weightx = 0;
+			c.weighty = 0;
+			c.anchor = GridBagConstraints.FIRST_LINE_START;		
+			this.add(startButton, c);
+			
+			c.gridx = POSITION_STOP;
+			c.insets = new Insets( 0, 0, 0, 5 );
+			this.add(stopButton, c);
+			
+			c.gridx = POSITION_NEXT;
+			c.insets = new Insets( 0, 0, 0, 5 );
+			this.add( nextButton, c );
+			
+			c.gridx = 0;
+			c.gridy = 1;
+			c.insets = new Insets( 0, 5, 0, 5 );
+			c.gridwidth = 3;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			this.add( statusField, c );
+		
+			//Engedelyezi a Inditas gombot
+			startButton.setEnabled( true );
+
+			//Tiltja a Stop gombot
+			stopButton.setEnabled( false );
+
+			//Tiltja a Pause gombot
+			pauseButton.setEnabled( false );
+			
+			//Tiltja a Continue gombot
+	    	resumeButton.setEnabled( false );
+	    	
+	    	//Tiltja a Next gombot
+	    	nextButton.setEnabled( false );		    
+	    	
 		//START
-		if( action.equals( Action.START_ACTION ) ){
+		}else if( action.equals( Action.START_ACTION ) ){
 			
 			//Ha az aktualis status STEADY
 			if( status.equals( Status.STADY ) ){
@@ -525,8 +592,9 @@ public class ControlPanel extends JPanel{
 				System.err.println( "gaz van a statuszokkal");
 				System.exit( -1 );
 			}
-		}
+		}	
 		
+		statusField.setText( status.getReadableName() );
 	}
 
 	public void setButtonAction( ButtonActionInterface buttonAction ) {
