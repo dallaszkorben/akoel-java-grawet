@@ -13,8 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.opera.core.systems.runner.launcher.OperaLauncherProtos.LauncherStatusResponse.StatusType;
-
 public class ControlPanel extends JPanel{
 
 	private static final long serialVersionUID = 4573456891692096378L;
@@ -23,10 +21,10 @@ public class ControlPanel extends JPanel{
 	private static final int POSITION_NEXT = 2;
 	
 	
-	public static enum Status{
-		RUNNING( "Running" ),
-		PAUSING( "Paused" ),
-		STADY( "Steady" );
+	public static enum Status{		
+		RUNNING( CommonOperations.getTranslation("editor.label.run.control.status.running") ),
+		PAUSING( CommonOperations.getTranslation("editor.label.run.control.status.paused") ),
+		STEADY( CommonOperations.getTranslation("editor.label.run.control.status.steady") );
 		
 		private String readableName;
 		
@@ -318,7 +316,7 @@ public class ControlPanel extends JPanel{
 		
 		//INITIALIZE
 		if( null == action ){
-			this.status = Status.STADY;	
+			this.status = Status.STEADY;	
 			
 			//Gombok elhelyezese
 			//this.setLayout( new FlowLayout() );
@@ -370,7 +368,7 @@ public class ControlPanel extends JPanel{
 		}else if( action.equals( Action.START_ACTION ) ){
 			
 			//Ha az aktualis status STEADY
-			if( status.equals( Status.STADY ) ){
+			if( status.equals( Status.STEADY ) ){
 				
 				//Akkor most RUNNING kovetkezik
 				this.status = Status.RUNNING;
@@ -421,7 +419,7 @@ public class ControlPanel extends JPanel{
 			//Ha az aktualis status RUNNING
 			if( status.equals( Status.RUNNING ) ){
 				
-				this.status = Status.STADY;
+				this.status = Status.STEADY;
 				
 				//A figyelok szamara jelzem, hogy ne allitsak meg es ne pause-oljak a futast
 				//setNeedToStop( false );
@@ -461,7 +459,7 @@ public class ControlPanel extends JPanel{
 			//Ha az aktualis status PAUSE
 			}else if( status.equals( Status.PAUSING ) ){
 				
-				this.status = Status.STADY;
+				this.status = Status.STEADY;
 				
 				//A figyelok szamara jelzem, hogy ne allitsak meg es ne pause-oljak a futast
 				//setNeedToStop( false );
