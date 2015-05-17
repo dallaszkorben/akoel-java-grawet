@@ -11,7 +11,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.Player;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseCollectorDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
@@ -23,6 +22,7 @@ import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
+import hu.akoel.grawit.gui.tree.ControlPanel;
 
 public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAdapter implements ExecutableStepInterface{ //extends ParamDataModelAdapter implements ExecutablePageInterface{
 
@@ -45,21 +45,22 @@ public abstract class StepCollectorDataModelAdapter extends StepNodeDataModelAda
 	
 	abstract public void printSourceCloseAtStop( ProgressIndicatorInterface progressIndicator, String tab );
 	
-	public void checkAndExecuteRequestsFromUser( Player player, ProgressIndicatorInterface progressIndicator, String tab ) throws StoppedByUserException{
+	public void checkAndExecuteRequestsFromUser( ControlPanel controlPanel, ProgressIndicatorInterface progressIndicator, String tab ) throws StoppedByUserException{
 		
-		if( player.isStopped() ){
+		if( controlPanel.neededToStop() ){
 			
 			//A While loopot le kell azert zarni
 			printSourceCloseAtStop(progressIndicator, tab);
 			
+			//Visszater
 			throw new StoppedByUserException();
 		}
 		
 		//Ha varakozasi parancs van kiadva, akkor addig varakozik, amig ez fenn all
-		while( player.isPaused() ){
+		while( controlPanel.neededToPause() ){
 
 			//vagy amig nem erkezett egy stop parancs
-			if( player.isStopped() ){
+			if( controlPanel.neededToStop() ){
 				throw new StoppedByUserException();
 			}
 	

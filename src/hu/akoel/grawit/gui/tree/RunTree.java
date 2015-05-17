@@ -2,6 +2,9 @@ package hu.akoel.grawit.gui.tree;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -26,6 +29,7 @@ public class RunTree extends Tree {
 	private static final long serialVersionUID = -7539183206534337777L;
 	private GUIFrame guiFrame;
 	private DriverRootDataModel driverRootDataModel;
+	private ControlPanel controlPanel;
 	
 	private HashMap<TestcaseDataModelAdapter, RunTestcaseEditor> testcaseMap = new HashMap<>();
 
@@ -38,6 +42,8 @@ public class RunTree extends Tree {
 		this.removePopupUp();
 		this.removePopupDown();
 		this.removePopupModify();
+		
+		controlPanel = new ControlPanel();
 	}
 	
 	@Override
@@ -78,10 +84,18 @@ public class RunTree extends Tree {
 	@Override
 	public void doViewWhenSelectionChanged(DataModelAdapter selectedNode) {
 		
+		//Eltavolitom minden editorbol a controlPanel-t
+		for (Map.Entry<TestcaseDataModelAdapter, RunTestcaseEditor> entry : testcaseMap.entrySet()) {
+			TestcaseDataModelAdapter key = entry.getKey();
+			RunTestcaseEditor value = entry.getValue();
+			value.removeControlPanel(controlPanel);
+		}
+		
+		
 		//Ha a root-ot valasztottam
 		if( selectedNode instanceof TestcaseRootDataModel ){									
 			//guiFrame.showEditorPanel( emptyPanel );
-			
+						
 			RunTestcaseEditor editor = testcaseMap.get(selectedNode);
 			if( null == editor ){
 				editor = new RunTestcaseEditor( this, (TestcaseRootDataModel)selectedNode, driverRootDataModel );
@@ -90,7 +104,9 @@ public class RunTree extends Tree {
 				}
 				testcaseMap.put((TestcaseRootDataModel)selectedNode, editor );
 			}
-
+			controlPanel.setButtonAction( editor );
+			editor.setControlPanel( controlPanel );
+			
 			guiFrame.showEditorPanel( editor );
 			
 		}else if( selectedNode instanceof TestcaseFolderDataModel ){
@@ -103,7 +119,9 @@ public class RunTree extends Tree {
 				}
 				testcaseMap.put((TestcaseFolderDataModel)selectedNode, editor );
 			}
-
+			controlPanel.setButtonAction( editor );
+			editor.setControlPanel( controlPanel );
+			
 			guiFrame.showEditorPanel( editor );
 			
 		}else if( selectedNode instanceof TestcaseCaseDataModel ){
@@ -115,8 +133,10 @@ public class RunTree extends Tree {
 					editor.addLinkToNodeInTreeListener( linkToNodeInTreeListener );
 				}
 				testcaseMap.put((TestcaseCaseDataModel)selectedNode, editor );
-			}
-				
+			}				
+			controlPanel.setButtonAction( editor );
+			editor.setControlPanel( controlPanel );
+			
 			guiFrame.showEditorPanel( editor );
 					
 		}
@@ -178,9 +198,7 @@ public class RunTree extends Tree {
 			linkToStepMenu.addActionListener( new LinkToElementListener( testcaseCase ) );
 				
 			popupMenu.addSeparator();
-			popupMenu.add( linkToStepMenu );
-			
+			popupMenu.add( linkToStepMenu );			
 		}
 	}
-
 }

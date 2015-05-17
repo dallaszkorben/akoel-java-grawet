@@ -1,7 +1,6 @@
 package hu.akoel.grawit.core.treenodedatamodel.testcase;
 
 import java.io.StringReader;
-
 import java.util.Set;
 
 import javax.swing.tree.MutableTreeNode;
@@ -9,7 +8,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.Player;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
@@ -28,6 +26,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
+import hu.akoel.grawit.gui.tree.ControlPanel;
 
 import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
@@ -299,7 +298,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 	}
 
 	@Override
-	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws StepException, CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, ControlPanel controlPanel, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws StepException, CompilationException, StoppedByUserException {
 		
 		//Ha Be van kapcsolava a TestParamPage oldal
 		if( this.isOn() ){
@@ -309,7 +308,7 @@ public class TestcaseStepCollectorDataModel extends TestcaseStepDataModelAdapter
 				testcaseStepProgres.stepStarted( this );
 			}	
 */			
-			stepCollector.doAction( driver, player, progressIndicator, tab, definedElementSet );
+			stepCollector.doAction( driver, controlPanel, progressIndicator, tab, definedElementSet );
 			
 /*			//Jelzi, hogy befejezodott a cikus
 			if( null != testcaseStepProgres ){

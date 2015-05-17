@@ -10,7 +10,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.Player;
 import hu.akoel.grawit.core.operation.interfaces.CompareOperationInterface;
 import hu.akoel.grawit.core.operation.interfaces.ElementOperationAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
@@ -32,6 +31,7 @@ import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLMissingAttributePharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
+import hu.akoel.grawit.gui.tree.ControlPanel;
 
 import org.openqa.selenium.WebDriver;
 import org.w3c.dom.Attr;
@@ -358,7 +358,7 @@ public class StepLoopCollectorDataModel extends StepCollectorDataModelAdapter {
 	}	
 
 	@Override
-	public void doAction(WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws StepException, CompilationException, StoppedByUserException {
+	public void doAction(WebDriver driver, ControlPanel controlPanel, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws StepException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel parameterElement;
 		
@@ -403,7 +403,7 @@ getElementOperation().doAction(driver, getCompareBaseElement(), progressIndicato
 				for( int index = 0; index < childCount; index++ ){
 				
 					//A felhasznalo Player gombokon keresztuli kereseire reagal
-					checkAndExecuteRequestsFromUser( player, progressIndicator, tab );
+					checkAndExecuteRequestsFromUser( controlPanel, progressIndicator, tab );
 					
 					//Parameterezett elem
 					parameterElement = (StepElementDataModel)this.getChildAt( index );

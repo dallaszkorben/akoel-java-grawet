@@ -13,7 +13,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.Player;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseElementDataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.base.BaseRootDataModel;
 import hu.akoel.grawit.core.treenodedatamodel.constant.ConstantRootDataModel;
@@ -25,6 +24,7 @@ import hu.akoel.grawit.exceptions.StoppedByUserException;
 import hu.akoel.grawit.exceptions.XMLBaseConversionPharseException;
 import hu.akoel.grawit.exceptions.XMLPharseException;
 import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
+import hu.akoel.grawit.gui.tree.ControlPanel;
 
 public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter {
 	
@@ -123,7 +123,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 	}
 	
 	@Override
-	public void doAction( WebDriver driver, Player player, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws StepException, CompilationException, StoppedByUserException {
+	public void doAction( WebDriver driver, ControlPanel controlPanel, ProgressIndicatorInterface progressIndicator, String tab, Set<String> definedElementSet ) throws StepException, CompilationException, StoppedByUserException {
 		
 		StepElementDataModel stepElement;
 
@@ -131,7 +131,7 @@ public class StepNormalCollectorDataModel extends StepCollectorDataModelAdapter 
 		for( int i = 0; i < childrenCount; i++ ){
 
 			//A felhasznalo Player gombokon keresztuli kereseire reagal
-			checkAndExecuteRequestsFromUser( player, progressIndicator, tab );
+			checkAndExecuteRequestsFromUser( controlPanel, progressIndicator, tab );
 			
 			//Parameterezett elem
 			stepElement = (StepElementDataModel)this.getChildAt( i );

@@ -5,14 +5,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -24,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,21 +35,16 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.DefaultHighlighter.DefaultHighlightPainter;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Element;
-import javax.swing.text.Highlighter;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-import javax.swing.text.StyledDocument;
 import javax.swing.tree.TreeNode;
 
 import org.openqa.selenium.WebDriver;
 
 import hu.akoel.grawit.CommonOperations;
-import hu.akoel.grawit.Player;
 import hu.akoel.grawit.WorkingDirectory;
 import hu.akoel.grawit.core.treenodedatamodel.DataModelAdapter;
 import hu.akoel.grawit.core.treenodedatamodel.driver.DriverDataModelAdapter;
@@ -71,10 +62,12 @@ import hu.akoel.grawit.gui.interfaces.progress.ProgressIndicatorInterface;
 import hu.akoel.grawit.gui.output.message.AttributedOutputMessage;
 import hu.akoel.grawit.gui.output.message.LinkOutputMessage;
 import hu.akoel.grawit.gui.output.message.OutputMessageAdapter;
+import hu.akoel.grawit.gui.tree.ButtonActionInterface;
+import hu.akoel.grawit.gui.tree.ControlPanel;
 import hu.akoel.grawit.gui.tree.LinkToNodeInTreeListener;
 import hu.akoel.grawit.gui.tree.Tree;
 
-public class RunTestcaseEditor extends BaseEditor implements Player{
+public class RunTestcaseEditor extends BaseEditor implements ButtonActionInterface{
 	
 	private static final long serialVersionUID = -7285419881714492620L;
 	
@@ -86,11 +79,6 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	
 	private ArrayList<LinkToNodeInTreeListener> linkToNodeInTreeListeners = new ArrayList<LinkToNodeInTreeListener>();
 	
-	private JButton startButton;
-	private JButton stopButton;
-	private JButton pauseButton;
-	private JButton continueButton;
-
 	private ResultPanel resultPanel;
 	private JTextPane sourceCodePanel;
 	private DefaultStyledDocument sourceCodeDocument;
@@ -98,27 +86,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	private DefaultStyledDocument outputDocument;	
 	
 	private SimpleAttributeSet attributeSourceCodeNormal;
-	
-	private boolean needToStop = false;	
-	private boolean needToPause = false;
-	
-	private void setNeedToStop( boolean needToStop ){
-		this.needToStop = needToStop;
-	}
-	
-	private void setNeedToPause( boolean needToPause ){
-		this.needToPause = needToPause;
-	}
 
-	@Override
-	public boolean isStopped() {
-		return needToStop;
-	}
-
-	@Override
-	public boolean isPaused() {
-		return needToPause;
-	}
+	private ControlPanel controlPanel;
 
 	public RunTestcaseEditor( Tree tree, TestcaseDataModelAdapter testcaseDataModel, DriverDataModelAdapter driverDataModel ){	
 
@@ -134,221 +103,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		this.selectedTestcase = testcaseDataModel;
 
 		progressIndicator = new ProgressIndicator();		
-		
-		ImageIcon startIcon = CommonOperations.createImageIcon("control/control-play.png");
-		ImageIcon startDisabledIcon = CommonOperations.createImageIcon("control/control-play-disabled.png");
-		ImageIcon startRolloverIcon = CommonOperations.createImageIcon("control/control-play-rollover.png");
-		ImageIcon startPressedIcon = CommonOperations.createImageIcon("control/control-play-pressed.png");
-		ImageIcon startSelectedIcon = CommonOperations.createImageIcon("control/control-play-selected.png");		
-		
-		ImageIcon stopIcon = CommonOperations.createImageIcon("control/control-stop.png");
-		ImageIcon stopDisabledIcon = CommonOperations.createImageIcon("control/control-stop-disabled.png");
-		ImageIcon stopRolloverIcon = CommonOperations.createImageIcon("control/control-stop-rollover.png");
-		ImageIcon stopPressedIcon = CommonOperations.createImageIcon("control/control-stop-pressed.png");
-		ImageIcon stopSelectedIcon = CommonOperations.createImageIcon("control/control-stop-selected.png");
-		
-		ImageIcon pauseIcon = CommonOperations.createImageIcon("control/control-pause.png");
-		ImageIcon pauseDisabledIcon = CommonOperations.createImageIcon("control/control-pause-disabled.png");
-		ImageIcon pauseRolloverIcon = CommonOperations.createImageIcon("control/control-pause-rollover.png");
-		ImageIcon pausePressedIcon = CommonOperations.createImageIcon("control/control-pause-pressed.png");
-		ImageIcon pauseSelectedIcon = CommonOperations.createImageIcon("control/control-pause-selected.png");
-		
-		ImageIcon continueIcon = CommonOperations.createImageIcon("control/control-continue.png");
-		ImageIcon continueDisabledIcon = CommonOperations.createImageIcon("control/control-continue-disabled.png");
-		ImageIcon continueRolloverIcon = CommonOperations.createImageIcon("control/control-continue.png");
-		ImageIcon continuePressedIcon = CommonOperations.createImageIcon("control/control-continue.png");
-		ImageIcon continueSelectedIcon = CommonOperations.createImageIcon("control/control-continue.png");
-		
-		
-		// -------------
-		//
-		// CONTROL PANEL
-		//
-		// -------------
-		
-		//
-		// START
-		//
-		startButton = new JButton();
-		
-		startButton.setBorderPainted(false);
-		startButton.setBorder(null);
-		startButton.setFocusable(false);
-		startButton.setMargin(new Insets(0, 0, 0, 0));
-		startButton.setContentAreaFilled(false);
 
-		startButton.setSelectedIcon(startSelectedIcon);
-		startButton.setRolloverIcon((startRolloverIcon));
-		startButton.setPressedIcon(startPressedIcon);
-		startButton.setDisabledIcon(startDisabledIcon);		
-		startButton.setIcon(startIcon);
-		
-		startButton.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-								
-				new Thread( new Runnable() {
-
-					@Override
-					public void run() {
-						
-						//Letiltja a Inditas gombot
-						RunTestcaseEditor.this.startButton.setEnabled( false );
-						setNeedToStop( false );
-						setNeedToPause( false );
-						
-						//Engedelyezi a Stop gombot
-						RunTestcaseEditor.this.stopButton.setEnabled( true );
-
-						//Engedelyezi a Pause gombot
-						RunTestcaseEditor.this.pauseButton.setEnabled( true );
-						
-						//Tiltja a Continue gombot
-						RunTestcaseEditor.this.continueButton.setEnabled( false );
-						
-						//Torli a panelek tartalmat
-						outputPanel.setText("");
-						resultPanel.clear();
-						sourceCodePanel.setText("");
-						
-//for(int i=0; i<20; i++){						
-						//Vegrehajtja a teszteset(ek)et
-						runTestcases( RunTestcaseEditor.this.selectedTestcase );
-						//throughTestcases( RunTestcaseEditor.this.selectedTestcase );
-//}				    	
-						//Engedelyezi az Inditas gombot
-				    	RunTestcaseEditor.this.startButton.setEnabled( true );
-				    	
-				    	//Tiltja a Stop gombot
-				    	RunTestcaseEditor.this.stopButton.setEnabled( false );
-				    	
-				    	//Tiltja a Pause gombot
-				    	RunTestcaseEditor.this.pauseButton.setEnabled( false );		
-				    	
-						//Tiltja a Continue gombot
-						RunTestcaseEditor.this.continueButton.setEnabled( false );
-					}				 
-				}).start();
-			}						
-		});		
-
-		//
-		// STOP
-		//
-		stopButton = new JButton();
-		
-		stopButton.setBorderPainted(false);
-		stopButton.setBorder(null);
-		stopButton.setFocusable(false);
-		stopButton.setMargin(new Insets(0, 0, 0, 0));
-		stopButton.setContentAreaFilled(false);
-
-		stopButton.setSelectedIcon(stopSelectedIcon);
-		stopButton.setRolloverIcon((stopRolloverIcon));
-		stopButton.setPressedIcon(stopPressedIcon);
-		stopButton.setDisabledIcon(stopDisabledIcon);
-		stopButton.setIcon(stopIcon);
-
-		stopButton.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-								
-				setNeedToStop( true );
-				setNeedToPause( false );
-
-			}						
-		});	
-		
-		//
-		// PAUSE
-		//
-		pauseButton = new JButton();
-		
-		pauseButton.setBorderPainted(false);
-		pauseButton.setBorder(null);
-		pauseButton.setFocusable(false);
-		pauseButton.setMargin(new Insets(0, 0, 0, 0));
-		pauseButton.setContentAreaFilled(false);
-
-		pauseButton.setSelectedIcon(pauseSelectedIcon);
-		pauseButton.setRolloverIcon((pauseRolloverIcon));
-		pauseButton.setPressedIcon(pausePressedIcon);
-		
-		pauseButton.setDisabledIcon(pauseDisabledIcon);
-		pauseButton.setIcon(pauseIcon);
-		
-		pauseButton.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-								
-				//Letiltja a Pause gombot
-				RunTestcaseEditor.this.pauseButton.setEnabled( false );
-				
-				//Engedelyezi a Continue gombot
-				RunTestcaseEditor.this.continueButton.setEnabled( true );
-				
-				setNeedToPause( true );
-
-			}						
-		});	
-		
-		//
-		// CONTINUE
-		//
-		continueButton = new JButton();
-		
-		continueButton.setBorderPainted(false);
-		continueButton.setBorder(null);
-		continueButton.setFocusable(false);
-		continueButton.setMargin(new Insets(0, 0, 0, 0));
-		continueButton.setContentAreaFilled(false);
-
-		continueButton.setSelectedIcon(continueSelectedIcon);
-		continueButton.setRolloverIcon((continueRolloverIcon));
-		continueButton.setPressedIcon(continuePressedIcon);		
-		continueButton.setDisabledIcon(continueDisabledIcon);
-		continueButton.setIcon(continueIcon);
-		
-		continueButton.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-								
-				//Engedelyezem a Pause gombot
-				RunTestcaseEditor.this.pauseButton.setEnabled( true );
-				
-				//Tiltom a Continue gombot
-				RunTestcaseEditor.this.continueButton.setEnabled( false );
-				
-				setNeedToPause( false );	
-			}						
-		});	
-
-		//Indulasi beallitas
-		stopButton.setEnabled( false );
-		pauseButton.setEnabled( false );
-		continueButton.setEnabled( false );
-		
-		//Ha nincs Driver definialva, akkor nem indulhat el egy teszt sem
-		if( null == ((TestcaseRootDataModel)selectedTestcase.getRoot()).getDriverDataModel() ){
-			startButton.setEnabled( false );
-		}else{
-			startButton.setEnabled( true );
-		}
-		
-		//---------------
-		// Control panel
-		//---------------
-		JPanel controlPanel = new JPanel();
-		controlPanel.setLayout( new FlowLayout() );
-		controlPanel.add(startButton);
-		controlPanel.add(stopButton);
-		controlPanel.add( pauseButton );
-		controlPanel.add( continueButton );
-		
 		//---------------
 		//
 		// Source code panel
@@ -402,12 +157,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	            	   outputPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	               }else{
 	            	   outputPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					}
-
-	               //if(StyleConstants.isUnderline(as))
-	               //     outputPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-	               //else
-	               //     outputPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	               }
 	          }
 		});
 		
@@ -451,7 +201,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		mainPanel.setLayout(new GridBagLayout());	
 		mainPanel.setBorder( BorderFactory.createEmptyBorder( 0, 0, 0, 0 ) );
 	
-		// CONTROL PANEL elhelyezese
+/*		// CONTROL PANEL elhelyezese
 		c.gridx = 0;
 		c.gridy = 1;
 		c.insets = new Insets(0,0,0,0);
@@ -462,7 +212,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		mainPanel.add( controlPanel, c );
-		
+*/		
 		// Ideiglenes kitolto az options-helyett
 		c.gridx = 0;
 		c.gridy = 2;
@@ -501,10 +251,8 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		c.weightx = 0;
 		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		//mainPanel.add( new JLabel(), c );		
 		JPanel b3 = new JPanel();
 		b3.setPreferredSize(new Dimension(50,10));
-		//b3.setBackground( Color.BLUE );
 		mainPanel.add( b3, c );	
 		
 		//	RESULT PANEL felirat
@@ -589,6 +337,49 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 
 	public ArrayList<LinkToNodeInTreeListener> getLinkToNodeInTreeListeners(){
 		return linkToNodeInTreeListeners;
+	}
+	
+	public void setControlPanel( ControlPanel controlPanel ){
+		
+		BorderLayout layout = (BorderLayout)this.getLayout();
+		JPanel mainPanel = (JPanel)layout.getLayoutComponent( BorderLayout.CENTER );
+		
+		GridBagConstraints c = new GridBagConstraints();		
+		
+		// CONTROL PANEL elhelyezese
+		c.gridx = 0;
+		c.gridy = 1;
+		c.insets = new Insets(0,0,0,0);
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+			
+		mainPanel.add( controlPanel, c );
+		
+		this.controlPanel = controlPanel;
+	}
+	
+	public void removeControlPanel( ControlPanel controlPanel ){
+		BorderLayout layout = (BorderLayout)this.getLayout();
+		JPanel mainPanel = (JPanel)layout.getLayoutComponent( BorderLayout.CENTER );
+		mainPanel.remove( controlPanel );
+	}
+	
+	/**
+	 * Start gomb hatasara torli az ablakok tartalmat
+	 * es elinditja a tesztet
+	 */
+	@Override
+	public void doStartButtonAction() {
+		outputPanel.setText("");
+		resultPanel.clear();
+		sourceCodePanel.setText("");
+					
+		//Vegrehajtja a teszteset(ek)et
+		runTestcases( RunTestcaseEditor.this.selectedTestcase );		
 	}
 	
 	
@@ -710,9 +501,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 	private void throughTestcases( TestcaseDataModelAdapter testcase ){
 
 		//TODO Lehet, hogy ez nem is kell. Ellenorizni!!!
-		if( isStopped() ){
-			return;
-		}
+//		if( this.controlPanel.isStopped() ){
+//			return;
+//		}
 		
 		//Ha egy TESTCASE-t kaptam, akkor azt vegrehajtatom
 		if( testcase instanceof TestcaseCaseDataModel ){
@@ -784,7 +575,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 					if( treeNode instanceof TestcaseStepDataModelAdapter ){
 						
 						TestcaseStepDataModelAdapter pageToRun = (TestcaseStepDataModelAdapter)treeNode;					
-						pageToRun.doAction(webDriver, this, progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE, definedElementSet );
+						pageToRun.doAction(webDriver, controlPanel, progressIndicator, CommonOperations.TAB_BY_SPACE + CommonOperations.TAB_BY_SPACE, definedElementSet );
 					}					
 				}					
     		
@@ -1002,12 +793,6 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 						
 						if( null != foundElement ){
 							
-							/*SimpleAttributeSet as = new SimpleAttributeSet();
-							StyleConstants.setBackground(as, Color.yellow);
-							StyledDocument doc = (StyledDocument)ResultPanel.this.outputPanel.getDocument();
-							doc.setCharacterAttributes(foundElement.getStartOffset(), foundElement.getEndOffset() - foundElement.getStartOffset(), as, false);
-							 */
-							
 							//Az adott pozicio mindenkeppen latoterbe kerul
 							try {
 								Rectangle caretRectangle = ResultPanel.this.outputPanel.modelToView( foundElement.getStartOffset() );
@@ -1017,19 +802,7 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 							//Az adott test case kivalasztasra kerul
 							ResultPanel.this.outputPanel.setSelectionStart( foundElement.getStartOffset() );
 							ResultPanel.this.outputPanel.setSelectionEnd( foundElement.getEndOffset() );
-							ResultPanel.this.outputPanel.getCaret().setSelectionVisible( true );
-							
-							
-							/*DefaultHighlightPainter painter = new DefaultHighlightPainter( Color.RED );
-							Highlighter highligter = new DefaultHighlighter();
-							ResultPanel.this.outputPanel.setHighlighter(highligter);
-							highligter.removeAllHighlights();
-							try {
-								highligter.addHighlight(0, 10, painter);
-							} catch (BadLocationException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}*/							
+							ResultPanel.this.outputPanel.getCaret().setSelectionVisible( true );			
 						}
 					}
 				}
@@ -1043,10 +816,6 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 						AttributeSet attr = element.getAttributes();
 						TestcaseCaseDataModel dataModel = (TestcaseCaseDataModel)attr.getAttribute(LinkOutputMessage.LINK_ATTRIBUTE);
 						if(dataModel != null && dataModel.equals( testCase ) ){
-							
-//System.err.print( "Level neve: " + element.getName() );
-//System.err.print( " Pos: " + element.getStartOffset() + ", " + element.getEndOffset() + " Attr: " + dataModel.getName() );
-//System.err.println();
 							return element;
 						}
 					}
@@ -1065,10 +834,9 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			this.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );				
 		}
 		
-		/*public boolean getScrollableTracksViewportWidth(){
-            return getPreferredSize().width < getParent().getWidth();
-        }*/
-		
+		/**
+		 * Torli a ResultPanel tartalmat
+		 */
 		public void clear(){
 			DefaultTableModel dm = (DefaultTableModel) getModel();
 			int rowCount = dm.getRowCount();
@@ -1135,7 +903,6 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 		    	}
 		        return returnLabel;
 		    }
-
 		}
 		
 		class PanelTableModel extends DefaultTableModel {
@@ -1192,4 +959,6 @@ public class RunTestcaseEditor extends BaseEditor implements Player{
 			return label;
 		}		
 	}
+
+
 }
