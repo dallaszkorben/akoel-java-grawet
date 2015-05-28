@@ -17,7 +17,7 @@ public class Grawit {
 	
 	WebDriver driver;
 
-	public static void main(String args[]) {
+	public static void main( String args[] ) {
 		//System.err.println(System.getProperty("sun.arch.data.model")); 
 		//System.err.println(CommonOperations.getSettingsDirectory( grawitIniDirectory ));
 		
