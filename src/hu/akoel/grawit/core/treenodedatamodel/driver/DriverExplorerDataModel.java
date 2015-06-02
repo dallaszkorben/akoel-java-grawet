@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.swing.tree.MutableTreeNode;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -180,7 +181,7 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 	public WebDriver getDriver(  ProgressIndicatorInterface elementProgres, String tab ) {
 		
 		elementProgres.printSourceLn( tab + "DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();");	
-		elementProgres.printSourceLn( tab + "capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);");
+		elementProgres.printSourceLn( tab + "capabilities.setCapability( InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true ); ");
 		
 		DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
 		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
@@ -194,11 +195,13 @@ public class DriverExplorerDataModel extends DriverBrowserDataModelInterface<Dri
 			
 			capabilities.setCapability(key, value);
 		}
-		
-		elementProgres.printSourceLn(  tab + "driver = new InternetExplorerDriver(capabilities);");
+				
+		elementProgres.printSourceLn(  tab + "System.setProperty( \"webdriver.ie.driver\", \"" + StringEscapeUtils.escapeJava( getWebDriverPath().getAbsolutePath() ) + "\" );" );		
+		elementProgres.printSourceLn(  tab + "driver = new InternetExplorerDriver( capabilities );");
 		elementProgres.printSourceLn(  "" );
 		
-		return new InternetExplorerDriver(capabilities);
+		System.setProperty( "webdriver.ie.driver", getWebDriverPath().getAbsolutePath() );
+		return new InternetExplorerDriver( capabilities );
 	}
 
 	@Override
