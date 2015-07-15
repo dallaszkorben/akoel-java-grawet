@@ -80,7 +80,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.w3c.dom.Element;
 
-import com.opera.core.systems.OperaDriver;
+//import com.opera.core.systems.OperaDriver;
 
 public class CommonOperations {
 	
@@ -184,7 +184,7 @@ public class CommonOperations {
 		}else if( browser.equals( Browser.EXPLORER)){
 			driver = new InternetExplorerDriver();
 		}else if( browser.equals( Browser.OPERA )){
-			driver = new OperaDriver();
+//			driver = new OperaDriver();
 		}
 		return driver;
 	}
