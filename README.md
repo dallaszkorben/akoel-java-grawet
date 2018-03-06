@@ -1,5 +1,7 @@
 # GRAWIT Test Framework
 
+![data_connections](https://raw.githubusercontent.com/dallaszkorben/java-hu.akoel.grawit/master/wiki/runtab.png)
+
 ## Goals:
 - Build Test Cases without having programming skills
 - Easy  to modify the code
@@ -10,28 +12,30 @@
 - With Selenium Webdriver
 - Structures are represented in threes
 ## Elements
-- Basic Element
+- Base Element
 - Element step
 - Test Case
 - Parameters
 - Driver 
-  ### Basic Element
+  ### Base Element <img src="https://raw.githubusercontent.com/dallaszkorben/java-hu.akoel.grawit/master/wiki/baseelement.png" width="32" height="32">
   - Types: Text field, Link, Checkbox ...
   - Identifier
   - Identification types: id/css ~~xpath~~
   - Timing
-  ### Element step
-  - Basic Element-You make operations always on Basic Element
-  - Operations-Depends on the type of the Basic Element
-  - Parameters-Depends on the type of the Basic Element - Constant, Saved value ...
-  ### Test Case
+  ### Element step  <img src="https://raw.githubusercontent.com/dallaszkorben/java-hu.akoel.grawit/master/wiki/baseelement.png" width="32" height="32">
+  - Base Element-You make operations always on Base Element
+  - Operations-Depends on the type of the Base Element
+  - Parameters-Depends on the type of the Base Element - Constant, Saved value ...
+  ### Test Case <img src="https://raw.githubusercontent.com/dallaszkorben/java-hu.akoel.grawit/master/wiki/testcase.png" width="32" height="32">
   - Collections of the Element steps (in sequence)
-  ### Parameters
+  ### Parameters  <img src="https://raw.githubusercontent.com/dallaszkorben/java-hu.akoel.grawit/master/wiki/constant.png" width="32" height="32">
   - String
   - Constant
   - Saved value by the Base Element
   ### Driver
-	- Now only the Windows Explorer and Firefox is supported
+	- Now only the Windows Explorer 
+	<img src="https://raw.githubusercontent.com/dallaszkorben/java-hu.akoel.grawit/master/wiki/explorer.png" width="16" height="16"> and Firefox <img src="https://raw.githubusercontent.com/dallaszkorben/java-hu.akoel.grawit/master/wiki/firefox.png" width="16" height="16"> is supported
+	
 
 ## Data connections
 
