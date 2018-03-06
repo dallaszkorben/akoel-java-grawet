@@ -31,7 +31,7 @@
   - Constant
   - Saved value by the Base Element
   ### Driver
-	- Now only the Windows Explorer and Firefox is supported
+	- Now only the Windows Explorer ![explorer](https://raw.githubusercontent.com/dallaszkorben/java-hu.akoel.grawit/master/wiki/explorer.png) and Firefox is supported
 
 ## Data connections
 
