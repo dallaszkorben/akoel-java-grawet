@@ -6,6 +6,7 @@ import javax.swing.tree.MutableTreeNode;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -184,7 +185,8 @@ public class DriverFirefoxDataModel extends DriverBrowserDataModelInterface<Driv
 		elementProgres.printSourceLn(  "" );
 //TODO ide jonnek a profilok		
 		
-		return new FirefoxDriver(profile);
+		FirefoxOptions options = new FirefoxOptions().setProfile(profile);
+		return  new FirefoxDriver(options);
 	}
 
 	@Override

@@ -76,6 +76,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.w3c.dom.Element;
@@ -178,7 +179,8 @@ public class CommonOperations {
 			FirefoxProfile profile = new FirefoxProfile();
 			profile.setPreference("pdfjs.disabled", true);		
 			profile.setPreference("media.navigator.permission.disabled", true);
-			driver =  new FirefoxDriver(profile);
+			FirefoxOptions options = new FirefoxOptions().setProfile(profile);
+			driver =  new FirefoxDriver(options);
 		}else if( browser.equals( Browser.CHROME )){
 			driver = new ChromeDriver();
 		}else if( browser.equals( Browser.EXPLORER)){
