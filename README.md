@@ -1,5 +1,7 @@
 # GRAWIT Test Framework
 
+![data_connections](https://raw.githubusercontent.com/dallaszkorben/java-hu.akoel.grawit/master/wiki/runtab.png)
+
 ## Goals:
 - Build Test Cases without having programming skills
 - Easy  to modify the code
